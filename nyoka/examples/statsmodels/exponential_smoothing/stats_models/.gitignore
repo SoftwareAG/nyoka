@@ -1,0 +1,89 @@
+*.py[oc]
+# setup.py working directory
+build
+# setup.py dist directory
+./dist
+dist
+#docs build and others
+#generated  #not yet? generated for dataset not rebuild
+docs/source/generated
+docs/source/dev/generated
+docs/source/examples/generated
+docs/source/examples/notebooks/generated
+docs/source/datasets
+docs/gettingstarted_0.png
+examples/executed
+
+# generated c source and built extensions
+*.c
+*.so
+*.pyd
+
+# repository directories for bzr-git
+.bzr
+.git
+marks.git
+marks.bzr
+
+# virtualenv stuff
+.venv
+
+# Editor temporary/working/backup files
+*$
+.*.sw[nop]
+.sw[nop]
+*~
+[#]*#
+.#*
+*.bak
+*.tmp
+/.idea
+*.tgz
+*.rej
+*.org
+.project
+*.diff
+.settings/
+*.svn/
+*.log.py
+# Egg metadata
+./*.egg-info
+# The shelf plugin uses this dir
+./.shelf
+# Mac droppings
+.DS_Store
+help
+
+# Coverage report output
+.coverage
+coverage_html_report/
+
+# Project specific
+statsmodels/version.py
+cythonize.dat
+cythonize_exclusions.dat
+statsmodels.egg-info/
+iterate.dat
+hash_dict.pickle
+rehab.table
+salary.table
+.ipynb_checkpoints
+statsmodels/tsa/statespace/_statespace.pyx
+statsmodels/tsa/regime_switching/_hamilton_filter.pyx
+statsmodels/tsa/regime_switching/_kim_smoother.pyx
+statsmodels/tsa/statespace/_representation.pyx
+statsmodels/tsa/statespace/_kalman_filter.pyx
+statsmodels/tsa/statespace/_kalman_smoother.pyx
+statsmodels/tsa/statespace/_simulation_smoother.pyx
+statsmodels/tsa/statespace/_tools.pyx
+statsmodels/tsa/statespace/_filters/_conventional.pyx
+statsmodels/tsa/statespace/_filters/_inversions.pyx
+statsmodels/tsa/statespace/_filters/_univariate.pyx
+statsmodels/tsa/statespace/_smoothers/_conventional.pyx
+statsmodels/tsa/statespace/_smoothers/_univariate.pyx
+statsmodels/tsa/statespace/_smoothers/_alternative.pyx
+statsmodels/tsa/statespace/_smoothers/_classical.pyx
+
+#pytest
+.cache
+.pytest_cache

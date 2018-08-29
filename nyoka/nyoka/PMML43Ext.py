@@ -26,7 +26,7 @@
 import sys
 from lxml import etree as etree_
 
-import PMML43ExtSuper as supermod
+import nyoka.PMML43ExtSuper as supermod
 
 def parsexml_(infile, parser=None, **kwargs):
     if parser is None:
