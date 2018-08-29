@@ -361,7 +361,7 @@ def get_knn_inputs(col_names):
     return pml.KNNInputs(KNNInput=knnInput)
 
 
-def get_naiveBayesModel(skl_model, derived_col_names, col_names, target_name):
+def get_naiveBayesModel(skl_model, derived_col_names, col_names, target_name, mining_imp_val):
 
     """
     It returns the Naive Bayes Model element of the model.
@@ -382,7 +382,7 @@ def get_naiveBayesModel(skl_model, derived_col_names, col_names, target_name):
     naive_bayes_model : List
         Returns the NaiveBayesModel
     """
-    model_kwargs = get_model_kwargs(skl_model, col_names, target_name)
+    model_kwargs = get_model_kwargs(skl_model, col_names, target_name, mining_imp_val)
     naive_bayes_model = list()
     naive_bayes_model.append(pml.NaiveBayesModel(
         BayesInputs=get_bayes_inputs(skl_model, derived_col_names),
