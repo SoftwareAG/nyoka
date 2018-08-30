@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Aug  6 16:54:38 2018 by generateDS.py version 2.28a.
+# Generated Wed Aug 29 19:55:55 2018 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -9,15 +9,15 @@
 #   ('--super', 'nyoka.pmml.PMML43ExtSuper')
 #   ('--subclass-suffix', '')
 #   ('-o', 'nyoka.pmml.PMML43ExtSuper.py')
-#   ('-s', 'nyoka_local.py')
+#   ('-s', 'nyoka.pmml.PMML43Ext.py')
 #   ('-b', 'behaviors2.xml')
 #   ('-f', '')
 #
 # Command line arguments:
-#   nyoka.pmml.PMML43ExtSuper.xsd
+#   nyoka.pmml.PMML43Ext.xsd
 #
 # Command line:
-#   /Library/Frameworks/Python.framework/Versions/3.6/bin/generateDS --no-warnings --export="write literal etree" --super="nyoka.pmml.PMML43ExtSuper" --subclass-suffix -o "nyoka.pmml.PMML43ExtSuper.py" -s "nyoka_local.py" -b "behaviors2.xml" -f nyoka.pmml.PMML43ExtSuper.xsd
+#   /Users/pasha/Desktop/PMML/PMML43Ext/gds_local.py --no-warnings --export="write literal etree" --super="nyoka.pmml.PMML43ExtSuper" --subclass-suffix -o "nyoka.pmml.PMML43ExtSuper.py" -s "nyoka.pmml.PMML43Ext.py" -b "behaviors2.xml" -f nyoka.pmml.PMML43Ext.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML43Ext
@@ -1040,7 +1040,7 @@ class LayerWeights(supermod.LayerWeights):
         else:
             return None
 
-        from nyoka.pmml.Base64 import FloatBase64
+        from Base64 import FloatBase64
         if raw_content.find("+") > 0:
             return FloatBase64.to_floatArray_urlsafe(raw_content)
         else:
@@ -1108,7 +1108,7 @@ class LayerBias(supermod.LayerBias):
         else:
             return None
 
-        from nyoka.pmml.Base64 import FloatBase64
+        from Base64 import FloatBase64
         if raw_content.find("+") > 0:
             return FloatBase64.to_floatArray_urlsafe(raw_content)
         else:
@@ -4279,7 +4279,7 @@ def new_init():
         validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
         if floatType not in validFloatTypes:
             floatType = "float32"
-        from nyoka.pmml.Base64 import FloatBase64
+        from Base64 import FloatBase64
         base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
         base64string = base64string.replace("\n", "\n\t\t\t\t")
         self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]
@@ -4301,7 +4301,7 @@ def new_init():
         validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
         if floatType not in validFloatTypes:
             floatType = "float32"
-        from nyoka.pmml.Base64 import FloatBase64
+        from Base64 import FloatBase64
         base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
         base64string = base64string.replace("\n", "\n\t\t\t\t")
         self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]

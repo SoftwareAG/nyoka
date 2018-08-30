@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Aug  6 16:54:38 2018 by generateDS.py version 2.28a.
+# Generated Wed Aug 29 19:55:55 2018 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
 #   ('--export', 'write literal etree')
-#   ('--super', 'pmml43Ext')
+#   ('--super', 'pmml43ExtSuper')
 #   ('--subclass-suffix', '')
-#   ('-o', 'pmml43Ext.py')
-#   ('-s', 'nyoka_local.py')
+#   ('-o', 'pmml43ExtSuper.py')
+#   ('-s', 'pmml43Ext.py')
 #   ('-b', 'behaviors2.xml')
 #   ('-f', '')
 #
@@ -18,7 +18,7 @@
 #   pmml43Ext.xsd
 #
 # Command line:
-#   /Library/Frameworks/Python.framework/Versions/3.6/bin/generateDS --no-warnings --export="write literal etree" --super="pmml43Ext" --subclass-suffix -o "pmml43Ext.py" -s "nyoka_local.py" -b "behaviors2.xml" -f pmml43Ext.xsd
+#   /Users/pasha/Desktop/PMML/PMML43Ext/gds_local.py --no-warnings --export="write literal etree" --super="pmml43ExtSuper" --subclass-suffix -o "pmml43ExtSuper.py" -s "pmml43Ext.py" -b "behaviors2.xml" -f pmml43Ext.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML43Ext
@@ -23587,6 +23587,7 @@ class Extension(GeneratedsSuper):
             self.anytypeobjs_ = []
         else:
             self.anytypeobjs_ = anytypeobjs_
+        self.elementobjs_ = []
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -23658,8 +23659,6 @@ class Extension(GeneratedsSuper):
                 showIndent(outfile, level, pretty_print)
                 outfile.write(str(obj_))
                 outfile.write(eol_)
-        if not hasattr(self, "elementobjs_"):
-            self.elementobjs_ = []
         for objName_ in self.elementobjs_:
             obj_ = eval("self." + objName_)
             if eval("isinstance(obj_, list)"):
@@ -51580,6 +51579,7 @@ class row(GeneratedsSuper):
             self.anytypeobjs_ = []
         else:
             self.anytypeobjs_ = anytypeobjs_
+        self.elementobjs_ = []
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -51637,8 +51637,6 @@ class row(GeneratedsSuper):
                 showIndent(outfile, level, pretty_print)
                 outfile.write(str(obj_))
                 outfile.write(eol_)
-        if not hasattr(self, "elementobjs_"):
-            self.elementobjs_ = []
         for objName_ in self.elementobjs_:
             obj_ = eval("self." + objName_)
             if eval("isinstance(obj_, list)"):
@@ -66821,8 +66819,8 @@ def parseLiteral(inFileName, silence=False):
     # Enable Python to collect the space used by the DOM.
     doc = None
     if not silence:
-        sys.stdout.write('#from pmml43Ext import *\n\n')
-        sys.stdout.write('import pmml43Ext as model_\n\n')
+        sys.stdout.write('#from pmml43ExtSuper import *\n\n')
+        sys.stdout.write('import pmml43ExtSuper as model_\n\n')
         sys.stdout.write('rootObj = model_.rootClass(\n')
         rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
         sys.stdout.write(')\n')
