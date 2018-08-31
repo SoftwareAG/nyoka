@@ -8,6 +8,9 @@ Besides about 500 Python classes which each cover a PMML tag and all constructor
 
 Nyoka comes to you with the complete source code in Python, an extended HTML documentation for the classes/functions and a growing number of Jupyter Notebook tutorials that help you familiarizing yourself with the way how Nyoka supports you to use PMML as your favorite Data Science transport file format.
 
+
+Read the documentation at [https://nyoka-pmml.github.io/nyoka/](https://nyoka-pmml.github.io/nyoka/)
+
 ## Folder structure
 
 ```
@@ -233,3 +236,11 @@ cnn_pmml.export(open('2classMBNet.pmml', "w"), 0)
 ```
 pip uninstall nyoka
 ```
+
+## Support
+
+You can ask questions at:
+
+*	[https://stackoverflow.com/](https://stackoverflow.com/) by tagging your questions with #pmml, #nyoka
+*	You can also post bug reports in [GitHub issues](https://github.com/nyoka-pmml/nyoka/issues) 
+ 
