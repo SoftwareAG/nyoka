@@ -6,7 +6,7 @@ Nyoka is a Python library for comprehensive support of the latest PMML standard 
 
 Besides about 500 Python classes which each cover a PMML tag and all constructor parameters/attributes as defined in the standard, Nyoka also provides an increasing number of convenience classes and functions that make the Data Scientist’s life easier for example by reading or writing any PMML file in one line of code from within your favorite Python environment.
 
-Nyoka comes to you with the complete source code in Python, an extended HTML documentation for the classes/functions and a growing number of Jupyter Notebook tutorials that help you familiarizing yourself with the way how Nyoka supports you to use PMML as your favorite Data Science transport file format.
+Nyoka comes to you with the complete source code in Python, extended HTML documentation for the classes/functions, and a growing number of Jupyter Notebook tutorials that help you familiarize yourself with the way Nyoka supports you in using PMML as your favorite Data Science transport file format.
 
 
 Read the documentation at [Nyoka Documentation](https://nyoka-pmml.github.io/nyoka/)
