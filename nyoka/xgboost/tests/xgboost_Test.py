@@ -1,7 +1,7 @@
 import unittest
 from xgboost import XGBRegressor,XGBClassifier
-from nyoka.nyoka import PMML43Ext as pml
-import nyoka.nyoka.xgboost.xgboost_to_pmml as xgb
+from nyoka import PMML43Ext as pml
+import nyoka.xgboost.xgboost_to_pmml as xgb
 import pandas as pd
 from sklearn.model_selection import train_test_split
 

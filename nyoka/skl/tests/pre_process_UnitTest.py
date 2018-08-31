@@ -4,8 +4,8 @@ import os
 from pprint import pprint
 sys.path.append(os.path.dirname(__file__))
 import unittest
-import nyoka.nyoka.PMML43Ext as pml
-import nyoka.nyoka.skl.pre_process as pp
+import nyoka.PMML43Ext as pml
+import nyoka.skl.pre_process as pp
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder,LabelBinarizer

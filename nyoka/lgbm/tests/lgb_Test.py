@@ -1,7 +1,7 @@
 import unittest
 from lightgbm import LGBMRegressor,LGBMClassifier
-from nyoka.nyoka import PMML43Ext as pml
-import nyoka.nyoka.lgbm.lgb_to_pmml as lgbToPmml
+from nyoka import PMML43Ext as pml
+import nyoka.lgbm.lgb_to_pmml as lgbToPmml
 import pandas as pd
 from sklearn.model_selection import train_test_split
 

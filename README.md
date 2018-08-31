@@ -13,35 +13,41 @@ Nyoka comes to you with the complete source code in Python, an extended HTML doc
 ```
 nyoka-pmml
 |---nyoka
+	|---docs
+	|---examples
+	|	|---keras
+	|	|	|---(jupyter notebook examples)
+	|	|---lgbm
+	|	|	|---(jupyter notebook examples)
+	|	|---skl
+	|	|	|---(jupyter notebook examples)
+	|	|---statsmodels
+	|	|	|---(jupyter notebook examples)
+	|	|---xgboost
+	|		|---(jupyter notebook examples)
 	|---nyoka
-	|	|---doc
-	|	|---examples
-	|	|   |---xgboost
-	|	|   |	|---(jupyter notebook examples)
-	|	|   |---keras
-	|	|   |	|---(jupyter notebook examples)
-	|	|   |---skl
-	|	|   |	|---(jupyter notebook examples)
-	|	|   |---statsmodels
-	|	|   |	|---(jupyter notebook examples)
-	|	|   |---lgbm
-	|	|   |	|---(jupyter notebook examples)
-	|	|---nyoka
-	|	|   |---lgbm
-	|	|   |	|---lgb_to_pmml
-	|	|   |---keras
-	|	|   |	|---keras_model_to_pmml
-	|	|   |---skl
-	|	|   |	|---pre_process
-	|	|   |	|---skl_to_pmml
-	|	|   |---statsmodels
-	|	|   |	|---arima
-	|	|   |	|---exponential_smoothing
-	|	|   |---xgboost
-	|	|   |	|---xgboost_to_pmml
-	|	|   |---PMML43Ext
-	|	|   |---PMML43ExtSuper
-	|	|   |---Base64
+	|	|---keras
+	|	|	|---keras_model_to_pmml
+	|	|---lbgm
+	|	|	|---tests
+	|	|	|	|---lbg_test
+	|	|	|---lgb_to_pmml
+	|	|---skl
+	|	|	|---tests
+	|	|	|	|---pre_process_UnitTest
+	|	|	|	|---skl_to_pmml_UnitTest
+	|	|	|---pre_process
+	|	|	|---skl_to_pmml
+	|	|---statsmodels
+	|	|	|---arima
+	|	|	|---exponential_smoothing
+	|	|---xgboost
+	|	|	|---tests
+	|	|	|	|---xgboost_Test
+	|	|	|---xgboost_to_pmml
+	|	|---Base64
+	|	|---PMML43Ext
+	|	|---PMML43ExtSuper
 	|---LICENSE
 	|---README
 	|---setup

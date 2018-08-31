@@ -5,8 +5,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import numpy as np
 import PMML43Ext as pml
-import nyoka.nyoka.skl.skl_to_pmml as sklToPmml
-import nyoka.nyoka.xgboost.xgboost_to_pmml as xgboostToPmml
+import nyoka.skl.skl_to_pmml as sklToPmml
+import nyoka.xgboost.xgboost_to_pmml as xgboostToPmml
 import json
 from skl import pre_process as pp
 from datetime import datetime

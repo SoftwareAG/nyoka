@@ -23,8 +23,8 @@ setup(
 	packages = find_packages(),
 	install_requires = [
 		"scikit-learn>=0.19.1",
-		"keras>=2.1.5",
-		"tensorflow>=1.9.0",
+		"keras==2.1.5",
+		"tensorflow==1.9.0",
 		"statsmodels==0.9.0",
 		"sklearn-pandas",
 		"lightgbm"

@@ -1,5 +1,5 @@
-import nyoka.nyoka.skl.skl_to_pmml as sklToPmml
-from nyoka.nyoka import PMML43Ext as pml
+import nyoka.skl.skl_to_pmml as sklToPmml
+from nyoka import PMML43Ext as pml
 import unittest
 import pandas as pd
 from sklearn.model_selection import train_test_split
