@@ -171,9 +171,9 @@ pipeline_obj = Pipeline([
 pipeline_obj.fit(X, y)
 
 
-from nyoka import xgb_to_pmml
+from nyoka import xgboost_to_pmml
 
-xgb_to_pmml(pipeline_obj, boston.feature_names, 'target', "xgb_pmml.pmml")
+xgboost_to_pmml(pipeline_obj, boston.feature_names, 'target', "xgb_pmml.pmml")
 ```
 
 ### Nyoka to export lightGBM models:
