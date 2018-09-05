@@ -6,42 +6,51 @@ Nyoka is a Python library for comprehensive support of the latest PMML standard 
 
 Besides about 500 Python classes which each cover a PMML tag and all constructor parameters/attributes as defined in the standard, Nyoka also provides an increasing number of convenience classes and functions that make the Data Scientist’s life easier for example by reading or writing any PMML file in one line of code from within your favorite Python environment.
 
-Nyoka comes to you with the complete source code in Python, an extended HTML documentation for the classes/functions and a growing number of Jupyter Notebook tutorials that help you familiarizing yourself with the way how Nyoka supports you to use PMML as your favorite Data Science transport file format.
+Nyoka comes to you with the complete source code in Python, extended HTML documentation for the classes/functions, and a growing number of Jupyter Notebook tutorials that help you familiarize yourself with the way Nyoka supports you in using PMML as your favorite Data Science transport file format.
+
+
+Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 
 ## Folder structure
 
 ```
 nyoka-pmml
 |---nyoka
+	|---docs
+	|---examples
+	|	|---keras
+	|	|	|---(jupyter notebook examples)
+	|	|---lgbm
+	|	|	|---(jupyter notebook examples)
+	|	|---skl
+	|	|	|---(jupyter notebook examples)
+	|	|---statsmodels
+	|	|	|---(jupyter notebook examples)
+	|	|---xgboost
+	|		|---(jupyter notebook examples)
 	|---nyoka
-	|	|---doc
-	|	|---examples
-	|	|   |---xgboost
-	|	|   |	|---(jupyter notebook examples)
-	|	|   |---keras
-	|	|   |	|---(jupyter notebook examples)
-	|	|   |---skl
-	|	|   |	|---(jupyter notebook examples)
-	|	|   |---statsmodels
-	|	|   |	|---(jupyter notebook examples)
-	|	|   |---lgbm
-	|	|   |	|---(jupyter notebook examples)
-	|	|---nyoka
-	|	|   |---lgbm
-	|	|   |	|---lgb_to_pmml
-	|	|   |---keras
-	|	|   |	|---keras_model_to_pmml
-	|	|   |---skl
-	|	|   |	|---pre_process
-	|	|   |	|---skl_to_pmml
-	|	|   |---statsmodels
-	|	|   |	|---arima
-	|	|   |	|---exponential_smoothing
-	|	|   |---xgboost
-	|	|   |	|---xgboost_to_pmml
-	|	|   |---PMML43Ext
-	|	|   |---PMML43ExtSuper
-	|	|   |---Base64
+	|	|---keras
+	|	|	|---keras_model_to_pmml
+	|	|---lbgm
+	|	|	|---tests
+	|	|	|	|---lbg_test
+	|	|	|---lgb_to_pmml
+	|	|---skl
+	|	|	|---tests
+	|	|	|	|---pre_process_UnitTest
+	|	|	|	|---skl_to_pmml_UnitTest
+	|	|	|---pre_process
+	|	|	|---skl_to_pmml
+	|	|---statsmodels
+	|	|	|---arima
+	|	|	|---exponential_smoothing
+	|	|---xgboost
+	|	|	|---tests
+	|	|	|	|---xgboost_Test
+	|	|	|---xgboost_to_pmml
+	|	|---Base64
+	|	|---PMML43Ext
+	|	|---PMML43ExtSuper
 	|---LICENSE
 	|---README
 	|---setup
@@ -227,3 +236,11 @@ cnn_pmml.export(open('2classMBNet.pmml', "w"), 0)
 ```
 pip uninstall nyoka
 ```
+
+## Support
+
+You can ask questions at:
+
+*	[https://stackoverflow.com](https://stackoverflow.com) by tagging your questions with #pmml, #nyoka
+*	You can also post bug reports in [GitHub issues](https://github.com/nyoka-pmml/nyoka/issues) 
+ 
