@@ -6,9 +6,8 @@ import numpy as np
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 from importlib import reload
-sys.path.insert(0, "/home/osboxes/zementis/pmml_stsmdl")  # <------------------ change this
-from nyoka.pmml.statsmodels.exporters.arima import ArimaToPMML
-from nyoka.pmml.statsmodels.exporters.arima import reconstruct
+from nyoka import ArimaToPMML
+
 
 
 def main():
@@ -34,24 +33,11 @@ def main():
         pmml_file_name=pmml_f_name
     )
 
-    # Reconstruction
-    recon_results, recon_arima_mdl = reconstruct(pmml_f_name)
-
-    # Forecast
-    n_forecast = 5
-    if n_diff:
-        stsmdl_forecast = model.predict(params=results.params, end=n_forecast)
-        recon_forecast = recon_arima_mdl.predict(params=recon_results.params, end=n_forecast + 1)
-    else:
-        stsmdl_forecast = model.predict(params=results.params, end=n_forecast)
-        recon_forecast = recon_arima_mdl.predict(params=recon_results.params, end=n_forecast)
 
 
-    # Compare forecasts
-    if np.array_equal(stsmdl_forecast, recon_forecast):
-        print('reconstruction successful ---------------------------------------------------------------------')
-    else:
-        print('reconstruction failed -------------------------------------------------------------------------')
+
+
+
 
 
 if __name__ == '__main__':
