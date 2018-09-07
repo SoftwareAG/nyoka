@@ -1,14 +1,18 @@
 from __future__ import absolute_import
 import sys, os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import PMML43Ext as pml
 
-def get_preprocess_val(ppln_sans_predictor, initial_colnames):
+
+def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
     """
 
     Parameters
     ----------
+    model :
+        Contains an instance of Sklearn model
     ppln_sans_predictor :
         Contains an instance of Sklearn Pipeline
     initial_colnames : list
@@ -20,17 +24,19 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames):
     Returns a dictionary that contains data related to pre-processing
 
     """
+
     pml_pp = dict()
     pml_derived_flds = list()
     initial_colnames = [col_name for col_name in initial_colnames]
     updated_colnames = initial_colnames.copy()
     dtd_feat_names = list()
-    classes=list()
-    class_attribute=list()
-    mining_strategy=list()
-    mining_replacement_val=list()
-    mining_attributes=list()
-    polynomial_features.poly_ctr=0
+    classes = list()
+    class_attribute = list()
+    mining_strategy = list()
+    mining_replacement_val = list()
+    mining_attributes = list()
+    derived_flds_hidden = list()
+    polynomial_features.poly_ctr = 0
     pca.counter = 0
     imputer.col_names = initial_colnames
 
@@ -51,7 +57,8 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames):
                         dtd_feat_names.append(name)
 
                 for trfm in dfm_step_trfms:
-                    pp_dict = get_pml_derived_flds(trfm, dfm_step_col_names)
+                    pp_dict = get_pml_derived_flds(trfm, dfm_step_col_names, derived_fld=derived_flds_hidden,
+                                                   model=model)
                     derived_flds = pp_dict['der_fld']
                     derived_names = pp_dict['der_col_names']
                     if 'pp_feat_class_lbl' in pp_dict.keys():
@@ -61,6 +68,8 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames):
                         mining_attributes.append(pp_dict['der_col_names'])
                         mining_strategy.append(pp_dict['mining_strategy'])
                         mining_replacement_val.append(pp_dict['mining_replacement_val'])
+                    if 'hidden_lb_der_flds' in pp_dict.keys():
+                        derived_flds_hidden.extend(pp_dict['hidden_lb_der_flds'])
                     pml_derived_flds.extend(derived_flds)
                     dfm_step_col_names = derived_names
                 dfm_col_names.extend(derived_names)
@@ -73,7 +82,7 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames):
             if not hasattr(ppln_step_inst, "__len__") or isinstance(ppln_step_inst, str):
                 ppln_step_inst = [ppln_step_inst]
             for trfm in ppln_step_inst:
-                pp_dict = get_pml_derived_flds(trfm, updated_colnames)
+                pp_dict = get_pml_derived_flds(trfm, updated_colnames, derived_fld=derived_flds_hidden, model=model)
                 derived_flds = pp_dict['der_fld']
                 derived_names = pp_dict['der_col_names']
                 if 'pp_feat_class_lbl' in pp_dict.keys():
@@ -90,7 +99,7 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames):
     pml_pp['trfm_dict'] = pml_trfm_dict
     pml_pp['derived_col_names'] = updated_colnames
     pml_pp['preprocessed_col_names'] = dtd_feat_names
-    pml_pp['categorical_feat_values'] = classes,class_attribute
+    pml_pp['categorical_feat_values'] = classes, class_attribute
     pml_pp['mining_imp_values'] = mining_attributes, mining_strategy, mining_replacement_val
 
     return pml_pp
@@ -112,7 +121,7 @@ def get_class_name(cls):
     return cls.__class__.__name__
 
 
-def get_pml_derived_flds(trfm, col_names):
+def get_pml_derived_flds(trfm, col_names, **kwargs):
     """
 
     Parameters
@@ -129,8 +138,9 @@ def get_pml_derived_flds(trfm, col_names):
         Returns a dictionary that contains attributes related to any preprocessing function .
 
     """
+
     if "StandardScaler" == get_class_name(trfm):
-        return std_scaler(trfm, col_names)
+        return std_scaler(trfm, col_names, **kwargs)
     elif "MinMaxScaler" == get_class_name(trfm):
         return min_max_scaler(trfm, col_names)
     elif "RobustScaler" == get_class_name(trfm):
@@ -152,12 +162,12 @@ def get_pml_derived_flds(trfm, col_names):
     elif "PCA" == get_class_name(trfm):
         return pca(trfm, col_names)
     elif "LabelBinarizer" == get_class_name(trfm):
-        return lbl_binarizer(trfm, col_names)
+        return lbl_binarizer(trfm, col_names, **kwargs)
     else:
         raise TypeError("This PreProcessing Task is not Supported")
 
 
-def get_derived_colnames(trfm_name, col_names):
+def get_derived_colnames(trfm_name, col_names, *args):
     """
 
     Parameters
@@ -174,9 +184,13 @@ def get_derived_colnames(trfm_name, col_names):
         Returns a list that contains names of the preprocessed features.
 
     """
+    extra_symbol = ""
+    if args:
+        extra_symbol = args[0]
     derived_colnames = list()
     for col_name in col_names:
-        derived_colnames.append(trfm_name + '(' + str(col_name) + ')')
+        derived_colnames.append(trfm_name + '(' + str(col_name) + ')' + extra_symbol)
+
     return derived_colnames
 
 
@@ -197,6 +211,7 @@ def unround_scalers(scalar_val):  # not sure of its purpose ------------------>>
     unround_val = '{:.25f}'.format(scalar_val)
     return unround_val
 
+
 def any_in(seq_a, seq_b):
     """
 
@@ -205,7 +220,7 @@ def any_in(seq_a, seq_b):
     seq_a : list
         A list of items
 
-    seq_a : list
+    seq_b : list
         A list of items
 
     Returns
@@ -216,7 +231,8 @@ def any_in(seq_a, seq_b):
     """
     return any(elem in seq_b for elem in seq_a)
 
-#Methods for Preprocessings
+
+# Methods for Preprocessings
 
 
 def imputer(trfm, col_names):
@@ -319,8 +335,9 @@ def pca(trfm, col_names):
             apply_outer = pml.Apply(function="*",
                                     Apply_member=[apply_inner],
                                     Constant=[pml.Constant(dataType="double",
-                            valueOf_=zero if trfm.components_[preprocess_idx][pca_idx] == 0.0 else
-                         trfm.components_[preprocess_idx][pca_idx])])
+                                                           valueOf_=zero if trfm.components_[preprocess_idx][
+                                                                                pca_idx] == 0.0 else
+                                                           trfm.components_[preprocess_idx][pca_idx])])
             add.append(apply_outer)
         app0 = pml.Apply(function="sum", Apply_member=add)
 
@@ -356,7 +373,7 @@ def tfidf_vectorizer(trfm, col_names):
     features = trfm.get_feature_names()
     idfs = trfm.idf_
     derived_flds = list()
-    derived_colnames = get_derived_colnames('tfidf@['+col_names[0]+']',features)
+    derived_colnames = get_derived_colnames('tfidf@[' + col_names[0] + ']', features)
     derived_flds.append(
         pml.DerivedField(name='lowercase(' + col_names[0] + ')',
                          optype='categorical', dataType='string',
@@ -368,7 +385,7 @@ def tfidf_vectorizer(trfm, col_names):
             optype='continuous',
             dataType='double',
             Apply=pml.Apply(function='*',
-                            TextIndex=[pml.TextIndex(textField='lowercase('+col_names[0]+')',
+                            TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
                                                      wordSeparatorCharacterRE='\s+',
                                                      tokenize='true',
                                                      Constant=pml.Constant(valueOf_=features[feat_idx]))],
@@ -399,15 +416,15 @@ def count_vectorizer(trfm, col_names):
 
     """
     pp_dict = dict()
-    features=trfm.get_feature_names()
+    features = trfm.get_feature_names()
     derived_flds = list()
-    derived_colnames = get_derived_colnames('count_vec@['+col_names[0]+']',features)
+    derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
     derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
                                          optype='categorical',
                                          dataType='string',
                                          Apply=pml.Apply(function='lowercase',
                                                          FieldRef=[pml.FieldRef(field=col_names[0])])))
-    for imp_features,index in zip(features,range(len(features))):
+    for imp_features, index in zip(features, range(len(features))):
         df_name = derived_colnames[index]
         derived_flds.append(pml.DerivedField(name=df_name,
                                              optype='continuous',
@@ -416,7 +433,7 @@ def count_vectorizer(trfm, col_names):
                                                                      wordSeparatorCharacterRE='\s+',
                                                                      tokenize='true',
                                                                      Constant=pml.Constant(dataType="string",
-                                                                     valueOf_=imp_features))))
+                                                                                           valueOf_=imp_features))))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     pp_dict['pp_feat_name'] = col_names[0]
@@ -424,8 +441,7 @@ def count_vectorizer(trfm, col_names):
     return pp_dict
 
 
-
-def std_scaler(trfm, col_names):
+def std_scaler(trfm, col_names, **kwargs):
     """
 
     Parameters
@@ -442,8 +458,9 @@ def std_scaler(trfm, col_names):
         Returns a dictionary that contains attributes related to Standard Scaler preprocessing.
 
     """
-    pp_dict=dict()
     derived_flds = list()
+    pp_dict = dict()
+
     derived_colnames = get_derived_colnames('standardScaler', col_names)
     for col_name_idx in range(len(col_names)):
         apply_inner = list()
@@ -469,8 +486,13 @@ def std_scaler(trfm, col_names):
             optype="continuous",
             dataType="double"
         ))
-    pp_dict['der_fld']=derived_flds
-    pp_dict['der_col_names']=derived_colnames
+
+    derived_flds_hidden = kwargs['derived_fld']
+    if derived_flds_hidden:
+        derived_flds_hidden.extend(derived_flds)
+        derived_flds = derived_flds_hidden
+    pp_dict['der_fld'] = derived_flds
+    pp_dict['der_col_names'] = derived_colnames
     return pp_dict
 
 
@@ -552,7 +574,8 @@ def rbst_scaler(trfm, col_names):
                 dataType="double",  # <---------------------
                 valueOf_=unround_scalers(trfm.center_[col_name_idx])
             )],
-            FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
+            FieldRef=[pml.FieldRef(field=col_names[col_name_idx])],
+            Extension=[pml.Extension(name='scaling', anytypeobjs_=['RobustScaler'])]
         ))
         apply_outer = pml.Apply(
             Apply_member=apply_inner,
@@ -631,7 +654,7 @@ def lbl_encoder(trfm, col_names):
         Returns a dictionary that contains attributes related to LabelEncoder preprocessing.
 
     """
-    pp_dict=dict()
+    pp_dict = dict()
     derived_flds = list()
     field_column_pair = list()
     rows = []
@@ -684,7 +707,7 @@ def binarizer(trfm, col_names):
             Constant=[pml.Constant(
                 dataType="double",
                 valueOf_=trfm.threshold
-             )],
+            )],
             FieldRef=[pml.FieldRef(field=col_names[col_name_idx])])
 
         derived_flds.append(pml.DerivedField(
@@ -719,7 +742,7 @@ def polynomial_features(trfm, col_names):
     polynomial_features.poly_ctr += 1
     pp_dict = dict()
     derived_flds = []
-    derived_colnames=[]
+    derived_colnames = []
 
     for polyfeat_idx in range(trfm.powers_.shape[0]):
         apply_inner_container = []
@@ -740,7 +763,7 @@ def polynomial_features(trfm, col_names):
             Apply=apply_outer,
             dataType="double",
             optype="continuous",
-            name="poly"+str(polynomial_features.poly_ctr)+'-'+"x"+str(polyfeat_idx)
+            name="poly" + str(polynomial_features.poly_ctr) + '-' + "x" + str(polyfeat_idx)
         ))
         name = derived_flds[polyfeat_idx].get_name()
         derived_colnames.append(name)
@@ -749,7 +772,7 @@ def polynomial_features(trfm, col_names):
     return pp_dict
 
 
-def lbl_binarizer(trfm, col_names):
+def lbl_binarizer(trfm, col_names, **kwargs):
     """
 
     Parameters
@@ -766,21 +789,25 @@ def lbl_binarizer(trfm, col_names):
         Returns a dictionary that contains attributes related to Label Binarizer preprocessing.
 
     """
-    pp_dict = dict()
     derived_flds = list()
+    derived_colnames = list()
+    pp_dict = dict()
     categoric_lbls = trfm.classes_.tolist()
+    model_exception_list = ["LinearRegression", "LogisticRegression", "SVR", "SVC"]
+    model = kwargs['model']
     for col_name_idx in range(len(col_names)):
         if len(categoric_lbls) == 2:
-            derived_colnames = get_derived_colnames("labelBinarizer-" + str(col_names[col_name_idx]),
-                                                  [categoric_lbls[-1]])
+            derived_colnames = get_derived_colnames("labelBinarizer(" + str(col_names[col_name_idx]),
+                                                    [categoric_lbls[-1]], ")")
+
             norm_descr = pml.NormDiscrete(field=str(col_names[-1]), value=str(categoric_lbls[-1]))
             derived_flds.append(pml.DerivedField(NormDiscrete=norm_descr,
                                                  name=derived_colnames[-1],
                                                  optype="categorical",
                                                  dataType="double"))
         else:
-            derived_colnames = get_derived_colnames("labelBinarizer-" + str(col_names[col_name_idx]),
-                                                  categoric_lbls)
+            derived_colnames = get_derived_colnames("labelBinarizer(" + str(col_names[col_name_idx]),
+                                                    categoric_lbls, ")")
             for attribute_name in col_names:
                 for class_name, class_idx in zip(categoric_lbls, range(len(categoric_lbls))):
                     norm_descr = pml.NormDiscrete(field=str(attribute_name), value=str(class_name))
@@ -789,6 +816,9 @@ def lbl_binarizer(trfm, col_names):
                                          name=derived_colnames[class_idx],
                                          optype="categorical",
                                          dataType="double"))
+    if any_in([model.__class__.__name__], model_exception_list):
+        pp_dict['hidden_lb_der_flds'] = derived_flds
+        derived_flds = list()
 
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -796,4 +826,3 @@ def lbl_binarizer(trfm, col_names):
     pp_dict['pp_feat_name'] = col_names[0]
 
     return pp_dict
-
