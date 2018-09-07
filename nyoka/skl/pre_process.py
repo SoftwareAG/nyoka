@@ -792,7 +792,6 @@ def lbl_binarizer(trfm, col_names):
 
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
-    print(derived_colnames)
     pp_dict['pp_feat_class_lbl'] = categoric_lbls
     pp_dict['pp_feat_name'] = col_names[0]
 
