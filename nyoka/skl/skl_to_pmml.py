@@ -46,7 +46,7 @@ def skl_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_sklearn.pmml
         categoric_values = tuple()
         mining_imp_val = tuple()
         if ppln_sans_predictor:
-            pml_pp = pp.get_preprocess_val(ppln_sans_predictor, col_names)
+            pml_pp = pp.get_preprocess_val(ppln_sans_predictor, col_names, model)
             trfm_dict_kwargs['TransformationDictionary'] = pml_pp['trfm_dict']
             derived_col_names = pml_pp['derived_col_names']
             col_names = pml_pp['preprocessed_col_names']
