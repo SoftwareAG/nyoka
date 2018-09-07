@@ -32,7 +32,7 @@ def xgboost_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_xgboost.
 
     """
     try:
-        xgb_model = pipeline.steps[-1][1]
+        model = pipeline.steps[-1][1]
     except:
         raise TypeError("Exporter expects pipeleine_instance and not an estimator_instance")
     else:
@@ -50,7 +50,7 @@ def xgboost_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_xgboost.
             col_names = pml_pp['preprocessed_col_names']
             categoric_values = pml_pp['categorical_feat_values']
             mining_imp_val = pml_pp['mining_imp_values']
-        PMML_kwargs = get_PMML_kwargs(xgb_model,
+        PMML_kwargs = get_PMML_kwargs(model,
                                       derived_col_names,
                                       col_names,
                                       target_name,
@@ -59,19 +59,19 @@ def xgboost_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_xgboost.
         pmml = pml.PMML(
             version=sklToPmml.get_version(),
             Header=sklToPmml.get_header(),
-            DataDictionary=sklToPmml.get_data_dictionary(xgb_model, col_names, target_name, categoric_values),
+            DataDictionary=sklToPmml.get_data_dictionary(model, col_names, target_name, categoric_values),
             **trfm_dict_kwargs,
             **PMML_kwargs
         )
         pmml.export(outfile=open(pmml_f_name, "w"), level=0)
 
-def get_PMML_kwargs(xgb_model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
     """
      It returns all the pmml elements.
 
     Parameters
     ----------
-    xgb_model :
+    model :
         Contains XGBoost model object.
     derived_col_names : List
         Contains column names after preprocessing
@@ -89,7 +89,7 @@ def get_PMML_kwargs(xgb_model, derived_col_names, col_names, target_name, mining
     algo_kwargs : { dictionary element}
         Get the PMML model argument based on XGBoost model object
     """
-    algo_kwargs = {'MiningModel': get_ensemble_models(xgb_model,
+    algo_kwargs = {'MiningModel': get_ensemble_models(model,
                                                       derived_col_names,
                                                       col_names,
                                                       target_name,
@@ -97,13 +97,13 @@ def get_PMML_kwargs(xgb_model, derived_col_names, col_names, target_name, mining
                                                       categoric_values)}
     return algo_kwargs
 
-def get_ensemble_models(xgb_model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
     """
     It returns the Mining Model element of the model
 
     Parameters
     ----------
-    xgb_model :
+    model :
         Contains Xgboost model object.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -121,25 +121,25 @@ def get_ensemble_models(xgb_model, derived_col_names, col_names, target_name, mi
     mining_models :
         Returns the MiningModel of the respective Xgboost model
     """
-    model_kwargs = sklToPmml.get_model_kwargs(xgb_model, col_names, target_name, mining_imp_val)
-    if 'XGBRegressor' in str(xgb_model.__class__):
-        model_kwargs['Targets'] = sklToPmml.get_targets(xgb_model, target_name)
+    model_kwargs = sklToPmml.get_model_kwargs(model, col_names, target_name, mining_imp_val)
+    if 'XGBRegressor' in str(model.__class__):
+        model_kwargs['Targets'] = sklToPmml.get_targets(model, target_name)
     mining_models = list()
     mining_models.append(pml.MiningModel(
-        Segmentation=get_outer_segmentation(xgb_model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values),
+        Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values),
         **model_kwargs
     ))
     return mining_models
 
 
 
-def get_outer_segmentation(xgb_model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
     """
     It returns the Segmentation element of the model.
 
     Parameters
     ----------
-    xgb_model :
+    model :
         Contains Xgboost model object.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -159,22 +159,22 @@ def get_outer_segmentation(xgb_model, derived_col_names, col_names, target_name,
 
     """
 
-    if 'XGBRegressor' in str(xgb_model.__class__):
-        segmentation=get_segments(xgb_model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
+    if 'XGBRegressor' in str(model.__class__):
+        segmentation=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
     else:
         segmentation = pml.Segmentation(
-            multipleModelMethod=get_multiple_model_method(xgb_model),
-            Segment=get_segments(xgb_model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
+            multipleModelMethod=get_multiple_model_method(model),
+            Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
         )
     return segmentation
 
-def get_segments(xgb_model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
     """
     It returns the Segment element of the model.
 
    Parameters
    ----------
-   xgb_model :
+   model :
        Contains Xgboost model object.
    derived_col_names : List
        Contains column names after preprocessing.
@@ -194,19 +194,19 @@ def get_segments(xgb_model, derived_col_names, col_names, target_name, mining_im
 
    """
     segments = None
-    if 'XGBClassifier'  in str(xgb_model.__class__):
-        segments=get_segments_for_xgbc(xgb_model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
-    elif 'XGBRegressor' in str(xgb_model.__class__):
-        segments=get_segments_for_xgbr(xgb_model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
+    if 'XGBClassifier'  in str(model.__class__):
+        segments=get_segments_for_xgbc(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
+    elif 'XGBRegressor' in str(model.__class__):
+        segments=get_segments_for_xgbr(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
     return segments
 
-def get_segments_for_xgbr(xgb_model, derived_col_names, feature_names, target_name, mining_imp_val,categorical_values):
+def get_segments_for_xgbr(model, derived_col_names, feature_names, target_name, mining_imp_val,categorical_values):
     """
         It returns all the Segments element of the model
 
        Parameters
        ----------
-       xgb_model :
+       model :
            Contains Xgboost model object.
        derived_col_names : List
            Contains column names after preprocessing.
@@ -227,8 +227,8 @@ def get_segments_for_xgbr(xgb_model, derived_col_names, feature_names, target_na
        """
     segments = list()
     get_nodes_in_json_format = []
-    for i in range(xgb_model.n_estimators):
-        get_nodes_in_json_format.append(json.loads(xgb_model._Booster.get_dump(dump_format='json')[i]))
+    for i in range(model.n_estimators):
+        get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
     main_key_value = generate_main_Key_Value(get_nodes_in_json_format)
     segmentation = pml.Segmentation(multipleModelMethod="sum",
                                     Segment=generate_Segments_Equal_To_Estimators(main_key_value, derived_col_names,
@@ -381,14 +381,14 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
 
     return segments_equal_to_estimators
 
-def add_segmentation(xgb_model,segments_equal_to_estimators,mining_schema_for_1st_segment,out,id):
+def add_segmentation(model,segments_equal_to_estimators,mining_schema_for_1st_segment,out,id):
     """
     It returns the First Segments for a binary classifier and returns number of Segments equls to number of values
     target class for multiclass classifier
 
     Parameters
     ----------
-    xgb_model:
+    model:
        Contains Xgboost model object.
     segments_equal_to_estimators: List
         Contains List Segements equals to the number of the estimators of the model.
@@ -408,7 +408,7 @@ def add_segmentation(xgb_model,segments_equal_to_estimators,mining_schema_for_1s
     segmentation = pml.Segmentation(multipleModelMethod="sum", Segment=segments_equal_to_estimators)
     mining_model = pml.MiningModel(functionName='regression', MiningSchema=mining_schema_for_1st_segment,
                                          Output=out, Segmentation=segmentation)
-    if xgb_model.n_classes_==2:
+    if model.n_classes_==2:
         First_segment = pml.Segment(True_=pml.True_(), id=id, MiningModel=mining_model)
         return First_segment
     else:
@@ -418,13 +418,13 @@ def add_segmentation(xgb_model,segments_equal_to_estimators,mining_schema_for_1s
 
 
 
-def get_segments_for_xgbc(xgb_model, derived_col_names, feature_names, target_name, mining_imp_val,categoric_values):
+def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, mining_imp_val,categoric_values):
     """
     It returns all the segments of the Xgboost classifier.
 
     Parameters
     ----------
-    xgb_model :
+    model :
         Contains Xgboost model object.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -444,10 +444,10 @@ def get_segments_for_xgbc(xgb_model, derived_col_names, feature_names, target_na
         """
     segments = list()
 
-    if xgb_model.n_classes_ == 2:
+    if model.n_classes_ == 2:
         get_nodes_in_json_format=[]
-        for i in range(xgb_model.n_estimators):
-            get_nodes_in_json_format.append(json.loads(xgb_model._Booster.get_dump(dump_format='json')[i]))
+        for i in range(model.n_estimators):
+            get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
         main_key_value = generate_main_Key_Value(get_nodes_in_json_format)
         mining_schema_for_1st_segment = mining_Field_For_First_Segment(feature_names)
         outputField = list()
@@ -458,9 +458,9 @@ def get_segments_for_xgbc(xgb_model, derived_col_names, feature_names, target_na
         oField.append('xgbValue')
         segments_equal_to_estimators = generate_Segments_Equal_To_Estimators(main_key_value, derived_col_names,
                                                                              feature_names)
-        First_segment = add_segmentation(xgb_model,segments_equal_to_estimators, mining_schema_for_1st_segment, out, 1)
+        First_segment = add_segmentation(model,segments_equal_to_estimators, mining_schema_for_1st_segment, out, 1)
         last_segment = pml.Segment(True_=pml.True_(), id=2,
-                                   RegressionModel=sklToPmml.get_regrs_models(xgb_model, oField, oField, target_name,
+                                   RegressionModel=sklToPmml.get_regrs_models(model, oField, oField, target_name,
                                                                     mining_imp_val,categoric_values)[0])
         segments.append(First_segment)
 
@@ -468,13 +468,13 @@ def get_segments_for_xgbc(xgb_model, derived_col_names, feature_names, target_na
     else:
 
         get_nodes_in_json_format = []
-        for i in range(xgb_model.n_estimators * xgb_model.n_classes_):
-            get_nodes_in_json_format.append(json.loads(xgb_model._Booster.get_dump(dump_format='json')[i]))
+        for i in range(model.n_estimators * model.n_classes_):
+            get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
         main_key_value = generate_main_Key_Value(get_nodes_in_json_format)
         oField = list()
-        for index in range(0, xgb_model.n_classes_):
+        for index in range(0, model.n_classes_):
             inner_segment = []
-            for in_seg in range(index, len(main_key_value), xgb_model.n_classes_):
+            for in_seg in range(index, len(main_key_value), model.n_classes_):
                 inner_segment.append(main_key_value[in_seg])
             mining_schema_for_1st_segment = mining_Field_For_First_Segment(feature_names)
             outputField = list()
@@ -485,22 +485,22 @@ def get_segments_for_xgbc(xgb_model, derived_col_names, feature_names, target_na
             oField.append('xgbValue(' + str(index) + ')')
             segments_equal_to_estimators = generate_Segments_Equal_To_Estimators(inner_segment, derived_col_names,
                                                                                  feature_names)
-            segments_equal_to_class = add_segmentation(xgb_model,segments_equal_to_estimators,
+            segments_equal_to_class = add_segmentation(model,segments_equal_to_estimators,
                                                        mining_schema_for_1st_segment, out, index)
             segments.append(segments_equal_to_class)
-        last_segment = pml.Segment(True_=pml.True_(), id=xgb_model.n_classes_ + 1,
-                                   RegressionModel=sklToPmml.get_regrs_models(xgb_model,oField,oField,target_name,
+        last_segment = pml.Segment(True_=pml.True_(), id=model.n_classes_ + 1,
+                                   RegressionModel=sklToPmml.get_regrs_models(model,oField,oField,target_name,
                                                                     mining_imp_val,categoric_values)[0])
         segments.append(last_segment)
     return segments
 
-def get_multiple_model_method(xgb_model):
+def get_multiple_model_method(model):
     """
     It returns the name of the Multiple Model Chain element of the model.
 
     Parameters
     ----------
-    xgb_model :
+    model :
         Contains Xgboost model object
     Returns
     -------
@@ -508,7 +508,7 @@ def get_multiple_model_method(xgb_model):
     sum for XGboost Regressor,
 
     """
-    if 'XGBClassifier' in str(xgb_model.__class__):
+    if 'XGBClassifier' in str(model.__class__):
         return 'modelChain'
     else:
         return 'sum'
