@@ -34,7 +34,7 @@ def skl_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_sklearn.pmml
     
     """
     try:
-        skl_model = pipeline.steps[-1][1]
+        model = pipeline.steps[-1][1]
     except:
         raise TypeError("Exporter expects pipeleine_instance and not an estimator_instance")
     else:
@@ -52,7 +52,7 @@ def skl_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_sklearn.pmml
             col_names = pml_pp['preprocessed_col_names']
             categoric_values = pml_pp['categorical_feat_values']
             mining_imp_val = pml_pp['mining_imp_values']
-        PMML_kwargs = get_PMML_kwargs(skl_model,
+        PMML_kwargs = get_PMML_kwargs(model,
                                       derived_col_names,
                                       col_names,
                                       target_name,
@@ -61,7 +61,7 @@ def skl_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_sklearn.pmml
         pmml = pml.PMML(
             version=get_version(),
             Header=get_header(),
-            DataDictionary=get_data_dictionary(skl_model, col_names, target_name, categoric_values),
+            DataDictionary=get_data_dictionary(model, col_names, target_name, categoric_values),
             **trfm_dict_kwargs,
             **PMML_kwargs
         )
@@ -72,14 +72,14 @@ def any_in(seq_a, seq_b):
     return any(elem in seq_b for elem in seq_a)
 
 
-def get_PMML_kwargs(skl_model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
 
     """
     It returns all the pmml elements.
 
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
     derived_col_names : List 
         Contains column names after preprocessing
@@ -97,7 +97,7 @@ def get_PMML_kwargs(skl_model, derived_col_names, col_names, target_name, mining
     algo_kwargs : Dictionary
         Get the PMML model argument based on scikit learn model object
     """
-    skl_mdl_super_cls_names = get_super_cls_names(skl_model)
+    skl_mdl_super_cls_names = get_super_cls_names(model)
     regression_model_names = ('LinearRegression', 'LogisticRegression', 'RidgeClassifier', 'SGDClassifier',
                               'LinearDiscriminantAnalysis')
     tree_model_names = ('BaseDecisionTree',)
@@ -107,13 +107,13 @@ def get_PMML_kwargs(skl_model, derived_col_names, col_names, target_name, mining
     neurl_netwk_model_names = ('MLPClassifier', 'MLPRegressor')
     nearest_neighbour_names = ('NeighborsBase',)
     if any_in(tree_model_names, skl_mdl_super_cls_names):
-        algo_kwargs = {'TreeModel': get_tree_models(skl_model,
+        algo_kwargs = {'TreeModel': get_tree_models(model,
                                                     derived_col_names,
                                                     col_names,
                                                     target_name,
                                                     mining_imp_val)}
     elif any_in(regression_model_names, skl_mdl_super_cls_names):
-        algo_kwargs = {'RegressionModel': get_regrs_models(skl_model,
+        algo_kwargs = {'RegressionModel': get_regrs_models(model,
                                                            derived_col_names,
                                                            col_names,
                                                            target_name,
@@ -121,34 +121,34 @@ def get_PMML_kwargs(skl_model, derived_col_names, col_names, target_name, mining
                                                            categoric_values)}
     elif any_in(support_vector_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'SupportVectorMachineModel':
-                           get_supportVectorMachine_models(skl_model,
+                           get_supportVectorMachine_models(model,
                                                            derived_col_names,
                                                            col_names,
                                                            target_name,
                                                            mining_imp_val,
                                                            categoric_values)}
     elif any_in(mining_model_names, skl_mdl_super_cls_names):
-        algo_kwargs = {'MiningModel': get_ensemble_models(skl_model,
+        algo_kwargs = {'MiningModel': get_ensemble_models(model,
                                                           derived_col_names,
                                                           col_names,
                                                           target_name,
                                                           mining_imp_val,
                                                           categoric_values)}
     elif any_in(neurl_netwk_model_names, skl_mdl_super_cls_names):
-        algo_kwargs = {'NeuralNetwork': get_neural_models(skl_model,
+        algo_kwargs = {'NeuralNetwork': get_neural_models(model,
                                                           derived_col_names,
                                                           col_names,
                                                           target_name,
                                                           mining_imp_val)}
     elif any_in(naive_bayes_model_names, skl_mdl_super_cls_names):
-        algo_kwargs = {'NaiveBayesModel': get_naiveBayesModel(skl_model,
+        algo_kwargs = {'NaiveBayesModel': get_naiveBayesModel(model,
                                                               derived_col_names,
                                                               col_names,
                                                               target_name,
                                                               mining_imp_val)}
     elif any_in(nearest_neighbour_names, skl_mdl_super_cls_names):
         algo_kwargs = {'NearestNeighborModel':
-                           get_nearestNeighbour_model(skl_model,
+                           get_nearestNeighbour_model(model,
                                                       derived_col_names,
                                                       col_names,
                                                       target_name,
@@ -158,14 +158,14 @@ def get_PMML_kwargs(skl_model, derived_col_names, col_names, target_name, mining
     return algo_kwargs
 
 
-def get_model_kwargs(skl_model, col_names, target_name, mining_imp_val):
+def get_model_kwargs(model, col_names, target_name, mining_imp_val):
 
     """
     It returns all the model element for a specific model.
 
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
     col_names : List
         Contains list of feature/column names.
@@ -180,20 +180,20 @@ def get_model_kwargs(skl_model, col_names, target_name, mining_imp_val):
         Returns  functionname, MiningSchema and Output of the sk_model object
     """
     model_kwargs = dict()
-    model_kwargs['functionName'] = get_mining_func(skl_model)
-    model_kwargs['MiningSchema'] = get_mining_schema(skl_model, col_names, target_name, mining_imp_val)
-    model_kwargs['Output'] = get_output(skl_model, target_name)
+    model_kwargs['functionName'] = get_mining_func(model)
+    model_kwargs['MiningSchema'] = get_mining_schema(model, col_names, target_name, mining_imp_val)
+    model_kwargs['Output'] = get_output(model, target_name)
     return model_kwargs
 
 
-def get_nearestNeighbour_model(skl_model, derived_col_names, col_names, target_name, mining_imp_val):
+def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name, mining_imp_val):
     
     """
     It returns the Nearest Neighbour model element.
 
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
     derived_col_names : List
         Contains column names after preprocessing
@@ -209,31 +209,31 @@ def get_nearestNeighbour_model(skl_model, derived_col_names, col_names, target_n
         Returns a nearest neighbour model instance
         
     """
-    model_kwargs = get_model_kwargs(skl_model, col_names, target_name, mining_imp_val)
+    model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
     nearest_neighbour_model = list()
     nearest_neighbour_model.append(
         pml.NearestNeighborModel(
             modelName="KNNModel",
             continuousScoringMethod='average',
             algorithmName="KNN",
-            numberOfNeighbors=skl_model.n_neighbors,
+            numberOfNeighbors=model.n_neighbors,
             KNNInputs=get_knn_inputs(derived_col_names),
-            ComparisonMeasure=get_comparison_measure(skl_model),
-            TrainingInstances=get_training_instances(skl_model, derived_col_names, target_name),
+            ComparisonMeasure=get_comparison_measure(model),
+            TrainingInstances=get_training_instances(model, derived_col_names, target_name),
             **model_kwargs
         )
     )
     return nearest_neighbour_model
 
 
-def get_training_instances(skl_model, derived_col_names, target_name):
+def get_training_instances(model, derived_col_names, target_name):
 
     """
     It returns the Training Instance element.
 
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
     derived_col_names : List
         Contains column names after preprocessing        
@@ -248,17 +248,17 @@ def get_training_instances(skl_model, derived_col_names, target_name):
     """
     return pml.TrainingInstances(
         InstanceFields=get_instance_fields(derived_col_names, target_name),
-        InlineTable=get_inline_table(skl_model)
+        InlineTable=get_inline_table(model)
     )
 
 
-def get_inline_table(skl_model):
+def get_inline_table(model):
     """
     It Returns the Inline Table element of the model.
 
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
 
     Returns
@@ -268,18 +268,18 @@ def get_inline_table(skl_model):
         
     """
     rows = []
-    x = skl_model._tree.get_arrays()[0].tolist()
-    y = skl_model._y.tolist()
+    x = model._tree.get_arrays()[0].tolist()
+    y = model._y.tolist()
 
     X = []
-    for idx in range(len(skl_model._tree.get_arrays()[0][0])):
+    for idx in range(len(model._tree.get_arrays()[0][0])):
         X.append("x" + str(idx + 1))
 
     for idx in range(len(x)):
         row = pml.row()
         row.elementobjs_ = ['y'] + X
-        if hasattr(skl_model, 'classes_'):
-            row.y = skl_model.classes_[y[idx]]
+        if hasattr(model, 'classes_'):
+            row.y = model.classes_[y[idx]]
         else:
             row.y = y[idx]
         for idx_2 in range(len(x[idx])):
@@ -314,7 +314,7 @@ def get_instance_fields(derived_col_names, target_name):
     return pml.InstanceFields(InstanceField=instance_fields)
 
 
-def get_comparison_measure(skl_model):
+def get_comparison_measure(model):
 
 
     """
@@ -322,7 +322,7 @@ def get_comparison_measure(skl_model):
 
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
 
     Returns
@@ -331,11 +331,11 @@ def get_comparison_measure(skl_model):
         Returns a ComparisonMeasure instance.
         
     """
-    if skl_model.effective_metric_ == 'euclidean':
+    if model.effective_metric_ == 'euclidean':
         comp_measure = pml.ComparisonMeasure(euclidean=pml.euclidean(), kind="distance")
-    elif skl_model.effective_metric_ == 'minkowski':
+    elif model.effective_metric_ == 'minkowski':
         comp_measure = pml.ComparisonMeasure(minkowski=pml.minkowski(), kind="distance")
-    elif skl_model.effective_metric_ == 'manhattan':
+    elif model.effective_metric_ == 'manhattan':
         comp_measure = pml.ComparisonMeasure(cityBlock=pml.cityBlock(), kind="distance")
     return comp_measure
 
@@ -361,14 +361,14 @@ def get_knn_inputs(col_names):
     return pml.KNNInputs(KNNInput=knnInput)
 
 
-def get_naiveBayesModel(skl_model, derived_col_names, col_names, target_name, mining_imp_val):
+def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining_imp_val):
 
     """
     It returns the Naive Bayes Model element of the model.
 
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -382,11 +382,11 @@ def get_naiveBayesModel(skl_model, derived_col_names, col_names, target_name, mi
     naive_bayes_model : List
         Returns the NaiveBayesModel
     """
-    model_kwargs = get_model_kwargs(skl_model, col_names, target_name, mining_imp_val)
+    model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
     naive_bayes_model = list()
     naive_bayes_model.append(pml.NaiveBayesModel(
-        BayesInputs=get_bayes_inputs(skl_model, derived_col_names),
-        BayesOutput=get_bayes_output(skl_model, target_name),
+        BayesInputs=get_bayes_inputs(model, derived_col_names),
+        BayesOutput=get_bayes_output(model, target_name),
         threshold=get_threshold(),
         **model_kwargs
     ))
@@ -405,14 +405,14 @@ def get_threshold():
     return '0.001'
 
 
-def get_bayes_output(skl_model, target_name):
+def get_bayes_output(model, target_name):
 
     """
     It returns the Bayes Output element of the model
 
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
     target_name : String
         Name of the Target column.    
@@ -423,9 +423,9 @@ def get_bayes_output(skl_model, target_name):
         Returns a BayesOutput instance
         
     """
-    class_counts = skl_model.class_count_
+    class_counts = model.class_count_
     target_val_counts = pml.TargetValueCounts()
-    for name, count in zip(skl_model.classes_, class_counts):
+    for name, count in zip(model.classes_, class_counts):
         tr_val = pml.TargetValueCount(value=str(name), count=str(count))
         target_val_counts.add_TargetValueCount(tr_val)
     return pml.BayesOutput(
@@ -435,14 +435,14 @@ def get_bayes_output(skl_model, target_name):
 
 
 
-def get_bayes_inputs(skl_model, derived_col_names):
+def get_bayes_inputs(model, derived_col_names):
 
     """
     It returns the Bayes Input element of the model .
     
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -455,10 +455,10 @@ def get_bayes_inputs(skl_model, derived_col_names):
     """
     bayes_inputs = pml.BayesInputs()
     for indx, name in enumerate(derived_col_names):
-        means = skl_model.theta_[:, indx]
-        variances = skl_model.sigma_[:, indx]
+        means = model.theta_[:, indx]
+        variances = model.sigma_[:, indx]
         target_val_stats = pml.TargetValueStats()
-        for idx, val in enumerate(skl_model.classes_):
+        for idx, val in enumerate(model.classes_):
             target_val = pml.TargetValueStat(
                 val, GaussianDistribution=pml.GaussianDistribution(
                     mean='{:.20f}'.format(means[idx]),
@@ -469,7 +469,7 @@ def get_bayes_inputs(skl_model, derived_col_names):
     return bayes_inputs
 
 
-def get_supportVectorMachine_models(skl_model, derived_col_names, col_names, target_names,
+def get_supportVectorMachine_models(model, derived_col_names, col_names, target_names,
  									mining_imp_val, categoric_values):
     
     """
@@ -477,7 +477,7 @@ def get_supportVectorMachine_models(skl_model, derived_col_names, col_names, tar
     
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -497,27 +497,27 @@ def get_supportVectorMachine_models(skl_model, derived_col_names, col_names, tar
         VectorDictionary, SupportVectorMachine, kernelType
         
     """
-    model_kwargs = get_model_kwargs(skl_model, col_names, target_names, mining_imp_val)
+    model_kwargs = get_model_kwargs(model, col_names, target_names, mining_imp_val)
     supportVector_models = list()
-    kernel_type = get_kernel_type(skl_model)
+    kernel_type = get_kernel_type(model)
     supportVector_models.append(pml.SupportVectorMachineModel(
-        classificationMethod=get_classificationMethod(skl_model),
-        VectorDictionary=get_vectorDictionary(skl_model, derived_col_names, categoric_values ),
-        SupportVectorMachine=get_supportVectorMachine(skl_model),
+        classificationMethod=get_classificationMethod(model),
+        VectorDictionary=get_vectorDictionary(model, derived_col_names, categoric_values ),
+        SupportVectorMachine=get_supportVectorMachine(model),
         **kernel_type,
         **model_kwargs
     ))
     return supportVector_models
 
 
-def get_ensemble_models(skl_model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     
     """
     It returns the Mining Model element of the model
 
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of Scikit-learn model.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -535,26 +535,26 @@ def get_ensemble_models(skl_model, derived_col_names, col_names, target_name, mi
     mining_models : List
         Returns the MiningModel of the respective ensemble model
     """
-    model_kwargs = get_model_kwargs(skl_model, col_names, target_name, mining_imp_val)
-    if 'GradientBoostingRegressor' in str(skl_model.__class__):
-        model_kwargs['Targets'] = get_targets(skl_model, target_name)
+    model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
+    if 'GradientBoostingRegressor' in str(model.__class__):
+        model_kwargs['Targets'] = get_targets(model, target_name)
     mining_models = list()
     mining_models.append(pml.MiningModel(
-        Segmentation=get_outer_segmentation(skl_model, derived_col_names, col_names, target_name,
+        Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name,
                                             mining_imp_val, categoric_values),
         **model_kwargs
     ))
     return mining_models
 
 
-def get_targets(skl_model, target_name):
+def get_targets(model, target_name):
 
     """
     It returns the Target element of the model.
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     target_name : String
         Name of the Target column.
@@ -564,13 +564,13 @@ def get_targets(skl_model, target_name):
     targets :
         Returns a Target instance.
     """
-    if 'GradientBoostingRegressor' in str(skl_model.__class__):
+    if 'GradientBoostingRegressor' in str(model.__class__):
         targets = pml.Targets(
             Target=[
                 pml.Target(
                     field=target_name,
-                    rescaleConstant=str(skl_model.init_.mean),
-                    rescaleFactor=str(skl_model.learning_rate)
+                    rescaleConstant=str(model.init_.mean),
+                    rescaleFactor=str(model.learning_rate)
                 )
             ]
         )
@@ -579,21 +579,21 @@ def get_targets(skl_model, target_name):
             Target=[
                 pml.Target(
                     field=target_name,
-                    rescaleConstant=str(skl_model.base_score)
+                    rescaleConstant=str(model.base_score)
                 )
             ]
         )
     return targets
 
 
-def get_multiple_model_method(skl_model):
+def get_multiple_model_method(model):
 
     """
     It returns the name of the Multiple Model Chain element of the model.
 
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance
 
     Returns
@@ -601,24 +601,24 @@ def get_multiple_model_method(skl_model):
     The multiple model method for a mining model.
         
     """
-    if 'GradientBoostingClassifier' in str(skl_model.__class__):
+    if 'GradientBoostingClassifier' in str(model.__class__):
         return 'modelChain'
-    elif 'GradientBoostingRegressor' in str(skl_model.__class__):
+    elif 'GradientBoostingRegressor' in str(model.__class__):
         return 'sum'
-    elif 'RandomForestClassifier' in str(skl_model.__class__):
+    elif 'RandomForestClassifier' in str(model.__class__):
         return 'majorityVote'
-    elif 'RandomForestRegressor' in str(skl_model.__class__):
+    elif 'RandomForestRegressor' in str(model.__class__):
         return 'average'
 
 
-def get_outer_segmentation(skl_model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     
     """
     It returns the Segmentation element of the model.
 
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -638,20 +638,20 @@ def get_outer_segmentation(skl_model, derived_col_names, col_names, target_name,
         
     """
     segmentation = pml.Segmentation(
-        multipleModelMethod=get_multiple_model_method(skl_model),
-        Segment=get_segments(skl_model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values)
+        multipleModelMethod=get_multiple_model_method(model),
+        Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values)
     )
     return segmentation
 
 
-def get_segments(skl_model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
 
     """
     It returns the Segment element of the model.
 
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -671,22 +671,22 @@ def get_segments(skl_model, derived_col_names, col_names, target_name, mining_im
         
     """
     segments = None
-    if 'GradientBoostingClassifier' in str(skl_model.__class__):
-        segments = get_segments_for_gbc(skl_model, derived_col_names, col_names, target_name,
+    if 'GradientBoostingClassifier' in str(model.__class__):
+        segments = get_segments_for_gbc(model, derived_col_names, col_names, target_name,
                                         mining_imp_val, categoric_values)
     else:
-        segments = get_inner_segments(skl_model, derived_col_names, col_names, 0)
+        segments = get_inner_segments(model, derived_col_names, col_names, 0)
     return segments
 
 
-def get_segments_for_gbc(skl_model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_segments_for_gbc(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     
     """
     It returns list of Segments element of the model.
 
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -707,7 +707,7 @@ def get_segments_for_gbc(skl_model, derived_col_names, col_names, target_name, m
     """
     segments = list()
     out_field_names = list()
-    for estm_idx in range(len(skl_model.estimators_[0])):
+    for estm_idx in range(len(model.estimators_[0])):
         mining_fields_for_first = list()
         for name in col_names:
             mining_fields_for_first.append(pml.MiningField(name=name))
@@ -742,8 +742,8 @@ def get_segments_for_gbc(skl_model, derived_col_names, col_names, target_name, m
                     MiningSchema=miningschema_for_first,
                     Output=pml.Output(OutputField=output_fields),
                     Segmentation=pml.Segmentation(
-                        multipleModelMethod=get_multiple_model_method(skl_model),
-                        Segment=get_inner_segments(skl_model, derived_col_names,
+                        multipleModelMethod=get_multiple_model_method(model),
+                        Segment=get_inner_segments(model, derived_col_names,
                                                    col_names, estm_idx)
                     )
                 )
@@ -751,23 +751,23 @@ def get_segments_for_gbc(skl_model, derived_col_names, col_names, target_name, m
         )
     segments.append(
         pml.Segment(
-            id=str(len(skl_model.estimators_[0])),
+            id=str(len(model.estimators_[0])),
             True_=pml.True_(),
-            RegressionModel=get_regrs_models(skl_model, out_field_names,
+            RegressionModel=get_regrs_models(model, out_field_names,
                                              out_field_names, target_name, mining_imp_val, categoric_values)[0]
         )
     )
     return segments
 
 
-def get_inner_segments(skl_model, derived_col_names, col_names, index):
+def get_inner_segments(model, derived_col_names, col_names, index):
     
     """
     It returns the Inner segments of the model.
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -783,11 +783,11 @@ def get_inner_segments(skl_model, derived_col_names, col_names, index):
         
     """
     segments = list()
-    for estm_idx in range(skl_model.n_estimators):
-        if np.asanyarray(skl_model.estimators_).ndim == 1:
-            estm = skl_model.estimators_[estm_idx]
+    for estm_idx in range(model.n_estimators):
+        if np.asanyarray(model.estimators_).ndim == 1:
+            estm = model.estimators_[estm_idx]
         else:
-            estm = skl_model.estimators_[estm_idx][index]
+            estm = model.estimators_[estm_idx][index]
         tree_features = estm.tree_.feature
         features_ = list()
         for feat in tree_features:
@@ -806,21 +806,21 @@ def get_inner_segments(skl_model, derived_col_names, col_names, index):
                         functionName=get_mining_func(estm),
                         splitCharacteristic="multiSplit",
                         MiningSchema=pml.MiningSchema(MiningField = mining_fields),
-                        Node=get_node(estm, derived_col_names, skl_model)
+                        Node=get_node(estm, derived_col_names, model)
                     )
                 )
             )
     return segments
 
 
-def get_classificationMethod(skl_model):
+def get_classificationMethod(model):
     
     """
     It returns the Classification Model name of the model.
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
 
     Returns
@@ -828,20 +828,20 @@ def get_classificationMethod(skl_model):
     Returns the classification method of the SVM model
         
     """
-    if 'SVC' in str(skl_model.__class__):
+    if 'SVC' in str(model.__class__):
         return 'OneAgainstOne'
     else:
         return 'OneAgainstAll'
 
 
-def get_vectorDictionary(skl_model, derived_col_names, categoric_values):
+def get_vectorDictionary(model, derived_col_names, categoric_values):
 
     """
     It return the Vector Dictionary element.
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -854,11 +854,11 @@ def get_vectorDictionary(skl_model, derived_col_names, categoric_values):
         A Vector Dictionary instance.
         
     """
-    model_coef = skl_model.C
+    model_coef = model.C
     fieldref_element = get_vectorfields(model_coef, derived_col_names, categoric_values)
     vectorfields_element = pml.VectorFields(FieldRef=fieldref_element)
-    vec_id = list(skl_model.support_)
-    vecs = list(skl_model.support_vectors_)
+    vec_id = list(model.support_)
+    vecs = list(model.support_vectors_)
     vecinsts = list()
     for vec_idx in range(len(vecs)):
         vecinsts.append(pml.VectorInstance(
@@ -879,7 +879,7 @@ def get_vectorfields(model_coef, feat_names, categoric_values):
 
      Parameters
      ----------
-     skl_model :
+     model :
          A Scikit-learn model instance.
      derived_col_names : List
          Contains column names after preprocessing.
@@ -918,14 +918,14 @@ def get_vectorfields(model_coef, feat_names, categoric_values):
             der_fld_idx += 1
 
     return predictors
-def get_kernel_type(skl_model):
+def get_kernel_type(model):
 
     """
     It returns the kernel type element.
 
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
 
     Returns
@@ -935,31 +935,31 @@ def get_kernel_type(skl_model):
         
     """
     kernel_kwargs = dict()
-    if skl_model.kernel == 'linear':
+    if model.kernel == 'linear':
         kernel_kwargs['LinearKernelType'] = pml.LinearKernelType(description='Linear Kernel Type')
-    elif skl_model.kernel == 'poly':
+    elif model.kernel == 'poly':
         kernel_kwargs['PolynomialKernelType'] = pml.PolynomialKernelType(description='Polynomial Kernel type',
-                                                                         gamma=skl_model._gamma,
-                                                                         coef0=skl_model.coef0,
-                                                                         degree=skl_model.degree)
-    elif skl_model.kernel == 'rbf':
+                                                                         gamma=model._gamma,
+                                                                         coef0=model.coef0,
+                                                                         degree=model.degree)
+    elif model.kernel == 'rbf':
         kernel_kwargs['RadialBasisKernelType'] = pml.RadialBasisKernelType(description='Radial Basis Kernel Type',
-                                                                           gamma=skl_model._gamma)
+                                                                           gamma=model._gamma)
     else:
         kernel_kwargs['SigmoidKernelType'] = pml.SigmoidKernelType(description='Sigmoid Kernel Type',
-                                                               gamma=skl_model._gamma,
-                                                               coef0=skl_model.coef0)
+                                                               gamma=model._gamma,
+                                                               coef0=model.coef0)
     return kernel_kwargs
 
 
-def get_supportVectorMachine(skl_model):
+def get_supportVectorMachine(model):
 
     """
     It return the Support Vector Machine element.
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
 
     Returns
@@ -970,31 +970,31 @@ def get_supportVectorMachine(skl_model):
 
     """
     support_vector_machines = list()
-    if 'SVR' in str(skl_model.__class__):
+    if 'SVR' in str(model.__class__):
         support_vector = list()
-        for sv in skl_model.support_:
+        for sv in model.support_:
             support_vector.append(pml.SupportVector(vectorId=sv))
         support_vectors = pml.SupportVectors(SupportVector=support_vector)
         coefficient = list()
-        absoValue = skl_model.intercept_[0]
-        for coef in skl_model.dual_coef_:
+        absoValue = model.intercept_[0]
+        for coef in model.dual_coef_:
             for num in coef:
                 coefficient.append(pml.Coefficient(value=num))
         coeff = pml.Coefficients(absoluteValue=absoValue, Coefficient=coefficient)
         support_vector_machines.append(pml.SupportVectorMachine(SupportVectors=support_vectors, Coefficients=coeff))
     else:
-        support_vector_locs = np.cumsum(np.hstack([[0], skl_model.n_support_]))
-        n_class = skl_model.dual_coef_.shape[0] + 1
+        support_vector_locs = np.cumsum(np.hstack([[0], model.n_support_]))
+        n_class = model.dual_coef_.shape[0] + 1
         coef_abs_val_index = 0
         for class1 in range(n_class):
-            sv1 = skl_model.support_[support_vector_locs[class1]:support_vector_locs[class1 + 1]]
+            sv1 = model.support_[support_vector_locs[class1]:support_vector_locs[class1 + 1]]
             for class2 in range(class1 + 1, n_class):
                 svs = list()
                 coefs = list()
-                sv2 = skl_model.support_[support_vector_locs[class2]:support_vector_locs[class2 + 1]]
+                sv2 = model.support_[support_vector_locs[class2]:support_vector_locs[class2 + 1]]
                 svs.append((list(sv1) + list(sv2)))
-                alpha1 = skl_model.dual_coef_[class2 - 1, support_vector_locs[class1]:support_vector_locs[class1 + 1]]
-                alpha2 = skl_model.dual_coef_[class1, support_vector_locs[class2]:support_vector_locs[class2 + 1]]
+                alpha1 = model.dual_coef_[class2 - 1, support_vector_locs[class1]:support_vector_locs[class1 + 1]]
+                alpha2 = model.dual_coef_[class1, support_vector_locs[class2]:support_vector_locs[class2 + 1]]
                 coefs.append((list(alpha1) + list(alpha2)))
                 all_svs = list()
                 for sv in (svs[0]):
@@ -1002,13 +1002,13 @@ def get_supportVectorMachine(skl_model):
                 all_coefs = list()
                 for coef in (coefs[0]):
                     all_coefs.append(pml.Coefficient(value=str(coef)))
-                coef_abs_value = skl_model.intercept_[coef_abs_val_index]
+                coef_abs_value = model.intercept_[coef_abs_val_index]
                 coef_abs_val_index += 1
-                if len(skl_model.classes_) == 2:
+                if len(model.classes_) == 2:
                     support_vector_machines.append(
                         pml.SupportVectorMachine(
-                            targetCategory=skl_model.classes_[class1],
-                            alternateTargetCategory=skl_model.classes_[class2],
+                            targetCategory=model.classes_[class1],
+                            alternateTargetCategory=model.classes_[class2],
                             SupportVectors=pml.SupportVectors(SupportVector=all_svs),
                             Coefficients=pml.Coefficients(absoluteValue=coef_abs_value, Coefficient=all_coefs)
                         )
@@ -1016,8 +1016,8 @@ def get_supportVectorMachine(skl_model):
                 else:
                     support_vector_machines.append(
                         pml.SupportVectorMachine(
-                            targetCategory=skl_model.classes_[class2],
-                            alternateTargetCategory=skl_model.classes_[class1],
+                            targetCategory=model.classes_[class2],
+                            alternateTargetCategory=model.classes_[class1],
                             SupportVectors=pml.SupportVectors(SupportVector=all_svs),
                             Coefficients=pml.Coefficients(absoluteValue=coef_abs_value, Coefficient=all_coefs)
                         )
@@ -1025,14 +1025,14 @@ def get_supportVectorMachine(skl_model):
     return support_vector_machines
 
 
-def get_tree_models(skl_model, derived_col_names, col_names, target_name, mining_imp_val):
+def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp_val):
 
     """
     It return Tree Model element of the model
 
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     derived_col_names : 
         Contains column names after preprocessing.
@@ -1049,23 +1049,23 @@ def get_tree_models(skl_model, derived_col_names, col_names, target_name, mining
         Get the TreeModel element.
         
     """
-    model_kwargs = get_model_kwargs(skl_model, col_names, target_name, mining_imp_val)
+    model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
     tree_models = list()
     tree_models.append(pml.TreeModel(
-        Node=get_node(skl_model, derived_col_names),
+        Node=get_node(model, derived_col_names),
         **model_kwargs
     ))
     return tree_models
 
 
-def get_neural_models(skl_model, derived_col_names, col_names, target_name, mining_imp_val):
+def get_neural_models(model, derived_col_names, col_names, target_name, mining_imp_val):
 
     """
     It returns Neural Network element of the model.
 
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -1082,16 +1082,16 @@ def get_neural_models(skl_model, derived_col_names, col_names, target_name, mini
         Model attributes for PMML file.
         
     """
-    model_kwargs = get_model_kwargs(skl_model, col_names, target_name, mining_imp_val)
+    model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
     neural_model = list()
     neural_model.append(pml.NeuralNetwork(
         modelName="Neural_Network",
         threshold='0',
         altitude='1.0',
-        activationFunction=get_funct(skl_model),
+        activationFunction=get_funct(model),
         NeuralInputs = get_neuron_input(derived_col_names),
-        NeuralLayer = get_neural_layer(skl_model, derived_col_names, target_name)[0],
-        NeuralOutputs = get_neural_layer(skl_model, derived_col_names, target_name)[1],
+        NeuralLayer = get_neural_layer(model, derived_col_names, target_name)[0],
+        NeuralOutputs = get_neural_layer(model, derived_col_names, target_name)[1],
         **model_kwargs
     ))
     return neural_model
@@ -1104,7 +1104,7 @@ def get_funct(sk_model):
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
 
     Returns
@@ -1119,14 +1119,14 @@ def get_funct(sk_model):
     return a_fn
 
 
-def get_regrs_models(skl_model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_regrs_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
 
     """
     It returns the Regression Model element of the model
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -1144,27 +1144,27 @@ def get_regrs_models(skl_model, derived_col_names, col_names, target_name, minin
     regrs_models : List
         Returns a regression model of the respective model
     """
-    model_kwargs = get_model_kwargs(skl_model, col_names, target_name, mining_imp_val)
-    if 'SGDClassifier' in str(skl_model.__class__) or 'RidgeClassifier' in str(skl_model.__class__):
+    model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
+    if 'SGDClassifier' in str(model.__class__) or 'RidgeClassifier' in str(model.__class__):
         model_kwargs['normalizationMethod'] = 'logit'
-    elif 'LogisticRegression' in str(skl_model.__class__):
+    elif 'LogisticRegression' in str(model.__class__):
         model_kwargs['normalizationMethod'] = 'softmax'
     regrs_models = list()
     regrs_models.append(pml.RegressionModel(
-        RegressionTable=get_regrs_tabl(skl_model, derived_col_names, target_name, categoric_values),
+        RegressionTable=get_regrs_tabl(model, derived_col_names, target_name, categoric_values),
         **model_kwargs
     ))
     return regrs_models
 
 
-def get_regrs_tabl(skl_model, feature_names, target_name, categoric_values):
+def get_regrs_tabl(model, feature_names, target_name, categoric_values):
 
     """
     It returns the Regression Table element of the model.
 
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     derived_col_names : List
         Contains column names after preprocessing.
@@ -1180,10 +1180,10 @@ def get_regrs_tabl(skl_model, feature_names, target_name, categoric_values):
         
     """
     merge = list()
-    if hasattr(skl_model, 'intercept_'):
-        func_name = get_mining_func(skl_model)
-        inter = skl_model.intercept_
-        model_coef = skl_model.coef_
+    if hasattr(model, 'intercept_'):
+        func_name = get_mining_func(model)
+        inter = model.intercept_
+        model_coef = model.coef_
         merge = list()
         target_classes = target_name
         row_idx = 0
@@ -1193,7 +1193,7 @@ def get_regrs_tabl(skl_model, feature_names, target_name, categoric_values):
             model_coef = model_coef.reshape(1, model_coef.shape[0])
             target_cat = None
         else:
-            target_classes = skl_model.classes_
+            target_classes = model.classes_
             max_target_index = len(target_classes) - 1
             target_cat = target_classes[max_target_index]
 
@@ -1225,16 +1225,16 @@ def get_regrs_tabl(skl_model, feature_names, target_name, categoric_values):
                     )
                 )
     else:
-        if len(skl_model.classes_) == 2:
+        if len(model.classes_) == 2:
             merge.append(
                 pml.RegressionTable(
                     NumericPredictor=[pml.NumericPredictor(coefficient='1.0',name=feature_names[0])],
                     intercept='0.0',
-                    targetCategory=str(skl_model.classes_[-1])
+                    targetCategory=str(model.classes_[-1])
                 )
             )
             merge.append(
-                pml.RegressionTable(intercept='0.0', targetCategory=str(skl_model.classes_[0]))
+                pml.RegressionTable(intercept='0.0', targetCategory=str(model.classes_[0]))
             )
         else:
             for feat_idx in range(len(feature_names)):
@@ -1242,21 +1242,21 @@ def get_regrs_tabl(skl_model, feature_names, target_name, categoric_values):
                     pml.RegressionTable(
                         NumericPredictor=[pml.NumericPredictor(coefficient='1.0',name=feature_names[feat_idx])],
                         intercept='0.0',
-                        targetCategory=str(skl_model.classes_[feat_idx])
+                        targetCategory=str(model.classes_[feat_idx])
                     )
                 )
     return merge
 
 
 
-def get_node(skl_model, features_names, main_model=None):
+def get_node(model, features_names, main_model=None):
     
     """
     It return the Node element of the model.
     
     Parameters
     ----------
-    skl_model :
+    model :
         An instance of the estimator of the tree object.
     features_names : List
         Contains the list of feature/column name.
@@ -1269,11 +1269,11 @@ def get_node(skl_model, features_names, main_model=None):
         Get all the underlying Nodes.
         
     """
-    tree = skl_model.tree_
+    tree = model.tree_
     if main_model and 'RandomForestClassifier' in str(main_model.__class__):
         classes = main_model.classes_
-    elif hasattr(skl_model,'classes_'):
-        classes = skl_model.classes_
+    elif hasattr(model,'classes_'):
+        classes = model.classes_
     tree_leaf = -1
     def _getNode(idx, cond=None):
         simple_pred_cond = None
@@ -1299,7 +1299,7 @@ def get_node(skl_model, features_names, main_model=None):
         else:
             nodeValue = list(tree.value[idx][0])
             lSum = float(sum(nodeValue))
-            if 'DecisionTreeClassifier' in str(skl_model.__class__):
+            if 'DecisionTreeClassifier' in str(model.__class__):
                 probs = [x / lSum for x in nodeValue]
                 score_dst = []
                 for i in range(len(probs)):
@@ -1313,14 +1313,14 @@ def get_node(skl_model, features_names, main_model=None):
     return _getNode(0)
 
 
-def get_output(skl_model, target_name):
+def get_output(model, target_name):
 
     """
     It returns the output element of the model.
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     target_name : String
         Name of the Target column.
@@ -1331,12 +1331,12 @@ def get_output(skl_model, target_name):
         Get the Output element.
         
     """
-    mining_func = get_mining_func(skl_model)
+    mining_func = get_mining_func(model)
     output_fields = list()
     alt_target_name = 'predicted_' + target_name
     output_fields.append(pml.OutputField(name=alt_target_name))
     if mining_func == 'classification':
-        for cls in skl_model.classes_:
+        for cls in model.classes_:
             output_fields.append(pml.OutputField(
                 name='probability_' + str(cls),
                 feature="probability",
@@ -1349,13 +1349,13 @@ def get_output(skl_model, target_name):
         return pml.Output(OutputField=output_fields)
 
 
-def get_mining_func(skl_model):
+def get_mining_func(model):
     """
     It returns the name of the mining function of the model.
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
 
     Returns
@@ -1364,24 +1364,24 @@ def get_mining_func(skl_model):
         Returns the function name of the model
         
     """
-    if not hasattr(skl_model, 'classes_'):
+    if not hasattr(model, 'classes_'):
         func_name = 'regression'
     else:
-        if isinstance(skl_model.classes_, np.ndarray):
+        if isinstance(model.classes_, np.ndarray):
             func_name = 'classification'
         else:
             func_name = 'regression'
     return func_name
 
 
-def get_mining_schema(skl_model, feature_names, target_name, mining_imp_val):
+def get_mining_schema(model, feature_names, target_name, mining_imp_val):
 
     """
     It returns the Mining Schema of the model.
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     feature_names : List
         Contains the list of feature/column name.
@@ -1404,7 +1404,7 @@ def get_mining_schema(skl_model, feature_names, target_name, mining_imp_val):
     features_pmml_optype = ['continuous'] * n_features
     features_pmml_utype = ['active'] * n_features
     target_pmml_utype = 'target'
-    mining_func = get_mining_func(skl_model)
+    mining_func = get_mining_func(model)
     if mining_func == 'classification':
         target_pmml_optype = 'categorical'
     elif mining_func == 'regression':
@@ -1463,14 +1463,14 @@ def get_neuron_input(feature_names):
     return neural_input_element
 
 
-def get_neural_layer(skl_model, feature_names, target_name):
+def get_neural_layer(model, feature_names, target_name):
 
     """
     It returns the Neural Layer and Neural Ouptput element.
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     feature_names : List
         Contains the list of feature/column name. 
@@ -1486,10 +1486,10 @@ def get_neural_layer(skl_model, feature_names, target_name):
         Return the NeuralOutput element instance
         
     """
-    weight = skl_model.coefs_
-    bias = skl_model.intercepts_
+    weight = model.coefs_
+    bias = model.intercepts_
     last_layer = bias[-1]
-    hidden_layer_sizes = skl_model.hidden_layer_sizes
+    hidden_layer_sizes = model.hidden_layer_sizes
     hidden_layers = list(hidden_layer_sizes)
     hidden_layers.append(len(last_layer))
     neuron = list()
@@ -1507,7 +1507,7 @@ def get_neural_layer(skl_model, feature_names, target_name):
         input_features = neuron_id
         neuron_id = list()
         neuron = list()
-    if hidden_layers[-1]==1 and 'MLPClassifier' in str(skl_model.__class__):
+    if hidden_layers[-1]==1 and 'MLPClassifier' in str(model.__class__):
         bias1=[1.0,0.0]
         weight1=[-1.0,1.0]
         con = list()
@@ -1523,9 +1523,9 @@ def get_neural_layer(skl_model, feature_names, target_name):
             neuron.append(pml.Neuron(id = i_d[num], bias = format(bias1[num]), Con = con))
             con = list()
         all_neuron_layer.append(pml.NeuralLayer(activationFunction = "identity", Neuron = neuron))
-    if 'MLPClassifier' in str(skl_model.__class__):
+    if 'MLPClassifier' in str(model.__class__):
         neural_output = list()
-        for values, count in zip(skl_model.classes_, range(len(skl_model.classes_))):
+        for values, count in zip(model.classes_, range(len(model.classes_))):
             norm_discrete = pml.NormDiscrete(field = target_name, value = str(values))
             derived_flds = pml.DerivedField(optype = "categorical", dataType = 'double',
                                     NormDiscrete = norm_discrete)
@@ -1536,7 +1536,7 @@ def get_neural_layer(skl_model, feature_names, target_name):
             neural_output.append(class_node)
         neural_output_element = pml.NeuralOutputs(numberOfOutputs = None, Extension = None,
                                                   NeuralOutput = neural_output)
-    if 'MLPRegressor' in str(skl_model.__class__):
+    if 'MLPRegressor' in str(model.__class__):
         neural_output = list()
         fieldRef = pml.FieldRef(field = target_name)
         derived_flds = pml.DerivedField(optype = "continuous", dataType = "double", FieldRef = fieldRef)
@@ -1633,14 +1633,14 @@ def get_dtype(feat_value):
 
 
 
-def get_data_dictionary(skl_model, feature_names, target_name, categoric_values):
+def get_data_dictionary(model, feature_names, target_name, categoric_values):
 
     """
     It returns the Data Dictionary element.
     
     Parameters
     ----------
-    skl_model :
+    model :
         A Scikit-learn model instance.
     feature_names : List
         Contains the list of feature/column name. 
@@ -1664,12 +1664,12 @@ def get_data_dictionary(skl_model, feature_names, target_name, categoric_values)
     features_pmml_optype = ['continuous'] * n_features
     features_pmml_dtype = ['double'] * n_features
 
-    mining_func = get_mining_func(skl_model)
+    mining_func = get_mining_func(model)
 
     if mining_func == 'classification':
         target_pmml_optype = 'categorical'
-        target_pmml_dtype = get_dtype(skl_model.classes_[0])
-        target_attr_values = skl_model.classes_.tolist()
+        target_pmml_dtype = get_dtype(model.classes_[0])
+        target_attr_values = model.classes_.tolist()
     elif mining_func == 'regression':
         target_pmml_optype = 'continuous'
         target_pmml_dtype = 'double'
