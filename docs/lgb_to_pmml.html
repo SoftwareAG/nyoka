@@ -9,6 +9,7 @@
     <title>lgb_to_pmml module &#8212; Nyoka 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/my_theme.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -16,7 +17,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pre_process module" href="pre_process.html" />
-    <link rel="prev" title="PMML43Ext module" href="PMML43Ext.html" />
+    <link rel="prev" title="exponential_smoothing module" href="exponential_smoothing.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -60,7 +61,7 @@
 
 <dl class="function">
 <dt id="lgb_to_pmml.get_PMML_kwargs">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_PMML_kwargs</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_PMML_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_PMML_kwargs" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_PMML_kwargs</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_PMML_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_PMML_kwargs" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div>It returns all the pmml elements.</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
@@ -68,7 +69,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – Contains LGB model object.</li>
+<li><strong>model</strong> – Contains LGB model object.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the target column .</li>
@@ -89,14 +90,14 @@
 
 <dl class="function">
 <dt id="lgb_to_pmml.get_ensemble_models">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_ensemble_models</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_ensemble_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_ensemble_models" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_ensemble_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_ensemble_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_ensemble_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Mining Model element of the model</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – Contains LGB model object.</li>
+<li><strong>model</strong> – Contains LGB model object.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -117,13 +118,13 @@
 
 <dl class="function">
 <dt id="lgb_to_pmml.get_multiple_model_method">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_multiple_model_method</code><span class="sig-paren">(</span><em>skl_model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_multiple_model_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_multiple_model_method" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_multiple_model_method</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_multiple_model_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_multiple_model_method" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the name of the Multiple Model Chain element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>skl_model</strong> – Contains LGB model object</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model</strong> – Contains LGB model object</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
 <li><em>modelChain for LGB Classifier,</em></li>
@@ -137,14 +138,14 @@
 
 <dl class="function">
 <dt id="lgb_to_pmml.get_outer_segmentation">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_outer_segmentation</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_outer_segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_outer_segmentation" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_outer_segmentation</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_outer_segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_outer_segmentation" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Segmentation element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – Contains LGB model object.</li>
+<li><strong>model</strong> – Contains LGB model object.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -165,7 +166,7 @@
 
 <dl class="function">
 <dt id="lgb_to_pmml.get_segments">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div>It returns the Segment element of the model.</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
@@ -173,7 +174,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – Contains LGB model object.</li>
+<li><strong>model</strong> – Contains LGB model object.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -197,14 +198,14 @@ categoric_values : tuple</p>
 
 <dl class="function">
 <dt id="lgb_to_pmml.get_segments_for_lgbc">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments_for_lgbc</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments_for_lgbc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments_for_lgbc" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments_for_lgbc</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments_for_lgbc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments_for_lgbc" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns all the segments of the LGB classifier.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – Contains LGB model object.</li>
+<li><strong>model</strong> – Contains LGB model object.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>feature_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -225,7 +226,7 @@ categoric_values : tuple</p>
 
 <dl class="function">
 <dt id="lgb_to_pmml.get_segments_for_lgbr">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments_for_lgbr</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categorical_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments_for_lgbr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments_for_lgbr" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments_for_lgbr</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categorical_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments_for_lgbr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments_for_lgbr" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div>It returns all the Segments element of the model</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
@@ -233,7 +234,7 @@ categoric_values : tuple</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – Contains LGB model object.</li>
+<li><strong>model</strong> – Contains LGB model object.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>feature_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>List</em>) – Name of the Target column.</li>
@@ -257,8 +258,8 @@ categoric_values : tuple</p>
 
 <dl class="function">
 <dt id="lgb_to_pmml.lgb_to_pmml">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">lgb_to_pmml</code><span class="sig-paren">(</span><em>pipeline</em>, <em>col_names</em>, <em>target_name</em>, <em>pmml_f_name='from_sklearn.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#lgb_to_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.lgb_to_pmml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exports scikit-learn pipeline object into pmml</p>
+<code class="descclassname">lgb_to_pmml.</code><code class="descname">lgb_to_pmml</code><span class="sig-paren">(</span><em>pipeline</em>, <em>col_names</em>, <em>target_name</em>, <em>pmml_f_name='from_lgbm.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#lgb_to_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.lgb_to_pmml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exports LGBM pipeline object into pmml</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -267,7 +268,7 @@ categoric_values : tuple</p>
 <li><strong>pipeline</strong> – Contains an instance of Pipeline with preprocessing and final estimator</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the target column.</li>
-<li><strong>pmml_f_name</strong> (<em>String</em>) – Name of the pmml file. (Default=’from_sklearn.pmml’)</li>
+<li><strong>pmml_f_name</strong> (<em>String</em>) – Name of the pmml file. (Default=’from_lgbm.pmml’)</li>
 </ul>
 </td>
 </tr>
@@ -301,6 +302,7 @@ categoric_values : tuple</p>
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="PMML43Ext.html">PMML43Ext module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">lgb_to_pmml module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pre_process.html">pre_process module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a></li>
@@ -311,7 +313,7 @@ categoric_values : tuple</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="PMML43Ext.html" title="previous chapter">PMML43Ext module</a></li>
+      <li>Previous: <a href="exponential_smoothing.html" title="previous chapter">exponential_smoothing module</a></li>
       <li>Next: <a href="pre_process.html" title="next chapter">pre_process module</a></li>
   </ul></li>
 </ul>

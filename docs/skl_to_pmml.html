@@ -9,6 +9,7 @@
     <title>skl_to_pmml module &#8212; Nyoka 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/my_theme.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -40,14 +41,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_PMML_kwargs">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_PMML_kwargs</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_PMML_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_PMML_kwargs" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_PMML_kwargs</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_PMML_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_PMML_kwargs" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns all the pmml elements.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – An instance of Scikit-learn model.</li>
+<li><strong>model</strong> – An instance of Scikit-learn model.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the target column .</li>
@@ -68,14 +69,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_bayes_inputs">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_bayes_inputs</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_bayes_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_bayes_inputs" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_bayes_inputs</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_bayes_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_bayes_inputs" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Bayes Input element of the model .</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – An instance of Scikit-learn model.</li>
+<li><strong>model</strong> – An instance of Scikit-learn model.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 </ul>
 </td>
@@ -92,14 +93,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_bayes_output">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_bayes_output</code><span class="sig-paren">(</span><em>skl_model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_bayes_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_bayes_output" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_bayes_output</code><span class="sig-paren">(</span><em>model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_bayes_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_bayes_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Bayes Output element of the model</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – An instance of Scikit-learn model.</li>
+<li><strong>model</strong> – An instance of Scikit-learn model.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
 </ul>
 </td>
@@ -165,13 +166,13 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_classificationMethod">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_classificationMethod</code><span class="sig-paren">(</span><em>skl_model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_classificationMethod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_classificationMethod" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_classificationMethod</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_classificationMethod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_classificationMethod" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Classification Model name of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>skl_model</strong> – A Scikit-learn model instance.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model</strong> – A Scikit-learn model instance.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
 </tr>
@@ -183,13 +184,13 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_comparison_measure">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_comparison_measure</code><span class="sig-paren">(</span><em>skl_model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_comparison_measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_comparison_measure" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_comparison_measure</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_comparison_measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_comparison_measure" title="Permalink to this definition">¶</a></dt>
 <dd><p>It return the Comparison measure element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>skl_model</strong> – An instance of Scikit-learn model.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model</strong> – An instance of Scikit-learn model.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns a ComparisonMeasure instance.</td>
 </tr>
@@ -201,14 +202,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_data_dictionary">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_data_dictionary</code><span class="sig-paren">(</span><em>skl_model</em>, <em>feature_names</em>, <em>target_name</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_data_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_data_dictionary" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_data_dictionary</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_data_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_data_dictionary" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Data Dictionary element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>feature_names</strong> (<em>List</em>) – Contains the list of feature/column name.</li>
 <li><strong>target_name</strong> (<em>List</em>) – Name of the Target column.</li>
 <li><strong>categoric_values</strong> (<em>tuple</em>) – Contains Categorical attribute names and its values</li>
@@ -245,14 +246,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_ensemble_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_ensemble_models</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_ensemble_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_ensemble_models" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_ensemble_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_ensemble_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_ensemble_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Mining Model element of the model</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – An instance of Scikit-learn model.</li>
+<li><strong>model</strong> – An instance of Scikit-learn model.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -279,7 +280,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>skl_model</strong> – A Scikit-learn model instance.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model</strong> – A Scikit-learn model instance.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>a_fn</strong> – Returns the activation function.</td>
 </tr>
@@ -303,13 +304,13 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_inline_table">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_inline_table</code><span class="sig-paren">(</span><em>skl_model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_inline_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_inline_table" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_inline_table</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_inline_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_inline_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>It Returns the Inline Table element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>skl_model</strong> – An instance of Scikit-learn model.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model</strong> – An instance of Scikit-learn model.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns a InlineTable instance.</td>
 </tr>
@@ -321,14 +322,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_inner_segments">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_inner_segments</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_inner_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_inner_segments" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_inner_segments</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_inner_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_inner_segments" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Inner segments of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>index</strong> (<em>Integer</em>) – The index of the estimator for the model</li>
@@ -371,13 +372,13 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_kernel_type">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_kernel_type</code><span class="sig-paren">(</span><em>skl_model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_kernel_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_kernel_type" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_kernel_type</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_kernel_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_kernel_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the kernel type element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>skl_model</strong> – A Scikit-learn model instance.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model</strong> – A Scikit-learn model instance.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>kernel_kwargs</strong> – Get the respective kernel type of the SVM model.</td>
 </tr>
@@ -407,13 +408,13 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_mining_func">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_mining_func</code><span class="sig-paren">(</span><em>skl_model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_mining_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_mining_func" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_mining_func</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_mining_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_mining_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the name of the mining function of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>skl_model</strong> – A Scikit-learn model instance.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model</strong> – A Scikit-learn model instance.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>func_name</strong> – Returns the function name of the model</td>
 </tr>
@@ -425,14 +426,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_mining_schema">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_mining_schema</code><span class="sig-paren">(</span><em>skl_model</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_mining_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_mining_schema" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_mining_schema</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_mining_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_mining_schema" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Mining Schema of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>feature_names</strong> (<em>List</em>) – Contains the list of feature/column name.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
 <li><strong>mining_imp_val</strong> (<em>tuple</em>) – Contains the mining_attributes,mining_strategy, mining_impute_value.</li>
@@ -451,14 +452,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_model_kwargs">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_model_kwargs</code><span class="sig-paren">(</span><em>skl_model</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_model_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_model_kwargs" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_model_kwargs</code><span class="sig-paren">(</span><em>model</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_model_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_model_kwargs" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns all the model element for a specific model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – An instance of Scikit-learn model.</li>
+<li><strong>model</strong> – An instance of Scikit-learn model.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
 <li><strong>mining_imp_val</strong> (<em>tuple</em>) – Contains the mining_attributes,mining_strategy, mining_impute_value</li>
@@ -477,13 +478,13 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_multiple_model_method">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_multiple_model_method</code><span class="sig-paren">(</span><em>skl_model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_multiple_model_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_multiple_model_method" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_multiple_model_method</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_multiple_model_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_multiple_model_method" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the name of the Multiple Model Chain element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>skl_model</strong> – A Scikit-learn model instance</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model</strong> – A Scikit-learn model instance</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
 </tr>
@@ -495,14 +496,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_naiveBayesModel">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_naiveBayesModel</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_naiveBayesModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_naiveBayesModel" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_naiveBayesModel</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_naiveBayesModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_naiveBayesModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Naive Bayes Model element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – An instance of Scikit-learn model.</li>
+<li><strong>model</strong> – An instance of Scikit-learn model.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -521,14 +522,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_nearestNeighbour_model">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_nearestNeighbour_model</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_nearestNeighbour_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_nearestNeighbour_model" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_nearestNeighbour_model</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_nearestNeighbour_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_nearestNeighbour_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Nearest Neighbour model element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – An instance of Scikit-learn model.</li>
+<li><strong>model</strong> – An instance of Scikit-learn model.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -547,14 +548,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_neural_layer">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_neural_layer</code><span class="sig-paren">(</span><em>skl_model</em>, <em>feature_names</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_neural_layer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_neural_layer" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_neural_layer</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_neural_layer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_neural_layer" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Neural Layer and Neural Ouptput element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>feature_names</strong> (<em>List</em>) – Contains the list of feature/column name.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
 </ul>
@@ -573,14 +574,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_neural_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_neural_models</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_neural_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_neural_models" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_neural_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_neural_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_neural_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns Neural Network element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -618,14 +619,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_node">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_node</code><span class="sig-paren">(</span><em>skl_model</em>, <em>features_names</em>, <em>main_model=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_node" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_node</code><span class="sig-paren">(</span><em>model</em>, <em>features_names</em>, <em>main_model=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>It return the Node element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – An instance of the estimator of the tree object.</li>
+<li><strong>model</strong> – An instance of the estimator of the tree object.</li>
 <li><strong>features_names</strong> (<em>List</em>) – Contains the list of feature/column name.</li>
 <li><strong>main_model</strong> – A Scikit-learn model instance.</li>
 </ul>
@@ -668,14 +669,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_outer_segmentation">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_outer_segmentation</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_outer_segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_outer_segmentation" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_outer_segmentation</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_outer_segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_outer_segmentation" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Segmentation element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -696,14 +697,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_output">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_output</code><span class="sig-paren">(</span><em>skl_model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_output" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_output</code><span class="sig-paren">(</span><em>model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the output element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
 </ul>
 </td>
@@ -745,14 +746,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_regrs_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_regrs_models</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_regrs_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_regrs_models" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_regrs_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_regrs_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_regrs_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Regression Model element of the model</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -773,14 +774,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_regrs_tabl">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_regrs_tabl</code><span class="sig-paren">(</span><em>skl_model</em>, <em>feature_names</em>, <em>target_name</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_regrs_tabl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_regrs_tabl" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_regrs_tabl</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_regrs_tabl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_regrs_tabl" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Regression Table element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
 <li><strong>categoric_values</strong> (<em>tuple</em>) – Contains Categorical attribute names and its values</li>
@@ -799,14 +800,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_segments">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_segments</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_segments" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_segments</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_segments" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Segment element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -827,14 +828,14 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_segments_for_gbc">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_segments_for_gbc</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_segments_for_gbc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_segments_for_gbc" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_segments_for_gbc</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_segments_for_gbc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_segments_for_gbc" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns list of Segments element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -875,13 +876,13 @@
 
 <dl class="function">
 <dt id="skl_to_pmml.get_supportVectorMachine">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_supportVectorMachine</code><span class="sig-paren">(</span><em>skl_model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_supportVectorMachine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_supportVectorMachine" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_supportVectorMachine</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_supportVectorMachine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_supportVectorMachine" title="Permalink to this definition">¶</a></dt>
 <dd><p>It return the Support Vector Machine element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>skl_model</strong> – A Scikit-learn model instance.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model</strong> – A Scikit-learn model instance.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>support_vector_machines</strong> – Get the Support Vector Machine element which conatains targetCategory,
 alternateTargetCategory, SupportVectors, Coefficients</td>
@@ -894,14 +895,14 @@ alternateTargetCategory, SupportVectors, Coefficients</td>
 
 <dl class="function">
 <dt id="skl_to_pmml.get_supportVectorMachine_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_supportVectorMachine_models</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_names</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_supportVectorMachine_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_supportVectorMachine_models" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_supportVectorMachine_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_names</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_supportVectorMachine_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_supportVectorMachine_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Support Vector Machine Model element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – An instance of Scikit-learn model.</li>
+<li><strong>model</strong> – An instance of Scikit-learn model.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_names</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -923,14 +924,14 @@ VectorDictionary, SupportVectorMachine, kernelType</p>
 
 <dl class="function">
 <dt id="skl_to_pmml.get_targets">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_targets</code><span class="sig-paren">(</span><em>skl_model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_targets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_targets" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_targets</code><span class="sig-paren">(</span><em>model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_targets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_targets" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Target element of the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
 </ul>
 </td>
@@ -963,14 +964,14 @@ VectorDictionary, SupportVectorMachine, kernelType</p>
 
 <dl class="function">
 <dt id="skl_to_pmml.get_training_instances">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_training_instances</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_training_instances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_training_instances" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_training_instances</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_training_instances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_training_instances" title="Permalink to this definition">¶</a></dt>
 <dd><p>It returns the Training Instance element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – An instance of Scikit-learn model.</li>
+<li><strong>model</strong> – An instance of Scikit-learn model.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
 </ul>
@@ -988,14 +989,14 @@ VectorDictionary, SupportVectorMachine, kernelType</p>
 
 <dl class="function">
 <dt id="skl_to_pmml.get_tree_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_tree_models</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_tree_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_tree_models" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_tree_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_tree_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_tree_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>It return Tree Model element of the model</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>derived_col_names</strong> – Contains column names after preprocessing.</li>
 <li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
 <li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
@@ -1015,14 +1016,14 @@ VectorDictionary, SupportVectorMachine, kernelType</p>
 
 <dl class="function">
 <dt id="skl_to_pmml.get_vectorDictionary">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_vectorDictionary</code><span class="sig-paren">(</span><em>skl_model</em>, <em>derived_col_names</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_vectorDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_vectorDictionary" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skl_to_pmml.</code><code class="descname">get_vectorDictionary</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_vectorDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_vectorDictionary" title="Permalink to this definition">¶</a></dt>
 <dd><p>It return the Vector Dictionary element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>categoric_values</strong> (<em>tuple</em>) – Contains Categorical attribute names and its values</li>
 </ul>
@@ -1047,7 +1048,7 @@ VectorDictionary, SupportVectorMachine, kernelType</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>skl_model</strong> – A Scikit-learn model instance.</li>
+<li><strong>model</strong> – A Scikit-learn model instance.</li>
 <li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
 <li><strong>categoric_values</strong> (<em>tuple</em>) – Contains Categorical attribute names and its values</li>
 </ul>
@@ -1159,6 +1160,7 @@ VectorDictionary, SupportVectorMachine, kernelType</p>
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="PMML43Ext.html">PMML43Ext module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pre_process.html">pre_process module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">skl_to_pmml module</a></li>

@@ -9,6 +9,7 @@
     <title>pre_process module &#8212; Nyoka 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/my_theme.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -42,7 +43,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>seq_a</strong> (<em>list</em>) – A list of items</li>
-<li><strong>seq_a</strong> – A list of items</li>
+<li><strong>seq_b</strong> (<em>list</em>) – A list of items</li>
 </ul>
 </td>
 </tr>
@@ -123,7 +124,7 @@ The column names may represent the names of preprocessed attributes.</li>
 
 <dl class="function">
 <dt id="pre_process.get_derived_colnames">
-<code class="descclassname">pre_process.</code><code class="descname">get_derived_colnames</code><span class="sig-paren">(</span><em>trfm_name</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_derived_colnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_derived_colnames" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pre_process.</code><code class="descname">get_derived_colnames</code><span class="sig-paren">(</span><em>trfm_name</em>, <em>col_names</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_derived_colnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_derived_colnames" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -147,7 +148,7 @@ The column names may represent the names of preprocessed attributes.</li>
 
 <dl class="function">
 <dt id="pre_process.get_pml_derived_flds">
-<code class="descclassname">pre_process.</code><code class="descname">get_pml_derived_flds</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_pml_derived_flds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_pml_derived_flds" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pre_process.</code><code class="descname">get_pml_derived_flds</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_pml_derived_flds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_pml_derived_flds" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -171,12 +172,13 @@ The column names may represent the names of preprocessed attributes.</li>
 
 <dl class="function">
 <dt id="pre_process.get_preprocess_val">
-<code class="descclassname">pre_process.</code><code class="descname">get_preprocess_val</code><span class="sig-paren">(</span><em>ppln_sans_predictor</em>, <em>initial_colnames</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_preprocess_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_preprocess_val" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pre_process.</code><code class="descname">get_preprocess_val</code><span class="sig-paren">(</span><em>ppln_sans_predictor</em>, <em>initial_colnames</em>, <em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_preprocess_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_preprocess_val" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>model</strong> – Contains an instance of Sklearn model</li>
 <li><strong>ppln_sans_predictor</strong> – Contains an instance of Sklearn Pipeline</li>
 <li><strong>initial_colnames</strong> (<em>list</em>) – Contains list of feature/column names.</li>
 </ul>
@@ -219,7 +221,7 @@ The column names may represent the names of preprocessed attributes.</li>
 
 <dl class="function">
 <dt id="pre_process.lbl_binarizer">
-<code class="descclassname">pre_process.</code><code class="descname">lbl_binarizer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#lbl_binarizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.lbl_binarizer" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pre_process.</code><code class="descname">lbl_binarizer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#lbl_binarizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.lbl_binarizer" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -387,7 +389,7 @@ The column names may represent the names of preprocessed attributes.</li>
 
 <dl class="function">
 <dt id="pre_process.std_scaler">
-<code class="descclassname">pre_process.</code><code class="descname">std_scaler</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#std_scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.std_scaler" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pre_process.</code><code class="descname">std_scaler</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#std_scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.std_scaler" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -470,6 +472,7 @@ The column names may represent the names of preprocessed attributes.</li>
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="PMML43Ext.html">PMML43Ext module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pre_process module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a></li>

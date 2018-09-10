@@ -5,7 +5,7 @@ scripts
    :maxdepth: 4
 
    PMML43Ext
-   PMML43ExtSuper
+   exponential_smoothing
    lgb_to_pmml
    pre_process
    skl_to_pmml
