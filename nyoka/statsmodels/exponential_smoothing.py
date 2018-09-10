@@ -15,19 +15,31 @@ from statsmodels.tsa import holtwinters as hw
 class ExponentialSmoothingToPMML:
     """
     Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.
-    :param time_series_data: Pandas Series object
-    :param model_obj: Instance of ExponentialSmoothing() from statsmodels
-    :param results_obj: Instance of HoltWintersResults() from statsmodels
-    :param pmml_file_name:
+
+    Parameters:
+    -----------
+    time_series_data: 
+        Pandas Series object
+    model_obj: 
+        Instance of ExponentialSmoothing from statsmodels
+    results_obj: 
+        Instance of HoltWintersResults from statsmodels
+    pmml_file_name: string
     """
     def __init__(self, time_series_data, model_obj, results_obj, pmml_file_name):
 
         def get_time_value_objs(ts_data):
             """
             Does not have time attribute
-            :param ts_data: pandas Series
-            :return: time_value_objs: list
-                Instances of TimeValue()
+
+            Parameters:
+            -----------
+            ts_data: pandas Series
+
+            Returns:
+            --------
+            time_value_objs: list
+                Instances of TimeValue
             """
             ts_int_index = range(len(ts_data))
             time_value_objs = list()
@@ -54,7 +66,7 @@ class ExponentialSmoothingToPMML:
 
         def get_data_field_objs(ts_data):
             """
-            Create a list with instances of DataField()
+            Create a list with instances of DataField
             """
             data_field_objs = list()
             index_name = ts_data.index.name
@@ -67,7 +79,7 @@ class ExponentialSmoothingToPMML:
 
         def get_mining_field_objs(ts_data):
             """
-            Create a list with instances of MiningField()
+            Create a list with instances of MiningField
             """
             mining_field_objs = list()
             idx_name = ts_data.index.name
@@ -155,84 +167,3 @@ class ExponentialSmoothingToPMML:
             )]
         )
         pmml.export(outfile=open(pmml_file_name, "w"), level=0)
-
-
-def reconstruct_expon_smooth(pmml_file_name):
-    """
-    Parses a pmml file and extracts the parameters and time series data. Uses Statsmodels to instantiate a model object
-    of exponential smoothing. Returns parameters and model-object
-    :param pmml_file_name:
-    :return: params: dictionary
-        Parameters of the model as key-value pairs
-    :return: stsmdl: model object from Statsmodels
-        This model object is created using the parameters and time-series data extracted from the pmml file
-    """
-
-    def get_ts_data_from_pmml(ts_model_obj):
-        time_series_obj = ts_model_obj.get_TimeSeries()[0]
-        time_values = time_series_obj.get_TimeValue()
-        index = list()
-        ts_values = list()
-        for time_value in time_values:
-            index.append(time_value.get_index())
-            ts_values.append(time_value.get_value())
-        ts_data = pd.Series(data=ts_values, index=index)
-        return ts_data
-
-    def get_params_model_from_pmml(ts_data, ts_model_obj):
-        params = dict()
-        exp_smooth_obj = ts_model_obj.get_ExponentialSmoothing()
-        level_obj = exp_smooth_obj.get_Level()
-        trend_obj = exp_smooth_obj.get_Trend_ExpoSmooth()
-        season_obj = exp_smooth_obj.get_Seasonality_ExpoSmooth()
-        params['smoothing_level'] = level_obj.get_alpha()
-        params['initial_level'] = level_obj.get_initialLevelValue()
-        if trend_obj:
-            params['smoothing_slope'] = trend_obj.get_gamma()
-            params['damping_slope'] = trend_obj.get_phi()
-            params['initial_slope'] = trend_obj.get_initialTrendValue()
-            trend_type = trend_obj.get_trend()
-            if trend_type == 'additive':
-                trend = 'add'
-                damped = False
-            elif trend_type == 'multiplicative':
-                trend = 'mul'
-                damped = False
-            elif trend_type == 'damped_additive':
-                trend = 'add'
-                damped = True
-            elif trend_type == 'damped_multiplicative':
-                trend = 'mul'
-                damped = True
-            elif trend_type == 'polynomial_exponential':
-                pass
-        else:
-            trend = None
-            damped = False
-        if season_obj:
-            params['smoothing_seasonal'] = season_obj.get_delta()
-            seasonal_periods = season_obj.get_Array().get_n()
-            params['initial_seasons'] = np.array(season_obj.get_Array().get_valueOf_().strip().split(' '))
-            season_type = season_obj.get_type()
-            if season_type == 'additive':
-                seasonal = 'add'
-            elif season_type == 'multiplicative':
-                seasonal = 'mul'
-        else:
-            seasonal = None
-            seasonal_periods = None
-        # if ts_model_obj.get_Extension():  # if Extension elements exist in pmml file
-        #     for extension in ts_model_obj.get_Extension():
-        #        if extension.get_name() == 'initialLevel':
-        #            params['initial_level'] = extension.get_value()
-        #        if extension.get_name() == 'initialTrend':
-        #            params['initial_slope'] = extension.get_value()
-        stsmdl = hw.ExponentialSmoothing(ts_data, trend=trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
-                                         damped=damped)
-        return params, stsmdl
-
-    nyoka_pmml = parse(pmml_file_name, silence=False)
-    ts_model_obj = nyoka_pmml.TimeSeriesModel[0]
-    ts_data = get_ts_data_from_pmml(ts_model_obj)
-    params, stsmdl = get_params_model_from_pmml(ts_data, ts_model_obj)
-    return params, stsmdl
