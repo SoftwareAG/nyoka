@@ -42,6 +42,23 @@ NYOKA_LAYER_PARAMS = ['featureMaps', 'kernel', 'stride', 'paddingType',
 
 
 class KerasHeader(ny.Header):
+    """
+    Creates header for Keras PMML model file using Nyoka
+
+    Parameters
+    ----------
+    copyright : String
+        Adds the information about the copyright.
+    description : String
+        Description of the PMML file provided as a default
+    Timestamp : Datetime
+        Timestamp of the time when the file is created
+
+    Returns
+    -------
+    Nyoka header object
+    """ 
+ 
     def __init__(self, description, copyright):
         ny.Header.__init__(self, copyright=copyright,
                            description=description,
@@ -49,7 +66,51 @@ class KerasHeader(ny.Header):
 
 
 class KerasNetworkLayer(ny.NetworkLayer):
+    """
+    Creates Networklayer of PMML which has information about the layer type, weight matrix and bias matrix and their properties.
+
+    Parameters
+    ----------
+    inputFieldName : String
+        This parameter is required only for Input layer in keras
+    layerType : String
+        Any Keras layer (e.g. Input, Dense, Conv2D)
+    connectionLayerId : String
+        Name of the previous layer ID
+    layerId : String
+        Layer ID for defined layer
+    normalizationMethod : String
+        Name of normalization method here
+    LayerParameters : Nyoka LayerParamter Object
+        Nyoka's LayerParameter object which has information of Layerparamters (eg, input dimension and output dimension).
+    LayerWeights : Nyoka's LayerWeights object
+        LayerWeights goes inside the LayerParameters object and provide information about the weigth matrix of the layer.
+    LayerBias : Nyoka's LayerBias object
+        LayerBias goes inside the LayerParameters object and provide value of the bias matrix.
+
+    Returns
+    -------
+    Nyoka NetworkLayer object
+    """ 
+
     def _get_flatten_weights(self, weights):
+
+        """
+        Flattens the input
+
+        Parameters
+        ----------
+        weights : String
+            Array of weights
+
+        Returns
+        -------
+        flat_weights : array
+            Flattened input array in Base64String format
+
+        weights_shape : array
+            Shape of the flattened array
+        """ 
         flat_weights = []
         weights_shape = []
         if weights and isinstance(weights, list):
@@ -64,6 +125,19 @@ class KerasNetworkLayer(ny.NetworkLayer):
         return flat_weights, weights_shape
 
     def _get_enumerated_input_shape(self, input_shape):
+        """
+        Gets the input shape from the Keras Input layer 
+
+        Parameters
+        ----------
+        input_shape : array
+            Array of shape
+
+        Returns
+        -------
+        input_dims : array
+            Array of shape for Nyoka PMML
+        """ 
         input_dims = None
         if isinstance(input_shape, tuple):
             in_s = input_shape[1:]
@@ -79,6 +153,20 @@ class KerasNetworkLayer(ny.NetworkLayer):
         return input_dims
 
     def _get_activation_function(self, layer):
+        """
+        Identifies the Activation Function from a given Keras layer
+
+        Parameters
+        ----------
+        layer : String
+            A Keras Layer
+
+        Returns
+        -------
+        activation_function : array
+            Activation function of the given Keras layer
+
+        """ 
         layer_config = layer.get_config()
         if 'activation' in layer_config:
             activation_function = layer_config.get('activation')
@@ -95,6 +183,20 @@ class KerasNetworkLayer(ny.NetworkLayer):
         return activation_function
 
     def _get_layer_params_dict(self, layer):
+        """
+        Pull out the relevant Nyoka layer attributes matching with Keras layer attributes and pulls values for the respective attributes
+
+        Parameters
+        ----------
+        layer : String
+            A Keras Layer
+
+        Returns
+        -------
+        new_layer_params_dict : Dictionary
+            Nyoka Layer attributes in a dictionary format
+
+        """ 
         layer_params_dict = dict(zip(NYOKA_LAYER_PARAMS, KERAS_LAYER_PARAMS))
         layer_config = layer.get_config()
         new_layer_params_dict = {}
@@ -136,6 +238,22 @@ class KerasNetworkLayer(ny.NetworkLayer):
         return new_layer_params_dict
 
     def _get_layer_weights_n_biases(self, layer):
+         """
+        Pulls out the Weights and Bias matrix from a given Keras layer
+
+        Parameters
+        ----------
+        layer : String
+            A Keras Layer
+
+        Returns
+        -------
+        layer_weights : array
+            Weights of the Keras layer in Base64String format
+        layer_biases: array
+            Bias of the Keras layer in Base64String format
+
+        """ 
         layer_all_weights = layer.get_weights()
         layer_weights = layer_biases = biases = None
         if layer_all_weights:
@@ -167,6 +285,20 @@ class KerasNetworkLayer(ny.NetworkLayer):
         return layer_weights, layer_biases
 
     def _get_connection_layer_ids(self, layer):
+         """
+        Pulls out the Connection ID of the Keras layer
+
+        Parameters
+        ----------
+        layer : String
+            A Keras Layer
+
+        Returns
+        -------
+        connection_layers : String
+            The Layer ID of the Keras Layer
+
+        """ 
         node_config = layer._inbound_nodes[0].get_config()
         if node_config['inbound_layers']:
             connection_layers = ", ".join(node_config['inbound_layers'])
@@ -220,6 +352,20 @@ class KerasNetworkLayer(ny.NetworkLayer):
 
 
 class KerasDataDictionary(ny.DataDictionary):
+      """
+    KerasDataDictionary stores the class information to be predicted  in the PMML model.
+    The current implementation takes care of the Imagenet class label by giving dataset name as dataSet parameter.
+
+    Parameters
+    ----------
+    dataSet : String
+        Name of the dataset
+    predictedClasses : List
+        List of class names or values to be predicted.
+    Returns
+    -------
+    Nyoka's Dictionary Object
+    """ 
     def __init__(self, dataSet, predictedClasses):
         ny.DataDictionary.__init__(self)
         name = "image"
@@ -256,6 +402,18 @@ class KerasDataDictionary(ny.DataDictionary):
 
 
 class KerasMiningSchema(ny.MiningSchema):
+     """
+    KerasMiningSchema stores the attributes which are used to build the model.
+    
+    Parameters
+    ----------
+    dataSet : String
+        Name of the dataset
+
+    Returns
+    -------
+    Nyoka's Mining Schema Object
+    """ 
     def __init__(self, dataSet=None):
         name = "image"
         if dataSet and dataSet == "ImageNet":
@@ -270,6 +428,18 @@ class KerasMiningSchema(ny.MiningSchema):
 
 
 class KerasOutput(ny.Output):
+    """
+    KerasOutput provides the information about the output representation of the PMML. (e.g. Predicted classes, probabilities)
+    
+    Parameters
+    ----------
+    predictedClasses : List
+        List of Classes for which model has been trained
+
+    Returns
+    -------
+    Nyoka's Output Object
+    """ 
     def __init__(self, predictedClasses=None):
         ny.Output.__init__(self)
         ny.Output.add_OutputField(self, ny.OutputField(
@@ -284,6 +454,18 @@ class KerasOutput(ny.Output):
 
 
 class KerasLocalTransformations(ny.LocalTransformations):
+    """
+    KerasLocalTransformations provides the information about the list of transformations applied to the data.
+    
+    Parameters
+    ----------
+    model_name : String
+        Name of the model (internally used to be specific for Keras)
+
+    Returns
+    -------
+    Nyoka's Transformations Object
+    """ 
     def __init__(self, model_name):
         mod_indx = model_name.find("Keras")
         if mod_indx != -1:
@@ -297,9 +479,49 @@ class KerasLocalTransformations(ny.LocalTransformations):
 
 
 class KerasNetwork(ny.DeepNetwork):
-    """ model class which creates deep network model"""
+    """
+    KerasNetwork creates the DeepNetwork object which stores the NetworkLayer in sequence to define the architecture.
+    
+    Parameters
+    ----------
+    model_name : String
+        Name of the model 
+    functionName: String
+        Regression or Classification, currently supports classification functionName
+    numberOfLayers: Int
+        Number of layers in the architecture
+    isScorable: Boolean
+        True or False 
+    Extension: Nyoka's extention tag
+        Allows to pass extra information in Nyoka objects
+    MiningSchema: Nyoka's Mining schema object
+        Nyoka's miningschema object to be passed 
+    Output: Nyoka's Output object
+        Nyoka's Output object to be passed 
+    LocalTransformations: Nyoka's LocalTransformations object
+        Nyoka's LocalTransformations object to be passed 
+    NetworkLayer: Nyoka's LocalTransformations object
+        Nyoka's NetworkLayer object to be passed 
+
+    Returns
+    -------
+    Nyoka's DeepNetwork Object
+    """ 
+
 
     def _create_an_input_layer(self, layer):
+        """
+        Creates a PMML input layer from Keras Input Layer object
+        
+        Parameters
+        ----------
+        layer : Keras layer object
+    
+        Returns
+        -------
+        input_layer: Nyoka Object
+            PMML Input layer object
+        """ 
         in_shape = layer.input_shape
         if len(in_shape) == 1:
             input_dims = output_dims = str((in_shape[0],1))
@@ -318,7 +540,19 @@ class KerasNetwork(ny.DeepNetwork):
         return input_layer
 
     def _create_layers(self, keras_model):
-        """  Create list of network layers """
+        """   """
+        """
+        Create list of PMML network layers from Keras Model object.
+        
+        Parameters
+        ----------
+        keras_model : Keras model object
+    
+        Returns
+        -------
+        network_layers: Nyoka Object
+            PMML network layer object 
+        """ 
         network_layers = []
         model_layers = keras_model.layers
         first_layer = model_layers[0]
@@ -351,6 +585,25 @@ class KerasNetwork(ny.DeepNetwork):
 
 
 class KerasToPmml(ny.PMML):
+    """
+    KerasToPmml exports the Keras model object into PMML file using nyoka.
+    
+    Parameters
+    ----------
+    keras_model : keras model object
+        Keras model object 
+    model_name: String
+        Name to be given to the model in PMML.
+    dataSet: String (Optional)
+        Name of the dataset
+    predictedClasses : List
+        List of the class names for which model has been trained
+
+
+    Returns
+    -------
+    Creates PMML object, this can be saved in file using export function
+    """ 
     def __init__(self, keras_model, model_name="KerasNet",
                  description="Keras Models in PMML",
                  copyright="Internal User", dataSet=None, predictedClasses=None):
