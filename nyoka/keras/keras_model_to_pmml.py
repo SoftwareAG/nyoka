@@ -238,7 +238,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
         return new_layer_params_dict
 
     def _get_layer_weights_n_biases(self, layer):
-         """
+        """
         Pulls out the Weights and Bias matrix from a given Keras layer
 
         Parameters
@@ -285,7 +285,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
         return layer_weights, layer_biases
 
     def _get_connection_layer_ids(self, layer):
-         """
+        """
         Pulls out the Connection ID of the Keras layer
 
         Parameters
@@ -352,7 +352,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
 
 
 class KerasDataDictionary(ny.DataDictionary):
-      """
+    """
     KerasDataDictionary stores the class information to be predicted  in the PMML model.
     The current implementation takes care of the Imagenet class label by giving dataset name as dataSet parameter.
 
@@ -402,7 +402,7 @@ class KerasDataDictionary(ny.DataDictionary):
 
 
 class KerasMiningSchema(ny.MiningSchema):
-     """
+    """
     KerasMiningSchema stores the attributes which are used to build the model.
     
     Parameters
@@ -540,7 +540,6 @@ class KerasNetwork(ny.DeepNetwork):
         return input_layer
 
     def _create_layers(self, keras_model):
-        """   """
         """
         Create list of PMML network layers from Keras Model object.
         
