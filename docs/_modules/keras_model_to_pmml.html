@@ -1,0 +1,713 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>keras_model_to_pmml &#8212; Nyoka 1.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/my_theme.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for keras_model_to_pmml</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Classes used in keras_model_to_pmml.py</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">)</span>
+
+<span class="c1"># python imports</span>
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># nyoka imports</span>
+<span class="kn">import</span> <span class="nn">PMML43Ext</span> <span class="k">as</span> <span class="nn">ny</span>
+
+<span class="n">LAYERS_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+<span class="n">IMAGENET_INDEX_PATH</span> <span class="o">=</span> <span class="n">LAYERS_DIR</span> <span class="o">+</span> <span class="s2">&quot;/imagenet_class_index.json&quot;</span>
+
+<span class="n">KERAS_LAYER_TYPES_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;InputLayer&#39;</span><span class="p">:</span> <span class="s1">&#39;Input&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Add&#39;</span><span class="p">:</span> <span class="s1">&#39;MergeLayer&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Concatenate&#39;</span><span class="p">:</span> <span class="s1">&#39;MergeLayer&#39;</span><span class="p">}</span>
+
+<span class="n">KERAS_LAYER_PARAMS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;filters&#39;</span><span class="p">,</span> <span class="s1">&#39;kernel_size&#39;</span><span class="p">,</span> <span class="s1">&#39;strides&#39;</span><span class="p">,</span> <span class="s1">&#39;padding&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;input_shape&#39;</span><span class="p">,</span> <span class="s1">&#39;output_shape&#39;</span><span class="p">,</span> <span class="s2">&quot;activation&quot;</span><span class="p">,</span> <span class="s2">&quot;axis&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;epsilon&quot;</span><span class="p">,</span> <span class="s2">&quot;pool_size&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="s2">&quot;depth_multiplier&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;rate&quot;</span><span class="p">,</span> <span class="s2">&quot;dilation_rate&quot;</span><span class="p">]</span>
+
+<span class="n">NYOKA_LAYER_PARAMS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;featureMaps&#39;</span><span class="p">,</span> <span class="s1">&#39;kernel&#39;</span><span class="p">,</span> <span class="s1">&#39;stride&#39;</span><span class="p">,</span> <span class="s1">&#39;paddingType&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;inputDimension&#39;</span><span class="p">,</span> <span class="s1">&#39;outputDimension&#39;</span><span class="p">,</span>
+                      <span class="s2">&quot;activationFunction&quot;</span><span class="p">,</span> <span class="s2">&quot;axis&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;batchNormalizationEpsilon&quot;</span><span class="p">,</span> <span class="s2">&quot;poolSize&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;batchNormalizationScale&quot;</span><span class="p">,</span> <span class="s2">&quot;depthMultiplier&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;dropoutRate&quot;</span><span class="p">,</span> <span class="s2">&quot;dilationRate&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="KerasHeader"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasHeader">[docs]</a><span class="k">class</span> <span class="nc">KerasHeader</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">Header</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates header for Keras PMML model file using Nyoka</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    copyright : String</span>
+<span class="sd">        Adds the information about the copyright.</span>
+<span class="sd">    description : String</span>
+<span class="sd">        Description of the PMML file provided as a default</span>
+<span class="sd">    Timestamp : Datetime</span>
+<span class="sd">        Timestamp of the time when the file is created</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Nyoka header object</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+ 
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">copyright</span><span class="p">):</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">copyright</span><span class="o">=</span><span class="n">copyright</span><span class="p">,</span>
+                           <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+                           <span class="n">Timestamp</span><span class="o">=</span><span class="n">ny</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())))</span></div>
+
+
+<div class="viewcode-block" id="KerasNetworkLayer"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasNetworkLayer">[docs]</a><span class="k">class</span> <span class="nc">KerasNetworkLayer</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">NetworkLayer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates Networklayer of PMML which has information about the layer type, weight matrix and bias matrix and their properties.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputFieldName : String</span>
+<span class="sd">        This parameter is required only for Input layer in keras</span>
+<span class="sd">    layerType : String</span>
+<span class="sd">        Any Keras layer (e.g. Input, Dense, Conv2D)</span>
+<span class="sd">    connectionLayerId : String</span>
+<span class="sd">        Name of the previous layer ID</span>
+<span class="sd">    layerId : String</span>
+<span class="sd">        Layer ID for defined layer</span>
+<span class="sd">    normalizationMethod : String</span>
+<span class="sd">        Name of normalization method here</span>
+<span class="sd">    LayerParameters : Nyoka LayerParamter Object</span>
+<span class="sd">        Nyoka&#39;s LayerParameter object which has information of Layerparamters (eg, input dimension and output dimension).</span>
+<span class="sd">    LayerWeights : Nyoka&#39;s LayerWeights object</span>
+<span class="sd">        LayerWeights goes inside the LayerParameters object and provide information about the weigth matrix of the layer.</span>
+<span class="sd">    LayerBias : Nyoka&#39;s LayerBias object</span>
+<span class="sd">        LayerBias goes inside the LayerParameters object and provide value of the bias matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Nyoka NetworkLayer object</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+
+    <span class="k">def</span> <span class="nf">_get_flatten_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Flattens the input</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        weights : String</span>
+<span class="sd">            Array of weights</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        flat_weights : array</span>
+<span class="sd">            Flattened input array in Base64String format</span>
+
+<span class="sd">        weights_shape : array</span>
+<span class="sd">            Shape of the flattened array</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">flat_weights</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">weights_shape</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">weights</span><span class="p">:</span>
+                <span class="n">weights_shape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+                <span class="n">flat_weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+            <span class="n">flat_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">flat_weights</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">weights_shape</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">weights_shape</span><span class="p">),</span> <span class="n">item</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">weights_shape</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">weights_shape</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">flat_weights</span><span class="p">,</span> <span class="n">weights_shape</span>
+
+    <span class="k">def</span> <span class="nf">_get_enumerated_input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the input shape from the Keras Input layer </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_shape : array</span>
+<span class="sd">            Array of shape</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        input_dims : array</span>
+<span class="sd">            Array of shape for Nyoka PMML</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">input_dims</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_shape</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">in_s</span> <span class="o">=</span> <span class="n">input_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">input_dims</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">in_s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">input_dims</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">in_s</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_shape</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">new_shape_lst</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i_shape</span> <span class="ow">in</span> <span class="n">input_shape</span><span class="p">:</span>
+                <span class="n">new_shape_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">i_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])))</span>
+            <span class="n">input_dims</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">new_shape_lst</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">input_dims</span>
+
+    <span class="k">def</span> <span class="nf">_get_activation_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Identifies the Activation Function from a given Keras layer</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        layer : String</span>
+<span class="sd">            A Keras Layer</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        activation_function : array</span>
+<span class="sd">            Activation function of the given Keras layer</span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">layer_config</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;activation&#39;</span> <span class="ow">in</span> <span class="n">layer_config</span><span class="p">:</span>
+            <span class="n">activation_function</span> <span class="o">=</span> <span class="n">layer_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;activation&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">activation_function</span> <span class="o">==</span> <span class="s2">&quot;sigmoid&quot;</span><span class="p">:</span>
+                <span class="n">activation_function</span> <span class="o">=</span> <span class="s2">&quot;logistic&quot;</span>
+            <span class="k">elif</span> <span class="n">activation_function</span> <span class="o">==</span> <span class="s2">&quot;relu&quot;</span><span class="p">:</span>
+                <span class="c1">#activation_function = &quot;reLU&quot;</span>
+                <span class="n">activation_function</span> <span class="o">=</span> <span class="s2">&quot;rectifier&quot;</span>
+            <span class="k">elif</span> <span class="n">activation_function</span> <span class="o">==</span> <span class="s2">&quot;relu6&quot;</span><span class="p">:</span>
+                <span class="n">activation_function</span> <span class="o">=</span> <span class="s2">&quot;reLU6&quot;</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">activation_function</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">activation_function</span>
+
+    <span class="k">def</span> <span class="nf">_get_layer_params_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pull out the relevant Nyoka layer attributes matching with Keras layer attributes and pulls values for the respective attributes</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        layer : String</span>
+<span class="sd">            A Keras Layer</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        new_layer_params_dict : Dictionary</span>
+<span class="sd">            Nyoka Layer attributes in a dictionary format</span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">layer_params_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">NYOKA_LAYER_PARAMS</span><span class="p">,</span> <span class="n">KERAS_LAYER_PARAMS</span><span class="p">))</span>
+        <span class="n">layer_config</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+        <span class="n">new_layer_params_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">pad_dims</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">layer_params_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">layer_config</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s2">&quot;activation&quot;</span><span class="p">:</span>
+                    <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_activation_function</span><span class="p">(</span>
+                        <span class="n">layer</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">val</span> <span class="o">==</span> <span class="s2">&quot;padding&quot;</span><span class="p">:</span>
+                    <span class="n">pad_val</span> <span class="o">=</span> <span class="n">layer_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pad_val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                        <span class="n">one_d_tup</span> <span class="o">=</span> <span class="p">[</span><span class="n">em</span> <span class="k">for</span> <span class="n">tup</span> <span class="ow">in</span> <span class="n">pad_val</span> <span class="k">for</span> <span class="n">em</span> <span class="ow">in</span> <span class="n">tup</span><span class="p">]</span>
+                        <span class="n">pad_dims</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">one_d_tup</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pad_val</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">layer_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s2">&quot;input_shape&quot;</span><span class="p">:</span>
+                    <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_enumerated_input_shape</span><span class="p">(</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">val</span> <span class="o">==</span> <span class="s2">&quot;output_shape&quot;</span><span class="p">:</span>
+                    <span class="n">out_s</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">val</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out_s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">out_s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">out_s</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="ow">and</span> <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;None&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;paddingType&quot;</span> <span class="ow">and</span> <span class="n">pad_dims</span><span class="p">:</span>
+                    <span class="n">new_layer_params_dict</span><span class="p">[</span><span class="s2">&quot;paddingDims&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">new_layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">layer_params_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">new_layer_params_dict</span>
+
+    <span class="k">def</span> <span class="nf">_get_layer_weights_n_biases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pulls out the Weights and Bias matrix from a given Keras layer</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        layer : String</span>
+<span class="sd">            A Keras Layer</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        layer_weights : array</span>
+<span class="sd">            Weights of the Keras layer in Base64String format</span>
+<span class="sd">        layer_biases: array</span>
+<span class="sd">            Bias of the Keras layer in Base64String format</span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">layer_all_weights</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span>
+        <span class="n">layer_weights</span> <span class="o">=</span> <span class="n">layer_biases</span> <span class="o">=</span> <span class="n">biases</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">layer_all_weights</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s1">&#39;use_bias&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">layer</span><span class="o">.</span><span class="n">use_bias</span><span class="p">:</span>
+                <span class="n">biases</span> <span class="o">=</span> <span class="n">layer_all_weights</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">weights</span><span class="p">,</span> <span class="n">w_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_flatten_weights</span><span class="p">(</span>
+                    <span class="n">layer_all_weights</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">layer_weights</span> <span class="o">=</span> <span class="n">ny</span><span class="o">.</span><span class="n">LayerWeights</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span>
+                                                <span class="n">floatsPerLine</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                                <span class="n">weightsShape</span><span class="o">=</span><span class="n">w_shape</span><span class="p">,</span>
+                                                <span class="n">weightsFlattenAxis</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">weights</span><span class="p">,</span> <span class="n">w_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_flatten_weights</span><span class="p">(</span><span class="n">layer_all_weights</span><span class="p">)</span>
+                <span class="n">layer_weights</span> <span class="o">=</span> <span class="n">ny</span><span class="o">.</span><span class="n">LayerWeights</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span>
+                                                <span class="n">floatsPerLine</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                                <span class="n">weightsShape</span><span class="o">=</span><span class="n">w_shape</span><span class="p">,</span>
+                                                <span class="n">weightsFlattenAxis</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">biases</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">bs_shape</span> <span class="o">=</span> <span class="n">biases</span><span class="o">.</span><span class="n">shape</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bs_shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">final_bs_shape</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">bs_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">final_bs_shape</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">bs_shape</span><span class="p">)</span>
+                <span class="n">layer_biases</span> <span class="o">=</span> <span class="n">ny</span><span class="o">.</span><span class="n">LayerBias</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">biases</span><span class="p">,</span>
+                                            <span class="n">biasShape</span><span class="o">=</span><span class="n">final_bs_shape</span><span class="p">,</span>
+                                            <span class="n">biasFlattenAxis</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">,</span>
+                                            <span class="n">floatsPerLine</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">layer_weights</span><span class="p">,</span> <span class="n">layer_biases</span>
+
+    <span class="k">def</span> <span class="nf">_get_connection_layer_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pulls out the Connection ID of the Keras layer</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        layer : String</span>
+<span class="sd">            A Keras Layer</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        connection_layers : String</span>
+<span class="sd">            The Layer ID of the Keras Layer</span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">node_config</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">_inbound_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">node_config</span><span class="p">[</span><span class="s1">&#39;inbound_layers&#39;</span><span class="p">]:</span>
+            <span class="n">connection_layers</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">node_config</span><span class="p">[</span><span class="s1">&#39;inbound_layers&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">connection_layers</span> <span class="o">=</span> <span class="s2">&quot;na&quot;</span>
+        <span class="k">return</span> <span class="n">connection_layers</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">,</span> <span class="n">layer_type</span><span class="p">):</span>
+        <span class="n">merge_layer_op_type</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">merge_concat_axes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">input_filed_name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s2">&quot;Pmml&quot;</span> <span class="ow">in</span> <span class="n">layer_type</span><span class="p">:</span>
+            <span class="n">layer_type</span> <span class="o">=</span> <span class="n">layer_type</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+        <span class="n">old_layer_type</span> <span class="o">=</span> <span class="n">layer_type</span>
+        <span class="n">layer_type</span> <span class="o">=</span> <span class="n">KERAS_LAYER_TYPES_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">layer_type</span><span class="p">,</span> <span class="n">layer_type</span><span class="p">)</span>
+        <span class="n">layer_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_layer_params_dict</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+        <span class="n">layer_weights</span><span class="p">,</span> <span class="n">layer_biases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_layer_weights_n_biases</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+        <span class="n">connection_layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_connection_layer_ids</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">layer_type</span> <span class="o">==</span> <span class="s2">&quot;MergeLayer&quot;</span><span class="p">:</span>
+            <span class="n">merge_layer_op_type</span> <span class="o">=</span> <span class="n">old_layer_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">merge_layer_op_type</span> <span class="o">==</span> <span class="s2">&quot;concatenate&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;axis&quot;</span> <span class="ow">in</span> <span class="n">layer_params</span><span class="p">:</span>
+                    <span class="n">merge_concat_axes</span> <span class="o">=</span> <span class="n">layer_params</span><span class="p">[</span><span class="s2">&quot;axis&quot;</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">layer_params</span><span class="p">[</span><span class="s2">&quot;axis&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">layer_type</span> <span class="o">==</span> <span class="s2">&quot;BatchNormalization&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;axis&quot;</span> <span class="ow">in</span> <span class="n">layer_params</span><span class="p">:</span>
+                <span class="n">layer_params</span><span class="p">[</span><span class="s2">&quot;batchNormalizationAxis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layer_params</span><span class="p">[</span><span class="s2">&quot;axis&quot;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">layer_params</span><span class="p">[</span><span class="s2">&quot;axis&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;batchNormalizationScale&quot;</span> <span class="ow">in</span> <span class="n">layer_params</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">layer_params</span><span class="p">[</span><span class="s2">&quot;batchNormalizationScale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">layer_params</span><span class="p">[</span>
+                        <span class="s2">&quot;batchNormalizationScale&quot;</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">layer_params</span><span class="p">[</span><span class="s2">&quot;batchNormalizationScale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layer_params</span><span class="p">[</span>
+                        <span class="s2">&quot;batchNormalizationScale&quot;</span><span class="p">]</span>
+
+        <span class="n">layer_params</span><span class="p">[</span><span class="s2">&quot;mergeLayerOp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">merge_layer_op_type</span>
+        <span class="n">layer_params</span><span class="p">[</span><span class="s2">&quot;mergeLayerConcatOperationAxes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">merge_concat_axes</span>
+        <span class="k">if</span> <span class="n">layer_type</span> <span class="o">==</span> <span class="s2">&quot;Input&quot;</span><span class="p">:</span>
+            <span class="n">input_filed_name</span> <span class="o">=</span> <span class="s2">&quot;base64String&quot;</span>
+
+        <span class="n">ny</span><span class="o">.</span><span class="n">NetworkLayer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputFieldName</span><span class="o">=</span><span class="n">input_filed_name</span><span class="p">,</span>
+                                 <span class="n">layerType</span><span class="o">=</span><span class="n">layer_type</span><span class="p">,</span>
+                                 <span class="n">connectionLayerId</span><span class="o">=</span><span class="n">connection_layers</span><span class="p">,</span>
+                                 <span class="n">layerId</span><span class="o">=</span><span class="n">layer</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                 <span class="n">normalizationMethod</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                                 <span class="n">LayerParameters</span><span class="o">=</span><span class="n">ny</span><span class="o">.</span><span class="n">LayerParameters</span><span class="p">(</span>
+                                     <span class="o">**</span><span class="n">layer_params</span><span class="p">),</span>
+                                 <span class="n">LayerWeights</span><span class="o">=</span><span class="n">layer_weights</span><span class="p">,</span>
+                                 <span class="n">LayerBias</span><span class="o">=</span><span class="n">layer_biases</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="KerasDataDictionary"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasDataDictionary">[docs]</a><span class="k">class</span> <span class="nc">KerasDataDictionary</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">DataDictionary</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KerasDataDictionary stores the class information to be predicted  in the PMML model.</span>
+<span class="sd">    The current implementation takes care of the Imagenet class label by giving dataset name as dataSet parameter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataSet : String</span>
+<span class="sd">        Name of the dataset</span>
+<span class="sd">    predictedClasses : List</span>
+<span class="sd">        List of class names or values to be predicted.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Nyoka&#39;s Dictionary Object</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataSet</span><span class="p">,</span> <span class="n">predictedClasses</span><span class="p">):</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">DataDictionary</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
+        <span class="n">class_node</span> <span class="o">=</span> <span class="n">ny</span><span class="o">.</span><span class="n">DataField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;predictions&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">,</span>
+                                  <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dataSet</span> <span class="ow">and</span> <span class="n">dataSet</span> <span class="o">==</span> <span class="s2">&quot;ImageNet&quot;</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">IMAGENET_INDEX_PATH</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+                <span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">json_data</span><span class="p">)):</span>
+                    <span class="n">data_val</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                    <span class="n">class_node</span><span class="o">.</span><span class="n">add_Value</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data_val</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">dataSet</span> <span class="ow">and</span> <span class="n">predictedClasses</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">predictedClasses</span><span class="p">)</span><span class="o">==</span><span class="nb">list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pC</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span> <span class="k">for</span> <span class="n">pC</span> <span class="ow">in</span> <span class="n">predictedClasses</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not all classes are given as String. Values will be attempted to be converted to String.&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predictedClasses</span><span class="p">)):</span>
+                    <span class="n">data_val</span> <span class="o">=</span> <span class="n">predictedClasses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">class_node</span><span class="o">.</span><span class="n">add_Value</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data_val</span><span class="p">)))</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">predictedClasses</span><span class="p">)</span><span class="o">==</span><span class="nb">dict</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pC</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span> <span class="k">for</span> <span class="n">pC</span> <span class="ow">in</span> <span class="n">predictedClasses</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Class indices are expected as strings in dictionary keys. Keys will be attempted to be converted to String.&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predictedClasses</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+                    <span class="n">data_val</span> <span class="o">=</span> <span class="n">predictedClasses</span><span class="o">.</span><span class="n">keys</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">class_node</span><span class="o">.</span><span class="n">add_Value</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data_val</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted Classes not provided; regression model assumed.&quot;</span><span class="p">)</span>
+
+        <span class="n">ny</span><span class="o">.</span><span class="n">DataDictionary</span><span class="o">.</span><span class="n">add_DataField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ny</span><span class="o">.</span><span class="n">DataField</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;binary&quot;</span><span class="p">,</span>
+            <span class="n">mimeType</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span><span class="p">,</span> <span class="n">Extension</span><span class="o">=</span><span class="p">[</span><span class="n">ny</span><span class="o">.</span><span class="n">Extension</span><span class="p">(</span>
+                <span class="n">extender</span><span class="o">=</span><span class="s2">&quot;ADAPA&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;BINARY_BUFFERED&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">)]))</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">DataDictionary</span><span class="o">.</span><span class="n">add_DataField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_node</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="KerasMiningSchema"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasMiningSchema">[docs]</a><span class="k">class</span> <span class="nc">KerasMiningSchema</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">MiningSchema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KerasMiningSchema stores the attributes which are used to build the model.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataSet : String</span>
+<span class="sd">        Name of the dataset</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Nyoka&#39;s Mining Schema Object</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataSet</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
+        <span class="k">if</span> <span class="n">dataSet</span> <span class="ow">and</span> <span class="n">dataSet</span> <span class="o">==</span> <span class="s2">&quot;ImageNet&quot;</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">MiningSchema</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">MiningSchema</span><span class="o">.</span><span class="n">add_MiningField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ny</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">usageType</span><span class="o">=</span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
+            <span class="n">invalidValueTreatment</span><span class="o">=</span><span class="s2">&quot;asIs&quot;</span><span class="p">))</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">MiningSchema</span><span class="o">.</span><span class="n">add_MiningField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ny</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;predictions&quot;</span><span class="p">,</span> <span class="n">usageType</span><span class="o">=</span><span class="s2">&quot;predicted&quot;</span><span class="p">,</span>
+            <span class="n">invalidValueTreatment</span><span class="o">=</span><span class="s2">&quot;asIs&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="KerasOutput"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasOutput">[docs]</a><span class="k">class</span> <span class="nc">KerasOutput</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">Output</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KerasOutput provides the information about the output representation of the PMML. (e.g. Predicted classes, probabilities)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    predictedClasses : List</span>
+<span class="sd">        List of Classes for which model has been trained</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Nyoka&#39;s Output Object</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predictedClasses</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">Output</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">Output</span><span class="o">.</span><span class="n">add_OutputField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ny</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;predictedValue_predictions&quot;</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;predictedValue&quot;</span><span class="p">,</span>
+            <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">))</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">Output</span><span class="o">.</span><span class="n">add_OutputField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ny</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;top1_prob&quot;</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">predictedClasses</span><span class="p">:</span>
+            <span class="n">ny</span><span class="o">.</span><span class="n">Output</span><span class="o">.</span><span class="n">add_OutputField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ny</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;top5_prob&quot;</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;topCategories&quot;</span><span class="p">,</span> <span class="n">numTopCategories</span><span class="o">=</span><span class="s2">&quot;5&quot;</span><span class="p">,</span>
+                <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="KerasLocalTransformations"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasLocalTransformations">[docs]</a><span class="k">class</span> <span class="nc">KerasLocalTransformations</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">LocalTransformations</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KerasLocalTransformations provides the information about the list of transformations applied to the data.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model_name : String</span>
+<span class="sd">        Name of the model (internally used to be specific for Keras)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Nyoka&#39;s Transformations Object</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
+        <span class="n">mod_indx</span> <span class="o">=</span> <span class="n">model_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;Keras&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mod_indx</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">model_name</span> <span class="o">=</span> <span class="n">model_name</span><span class="p">[</span><span class="n">mod_indx</span> <span class="o">+</span> <span class="mi">5</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">LocalTransformations</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">LocalTransformations</span><span class="o">.</span><span class="n">add_DerivedField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ny</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;base64String&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="n">trainingBackend</span><span class="o">=</span><span class="s2">&quot;tensorflowChannelLast&quot;</span><span class="p">,</span> <span class="n">architectureName</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span>
+            <span class="n">Apply</span><span class="o">=</span><span class="n">ny</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s2">&quot;CNN:getBase64String&quot;</span><span class="p">,</span>
+                           <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">ny</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)])))</span></div>
+
+
+<div class="viewcode-block" id="KerasNetwork"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasNetwork">[docs]</a><span class="k">class</span> <span class="nc">KerasNetwork</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">DeepNetwork</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KerasNetwork creates the DeepNetwork object which stores the NetworkLayer in sequence to define the architecture.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model_name : String</span>
+<span class="sd">        Name of the model </span>
+<span class="sd">    functionName: String</span>
+<span class="sd">        Regression or Classification, currently supports classification functionName</span>
+<span class="sd">    numberOfLayers: Int</span>
+<span class="sd">        Number of layers in the architecture</span>
+<span class="sd">    isScorable: Boolean</span>
+<span class="sd">        True or False </span>
+<span class="sd">    Extension: Nyoka&#39;s extention tag</span>
+<span class="sd">        Allows to pass extra information in Nyoka objects</span>
+<span class="sd">    MiningSchema: Nyoka&#39;s Mining schema object</span>
+<span class="sd">        Nyoka&#39;s miningschema object to be passed </span>
+<span class="sd">    Output: Nyoka&#39;s Output object</span>
+<span class="sd">        Nyoka&#39;s Output object to be passed </span>
+<span class="sd">    LocalTransformations: Nyoka&#39;s LocalTransformations object</span>
+<span class="sd">        Nyoka&#39;s LocalTransformations object to be passed </span>
+<span class="sd">    NetworkLayer: Nyoka&#39;s LocalTransformations object</span>
+<span class="sd">        Nyoka&#39;s NetworkLayer object to be passed </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Nyoka&#39;s DeepNetwork Object</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+
+
+    <span class="k">def</span> <span class="nf">_create_an_input_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a PMML input layer from Keras Input Layer object</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        layer : Keras layer object</span>
+<span class="sd">    </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        input_layer: Nyoka Object</span>
+<span class="sd">            PMML Input layer object</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">in_shape</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">input_shape</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">input_dims</span> <span class="o">=</span> <span class="n">output_dims</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">input_dims</span> <span class="o">=</span> <span class="n">output_dims</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">in_shape</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">input_dims</span> <span class="o">=</span> <span class="n">output_dims</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+        <span class="n">node_config</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">_inbound_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+        <span class="n">connection_layers</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">node_config</span><span class="p">[</span><span class="s1">&#39;inbound_layers&#39;</span><span class="p">])</span>
+        <span class="n">input_layer</span> <span class="o">=</span> <span class="n">ny</span><span class="o">.</span><span class="n">NetworkLayer</span><span class="p">(</span>
+            <span class="n">inputFieldName</span><span class="o">=</span><span class="s2">&quot;base64String&quot;</span><span class="p">,</span> <span class="n">layerType</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span> <span class="n">layerId</span><span class="o">=</span><span class="n">connection_layers</span><span class="p">,</span>
+            <span class="n">connectionLayerId</span><span class="o">=</span><span class="s2">&quot;na&quot;</span><span class="p">,</span><span class="n">LayerParameters</span><span class="o">=</span><span class="n">ny</span><span class="o">.</span><span class="n">LayerParameters</span><span class="p">(</span>
+                <span class="n">inputDimension</span><span class="o">=</span><span class="n">input_dims</span><span class="p">,</span>
+                <span class="n">outputDimension</span><span class="o">=</span><span class="n">output_dims</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">input_layer</span>
+
+    <span class="k">def</span> <span class="nf">_create_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keras_model</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create list of PMML network layers from Keras Model object.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        keras_model : Keras model object</span>
+<span class="sd">    </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        network_layers: Nyoka Object</span>
+<span class="sd">            PMML network layer object </span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">network_layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">model_layers</span> <span class="o">=</span> <span class="n">keras_model</span><span class="o">.</span><span class="n">layers</span>
+        <span class="n">first_layer</span> <span class="o">=</span> <span class="n">model_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">first_layer</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="s2">&quot;InputLayer&quot;</span><span class="p">:</span>
+            <span class="n">input_layer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_an_input_layer</span><span class="p">(</span><span class="n">first_layer</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">input_layer</span><span class="p">:</span>
+                <span class="n">network_layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_layer</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">model_layers</span><span class="p">:</span>
+            <span class="n">layer_type</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;layer_type: &#39;</span> <span class="o">+</span> <span class="n">layer_type</span><span class="p">)</span>
+            <span class="n">net_layer</span> <span class="o">=</span> <span class="n">KerasNetworkLayer</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">layer_type</span><span class="p">)</span>
+            <span class="n">network_layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">net_layer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">network_layers</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keras_model</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">dataSet</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">predictedClasses</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">network_layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_layers</span><span class="p">(</span><span class="n">keras_model</span><span class="p">)</span>
+        <span class="n">local_trans</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">mining_schema</span> <span class="o">=</span> <span class="n">KerasMiningSchema</span><span class="p">(</span><span class="n">dataSet</span><span class="p">)</span>
+        <span class="c1"># if dataSet and dataSet == &quot;ImageNet&quot;:</span>
+        <span class="c1">#     local_trans = KerasLocalTransformations(model_name)</span>
+        <span class="n">local_trans</span> <span class="o">=</span> <span class="n">KerasLocalTransformations</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="n">ny</span><span class="o">.</span><span class="n">DeepNetwork</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelName</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span>
+                                <span class="n">functionName</span><span class="o">=</span><span class="s2">&quot;classification&quot;</span><span class="p">,</span> <span class="n">algorithmName</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                <span class="n">normalizationMethod</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">numberOfLayers</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">network_layers</span><span class="p">),</span>
+                                <span class="n">isScorable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">Extension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">MiningSchema</span><span class="o">=</span><span class="n">mining_schema</span><span class="p">,</span>
+                                <span class="n">Output</span><span class="o">=</span><span class="n">KerasOutput</span><span class="p">(</span><span class="n">predictedClasses</span><span class="p">),</span> <span class="n">LocalTransformations</span><span class="o">=</span><span class="n">local_trans</span><span class="p">,</span>
+                                <span class="n">ModelStats</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ModelExplanation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Targets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                <span class="n">NetworkLayer</span><span class="o">=</span><span class="n">network_layers</span><span class="p">,</span> <span class="n">NeuralOutputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                <span class="n">ModelVerification</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="KerasToPmml"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasToPmml">[docs]</a><span class="k">class</span> <span class="nc">KerasToPmml</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">PMML</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KerasToPmml exports the Keras model object into PMML file using nyoka.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keras_model : keras model object</span>
+<span class="sd">        Keras model object </span>
+<span class="sd">    model_name: String</span>
+<span class="sd">        Name to be given to the model in PMML.</span>
+<span class="sd">    dataSet: String (Optional)</span>
+<span class="sd">        Name of the dataset</span>
+<span class="sd">    predictedClasses : List</span>
+<span class="sd">        List of the class names for which model has been trained</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Creates PMML object, this can be saved in file using export function</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keras_model</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;KerasNet&quot;</span><span class="p">,</span>
+                 <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Keras Models in PMML&quot;</span><span class="p">,</span>
+                 <span class="n">copyright</span><span class="o">=</span><span class="s2">&quot;Internal User&quot;</span><span class="p">,</span> <span class="n">dataSet</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">predictedClasses</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">data_dict</span> <span class="o">=</span> <span class="n">KerasDataDictionary</span><span class="p">(</span><span class="n">dataSet</span><span class="p">,</span> <span class="n">predictedClasses</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">KerasToPmml</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">version</span><span class="o">=</span><span class="s2">&quot;4.4&quot;</span><span class="p">,</span> <span class="n">Header</span><span class="o">=</span><span class="n">KerasHeader</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="n">copyright</span><span class="p">),</span>
+            <span class="n">DataDictionary</span><span class="o">=</span><span class="n">data_dict</span><span class="p">,</span> <span class="n">DeepNetwork</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">KerasNetwork</span><span class="p">(</span><span class="n">keras_model</span><span class="o">=</span><span class="n">keras_model</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span>
+                             <span class="n">dataSet</span><span class="o">=</span><span class="n">dataSet</span><span class="p">,</span> <span class="n">predictedClasses</span><span class="o">=</span><span class="n">predictedClasses</span><span class="p">)])</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Nyoka</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../PMML43Ext.html">PMML43Ext module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">exponential_smoothing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">keras_model_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">lgb_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pre_process.html">pre_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">skl_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">xgboost_to_pmml module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Maintainer.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
