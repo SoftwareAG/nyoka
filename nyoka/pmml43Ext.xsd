@@ -1357,11 +1357,12 @@
         </xs:complexType>
     </xs:element>
 
+    <!-- Parameters -->
     <xs:element name="ParameterList">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="Parameter" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="Parameter" minOccurs="0" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -1369,11 +1370,11 @@
     <xs:element name="Parameter">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded" />
             </xs:sequence>
-            <xs:attribute name="name" type="xs:string" use="required"/>
-            <xs:attribute name="label" type="xs:string"/>
-            <xs:attribute name="referencePoint" type="REAL-NUMBER" default="0"/>
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <!-- only necessary so far for indicating training dataset sample size to be used in isolation forest -->
+            <xs:attribute name="value" type="xs:string" />
         </xs:complexType>
     </xs:element>
 
@@ -1785,21 +1786,30 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:simpleType name="LANGUAGES">
+    <xs:simpleType name="PROCESSING">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="preprocessing"/>
+            <xs:enumeration value="postprocessing"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- <xs:simpleType name="LANGUAGES">
         <xs:restriction base="xs:string">
             <xs:enumeration value="application/javascript"/>
             <xs:enumeration value="application/x-python"/>
             <xs:enumeration value="application/csharp"/>
         </xs:restriction>
-    </xs:simpleType>
+    </xs:simpleType> -->
     
     <xs:element name="script">
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
-            <xs:attribute name="id" type="xs:string"/>
-            <xs:attribute name="type" type="LANGUAGES"/>
+            <!-- <xs:attribute name="id" type="xs:string"/> -->
+            <xs:attribute name="for" type="xs:string" use="required"/>
+            <xs:attribute name="class" type="PROCESSING" use="required"/>
+            <!-- <xs:attribute name="type" type="LANGUAGES"/> -->
             <xs:anyAttribute/>
         </xs:complexType>
     </xs:element>
@@ -2599,11 +2609,12 @@
             <xs:attribute name="outputNeuron" type="NN-NEURON-IDREF" use="required"/>
         </xs:complexType>
     </xs:element>
+
     <xs:element name="Output">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="OutputField" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="OutputField" minOccurs="1" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -2611,82 +2622,88 @@
     <xs:element name="OutputField">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded" />
                 <xs:sequence minOccurs="0" maxOccurs="1">
                     <xs:element ref="Decisions" minOccurs="0" maxOccurs="1"/>
                     <xs:group ref="EXPRESSION" minOccurs="1" maxOccurs="1"/>
+                    <xs:element ref="Value" minOccurs="0" maxOccurs="unbounded" />
                 </xs:sequence>
             </xs:sequence>
-            <xs:attribute name="name" type="FIELD-NAME" use="required"/>
-            <xs:attribute name="displayName" type="xs:string"/>
-            <xs:attribute name="optype" type="OPTYPE"/>
+            <xs:attribute name="name" type="FIELD-NAME" use="required" />
+            <xs:attribute name="displayName" type="xs:string" />
+            <xs:attribute name="optype" type="OPTYPE" />
             <xs:attribute name="dataType" type="DATATYPE" use="required"/>
-            <xs:attribute name="targetField" type="FIELD-NAME"/>
-            <xs:attribute name="feature" type="RESULT-FEATURE" default="predictedValue"/>
-            <xs:attribute name="value" type="xs:string"/>
-            <xs:attribute name="numTopCategories" type="INT-NUMBER"/>
+            <xs:attribute name="targetField" type="FIELD-NAME" />
+            <xs:attribute name="feature" type="RESULT-FEATURE" default="predictedValue" />
+            <xs:attribute name="value" type="xs:string" />
+            <!-- You are feeling sleeepy......you see this in red font -->
+            <xs:attribute name="threshold" type="REAL-NUMBER" />
+            <!-- WAKE UP -->
             <xs:attribute name="ruleFeature" type="RULE-FEATURE" default="consequent"/>
             <xs:attribute name="algorithm" default="exclusiveRecommendation">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:enumeration value="recommendation"/>
-                        <xs:enumeration value="exclusiveRecommendation"/>
-                        <xs:enumeration value="ruleAssociation"/>
+                        <xs:enumeration value="recommendation" />
+                        <xs:enumeration value="exclusiveRecommendation" />
+                        <xs:enumeration value="ruleAssociation" />
                     </xs:restriction>
                 </xs:simpleType>
             </xs:attribute>
-            <xs:attribute name="rank" type="INT-NUMBER" default="1"/>
+            <xs:attribute name="rank" type="INT-NUMBER" default="1" />
             <xs:attribute name="rankBasis" default="confidence">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:enumeration value="confidence"/>
-                        <xs:enumeration value="support"/>
-                        <xs:enumeration value="lift"/>
-                        <xs:enumeration value="leverage"/>
-                        <xs:enumeration value="affinity"/>
+                        <xs:enumeration value="confidence" />
+                        <xs:enumeration value="support" />
+                        <xs:enumeration value="lift" />
+                        <xs:enumeration value="leverage" />
+                        <xs:enumeration value="affinity" />
                     </xs:restriction>
                 </xs:simpleType>
             </xs:attribute>
             <xs:attribute name="rankOrder" default="descending">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:enumeration value="descending"/>
-                        <xs:enumeration value="ascending"/>
+                        <xs:enumeration value="descending" />
+                        <xs:enumeration value="ascending" />
                     </xs:restriction>
                 </xs:simpleType>
             </xs:attribute>
-            <xs:attribute name="isMultiValued" default="0"/>
-            <xs:attribute name="segmentId" type="xs:string"/>
+            <xs:attribute name="isMultiValued" default="0" />
+            <xs:attribute name="segmentId" type="xs:string" />
             <xs:attribute name="isFinalResult" type="xs:boolean" default="true"/>
         </xs:complexType>
     </xs:element>
 
     <xs:simpleType name="RESULT-FEATURE">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="predictedValue"/>
-            <xs:enumeration value="predictedDisplayValue"/>
-            <xs:enumeration value="transformedValue"/>
-            <xs:enumeration value="decision"/>
-            <xs:enumeration value="probability"/>
-            <xs:enumeration value="topCategories"/>
-            <xs:enumeration value="affinity"/>
-            <xs:enumeration value="residual"/>
-            <xs:enumeration value="standardError"/>
-            <xs:enumeration value="clusterId"/>
-            <xs:enumeration value="clusterAffinity"/>
-            <xs:enumeration value="entityId"/>
-            <xs:enumeration value="entityAffinity"/>
-            <xs:enumeration value="warning"/>
-            <xs:enumeration value="ruleValue"/>
-            <xs:enumeration value="reasonCode"/>
-            <xs:enumeration value="antecedent"/>
-            <xs:enumeration value="consequent"/>
-            <xs:enumeration value="rule"/>
-            <xs:enumeration value="ruleId"/>
-            <xs:enumeration value="confidence"/>
-            <xs:enumeration value="support"/>
-            <xs:enumeration value="lift"/>
-            <xs:enumeration value="leverage"/>
+            <xs:enumeration value="predictedValue" />  
+            <xs:enumeration value="predictedDisplayValue" />
+            <xs:enumeration value="transformedValue" /> 
+            <xs:enumeration value="decision" />
+            <xs:enumeration value="probability" />
+            <!-- RED  Reeddd Reeeeeedddddd -->
+            <!-- iforest: outlier if score > threshold, ocsvm: outlier if score <= threshold  @%% -->
+            <xs:enumeration value="anomaly" />
+            <!-- SNAP!! -->
+            <xs:enumeration value="affinity" />
+            <xs:enumeration value="residual" />
+            <xs:enumeration value="standardError" />
+            <xs:enumeration value="clusterId" />
+            <xs:enumeration value="clusterAffinity" />
+            <xs:enumeration value="entityId" />
+            <xs:enumeration value="entityAffinity" />
+            <xs:enumeration value="warning" />
+            <xs:enumeration value="ruleValue" />
+            <xs:enumeration value="reasonCode" />
+            <xs:enumeration value="antecedent" />
+            <xs:enumeration value="consequent" />
+            <xs:enumeration value="rule" />
+            <xs:enumeration value="ruleId" />
+            <xs:enumeration value="confidence" />
+            <xs:enumeration value="support" />
+            <xs:enumeration value="lift" />
+            <xs:enumeration value="leverage" />
         </xs:restriction>
     </xs:simpleType>
 
@@ -2725,6 +2742,37 @@
             <xs:enumeration value="affinity"/>
         </xs:restriction>
     </xs:simpleType>
+
+    <xs:element name="AnomalyDetectionModel">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="MiningSchema" />
+                <xs:element ref="Output" minOccurs="0" />
+                <xs:element ref="LocalTransformations" minOccurs="0" />
+                <xs:element ref="ParameterList" minOccurs="0" />
+                <xs:element ref="ModelVerification" minOccurs="0" />
+                <!--allow any model type, but only one total -->
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:group ref="MODEL-ELEMENT" /> <!-- anything but AnomalyDetectionModel, anyway to enforce this -->
+                </xs:sequence>
+                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attribute name="modelName" type="xs:string" />
+			<xs:attribute name="sampleDataSize" type="xs:string" />
+            <xs:attribute name="functionName" type="MINING-FUNCTION" use="required" />
+            <xs:attribute name="algorithmType" type="ALGORITHM-TYPE" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="ALGORITHM-TYPE">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="iforest" />
+            <xs:enumeration value="fpof" />
+            <xs:enumeration value="ocsvm" />
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:element name="RegressionModel">
         <xs:complexType>
             <xs:sequence>

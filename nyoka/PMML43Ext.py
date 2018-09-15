@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Aug 29 19:55:55 2018 by generateDS.py version 2.28a.
+# Generated Fri Sep 14 22:25:09 2018 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -10,14 +10,14 @@
 #   ('--subclass-suffix', '')
 #   ('-o', 'nyoka.pmml.PMML43ExtSuper.py')
 #   ('-s', 'nyoka.pmml.PMML43Ext.py')
-#   ('-b', 'behaviors2.xml')
+#   ('-b', 'behaviorsDir.xml')
 #   ('-f', '')
 #
 # Command line arguments:
-#   nyoka.pmml.PMML43Ext.xsd
+#   ../nyoka.pmml.PMML43Ext.xsd
 #
 # Command line:
-#   /Users/pasha/Desktop/PMML/PMML43Ext/gds_local.py --no-warnings --export="write literal etree" --super="nyoka.pmml.PMML43ExtSuper" --subclass-suffix -o "nyoka.pmml.PMML43ExtSuper.py" -s "nyoka.pmml.PMML43Ext.py" -b "behaviors2.xml" -f nyoka.pmml.PMML43Ext.xsd
+#   /Users/pasha/Desktop/PMML/PMML43Ext/gds_local.py --no-warnings --export="write literal etree" --super="nyoka.pmml.PMML43ExtSuper" --subclass-suffix -o "nyoka.pmml.PMML43ExtSuper.py" -s "nyoka.pmml.PMML43Ext.py" -b "behaviorsDir.xml" -f ../nyoka.pmml.PMML43Ext.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML43Ext
@@ -26,7 +26,7 @@
 import sys
 from lxml import etree as etree_
 
-import PMML43ExtSuper as supermod
+import nyoka.pmml.PMML43ExtSuper as supermod
 
 def parsexml_(infile, parser=None, **kwargs):
     if parser is None:
@@ -1040,7 +1040,7 @@ class LayerWeights(supermod.LayerWeights):
         else:
             return None
 
-        from Base64 import FloatBase64
+        from nyoka.pmml.Base64 import FloatBase64
         if raw_content.find("+") > 0:
             return FloatBase64.to_floatArray_urlsafe(raw_content)
         else:
@@ -1108,7 +1108,7 @@ class LayerBias(supermod.LayerBias):
         else:
             return None
 
-        from Base64 import FloatBase64
+        from nyoka.pmml.Base64 import FloatBase64
         if raw_content.find("+") > 0:
             return FloatBase64.to_floatArray_urlsafe(raw_content)
         else:
@@ -1242,8 +1242,8 @@ supermod.ParameterList.subclass = ParameterList
 
 
 class Parameter(supermod.Parameter):
-    def __init__(self, name=None, label=None, referencePoint='0', Extension=None):
-        super(Parameter, self).__init__(name, label, referencePoint, Extension, )
+    def __init__(self, name=None, value=None, Extension=None):
+        super(Parameter, self).__init__(name, value, Extension, )
 
     #
     # XMLBehaviors
@@ -1418,7 +1418,6 @@ supermod.EventValues.subclass = EventValues
 
 
 class PMML(supermod.PMML):
-    """this is the root of the pmml document"""
     def __init__(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         super(PMML, self).__init__(version, Header, script, MiningBuildTask, DataDictionary, TransformationDictionary, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
 
@@ -1564,19 +1563,6 @@ supermod.MatCell.subclass = MatCell
 
 
 class Header(supermod.Header):
-    """The Header contains useful information about the PMML document.
-    
-    Note:
-        The :class:`Timestamp <nyoka.pmml.PMML43Ext.Timestamp>` is set automatically.
-    
-    Args:
-        copyright (str, optional): User copyright (appended with Software AG copyright)
-        description (str, optional): Human readable string describing the model
-        modelVersion (str, optional): User determined version
-        Extension (optional): ...
-        Application (optional): ...
-        Annotation (optional): ...
-        Timestamp (optional): ..."""
     def __init__(self, copyright=None, description=None, modelVersion=None, Extension=None, Application=None, Annotation=None, Timestamp=None):
         super(Header, self).__init__(copyright, description, modelVersion, Extension, Application, Annotation, Timestamp, )
 
@@ -2438,8 +2424,8 @@ supermod.Output.subclass = Output
 
 
 class OutputField(supermod.OutputField):
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, Apply=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
-        super(OutputField, self).__init__(name, displayName, optype, dataType, targetField, feature, value, numTopCategories, ruleFeature, algorithm, rank, rankBasis, rankOrder, isMultiValued, segmentId, isFinalResult, Extension, Decisions, Apply, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Aggregate, Lag, )
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, threshold=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, Apply=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None, Value=None):
+        super(OutputField, self).__init__(name, displayName, optype, dataType, targetField, feature, value, threshold, ruleFeature, algorithm, rank, rankBasis, rankOrder, isMultiValued, segmentId, isFinalResult, Extension, Decisions, Apply, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Aggregate, Lag, Value, )
 
     #
     # XMLBehaviors
@@ -2522,6 +2508,17 @@ class Decision(supermod.Decision):
     #
 supermod.Decision.subclass = Decision
 # end class Decision
+
+
+class AnomalyDetectionModel(supermod.AnomalyDetectionModel):
+    def __init__(self, modelName=None, sampleDataSize=None, functionName=None, algorithmType=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+        super(AnomalyDetectionModel, self).__init__(modelName, sampleDataSize, functionName, algorithmType, MiningSchema, Output, LocalTransformations, ParameterList, ModelVerification, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
+
+    #
+    # XMLBehaviors
+    #
+supermod.AnomalyDetectionModel.subclass = AnomalyDetectionModel
+# end class AnomalyDetectionModel
 
 
 class RegressionModel(supermod.RegressionModel):
@@ -4279,7 +4276,7 @@ def new_init():
         validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
         if floatType not in validFloatTypes:
             floatType = "float32"
-        from Base64 import FloatBase64
+        from nyoka.pmml.Base64 import FloatBase64
         base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
         base64string = base64string.replace("\n", "\n\t\t\t\t")
         self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]
@@ -4301,7 +4298,7 @@ def new_init():
         validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
         if floatType not in validFloatTypes:
             floatType = "float32"
-        from Base64 import FloatBase64
+        from nyoka.pmml.Base64 import FloatBase64
         base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
         base64string = base64string.replace("\n", "\n\t\t\t\t")
         self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]
