@@ -26,7 +26,7 @@
 import sys
 from lxml import etree as etree_
 
-import nyoka.pmml.PMML43ExtSuper as supermod
+import nyoka.PMML43ExtSuper as supermod
 
 def parsexml_(infile, parser=None, **kwargs):
     if parser is None:
@@ -1040,7 +1040,7 @@ class LayerWeights(supermod.LayerWeights):
         else:
             return None
 
-        from nyoka.pmml.Base64 import FloatBase64
+        from nyoka.Base64 import FloatBase64
         if raw_content.find("+") > 0:
             return FloatBase64.to_floatArray_urlsafe(raw_content)
         else:
@@ -1108,7 +1108,7 @@ class LayerBias(supermod.LayerBias):
         else:
             return None
 
-        from nyoka.pmml.Base64 import FloatBase64
+        from nyoka.Base64 import FloatBase64
         if raw_content.find("+") > 0:
             return FloatBase64.to_floatArray_urlsafe(raw_content)
         else:
@@ -4276,7 +4276,7 @@ def new_init():
         validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
         if floatType not in validFloatTypes:
             floatType = "float32"
-        from nyoka.pmml.Base64 import FloatBase64
+        from nyoka.Base64 import FloatBase64
         base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
         base64string = base64string.replace("\n", "\n\t\t\t\t")
         self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]
@@ -4298,7 +4298,7 @@ def new_init():
         validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
         if floatType not in validFloatTypes:
             floatType = "float32"
-        from nyoka.pmml.Base64 import FloatBase64
+        from nyoka.Base64 import FloatBase64
         base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
         base64string = base64string.replace("\n", "\n\t\t\t\t")
         self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]
