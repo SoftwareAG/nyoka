@@ -15,7 +15,7 @@ setup(
 	classifiers = [
 		"Development Status :: 5 - Production/Stable",
 		"License :: OSI Approved :: Apache Software License",
-		"Opearating System :: OS Independent",
+		"Operating System :: OS Independent",
 		"Programming Language :: Python :: 3",
 		"Intended Audience :: Developers",
 		"Topic :: Scientific/Engineering :: Artificial Intelligence"
