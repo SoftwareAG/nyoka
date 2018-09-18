@@ -76,10 +76,10 @@ nyoka requires:
 
 ## Installation
 
-You can install nyoka from GitHub with:
+You can install nyoka using:
 
 ```
-pip install --user --upgrade git+https://github.com/nyoka-pmml/nyoka.git
+pip install nyoka
 ```
 	
 ## Usage
