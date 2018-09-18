@@ -3,11 +3,13 @@ from setuptools import setup, find_packages
 setup(
 	name = "nyoka",
 	version = "1.0.0",
-	description = ''' Nyoka is a Python library for comprehensive support of the latest PMML standard plus extensions for data preprocessing, 
+	description = 'A Python library to export Machine Learning/ Deep Learning models into PMML',
+	long_description = ''' Nyoka is a Python library for comprehensive support of the latest PMML standard plus extensions for data preprocessing, 
 					  script execution and highly compacted representation of deep neural networks. Using Nyoka, Data Scientists can export a 
 					  large number of Machine Learning and Deep Learning models from popular Python frameworks into PMML by either using any of 
 					  the numerous included ready-to-use exporters or by creating their own exporter for specialized/individual model types by 
 					  simply calling a sequence of constructors.''',
+	long_description_content_type='text/plain',
 	author = "maintainer",
 	author_email = "maintainer@nyoka.org",
 	url = "https://github.com/nyoka-pmml/nyoka",
