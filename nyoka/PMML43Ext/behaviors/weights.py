@@ -16,7 +16,7 @@
         else:
             return None
 
-        from nyoka.pmml.Base64 import FloatBase64
+        from nyoka.Base64 import FloatBase64
         if raw_content.find("+") > 0:
             return FloatBase64.to_floatArray_urlsafe(raw_content)
         else:

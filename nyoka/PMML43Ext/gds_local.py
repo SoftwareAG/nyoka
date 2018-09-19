@@ -3920,7 +3920,7 @@ def update_progress(progress, status):
 def generateBuildStandard(wrt, prefix, element, keyword, delayed, hasChildren):
     progress = float(elementList.index(element.name) + 1) / float(len(elementList))
     curdir = os.path.abspath(os.curdir)
-    status = "nyoka.pmml." + os.path.basename(curdir) + "." + element.name
+    status = "nyoka." + os.path.basename(curdir) + "." + element.name
     update_progress(progress, status)
     any_type_child = None
     for child in element.getChildren():

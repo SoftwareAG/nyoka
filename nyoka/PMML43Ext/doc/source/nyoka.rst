@@ -1,17 +1,26 @@
-nyoka package
-=============
+Nyoka Package (PMML Modules)
+============================
 
-Subpackages
------------
+nyoka.Base64 module
+------------------------
 
-.. toctree::
+.. automodule:: nyoka.Base64
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-    nyoka.pmml
+nyoka.PMML43Ext module
+---------------------------
 
-Module contents
----------------
+.. automodule:: nyoka.PMML43Ext
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-.. automodule:: nyoka
+nyoka.PMML43ExtSuper module
+--------------------------------
+
+.. automodule:: nyoka.PMML43ExtSuper
     :members:
     :undoc-members:
     :show-inheritance:

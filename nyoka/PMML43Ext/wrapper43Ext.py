@@ -22,7 +22,7 @@ def new_init():
         validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
         if floatType not in validFloatTypes:
             floatType = "float32"
-        from nyoka.pmml.Base64 import FloatBase64
+        from nyoka.Base64 import FloatBase64
         base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
         base64string = base64string.replace("\n", "\n\t\t\t\t")
         self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]
@@ -44,7 +44,7 @@ def new_init():
         validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
         if floatType not in validFloatTypes:
             floatType = "float32"
-        from nyoka.pmml.Base64 import FloatBase64
+        from nyoka.Base64 import FloatBase64
         base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
         base64string = base64string.replace("\n", "\n\t\t\t\t")
         self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]

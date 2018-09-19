@@ -3,7 +3,15 @@
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build
+
+ifneq (command -v python3, )
+    SPHINXBUILD = python3 -msphinx
+else ifeq (python --version | grep "Python 3", )
+	SPHINXBUILD = python -msphinx
+else
+    $(error Building Sphinx documentation requires Python 3)
+endif
+
 SPHINXPROJ    = Nyoka
 SOURCEDIR     = source
 BUILDDIR      = build

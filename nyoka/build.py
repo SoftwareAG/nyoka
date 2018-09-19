@@ -59,9 +59,13 @@ wrapper43Ext = open(os.path.join(pmml43ExtFolderPath, "wrapper43Ext.py"), 'r')
 gen("PMML43Ext", pmml43ExtFolderPath)
 copy(pmml43ExtSuperPy, nyoka_pmml43ExtSuperPy)
 copy(pmml43ExtPy, nyoka_pmml43ExtPy)
-sed(r"pmml43Ext\b", "nyoka.pmml.PMML43Ext", nyoka_pmml43ExtPy)
-sed(r"pmml43ExtSuper\b", "nyoka.pmml.PMML43ExtSuper", nyoka_pmml43ExtPy)
+sed(r"pmml43Ext\b", "nyoka.PMML43Ext", nyoka_pmml43ExtPy)
+sed(r"pmml43ExtSuper\b", "nyoka.PMML43ExtSuper", nyoka_pmml43ExtPy)
 sed(r"def parse\(", "def parseSub(", nyoka_pmml43ExtPy)
 with open(nyoka_pmml43ExtPy, 'a') as f: f.write(wrapper43Ext.read())
 
-subprocess.call([sys.executable, os.path.join(curdir, "PMML43Ext", "doc.py"), "doc" if "doc" in sys.argv else ""], cwd=pmml43ExtFolderPath)
+subprocess.call([sys.executable,
+                 os.path.join(curdir, "PMML43Ext", "doc.py"),
+                 "doc" if "doc" in sys.argv else "",
+                 "open" if "open" in sys.argv else ""],
+                 cwd=pmml43ExtFolderPath)
