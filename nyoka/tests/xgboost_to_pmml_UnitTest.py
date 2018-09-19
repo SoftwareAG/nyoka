@@ -7,14 +7,14 @@ from sklearn_pandas import DataFrameMapper
 from sklearn.preprocessing import StandardScaler, Imputer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
-from lightgbm import LGBMRegressor,LGBMClassifier
-from nyoka import lgb_to_pmml
+from xgboost import XGBRegressor,XGBClassifier
+from nyoka import xgboost_to_pmml
 
 
 class TestMethods(unittest.TestCase):
 
     
-    def test_lgbm_01(self):
+    def test_xgboost_01(self):
 
         iris = datasets.load_iris()
         irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
@@ -24,17 +24,17 @@ class TestMethods(unittest.TestCase):
         target = 'Species'
 
         pipeline_obj = Pipeline([
-            ('lgbmc',LGBMClassifier())
+            ('lgbmc',XGBClassifier())
         ])
 
         pipeline_obj.fit(irisd[features],irisd[target])
 
-        lgb_to_pmml(pipeline_obj,features,target,"lgbmc_pmml.pmml")
+        xgboost_to_pmml(pipeline_obj,features,target,"xgbc_pmml.pmml")
 
-        self.assertEqual(os.path.isfile("lgbmc_pmml.pmml"),True)
+        self.assertEqual(os.path.isfile("xgbc_pmml.pmml"),True)
 
 
-    def test_lgbm_02(self):
+    def test_xgboost_02(self):
 
         auto = pd.read_csv('nyoka/tests/auto-mpg.csv')
         X = auto.drop(['mpg','car name'], axis=1)
@@ -44,17 +44,17 @@ class TestMethods(unittest.TestCase):
         target_name='mpg'
 
         pipeline_obj = Pipeline([
-            ('lgbmr',LGBMRegressor())
+            ('lgbmr',XGBRegressor())
         ])
 
         pipeline_obj.fit(auto[feature_names],auto[target_name])
 
-        lgb_to_pmml(pipeline_obj,feature_names,target_name,"lgbmr_pmml.pmml")
+        xgboost_to_pmml(pipeline_obj,feature_names,target_name,"xgbr_pmml.pmml")
 
-        self.assertEqual(os.path.isfile("lgbmr_pmml.pmml"),True)
+        self.assertEqual(os.path.isfile("xgbr_pmml.pmml"),True)
 
 
-    def test_lgbm_03(self):
+    def test_xgboost_03(self):
         
         iris = datasets.load_iris()
         irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
@@ -65,16 +65,16 @@ class TestMethods(unittest.TestCase):
 
         pipeline_obj = Pipeline([
             ('scaling',StandardScaler()), 
-            ('LGBMC_preprocess',LGBMClassifier(n_estimators=5))
+            ('LGBMC_preprocess',XGBClassifier(n_estimators=5))
         ])
 
         pipeline_obj.fit(irisd[features],irisd[target])
 
-        lgb_to_pmml(pipeline_obj,features,target,"lgbmc_pmml_preprocess.pmml")
+        xgboost_to_pmml(pipeline_obj,features,target,"xgbc_pmml_preprocess.pmml")
 
-        self.assertEqual(os.path.isfile("lgbmc_pmml_preprocess.pmml"),True)
+        self.assertEqual(os.path.isfile("xgbc_pmml_preprocess.pmml"),True)
 
-    def test_lgbm_04(self):
+    def test_xgboost_04(self):
         
         auto = pd.read_csv('nyoka/tests/auto-mpg.csv')
         X = auto.drop(['mpg'], axis=1)
@@ -89,13 +89,13 @@ class TestMethods(unittest.TestCase):
                 ('car name', CountVectorizer()),
                 (['displacement'],[StandardScaler()]) 
             ])),
-            ('lgbmr',LGBMRegressor())
+            ('lgbmr',XGBRegressor())
         ])
         pipeline_obj.fit(x_train,y_train)
         
-        lgb_to_pmml(pipeline_obj,feature_names,target_name,"lgbmr_pmml_preprocess.pmml")
+        xgboost_to_pmml(pipeline_obj,feature_names,target_name,"xgbr_pmml_preprocess.pmml")
 
-        self.assertEqual(os.path.isfile("lgbmr_pmml_preprocess.pmml"),True)
+        self.assertEqual(os.path.isfile("xgbr_pmml_preprocess.pmml"),True)
 
 if __name__=='__main__':
     unittest.main(warnings='ignore')
