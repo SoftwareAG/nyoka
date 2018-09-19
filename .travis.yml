@@ -6,3 +6,12 @@ cache: pip
 install: "pip install -r nyoka/tests/requirements.txt"
 script: 
   - python nyoka/tests/skl_to_pmml_UnitTest.py
+  - python nyoka/tests/lgbm_to_pmml_UnitTest.py
+notifications:
+  email:
+    recipients:
+      - maintainer@nyoka.org
+    on_success: never
+    on_failure: always
+after_failure: 
+  - git reset --hard HEAD^
