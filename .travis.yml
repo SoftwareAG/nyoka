@@ -11,13 +11,13 @@ before_script:
   - cd python-package
   - python setup.py install
   - cd ../../
-  - git clone --recursive https://github.com/Microsoft/LightGBM
-  - cd LightGBM
-  - mkdir build
-  - cd build
-  - cmake ..
-  - make -j4
-  - cd ../../
+#   - git clone --recursive https://github.com/Microsoft/LightGBM
+#   - cd LightGBM
+#   - mkdir build
+#   - cd build
+#   - cmake ..
+#   - make -j4
+#   - cd ../../
 script: 
   - python nyoka/tests/skl_to_pmml_UnitTest.py
   - python nyoka/tests/xgboost_to_pmml_UnitTest.py
