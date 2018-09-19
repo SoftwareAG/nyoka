@@ -603,12 +603,12 @@ class KerasToPmml(ny.PMML):
     -------
     Creates PMML object, this can be saved in file using export function
     """ 
-    def __init__(self, keras_model, model_name="KerasNet",
+    def __init__(self, keras_model, model_name="MobileNet",
                  description="Keras Models in PMML",
                  copyright="Internal User", dataSet=None, predictedClasses=None):
         data_dict = KerasDataDictionary(dataSet, predictedClasses)
         super(KerasToPmml, self).__init__(
-            version="4.4", Header=KerasHeader(description, copyright),
+            version="4.3Ext", Header=KerasHeader(description, copyright),
             DataDictionary=data_dict, DeepNetwork=[
                 KerasNetwork(keras_model=keras_model, model_name=model_name,
                              dataSet=dataSet, predictedClasses=predictedClasses)])
