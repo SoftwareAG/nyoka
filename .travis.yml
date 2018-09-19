@@ -8,8 +8,9 @@ before_script:
   - git clone --recursive https://github.com/dmlc/xgboost
   - cd xgboost
   - make -j4
+  - cd python-package
   - python setup.py install
-  - cd ..
+  - cd ../../
 script: 
   - python nyoka/tests/skl_to_pmml_UnitTest.py
   - python nyoka/tests/xgboost_to_pmml_UnitTest.py
