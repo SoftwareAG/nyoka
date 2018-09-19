@@ -12,5 +12,3 @@ notifications:
       - maintainer@nyoka.org
     on_success: never
     on_failure: always
-after_failure: 
-  - git reset --hard HEAD^
