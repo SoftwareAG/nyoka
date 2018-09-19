@@ -81,7 +81,7 @@ class TestMethods(unittest.TestCase):
 
 
     def test_sklearn_04(self):
-        titanic = pd.read_csv("titanic_train.csv")
+        titanic = pd.read_csv("nyoka/tests/titanic_train.csv")
 
         titanic['Embarked'] = titanic['Embarked'].fillna('S')
 
@@ -104,7 +104,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(os.path.isfile("gb_pmml.pmml"),True)
 
     def test_sklearn_05(self):
-        df = pd.read_csv('auto-mpg.csv')
+        df = pd.read_csv('nyoka/tests/auto-mpg.csv')
         X = df.drop(['mpg'],axis=1)
         y = df['mpg']
 
