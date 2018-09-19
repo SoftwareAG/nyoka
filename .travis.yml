@@ -3,13 +3,13 @@ python:
   - "3.5"
   - "3.6"
 cache: pip
-before_install:
+install: "pip install -r nyoka/tests/requirements.txt"
+before_script:
   - git clone --recursive https://github.com/dmlc/xgboost
   - cd xgboost
   - make -j4
   - cd python-package
   - sudo python setup.py install 
-install: "pip install -r nyoka/tests/requirements.txt"
 script: 
   - python nyoka/tests/skl_to_pmml_UnitTest.py
   - python nyoka/tests/lgbm_to_pmml_UnitTest.py
