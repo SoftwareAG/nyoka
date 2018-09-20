@@ -69,3 +69,6 @@ subprocess.call([sys.executable,
                  "doc" if "doc" in sys.argv else "",
                  "open" if "open" in sys.argv else ""],
                  cwd=pmml43ExtFolderPath)
+
+if "test" in sys.argv:
+    subprocess.call([sys.executable, os.path.join(curdir, "PMML43Ext", "test.py")])

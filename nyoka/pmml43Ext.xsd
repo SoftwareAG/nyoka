@@ -2636,6 +2636,7 @@
             <xs:attribute name="targetField" type="FIELD-NAME" />
             <xs:attribute name="feature" type="RESULT-FEATURE" default="predictedValue" />
             <xs:attribute name="value" type="xs:string" />
+            <xs:attribute name="numTopCategories" type="INT-NUMBER" />
             <!-- You are feeling sleeepy......you see this in red font -->
             <xs:attribute name="threshold" type="REAL-NUMBER" />
             <!-- WAKE UP -->
@@ -2682,6 +2683,7 @@
             <xs:enumeration value="transformedValue" /> 
             <xs:enumeration value="decision" />
             <xs:enumeration value="probability" />
+            <xs:enumeration value="topCategories" />
             <!-- RED  Reeddd Reeeeeedddddd -->
             <!-- iforest: outlier if score > threshold, ocsvm: outlier if score <= threshold  @%% -->
             <xs:enumeration value="anomaly" />
