@@ -1,6 +1,5 @@
 language: python
 python:
-  - "3.5"
   - "3.6"
 cache: pip
 install: "pip install -r nyoka/tests/requirements.txt"
@@ -11,13 +10,6 @@ before_script:
   - cd python-package
   - python setup.py install
   - cd ../../
-#   - git clone --recursive https://github.com/Microsoft/LightGBM
-#   - cd LightGBM
-#   - mkdir build
-#   - cd build
-#   - cmake ..
-#   - make -j4
-#   - cd ../../
 script: 
   - python nyoka/tests/skl_to_pmml_UnitTest.py
   - python nyoka/tests/xgboost_to_pmml_UnitTest.py
@@ -27,7 +19,6 @@ script:
   - jupyter nbconvert --to notebook --execute nyoka/tests/Nyoka_String_Export.ipynb
   - jupyter nbconvert --to notebook --execute nyoka/tests/Nyoka_Script_Tag.ipynb
   - jupyter nbconvert --to notebook --execute nyoka/tests/1_SVM.ipynb
-#   - python nyoka/tests/lgbm_to_pmml_UnitTest.py
 notifications:
   email:
     recipients:
