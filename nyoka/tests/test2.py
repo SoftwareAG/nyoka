@@ -80,13 +80,13 @@ def main():
     regression_model = create_resgression_model_with_fields()
     pmml = PMML(Header=header, DataDictionary=data_dict)
     pmml.add_RegressionModel(regression_model)
-    pmml.export(open("tests/regression_model.pmml","w"),0,"")
+    pmml.export(open("nyoka/tests/regression_model.pmml","w"),0,"")
     mining_schema = regression_model.MiningSchema
     regression_table = regression_model.get_RegressionTable()
 
 
     # cross verification test cases by parsing the same file and comparing different attributes
-    pmml2 = parse("tests/regression_model.pmml", False)
+    pmml2 = parse("nyoka/tests/regression_model.pmml", False)
     header2 = pmml2.Header
     timestamp2 = header2.Timestamp
     regression_model2 = pmml2.RegressionModel[0]
