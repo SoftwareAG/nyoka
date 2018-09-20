@@ -13,6 +13,8 @@ before_script:
 script: 
   - python nyoka/tests/skl_to_pmml_UnitTest.py
   - python nyoka/tests/xgboost_to_pmml_UnitTest.py
+  - python nyoka/tests/keras_to_pmml_UnitTest.py
+  - python nyoka/tests/statsmodels_to_pmml_UnitTest.py
   # - python nyoka/tests/testbase64.py
   - python nyoka/tests/test2.py
   - python nyoka/tests/test_script.py nyoka/tests/script_test.pmml nyoka/tests/script_tested.pmml
