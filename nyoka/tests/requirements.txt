@@ -7,4 +7,5 @@ lxml
 jupyter
 sklearn-pandas
 lightgbm
+h5py
 nyoka
