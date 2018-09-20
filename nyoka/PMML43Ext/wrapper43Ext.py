@@ -87,7 +87,7 @@ def new_init():
         self.content_ = [supermod.MixedContainer(1, 2, "", str(content))]
         self.valueOf_ = str(content)
 
-    def PMML_init(self, version='4.3', Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version='4.3', Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -101,6 +101,10 @@ def new_init():
             self.AssociationModel = []
         else:
             self.AssociationModel = AssociationModel
+        if AnomalyDetectionModel is None:
+                self.AnomalyDetectionModel = []
+        else:
+            self.AnomalyDetectionModel = AnomalyDetectionModel
         if BayesianNetworkModel is None:
             self.BayesianNetworkModel = []
         else:
@@ -293,7 +297,7 @@ def orig_init():
             self.content_ = content_
         self.valueOf_ = valueOf_
 
-    def PMML_init(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -308,6 +312,10 @@ def orig_init():
             self.AssociationModel = []
         else:
             self.AssociationModel = AssociationModel
+        if AnomalyDetectionModel is None:
+                self.AnomalyDetectionModel = []
+        else:
+            self.AnomalyDetectionModel = AnomalyDetectionModel
         if BayesianNetworkModel is None:
             self.BayesianNetworkModel = []
         else:

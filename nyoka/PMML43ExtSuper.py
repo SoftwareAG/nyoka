@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Sep 19 22:07:23 2018 by generateDS.py version 2.28a.
+# Generated Wed Sep 19 23:27:01 2018 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -22608,7 +22608,7 @@ class EventValues(GeneratedsSuper):
 class PMML(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def __init__(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = _cast(None, version)
         self.Header = Header
@@ -22626,6 +22626,10 @@ class PMML(GeneratedsSuper):
             self.AssociationModel = []
         else:
             self.AssociationModel = AssociationModel
+        if AnomalyDetectionModel is None:
+            self.AnomalyDetectionModel = []
+        else:
+            self.AnomalyDetectionModel = AnomalyDetectionModel
         if BayesianNetworkModel is None:
             self.BayesianNetworkModel = []
         else:
@@ -22734,6 +22738,11 @@ class PMML(GeneratedsSuper):
     def add_AssociationModel(self, value): self.AssociationModel.append(value)
     def insert_AssociationModel_at(self, index, value): self.AssociationModel.insert(index, value)
     def replace_AssociationModel_at(self, index, value): self.AssociationModel[index] = value
+    def get_AnomalyDetectionModel(self): return self.AnomalyDetectionModel
+    def set_AnomalyDetectionModel(self, AnomalyDetectionModel): self.AnomalyDetectionModel = AnomalyDetectionModel
+    def add_AnomalyDetectionModel(self, value): self.AnomalyDetectionModel.append(value)
+    def insert_AnomalyDetectionModel_at(self, index, value): self.AnomalyDetectionModel.insert(index, value)
+    def replace_AnomalyDetectionModel_at(self, index, value): self.AnomalyDetectionModel[index] = value
     def get_BayesianNetworkModel(self): return self.BayesianNetworkModel
     def set_BayesianNetworkModel(self, BayesianNetworkModel): self.BayesianNetworkModel = BayesianNetworkModel
     def add_BayesianNetworkModel(self, value): self.BayesianNetworkModel.append(value)
@@ -22839,6 +22848,7 @@ class PMML(GeneratedsSuper):
             self.DataDictionary is not None or
             self.TransformationDictionary or
             self.AssociationModel or
+            self.AnomalyDetectionModel or
             self.BayesianNetworkModel or
             self.BaselineModel or
             self.ClusteringModel or
@@ -22904,6 +22914,8 @@ class PMML(GeneratedsSuper):
             TransformationDictionary_.export(outfile, level, namespace_, name_='TransformationDictionary', pretty_print=pretty_print)
         for AssociationModel_ in self.AssociationModel:
             AssociationModel_.export(outfile, level, namespace_, name_='AssociationModel', pretty_print=pretty_print)
+        for AnomalyDetectionModel_ in self.AnomalyDetectionModel:
+            AnomalyDetectionModel_.export(outfile, level, namespace_, name_='AnomalyDetectionModel', pretty_print=pretty_print)
         for BayesianNetworkModel_ in self.BayesianNetworkModel:
             BayesianNetworkModel_.export(outfile, level, namespace_, name_='BayesianNetworkModel', pretty_print=pretty_print)
         for BaselineModel_ in self.BaselineModel:
@@ -22964,6 +22976,8 @@ class PMML(GeneratedsSuper):
             TransformationDictionary_.to_etree(element, name_='TransformationDictionary', mapping_=mapping_)
         for AssociationModel_ in self.AssociationModel:
             AssociationModel_.to_etree(element, name_='AssociationModel', mapping_=mapping_)
+        for AnomalyDetectionModel_ in self.AnomalyDetectionModel:
+            AnomalyDetectionModel_.to_etree(element, name_='AnomalyDetectionModel', mapping_=mapping_)
         for BayesianNetworkModel_ in self.BayesianNetworkModel:
             BayesianNetworkModel_.to_etree(element, name_='BayesianNetworkModel', mapping_=mapping_)
         for BaselineModel_ in self.BaselineModel:
@@ -23066,6 +23080,18 @@ class PMML(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('model_.AssociationModel(\n')
             AssociationModel_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
+        outfile.write('AnomalyDetectionModel=[\n')
+        level += 1
+        for AnomalyDetectionModel_ in self.AnomalyDetectionModel:
+            showIndent(outfile, level)
+            outfile.write('model_.AnomalyDetectionModel(\n')
+            AnomalyDetectionModel_.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -23342,6 +23368,11 @@ class PMML(GeneratedsSuper):
             obj_.build(child_)
             self.AssociationModel.append(obj_)
             obj_.original_tagname_ = 'AssociationModel'
+        elif nodeName_ == 'AnomalyDetectionModel':
+            obj_ = AnomalyDetectionModel.factory()
+            obj_.build(child_)
+            self.AnomalyDetectionModel.append(obj_)
+            obj_.original_tagname_ = 'AnomalyDetectionModel'
         elif nodeName_ == 'BayesianNetworkModel':
             obj_ = BayesianNetworkModel.factory()
             obj_.build(child_)
@@ -32056,7 +32087,7 @@ class Segmentation(GeneratedsSuper):
 class Segment(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, id=None, weight='1', Extension=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None):
+    def __init__(self, id=None, weight='1', Extension=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None):
         self.original_tagname_ = None
         self.id = _cast(None, id)
         self.weight = _cast(None, weight)
@@ -32070,6 +32101,7 @@ class Segment(GeneratedsSuper):
         self.True_ = True_
         self.False_ = False_
         self.AssociationModel = AssociationModel
+        self.AnomalyDetectionModel = AnomalyDetectionModel
         self.BayesianNetworkModel = BayesianNetworkModel
         self.BaselineModel = BaselineModel
         self.ClusteringModel = ClusteringModel
@@ -32116,6 +32148,8 @@ class Segment(GeneratedsSuper):
     def set_False(self, False_): self.False_ = False_
     def get_AssociationModel(self): return self.AssociationModel
     def set_AssociationModel(self, AssociationModel): self.AssociationModel = AssociationModel
+    def get_AnomalyDetectionModel(self): return self.AnomalyDetectionModel
+    def set_AnomalyDetectionModel(self, AnomalyDetectionModel): self.AnomalyDetectionModel = AnomalyDetectionModel
     def get_BayesianNetworkModel(self): return self.BayesianNetworkModel
     def set_BayesianNetworkModel(self, BayesianNetworkModel): self.BayesianNetworkModel = BayesianNetworkModel
     def get_BaselineModel(self): return self.BaselineModel
@@ -32169,6 +32203,7 @@ class Segment(GeneratedsSuper):
             self.True_ is not None or
             self.False_ is not None or
             self.AssociationModel is not None or
+            self.AnomalyDetectionModel is not None or
             self.BayesianNetworkModel is not None or
             self.BaselineModel is not None or
             self.ClusteringModel is not None or
@@ -32238,6 +32273,8 @@ class Segment(GeneratedsSuper):
             self.False_.export(outfile, level, namespace_, name_='False', pretty_print=pretty_print)
         if self.AssociationModel is not None:
             self.AssociationModel.export(outfile, level, namespace_, name_='AssociationModel', pretty_print=pretty_print)
+        if self.AnomalyDetectionModel is not None:
+            self.AnomalyDetectionModel.export(outfile, level, namespace_, name_='AnomalyDetectionModel', pretty_print=pretty_print)
         if self.BayesianNetworkModel is not None:
             self.BayesianNetworkModel.export(outfile, level, namespace_, name_='BayesianNetworkModel', pretty_print=pretty_print)
         if self.BaselineModel is not None:
@@ -32303,6 +32340,9 @@ class Segment(GeneratedsSuper):
         if self.AssociationModel is not None:
             AssociationModel_ = self.AssociationModel
             AssociationModel_.to_etree(element, name_='AssociationModel', mapping_=mapping_)
+        if self.AnomalyDetectionModel is not None:
+            AnomalyDetectionModel_ = self.AnomalyDetectionModel
+            AnomalyDetectionModel_.to_etree(element, name_='AnomalyDetectionModel', mapping_=mapping_)
         if self.BayesianNetworkModel is not None:
             BayesianNetworkModel_ = self.BayesianNetworkModel
             BayesianNetworkModel_.to_etree(element, name_='BayesianNetworkModel', mapping_=mapping_)
@@ -32422,6 +32462,12 @@ class Segment(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('AssociationModel=model_.AssociationModel(\n')
             self.AssociationModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.AnomalyDetectionModel is not None:
+            showIndent(outfile, level)
+            outfile.write('AnomalyDetectionModel=model_.AnomalyDetectionModel(\n')
+            self.AnomalyDetectionModel.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.BayesianNetworkModel is not None:
@@ -32588,6 +32634,11 @@ class Segment(GeneratedsSuper):
             obj_.build(child_)
             self.AssociationModel = obj_
             obj_.original_tagname_ = 'AssociationModel'
+        elif nodeName_ == 'AnomalyDetectionModel':
+            obj_ = AnomalyDetectionModel.factory()
+            obj_.build(child_)
+            self.AnomalyDetectionModel = obj_
+            obj_.original_tagname_ = 'AnomalyDetectionModel'
         elif nodeName_ == 'BayesianNetworkModel':
             obj_ = BayesianNetworkModel.factory()
             obj_.build(child_)
@@ -38329,7 +38380,7 @@ class Decision(GeneratedsSuper):
 class AnomalyDetectionModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, sampleDataSize=None, functionName=None, algorithmType=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def __init__(self, modelName=None, sampleDataSize=None, functionName=None, algorithmType=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, AnomalyDetectionModel_member=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.sampleDataSize = _cast(None, sampleDataSize)
@@ -38341,6 +38392,7 @@ class AnomalyDetectionModel(GeneratedsSuper):
         self.ParameterList = ParameterList
         self.ModelVerification = ModelVerification
         self.AssociationModel = AssociationModel
+        self.AnomalyDetectionModel = AnomalyDetectionModel_member
         self.BayesianNetworkModel = BayesianNetworkModel
         self.BaselineModel = BaselineModel
         self.ClusteringModel = ClusteringModel
@@ -38386,6 +38438,8 @@ class AnomalyDetectionModel(GeneratedsSuper):
     def set_ModelVerification(self, ModelVerification): self.ModelVerification = ModelVerification
     def get_AssociationModel(self): return self.AssociationModel
     def set_AssociationModel(self, AssociationModel): self.AssociationModel = AssociationModel
+    def get_AnomalyDetectionModel(self): return self.AnomalyDetectionModel
+    def set_AnomalyDetectionModel(self, AnomalyDetectionModel): self.AnomalyDetectionModel = AnomalyDetectionModel
     def get_BayesianNetworkModel(self): return self.BayesianNetworkModel
     def set_BayesianNetworkModel(self, BayesianNetworkModel): self.BayesianNetworkModel = BayesianNetworkModel
     def get_BaselineModel(self): return self.BaselineModel
@@ -38467,6 +38521,7 @@ class AnomalyDetectionModel(GeneratedsSuper):
             self.ParameterList is not None or
             self.ModelVerification is not None or
             self.AssociationModel is not None or
+            self.AnomalyDetectionModel is not None or
             self.BayesianNetworkModel is not None or
             self.BaselineModel is not None or
             self.ClusteringModel is not None or
@@ -38541,6 +38596,8 @@ class AnomalyDetectionModel(GeneratedsSuper):
             self.ModelVerification.export(outfile, level, namespace_, name_='ModelVerification', pretty_print=pretty_print)
         if self.AssociationModel is not None:
             self.AssociationModel.export(outfile, level, namespace_, name_='AssociationModel', pretty_print=pretty_print)
+        if self.AnomalyDetectionModel is not None:
+            self.AnomalyDetectionModel.export(outfile, level, namespace_, name_='AnomalyDetectionModel', pretty_print=pretty_print)
         if self.BayesianNetworkModel is not None:
             self.BayesianNetworkModel.export(outfile, level, namespace_, name_='BayesianNetworkModel', pretty_print=pretty_print)
         if self.BaselineModel is not None:
@@ -38610,6 +38667,9 @@ class AnomalyDetectionModel(GeneratedsSuper):
         if self.AssociationModel is not None:
             AssociationModel_ = self.AssociationModel
             AssociationModel_.to_etree(element, name_='AssociationModel', mapping_=mapping_)
+        if self.AnomalyDetectionModel is not None:
+            AnomalyDetectionModel_ = self.AnomalyDetectionModel
+            AnomalyDetectionModel_.to_etree(element, name_='AnomalyDetectionModel', mapping_=mapping_)
         if self.BayesianNetworkModel is not None:
             BayesianNetworkModel_ = self.BayesianNetworkModel
             BayesianNetworkModel_.to_etree(element, name_='BayesianNetworkModel', mapping_=mapping_)
@@ -38727,6 +38787,12 @@ class AnomalyDetectionModel(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('AssociationModel=model_.AssociationModel(\n')
             self.AssociationModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.AnomalyDetectionModel is not None:
+            showIndent(outfile, level)
+            outfile.write('AnomalyDetectionModel=model_.AnomalyDetectionModel(\n')
+            self.AnomalyDetectionModel.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.BayesianNetworkModel is not None:
@@ -38906,6 +38972,11 @@ class AnomalyDetectionModel(GeneratedsSuper):
             obj_.build(child_)
             self.AssociationModel = obj_
             obj_.original_tagname_ = 'AssociationModel'
+        elif nodeName_ == 'AnomalyDetectionModel':
+            obj_ = AnomalyDetectionModel.factory()
+            obj_.build(child_)
+            self.AnomalyDetectionModel = obj_
+            obj_.original_tagname_ = 'AnomalyDetectionModel'
         elif nodeName_ == 'BayesianNetworkModel':
             obj_ = BayesianNetworkModel.factory()
             obj_.build(child_)

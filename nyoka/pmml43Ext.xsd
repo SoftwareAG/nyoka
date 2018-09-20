@@ -1586,6 +1586,7 @@
     <xs:group name="MODEL-ELEMENT">
         <xs:choice>
             <xs:element ref="AssociationModel"/>
+            <xs:element ref="AnomalyDetectionModel"/>
             <xs:element ref="BayesianNetworkModel"/>
             <xs:element ref="BaselineModel"/>
             <xs:element ref="ClusteringModel"/>

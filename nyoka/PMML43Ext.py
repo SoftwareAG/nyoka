@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Sep 19 22:07:24 2018 by generateDS.py version 2.28a.
+# Generated Wed Sep 19 23:27:02 2018 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -1418,8 +1418,8 @@ supermod.EventValues.subclass = EventValues
 
 
 class PMML(supermod.PMML):
-    def __init__(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
-        super(PMML, self).__init__(version, Header, script, MiningBuildTask, DataDictionary, TransformationDictionary, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
+    def __init__(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+        super(PMML, self).__init__(version, Header, script, MiningBuildTask, DataDictionary, TransformationDictionary, AssociationModel, AnomalyDetectionModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
 
     #
     # XMLBehaviors
@@ -2098,8 +2098,8 @@ supermod.Segmentation.subclass = Segmentation
 
 
 class Segment(supermod.Segment):
-    def __init__(self, id=None, weight='1', Extension=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None):
-        super(Segment, self).__init__(id, weight, Extension, SimplePredicate, CompoundPredicate, SimpleSetPredicate, True_, False_, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, )
+    def __init__(self, id=None, weight='1', Extension=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None):
+        super(Segment, self).__init__(id, weight, Extension, SimplePredicate, CompoundPredicate, SimpleSetPredicate, True_, False_, AssociationModel, AnomalyDetectionModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, )
 
     #
     # XMLBehaviors
@@ -2511,8 +2511,8 @@ supermod.Decision.subclass = Decision
 
 
 class AnomalyDetectionModel(supermod.AnomalyDetectionModel):
-    def __init__(self, modelName=None, sampleDataSize=None, functionName=None, algorithmType=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
-        super(AnomalyDetectionModel, self).__init__(modelName, sampleDataSize, functionName, algorithmType, MiningSchema, Output, LocalTransformations, ParameterList, ModelVerification, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
+    def __init__(self, modelName=None, sampleDataSize=None, functionName=None, algorithmType=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, AnomalyDetectionModel_member=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+        super(AnomalyDetectionModel, self).__init__(modelName, sampleDataSize, functionName, algorithmType, MiningSchema, Output, LocalTransformations, ParameterList, ModelVerification, AssociationModel, AnomalyDetectionModel_member, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
 
     #
     # XMLBehaviors
@@ -4341,7 +4341,7 @@ def new_init():
         self.content_ = [supermod.MixedContainer(1, 2, "", str(content))]
         self.valueOf_ = str(content)
 
-    def PMML_init(self, version='4.3', Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version='4.3', Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -4355,6 +4355,10 @@ def new_init():
             self.AssociationModel = []
         else:
             self.AssociationModel = AssociationModel
+        if AnomalyDetectionModel is None:
+                self.AnomalyDetectionModel = []
+        else:
+            self.AnomalyDetectionModel = AnomalyDetectionModel
         if BayesianNetworkModel is None:
             self.BayesianNetworkModel = []
         else:
@@ -4547,7 +4551,7 @@ def orig_init():
             self.content_ = content_
         self.valueOf_ = valueOf_
 
-    def PMML_init(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -4562,6 +4566,10 @@ def orig_init():
             self.AssociationModel = []
         else:
             self.AssociationModel = AssociationModel
+        if AnomalyDetectionModel is None:
+                self.AnomalyDetectionModel = []
+        else:
+            self.AnomalyDetectionModel = AnomalyDetectionModel
         if BayesianNetworkModel is None:
             self.BayesianNetworkModel = []
         else:
