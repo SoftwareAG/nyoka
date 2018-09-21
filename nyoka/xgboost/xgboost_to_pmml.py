@@ -229,56 +229,11 @@ def get_segments_for_xgbr(model, derived_col_names, feature_names, target_name, 
     get_nodes_in_json_format = []
     for i in range(model.n_estimators):
         get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
-    main_key_value = generate_main_Key_Value(get_nodes_in_json_format)
     segmentation = pml.Segmentation(multipleModelMethod="sum",
-                                    Segment=generate_Segments_Equal_To_Estimators(main_key_value, derived_col_names,
+                                    Segment=generate_Segments_Equal_To_Estimators(get_nodes_in_json_format, derived_col_names,
                                                                                   feature_names))
     return segmentation
 
-def node_generator(dict_var):
-    """
-    This method yields all the nodes in a structured format
-
-    Parameters
-    ----------
-    dict_var: Dictionary
-        Contains a dictionary of JSON-format of the nodes.
-    Yield:
-    -------
-        Yields a list of nodes in a structured format.
-    """
-    for k, v in dict_var.items():
-        if k == "split_condition":
-            yield str(v)+' split_condition '+str(dict_var.get('split'))
-        elif k == "leaf":
-            yield str(v)+' score'
-
-        elif isinstance(v, list):
-            for i in range(len(v)-1,-1,-1):
-                for id_val in node_generator(v[i]):
-                    yield id_val
-
-def generate_main_Key_Value(fetch):
-    """
-    It returns a List where the nodes of the model are in a structured format.
-
-   Parameters
-   ----------
-   fetch: List
-       Contains nodes in JSON format
-   Returns:
-   -------
-   main_key_value:
-        Returns a list of nodes in a structured format.
-   """
-    main_key_value = []
-    for i in range(len(fetch)):
-        key_value = []
-        for k in node_generator(fetch[i]):
-            key_value.append(k)
-        if len(key_value) > 1:
-            main_key_value.append(key_value)
-    return main_key_value
 
 def mining_Field_For_First_Segment(feature_names):
     """
@@ -321,6 +276,30 @@ def replace_name_with_derivedColumnNames(original_name, derived_col_names):
         col_name = original_name
     return col_name
 
+
+def create_node(obj, main_node,derived_col_names):
+    def create_left_node(obj,derived_col_names):
+        nd = pml.Node()
+        nd.set_SimplePredicate(
+            pml.SimplePredicate(field=replace_name_with_derivedColumnNames(obj['split'], derived_col_names), operator='lessThan', value=obj['split_condition']))
+        create_node(obj['children'][0], nd, derived_col_names)
+        return nd
+
+    def create_right_node(obj,derived_col_names):
+        nd = pml.Node()
+        nd.set_SimplePredicate(
+            pml.SimplePredicate(field=replace_name_with_derivedColumnNames(obj['split'], derived_col_names), operator='greaterOrEqual', value=obj['split_condition']))
+        create_node(obj['children'][1], nd, derived_col_names)
+        return nd
+
+    if 'split' not in obj:
+        main_node.set_score(obj['leaf'])
+    else:
+
+        main_node.add_Node(create_left_node(obj,derived_col_names))
+        main_node.add_Node(create_right_node(obj,derived_col_names))
+
+
 def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
     """
     It returns number of Segments equal to the estimator of the model.
@@ -339,45 +318,23 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
          Returns list of segments equal to number of estimator of the model
     """
     segments_equal_to_estimators = []
-    main_node_list = []
-    node = []
-    for i, all_segments in zip(range(len(val)), val):
+    for i in range(len(val)):
         main_node = pml.Node(True_=pml.True_())
-        mining_field_for_innner_segments = col_names
         m_flds = []
-        for each_string in range(len(all_segments) - 1):
-            words = all_segments[each_string]
-            words = words.split(' ', 2)
-            if len(words) >= 3:
-                node_ = pml.Node()
-                node_.set_SimplePredicate(
-                    pml.SimplePredicate(field=replace_name_with_derivedColumnNames(words[2], derived_col_names),
-                                        operator="greaterOrEqual", value=words[0]))
-                node.append(node_)
-            elif len(words) == 2:
-                node[-1].set_score(words[0])
-                if len(node) == 1:
-                    main_node.add_Node(node[0])
-                    del node[0]
-                else:
-                    node[-2].add_Node(node[-1])
-                    del node[-1]
-
-        last_string = all_segments[-1].split(' ')
-        main_node.set_score(last_string[0])
-        main_node_list.append(main_node)
+        mining_field_for_innner_segments = col_names
+        create_node(val[i], main_node, derived_col_names)
 
         for name in mining_field_for_innner_segments:
             m_flds.append(pml.MiningField(name=name))
 
         segments_equal_to_estimators.append((pml.Segment(id=i + 1, True_=pml.True_(),
-                                                     TreeModel=pml.TreeModel(functionName="regression",
-                                                                         missingValueStrategy="none",
-                                                                         noTrueChildStrategy="returnLastPrediction",
-                                                                         splitCharacteristic="multiSplit",
-                                                                         Node=main_node,
-                                                                         MiningSchema=pml.MiningSchema(
-                                                                             MiningField=m_flds)))))
+                                                         TreeModel=pml.TreeModel(functionName="regression",
+                                                                                 missingValueStrategy="none",
+                                                                                 noTrueChildStrategy="returnLastPrediction",
+                                                                                 splitCharacteristic="multiSplit",
+                                                                                 Node=main_node,
+                                                                                 MiningSchema=pml.MiningSchema(
+                                                                                     MiningField=m_flds)))))
 
     return segments_equal_to_estimators
 
@@ -448,7 +405,6 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
         get_nodes_in_json_format=[]
         for i in range(model.n_estimators):
             get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
-        main_key_value = generate_main_Key_Value(get_nodes_in_json_format)
         mining_schema_for_1st_segment = mining_Field_For_First_Segment(feature_names)
         outputField = list()
         outputField.append(pml.OutputField(name="xgbValue", optype="continuous", dataType="float",
@@ -456,7 +412,7 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
         out = pml.Output(OutputField=outputField)
         oField=list()
         oField.append('xgbValue')
-        segments_equal_to_estimators = generate_Segments_Equal_To_Estimators(main_key_value, derived_col_names,
+        segments_equal_to_estimators = generate_Segments_Equal_To_Estimators(get_nodes_in_json_format, derived_col_names,
                                                                              feature_names)
         First_segment = add_segmentation(model,segments_equal_to_estimators, mining_schema_for_1st_segment, out, 1)
         last_segment = pml.Segment(True_=pml.True_(), id=2,
@@ -470,12 +426,11 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
         get_nodes_in_json_format = []
         for i in range(model.n_estimators * model.n_classes_):
             get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
-        main_key_value = generate_main_Key_Value(get_nodes_in_json_format)
         oField = list()
         for index in range(0, model.n_classes_):
             inner_segment = []
-            for in_seg in range(index, len(main_key_value), model.n_classes_):
-                inner_segment.append(main_key_value[in_seg])
+            for in_seg in range(index, len(get_nodes_in_json_format), model.n_classes_):
+                inner_segment.append(get_nodes_in_json_format[in_seg])
             mining_schema_for_1st_segment = mining_Field_For_First_Segment(feature_names)
             outputField = list()
             outputField.append(pml.OutputField(name='xgbValue(' + str(index) + ')', optype="continuous",
