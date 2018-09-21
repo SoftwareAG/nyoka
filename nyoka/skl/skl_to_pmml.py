@@ -12,7 +12,7 @@ from collections import OrderedDict
 
 from pprint import pprint
 
-def skl_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_sklearn.pmml'):
+def skl_to_pmml(pipeline, col_names, target_name=None, pmml_f_name='from_sklearn.pmml'):
 
     """
     Exports scikit-learn pipeline object into pmml
@@ -102,6 +102,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                               'LinearDiscriminantAnalysis')
     tree_model_names = ('BaseDecisionTree',)
     support_vector_model_names = ('SVC', 'SVR')
+    anomaly_model_names = ('OneClassSVM',)
     naive_bayes_model_names = ('GaussianNB',)
     mining_model_names = ('BaseEnsemble',)
     neurl_netwk_model_names = ('MLPClassifier', 'MLPRegressor')
@@ -153,6 +154,15 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                       col_names,
                                                       target_name,
                                                       mining_imp_val)}
+
+    elif any_in(anomaly_model_names, skl_mdl_super_cls_names):
+        algo_kwargs = {'AnomalyDetectionModel':
+                            get_anomalydetection_model(model,
+                                                        derived_col_names,
+                                                        col_names,
+                                                        target_name,
+                                                        mining_imp_val,
+                                                        categoric_values)}
     else:
         algo_kwargs = None
     return algo_kwargs
@@ -184,6 +194,41 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val):
     model_kwargs['MiningSchema'] = get_mining_schema(model, col_names, target_name, mining_imp_val)
     model_kwargs['Output'] = get_output(model, target_name)
     return model_kwargs
+
+def get_anomalydetection_model(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+    anomaly_detection_model = list()
+    anomaly_detection_model.append(
+        pml.AnomalyDetectionModel(
+            modelName="OneClassSVM",
+            algorithmType="ocsvm",
+            functionName="regression",
+            MiningSchema=get_mining_schema(model, col_names, target_name, mining_imp_val),
+            Output=get_anomaly_detection_output(),
+            SupportVectorMachineModel=get_supportVectorMachine_models(model,
+                                                           derived_col_names,
+                                                           col_names,
+                                                           target_name,
+                                                           mining_imp_val,
+                                                           categoric_values)[0]
+        )
+    )
+    return anomaly_detection_model
+
+def get_anomaly_detection_output():
+    output_fields = list()
+    output_fields.append(pml.OutputField(
+        name="anomalyScore",
+        feature="predictedValue",
+        optype="continuous",
+        dataType="float"))
+    output_fields.append(pml.OutputField(
+        name="anomaly",
+        feature="anomaly",
+        optype="categorical",
+        dataType="boolean",
+        threshold="0"
+    ))
+    return pml.Output(OutputField=output_fields)
 
 
 def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name, mining_imp_val):
@@ -501,6 +546,7 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
     supportVector_models = list()
     kernel_type = get_kernel_type(model)
     supportVector_models.append(pml.SupportVectorMachineModel(
+        modelName=get_model_name(model),
         classificationMethod=get_classificationMethod(model),
         VectorDictionary=get_vectorDictionary(model, derived_col_names, categoric_values ),
         SupportVectorMachine=get_supportVectorMachine(model),
@@ -509,6 +555,9 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
     ))
     return supportVector_models
 
+def get_model_name(model):
+    if 'OneClassSVM' in str(model.__class__):
+        return 'ocsvm' 
 
 def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     
@@ -970,7 +1019,7 @@ def get_supportVectorMachine(model):
 
     """
     support_vector_machines = list()
-    if 'SVR' in str(model.__class__):
+    if 'SVR' or 'OneClassSVM' in str(model.__class__):
         support_vector = list()
         for sv in model.support_:
             support_vector.append(pml.SupportVector(vectorId=sv))
@@ -1333,8 +1382,16 @@ def get_output(model, target_name):
     """
     mining_func = get_mining_func(model)
     output_fields = list()
-    alt_target_name = 'predicted_' + target_name
-    output_fields.append(pml.OutputField(name=alt_target_name))
+    if 'OneClassSVM' in str(model.__class__):
+        output_fields.append(pml.OutputField(
+                name='svm_out',
+                feature="predictedValue",
+                optype="continuous",
+                dataType="double"
+            ))
+    else:
+        alt_target_name = 'predicted_' + target_name
+        output_fields.append(pml.OutputField(name=alt_target_name))
     if mining_func == 'classification':
         for cls in model.classes_:
             output_fields.append(pml.OutputField(
@@ -1431,9 +1488,10 @@ def get_mining_schema(model, feature_names, target_name, mining_imp_val):
             mining_flds.append(pml.MiningField(name=str(feat_name),
                                                optype=features_pmml_optype[feat_idx],
                                                usageType=features_pmml_utype[feat_idx]))
-    mining_flds.append(pml.MiningField(name=target_name,
-                                       optype=target_pmml_optype,
-                                        usageType=target_pmml_utype))
+    if 'OneClassSVM' not in str(model.__class__):
+        mining_flds.append(pml.MiningField(name=target_name,
+                                        optype=target_pmml_optype,
+                                            usageType=target_pmml_utype))
     return pml.MiningSchema(MiningField=mining_flds)
 
 
@@ -1688,12 +1746,13 @@ def get_data_dictionary(model, feature_names, target_name, categoric_values):
         data_fields.append(pml.DataField(name=str(feat_name),
                                          optype=features_pmml_optype[feature_idx],
                                          dataType=features_pmml_dtype[feature_idx]))
-    class_node = pml.DataField(name=str(target_name), optype=target_pmml_optype,
-                               dataType=target_pmml_dtype)
+    if 'OneClassSVM' not in str(model.__class__):
+        class_node = pml.DataField(name=str(target_name), optype=target_pmml_optype,
+                                dataType=target_pmml_dtype)
 
-    for class_value in target_attr_values:
-        class_node.add_Value(pml.Value(value=str(class_value)))
-    data_fields.append(class_node)
+        for class_value in target_attr_values:
+            class_node.add_Value(pml.Value(value=str(class_value)))
+        data_fields.append(class_node)
     data_dict = pml.DataDictionary(numberOfFields=len(data_fields), DataField=data_fields)
     return data_dict
 
