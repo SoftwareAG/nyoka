@@ -5,12 +5,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import numpy as np
 import PMML43Ext as pml
-import json
 from skl import pre_process as pp
 from datetime import datetime
-from collections import OrderedDict
-
-from pprint import pprint
 
 def skl_to_pmml(pipeline, col_names, target_name=None, pmml_f_name='from_sklearn.pmml'):
 
@@ -58,6 +54,7 @@ def skl_to_pmml(pipeline, col_names, target_name=None, pmml_f_name='from_sklearn
                                       target_name,
                                       mining_imp_val,
                                       categoric_values)
+             
         pmml = pml.PMML(
             version=get_version(),
             Header=get_header(),
@@ -107,6 +104,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
     mining_model_names = ('BaseEnsemble',)
     neurl_netwk_model_names = ('MLPClassifier', 'MLPRegressor')
     nearest_neighbour_names = ('NeighborsBase',)
+    clustering_model_names = ('KMeans',)
     if any_in(tree_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'TreeModel': get_tree_models(model,
                                                     derived_col_names,
@@ -154,7 +152,6 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                       col_names,
                                                       target_name,
                                                       mining_imp_val)}
-
     elif any_in(anomaly_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'AnomalyDetectionModel':
                             get_anomalydetection_model(model,
@@ -163,8 +160,17 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                         target_name,
                                                         mining_imp_val,
                                                         categoric_values)}
+    elif any_in(clustering_model_names, skl_mdl_super_cls_names):
+        algo_kwargs = {'ClusteringModel':
+                            get_clustering_model(model,
+                                                    derived_col_names,
+                                                    col_names,
+                                                    target_name,
+                                                    mining_imp_val
+                                                 )}
     else:
         algo_kwargs = None
+
     return algo_kwargs
 
 
@@ -187,15 +193,42 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val):
     Returns
     -------
     model_kwargs : Dictionary
-        Returns  functionname, MiningSchema and Output of the sk_model object
+        Returns  function name, MiningSchema and Output of the sk_model object
     """
     model_kwargs = dict()
     model_kwargs['functionName'] = get_mining_func(model)
     model_kwargs['MiningSchema'] = get_mining_schema(model, col_names, target_name, mining_imp_val)
     model_kwargs['Output'] = get_output(model, target_name)
+
     return model_kwargs
 
+
 def get_anomalydetection_model(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+    """
+    It returns the KMean Clustering model element.
+
+    Parameters
+    ----------
+    model :
+        An instance of Scikit-learn model.
+    derived_col_names : List
+        Contains column names after preprocessing
+    col_names : List
+        Contains list of feature/column names.
+    target_name : String
+        Name of the Target column.
+    mining_imp_val : tuple
+        Contains the mining_attributes,mining_strategy, mining_impute_value
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
+
+
+    Returns
+    -------
+    anomaly_detection_model :List
+        Returns an anomaly detection model within a list
+
+    """
     anomaly_detection_model = list()
     anomaly_detection_model.append(
         pml.AnomalyDetectionModel(
@@ -214,7 +247,18 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
     )
     return anomaly_detection_model
 
+
 def get_anomaly_detection_output():
+    """
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    output_fields :
+        Returns  an Output instance of anomaly detection model
+    """
     output_fields = list()
     output_fields.append(pml.OutputField(
         name="anomalyScore",
@@ -229,6 +273,129 @@ def get_anomaly_detection_output():
         threshold="0"
     ))
     return pml.Output(OutputField=output_fields)
+
+
+def get_clustering_model(model, derived_col_names, col_names, target_name, mining_imp_val):
+    """
+    It returns the KMean Clustering model element.
+
+    Parameters
+    ----------
+    model :
+        An instance of Scikit-learn model.
+    derived_col_names : List
+        Contains column names after preprocessing
+    col_names : List
+        Contains list of feature/column names.
+    target_name : String
+        Name of the Target column.
+
+
+    Returns
+    -------
+    clustering_models :List
+        Returns a KMean Clustering model within a list
+
+    """
+
+    clustering_models = list()
+    model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
+    clustering_models.append(
+        pml.ClusteringModel(
+            modelClass="centerBased",
+            numberOfClusters=get_cluster_num(model),
+            ComparisonMeasure=get_comp_measure(),
+            ClusteringField=get_clustering_flds(derived_col_names),
+            Cluster=get_cluster_vals(model),
+            **model_kwargs
+
+        )
+    )
+
+    return clustering_models
+
+
+def get_cluster_vals(model):
+    """
+
+    Parameters
+    ----------
+    model :
+        An instance of Scikit-learn model.
+
+    Returns
+    -------
+    cluster_flds :List
+        Returns a list of Cluster instances
+
+    """
+    centroids = model.cluster_centers_
+    cluster_flds = []
+    for centroid_idx in range(centroids.shape[0]):
+        centroid_values = ""
+        centroid_flds = pml.ArrayType(type_="real")
+        for centroid_cordinate_idx in range(centroids.shape[1]):
+            centroid_flds.content_[0].value = centroid_values + str(centroids[centroid_idx][centroid_cordinate_idx])
+            centroid_values = centroid_flds.content_[0].value + " "
+        cluster_flds.append(pml.Cluster(id=str(centroid_idx), name="clus-" + str(centroid_idx), Array=centroid_flds))
+    return cluster_flds
+
+
+def get_cluster_num(model):
+    """
+
+    Parameters
+    ----------
+    model :
+        An instance of Scikit-learn model.
+
+    Returns
+    -------
+
+    model.n_clusters: Integer
+
+        Returns the number of clusters
+
+    """
+    return model.n_clusters
+
+
+def get_comp_measure():
+    """
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+
+        Returns an instance of comparision measure
+
+    """
+    comp_equation = pml.squaredEuclidean()
+    return pml.ComparisonMeasure(squaredEuclidean=comp_equation, kind="distance")
+
+
+def get_clustering_flds(col_names):
+    """
+
+    Parameters
+    ----------
+    col_names :
+        Contains list of feature/column names.
+
+    Returns
+    -------
+
+    clustering_flds: List
+
+        Returns the list containing clustering field instances
+
+    """
+    clustering_flds = []
+    for name in col_names:
+        clustering_flds.append(pml.ClusteringField(field=str(name)))
+    return clustering_flds
 
 
 def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name, mining_imp_val):
@@ -548,7 +715,7 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
     supportVector_models.append(pml.SupportVectorMachineModel(
         modelName=get_model_name(model),
         classificationMethod=get_classificationMethod(model),
-        VectorDictionary=get_vectorDictionary(model, derived_col_names, categoric_values ),
+        VectorDictionary=get_vectorDictionary(model, derived_col_names, categoric_values),
         SupportVectorMachine=get_supportVectorMachine(model),
         **kernel_type,
         **model_kwargs
@@ -1324,6 +1491,7 @@ def get_node(model, features_names, main_model=None):
     elif hasattr(model,'classes_'):
         classes = model.classes_
     tree_leaf = -1
+
     def _getNode(idx, cond=None):
         simple_pred_cond = None
         if cond:
@@ -1380,6 +1548,7 @@ def get_output(model, target_name):
         Get the Output element.
         
     """
+
     mining_func = get_mining_func(model)
     output_fields = list()
     if 'OneClassSVM' in str(model.__class__):
@@ -1390,8 +1559,9 @@ def get_output(model, target_name):
                 dataType="double"
             ))
     else:
-        alt_target_name = 'predicted_' + target_name
-        output_fields.append(pml.OutputField(name=alt_target_name))
+        if has_target(model):
+            alt_target_name = 'predicted_' + target_name
+            output_fields.append(pml.OutputField(name=alt_target_name))
     if mining_func == 'classification':
         for cls in model.classes_:
             output_fields.append(pml.OutputField(
@@ -1422,12 +1592,16 @@ def get_mining_func(model):
         
     """
     if not hasattr(model, 'classes_'):
-        func_name = 'regression'
+        if hasattr(model,'n_clusters'):
+            func_name = 'clustering'
+        else:
+            func_name = 'regression'
     else:
         if isinstance(model.classes_, np.ndarray):
             func_name = 'classification'
         else:
             func_name = 'regression'
+
     return func_name
 
 
@@ -1488,7 +1662,7 @@ def get_mining_schema(model, feature_names, target_name, mining_imp_val):
             mining_flds.append(pml.MiningField(name=str(feat_name),
                                                optype=features_pmml_optype[feat_idx],
                                                usageType=features_pmml_utype[feat_idx]))
-    if 'OneClassSVM' not in str(model.__class__):
+    if has_target(model):
         mining_flds.append(pml.MiningField(name=target_name,
                                         optype=target_pmml_optype,
                                             usageType=target_pmml_utype))
@@ -1746,7 +1920,7 @@ def get_data_dictionary(model, feature_names, target_name, categoric_values):
         data_fields.append(pml.DataField(name=str(feat_name),
                                          optype=features_pmml_optype[feature_idx],
                                          dataType=features_pmml_dtype[feature_idx]))
-    if 'OneClassSVM' not in str(model.__class__):
+    if has_target(model):
         class_node = pml.DataField(name=str(target_name), optype=target_pmml_optype,
                                 dataType=target_pmml_dtype)
 
@@ -1756,6 +1930,13 @@ def get_data_dictionary(model, feature_names, target_name, categoric_values):
     data_dict = pml.DataDictionary(numberOfFields=len(data_fields), DataField=data_fields)
     return data_dict
 
+
+def has_target(model):
+    target_less_models = ['KMeans','OneClassSVM', ]
+    if model.__class__.__name__  in target_less_models:
+        return False
+    else:
+        return True
 
 def get_regr_predictors(model_coef, row_idx, feat_names, categoric_values):
     """
@@ -1945,3 +2126,5 @@ def get_numeric_pred(row_idx, der_fld_idx, model_coef, der_fld_name):
                         coefficient="{:.15f}".format(model_coef[row_idx][der_fld_idx]))
     num_pred.original_tagname_ = "NumericPredictor"
     return num_pred
+
+
