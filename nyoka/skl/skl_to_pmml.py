@@ -958,19 +958,23 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                     MiningSchema=miningschema_for_first,
                     Output=pml.Output(OutputField=output_fields),
                     Segmentation=pml.Segmentation(
-                        multipleModelMethod=get_multiple_model_method(model),
+                        multipleModelMethod="sum",
                         Segment=get_inner_segments(model, derived_col_names,
                                                    col_names, estm_idx)
                     )
                 )
             )
         )
+    reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values)[0]
+    if model.n_classes_==2:
+        reg_model.normalizationMethod="none"
+    else:
+        reg_model.normalizationMethod="simplemax"
     segments.append(
         pml.Segment(
             id=str(len(model.estimators_[0])),
             True_=pml.True_(),
-            RegressionModel=get_regrs_models(model, out_field_names,
-                                             out_field_names, target_name, mining_imp_val, categoric_values)[0]
+            RegressionModel=reg_model
         )
     )
     return segments
