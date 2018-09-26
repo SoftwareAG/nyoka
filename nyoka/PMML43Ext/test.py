@@ -73,6 +73,7 @@ run("testbase64.py")
 notebook("Nyoka_String_Export.ipynb")
 notebook("Nyoka_Script_Tag.ipynb")
 notebook("1_SVM.ipynb")
+notebook("Nyoka_Output_Field_Threshold.ipynb")
 
 percent = str(int(float(score)/float(count) * 100))
 print("\033[36;1mTESTS PASSED: " + str(score) + "/" + str(count) + ", " + percent + "%\033[0m")

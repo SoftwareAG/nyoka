@@ -21,6 +21,7 @@ script:
   - jupyter nbconvert --to notebook --execute nyoka/tests/Nyoka_String_Export.ipynb
   - jupyter nbconvert --to notebook --execute nyoka/tests/Nyoka_Script_Tag.ipynb
   - jupyter nbconvert --to notebook --execute nyoka/tests/1_SVM.ipynb
+  - jupyter nbconvert --to notebook --execute nyoka/tests/Nyoka_Output_Field_Threshold.ipynb
 notifications:
   email:
     recipients:

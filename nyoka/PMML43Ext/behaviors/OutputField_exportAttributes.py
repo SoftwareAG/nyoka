@@ -46,3 +46,6 @@
         if self.numTopCategories is not None and 'numTopCategories' not in already_processed:
             already_processed.add('numTopCategories')
             outfile.write(' numTopCategories=%s' % (supermod.quote_attrib(self.numTopCategories), ))
+        if self.threshold is not None and 'threshold' not in already_processed:
+            already_processed.add('threshold')
+            outfile.write(' threshold=%s' % (supermod.quote_attrib(self.threshold), ))

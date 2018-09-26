@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Sep 19 23:27:02 2018 by generateDS.py version 2.28a.
+# Generated Wed Sep 26 00:29:48 2018 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -2479,6 +2479,9 @@ class OutputField(supermod.OutputField):
         if self.numTopCategories is not None and 'numTopCategories' not in already_processed:
             already_processed.add('numTopCategories')
             outfile.write(' numTopCategories=%s' % (supermod.quote_attrib(self.numTopCategories), ))
+        if self.threshold is not None and 'threshold' not in already_processed:
+            already_processed.add('threshold')
+            outfile.write(' threshold=%s' % (supermod.quote_attrib(self.threshold), ))
 
     def exportAttributes_wrapper(self, outfile, level, already_processed, namespace_='', name_='OutputFields', *args):
         result = self.exportAttributes(outfile, level, already_processed, namespace_='', name_='OutputFields', *args)
