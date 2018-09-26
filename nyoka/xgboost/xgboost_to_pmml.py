@@ -278,6 +278,18 @@ def replace_name_with_derivedColumnNames(original_name, derived_col_names):
 
 
 def create_node(obj, main_node,derived_col_names):
+    """
+    It creates nodes.
+
+    Parameters
+    ----------
+    obj: Json
+        Contains nodes in json format.
+    main_node:
+        Contains node build with Nyoka class.
+    derived_col_names: List
+        Contains column names after preprocessing.
+    """
     def create_left_node(obj,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(

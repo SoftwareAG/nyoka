@@ -207,6 +207,45 @@ def get_segments(model, derived_col_names, col_names, target_name, mining_imp_va
         segments=get_segments_for_lgbr(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
     return segments
 
+def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
+    """
+    It returns number of Segments equal to the estimator of the model.
+
+    Parameters
+    ----------
+    val: List
+        Contains nodes in json format.
+    derived_col_names: List
+        Contains column names after preprocessing.
+    col_names: List
+        Contains list of feature/column names.
+    Returns:
+    -------
+    segments_equal_to_estimators:
+         Returns list of segments equal to number of estimator of the model
+    """
+    segments_equal_to_estimators = []
+    for i in range(len(val)):
+        main_node = pml.Node(True_=pml.True_())
+        mining_field_for_innner_segments = col_names
+        m_flds = []
+        create_node(val[i], main_node, derived_col_names)
+        for name in mining_field_for_innner_segments:
+            m_flds.append(pml.MiningField(name=name))
+
+        segments_equal_to_estimators.append((pml.Segment(id=i + 1, True_=pml.True_(),
+                                                     TreeModel=pml.TreeModel(functionName="regression",
+                                                                         missingValueStrategy="none",
+                                                                         noTrueChildStrategy="returnLastPrediction",
+                                                                         splitCharacteristic="multiSplit",
+                                                                         Node=main_node,
+                                                                         MiningSchema=pml.MiningSchema(
+                                                                             MiningField=m_flds)))))
+
+    return segments_equal_to_estimators
+
+
+
 def get_segments_for_lgbr(model, derived_col_names, feature_names, target_name, mining_imp_val,categorical_values):
     """
         It returns all the Segments element of the model
@@ -237,48 +276,47 @@ def get_segments_for_lgbr(model, derived_col_names, feature_names, target_name, 
     lgb_dump = model.booster_.dump_model()
     for i in range(len(lgb_dump['tree_info'])):
         tree = lgb_dump['tree_info'][i]['tree_structure']
-        list_of_nodes = []
-        main_key_value.append(generate_structure_for_lgb(tree, list_of_nodes, derived_col_names))
+        main_key_value.append(tree)
     segmentation = pml.Segmentation(multipleModelMethod="sum",
-                                    Segment=xgboostToPmml.generate_Segments_Equal_To_Estimators(main_key_value, derived_col_names,
+                                    Segment=generate_Segments_Equal_To_Estimators(main_key_value, derived_col_names,
                                                                                   feature_names))
     return segmentation
 
 
-
-
-def generate_structure_for_lgb(fetch,main_key_value,derived_col_names):
+def create_node(obj, main_node,derived_col_names):
     """
-    It returns a List where the nodes of the model are in a structured format.
+    It creates nodes.
 
     Parameters
     ----------
-    fetch : dictionary
-        Contains the nodes in dictionary format.
-
-    main_key_value: List
-        Empty list used to append the nodes.
-
+    obj: Json
+        Contains nodes in json format.
+    main_node:
+        Contains node build with Nyoka class.
     derived_col_names: List
         Contains column names after preprocessing.
-
-
-    Returns
-    -------
-    main_key_value :
-        Returns the nodes in a structured format inside a list.
     """
-    list_of_child=[]
-    for k,v in fetch.items():
-        if k=='threshold':
-            main_key_value.append(str(v)+' split_condition '+str(derived_col_names[int(fetch.get('split_feature'))]))
-        if k=='leaf_value':
-            main_key_value.append(str(v)+' score')
-        if isinstance(v,dict):
-            list_of_child.append(v)
-    for ii in range(len(list_of_child)-1,-1,-1):
-        generate_structure_for_lgb(list_of_child[ii],main_key_value,derived_col_names)
-    return main_key_value
+
+    def create_left_node(obj,derived_col_names):
+        nd = pml.Node()
+        nd.set_SimplePredicate(
+            pml.SimplePredicate(field=xgboostToPmml.replace_name_with_derivedColumnNames(derived_col_names[int(obj['split_feature'])], derived_col_names), operator='lessThan', value=obj['threshold']))
+        create_node(obj['left_child'], nd, derived_col_names)
+        return nd
+
+    def create_right_node(obj,derived_col_names):
+        nd = pml.Node()
+        nd.set_SimplePredicate(
+            pml.SimplePredicate(field=xgboostToPmml.replace_name_with_derivedColumnNames(derived_col_names[int(obj['split_feature'])], derived_col_names), operator='greaterOrEqual', value=obj['threshold']))
+        create_node(obj['right_child'], nd, derived_col_names)
+        return nd
+
+    if 'leaf_index' in obj:
+        main_node.set_score(obj['leaf_value'])
+    else:
+
+        main_node.add_Node(create_left_node(obj,derived_col_names))
+        main_node.add_Node(create_right_node(obj,derived_col_names))
 
 
 def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, mining_imp_val,categoric_values):
@@ -312,21 +350,21 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
         lgb_dump = model.booster_.dump_model()
         for i in range(len(lgb_dump['tree_info'])):
             tree = lgb_dump['tree_info'][i]['tree_structure']
-            list_of_nodes = []
-            main_key_value.append(generate_structure_for_lgb(tree, list_of_nodes,derived_col_names))
+            main_key_value.append(tree)
         mining_schema_for_1st_segment = xgboostToPmml.mining_Field_For_First_Segment(feature_names)
         outputField = list()
-        outputField.append(pml.OutputField(name="lgbValue", optype="continuous", dataType="float",
-                                           feature="predictedValue", isFinalResult="true"))
+        outputField.append(pml.OutputField(name="lgbValue", optype="continuous", dataType="double",
+                                           feature="predictedValue", isFinalResult="false"))
         out = pml.Output(OutputField=outputField)
         oField=list()
-        oField.append('lgbValue')
-        segments_equal_to_estimators = xgboostToPmml.generate_Segments_Equal_To_Estimators(main_key_value, derived_col_names,
+        oField.append("lgbValue")
+        segments_equal_to_estimators = generate_Segments_Equal_To_Estimators(main_key_value, derived_col_names,
                                                                              feature_names)
         First_segment = xgboostToPmml.add_segmentation(model,segments_equal_to_estimators, mining_schema_for_1st_segment, out, 1)
+        reg_model = sklToPmml.get_regrs_models(model, oField, oField, target_name, mining_imp_val, categoric_values)[0]
+        reg_model.normalizationMethod = 'logit'
         last_segment = pml.Segment(True_=pml.True_(), id=2,
-                                   RegressionModel=sklToPmml.get_regrs_models(model, oField, oField, target_name,
-                                                                    mining_imp_val,categoric_values)[0])
+                                   RegressionModel=reg_model)
         segments.append(First_segment)
 
         segments.append(last_segment)
@@ -335,8 +373,7 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
         lgb_dump = model.booster_.dump_model()
         for i in range(len(lgb_dump['tree_info'])):
             tree = lgb_dump['tree_info'][i]['tree_structure']
-            list_of_nodes = []
-            main_key_value.append(generate_structure_for_lgb(tree, list_of_nodes, derived_col_names))
+            main_key_value.append(tree)
         oField = list()
         for index in range(0, model.n_classes_):
             inner_segment = []
@@ -349,7 +386,7 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
             out = pml.Output(OutputField=outputField)
 
             oField.append('lgbValue(' + str(index) + ')')
-            segments_equal_to_estimators = xgboostToPmml.generate_Segments_Equal_To_Estimators(inner_segment, derived_col_names,
+            segments_equal_to_estimators = generate_Segments_Equal_To_Estimators(inner_segment, derived_col_names,
                                                                                  feature_names)
             segments_equal_to_class = xgboostToPmml.add_segmentation(model,segments_equal_to_estimators,
                                                        mining_schema_for_1st_segment, out, index)
