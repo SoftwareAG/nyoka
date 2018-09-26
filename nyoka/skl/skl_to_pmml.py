@@ -937,18 +937,58 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                 isFinalResult=False
             )
         )
-        output_fields.append(
-            pml.OutputField(
-                name='expDecisionFunction(' + str(estm_idx) + ')',
-                feature='transformedValue',
-                isFinalResult=True,
-                Apply=pml.Apply(
-                    function='exp',
-                    FieldRef=[pml.FieldRef(field='decisionFunction(' + str(estm_idx) + ')')]
+        if len(model.classes_) == 2:
+            output_fields.append(
+                pml.OutputField(
+                    name='transformedDecisionFunction(0)',
+                    feature='transformedValue',
+                    isFinalResult=True,
+                    Apply=pml.Apply(
+                        function="+",
+                        Constant=[pml.Constant(
+                            dataType="double",
+                            valueOf_=str(model.init_.prior)
+                        )],
+                        Apply_member=[pml.Apply(
+                            function="*",
+                            Constant=[pml.Constant(
+                                dataType="double",
+                                valueOf_=str(model.learning_rate)
+                            )],
+                            FieldRef=[pml.FieldRef(
+                                field="decisionFunction(0)",
+                            )]
+                        )]
+                    )
                 )
             )
-        )
-        out_field_names.append('expDecisionFunction(' + str(estm_idx) + ')')
+        else:
+            output_fields.append(
+                pml.OutputField(
+                    name='transformedDecisionFunction(' + str(estm_idx) + ')',
+                    feature='transformedValue',
+                    isFinalResult=True,
+                    Apply=pml.Apply(
+                        function="+",
+                        Constant=[pml.Constant(
+                            dataType="double",
+                            valueOf_=str(model.init_.priors[estm_idx])
+                        )],
+                        Apply_member=[pml.Apply(
+                            function="*",
+                            Constant=[pml.Constant(
+                                dataType="double",
+                                valueOf_=str(model.learning_rate)
+                            )],
+                            FieldRef=[pml.FieldRef(
+                                field="decisionFunction(" + str(estm_idx) + ")",
+                            )]
+                        )]
+                    )
+                )
+            )
+
+        out_field_names.append('transformedDecisionFunction(' + str(estm_idx) + ')')
         segments.append(
             pml.Segment(
                 True_=pml.True_(),
@@ -966,10 +1006,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
             )
         )
     reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values)[0]
-    if model.n_classes_==2:
-        reg_model.normalizationMethod="none"
-    else:
-        reg_model.normalizationMethod="simplemax"
+    reg_model.normalizationMethod="logit"
     segments.append(
         pml.Segment(
             id=str(len(model.estimators_[0])),
