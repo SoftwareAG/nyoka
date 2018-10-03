@@ -8,5 +8,4 @@ jupyter
 sklearn-pandas
 lightgbm
 h5py
-nyoka
 git+https://github.com/nyoka-pmml/nyoka
