@@ -9,4 +9,4 @@ sklearn-pandas
 lightgbm
 h5py
 nyoka
--e git+https://github.com/nyoka-pmml/nyoka
+git+https://github.com/nyoka-pmml/nyoka
