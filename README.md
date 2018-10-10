@@ -1,6 +1,6 @@
-# Nyoka
-
 <img src="/docs/nyoka_logo.PNG" alt="Nyoka logo" height="60" />
+
+# Nyoka
 
 [![Build Status](https://travis-ci.org/nyoka-pmml/nyoka.svg?branch=master)](https://travis-ci.org/nyoka-pmml/nyoka)
 [![PyPI version](https://badge.fury.io/py/nyoka.svg)](https://badge.fury.io/py/nyoka)
