@@ -58,11 +58,63 @@ def skl_to_pmml(pipeline, col_names, target_name=None, pmml_f_name='from_sklearn
         pmml = pml.PMML(
             version=get_version(),
             Header=get_header(),
+            MiningBuildTask=get_mining_buildtask(pipeline),
             DataDictionary=get_data_dictionary(model, col_names, target_name, categoric_values),
             **trfm_dict_kwargs,
             **PMML_kwargs
         )
         pmml.export(outfile=open(pmml_f_name, "w"), level=0)
+
+def get_entire_string(pipe0):
+    pipe_steps = pipe0.steps
+    pipe_memory = 'memory=' + str(pipe0.memory)
+    df_container = ''
+    pipe_container = ''
+    for step_idx, step in enumerate(pipe_steps):
+        pipe_step_container = ''
+        step_name = step[0]
+        step_item = step[1]
+        if step_item.__class__.__name__ == "DataFrameMapper":
+            df_default_val = "default=" + str(step_item.default)
+            df_out_val = "df_out=" + str(step_item.df_out)
+            input_df_val = "input_df=" + str(step_item.input_df)
+            sparse_val = "sparse=" + str(step_item.sparse)
+            for feature in step_item.features:
+                if not df_container:
+                    df_container = df_container + str(feature)
+                else:
+                    df_container = df_container + ',' + str(feature)
+            df_container = '[' + df_container + ']'
+            df_container = 'features=' + df_container
+            df_container = df_default_val + ',' + df_out_val + ',\n\t' + df_container
+            df_container = df_container + ',\n\t' + input_df_val + ',' + sparse_val
+            df_container = '(' + df_container + ')'
+            df_container = 'DataFrameMapper' + df_container
+            df_container = '\'' + step_name + '\'' + ',' + df_container
+            df_container = '(' + df_container + ')'
+        else:
+            pipe_step_container = '\'' + step_name + '\'' + ',' + str(step_item)
+            pipe_step_container = '(' + pipe_step_container + ')'
+            if not pipe_container:
+                pipe_container = pipe_container + pipe_step_container
+            else:
+                pipe_container = pipe_container + ',' + pipe_step_container
+    if df_container:
+        pipe_container = df_container + ',' + pipe_container
+    pipe_container = '[' + pipe_container + ']'
+    pipe_container = 'steps=' + pipe_container
+    pipe_container = pipe_memory + ',\n    ' + pipe_container
+    pipe_container = 'Pipeline(' + pipe_container + ')'
+
+    return pipe_container
+
+def get_mining_buildtask(pipeline):
+    pipeline = get_entire_string(pipeline)
+    extension = [pml.Extension(value=pipeline,anytypeobjs_=[''])]
+    mining_bld_task = pml.MiningBuildTask(Extension = extension)
+    return mining_bld_task
+
+
 
 
 def any_in(seq_a, seq_b):
@@ -720,6 +772,8 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
         **kernel_type,
         **model_kwargs
     ))
+    # supportVector_models[0].export(sys.stdout,0," ")
+
     return supportVector_models
 
 def get_model_name(model):
@@ -1115,18 +1169,32 @@ def get_vectorDictionary(model, derived_col_names, categoric_values):
     fieldref_element = get_vectorfields(model_coef, derived_col_names, categoric_values)
     vectorfields_element = pml.VectorFields(FieldRef=fieldref_element)
     vec_id = list(model.support_)
-    vecs = list(model.support_vectors_)
     vecinsts = list()
-    for vec_idx in range(len(vecs)):
-        vecinsts.append(pml.VectorInstance(
-            id=vec_id[vec_idx],
-            REAL_SparseArray=pml.REAL_SparseArray(
-                n=len(vecs[vec_idx]),
-                Indices=([x for x in range(1, len(vecs[vec_idx] + 1) + 1)]),
-                REAL_Entries=vecs[vec_idx].tolist()
-            )
-        ))
-    return pml.VectorDictionary(VectorFields=vectorfields_element, VectorInstance=vecinsts)
+    vecs = list(model.support_vectors_)
+    if model.support_vectors_.__class__.__name__ != 'csr_matrix':
+        for vec_idx in range(len(vecs)):
+            vecinsts.append(pml.VectorInstance(
+                id=vec_id[vec_idx],
+                REAL_SparseArray=pml.REAL_SparseArray(
+                    n=len(fieldref_element),
+                    Indices=([x for x in range(1, len(vecs[vec_idx]) + 1)]),
+                    REAL_Entries=vecs[vec_idx].tolist()
+                )
+            ))
+    else:
+        for vec_idx in range(len(vecs)):
+            vecinsts.append(pml.VectorInstance(
+                id=vec_id[vec_idx],
+                REAL_SparseArray=pml.REAL_SparseArray(
+                    n=len(fieldref_element),
+                    Indices=([x for x in range(1, len(vecs[vec_idx].todense().tolist()[0]) + 1)]),
+                    REAL_Entries=vecs[vec_idx].todense().tolist()[0]
+                )
+            ))
+    vd=pml.VectorDictionary(VectorFields=vectorfields_element, VectorInstance=vecinsts)
+    return vd
+
+
 
 
 def get_vectorfields(model_coef, feat_names, categoric_values):
@@ -1159,11 +1227,31 @@ def get_vectorfields(model_coef, feat_names, categoric_values):
         if is_labelbinarizer(feat_names[der_fld_idx]):
             if not is_stdscaler(feat_names[der_fld_idx]):
                 class_id = get_classid(class_attribute, feat_names[der_fld_idx])
-                cat_predictors = get_categoric_pred(row_idx, der_fld_idx, model_coef, class_lbls[class_id],
+                cat_predictors = get_categoric_pred(feat_names[der_fld_idx],row_idx, der_fld_idx, model_coef, class_lbls[class_id],
                                                     class_attribute[class_id])
                 for predictor in cat_predictors:
                     predictors.append(predictor)
-                der_fld_idx = der_fld_idx + len(class_lbls[class_id])
+
+                if len(class_lbls[class_id]) == 2:
+                    incrementor = 1
+                else:
+                    incrementor = len(class_lbls[class_id])
+                der_fld_idx = der_fld_idx + incrementor
+            else:
+                vectorfields_element = pml.FieldRef(field=feat_names[der_fld_idx])
+                predictors.append(vectorfields_element)
+                der_fld_idx += 1
+
+        elif is_onehotencoder(feat_names[der_fld_idx]):
+            if not is_stdscaler(feat_names[der_fld_idx]):
+                class_id = get_classid(class_attribute, feat_names[der_fld_idx])
+                cat_predictors = get_categoric_pred(feat_names[der_fld_idx],row_idx, der_fld_idx, model_coef, class_lbls[class_id],
+                                                    class_attribute[class_id])
+                for predictor in cat_predictors:
+                    predictors.append(predictor)
+
+                incrementor = len(class_lbls[class_id])
+                der_fld_idx = der_fld_idx + incrementor
             else:
                 vectorfields_element = pml.FieldRef(field=feat_names[der_fld_idx])
                 predictors.append(vectorfields_element)
@@ -1175,6 +1263,26 @@ def get_vectorfields(model_coef, feat_names, categoric_values):
             der_fld_idx += 1
 
     return predictors
+
+def is_onehotencoder(feat_name):
+    """
+
+    Parameters
+    ----------
+    feat_name : string
+        Contains the name of the attribute
+
+    Returns
+    -------
+        Returns a boolean value that states whether OneHotEncoder has been applied or not
+
+    """
+    if "oneHotEncoder" in feat_name:
+        return True
+    else:
+        return False
+
+
 def get_kernel_type(model):
 
     """
@@ -1227,15 +1335,20 @@ def get_supportVectorMachine(model):
 
     """
     support_vector_machines = list()
-    if 'SVR' or 'OneClassSVM' in str(model.__class__):
+    if 'SVR' in str(model.__class__) or 'OneClassSVM' in str(model.__class__):
         support_vector = list()
         for sv in model.support_:
             support_vector.append(pml.SupportVector(vectorId=sv))
         support_vectors = pml.SupportVectors(SupportVector=support_vector)
         coefficient = list()
         absoValue = model.intercept_[0]
-        for coef in model.dual_coef_:
-            for num in coef:
+        if model.dual_coef_.__class__.__name__ != 'csr_matrix':
+            for coef in model.dual_coef_:
+                for num in coef:
+                    coefficient.append(pml.Coefficient(value=num))
+        else:
+            dual_coefficent=model.dual_coef_.data
+            for num in dual_coefficent:
                 coefficient.append(pml.Coefficient(value=num))
         coeff = pml.Coefficients(absoluteValue=absoValue, Coefficient=coefficient)
         support_vector_machines.append(pml.SupportVectorMachine(SupportVectors=support_vectors, Coefficients=coeff))
@@ -1904,8 +2017,6 @@ def get_dtype(feat_value):
     if 'str' in data_type:
         return 'string'
 
-
-
 def get_data_dictionary(model, feature_names, target_name, categoric_values):
 
     """
@@ -1979,6 +2090,7 @@ def has_target(model):
     else:
         return True
 
+
 def get_regr_predictors(model_coef, row_idx, feat_names, categoric_values):
     """
 
@@ -1999,6 +2111,7 @@ def get_regr_predictors(model_coef, row_idx, feat_names, categoric_values):
         Returns a list with instances of nyoka numeric/categorical predictor class
 
     """
+
     der_fld_len = len(feat_names)
     der_fld_idx = 0
     predictors = list()
@@ -2006,17 +2119,37 @@ def get_regr_predictors(model_coef, row_idx, feat_names, categoric_values):
         class_lbls = categoric_values[0]
         class_attribute = categoric_values[1]
     while der_fld_idx < der_fld_len:
+
         if is_labelbinarizer(feat_names[der_fld_idx]):
             if not is_stdscaler(feat_names[der_fld_idx]):
                 class_id = get_classid(class_attribute, feat_names[der_fld_idx])
-                cat_predictors = get_categoric_pred(row_idx, der_fld_idx, model_coef, class_lbls[class_id],
-                                                    class_attribute[class_id])
+                cat_predictors = get_categoric_pred(feat_names[der_fld_idx], row_idx, der_fld_idx, model_coef,
+                                                    class_lbls[class_id], class_attribute[class_id])
                 for predictor in cat_predictors:
                     predictors.append(predictor)
-                der_fld_idx = der_fld_idx + len(class_lbls[class_id])
+                if len(class_lbls[class_id]) == 2:
+                    incrementor = 1
+                else:
+                    incrementor = len(class_lbls[class_id])
+                der_fld_idx = der_fld_idx + incrementor
+
             else:
                 num_predictors = get_numeric_pred(row_idx, der_fld_idx, model_coef, feat_names[der_fld_idx])
                 predictors.append(num_predictors)
+                der_fld_idx += 1
+        elif is_onehotencoder(feat_names[der_fld_idx]):
+            if not is_stdscaler(feat_names[der_fld_idx]):
+                class_id = get_classid(class_attribute, feat_names[der_fld_idx])
+                cat_predictors = get_categoric_pred(feat_names[der_fld_idx], row_idx, der_fld_idx, model_coef,
+                                                    class_lbls[class_id], class_attribute[class_id])
+                for predictor in cat_predictors:
+                    predictors.append(predictor)
+
+                incrementor = len(class_lbls[class_id])
+                der_fld_idx = der_fld_idx + incrementor
+            else:
+                vectorfields_element = pml.FieldRef(field=feat_names[der_fld_idx])
+                predictors.append(vectorfields_element)
                 der_fld_idx += 1
 
         else:
@@ -2024,7 +2157,6 @@ def get_regr_predictors(model_coef, row_idx, feat_names, categoric_values):
             predictors.append(num_predictors)
             der_fld_idx += 1
     return predictors
-
 
 def get_classid(class_attribute, feat_name):
     """
@@ -2062,7 +2194,7 @@ def is_labelbinarizer(feat_name):
         Returns a boolean value that states whether label binarizer has been applied or not
 
     """
-    if "labelBinarizer" in feat_name:
+    if "labelBinarizer" in feat_name or "one_hot_encoder" in feat_name:
         return True
     else:
         return False
@@ -2087,12 +2219,14 @@ def is_stdscaler(feat_name):
         return False
 
 
-def get_categoric_pred(row_idx, der_fld_idx, model_coef, class_lbls, class_attribute):
+def get_categoric_pred(feat_names,row_idx, der_fld_idx, model_coef, class_lbls, class_attribute):
 
     """
 
     Parameters
     ----------
+    feat_names : str
+        Contains the name of the field
     row_idx : int
         Contains an integer value to index attribute/column names
     der_fld_idx : int
@@ -2110,28 +2244,41 @@ def get_categoric_pred(row_idx, der_fld_idx, model_coef, class_lbls, class_attri
         Returns a list with instances of nyoka categorical predictor class
 
     """
-
     categoric_predictor = list()
     classes_len = len(class_lbls)
-    if classes_len == 2:
+    if not is_onehotencoder(feat_names):
+        if classes_len == 2:
 
-        if row_idx == -1:
-            coef = model_coef
+            if row_idx == -1:
+                coef = model_coef
+            else:
+                coef = model_coef[row_idx][der_fld_idx ]
+
+            cat_pred = pml.CategoricalPredictor(name=class_attribute,
+                                                value=class_lbls[-1],
+                                                coefficient="{:.15f}".format(coef))
+            cat_pred.original_tagname_ = "CategoricalPredictor"
+            categoric_predictor.append(cat_pred)
         else:
-            coef = model_coef[row_idx][der_fld_idx ]
+            for cname, class_idx in zip(class_lbls, range(len(class_lbls))):
 
-        cat_pred = pml.CategoricalPredictor(name=class_attribute,
-                                            value=class_lbls[-1],
-                                            coefficient="{:.15f}".format(coef))
-        cat_pred.original_tagname_ = "CategoricalPredictor"
-        categoric_predictor.append(cat_pred)
+                if row_idx == -1:
+                    coef = model_coef
+                else:
+                    coef = model_coef[row_idx][der_fld_idx+class_idx]
+
+                cat_pred = pml.CategoricalPredictor(name=class_attribute,
+                                                    value=cname,
+                                                    coefficient=coef)
+                cat_pred.original_tagname_ = "CategoricalPredictor"
+                categoric_predictor.append(cat_pred)
     else:
         for cname, class_idx in zip(class_lbls, range(len(class_lbls))):
 
             if row_idx == -1:
                 coef = model_coef
             else:
-                coef = model_coef[row_idx][der_fld_idx+class_idx]
+                coef = model_coef[row_idx][der_fld_idx + class_idx]
 
             cat_pred = pml.CategoricalPredictor(name=class_attribute,
                                                 value=cname,
@@ -2139,6 +2286,8 @@ def get_categoric_pred(row_idx, der_fld_idx, model_coef, class_lbls, class_attri
             cat_pred.original_tagname_ = "CategoricalPredictor"
             categoric_predictor.append(cat_pred)
     return categoric_predictor
+
+
 
 
 def get_numeric_pred(row_idx, der_fld_idx, model_coef, der_fld_name):

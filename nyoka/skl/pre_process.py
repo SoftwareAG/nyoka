@@ -65,12 +65,17 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
                     if 'pp_feat_class_lbl' in pp_dict.keys():
                         classes.append(pp_dict['pp_feat_class_lbl'])
                         class_attribute.append(pp_dict['pp_feat_name'])
+                    if 'pp_feat_class_ohe' in pp_dict.keys():
+                        classes.append(pp_dict['pp_feat_class_ohe'])
+                        class_attribute.append(pp_dict['pp_feat_name'])
                     if 'mining_strategy' in pp_dict.keys():
                         mining_attributes.append(pp_dict['der_col_names'])
                         mining_strategy.append(pp_dict['mining_strategy'])
                         mining_replacement_val.append(pp_dict['mining_replacement_val'])
                     if 'hidden_lb_der_flds' in pp_dict.keys():
                         derived_flds_hidden.extend(pp_dict['hidden_lb_der_flds'])
+                    if 'hidden_ohe_der_flds' in pp_dict.keys():
+                        derived_flds_hidden.extend(pp_dict['hidden_ohe_der_flds'])
                     pml_derived_flds.extend(derived_flds)
                     dfm_step_col_names = derived_names
                 dfm_col_names.extend(derived_names)
@@ -88,6 +93,9 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
                 derived_names = pp_dict['der_col_names']
                 if 'pp_feat_class_lbl' in pp_dict.keys():
                     classes.append(pp_dict['pp_feat_class_lbl'])
+                    class_attribute.append(pp_dict['pp_feat_name'])
+                if 'pp_feat_class_ohe' in pp_dict.keys():
+                    classes.append(pp_dict['pp_feat_class_ohe'])
                     class_attribute.append(pp_dict['pp_feat_name'])
                 if 'mining_strategy' in pp_dict.keys():
                     mining_attributes.append(pp_dict['der_col_names'])
@@ -165,6 +173,8 @@ def get_pml_derived_flds(trfm, col_names, **kwargs):
         return pca(trfm, col_names)
     elif "LabelBinarizer" == get_class_name(trfm):
         return lbl_binarizer(trfm, col_names, **kwargs)
+    elif "OneHotEncoder"==get_class_name(trfm):
+        return one_hot_encoder(trfm,col_names,**kwargs)
     else:
         raise TypeError("This PreProcessing Task is not Supported")
 
@@ -838,6 +848,52 @@ def lbl_binarizer(trfm, col_names, **kwargs):
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     pp_dict['pp_feat_class_lbl'] = categoric_lbls
+    pp_dict['pp_feat_name'] = col_names[0]
+
+    return pp_dict
+
+
+def one_hot_encoder(trfm, col_names, **kwargs):
+    """
+
+    Parameters
+    ----------
+    trfm :
+        Contains the Sklearn's One hot encoder preprocessing instance.
+    col_names : list
+        Contains list of feature/column names.
+        The column names may represent the names of preprocessed attributes.
+
+    Returns
+    -------
+    pp_dict : dictionary
+        Returns a dictionary that contains attributes related to Label Binarizer preprocessing.
+
+    """
+    derived_flds = list()
+    derived_colnames = list()
+    pp_dict = dict()
+    categoric_lbls = trfm.active_features_.tolist()
+    model_exception_list = ["LinearRegression", "LogisticRegression", "SVR", "SVC"]
+    model = kwargs['model']
+    for col_name_idx in range(len(col_names)):
+        derived_colnames = get_derived_colnames("oneHotEncoder(" + str(col_names[col_name_idx]),
+                                                categoric_lbls, ")")
+        for attribute_name in col_names:
+            for class_name, class_idx in zip(categoric_lbls, range(len(categoric_lbls))):
+                norm_descr = pml.NormDiscrete(field=str(attribute_name), value=str(class_name))
+                derived_flds.append(
+                    pml.DerivedField(NormDiscrete=norm_descr,
+                                     name=derived_colnames[class_idx],
+                                     optype="categorical",
+                                     dataType="double"))
+    if any_in([model.__class__.__name__], model_exception_list):
+        pp_dict['hidden_ohe_der_flds'] = derived_flds
+        derived_flds = list()
+
+    pp_dict['der_fld'] = derived_flds
+    pp_dict['der_col_names'] = derived_colnames
+    pp_dict['pp_feat_class_ohe'] = categoric_lbls
     pp_dict['pp_feat_name'] = col_names[0]
 
     return pp_dict
