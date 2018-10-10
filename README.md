@@ -1,4 +1,4 @@
-<img src="/docs/nyoka_logo.PNG" alt="Nyoka logo" height="60" />
+<img src="/docs/nyoka_logo.PNG" alt="Nyoka logo" height="60" style="float:right"/>
 
 # Nyoka
 
