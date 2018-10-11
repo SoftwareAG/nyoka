@@ -56,6 +56,7 @@ nyoka-pmml
 	|	|	|---tests
 	|	|	|	|---xgboost_Test
 	|	|	|---xgboost_to_pmml
+	|	|---tests
 	|	|---Base64
 	|	|---PMML43Ext
 	|	|---PMML43ExtSuper
@@ -74,7 +75,7 @@ nyoka-pmml
 nyoka requires:
 
 * scikit-learn (>=0.19.1)
-* keras (==2.1.5)
+* keras (==2.2.4)
 * tensorflow (==1.9.0)
 * statsmodels (>=0.9.0)
 * lightgbm (>=2.1.2)

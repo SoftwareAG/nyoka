@@ -8,7 +8,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
 	name = "nyoka",
-	version = "1.1.0",
+	version = "1.2.1",
 	description = 'A Python library to export Machine Learning/ Deep Learning models into PMML',
 	long_description = long_description,
 	long_description_content_type='text/markdown',
@@ -27,7 +27,7 @@ setup(
 	packages = find_packages(),
 	install_requires = [
 		"scikit-learn>=0.19.1",
-		"keras==2.1.5",
+		"keras==2.2.4",
 		"tensorflow==1.9.0",
 		"statsmodels==0.9.0",
 		"sklearn-pandas",
