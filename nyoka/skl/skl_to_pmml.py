@@ -7,6 +7,7 @@ import numpy as np
 import PMML43Ext as pml
 from skl import pre_process as pp
 from datetime import datetime
+import math
 
 def skl_to_pmml(pipeline, col_names, target_name=None, pmml_f_name='from_sklearn.pmml'):
 
@@ -1640,13 +1641,14 @@ def get_node(model, features_names, main_model=None):
         
     """
     tree = model.tree_
+    node_samples = tree.n_node_samples
     if main_model and 'RandomForestClassifier' in str(main_model.__class__):
         classes = main_model.classes_
     elif hasattr(model,'classes_'):
         classes = model.classes_
     tree_leaf = -1
 
-    def _getNode(idx, cond=None):
+    def _getNode(idx,parent=None, cond=None):
         simple_pred_cond = None
         if cond:
             simple_pred_cond = cond
@@ -1659,12 +1661,15 @@ def get_node(model, features_names, main_model=None):
 
         if tree.children_left[idx] != tree_leaf:
             fieldName = features_names[tree.feature[idx]]
+            prnt = None
+            if model.__class__.__name__ == "ExtraTreeRegressor":
+                prnt = parent + 1
             simplePredicate = pml.SimplePredicate(field=fieldName, operator="lessOrEqual",
                                                   value=str(tree.threshold[idx]))
-            left_child = _getNode(tree.children_left[idx], simplePredicate)
+            left_child = _getNode(tree.children_left[idx],prnt, simplePredicate)
             simplePredicate = pml.SimplePredicate(field=fieldName, operator="greaterThan",
                                                   value=str(tree.threshold[idx]))
-            right_child = _getNode(tree.children_right[idx], simplePredicate)
+            right_child = _getNode(tree.children_right[idx],prnt, simplePredicate)
             node.add_Node(left_child)
             node.add_Node(right_child)
         else:
@@ -1679,9 +1684,21 @@ def get_node(model, features_names, main_model=None):
                 node.ScoreDistribution = score_dst
                 node.score = classes[probs.index(max(probs))]
             else:
-                node.score = lSum
+                if model.__class__.__name__ == "ExtraTreeRegressor":
+                    nd_sam=node_samples[int(idx)]
+                    node.score = parent+avgPathLength(nd_sam)
+                else:
+                    node.score=lSum
         return node
-    return _getNode(0)
+    if model.__class__.__name__ == "ExtraTreeRegressor":
+        return _getNode(0,0)
+    else:
+        return _getNode(0)
+
+def avgPathLength(n):
+    if n<=1.0:
+        return 1.0
+    return 2.0*(math.log(n-1.0)+0.57721566) - 2.0*((n-1.0)/n)
 
 
 def get_output(model, target_name):
