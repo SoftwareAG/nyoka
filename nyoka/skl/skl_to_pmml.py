@@ -152,9 +152,10 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                               'LinearDiscriminantAnalysis')
     tree_model_names = ('BaseDecisionTree',)
     support_vector_model_names = ('SVC', 'SVR')
-    anomaly_model_names = ('OneClassSVM',)
+    anomaly_model_names = ('OneClassSVM', 'IsolationForest')
     naive_bayes_model_names = ('GaussianNB',)
-    mining_model_names = ('BaseEnsemble',)
+    mining_model_names = ('RandomForestRegressor', 'RandomForestClassifier', 'GradientBoostingClassifier',
+                            'GradientBoostingRegressor')
     neurl_netwk_model_names = ('MLPClassifier', 'MLPRegressor')
     nearest_neighbour_names = ('NeighborsBase',)
     clustering_model_names = ('KMeans',)
@@ -283,25 +284,45 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
 
     """
     anomaly_detection_model = list()
-    anomaly_detection_model.append(
-        pml.AnomalyDetectionModel(
-            modelName="OneClassSVM",
-            algorithmType="ocsvm",
-            functionName="regression",
-            MiningSchema=get_mining_schema(model, col_names, target_name, mining_imp_val),
-            Output=get_anomaly_detection_output(),
-            SupportVectorMachineModel=get_supportVectorMachine_models(model,
-                                                           derived_col_names,
-                                                           col_names,
-                                                           target_name,
-                                                           mining_imp_val,
-                                                           categoric_values)[0]
+    if 'OneClassSVM' in str(model.__class__):
+        anomaly_detection_model.append(
+            pml.AnomalyDetectionModel(
+                modelName="OneClassSVM",
+                algorithmType="ocsvm",
+                functionName="regression",
+                MiningSchema=get_mining_schema(model, col_names, target_name, mining_imp_val),
+                Output=get_anomaly_detection_output(model),
+                SupportVectorMachineModel=get_supportVectorMachine_models(model,
+                                                            derived_col_names,
+                                                            col_names,
+                                                            target_name,
+                                                            mining_imp_val,
+                                                            categoric_values)[0]
+            )
         )
+    else:
+        anomaly_detection_model.append(
+            pml.AnomalyDetectionModel(
+                modelName="IsolationForests",
+                algorithmType="iforest",
+                functionName="regression",
+                MiningSchema=get_mining_schema(model, col_names, target_name, mining_imp_val),
+                Output=get_anomaly_detection_output(model),
+                ParameterList=pml.ParameterList(Parameter=[pml.Parameter(
+                                            name="training_data_count",
+                                            value=model.max_samples_)]),
+                MiningModel=get_ensemble_models(model,
+                                            derived_col_names,
+                                            col_names,
+                                            target_name,
+                                            mining_imp_val,
+                                            categoric_values)[0]
+            )    
     )
     return anomaly_detection_model
 
 
-def get_anomaly_detection_output():
+def get_anomaly_detection_output(model):
     """
 
     Parameters
@@ -313,18 +334,80 @@ def get_anomaly_detection_output():
         Returns  an Output instance of anomaly detection model
     """
     output_fields = list()
-    output_fields.append(pml.OutputField(
-        name="anomalyScore",
-        feature="predictedValue",
-        optype="continuous",
-        dataType="float"))
-    output_fields.append(pml.OutputField(
-        name="anomaly",
-        feature="anomaly",
-        optype="categorical",
-        dataType="boolean",
-        threshold="0"
-    ))
+
+    if 'OneClassSVM' in str(model.__class__):
+        output_fields.append(pml.OutputField(
+            name="anomalyScore",
+            feature="predictedValue",
+            optype="continuous",
+            dataType="float"))
+        output_fields.append(pml.OutputField(
+            name="anomaly",
+            feature="anomaly",
+            optype="categorical",
+            dataType="boolean",
+            threshold="0"
+        ))
+
+    else:
+        n = model.max_samples_
+        eulers_gamma = 0.577215664901532860606512090082402431
+
+        output_fields.append(pml.OutputField(name="rawAnomalyScore", 
+                                            optype="continuous", 
+                                            dataType="double",
+                                            feature="predictedValue",
+                                            isFinalResult="false"))
+
+        output_fields.append(pml.OutputField(name="normalizedAnomalyScore",
+                                            optype="continuous",
+                                            dataType="double",
+                                            feature="transformedValue",
+                                            isFinalResult="false", 
+                                            Apply=pml.Apply(function="/", 
+                                                            FieldRef=[pml.FieldRef(field="rawAnomalyScore")], 
+                                                            Constant=[pml.Constant(dataType="double",
+                                                                                   valueOf_=(2.0*(math.log(n-1.0)+eulers_gamma))-
+                                                                                            (2.0*((n-1.0)/n)))])))
+
+        appl_inner_inner = pml.Apply(function="*")
+        cnst = pml.Constant(dataType="double", valueOf_=-1.0)
+        fldref = pml.FieldRef(field="normalizedAnomalyScore")
+        cnst.original_tagname_ = 'Constant'
+        appl_inner_inner.add_FieldRef(cnst)
+        appl_inner_inner.add_FieldRef(fldref)
+
+        appl_inner = pml.Apply(function='pow')
+        cnst = pml.Constant(dataType="double", valueOf_=2.0)
+        cnst.original_tagname_ = 'Constant'
+        appl_inner.add_FieldRef(cnst)
+        appl_inner_inner.original_tagname_='Apply'
+        appl_inner.add_FieldRef(appl_inner_inner)
+
+        appl_outer = pml.Apply(function="-")
+        cnst = pml.Constant(dataType="double", valueOf_=0.5)
+        cnst.original_tagname_ = 'Constant'
+        appl_outer.add_FieldRef(cnst)
+        appl_inner.original_tagname_='Apply'
+        appl_outer.add_FieldRef(appl_inner)
+
+        output_fields.append(pml.OutputField(name="decisionFunction",
+                                            optype="continuous",
+                                            dataType="double",
+                                            feature="transformedValue",
+                                            isFinalResult="false", 
+                                            Apply=appl_outer))
+
+        output_fields.append(pml.OutputField(name="outlier",
+                                            optype="categorical",
+                                            dataType="boolean",
+                                            feature="transformedValue",
+                                            isFinalResult="true", 
+                                            Apply=pml.Apply(function="greaterThan", 
+                                                            FieldRef=[pml.FieldRef(field="decisionFunction")],
+                                                            Constant=[pml.Constant(dataType="double", 
+                                                                                    valueOf_=model.threshold_)])))
+
     return pml.Output(OutputField=output_fields)
 
 
@@ -779,7 +862,9 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
 
 def get_model_name(model):
     if 'OneClassSVM' in str(model.__class__):
-        return 'ocsvm' 
+        return 'ocsvm'
+    elif 'IsolationForest' in str(model.__class__):
+        return 'iforest'
 
 def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     
@@ -811,6 +896,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
         model_kwargs['Targets'] = get_targets(model, target_name)
     mining_models = list()
     mining_models.append(pml.MiningModel(
+        modelName=get_model_name(model),
         Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name,
                                             mining_imp_val, categoric_values),
         **model_kwargs
@@ -878,7 +964,7 @@ def get_multiple_model_method(model):
         return 'sum'
     elif 'RandomForestClassifier' in str(model.__class__):
         return 'majorityVote'
-    elif 'RandomForestRegressor' in str(model.__class__):
+    elif 'RandomForestRegressor' or 'IsolationForest' in str(model.__class__):
         return 'average'
 
 
@@ -1722,9 +1808,9 @@ def get_output(model, target_name):
 
     mining_func = get_mining_func(model)
     output_fields = list()
-    if 'OneClassSVM' in str(model.__class__):
+    if 'OneClassSVM' or 'IsolationForest' in str(model.__class__):
         output_fields.append(pml.OutputField(
-                name='svm_out',
+                name='predicted',
                 feature="predictedValue",
                 optype="continuous",
                 dataType="double"
@@ -2101,7 +2187,7 @@ def get_data_dictionary(model, feature_names, target_name, categoric_values):
 
 
 def has_target(model):
-    target_less_models = ['KMeans','OneClassSVM', ]
+    target_less_models = ['KMeans','OneClassSVM','IsolationForest', ]
     if model.__class__.__name__  in target_less_models:
         return False
     else:
