@@ -152,10 +152,10 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                               'LinearDiscriminantAnalysis')
     tree_model_names = ('BaseDecisionTree',)
     support_vector_model_names = ('SVC', 'SVR')
-    anomaly_model_names = ('OneClassSVM', 'IsolationForest')
+    anomaly_model_names = ('OneClassSVM')
     naive_bayes_model_names = ('GaussianNB',)
     mining_model_names = ('RandomForestRegressor', 'RandomForestClassifier', 'GradientBoostingClassifier',
-                            'GradientBoostingRegressor')
+                            'GradientBoostingRegressor','IsolationForest')
     neurl_netwk_model_names = ('MLPClassifier', 'MLPRegressor')
     nearest_neighbour_names = ('NeighborsBase',)
     clustering_model_names = ('KMeans',)
@@ -252,7 +252,10 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val):
     model_kwargs = dict()
     model_kwargs['functionName'] = get_mining_func(model)
     model_kwargs['MiningSchema'] = get_mining_schema(model, col_names, target_name, mining_imp_val)
-    model_kwargs['Output'] = get_output(model, target_name)
+    if 'IsolationForest' in str(model.__class__):
+        model_kwargs['Output']=get_anomaly_detection_output(model)
+    else:
+        model_kwargs['Output'] = get_output(model, target_name)
 
     return model_kwargs
 
@@ -300,25 +303,25 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
                                                             categoric_values)[0]
             )
         )
-    else:
-        anomaly_detection_model.append(
-            pml.AnomalyDetectionModel(
-                modelName="IsolationForests",
-                algorithmType="iforest",
-                functionName="regression",
-                MiningSchema=get_mining_schema(model, col_names, target_name, mining_imp_val),
-                Output=get_anomaly_detection_output(model),
-                ParameterList=pml.ParameterList(Parameter=[pml.Parameter(
-                                            name="training_data_count",
-                                            value=model.max_samples_)]),
-                MiningModel=get_ensemble_models(model,
-                                            derived_col_names,
-                                            col_names,
-                                            target_name,
-                                            mining_imp_val,
-                                            categoric_values)[0]
-            )    
-    )
+    # else:
+    #     anomaly_detection_model.append(
+    #         pml.AnomalyDetectionModel(
+    #             modelName="IsolationForests",
+    #             algorithmType="iforest",
+    #             functionName="regression",
+    #             MiningSchema=get_mining_schema(model, col_names, target_name, mining_imp_val),
+    #             Output=get_anomaly_detection_output(model),
+    #             ParameterList=pml.ParameterList(Parameter=[pml.Parameter(
+    #                                         name="training_data_count",
+    #                                         value=model.max_samples_)]),
+    #             MiningModel=get_ensemble_models(model,
+    #                                         derived_col_names,
+    #                                         col_names,
+    #                                         target_name,
+    #                                         mining_imp_val,
+    #                                         categoric_values)[0]
+    #         )
+    # )
     return anomaly_detection_model
 
 
