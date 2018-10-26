@@ -35,5 +35,6 @@ setup(
 		"statsmodels==0.9.0",
 		"sklearn-pandas",
 		"lightgbm"
-	]
+	],
+	data_files = [('nyoka',['/docs/nyoka_logo.PNG'])]
 )
