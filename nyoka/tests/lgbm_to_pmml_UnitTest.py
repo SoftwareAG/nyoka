@@ -36,7 +36,7 @@ class TestMethods(unittest.TestCase):
 
     def test_lgbm_02(self):
 
-        auto = pd.read_csv('auto-mpg.csv')
+        auto = pd.read_csv('nyoka/tests/auto-mpg.csv')
         X = auto.drop(['mpg','car name'], axis=1)
         y = auto['mpg']
 
@@ -76,7 +76,7 @@ class TestMethods(unittest.TestCase):
 
     def test_lgbm_04(self):
         
-        auto = pd.read_csv('auto-mpg.csv')
+        auto = pd.read_csv('nyoka/tests/auto-mpg.csv')
         X = auto.drop(['mpg'], axis=1)
         y = auto['mpg']
 
