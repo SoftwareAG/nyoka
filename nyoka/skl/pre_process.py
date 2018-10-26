@@ -384,6 +384,7 @@ def tfidf_vectorizer(trfm, col_names):
     pp_dict = dict()
     features = trfm.get_feature_names()
     idfs = trfm.idf_
+    extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('tfidf@[' + col_names[0] + ']', features)
     derived_flds.append(
@@ -400,7 +401,8 @@ def tfidf_vectorizer(trfm, col_names):
                             TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
                                                      wordSeparatorCharacterRE='\s+',
                                                      tokenize='true',
-                                                     Constant=pml.Constant(valueOf_=features[feat_idx]))],
+                                                     Constant=pml.Constant(valueOf_=features[feat_idx]),
+                                                     Extension=[pml.Extension(anytypeobjs_=[extra_features[feat_idx]])])],
                             Constant=[pml.Constant(valueOf_=idf)])
         ))
     pp_dict['der_fld'] = derived_flds
@@ -429,6 +431,7 @@ def count_vectorizer(trfm, col_names):
     """
     pp_dict = dict()
     features = trfm.get_feature_names()
+    extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
     derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
@@ -445,7 +448,10 @@ def count_vectorizer(trfm, col_names):
                                                                      wordSeparatorCharacterRE='\s+',
                                                                      tokenize='true',
                                                                      Constant=pml.Constant(dataType="string",
-                                                                                           valueOf_=imp_features))))
+                                                                                           valueOf_=imp_features),
+                                                                     Extension=[pml.Extension(
+                                                                         anytypeobjs_=[extra_features[index]])]
+                                                                     )))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     pp_dict['pp_feat_name'] = col_names[0]
