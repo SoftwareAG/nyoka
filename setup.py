@@ -36,5 +36,5 @@ setup(
 		"sklearn-pandas",
 		"lightgbm"
 	],
-	data_files = [('nyoka',['/docs/nyoka_logo.PNG'])]
+	data_files = [('nyoka',['docs/nyoka_logo.PNG'])]
 )
