@@ -1,21 +1,24 @@
 from setuptools import setup, find_packages
 
+exec(open("nyoka/metadata.py").read())
+
 from os import path
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 	long_description = f.read()
 
+
 setup(
 	name = "nyoka",
-	version = "1.2.1",
+	version = __version__,
 	description = 'A Python library to export Machine Learning/ Deep Learning models into PMML',
 	long_description = long_description,
 	long_description_content_type='text/markdown',
 	author = "maintainer",
 	author_email = "maintainer@nyoka.org",
 	url = "https://github.com/nyoka-pmml/nyoka",
-	license = "Apache Software License",
+	license = __license__,
 	classifiers = [
 		"Development Status :: 5 - Production/Stable",
 		"License :: OSI Approved :: Apache Software License",
