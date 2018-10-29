@@ -152,7 +152,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                               'LinearDiscriminantAnalysis')
     tree_model_names = ('BaseDecisionTree',)
     support_vector_model_names = ('SVC', 'SVR')
-    anomaly_model_names = ('OneClassSVM')
+    anomaly_model_names = ('OneClassSVM',)
     naive_bayes_model_names = ('GaussianNB',)
     mining_model_names = ('RandomForestRegressor', 'RandomForestClassifier', 'GradientBoostingClassifier',
                             'GradientBoostingRegressor','IsolationForest')
