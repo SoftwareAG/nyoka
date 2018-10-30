@@ -164,7 +164,7 @@ def get_pml_derived_flds(trfm, col_names, **kwargs):
     elif "LabelEncoder" == get_class_name(trfm):
         return lbl_encoder(trfm, col_names)
     elif "Imputer" == get_class_name(trfm):
-        return imputer(trfm, col_names)
+        return imputer(trfm, col_names, **kwargs)
     elif "Binarizer" == get_class_name(trfm):
         return binarizer(trfm, col_names)
     elif "PolynomialFeatures" == get_class_name(trfm):
@@ -249,7 +249,7 @@ def any_in(seq_a, seq_b):
 # Methods for Preprocessings
 
 
-def imputer(trfm, col_names):
+def imputer(trfm, col_names, **kwargs):
     """
 
     Parameters
@@ -270,6 +270,8 @@ def imputer(trfm, col_names):
     derived_colnames = col_names
     pp_dict = dict()
     derived_flds = list()
+
+    model = kwargs['model']
 
     mining_strategy = trfm.strategy
     if "mean" in mining_strategy:
