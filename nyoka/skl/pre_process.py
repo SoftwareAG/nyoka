@@ -175,6 +175,8 @@ def get_pml_derived_flds(trfm, col_names, **kwargs):
         return lbl_binarizer(trfm, col_names, **kwargs)
     elif "OneHotEncoder"==get_class_name(trfm):
         return one_hot_encoder(trfm,col_names,**kwargs)
+    elif "CategoricalImputer" == get_class_name(trfm):
+        return cat_imputer(trfm, col_names)
     else:
         raise TypeError("This PreProcessing Task is not Supported")
 
@@ -311,6 +313,39 @@ def imputer(trfm, col_names):
 
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
+    return pp_dict
+
+
+def cat_imputer(trfm, col_names):
+    """
+
+    Parameters
+    ----------
+    trfm :
+        Contains the Sklearn's Imputer preprocessing instance
+    col_names : list
+        Contains list of feature/column names.
+        The column names may represent the names of preprocessed attributes.
+
+    Returns
+    -------
+    pp_dict : dictionary
+        Returns a dictionary that contains attributes related to Imputer preprocessing.
+
+    """
+    derived_colnames = col_names
+    pp_dict = dict()
+    derived_flds = list()
+
+    mining_strategy = "asMode"
+    mining_replacement_val = trfm.fill_
+
+    pp_dict['mining_strategy'] = mining_strategy
+    pp_dict['mining_replacement_val'] = mining_replacement_val
+    pp_dict['mining_attributes'] = col_names
+    pp_dict['der_fld'] = derived_flds
+    pp_dict['der_col_names'] = derived_colnames
+
     return pp_dict
 
 
