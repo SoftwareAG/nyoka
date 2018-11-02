@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/python-3.5-blue.svg)](https://badge.fury.io/py/nyoka)
 [![Python](https://img.shields.io/badge/python-3.6-blue.svg)](https://badge.fury.io/py/nyoka)
 
-<img src="/docs/nyoka_logo.PNG" alt="nyoka/nyoka_logo.PNG" height="240" style="float:right"/>
+<img src="/docs/nyoka_logo.PNG" alt="nyoka_logo" height="240" style="float:right"/>
 
 ## Overview
 
