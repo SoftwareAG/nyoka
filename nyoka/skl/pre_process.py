@@ -4,7 +4,7 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import PMML43Ext as pml
-
+exception_cols = list()
 
 def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
     """
@@ -24,7 +24,6 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
     Returns a dictionary that contains data related to pre-processing
 
     """
-
     pml_pp = dict()
     pml_derived_flds = list()
     initial_colnames = [col_name for col_name in initial_colnames]
@@ -285,29 +284,30 @@ def imputer(trfm, col_names, **kwargs):
     if not any_in(original_col_names, col_names):
         derived_colnames = get_derived_colnames('imputer', col_names)
         for col_name_idx in range(len(col_names)):
-            const_list = list()
-            apply_inner = list()
-            apply_inner.append(pml.Apply(function='isMissing', FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]))
-            const_obj = pml.Constant(
-                dataType="double",  # <---------------------
-                valueOf_=mining_replacement_val[col_name_idx]
-            ),
-            fieldref_obj = pml.FieldRef(field=col_names[col_name_idx])
-            fieldref_obj.original_tagname_ = "FieldRef"
-            const_list.append(const_obj[0])
-            const_list.append(fieldref_obj)
-            apply_outer = pml.Apply(
-                Apply_member=apply_inner,
-                function='if',
-                Constant=const_list
-            )
+            if (col_names[col_name_idx] not in exception_cols):
+                const_list = list()
+                apply_inner = list()
+                apply_inner.append(pml.Apply(function='isMissing', FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]))
+                const_obj = pml.Constant(
+                    dataType="double",  # <---------------------
+                    valueOf_=mining_replacement_val[col_name_idx]
+                ),
+                fieldref_obj = pml.FieldRef(field=col_names[col_name_idx])
+                fieldref_obj.original_tagname_ = "FieldRef"
+                const_list.append(const_obj[0])
+                const_list.append(fieldref_obj)
+                apply_outer = pml.Apply(
+                    Apply_member=apply_inner,
+                    function='if',
+                    Constant=const_list
+                )
 
-            derived_flds.append(pml.DerivedField(
-                Apply=apply_outer,
-                name=derived_colnames[col_name_idx],
-                optype="continuous",
-                dataType="double"
-            ))
+                derived_flds.append(pml.DerivedField(
+                    Apply=apply_outer,
+                    name=derived_colnames[col_name_idx],
+                    optype="continuous",
+                    dataType="double"
+                ))
     else:
         pp_dict['mining_strategy'] = mining_strategy
         pp_dict['mining_replacement_val'] = mining_replacement_val
@@ -583,32 +583,33 @@ def min_max_scaler(trfm, col_names):
     """
     pp_dict = dict()
     derived_flds = list()
+    # col_names = list(filter(lambda x: x not in exception_cols, col_names))
     derived_colnames = get_derived_colnames("minMaxScaler", col_names)
     for col_name_idx in range(len(col_names)):
-        apply_inner = list()
-        apply_inner.append(pml.Apply(
-            function='*',
-            Constant=[pml.Constant(
-                dataType="double",
-                valueOf_=unround_scalers(trfm.scale_[col_name_idx])
-            )],
-            FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
-        ))
-        apply_outer = pml.Apply(
-            Apply_member=apply_inner,
-            function='+',
-            Constant=[pml.Constant(
-                dataType="double",
-                valueOf_=unround_scalers(trfm.min_[col_name_idx])
-            )]
-        )
-        derived_flds.append(pml.DerivedField(
-            Apply=apply_outer,
-            name=derived_colnames[col_name_idx],
-            optype="continuous",
-            dataType="double"
-        ))
-
+        if(col_names[col_name_idx] not in exception_cols):
+            apply_inner = list()
+            apply_inner.append(pml.Apply(
+                function='*',
+                Constant=[pml.Constant(
+                    dataType="double",
+                    valueOf_=unround_scalers(trfm.scale_[col_name_idx])
+                )],
+                FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
+            ))
+            apply_outer = pml.Apply(
+                Apply_member=apply_inner,
+                function='+',
+                Constant=[pml.Constant(
+                    dataType="double",
+                    valueOf_=unround_scalers(trfm.min_[col_name_idx])
+                )]
+            )
+            derived_flds.append(pml.DerivedField(
+                Apply=apply_outer,
+                name=derived_colnames[col_name_idx],
+                optype="continuous",
+                dataType="double"
+            ))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     return pp_dict
@@ -635,30 +636,31 @@ def rbst_scaler(trfm, col_names):
     derived_flds = list()
     derived_colnames = get_derived_colnames('robustScaler', col_names)
     for col_name_idx in range(len(col_names)):
-        apply_inner = list()
-        apply_inner.append(pml.Apply(
-            function='-',
-            Constant=[pml.Constant(
-                dataType="double",  # <---------------------
-                valueOf_=unround_scalers(trfm.center_[col_name_idx])
-            )],
-            FieldRef=[pml.FieldRef(field=col_names[col_name_idx])],
-            Extension=[pml.Extension(name='scaling', anytypeobjs_=['RobustScaler'])]
-        ))
-        apply_outer = pml.Apply(
-            Apply_member=apply_inner,
-            function='/',
-            Constant=[pml.Constant(
-                dataType="double",  # <----------------------------
-                valueOf_=unround_scalers(trfm.scale_[col_name_idx])
-            )]
-        )
-        derived_flds.append(pml.DerivedField(
-            Apply=apply_outer,
-            name=derived_colnames[col_name_idx],
-            optype="continuous",
-            dataType="double"
-        ))
+        if (col_names[col_name_idx] not in exception_cols):
+            apply_inner = list()
+            apply_inner.append(pml.Apply(
+                function='-',
+                Constant=[pml.Constant(
+                    dataType="double",  # <---------------------
+                    valueOf_=unround_scalers(trfm.center_[col_name_idx])
+                )],
+                FieldRef=[pml.FieldRef(field=col_names[col_name_idx])],
+                Extension=[pml.Extension(name='scaling', anytypeobjs_=['RobustScaler'])]
+            ))
+            apply_outer = pml.Apply(
+                Apply_member=apply_inner,
+                function='/',
+                Constant=[pml.Constant(
+                    dataType="double",  # <----------------------------
+                    valueOf_=unround_scalers(trfm.scale_[col_name_idx])
+                )]
+            )
+            derived_flds.append(pml.DerivedField(
+                Apply=apply_outer,
+                name=derived_colnames[col_name_idx],
+                optype="continuous",
+                dataType="double"
+            ))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     return pp_dict
@@ -685,21 +687,22 @@ def max_abs_scaler(trfm, col_names):
     derived_flds = list()
     derived_colnames = get_derived_colnames('maxAbsScaler', col_names)
     for col_name_idx in range(len(col_names)):
-        apply_outer = pml.Apply(
-            function='/',
-            Constant=[pml.Constant(
-                dataType="double",  # <---------------------
-                valueOf_=unround_scalers(trfm.max_abs_[col_name_idx])
-            )],
-            FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
-        )
+        if (col_names[col_name_idx] not in exception_cols):
+            apply_outer = pml.Apply(
+                function='/',
+                Constant=[pml.Constant(
+                    dataType="double",  # <---------------------
+                    valueOf_=unround_scalers(trfm.max_abs_[col_name_idx])
+                )],
+                FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
+            )
 
-        derived_flds.append(pml.DerivedField(
-            Apply=apply_outer,
-            name=derived_colnames[col_name_idx],
-            optype="continuous",
-            dataType="double"
-        ))
+            derived_flds.append(pml.DerivedField(
+                Apply=apply_outer,
+                name=derived_colnames[col_name_idx],
+                optype="continuous",
+                dataType="double"
+            ))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     return pp_dict
@@ -886,6 +889,7 @@ def lbl_binarizer(trfm, col_names, **kwargs):
                                          dataType="double"))
     if any_in([model.__class__.__name__], model_exception_list):
         pp_dict['hidden_lb_der_flds'] = derived_flds
+        exception_cols.extend(derived_colnames)
         derived_flds = list()
 
     pp_dict['der_fld'] = derived_flds
@@ -932,6 +936,7 @@ def one_hot_encoder(trfm, col_names, **kwargs):
                                      dataType="double"))
     if any_in([model.__class__.__name__], model_exception_list):
         pp_dict['hidden_ohe_der_flds'] = derived_flds
+        exception_cols.extend(derived_colnames)
         derived_flds = list()
 
     pp_dict['der_fld'] = derived_flds
