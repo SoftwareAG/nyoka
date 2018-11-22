@@ -81,6 +81,7 @@ nyoka requires:
 * lightgbm (>=2.1.2)
 * xgboost (>=0.8.0)
 * sklearn-pandas
+* lxml
 
 
 ## Installation

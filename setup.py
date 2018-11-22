@@ -35,6 +35,7 @@ setup(
 		"tensorflow==1.9.0",
 		"statsmodels==0.9.0",
 		"sklearn-pandas",
-		"lightgbm"
+		"lightgbm",
+		"lxml"
 	]
 )
