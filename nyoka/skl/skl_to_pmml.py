@@ -1811,7 +1811,7 @@ def get_output(model, target_name):
 
     mining_func = get_mining_func(model)
     output_fields = list()
-    if 'OneClassSVM' or 'IsolationForest' in str(model.__class__):
+    if model.__class__.__name__ in ['OneClassSVM','IsolationForest']:
         output_fields.append(pml.OutputField(
                 name='predicted',
                 feature="predictedValue",
