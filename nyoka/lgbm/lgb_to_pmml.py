@@ -134,6 +134,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     model_kwargs = sklToPmml.get_model_kwargs(model, col_names, target_name, mining_imp_val)
     mining_models = list()
     mining_models.append(pml.MiningModel(
+        modelName="LightGBModel",
         Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values),
         **model_kwargs
     ))
@@ -236,6 +237,7 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
 
         segments_equal_to_estimators.append((pml.Segment(id=i + 1, True_=pml.True_(),
                                                      TreeModel=pml.TreeModel(functionName="regression",
+                                                     modelName="DecisionTreeModel",
                                                                          missingValueStrategy="none",
                                                                          noTrueChildStrategy="returnLastPrediction",
                                                                          splitCharacteristic="multiSplit",
@@ -383,7 +385,7 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
             mining_schema_for_1st_segment = xgboostToPmml.mining_Field_For_First_Segment(feature_names)
             outputField = list()
             outputField.append(pml.OutputField(name='lgbValue(' + str(index) + ')', optype="continuous",
-                                      feature="predictedValue", isFinalResult="true"))
+                                      feature="predictedValue", dataType="float", isFinalResult="true"))
             out = pml.Output(OutputField=outputField)
 
             oField.append('lgbValue(' + str(index) + ')')

@@ -1150,6 +1150,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                 id=str(estm_idx),
                 MiningModel=pml.MiningModel(
                     functionName='regression',
+                    modelName="MiningModel",
                     MiningSchema=miningschema_for_first,
                     Output=pml.Output(OutputField=output_fields),
                     Segmentation=pml.Segmentation(
