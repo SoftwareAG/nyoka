@@ -149,7 +149,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
     """
     skl_mdl_super_cls_names = get_super_cls_names(model)
     regression_model_names = ('LinearRegression', 'LogisticRegression', 'RidgeClassifier', 'SGDClassifier',
-                              'LinearDiscriminantAnalysis','LinearSVC','LinearSVR')
+                              'LinearDiscriminantAnalysis')
     tree_model_names = ('BaseDecisionTree',)
     support_vector_model_names = ('SVC', 'SVR')
     anomaly_model_names = ('OneClassSVM',)
@@ -251,6 +251,7 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val):
     """
     model_kwargs = dict()
     model_kwargs['functionName'] = get_mining_func(model)
+    # model_kwargs['modelName'] = get_model_name(model)
     model_kwargs['MiningSchema'] = get_mining_schema(model, col_names, target_name, mining_imp_val)
     if 'IsolationForest' in str(model.__class__):
         model_kwargs['Output']=get_anomaly_detection_output(model)
@@ -442,6 +443,7 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
     clustering_models.append(
         pml.ClusteringModel(
             modelClass="centerBased",
+            modelName="KmeansModel",
             numberOfClusters=get_cluster_num(model),
             ComparisonMeasure=get_comp_measure(),
             ClusteringField=get_clustering_flds(derived_col_names),
@@ -736,6 +738,7 @@ def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
     naive_bayes_model = list()
     naive_bayes_model.append(pml.NaiveBayesModel(
+        modelName="NaiveBayesModel",
         BayesInputs=get_bayes_inputs(model, derived_col_names),
         BayesOutput=get_bayes_output(model, target_name),
         threshold=get_threshold(),
@@ -852,7 +855,7 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
     supportVector_models = list()
     kernel_type = get_kernel_type(model)
     supportVector_models.append(pml.SupportVectorMachineModel(
-        modelName=get_model_name(model),
+        modelName='SupportVectorMachineModel',
         classificationMethod=get_classificationMethod(model),
         VectorDictionary=get_vectorDictionary(model, derived_col_names, categoric_values),
         SupportVectorMachine=get_supportVectorMachine(model),
@@ -868,6 +871,14 @@ def get_model_name(model):
         return 'ocsvm'
     elif 'IsolationForest' in str(model.__class__):
         return 'iforest'
+    elif 'XGB' in str(model.__class__):
+        return 'XGBoostModel'
+    elif 'LGB' in str(model.__class__):
+        return 'LightGBModel'
+    elif 'GradientBoosting' in str(model.__class__):
+        return 'GradientBoostingModel'
+    elif 'RandomForest' in str(model.__class__):
+        return 'RandomForestModel'
 
 def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     
@@ -1512,6 +1523,7 @@ def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
     tree_models = list()
     tree_models.append(pml.TreeModel(
+        modelName="DecisionTreeModel",
         Node=get_node(model, derived_col_names),
         **model_kwargs
     ))
@@ -1545,7 +1557,7 @@ def get_neural_models(model, derived_col_names, col_names, target_name, mining_i
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
     neural_model = list()
     neural_model.append(pml.NeuralNetwork(
-        modelName="Neural_Network",
+        modelName="NeuralNetwork",
         threshold='0',
         altitude='1.0',
         activationFunction=get_funct(model),
@@ -1605,12 +1617,13 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
         Returns a regression model of the respective model
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
-    if 'SGDClassifier' in str(model.__class__) or 'RidgeClassifier' in str(model.__class__) or 'LinearSVC' in str(model.__class__):
+    if 'SGDClassifier' in str(model.__class__) or 'RidgeClassifier' in str(model.__class__):
         model_kwargs['normalizationMethod'] = 'logit'
     elif 'LogisticRegression' in str(model.__class__):
         model_kwargs['normalizationMethod'] = 'softmax'
     regrs_models = list()
     regrs_models.append(pml.RegressionModel(
+        modelName="RegressionModel",
         RegressionTable=get_regrs_tabl(model, derived_col_names, target_name, categoric_values),
         **model_kwargs
     ))
@@ -1647,7 +1660,7 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
         merge = list()
         target_classes = target_name
         row_idx = 0
-        if not hasattr(inter, '__iter__') or 'LinearSVR' in str(model.__class__) :
+        if not hasattr(inter, '__iter__'):
             inter = np.array([inter])
             target_classes = [target_classes]
             model_coef = model_coef.reshape(1, model_coef.shape[0])
@@ -1811,29 +1824,38 @@ def get_output(model, target_name):
 
     mining_func = get_mining_func(model)
     output_fields = list()
-    if model.__class__.__name__ in ['OneClassSVM','IsolationForest']:
+    if not has_target(model):
         output_fields.append(pml.OutputField(
                 name='predicted',
                 feature="predictedValue",
-                optype="continuous",
+                optype="categorical",
                 dataType="double"
             ))
     else:
-        if has_target(model):
-            alt_target_name = 'predicted_' + target_name
-            output_fields.append(pml.OutputField(name=alt_target_name))
-    if mining_func == 'classification':
-        for cls in model.classes_:
+        alt_target_name = 'predicted_' + target_name
+        if mining_func == 'classification':
+            for cls in model.classes_:
+                output_fields.append(pml.OutputField(
+                    name='probability_' + str(cls),
+                    feature="probability",
+                    optype="continuous",
+                    dataType="double",
+                    value=str(cls)
+                ))
             output_fields.append(pml.OutputField(
-                name='probability_' + str(cls),
-                feature="probability",
+                name=alt_target_name,
+                feature="predictedValue",
+                optype="categorical",
+                dataType="string"))
+        else:
+            output_fields.append(pml.OutputField(
+                name=alt_target_name,
+                feature="predictedValue",
                 optype="continuous",
-                dataType="double",
-                value=str(cls)
-            ))
-        return pml.Output(OutputField=output_fields)
-    elif mining_func == 'regression':
-        return pml.Output(OutputField=output_fields)
+                dataType="double"))
+    return pml.Output(OutputField=output_fields)
+
+
 
 
 def get_mining_func(model):
