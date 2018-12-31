@@ -149,7 +149,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
     """
     skl_mdl_super_cls_names = get_super_cls_names(model)
     regression_model_names = ('LinearRegression', 'LogisticRegression', 'RidgeClassifier', 'SGDClassifier',
-                              'LinearDiscriminantAnalysis')
+                              'LinearDiscriminantAnalysis','LinearSVC','LinearSVR')
     tree_model_names = ('BaseDecisionTree',)
     support_vector_model_names = ('SVC', 'SVR')
     anomaly_model_names = ('OneClassSVM',)
@@ -1618,7 +1618,7 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
         Returns a regression model of the respective model
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
-    if 'SGDClassifier' in str(model.__class__) or 'RidgeClassifier' in str(model.__class__):
+    if 'SGDClassifier' in str(model.__class__) or 'RidgeClassifier' in str(model.__class__) or 'LinearSVC' in str(model.__class__):
         model_kwargs['normalizationMethod'] = 'logit'
     elif 'LogisticRegression' in str(model.__class__):
         model_kwargs['normalizationMethod'] = 'softmax'
@@ -1661,7 +1661,7 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
         merge = list()
         target_classes = target_name
         row_idx = 0
-        if not hasattr(inter, '__iter__'):
+        if not hasattr(inter, '__iter__') or 'LinearSVR' in str(model.__class__):
             inter = np.array([inter])
             target_classes = [target_classes]
             model_coef = model_coef.reshape(1, model_coef.shape[0])
