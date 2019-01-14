@@ -1661,9 +1661,10 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
         merge = list()
         target_classes = target_name
         row_idx = 0
-        if not hasattr(inter, '__iter__') or 'LinearSVR' in str(model.__class__):
+        if not hasattr(inter, '__iter__') or'LinearRegression' in str(model.__class__) or 'LinearSVR' in str(model.__class__):
             inter = np.array([inter])
             target_classes = [target_classes]
+            model_coef = np.ravel(model_coef)
             model_coef = model_coef.reshape(1, model_coef.shape[0])
             target_cat = None
         else:

@@ -11,6 +11,7 @@ from sklearn_pandas import DataFrameMapper
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.linear_model import LinearRegression,LogisticRegression
 from nyoka import skl_to_pmml
 
 
@@ -124,6 +125,47 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj,features,target,"dtr_pmml.pmml")
 
         self.assertEqual(os.path.isfile("dtr_pmml.pmml"),True)
+
+
+    def test_sklearn_06(self):
+        df = pd.read_csv('nyoka/tests/auto-mpg.csv')
+        X = df.drop(['mpg','car name'],axis=1)
+        y = df['mpg']
+
+        features = X.columns
+        target = 'mpg'
+
+        pipeline_obj = Pipeline([
+            ('model',LinearRegression())
+        ])
+
+        pipeline_obj.fit(X,y)
+
+        skl_to_pmml(pipeline_obj,features,target,"linearregression_pmml.pmml")
+
+        self.assertEqual(os.path.isfile("linearregression.pmml"),True)
+
+    def test_sklearn_07(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+
+        pipeline_obj = Pipeline([
+            ("mapping", DataFrameMapper([
+            (['sepal length (cm)', 'sepal width (cm)'], StandardScaler()) , 
+            (['petal length (cm)', 'petal width (cm)'], Imputer())
+            ])),
+            ("lr", LogisticRegression())
+        ])
+
+        pipeline_obj.fit(irisd[features], irisd[target])
+
+        skl_to_pmml(pipeline_obj, features, target, "logisticregression_pmml.pmml")
+
+        self.assertEqual(os.path.isfile("logisticregression_pmml.pmml"),True)
 
 if __name__=='__main__':
     unittest.main(warnings='ignore')
