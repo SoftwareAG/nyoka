@@ -143,7 +143,7 @@ class TestMethods(unittest.TestCase):
 
         skl_to_pmml(pipeline_obj,features,target,"linearregression_pmml.pmml")
 
-        self.assertEqual(os.path.isfile("linearregression.pmml"),True)
+        self.assertEqual(os.path.isfile("linearregression_pmml.pmml"),True)
 
     def test_sklearn_07(self):
         iris = datasets.load_iris()
