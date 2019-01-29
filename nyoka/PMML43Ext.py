@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Sep 26 00:29:48 2018 by generateDS.py version 2.28a.
+# Generated Mon Jan 28 07:58:41 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
 #   ('--export', 'write literal etree')
-#   ('--super', 'nyoka.PMML43ExtSuper')
+#   ('--super', 'PMML43ExtSuper')
 #   ('--subclass-suffix', '')
-#   ('-o', 'nyoka.PMML43ExtSuper.py')
-#   ('-s', 'nyoka.PMML43Ext.py')
-#   ('-b', 'behaviorsDir.xml')
+#   ('-o', 'PMML43ExtSuper.py')
+#   ('-s', 'nyoka_local.py')
+#   ('-b', 'behaviors2.xml')
 #   ('-f', '')
 #
 # Command line arguments:
-#   ../nyoka.PMML43Ext.xsd
+#   PMML43ExtSuper.xsd
 #
 # Command line:
-#   /Users/pasha/Documents/GitHub/nyoka/nyoka/PMML43Ext/gds_local.py --no-warnings --export="write literal etree" --super="nyoka.PMML43ExtSuper" --subclass-suffix -o "nyoka.PMML43ExtSuper.py" -s "nyoka.PMML43Ext.py" -b "behaviorsDir.xml" -f ../nyoka.PMML43Ext.xsd
+#   C:\Users\nibo\AppData\Local\Continuum\anaconda3\Scripts\generateDS --no-warnings --export="write literal etree" --super="PMML43ExtSuper" --subclass-suffix -o "PMML43ExtSuper.py" -s "nyoka_local.py" -b "behaviors2.xml" -f PMML43ExtSuper.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML43Ext
@@ -1022,7 +1022,6 @@ class LayerWeights(supermod.LayerWeights):
         return result
 
     def weights(self, *args):
-        import nyoka
 
         if self.src is not None:
             raw_content = open(self.src, "r").read()
@@ -1040,11 +1039,10 @@ class LayerWeights(supermod.LayerWeights):
         else:
             return None
 
-        from nyoka.Base64 import FloatBase64
         if raw_content.find("+") > 0:
-            return FloatBase64.to_floatArray_urlsafe(raw_content)
+            return Base64.FloatBase64.to_floatArray_urlsafe(raw_content)
         else:
-            return FloatBase64.to_floatArray(raw_content)
+            return Base64.FloatBase64.to_floatArray(raw_content)
     def weights_wrapper(self, *args):
         result = self.weights(*args)
         return result
@@ -1107,12 +1105,11 @@ class LayerBias(supermod.LayerBias):
             raw_content = raw_content[18:] + "=="
         else:
             return None
-
         from nyoka.Base64 import FloatBase64
         if raw_content.find("+") > 0:
-            return FloatBase64.to_floatArray_urlsafe(raw_content)
+            return Base64.FloatBase64.to_floatArray_urlsafe(raw_content)
         else:
-            return FloatBase64.to_floatArray(raw_content)
+            return Base64.FloatBase64.to_floatArray(raw_content)
     def weights_wrapper(self, *args):
         result = self.weights(*args)
         return result
@@ -1143,8 +1140,8 @@ supermod.LayerBias.subclass = LayerBias
 
 
 class LayerParameters(supermod.LayerParameters):
-    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, paddingType=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, return_sequences=None, return_state=None, stateful=None, inputLength=None, recurrentUnits=None, recurrentActivation=None, recurrentDropout=None, go_backwards=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, recurrentInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, recurrentConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, Extension=None):
-        super(LayerParameters, self).__init__(activationFunction, inputDimension, outputDimension, featureMaps, kernel, paddingType, stride, dilationRate, poolSize, depthMultiplier, paddingDims, croppingDims, upsamplingSize, return_sequences, return_state, stateful, inputLength, recurrentUnits, recurrentActivation, recurrentDropout, go_backwards, batchNormalizationEpsilon, flattenAxis, batchNormalizationAxis, batchNormalizationMomentum, batchNormalizationCenter, batchNormalizationScale, gaussianNoiseStdev, gaussianDropoutRate, alphaDropoutRate, alphaDropoutSeed, betaInitializer, gammaInitializer, movingMeanInitializer, movingVarianceInitializer, recurrentInitializer, betaRegularizer, gammaRegularizer, betaConstraint, gammaConstraint, kernelInitializer, biasInitializer, kernelRegularizer, biasRegularizer, kernelConstraint, biasConstraint, depthwiseConstraint, pointwiseConstraint, recurrentConstraint, batchSize, dropoutRate, dropoutNoiseShape, dropoutSeed, generalLUAlpha, reshapeTarget, permuteDims, repeatVectorTimes, activityRegularizerL1, activityRegularizerL2, maskValue, mergeLayerOp, mergeLayerDotOperationAxis, mergeLayerDotNormalize, mergeLayerConcatOperationAxes, slicingAxis, Extension, )
+    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, paddingType=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, return_sequences=None, return_state=None, stateful=None, inputLength=None, recurrentUnits=None, recurrentActivation=None, recurrentDropout=None, go_backwards=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, recurrentInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, recurrentConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, max_value=None, trainable=None, units=None, Extension=None):
+        super(LayerParameters, self).__init__(activationFunction, inputDimension, outputDimension, featureMaps, kernel, paddingType, stride, dilationRate, poolSize, depthMultiplier, paddingDims, croppingDims, upsamplingSize, return_sequences, return_state, stateful, inputLength, recurrentUnits, recurrentActivation, recurrentDropout, go_backwards, batchNormalizationEpsilon, flattenAxis, batchNormalizationAxis, batchNormalizationMomentum, batchNormalizationCenter, batchNormalizationScale, gaussianNoiseStdev, gaussianDropoutRate, alphaDropoutRate, alphaDropoutSeed, betaInitializer, gammaInitializer, movingMeanInitializer, movingVarianceInitializer, recurrentInitializer, betaRegularizer, gammaRegularizer, betaConstraint, gammaConstraint, kernelInitializer, biasInitializer, kernelRegularizer, biasRegularizer, kernelConstraint, biasConstraint, depthwiseConstraint, pointwiseConstraint, recurrentConstraint, batchSize, dropoutRate, dropoutNoiseShape, dropoutSeed, generalLUAlpha, reshapeTarget, permuteDims, repeatVectorTimes, activityRegularizerL1, activityRegularizerL2, maskValue, mergeLayerOp, mergeLayerDotOperationAxis, mergeLayerDotNormalize, mergeLayerConcatOperationAxes, slicingAxis, max_value, trainable, units, Extension, )
 
     #
     # XMLBehaviors
@@ -1242,8 +1239,8 @@ supermod.ParameterList.subclass = ParameterList
 
 
 class Parameter(supermod.Parameter):
-    def __init__(self, name=None, value=None, Extension=None):
-        super(Parameter, self).__init__(name, value, Extension, )
+    def __init__(self, name=None, label=None, referencePoint='0', Extension=None):
+        super(Parameter, self).__init__(name, label, referencePoint, Extension, )
 
     #
     # XMLBehaviors
@@ -1418,8 +1415,8 @@ supermod.EventValues.subclass = EventValues
 
 
 class PMML(supermod.PMML):
-    def __init__(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
-        super(PMML, self).__init__(version, Header, script, MiningBuildTask, DataDictionary, TransformationDictionary, AssociationModel, AnomalyDetectionModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
+    def __init__(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+        super(PMML, self).__init__(version, Header, script, MiningBuildTask, DataDictionary, TransformationDictionary, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
 
     #
     # XMLBehaviors
@@ -2098,8 +2095,8 @@ supermod.Segmentation.subclass = Segmentation
 
 
 class Segment(supermod.Segment):
-    def __init__(self, id=None, weight='1', Extension=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None):
-        super(Segment, self).__init__(id, weight, Extension, SimplePredicate, CompoundPredicate, SimpleSetPredicate, True_, False_, AssociationModel, AnomalyDetectionModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, )
+    def __init__(self, id=None, weight='1', Extension=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None):
+        super(Segment, self).__init__(id, weight, Extension, SimplePredicate, CompoundPredicate, SimpleSetPredicate, True_, False_, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, )
 
     #
     # XMLBehaviors
@@ -2424,8 +2421,8 @@ supermod.Output.subclass = Output
 
 
 class OutputField(supermod.OutputField):
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, threshold=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, Apply=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None, Value=None):
-        super(OutputField, self).__init__(name, displayName, optype, dataType, targetField, feature, value, numTopCategories, threshold, ruleFeature, algorithm, rank, rankBasis, rankOrder, isMultiValued, segmentId, isFinalResult, Extension, Decisions, Apply, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Aggregate, Lag, Value, )
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, Apply=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
+        super(OutputField, self).__init__(name, displayName, optype, dataType, targetField, feature, value, numTopCategories, ruleFeature, algorithm, rank, rankBasis, rankOrder, isMultiValued, segmentId, isFinalResult, Extension, Decisions, Apply, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Aggregate, Lag, )
 
     #
     # XMLBehaviors
@@ -2479,9 +2476,6 @@ class OutputField(supermod.OutputField):
         if self.numTopCategories is not None and 'numTopCategories' not in already_processed:
             already_processed.add('numTopCategories')
             outfile.write(' numTopCategories=%s' % (supermod.quote_attrib(self.numTopCategories), ))
-        if self.threshold is not None and 'threshold' not in already_processed:
-            already_processed.add('threshold')
-            outfile.write(' threshold=%s' % (supermod.quote_attrib(self.threshold), ))
 
     def exportAttributes_wrapper(self, outfile, level, already_processed, namespace_='', name_='OutputFields', *args):
         result = self.exportAttributes(outfile, level, already_processed, namespace_='', name_='OutputFields', *args)
@@ -2511,17 +2505,6 @@ class Decision(supermod.Decision):
     #
 supermod.Decision.subclass = Decision
 # end class Decision
-
-
-class AnomalyDetectionModel(supermod.AnomalyDetectionModel):
-    def __init__(self, modelName=None, sampleDataSize=None, functionName=None, algorithmType=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, AnomalyDetectionModel_member=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
-        super(AnomalyDetectionModel, self).__init__(modelName, sampleDataSize, functionName, algorithmType, MiningSchema, Output, LocalTransformations, ParameterList, ModelVerification, AssociationModel, AnomalyDetectionModel_member, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
-
-    #
-    # XMLBehaviors
-    #
-supermod.AnomalyDetectionModel.subclass = AnomalyDetectionModel
-# end class AnomalyDetectionModel
 
 
 class RegressionModel(supermod.RegressionModel):
@@ -4226,8 +4209,8 @@ def parseLiteral(inFilename, silence=False):
     # Enable Python to collect the space used by the DOM.
     doc = None
     if not silence:
-        sys.stdout.write('#from nyoka.PMML43ExtSuper import *\n\n')
-        sys.stdout.write('import nyoka.PMML43ExtSuper as model_\n\n')
+        sys.stdout.write('#from PMML43ExtSuper import *\n\n')
+        sys.stdout.write('import PMML43ExtSuper as model_\n\n')
         sys.stdout.write('rootObj = model_.rootClass(\n')
         rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
         sys.stdout.write(')\n')
@@ -4344,7 +4327,7 @@ def new_init():
         self.content_ = [supermod.MixedContainer(1, 2, "", str(content))]
         self.valueOf_ = str(content)
 
-    def PMML_init(self, version='4.3', Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version='4.3', Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -4358,10 +4341,6 @@ def new_init():
             self.AssociationModel = []
         else:
             self.AssociationModel = AssociationModel
-        if AnomalyDetectionModel is None:
-                self.AnomalyDetectionModel = []
-        else:
-            self.AnomalyDetectionModel = AnomalyDetectionModel
         if BayesianNetworkModel is None:
             self.BayesianNetworkModel = []
         else:
@@ -4554,7 +4533,7 @@ def orig_init():
             self.content_ = content_
         self.valueOf_ = valueOf_
 
-    def PMML_init(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -4569,10 +4548,6 @@ def orig_init():
             self.AssociationModel = []
         else:
             self.AssociationModel = AssociationModel
-        if AnomalyDetectionModel is None:
-                self.AnomalyDetectionModel = []
-        else:
-            self.AnomalyDetectionModel = AnomalyDetectionModel
         if BayesianNetworkModel is None:
             self.BayesianNetworkModel = []
         else:
