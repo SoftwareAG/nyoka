@@ -19,52 +19,73 @@ Nyoka comes to you with the complete source code in Python, extended HTML docume
 
 Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 
-## Folder structure
+## List of libraries and models that nyoka supports :
 
-```
-nyoka-pmml
-|---nyoka
-	|---docs
-	|---examples
-	|	|---keras
-	|	|	|---(jupyter notebook examples)
-	|	|---lgbm
-	|	|	|---(jupyter notebook examples)
-	|	|---skl
-	|	|	|---(jupyter notebook examples)
-	|	|---statsmodels
-	|	|	|---(jupyter notebook examples)
-	|	|---xgboost
-	|		|---(jupyter notebook examples)
-	|---nyoka
-	|	|---keras
-	|	|	|---keras_model_to_pmml
-	|	|---lbgm
-	|	|	|---tests
-	|	|	|	|---lbg_test
-	|	|	|---lgb_to_pmml
-	|	|---skl
-	|	|	|---tests
-	|	|	|	|---pre_process_UnitTest
-	|	|	|	|---skl_to_pmml_UnitTest
-	|	|	|---pre_process
-	|	|	|---skl_to_pmml
-	|	|---statsmodels
-	|	|	|---arima
-	|	|	|---exponential_smoothing
-	|	|---xgboost
-	|	|	|---tests
-	|	|	|	|---xgboost_Test
-	|	|	|---xgboost_to_pmml
-	|	|---tests
-	|	|---Base64
-	|	|---PMML43Ext
-	|	|---PMML43ExtSuper
-	|---LICENSE
-	|---README
-	|---setup
+#### Scikit-Learn :
+##### Models -
+* LinearRegression
+* LogisticRegression
+* RidgeClassifier
+* SGDClassifier
+* LinearDiscriminantAnalysis
+* LinearSVC
+* LinearSVR
+* DecisionTreeClassifier
+* DecisionTreeRegressor
+* SVC
+* SVR
+* OneClassSVM
+* GaussianNB
+* RandomForestRegressor
+* RandomForestClassifier
+* GradientBoostingRegressor
+* GradientBoostingClassifier
+* MLPClassifier
+* MLPRegressor
+* KNNClassifier
+* KNNRegressor
+* KMeans
 
-```
+##### Pre-Processing -
+
+* StandardScaler
+* MinMaxScaler
+* RobustScaler
+* MaxAbsScaler
+* TfidfVectorizer
+* CountVectorizer
+* LabelEncoder
+* Imputer
+* Binarizer
+* PolynomialFeatures
+* PCA
+* LabelBinarizer
+* OneHotEncoder
+* CategoricalImputer
+
+#### Keras :
+
+* Mobilenet
+* VGG-16
+* VGG-19
+* Inception
+* ResNet
+
+#### LightGBM :
+
+* LGBMClassifier
+* LGBMRegressor
+
+#### XGBoost :
+
+* XGBClassifier
+* XGBRegressor
+
+#### Statsmodels :
+
+* ARIMA
+* ExponentialSmoothing
+
 
 ## Prerequisites
 

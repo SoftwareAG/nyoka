@@ -57,7 +57,7 @@ call([sys.executable, os.path.join(curdir, "behavior_script.py")])
 
 print("\033[33;1mGENERATING CLASSES\033[0m")
 try:
-    call(["python3", os.path.join(curdir, "gds_local.py"), "--no-warnings", "--export=write literal etree", "--super=" + name,
+    call(["python", os.path.join(curdir, "gds_local.py"), "--no-warnings", "--export=write literal etree", "--super=" + name,
     "--subclass-suffix=", "-o", pmmlpy, "-s", pmmlpysub, "-b", behaviorFileWithDir, "-f", os.path.join("..", xsd)])
 except Exception as e:
     print("\033[31;mCLASSES MUST BE GENERATED WITH PYTHON 3\nPLEASE INSTALL PYTHON 3 AND TRY AGAIN\033[0m")
