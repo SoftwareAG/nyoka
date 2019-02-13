@@ -19,7 +19,7 @@ Nyoka comes to you with the complete source code in Python, extended HTML docume
 
 Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 
-## List of libraries and models that nyoka supports :
+## List of libraries and models supported by Nyoka :
 
 #### Scikit-Learn :
 ##### Models -
