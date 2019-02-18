@@ -1,5 +1,6 @@
 import re, os, sys
 def sed(find, replace, filename):
+    replace = os.path.splitdrive(replace)[-1]
     replace = replace.replace('\\','/')
     readfile = open(filename, 'r')
     data = readfile.read()

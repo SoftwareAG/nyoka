@@ -21,8 +21,8 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 
 ## List of libraries and models supported by Nyoka :
 
-#### Scikit-Learn :
-##### Models -
+### Scikit-Learn :
+#### Models -
 * LinearRegression
 * LogisticRegression
 * RidgeClassifier
@@ -46,7 +46,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * KNNRegressor
 * KMeans
 
-##### Pre-Processing -
+#### Pre-Processing -
 
 * StandardScaler
 * MinMaxScaler
@@ -63,7 +63,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * OneHotEncoder
 * CategoricalImputer
 
-#### Keras :
+### Keras :
 
 * Mobilenet
 * VGG-16
@@ -71,17 +71,17 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * Inception
 * ResNet
 
-#### LightGBM :
+### LightGBM :
 
 * LGBMClassifier
 * LGBMRegressor
 
-#### XGBoost :
+### XGBoost :
 
 * XGBClassifier
 * XGBRegressor
 
-#### Statsmodels :
+### Statsmodels :
 
 * ARIMA
 * ExponentialSmoothing

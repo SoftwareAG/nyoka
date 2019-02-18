@@ -2,23 +2,23 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Jan 28 07:58:40 2019 by generateDS.py version 2.28a.
+# Generated Mon Feb 18 17:17:44 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
 #   ('--export', 'write literal etree')
-#   ('--super', 'pmml43Ext')
+#   ('--super', 'pmml43ExtSuper')
 #   ('--subclass-suffix', '')
-#   ('-o', 'pmml43Ext.py')
-#   ('-s', 'nyoka_local.py')
-#   ('-b', 'behaviors2.xml')
+#   ('-o', 'pmml43ExtSuper.py')
+#   ('-s', 'pmml43Ext.py')
+#   ('-b', 'behaviorsDir.xml')
 #   ('-f', '')
 #
 # Command line arguments:
-#   pmml43Ext.xsd
+#   ..\pmml43Ext.xsd
 #
 # Command line:
-#   C:\Users\nibo\AppData\Local\Continuum\anaconda3\Scripts\generateDS --no-warnings --export="write literal etree" --super="pmml43Ext" --subclass-suffix -o "pmml43Ext.py" -s "nyoka_local.py" -b "behaviors2.xml" -f pmml43Ext.xsd
+#   C:\Projects\nyoka\nyoka\PMML43Ext\gds_local.py --no-warnings --export="write literal etree" --super="pmml43ExtSuper" --subclass-suffix -o "pmml43ExtSuper.py" -s "pmml43Ext.py" -b "behaviorsDir.xml" -f ..\pmml43Ext.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML43Ext
@@ -23648,6 +23648,7 @@ class Extension(GeneratedsSuper):
             self.anytypeobjs_ = []
         else:
             self.anytypeobjs_ = anytypeobjs_
+        self.elementobjs_ = []
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -23671,7 +23672,7 @@ class Extension(GeneratedsSuper):
     def set_value(self, value): self.value = value
     def hasContent_(self):
         if (
-            self.anytypeobjs_
+            self.anytypeobjs_ or self.elementobjs_
         ):
             return True
         else:
@@ -23717,7 +23718,18 @@ class Extension(GeneratedsSuper):
                 obj_.export(outfile, level, namespace_, pretty_print=pretty_print)
             except:
                 showIndent(outfile, level, pretty_print)
-                outfile.write(obj_)
+                outfile.write(str(obj_))
+                outfile.write(eol_)
+        for objName_ in self.elementobjs_:
+            obj_ = eval("self." + objName_)
+            if eval("isinstance(obj_, list)"):
+                for s in obj_:
+                    showIndent(outfile, level, pretty_print)
+                    outfile.write("<" + objName_ + ">" + str(s) + "</" + objName_ + ">")
+                    outfile.write(eol_)
+            else:
+                showIndent(outfile, level, pretty_print)
+                outfile.write("<" + objName_ + ">" + str(obj_) + "</" + objName_ + ">")
                 outfile.write(eol_)
     def to_etree(self, parent_element=None, name_='Extension', mapping_=None):
         if parent_element is None:
@@ -23769,6 +23781,8 @@ class Extension(GeneratedsSuper):
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
+        if self.anytypeobjs_ == []:
+            self.anytypeobjs_ = list(filter(None, [obj_.lstrip(' ') for obj_ in node.text.split('\n')]))
         return self
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('extender', node)
@@ -23784,9 +23798,17 @@ class Extension(GeneratedsSuper):
             already_processed.add('value')
             self.value = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        obj_ = self.gds_build_any(child_, 'Extension')
-        if obj_ is not None:
-            self.add_anytypeobjs_(obj_)
+        if not hasattr(self, "elementobjs_"):
+            self.elementobjs_ = []
+        if hasattr(self, nodeName_) and nodeName_ not in self.elementobjs_:
+            nodeName_ += '_'
+        if nodeName_ not in self.elementobjs_:
+            self.elementobjs_.append(nodeName_)
+        if not eval("hasattr(self, '" + nodeName_ + "')"):
+            exec("self." + nodeName_ + " = " + list(filter(None, [obj_.lstrip(' ') for obj_ in child_.text.split('\n')]))[0])
+        else:
+            exec("self." + nodeName_ + " = list(self." + nodeName_ + ")")
+            exec("self." + nodeName_ + ".append(" + list(filter(None, [obj_.lstrip(' ') for obj_ in child_.text.split('\n')]))[0] + ")")
 # end class Extension
 
 
@@ -51618,6 +51640,7 @@ class row(GeneratedsSuper):
             self.anytypeobjs_ = []
         else:
             self.anytypeobjs_ = anytypeobjs_
+        self.elementobjs_ = []
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -51635,7 +51658,7 @@ class row(GeneratedsSuper):
     def insert_anytypeobjs_(self, index, value): self._anytypeobjs_[index] = value
     def hasContent_(self):
         if (
-            self.anytypeobjs_
+            self.anytypeobjs_ or self.elementobjs_
         ):
             return True
         else:
@@ -51673,7 +51696,18 @@ class row(GeneratedsSuper):
                 obj_.export(outfile, level, namespace_, pretty_print=pretty_print)
             except:
                 showIndent(outfile, level, pretty_print)
-                outfile.write(obj_)
+                outfile.write(str(obj_))
+                outfile.write(eol_)
+        for objName_ in self.elementobjs_:
+            obj_ = eval("self." + objName_)
+            if eval("isinstance(obj_, list)"):
+                for s in obj_:
+                    showIndent(outfile, level, pretty_print)
+                    outfile.write("<" + objName_ + ">" + str(s) + "</" + objName_ + ">")
+                    outfile.write(eol_)
+            else:
+                showIndent(outfile, level, pretty_print)
+                outfile.write("<" + objName_ + ">" + str(obj_) + "</" + objName_ + ">")
                 outfile.write(eol_)
     def to_etree(self, parent_element=None, name_='row', mapping_=None):
         if parent_element is None:
@@ -51708,13 +51742,23 @@ class row(GeneratedsSuper):
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
+        if self.anytypeobjs_ == []:
+            self.anytypeobjs_ = list(filter(None, [obj_.lstrip(' ') for obj_ in node.text.split('\n')]))
         return self
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        obj_ = self.gds_build_any(child_, 'row')
-        if obj_ is not None:
-            self.add_anytypeobjs_(obj_)
+        if not hasattr(self, "elementobjs_"):
+            self.elementobjs_ = []
+        if hasattr(self, nodeName_) and nodeName_ not in self.elementobjs_:
+            nodeName_ += '_'
+        if nodeName_ not in self.elementobjs_:
+            self.elementobjs_.append(nodeName_)
+        if not eval("hasattr(self, '" + nodeName_ + "')"):
+            exec("self." + nodeName_ + " = " + list(filter(None, [obj_.lstrip(' ') for obj_ in child_.text.split('\n')]))[0])
+        else:
+            exec("self." + nodeName_ + " = list(self." + nodeName_ + ")")
+            exec("self." + nodeName_ + ".append(" + list(filter(None, [obj_.lstrip(' ') for obj_ in child_.text.split('\n')]))[0] + ")")
 # end class row
 
 
@@ -66836,8 +66880,8 @@ def parseLiteral(inFileName, silence=False):
     # Enable Python to collect the space used by the DOM.
     doc = None
     if not silence:
-        sys.stdout.write('#from pmml43Ext import *\n\n')
-        sys.stdout.write('import pmml43Ext as model_\n\n')
+        sys.stdout.write('#from pmml43ExtSuper import *\n\n')
+        sys.stdout.write('import pmml43ExtSuper as model_\n\n')
         sys.stdout.write('rootObj = model_.rootClass(\n')
         rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
         sys.stdout.write(')\n')

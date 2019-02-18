@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Jan 28 07:58:41 2019 by generateDS.py version 2.28a.
+# Generated Mon Feb 18 17:17:45 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
 #   ('--export', 'write literal etree')
-#   ('--super', 'PMML43ExtSuper')
+#   ('--super', 'nyoka.PMML43ExtSuper')
 #   ('--subclass-suffix', '')
-#   ('-o', 'PMML43ExtSuper.py')
-#   ('-s', 'nyoka_local.py')
-#   ('-b', 'behaviors2.xml')
+#   ('-o', 'nyoka.PMML43ExtSuper.py')
+#   ('-s', 'nyoka.PMML43Ext.py')
+#   ('-b', 'behaviorsDir.xml')
 #   ('-f', '')
 #
 # Command line arguments:
-#   PMML43ExtSuper.xsd
+#   ..\nyoka.PMML43Ext.xsd
 #
 # Command line:
-#   C:\Users\nibo\AppData\Local\Continuum\anaconda3\Scripts\generateDS --no-warnings --export="write literal etree" --super="PMML43ExtSuper" --subclass-suffix -o "PMML43ExtSuper.py" -s "nyoka_local.py" -b "behaviors2.xml" -f PMML43ExtSuper.xsd
+#   C:\Projects\nyoka\nyoka\PMML43Ext\gds_local.py --no-warnings --export="write literal etree" --super="nyoka.PMML43ExtSuper" --subclass-suffix -o "nyoka.PMML43ExtSuper.py" -s "nyoka.PMML43Ext.py" -b "behaviorsDir.xml" -f ..\nyoka.PMML43Ext.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML43Ext
@@ -56,6 +56,7 @@ class AssociationModel(supermod.AssociationModel):
     #
     def set_Item(self, Item, *args):
         self.Item = Item
+
         self.numberOfItems = len(self.Item)
     def set_Item_wrapper(self, Item, *args):
         result = self.set_Item(Item, *args)
@@ -63,6 +64,7 @@ class AssociationModel(supermod.AssociationModel):
 
     def add_Item(self, value, *args):
         self.Item.append(value)
+
         self.numberOfItems = len(self.Item)
     def add_Item_wrapper(self, value, *args):
         result = self.add_Item(value, *args)
@@ -70,6 +72,7 @@ class AssociationModel(supermod.AssociationModel):
 
     def insert_Item_at(self, index, value, *args):
         self.Item.insert(index, value)
+
         self.numberOfItems = len(self.Item)
     def insert_Item_at_wrapper(self, index, value, *args):
         result = self.insert_Item_at(index, value, *args)
@@ -77,6 +80,7 @@ class AssociationModel(supermod.AssociationModel):
 
     def set_Itemset(self, Itemset, *args):
         self.Itemset = Itemset
+
         self.numberOfItemsets = len(self.Itemset)
     def set_Itemset_wrapper(self, Itemset, *args):
         result = self.set_Itemset(Itemset, *args)
@@ -84,6 +88,7 @@ class AssociationModel(supermod.AssociationModel):
 
     def add_Itemset(self, value, *args):
         self.Itemset.append(value)
+
         self.numberOfItemsets = len(self.Itemset)
     def add_Itemset_wrapper(self, value, *args):
         result = self.add_Itemset(value, *args)
@@ -91,6 +96,7 @@ class AssociationModel(supermod.AssociationModel):
 
     def insert_Itemset_at(self, index, value, *args):
         self.Itemset.insert(index, value)
+
         self.numberOfItemsets = len(self.Itemset)
     def insert_Itemset_at_wrapper(self, index, value, *args):
         result = self.insert_Itemset_at(index, value, *args)
@@ -105,6 +111,7 @@ class AssociationModel(supermod.AssociationModel):
 
     def add_AssociationRule(self, value, *args):
         self.AssociationRule.append(value)
+
         self.numberOfRules = len(self.AssociationRule)
     def add_AssociationRule_wrapper(self, value, *args):
         result = self.add_AssociationRule(value, *args)
@@ -112,6 +119,7 @@ class AssociationModel(supermod.AssociationModel):
 
     def insert_AssociationRule_at(self, index, value, *args):
         self.AssociationRule.insert(index, value)
+
         self.numberOfRules = len(self.AssociationRule)
     def insert_AssociationRule_at_wrapper(self, index, value, *args):
         result = self.insert_AssociationRule_at(index, value, *args)
@@ -141,6 +149,7 @@ class Itemset(supermod.Itemset):
     #
     def set_ItemRef(self, ItemRef, *args):
         self.ItemRef = ItemRef
+
         self.numberOfItems = len(self.ItemRef)
     def set_ItemRef_wrapper(self, ItemRef, *args):
         result = self.set_ItemRef(ItemRef, *args)
@@ -148,6 +157,7 @@ class Itemset(supermod.Itemset):
 
     def add_ItemRef(self, value, *args):
         self.ItemRef.append(value)
+
         self.numberOfItems = len(self.ItemRef)
     def add_ItemRef_wrapper(self, value, *args):
         result = self.add_ItemRef(value, *args)
@@ -155,6 +165,7 @@ class Itemset(supermod.Itemset):
 
     def insert_ItemRef_at(self, index, value, *args):
         self.ItemRef.insert(index, value)
+
         self.numberOfItems = len(self.ItemRef)
     def insert_ItemRef_at_wrapper(self, index, value, *args):
         result = self.insert_ItemRef_at(index, value, *args)
@@ -503,6 +514,7 @@ class ClusteringModel(supermod.ClusteringModel):
     #
     def set_Cluster(self, Cluster, *args):
         self.Cluster = Cluster
+
         self.numberOfClusters = len(self.Cluster)
     def set_Cluster_wrapper(self, Cluster, *args):
         result = self.set_Cluster(Cluster, *args)
@@ -510,6 +522,7 @@ class ClusteringModel(supermod.ClusteringModel):
 
     def add_Cluster(self, value, *args):
         self.Cluster.append(value)
+
         self.numberOfClusters = len(self.Cluster)
     def add_Cluster_wrapper(self, value, *args):
         result = self.add_Cluster(value, *args)
@@ -517,6 +530,7 @@ class ClusteringModel(supermod.ClusteringModel):
 
     def insert_Cluster_at(self, index, value, *args):
         self.Cluster.insert(index, value)
+
         self.numberOfClusters = len(self.Cluster)
     def insert_Cluster_at_wrapper(self, index, value, *args):
         result = self.insert_Cluster_at(index, value, *args)
@@ -711,6 +725,7 @@ class DataDictionary(supermod.DataDictionary):
     #
     def set_DataField(self, DataField, *args):
         self.DataField = DataField
+
         self.numberOfFields = len(self.DataField)
     def set_DataField_wrapper(self, DataField, *args):
         result = self.set_DataField(DataField, *args)
@@ -718,6 +733,7 @@ class DataDictionary(supermod.DataDictionary):
 
     def add_DataField(self, value, *args):
         self.DataField.append(value)
+
         self.numberOfFields = len(self.DataField)
     def add_DataField_wrapper(self, value, *args):
         result = self.add_DataField(value, *args)
@@ -725,6 +741,7 @@ class DataDictionary(supermod.DataDictionary):
 
     def insert_DataField_at(self, index, value, *args):
         self.DataField.insert(index, value)
+
         self.numberOfFields = len(self.DataField)
     def insert_DataField_at_wrapper(self, index, value, *args):
         result = self.insert_DataField_at(index, value, *args)
@@ -809,6 +826,7 @@ class DeepNetwork(supermod.DeepNetwork):
     #
     def set_NetworkLayer(self, NetworkLayer, *args):
         self.NetworkLayer = NetworkLayer
+
         self.numberOfLayers = len(self.NetworkLayer)
     def set_NetworkLayer_wrapper(self, NetworkLayer, *args):
         result = self.set_NetworkLayer(NetworkLayer, *args)
@@ -816,6 +834,7 @@ class DeepNetwork(supermod.DeepNetwork):
 
     def add_NetworkLayer(self, value, *args):
         self.NetworkLayer.append(value)
+
         self.numberOfLayers = len(self.NetworkLayer)
     def add_NetworkLayer_wrapper(self, value, *args):
         result = self.add_NetworkLayer(value, *args)
@@ -823,6 +842,7 @@ class DeepNetwork(supermod.DeepNetwork):
 
     def insert_NetworkLayer_at(self, index, value, *args):
         self.NetworkLayer.insert(index, value)
+
         self.numberOfLayers = len(self.NetworkLayer)
     def insert_NetworkLayer_at_wrapper(self, index, value, *args):
         result = self.insert_NetworkLayer_at(index, value, *args)
@@ -973,28 +993,51 @@ class LayerWeights(supermod.LayerWeights):
     #
     def export(self, outfile, level, namespace_='', name_='LayerWeights', namespacedef_='', pretty_print=True, *args):
         imported_ns_def_ = supermod.GenerateDSNamespaceDefs_.get('LayerWeights')
+
         if imported_ns_def_ is not None:
+
             namespacedef_ = imported_ns_def_
+
         if pretty_print:
+
             eol_ = '\n'
+
         else:
+
             eol_ = ''
+
         if self.original_tagname_ is not None:
+
             name_ = self.original_tagname_
+
         supermod.showIndent(outfile, level, pretty_print)
+
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+
         already_processed = set()
+
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='LayerWeights')
+
         if self.hasContent_():
+
             outfile.write('>%s' % (eol_, ))
+
             if not pretty_print:
+
                 self.content_[0].value = self.content_[0].value.replace('\t', '').replace(' ', '')
+
                 self.valueOf_ = self.valueOf_.replace('\t', '').replace(' ', '')
+
             self.exportChildren(outfile, level + 1, namespace_='', name_='LayerWeights', pretty_print=pretty_print)
+
             outfile.write(eol_)
+
             supermod.showIndent(outfile, level, pretty_print)
+
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+
         else:
+
             outfile.write('/>%s' % (eol_, ))
     def export_wrapper(self, outfile, level, namespace_='', name_='LayerWeights', namespacedef_='', pretty_print=True, *args):
         result = self.export(outfile, level, namespace_='', name_='LayerWeights', namespacedef_='', pretty_print=True, *args)
@@ -1002,47 +1045,86 @@ class LayerWeights(supermod.LayerWeights):
 
     def __init__(self, src=None, embedded=False, Extension=None, valueOf_=None, mixedclass_=None, content_=None, *args):
         self.original_tagname_ = None
+
         self.src = supermod._cast(None, src)
+
         if Extension is None:
+
             self.Extension = []
+
         else:
+
             self.Extension = supermod.Extension
+
         self.valueOf_ = valueOf_
+
         if mixedclass_ is None:
+
             self.mixedclass_ = supermod.MixedContainer
+
         else:
+
             self.mixedclass_ = mixedclass_
+
         if content_ is None:
+
             self.content_ = []
+
         else:
+
             self.content_ = content_
+
         self.valueOf_ = valueOf_
     def __init___wrapper(self, src=None, embedded=False, Extension=None, valueOf_=None, mixedclass_=None, content_=None, *args):
         result = self.__init__(src=None, embedded=False, Extension=None, valueOf_=None, mixedclass_=None, content_=None, *args)
         return result
 
     def weights(self, *args):
+        import nyoka
+
+
 
         if self.src is not None:
+
             raw_content = open(self.src, "r").read()
+
         elif self.content_ is not None and self.content_[0].value is not None:
+
             raw_content = self.content_[0].value
 
+
+
         raw_content = raw_content.replace(' ', '')
+
         raw_content = raw_content.replace('\t', '')
+
         raw_content = raw_content.replace('\n', '')
+
         
+
         if raw_content.startswith("data:float32;base64,") or raw_content.startswith("data:float64;base64,") or raw_content.startswith("data:float16;base64,"):
+
             raw_content = raw_content[20:] + "=="
+
         elif raw_content.startswith("data:float;base64,"):
+
             raw_content = raw_content[18:] + "=="
+
         else:
+
             return None
 
+
+
+        from nyoka.Base64 import FloatBase64
+
         if raw_content.find("+") > 0:
-            return Base64.FloatBase64.to_floatArray_urlsafe(raw_content)
+
+            return FloatBase64.to_floatArray_urlsafe(raw_content)
+
         else:
-            return Base64.FloatBase64.to_floatArray(raw_content)
+
+            return FloatBase64.to_floatArray(raw_content)
     def weights_wrapper(self, *args):
         result = self.weights(*args)
         return result
@@ -1060,28 +1142,51 @@ class LayerBias(supermod.LayerBias):
     #
     def export(self, outfile, level, namespace_='', name_='LayerBias', namespacedef_='', pretty_print=True, *args):
         imported_ns_def_ = supermod.GenerateDSNamespaceDefs_.get('LayerBias')
+
         if imported_ns_def_ is not None:
+
             namespacedef_ = imported_ns_def_
+
         if pretty_print:
+
             eol_ = '\n'
+
         else:
+
             eol_ = ''
+
         if self.original_tagname_ is not None:
+
             name_ = self.original_tagname_
+
         supermod.showIndent(outfile, level, pretty_print)
+
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+
         already_processed = set()
+
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='LayerBias')
+
         if self.hasContent_():
+
             outfile.write('>%s' % (eol_, ))
+
             if not pretty_print:
+
                 self.content_[0].value = self.content_[0].value.replace('\t', '').replace(' ', '')
+
                 self.valueOf_ = self.valueOf_.replace('\t', '').replace(' ', '')
+
             self.exportChildren(outfile, level + 1, namespace_='', name_='LayerBias', pretty_print=pretty_print)
+
             outfile.write(eol_)
+
             supermod.showIndent(outfile, level, pretty_print)
+
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+
         else:
+
             outfile.write('/>%s' % (eol_, ))
     def export_wrapper(self, outfile, level, namespace_='', name_='LayerBias', namespacedef_='', pretty_print=True, *args):
         result = self.export(outfile, level, namespace_='', name_='LayerBias', namespacedef_='', pretty_print=True, *args)
@@ -1090,46 +1195,84 @@ class LayerBias(supermod.LayerBias):
     def weights(self, *args):
         import nyoka
 
+
+
         if self.src is not None:
+
             raw_content = open(self.src, "r").read()
+
         elif self.content_ is not None and self.content_[0].value is not None:
+
             raw_content = self.content_[0].value
 
+
+
         raw_content = raw_content.replace(' ', '')
+
         raw_content = raw_content.replace('\t', '')
+
         raw_content = raw_content.replace('\n', '')
+
         
+
         if raw_content.startswith("data:float32;base64,") or raw_content.startswith("data:float64;base64,") or raw_content.startswith("data:float16;base64,"):
+
             raw_content = raw_content[20:] + "=="
+
         elif raw_content.startswith("data:float;base64,"):
+
             raw_content = raw_content[18:] + "=="
+
         else:
+
             return None
+
+
+
         from nyoka.Base64 import FloatBase64
+
         if raw_content.find("+") > 0:
-            return Base64.FloatBase64.to_floatArray_urlsafe(raw_content)
+
+            return FloatBase64.to_floatArray_urlsafe(raw_content)
+
         else:
-            return Base64.FloatBase64.to_floatArray(raw_content)
+
+            return FloatBase64.to_floatArray(raw_content)
     def weights_wrapper(self, *args):
         result = self.weights(*args)
         return result
 
     def __init__(self, src=None, embedded=False, Extension=None, valueOf_=None, mixedclass_=None, content_=None, *args):
         self.original_tagname_ = None
+
         self.src = supermod._cast(None, src)
+
         if Extension is None:
+
             self.Extension = []
+
         else:
+
             self.Extension = supermod.Extension
+
         self.valueOf_ = valueOf_
+
         if mixedclass_ is None:
+
             self.mixedclass_ = supermod.MixedContainer
+
         else:
+
             self.mixedclass_ = mixedclass_
+
         if content_ is None:
+
             self.content_ = []
+
         else:
+
             self.content_ = content_
+
         self.valueOf_ = valueOf_
     def __init___wrapper(self, src=None, embedded=False, Extension=None, valueOf_=None, mixedclass_=None, content_=None, *args):
         result = self.__init__(src=None, embedded=False, Extension=None, valueOf_=None, mixedclass_=None, content_=None, *args)
@@ -1423,27 +1566,49 @@ class PMML(supermod.PMML):
     #
     def export(self, outfile, level, namespace_='', name_='PMML', namespacedef_='', pretty_print=True, *args):
         imported_ns_def_ = supermod.GenerateDSNamespaceDefs_.get('Timestamp')
+
         if imported_ns_def_ is not None:
+
             namespacedef_ = imported_ns_def_
+
         if pretty_print:
+
             eol_ = '\n'
+
         else:
+
             eol_ = ''
+
         if self.original_tagname_ is not None:
+
             name_ = self.original_tagname_
+
         supermod.showIndent(outfile, level, pretty_print)
+
         outfile.write('<?xml version="1.0" encoding="UTF-8"?>' + eol_)
+
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+
         already_processed = set()
+
         outfile.write(' xmlns="http://www.dmg.org/PMML-4_3"')
+
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='Timestamp')
+
         if self.hasContent_():
+
             outfile.write('>%s' % (eol_, ))
+
             self.exportChildren(outfile, level + 1, namespace_='', name_='Timestamp', pretty_print=pretty_print)
+
             supermod.showIndent(outfile, 0, pretty_print)
+
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+
         else:
+
             outfile.write('/>%s' % (eol_, ))
+
         
     def export_wrapper(self, outfile, level, namespace_='', name_='PMML', namespacedef_='', pretty_print=True, *args):
         result = self.export(outfile, level, namespace_='', name_='PMML', namespacedef_='', pretty_print=True, *args)
@@ -1484,28 +1649,51 @@ class ArrayType(supermod.ArrayType):
     #
     def export(self, outfile, level, namespace_='', name_='ArrayType', namespacedef_='', pretty_print=True, *args):
         imported_ns_def_ = supermod.GenerateDSNamespaceDefs_.get('ArrayType')
+
         if imported_ns_def_ is not None:
+
             namespacedef_ = imported_ns_def_
+
         if pretty_print:
+
             eol_ = '\n'
+
         else:
+
             eol_ = ''
+
         if self.original_tagname_ is not None:
+
             name_ = self.original_tagname_
+
         supermod.showIndent(outfile, level, pretty_print)
+
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+
         already_processed = set()
+
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ArrayType')
+
         if self.hasContent_():
+
             outfile.write('>%s' % (eol_, ))
+
             if not pretty_print:
+
                 self.content_[0].value = self.content_[0].value.replace('\t', '').replace(' ', '')
+
                 self.valueOf_ = self.valueOf_.replace('\t', '').replace(' ', '')
+
             self.exportChildren(outfile, level + 1, namespace_='', name_='ArrayType', pretty_print=pretty_print)
+
             outfile.write(eol_)
+
             supermod.showIndent(outfile, level, pretty_print)
+
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+
         else:
+
             outfile.write('/>%s' % (eol_, ))
     def export_wrapper(self, outfile, level, namespace_='', name_='ArrayType', namespacedef_='', pretty_print=True, *args):
         result = self.export(outfile, level, namespace_='', name_='ArrayType', namespacedef_='', pretty_print=True, *args)
@@ -1568,18 +1756,31 @@ class Header(supermod.Header):
     #
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='Header', *args):
         from datetime import datetime
+
         
+
         if self.copyright is not None and 'copyright' not in already_processed:
+
             if not self.copyright.endswith("Software AG"):
+
                 self.copyright += ", exported to PMML by Nyoka (c) " + str(datetime.now().year) + " Software AG"
+
             already_processed.add('copyright')
+
             outfile.write(' copyright=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.copyright), input_name='copyright')), ))
+
         if self.description is not None and 'description' not in already_processed:
+
             already_processed.add('description')
+
             outfile.write(' description=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.description), input_name='description')), ))
+
         if self.modelVersion is not None and 'modelVersion' not in already_processed:
+
             already_processed.add('modelVersion')
+
             outfile.write(' modelVersion=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.modelVersion), input_name='modelVersion')), ))
+
 
     def exportAttributes_wrapper(self, outfile, level, already_processed, namespace_='', name_='Header', *args):
         result = self.exportAttributes(outfile, level, already_processed, namespace_='', name_='Header', *args)
@@ -1598,36 +1799,67 @@ class script(supermod.script):
     #
     def export(self, outfile, level, namespace_='', name_='script', namespacedef_='', pretty_print=True, *args):
         imported_ns_def_ = supermod.GenerateDSNamespaceDefs_.get('script')
+
         if imported_ns_def_ is not None:
+
             namespacedef_ = imported_ns_def_
+
         if pretty_print:
+
             eol_ = '\n'
+
         else:
+
             eol_ = ''
+
         if self.original_tagname_ is not None:
+
             name_ = self.original_tagname_
+
         showIndent(outfile, level, pretty_print)
+
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+
         already_processed = set()
+
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='script')
+
         if self.hasContent_():
+
             outfile.write('>%s' % (eol_, ))
+
             if pretty_print:
+
                 lines = []
+
                 code = self.valueOf_.lstrip('\n')
+
                 leading_spaces = len(code) - len(code.lstrip(' '))
+
                 for line in code.split('\n'):
+
                     lines.append(line[leading_spaces:])
+
                 code = '\n'.join(lines)
+
                 indent = "    " * (level + 1)
+
                 count = code.count('\n')
+
                 indented = indent + code.replace("\n", "\n" + indent, count - 1)
+
                 self.content_ = [supermod.MixedContainer(1, 2, "", str(indented))]
+
                 self.valueOf_ = str(indented)
+
             self.exportChildren(outfile, level + 1, namespace_='', name_='script', pretty_print=pretty_print)
+
             showIndent(outfile, level, pretty_print)
+
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+
         else:
+
             outfile.write('/>%s' % (eol_, ))
     def export_wrapper(self, outfile, level, namespace_='', name_='script', namespacedef_='', pretty_print=True, *args):
         result = self.export(outfile, level, namespace_='', name_='script', namespacedef_='', pretty_print=True, *args)
@@ -1668,25 +1900,45 @@ class Timestamp(supermod.Timestamp):
     #
     def export(self, outfile, level, namespace_='', name_='Timestamp', namespacedef_='', pretty_print=True, *args):
         imported_ns_def_ = supermod.GenerateDSNamespaceDefs_.get('Timestamp')
+
         if imported_ns_def_ is not None:
+
             namespacedef_ = imported_ns_def_
+
         if pretty_print:
+
             eol_ = '\n'
+
         else:
+
             eol_ = ''
+
         if self.original_tagname_ is not None:
+
             name_ = self.original_tagname_
+
         supermod.showIndent(outfile, level, pretty_print)
+
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+
         already_processed = set()
+
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='Timestamp')
+
         if self.hasContent_():
+
             outfile.write('>%s' % ('', ))
+
             self.exportChildren(outfile, level + 1, namespace_='', name_='Timestamp', pretty_print=pretty_print)
+
             supermod.showIndent(outfile, 0, pretty_print)
+
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+
         else:
+
             outfile.write('/>%s' % (eol_, ))
+
         
     def export_wrapper(self, outfile, level, namespace_='', name_='Timestamp', namespacedef_='', pretty_print=True, *args):
         result = self.export(outfile, level, namespace_='', name_='Timestamp', namespacedef_='', pretty_print=True, *args)
@@ -1782,34 +2034,63 @@ class MiningField(supermod.MiningField):
     #
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='MiningField', *args):
         if self.name is not None and 'name' not in already_processed:
+
             already_processed.add('name')
+
             outfile.write(' name=%s' % (supermod.quote_attrib(self.name), ))
+
         if self.usageType is not None and 'usageType' not in already_processed:
+
             already_processed.add('usageType')
+
             outfile.write(' usageType=%s' % (supermod.quote_attrib(self.usageType), ))
+
         if self.optype is not None and 'optype' not in already_processed:
+
             already_processed.add('optype')
+
             outfile.write(' optype=%s' % (supermod.quote_attrib(self.optype), ))
+
         if self.importance is not None and 'importance' not in already_processed:
+
             already_processed.add('importance')
+
             outfile.write(' importance=%s' % (supermod.quote_attrib(self.importance), ))
+
         if self.outliers != "asIs" and 'outliers' not in already_processed:
+
             already_processed.add('outliers')
+
             outfile.write(' outliers=%s' % (supermod.quote_attrib(self.outliers), ))
+
         if self.lowValue is not None and 'lowValue' not in already_processed:
+
             already_processed.add('lowValue')
+
             outfile.write(' lowValue=%s' % (supermod.quote_attrib(self.lowValue), ))
+
         if self.highValue is not None and 'highValue' not in already_processed:
+
             already_processed.add('highValue')
+
             outfile.write(' highValue=%s' % (supermod.quote_attrib(self.highValue), ))
+
         if self.missingValueReplacement is not None and 'missingValueReplacement' not in already_processed:
+
             already_processed.add('missingValueReplacement')
+
             outfile.write(' missingValueReplacement=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.missingValueReplacement), input_name='missingValueReplacement')), ))
+
         if self.missingValueTreatment is not None and 'missingValueTreatment' not in already_processed:
+
             already_processed.add('missingValueTreatment')
+
             outfile.write(' missingValueTreatment=%s' % (supermod.quote_attrib(self.missingValueTreatment), ))
+
         if self.invalidValueTreatment != "returnInvalid" and 'invalidValueTreatment' not in already_processed:
+
             already_processed.add('invalidValueTreatment')
+
             outfile.write(' invalidValueTreatment=%s' % (supermod.quote_attrib(self.invalidValueTreatment), ))
     def exportAttributes_wrapper(self, outfile, level, already_processed, namespace_='', name_='MiningField', *args):
         result = self.exportAttributes(outfile, level, already_processed, namespace_='', name_='MiningField', *args)
@@ -2246,6 +2527,7 @@ class NeuralNetwork(supermod.NeuralNetwork):
     #
     def set_NeuralLayer(self, NeuralLayer, *args):
         self.NeuralLayer = NeuralLayer
+
         self.numberOfLayers = len(self.NeuralLayer)
     def set_NeuralLayer_wrapper(self, NeuralLayer, *args):
         result = self.set_NeuralLayer(NeuralLayer, *args)
@@ -2253,6 +2535,7 @@ class NeuralNetwork(supermod.NeuralNetwork):
 
     def add_NeuralLayer(self, value, *args):
         self.NeuralLayer.append(value)
+
         self.numberOfLayers = len(self.NeuralLayer)
     def add_NeuralLayer_wrapper(self, value, *args):
         result = self.add_NeuralLayer(value, *args)
@@ -2260,6 +2543,7 @@ class NeuralNetwork(supermod.NeuralNetwork):
 
     def insert_NeuralLayer_at(self, index, value, *args):
         self.NeuralLayer.insert(index, value)
+
         self.numberOfLayers = len(self.NeuralLayer)
     def insert_NeuralLayer_at_wrapper(self, index, value, *args):
         result = self.insert_NeuralLayer_at(index, value, *args)
@@ -2278,6 +2562,7 @@ class NeuralInputs(supermod.NeuralInputs):
     #
     def set_NeuralInput(self, NeuralInput, *args):
         self.NeuralInput = NeuralInput
+
         self.numberOfInputs = len(NeuralInput)
     def set_NeuralInput_wrapper(self, NeuralInput, *args):
         result = self.set_NeuralInput(NeuralInput, *args)
@@ -2285,6 +2570,7 @@ class NeuralInputs(supermod.NeuralInputs):
 
     def add_NeuralInput(self, value, *args):
         self.NeuralInput.append(value)
+
         self.numberOfInputs = len(self.NeuralInput)
     def add_NeuralInput_wrapper(self, value, *args):
         result = self.add_NeuralInput(value, *args)
@@ -2292,6 +2578,7 @@ class NeuralInputs(supermod.NeuralInputs):
 
     def insert_NeuralInput_at(self, index, value, *args):
         self.NeuralInput.insert(index, value)
+
         self.numberOfInputs = len(self.NeuralInput)
     def insert_NeuralInput_at_wrapper(self, index, value, *args):
         result = self.insert_NeuralInput_at(index, value, *args)
@@ -2310,6 +2597,7 @@ class NeuralLayer(supermod.NeuralLayer):
     #
     def set_Neuron(self, Neuron, *args):
         self.Neuron = Neuron
+
         self.numberOfNeurons = len(self.Neuron)
     def set_Neuron_wrapper(self, Neuron, *args):
         result = self.set_Neuron(Neuron, *args)
@@ -2317,6 +2605,7 @@ class NeuralLayer(supermod.NeuralLayer):
 
     def add_Neuron(self, value, *args):
         self.Neuron.append(value)
+
         self.numberOfNeurons = len(self.Neuron)
     def add_Neuron_wrapper(self, value, *args):
         result = self.add_Neuron(value, *args)
@@ -2324,6 +2613,7 @@ class NeuralLayer(supermod.NeuralLayer):
 
     def insert_Neuron_at(self, index, value, *args):
         self.Neuron.insert(index, value)
+
         self.numberOfNeurons = len(self.Neuron)
     def insert_Neuron_at_wrapper(self, index, value, *args):
         result = self.insert_Neuron_at(index, value, *args)
@@ -2342,6 +2632,7 @@ class NeuralOutputs(supermod.NeuralOutputs):
     #
     def set_NeuralOutput(self, NeuralOutput, *args):
         self.Neuron = Neuron
+
         self.numberOfNeurons = len(self.Neuron)
     def set_NeuralOutput_wrapper(self, NeuralOutput, *args):
         result = self.set_NeuralOutput(NeuralOutput, *args)
@@ -2349,6 +2640,7 @@ class NeuralOutputs(supermod.NeuralOutputs):
 
     def add_NeuralOutput(self, value, *args):
          self.NeuralOutput.append(value)
+
          self.numberOfOutputs = len(self.NeuralOutput)
     def add_NeuralOutput_wrapper(self, value, *args):
         result = self.add_NeuralOutput(value, *args)
@@ -2356,6 +2648,7 @@ class NeuralOutputs(supermod.NeuralOutputs):
 
     def insert_NeuralOutput_at(self, index, value, *args):
         self.NeuralOutput.insert(index, value)
+
         self.numberOfOutputs = len(self.NeuralOutput)
     def insert_NeuralOutput_at_wrapper(self, index, value, *args):
         result = self.insert_NeuralOutput_at(index, value, *args)
@@ -2429,53 +2722,107 @@ class OutputField(supermod.OutputField):
     #
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='OutputFields', *args):
         if self.name is not None and 'name' not in already_processed:
+
             already_processed.add('name')
+
             outfile.write(' name=%s' % (supermod.quote_attrib(self.name), ))
+
         if self.displayName is not None and 'displayName' not in already_processed:
+
             already_processed.add('displayName')
+
             outfile.write(' displayName=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.displayName), input_name='displayName')), ))
+
         if self.optype is not None and 'optype' not in already_processed:
+
             already_processed.add('optype')
+
             outfile.write(' optype=%s' % (supermod.quote_attrib(self.optype), ))
+
         if self.dataType is not None and 'dataType' not in already_processed:
+
             already_processed.add('dataType')
+
             outfile.write(' dataType=%s' % (supermod.quote_attrib(self.dataType), ))
+
         if self.targetField is not None and 'targetField' not in already_processed:
+
             already_processed.add('targetField')
+
             outfile.write(' targetField=%s' % (supermod.quote_attrib(self.targetField), ))
+
         if self.feature is not None and 'feature' not in already_processed:
+
             already_processed.add('feature')
+
             outfile.write(' feature=%s' % (supermod.quote_attrib(self.feature), ))
+
         if self.value is not None and 'value' not in already_processed:
+
             already_processed.add('value')
+
             outfile.write(' value=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.value), input_name='value')), ))
+
         if self.ruleFeature != "consequent" and 'ruleFeature' not in already_processed:
+
             already_processed.add('ruleFeature')
+
             outfile.write(' ruleFeature=%s' % (supermod.quote_attrib(self.ruleFeature), ))
+
         if self.algorithm != "exclusiveRecommendation" and 'algorithm' not in already_processed:
+
             already_processed.add('algorithm')
+
             outfile.write(' algorithm=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.algorithm), input_name='algorithm')), ))
+
         # if self.rank is not None and 'rank' not in already_processed:
+
             # already_processed.add('rank')
+
             # outfile.write(' rank=%s' % (supermod.quote_attrib(self.rank), ))
+
         if self.rankBasis != "confidence" and 'rankBasis' not in already_processed:
+
             already_processed.add('rankBasis')
+
             outfile.write(' rankBasis=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.rankBasis), input_name='rankBasis')), ))
+
         if self.rankOrder != "descending" and 'rankOrder' not in already_processed:
+
             already_processed.add('rankOrder')
+
             outfile.write(' rankOrder=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.rankOrder), input_name='rankOrder')), ))
+
         if self.isMultiValued != "0" and 'isMultiValued' not in already_processed:
+
             already_processed.add('isMultiValued')
+
             outfile.write(' isMultiValued=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.isMultiValued), input_name='isMultiValued')), ))
+
         if self.segmentId is not None and 'segmentId' not in already_processed:
+
             already_processed.add('segmentId')
+
             outfile.write(' segmentId=%s' % (self.gds_encode(self.gds_format_string(supermod.quote_attrib(self.segmentId), input_name='segmentId')), ))
+
         if not self.isFinalResult and 'isFinalResult' not in already_processed:
+
             already_processed.add('isFinalResult')
+
             outfile.write(' isFinalResult="%s"' % self.gds_format_boolean(self.isFinalResult, input_name='isFinalResult'))
+
         if self.numTopCategories is not None and 'numTopCategories' not in already_processed:
+
             already_processed.add('numTopCategories')
+
             outfile.write(' numTopCategories=%s' % (supermod.quote_attrib(self.numTopCategories), ))
+
+        if self.threshold is not None and 'threshold' not in already_processed:
+
+            already_processed.add('threshold')
+
+            outfile.write(' threshold=%s' % (supermod.quote_attrib(self.threshold), ))
+
 
     def exportAttributes_wrapper(self, outfile, level, already_processed, namespace_='', name_='OutputFields', *args):
         result = self.exportAttributes(outfile, level, already_processed, namespace_='', name_='OutputFields', *args)
@@ -3000,6 +3347,7 @@ class VectorDictionary(supermod.VectorDictionary):
     #
     def set_VectorInstance(self, VectorInstance, *args):
         self.VectorInstance = VectorInstance
+
         self.numberOfVectors = len(self.VectorInstance)
     def set_VectorInstance_wrapper(self, VectorInstance, *args):
         result = self.set_VectorInstance(VectorInstance, *args)
@@ -3007,6 +3355,7 @@ class VectorDictionary(supermod.VectorDictionary):
 
     def add_VectorInstance(self, value, *args):
         self.VectorInstance.append(value)
+
         self.numberOfVectors = len(self.VectorInstance)
     def add_VectorInstance_wrapper(self, value, *args):
         result = self.add_VectorInstance(value, *args)
@@ -3014,6 +3363,7 @@ class VectorDictionary(supermod.VectorDictionary):
 
     def insert_VectorInstance_at(self, index, value, *args):
         self.VectorInstance.insert(index, value)
+
         self.numberOfVectors = len(self.VectorInstance)
     def insert_VectorInstance_at_wrapper(self, index, value, *args):
         result = self.insert_VectorInstance_at(index, value, *args)
@@ -3065,6 +3415,7 @@ class SupportVectors(supermod.SupportVectors):
     #
     def set_SupportVector(self, SupportVector, *args):
         self.SupportVector = SupportVector
+
         self.numberOfVectors = len(self.SupportVector)
     def set_SupportVector_wrapper(self, SupportVector, *args):
         result = self.set_SupportVector(SupportVector, *args)
@@ -3072,6 +3423,7 @@ class SupportVectors(supermod.SupportVectors):
 
     def add_SupportVector(self, value, *args):
         self.SupportVector.append(value)
+
         self.numberOfVectors = len(self.SupportVector)
     def add_SupportVector_wrapper(self, value, *args):
         result = self.add_SupportVector(value, *args)
@@ -3079,6 +3431,7 @@ class SupportVectors(supermod.SupportVectors):
 
     def insert_SupportVector_at(self, index, value, *args):
         self.SupportVector.insert(index, value)
+
         self.numberOfVectors = len(self.SupportVector)
     def insert_SupportVector_at_wrapper(self, index, value, *args):
         result = self.insert_SupportVector_at(index, value, *args)
@@ -3108,6 +3461,7 @@ class Coefficients(supermod.Coefficients):
     #
     def set_Coefficient(self, Coefficient, *args):
         self.Coefficient = Coefficient
+
         self.numberOfCoefficients = len(self.Coefficient)
     def set_Coefficient_wrapper(self, Coefficient, *args):
         result = self.set_Coefficient(Coefficient, *args)
@@ -3115,6 +3469,7 @@ class Coefficients(supermod.Coefficients):
 
     def add_Coefficient(self, value, *args):
         self.Coefficient.append(value)
+
         self.numberOfCoefficients = len(self.Coefficient)
     def add_Coefficient_wrapper(self, value, *args):
         result = self.add_Coefficient(value, *args)
@@ -3122,6 +3477,7 @@ class Coefficients(supermod.Coefficients):
 
     def insert_Coefficient_at(self, index, value, *args):
         self.Coefficient.insert(index, value)
+
         self.numberOfCoefficients = len(self.Coefficient)
     def insert_Coefficient_at_wrapper(self, index, value, *args):
         result = self.insert_Coefficient_at(index, value, *args)
@@ -4209,8 +4565,8 @@ def parseLiteral(inFilename, silence=False):
     # Enable Python to collect the space used by the DOM.
     doc = None
     if not silence:
-        sys.stdout.write('#from PMML43ExtSuper import *\n\n')
-        sys.stdout.write('import PMML43ExtSuper as model_\n\n')
+        sys.stdout.write('#from nyoka.PMML43ExtSuper import *\n\n')
+        sys.stdout.write('import nyoka.PMML43ExtSuper as model_\n\n')
         sys.stdout.write('rootObj = model_.rootClass(\n')
         rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
         sys.stdout.write(')\n')
@@ -4327,7 +4683,7 @@ def new_init():
         self.content_ = [supermod.MixedContainer(1, 2, "", str(content))]
         self.valueOf_ = str(content)
 
-    def PMML_init(self, version='4.3', Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version='4.3', Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -4341,6 +4697,10 @@ def new_init():
             self.AssociationModel = []
         else:
             self.AssociationModel = AssociationModel
+        if AnomalyDetectionModel is None:
+                self.AnomalyDetectionModel = []
+        else:
+            self.AnomalyDetectionModel = AnomalyDetectionModel
         if BayesianNetworkModel is None:
             self.BayesianNetworkModel = []
         else:
@@ -4533,7 +4893,7 @@ def orig_init():
             self.content_ = content_
         self.valueOf_ = valueOf_
 
-    def PMML_init(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -4548,6 +4908,10 @@ def orig_init():
             self.AssociationModel = []
         else:
             self.AssociationModel = AssociationModel
+        if AnomalyDetectionModel is None:
+                self.AnomalyDetectionModel = []
+        else:
+            self.AnomalyDetectionModel = AnomalyDetectionModel
         if BayesianNetworkModel is None:
             self.BayesianNetworkModel = []
         else:
