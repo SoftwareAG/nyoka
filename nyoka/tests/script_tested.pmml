@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PMML xmlns="http://www.dmg.org/PMML-4_3" version="4.4">
-    <Header copyright="Copyright (c) COMPANYNAME, exported to PMML by Nyoka (c) 2018 Software AG" description="PMML Model">
+    <Header copyright="Copyright (c) COMPANYNAME, exported to PMML by Nyoka (c) 2019 Software AG" description="PMML Model">
         <Timestamp>2017-06-19 14:56:22.998854</Timestamp>
     </Header>
 	<script for="Caffe_model_2017_6_19_14_56_23" class="preprocessing">
