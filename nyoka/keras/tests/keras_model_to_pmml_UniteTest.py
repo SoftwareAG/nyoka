@@ -23,7 +23,7 @@ class TestMethods(unittest.TestCase):
         pmmlObj.export(open('mobilenet.pmml','w'),0)
         reconPmmlObj=ny.parse('mobilenet.pmml',True)
         self.assertEqual(os.path.isfile("mobilenet.pmml"),True)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].Networklayer))
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
     def test_construction_inception(self):
         model = applications.InceptionV3(weights = "imagenet", include_top=False,input_shape = (224, 224, 3))
@@ -39,7 +39,7 @@ class TestMethods(unittest.TestCase):
         pmmlObj.export(open('inception.pmml','w'),0)
         reconPmmlObj=ny.parse('inception.pmml',True)
         self.assertEqual(os.path.isfile("inception.pmml"),True)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].Networklayer))
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
     def test_construction_resnet(self):
         model = applications.ResNet50(weights = "imagenet", include_top=False,input_shape = (224, 224, 3))
@@ -55,7 +55,7 @@ class TestMethods(unittest.TestCase):
         pmmlObj.export(open('resnet.pmml','w'),0)
         reconPmmlObj=ny.parse('resnet.pmml',True)
         self.assertEqual(os.path.isfile("resnet.pmml"),True)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].Networklayer))
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
     def test_construction_vgg(self):
         model = applications.VGG16(weights = "imagenet", include_top=False,input_shape = (224, 224, 3))
@@ -71,7 +71,7 @@ class TestMethods(unittest.TestCase):
         pmmlObj.export(open('vgg.pmml','w'),0)
         reconPmmlObj=ny.parse('vgg.pmml',True)
         self.assertEqual(os.path.isfile("vgg.pmml"),True)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].Networklayer))
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
 
 if __name__=='__main__':
