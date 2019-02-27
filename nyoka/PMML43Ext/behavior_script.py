@@ -1,7 +1,8 @@
-import re, os, sys
+import re, os, sys, platform
 def sed(find, replace, filename):
-    replace = os.path.splitdrive(replace)[-1]
-    replace = replace.replace('\\','/')
+    if 'windows' in platform.platform().lower():
+        replace = os.path.splitdrive(replace)[-1]
+        replace = replace.replace('\\','/')
     readfile = open(filename, 'r')
     data = readfile.read()
     readfile.close()

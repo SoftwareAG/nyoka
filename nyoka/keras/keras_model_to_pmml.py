@@ -22,11 +22,16 @@ import numpy as np
 import PMML43Ext as ny
 
 LAYERS_DIR = os.path.abspath(os.path.dirname(__file__))
-IMAGENET_INDEX_PATH = LAYERS_DIR + "/imagenet_class_index.json"
+image_INDEX_PATH = LAYERS_DIR + "/image_class_index.json"
 
 KERAS_LAYER_TYPES_MAP = {'InputLayer': 'Input',
                          'Add': 'MergeLayer',
-                         'Concatenate': 'MergeLayer'}
+                         'Concatenate': 'MergeLayer',
+                         'Dot': 'MergeLayer',
+                         'Subtract': 'MergeLayer',
+                         'Maximum': 'MergeLayer',
+                         'Minimum': 'MergeLayer',
+                         'Average': 'MergeLayer'}
 
 KERAS_LAYER_PARAMS = ['filters', 'kernel_size', 'strides', 'padding',
                       'input_shape', 'output_shape', "activation", "axis",
@@ -170,13 +175,14 @@ class KerasNetworkLayer(ny.NetworkLayer):
         layer_config = layer.get_config()
         if 'activation' in layer_config:
             activation_function = layer_config.get('activation')
-            if activation_function == "sigmoid":
-                activation_function = "logistic"
-            elif activation_function == "relu":
-                #activation_function = "reLU"
+            # if activation_function == "sigmoid":
+            #     activation_function = "logistic"
+            if activation_function == "relu":
                 activation_function = "rectifier"
             elif activation_function == "relu6":
                 activation_function = "reLU6"
+            elif activation_function == "tanh":
+                activation_function = "tanch"
 
         else:
             activation_function = None
@@ -201,19 +207,20 @@ class KerasNetworkLayer(ny.NetworkLayer):
         layer_config = layer.get_config()
         new_layer_params_dict = {}
         pad_dims = None
+        layer_params_dict['paddingDims']='None'        
         for key, val in layer_params_dict.items():
             if val in layer_config:
                 if val == "activation":
-                    layer_params_dict[key] = self._get_activation_function(
-                        layer)
+                    layer_params_dict[key] = self._get_activation_function(layer)
                 elif val == "padding":
                     pad_val = layer_config.get(val)
-                    if isinstance(pad_val, tuple):
-                        one_d_tup = [em for tup in pad_val for em in tup]
-                        pad_dims = True
-                        layer_params_dict[key] = str(tuple(one_d_tup))
-                    else:
+                    # print (val,pad_val)
+                    if pad_val in ['valid','same']:
                         layer_params_dict[key] = str(pad_val)
+                    else:
+                        pad_dims=str(pad_val)
+                        layer_params_dict['paddingDims'] = pad_dims
+                        # print ('>>>',layer_params_dict)
                 else:
                     layer_params_dict[key] = str(layer_config.get(val))
             elif hasattr(layer, val):
@@ -232,7 +239,15 @@ class KerasNetworkLayer(ny.NetworkLayer):
                 layer_params_dict[key] = None
             if layer_params_dict[key] and layer_params_dict[key] != "None":
                 if key == "paddingType" and pad_dims:
-                    new_layer_params_dict["paddingDims"] = layer_params_dict[key]
+                    pad_ = list()
+                    for val in pad_val:
+                        if hasattr(val,'__len__'):
+                            for v in val:
+                                pad_.append(v)
+                        else:
+                            pad_.append(val)
+                    pad_val = tuple(pad_)
+                    new_layer_params_dict["paddingDims"] = str(pad_val)
                 else:
                     new_layer_params_dict[key] = layer_params_dict[key]
         return new_layer_params_dict
@@ -306,9 +321,11 @@ class KerasNetworkLayer(ny.NetworkLayer):
             connection_layers = "na"
         return connection_layers
 
-    def __init__(self, layer, layer_type):
+    def __init__(self, layer,dataSet, layer_type):
         merge_layer_op_type = None
         merge_concat_axes = None
+        merge_dot_axes = None
+        merge_dot_normalization = False
         input_filed_name = None
         if "Pmml" in layer_type:
             layer_type = layer_type[4:]
@@ -323,7 +340,15 @@ class KerasNetworkLayer(ny.NetworkLayer):
                 if "axis" in layer_params:
                     merge_concat_axes = layer_params["axis"]
                     del layer_params["axis"]
-        if layer_type == "BatchNormalization":
+            elif merge_layer_op_type == 'dot':
+                if 'axes' in layer_params:
+                    merge_dot_axes = layer_params["axes"]
+                    del layer_params["axes"]
+                if 'normalize' in layer_params:
+                    merge_dot_normalization = layer_params["normalize"]
+                    del layer_params["normalize"]
+                layer_params["mergeLayerDotNormalize"] = merge_dot_normalization
+        elif layer_type == "BatchNormalization":
             if "axis" in layer_params:
                 layer_params["batchNormalizationAxis"] = layer_params["axis"]
                 del layer_params["axis"]
@@ -334,11 +359,24 @@ class KerasNetworkLayer(ny.NetworkLayer):
                 except:
                     layer_params["batchNormalizationScale"] = layer_params[
                         "batchNormalizationScale"]
-
+        elif layer_type == "ReLU":
+            layer_type = "Activation"
+            layer_params["activationFunction"] = "rectifier"
+            layer_params["max_value"] = str(layer.max_value.item())
+        elif layer_type == 'Dense':
+            layer_params["units"] = str(layer.units)
+        layer_params["trainable"] = str(layer.trainable)
         layer_params["mergeLayerOp"] = merge_layer_op_type
         layer_params["mergeLayerConcatOperationAxes"] = merge_concat_axes
+        layer_params["mergeLayerDotOperationAxis"] = merge_dot_axes
         if layer_type == "Input":
-            input_filed_name = "base64String"
+            if dataSet:
+                if dataSet == "image":
+                    input_filed_name = "base64String"
+                else:
+                    input_filed_name = dataSet
+            else:
+                input_filed_name = "dataSet"
 
         ny.NetworkLayer.__init__(self, inputFieldName=input_filed_name,
                                  layerType=layer_type,
@@ -354,7 +392,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
 class KerasDataDictionary(ny.DataDictionary):
     """
     KerasDataDictionary stores the class information to be predicted  in the PMML model.
-    The current implementation takes care of the Imagenet class label by giving dataset name as dataSet parameter.
+    The current implementation takes care of the image class label by giving dataset name as dataSet parameter.
 
     Parameters
     ----------
@@ -368,36 +406,61 @@ class KerasDataDictionary(ny.DataDictionary):
     """ 
     def __init__(self, dataSet, predictedClasses):
         ny.DataDictionary.__init__(self)
-        name = "image"
-        class_node = ny.DataField(name="predictions", optype="categorical",
-                                  dataType="string")
-        if dataSet and dataSet == "ImageNet":
-            name = "image"
-            with open(IMAGENET_INDEX_PATH) as json_file:
-                json_data = json.load(json_file)
-                for i in range(len(json_data)):
-                    data_val = json_data[str(i)]
-                    class_node.add_Value(ny.Value(value=str(data_val[1])))
-        elif not dataSet and predictedClasses:
-            if type(predictedClasses)==list:
-                if not all(type(pC)==str for pC in predictedClasses):
-                    print("Not all classes are given as String. Values will be attempted to be converted to String.")
-                for i in range(len(predictedClasses)):
-                    data_val = predictedClasses[i]
-                    class_node.add_Value(ny.Value(value=str(data_val)))
-            elif type(predictedClasses)==dict:
-                if not all(type(pC)==str for pC in predictedClasses.keys()):
-                    print("Class indices are expected as strings in dictionary keys. Keys will be attempted to be converted to String.")
-                for i in range(len(predictedClasses.keys())):
-                    data_val = predictedClasses.keys()[i]
-                    class_node.add_Value(ny.Value(value=str(data_val)))
-        else:
-            print("Predicted Classes not provided; regression model assumed.")
 
-        ny.DataDictionary.add_DataField(self, ny.DataField(
-            name=name, optype="categorical", dataType="binary",
-            mimeType="image/png", Extension=[ny.Extension(
-                extender="ADAPA", name="BINARY_BUFFERED", value="true")]))
+        if dataSet:
+            if predictedClasses:
+                class_node = ny.DataField(name="predictions", optype="categorical",
+                                      dataType="string")
+                if type(predictedClasses) == list:
+                    if not all(type(pC) == str for pC in predictedClasses):
+                        print(
+                            "Not all classes are given as String. Values will be attempted to be converted to String.")
+                    for i in range(len(predictedClasses)):
+                        data_val = predictedClasses[i]
+                        class_node.add_Value(ny.Value(value=str(data_val)))
+                elif type(predictedClasses) == dict:
+                    if not all(type(pC) == str for pC in predictedClasses.keys()):
+                        print(
+                            "Class indices are expected as strings in dictionary keys. Keys will be attempted to be converted to String.")
+                    for i in range(len(predictedClasses.keys())):
+                        data_val = predictedClasses.keys()[i]
+                        class_node.add_Value(ny.Value(value=str(data_val)))
+            else:
+                class_node = ny.DataField(name="predictions", optype="continuous",
+                                          dataType="double")
+            if dataSet == "image":
+                name = "image"
+                ny.DataDictionary.add_DataField(self, ny.DataField(
+                    name=name, optype="categorical", dataType="binary",
+                    mimeType="image/png", Extension=[ny.Extension(
+                        extender="ADAPA", name="BINARY_BUFFERED", value="true" ,anytypeobjs_=[''])]))
+            else:
+                name = dataSet
+                ny.DataDictionary.add_DataField(self, ny.DataField(
+                    name=name, optype="categorical", dataType="string"
+                ))           
+        elif not dataSet:
+            name = 'dataSet'
+            ny.DataDictionary.add_DataField(self, ny.DataField(name=name, optype="categorical", dataType="string"))
+            if predictedClasses:
+                class_node = ny.DataField(name="predictions", optype="categorical",
+                                          dataType="string")
+                if type(predictedClasses)==list:
+                    if not all(type(pC)==str for pC in predictedClasses):
+                        print("Not all classes are given as String. Values will be attempted to be converted to String.")
+                    for i in range(len(predictedClasses)):
+                        data_val = predictedClasses[i]
+                        class_node.add_Value(ny.Value(value=str(data_val)))
+                elif type(predictedClasses)==dict:
+                    if not all(type(pC)==str for pC in predictedClasses.keys()):
+                        print("Class indices are expected as strings in dictionary keys. Keys will be attempted to be converted to String.")
+                    for i in range(len(predictedClasses.keys())):
+                        data_val = predictedClasses.keys()[i]
+                        class_node.add_Value(ny.Value(value=str(data_val)))
+            else:
+                class_node = ny.DataField(name="predictions", optype="continuous",
+                                          dataType="double")
+
         ny.DataDictionary.add_DataField(self, class_node)
 
 
@@ -415,15 +478,20 @@ class KerasMiningSchema(ny.MiningSchema):
     Nyoka's Mining Schema Object
     """ 
     def __init__(self, dataSet=None):
-        name = "image"
-        if dataSet and dataSet == "ImageNet":
-            name = "image"
         ny.MiningSchema.__init__(self)
+        if dataSet:
+            name = dataSet
+            ny.MiningSchema.add_MiningField(self, ny.MiningField(
+                name=name, usageType="active",
+                invalidValueTreatment="asIs"))
+        else:
+            name = "dataSet"
+            ny.MiningSchema.add_MiningField(self, ny.MiningField(
+                name=name, usageType="active",
+                invalidValueTreatment="asIs"))
+
         ny.MiningSchema.add_MiningField(self, ny.MiningField(
-            name=name, usageType="active",
-            invalidValueTreatment="asIs"))
-        ny.MiningSchema.add_MiningField(self, ny.MiningField(
-            name="predictions", usageType="predicted",
+            name="predictions", usageType="target",
             invalidValueTreatment="asIs"))
 
 
@@ -442,15 +510,20 @@ class KerasOutput(ny.Output):
     """ 
     def __init__(self, predictedClasses=None):
         ny.Output.__init__(self)
-        ny.Output.add_OutputField(self, ny.OutputField(
-            name="predictedValue_predictions", feature="predictedValue",
-            dataType="string", optype="categorical"))
-        ny.Output.add_OutputField(self, ny.OutputField(
-            name="top1_prob", feature="probability", dataType="double"))
-        if not predictedClasses:
+        if predictedClasses:
+            ny.Output.add_OutputField(self, ny.OutputField(
+                name="predictedValue_predictions", feature="predictedValue",
+                dataType="string", optype="categorical"))
+            ny.Output.add_OutputField(self, ny.OutputField(
+                name="top1_prob", feature="probability", dataType="double"))
             ny.Output.add_OutputField(self, ny.OutputField(
                 name="top5_prob", feature="topCategories", numTopCategories="5",
                 dataType="string", optype="categorical"))
+        else:
+            ny.Output.add_OutputField(self, ny.OutputField(
+                name="predictedValue_predictions", feature="predictedValue",
+                dataType="double", optype="continuous"))
+
 
 
 class KerasLocalTransformations(ny.LocalTransformations):
@@ -460,22 +533,24 @@ class KerasLocalTransformations(ny.LocalTransformations):
     Parameters
     ----------
     model_name : String
-        Name of the model (internally used to be specific for Keras)
+        Name of the model
 
     Returns
     -------
     Nyoka's Transformations Object
     """ 
-    def __init__(self, model_name):
+    def __init__(self, model_name, dataSet):
         mod_indx = model_name.find("Keras")
         if mod_indx != -1:
             model_name = model_name[mod_indx + 5:].lower()
         ny.LocalTransformations.__init__(self)
+
         ny.LocalTransformations.add_DerivedField(self, ny.DerivedField(
             name="base64String", optype="categorical", dataType="string",
             trainingBackend="tensorflowChannelLast", architectureName=model_name,
             Apply=ny.Apply(function="CNN:getBase64String",
                            FieldRef=[ny.FieldRef(field="image")])))
+
 
 
 class KerasNetwork(ny.DeepNetwork):
@@ -487,7 +562,7 @@ class KerasNetwork(ny.DeepNetwork):
     model_name : String
         Name of the model 
     functionName: String
-        Regression or Classification, currently supports classification functionName
+        Regression or Classification
     numberOfLayers: Int
         Number of layers in the architecture
     isScorable: Boolean
@@ -509,7 +584,7 @@ class KerasNetwork(ny.DeepNetwork):
     """ 
 
 
-    def _create_an_input_layer(self, layer):
+    def _create_an_input_layer(self, layer, dataSet):
         """
         Creates a PMML input layer from Keras Input Layer object
         
@@ -521,25 +596,37 @@ class KerasNetwork(ny.DeepNetwork):
         -------
         input_layer: Nyoka Object
             PMML Input layer object
-        """ 
-        in_shape = layer.input_shape
-        if len(in_shape) == 1:
-            input_dims = output_dims = str((in_shape[0],1))
-        else:
-            if in_shape[0] is not None:
-                input_dims = output_dims = str(in_shape)
+        """
+
+        
+        if dataSet:
+            if dataSet == 'image':
+                inputField = "base64String"
             else:
-                input_dims = output_dims = str((in_shape[1:]))
+                inputField = 'dataSet'
+        else:
+            inputField = 'dataSet'
+        in_shape = layer.input_shape
+        if in_shape[0] is not None:
+            if len(in_shape) == 1:
+                input_dims = output_dims = str((in_shape[0],1))
+            else:
+                input_dims = output_dims = str(in_shape)  
+        else:
+            if len(in_shape) == 2:
+                input_dims = output_dims = str(tuple(list(in_shape[1:])+[1]))
+            else:
+                input_dims = output_dims = str(tuple(list(in_shape[1:])))  
         node_config = layer._inbound_nodes[0].get_config()
         connection_layers = ", ".join(node_config['inbound_layers'])
         input_layer = ny.NetworkLayer(
-            inputFieldName="base64String", layerType="Input", layerId=connection_layers,
+            inputFieldName=inputField, layerType="Input", layerId=connection_layers,
             connectionLayerId="na",LayerParameters=ny.LayerParameters(
                 inputDimension=input_dims,
                 outputDimension=output_dims))
         return input_layer
 
-    def _create_layers(self, keras_model):
+    def _create_layers(self, keras_model, dataSet):
         """
         Create list of PMML network layers from Keras Model object.
         
@@ -551,30 +638,29 @@ class KerasNetwork(ny.DeepNetwork):
         -------
         network_layers: Nyoka Object
             PMML network layer object 
-        """ 
+        """
         network_layers = []
         model_layers = keras_model.layers
         first_layer = model_layers[0]
         if first_layer.__class__.__name__ != "InputLayer":
-            input_layer = self._create_an_input_layer(first_layer)
+            input_layer = self._create_an_input_layer(first_layer, dataSet)
             if input_layer:
                 network_layers.append(input_layer)
         for layer in model_layers:
             layer_type = layer.__class__.__name__
-            print('layer_type: ' + layer_type)
-            net_layer = KerasNetworkLayer(layer, layer_type)
+            net_layer = KerasNetworkLayer(layer,dataSet, layer_type)
             network_layers.append(net_layer)
         return network_layers
 
     def __init__(self, keras_model, model_name, dataSet=None, predictedClasses=None):
-        network_layers = self._create_layers(keras_model)
+        network_layers = self._create_layers(keras_model, dataSet)
         local_trans = None
         mining_schema = KerasMiningSchema(dataSet)
-        # if dataSet and dataSet == "ImageNet":
-        #     local_trans = KerasLocalTransformations(model_name)
-        local_trans = KerasLocalTransformations(model_name)
+        if dataSet == 'image':
+            local_trans = KerasLocalTransformations(model_name, dataSet)
+        function_Name = "classification" if predictedClasses else "regression"
         ny.DeepNetwork.__init__(self, modelName=model_name,
-                                functionName="classification", algorithmName=None,
+                                functionName=function_Name, algorithmName=None,
                                 normalizationMethod="none", numberOfLayers=len(network_layers),
                                 isScorable=True, Extension=None, MiningSchema=mining_schema,
                                 Output=KerasOutput(predictedClasses), LocalTransformations=local_trans,
@@ -594,21 +680,20 @@ class KerasToPmml(ny.PMML):
     model_name: String
         Name to be given to the model in PMML.
     dataSet: String (Optional)
-        Name of the dataset
+        Name of the dataset. Value is 'image' for Image Classifier, 'None' or any other value is for the rest. 
     predictedClasses : List
-        List of the class names for which model has been trained
+        List of the class names for which model has been trained. If not provided, assumed to be regression model.
 
 
     Returns
     -------
     Creates PMML object, this can be saved in file using export function
     """ 
-    def __init__(self, keras_model, model_name="MobileNet",
-                 description="Keras Models in PMML",
-                 copyright="Internal User", dataSet=None, predictedClasses=None):
+    def __init__(self, keras_model, model_name="Keras Model",
+                 description="Keras Models in PMML",dataSet=None, predictedClasses=None):
         data_dict = KerasDataDictionary(dataSet, predictedClasses)
         super(KerasToPmml, self).__init__(
-            version="4.3Ext", Header=KerasHeader(description, copyright),
+            version="4.3Ext", Header=KerasHeader(description, copyright="Internal User"),
             DataDictionary=data_dict, DeepNetwork=[
                 KerasNetwork(keras_model=keras_model, model_name=model_name,
                              dataSet=dataSet, predictedClasses=predictedClasses)])

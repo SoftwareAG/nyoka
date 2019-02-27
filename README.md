@@ -95,13 +95,6 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 
 nyoka requires:
 
-* scikit-learn (>=0.19.1)
-* keras (==2.2.4)
-* tensorflow (==1.9.0)
-* statsmodels (>=0.9.0)
-* lightgbm (>=2.1.2)
-* xgboost (>=0.8.0)
-* sklearn-pandas
 * lxml
 
 
@@ -256,7 +249,7 @@ predictions = Dense(2, activation=activType)(x)
 model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
 
 from nyoka import KerasToPmml
-cnn_pmml = KerasToPmml(model_final,predictedClasses=['cats','dogs'])
+cnn_pmml = KerasToPmml(model_final,dataSet='image',predictedClasses=['cats','dogs'])
 
 cnn_pmml.export(open('2classMBNet.pmml', "w"), 0)
 ```
