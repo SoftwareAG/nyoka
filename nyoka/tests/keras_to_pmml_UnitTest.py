@@ -27,7 +27,7 @@ class TestMethods(unittest.TestCase):
         cnn_pmml.export(open('2classMBNet.pmml', "w"), 0)
         reconPmmlObj=ny.parse('2classMBNet.pmml',True)
         self.assertEqual(os.path.isfile("2classMBNet.pmml"),True)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].Neworklayer))
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].Networklayer))
 
 
     def test_keras_02(self):
@@ -48,7 +48,7 @@ class TestMethods(unittest.TestCase):
         pmmlObj.export(open('sequentialModel.pmml','w'),0)
         reconPmmlObj=ny.parse('sequentialModel.pmml',True)
         self.assertEqual(os.path.isfile("sequentialModel.pmml"),True)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].Neworklayer))
+        self.assertEqual(len(model.layers), len(reconPmmlObj.DeepNetwork[0].Networklayer))
 
 
 if __name__=='__main__':
