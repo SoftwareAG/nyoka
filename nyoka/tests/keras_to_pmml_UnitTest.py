@@ -48,7 +48,7 @@ class TestMethods(unittest.TestCase):
         pmmlObj.export(open('sequentialModel.pmml','w'),0)
         reconPmmlObj=ny.parse('sequentialModel.pmml',True)
         self.assertEqual(os.path.isfile("sequentialModel.pmml"),True)
-        self.assertEqual(len(model.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
+        self.assertEqual(len(model.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer)-1)
 
 
 if __name__=='__main__':
