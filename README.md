@@ -21,7 +21,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 
 ## List of libraries and models supported by Nyoka :
 
-### Scikit-Learn :
+### Scikit-Learn (version >= 1.19.1):
 #### Models -
 * LinearRegression
 * LogisticRegression
@@ -63,7 +63,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * OneHotEncoder
 * CategoricalImputer
 
-### Keras :
+### Keras (version 2.2.4):
 
 * Mobilenet
 * VGG-16
@@ -71,17 +71,17 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * Inception
 * ResNet
 
-### LightGBM :
+### LightGBM (version 2.2.2):
 
 * LGBMClassifier
 * LGBMRegressor
 
-### XGBoost :
+### XGBoost (version 0.81):
 
 * XGBClassifier
 * XGBRegressor
 
-### Statsmodels :
+### Statsmodels (version 0.9.0):
 
 * ARIMA
 * ExponentialSmoothing
@@ -89,7 +89,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 
 ## Prerequisites
 
-* Python 3.x
+* Python 3.6
 
 ## Dependencies
 
