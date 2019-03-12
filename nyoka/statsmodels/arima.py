@@ -47,9 +47,9 @@ class ArimaToPMML:
                 d = 0
             q = sm_results._results.specification.k_ma
             ar_params = ArrayType(n=p)
-            content_value = ' '.join([str(i) for i in sm_results._results._params_ar])
+            content_value = ' '.join([str(i) for i in sm_results._results._params_ar] if int(p) > 0 else [])
             ar_params.content_[0].value = content_value
-            ma_coeffs = [Coefficient(value=coeff) for coeff in sm_results._results._params_ma]
+            ma_coeffs = [Coefficient(value=coeff) for coeff in sm_results._results._params_ma] if int(q) > 0 else []
             ny_ma_obj = MA(Coefficients=Coefficients(numberOfCoefficients=q, Coefficient=ma_coeffs))
 
             #Seasonal
@@ -58,9 +58,9 @@ class ArimaToPMML:
             Q = sm_results._results.specification.seasonal_order[2]
             S = sm_results._results.specification.seasonal_periods
             seasonal_ar_params = ArrayType(n=p)
-            seasonal_content_value = ' '.join([str(i) for i in sm_results._results._params_seasonal_ar])
+            seasonal_content_value = ' '.join([str(i) for i in sm_results._results._params_seasonal_ar] if int(P) > 0 else [])
             seasonal_ar_params.content_[0].value = seasonal_content_value
-            seasonal_ma_coeffs = [Coefficient(value=coeff) for coeff in sm_results._results._params_seasonal_ma]
+            seasonal_ma_coeffs = [Coefficient(value=coeff) for coeff in sm_results._results._params_seasonal_ma] if int(Q) > 0 else []
             ny_seasonal_ma_obj = MA(Coefficients=Coefficients(numberOfCoefficients=Q, Coefficient=seasonal_ma_coeffs))
 
             nyoka_sarimax_obj = ARIMA(predictionMethod = None,
@@ -91,11 +91,10 @@ class ArimaToPMML:
             ma_coeffs = [Coefficient(value = coeff) for coeff in sm_results._results.maparams]
             ny_ma_obj = MA(Coefficients = Coefficients(numberOfCoefficients = q, Coefficient = ma_coeffs))
 
-            nyoka_arima_obj = ARIMA(
-                constantTerm = sm_results.params[0],
-                predictionMethod = pred_method,
-                Extension = get_arima_extension_list(sm_model),
-                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ar_params), MA = ny_ma_obj))
+            nyoka_arima_obj = ARIMA(constantTerm = sm_results.params[0],
+                                predictionMethod = pred_method,
+                                Extension = get_arima_extension_list(sm_model),
+                                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ar_params), MA = ny_ma_obj))
             return nyoka_arima_obj
 
         def get_time_series_obj_list(ts_data, usage = 'original' , timeRequired = True):
@@ -108,7 +107,7 @@ class ArimaToPMML:
                         time_value_objs.append(TimeValue(index = int_idx, value = ts_data.iat[int_idx], Timestamp = Timestamp(ts_data.index[int_idx])))
                 elif(usage == 'logical' and timeRequired == True):
                     #TODO: Implement This
-                    raise ValueError('Not Implemented')
+                    raise NotImplementedError("Not Implemented")
                 return time_value_objs
 
             obj = TimeSeries(usage = usage, startTime = 0, endTime = time_series_data.size - 1, interpolationMethod = 'none', TimeValue = get_time_value_objs(time_series_data))
@@ -164,6 +163,9 @@ class ArimaToPMML:
             extensions = list()
             extensions.append(Extension(name="sigmaSquare", value = model.sigma2, anytypeobjs_ = ['']))
             return extensions
+        
+        if(isinstance(time_series_data, pd.core.frame.DataFrame)):
+            time_series_data = time_series_data.T.squeeze()
 
         if( isinstance(model_obj, sarimax.SARIMAX) and isinstance(results_obj, sarimax.SARIMAXResultsWrapper)):
             #Get SArimaX Object and Export
@@ -178,4 +180,4 @@ class ArimaToPMML:
             ExportToPMML(model_name = model_name, arima_obj = arima_obj)
 
         else:
-            raise ValueError('We Do Not Support These type of model and result Objects')
+            raise NotImplementedError("Not Implemented")
