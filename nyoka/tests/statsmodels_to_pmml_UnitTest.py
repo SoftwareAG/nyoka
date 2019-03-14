@@ -4,6 +4,7 @@ import numpy as np
 from statsmodels.tsa.base import tsa_model as tsa
 from statsmodels.tsa import holtwinters as hw
 from statsmodels.tsa.statespace import sarimax
+from statsmodels.tsa.arima_model import ARIMA
 import unittest
 from nyoka import ExponentialSmoothingToPMML
 from nyoka import ArimaToPMML
