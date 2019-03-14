@@ -1089,6 +1089,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
             pml.OutputField(
                 name='decisionFunction(' + str(estm_idx) + ')',
                 feature='predictedValue',
+                dataType="double",
                 isFinalResult=False
             )
         )
@@ -1097,6 +1098,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                 pml.OutputField(
                     name='transformedDecisionFunction(0)',
                     feature='transformedValue',
+                    dataType="double",
                     isFinalResult=True,
                     Apply=pml.Apply(
                         function="+",
@@ -1122,6 +1124,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                 pml.OutputField(
                     name='transformedDecisionFunction(' + str(estm_idx) + ')',
                     feature='transformedValue',
+                    dataType="double",
                     isFinalResult=True,
                     Apply=pml.Apply(
                         function="+",
