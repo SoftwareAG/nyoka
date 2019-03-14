@@ -186,7 +186,10 @@ class TestMethods(unittest.TestCase):
                 except:
                     continue
                 finally:
-                    self.assertEqual(os.path.isfile(file_name),True)
+                    exported = os.path.isfile(file_name)
+                    self.assertEqual(exported,True)
+                    if(not exported):
+                        break
             except:
                 continue
 
@@ -239,7 +242,10 @@ class TestMethods(unittest.TestCase):
                 except:
                     continue
                 finally:
-                    self.assertEqual(os.path.isfile(file_name),True)
+                    exported = os.path.isfile(file_name)
+                    self.assertEqual(exported,True)
+                    if(not exported):
+                        break
             except:
                 continue
 
