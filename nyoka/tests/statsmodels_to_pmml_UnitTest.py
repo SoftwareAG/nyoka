@@ -158,41 +158,89 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(os.path.isfile("exponential_smoothing.pmml"),True)
 
 
-    def test_seasonalArima_01(self):
+    def test_non_seasonal_arima(self):
 
-        def import_data():
-            # no of international airline passengers
-            data = [112, 118, 132, 129, 121, 135, 148, 148, 136, 119, 104, 118, 115,
-                    126, 141, 135, 125, 149, 170, 170, 158, 133, 114, 140, 145, 150,
-                    178, 163, 172, 178, 199, 199, 184, 162, 146, 166, 171, 180, 193,
-                    181, 183, 218, 230, 242, 209, 191, 172, 194, 196, 196, 236, 235,
-                    229, 243, 264, 272, 237, 211, 180, 201, 204, 188, 235, 227, 234,
-                    264, 302, 293, 259, 229, 203, 229, 242, 233, 267, 269, 270, 315,
-                    364, 347, 312, 274, 237, 278, 284, 277, 317, 313, 318, 374, 413,
-                    405, 355, 306, 271, 306, 315, 301, 356, 348, 355, 422, 465, 467,
-                    404, 347, 305, 336, 340, 318, 362, 348, 363, 435, 491, 505, 404,
-                    359, 310, 337, 360, 342, 406, 396, 420, 472, 548, 559, 463, 407,
-                    362, 405, 417, 391, 419, 461, 472, 535, 622, 606, 508, 461, 390,
-                    432]
-            index = pd.DatetimeIndex(start='1949-01-01', end='1960-12-01', freq='MS')
-            ts_data = pd.Series(data, index)
-            ts_data.index.name = 'datetime_index'
-            ts_data.name = 'n_passengers'
-            return ts_data
+        fit_combin = [['c', 'css-mle', 'lbfgs'],['c', 'css-mle', 'nm'],['c', 'css-mle', 'bfgs'],['c', 'css-mle', 'powell'],['c', 'css-mle', 'cg'],
+                      ['c', 'css-mle', 'ncg'],['c', 'mle', 'lbfgs'],['c', 'mle', 'nm'],['c', 'mle', 'bfgs'],['c', 'mle', 'powell'],['c', 'mle', 'cg'],
+                      ['c', 'mle', 'ncg'],['c', 'css', 'lbfgs'],['c', 'css', 'nm'],['c', 'css', 'bfgs'],['c', 'css', 'powell'],['c', 'css', 'cg'],
+                      ['c', 'css', 'ncg']]
 
-        ts_data = import_data()
+        # no of cars sold
+        data = [266,146,183,119,180,169,232,225,193,123,337,186,194,150,210,273,191,287,
+                226,304,290,422,265,342,340,440,316,439,401,390,490,408,490,420,520,480]
+        index = pd.DatetimeIndex(start='2016-01-01', end='2018-12-01', freq='MS')
+        ts_data = pd.Series(data, index)
+        ts_data.index.name = 'date_index'
+        ts_data.name = 'cars_sold'
 
-        model_obj = sarimax.SARIMAX(ts_data,
-                                order=(3, 1, 1),
-                                seasonal_order=(3, 1, 1, 12),
-                                enforce_stationarity=False,
-                                enforce_invertibility=False)
+        c = 0
+        for x in fit_combin:
+            try:
+                model = ARIMA(ts_data,order=(9, 2, 0))
+                result = model.fit(trend = x[0], method = x[1], solver = x[2])
+                try:
+                    c = c + 1
+                    file_name = 'non_seasonal_arima'+str(c)+'.pmml'
+                    ArimaToPMML(ts_data, model, result, file_name)
+                except:
+                    continue
+                finally:
+                    self.assertEqual(os.path.isfile(file_name),True)
+            except:
+                continue
 
-        results_obj = model_obj.fit()
+    def test_seasonal_arima(self):
 
-        ArimaToPMML(ts_data, model_obj, results_obj, 'seasonal_arima.pmml')
+        model_combin = [[(3, 1, 1), (3, 1, 1, 12), 't', True, True, False, True, False, False, True, False], 
+                        [(3, 1, 1), (3, 1, 1, 12), 't', True, True, False, False, False, False, False, False], 
+                        [(3, 1, 1), (3, 1, 1, 12), 't', True, False, True, True, False, False, True, False], 
+                        [(3, 1, 1), (3, 1, 1, 12), 't', True, False, True, False, False, False, False, False], 
+                        [(3, 1, 1), (3, 1, 1, 12), 't', False, True, False, True, False, False, True, False], 
+                        [(3, 1, 1), (3, 1, 1, 12), 't', False, True, False, False, False, False, False, False], 
+                        [(3, 1, 1), (3, 1, 1, 12), 't', False, False, True, True, False, False, True, False], 
+                        [(3, 1, 1), (3, 1, 1, 12), 't', False, False, True, False, False, False, False, False]]
 
-        self.assertEqual(os.path.isfile("seasonal_arima.pmml"),True)
+        # no of cars sold
+        data = [112, 118, 132, 129, 121, 135, 148, 148, 136, 119, 104, 118, 115, 126, 141, 135, 125, 149, 170, 170, 158, 133, 114, 140, 145, 150,
+                178, 163, 172, 178, 199, 199, 184, 162, 146, 166, 171, 180, 193, 181, 183, 218, 230, 242, 209, 191, 172, 194, 196, 196, 236, 235,
+                229, 243, 264, 272, 237, 211, 180, 201, 204, 188, 235, 227, 234, 264, 302, 293, 259, 229, 203, 229, 242, 233, 267, 269, 270, 315,
+                364, 347, 312, 274, 237, 278, 284, 277, 317, 313, 318, 374, 413, 405, 355, 306, 271, 306, 315, 301, 356, 348, 355, 422, 465, 467,
+                404, 347, 305, 336, 340, 318, 362, 348, 363, 435, 491, 505, 404, 359, 310, 337, 360, 342, 406, 396, 420, 472, 548, 559, 463, 407,
+                362, 405, 417, 391, 419, 461, 472, 535, 622, 606, 508, 461, 390, 432]
+
+        index = pd.DatetimeIndex(start='1949-01-01', end='1960-12-01', freq='MS')
+        ts_data = pd.Series(data, index)
+        ts_data.index.name = 'datetime_index'
+        ts_data.name = 'n_passengers'
+
+        c = 0
+        for x in model_combin:
+            try:
+                model = sarimax.SARIMAX(endog = ts_data,
+                                        exog = None,
+                                        order = x[0],
+                                        seasonal_order = x[1],
+                                        trend = x[2],
+                                        measurement_error = x[3], 
+                                        time_varying_regression = x[4], 
+                                        mle_regression = x[5], 
+                                        simple_differencing = x[6], 
+                                        enforce_stationarity = x[7], 
+                                        enforce_invertibility = x[8], 
+                                        hamilton_representation = x[9], 
+                                        concentrate_scale = x[10])
+
+                result = model.fit()
+                try:
+                    c = c + 1
+                    file_name = 'seasonal_arima'+str(c)+'.pmml'
+                    ArimaToPMML(ts_data, model, result, file_name)
+                except:
+                    continue
+                finally:
+                    self.assertEqual(os.path.isfile(file_name),True)
+            except:
+                continue
 
 
 if __name__=='__main__':
