@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Feb 27 10:32:50 2019 by generateDS.py version 2.28a.
+# Generated Fri Mar 15 11:46:40 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -818,8 +818,8 @@ supermod.Apply.subclass = Apply
 
 
 class DeepNetwork(supermod.DeepNetwork):
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, normalizationMethod='none', numberOfLayers=None, isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingParameters=None, NetworkLayer=None, NeuralOutputs=None, ModelVerification=None, Extension=None):
-        super(DeepNetwork, self).__init__(modelName, functionName, algorithmName, normalizationMethod, numberOfLayers, isScorable, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, TrainingParameters, NetworkLayer, NeuralOutputs, ModelVerification, Extension, )
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, normalizationMethod='none', numberOfLayers=None, isScorable=True, Extension=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingParameters=None, NetworkLayer=None, NeuralOutputs=None, ModelVerification=None):
+        super(DeepNetwork, self).__init__(modelName, functionName, algorithmName, normalizationMethod, numberOfLayers, isScorable, Extension, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, TrainingParameters, NetworkLayer, NeuralOutputs, ModelVerification, )
 
     #
     # XMLBehaviors
@@ -853,8 +853,8 @@ supermod.DeepNetwork.subclass = DeepNetwork
 
 
 class NetworkLayer(supermod.NetworkLayer):
-    def __init__(self, normalizationMethod='none', layerType=None, layerId=None, connectionLayerId=None, inputFieldName=None, Extension=None, LayerParameters=None, LayerWeights=None, LayerBias=None):
-        super(NetworkLayer, self).__init__(normalizationMethod, layerType, layerId, connectionLayerId, inputFieldName, Extension, LayerParameters, LayerWeights, LayerBias, )
+    def __init__(self, normalizationMethod='none', layerType=None, layerId=None, connectionLayerId=None, inputFieldName=None, Extension=None, NetworkLayer_member=None, LayerParameters=None, LayerWeights=None, LayerBias=None):
+        super(NetworkLayer, self).__init__(normalizationMethod, layerType, layerId, connectionLayerId, inputFieldName, Extension, NetworkLayer_member, LayerParameters, LayerWeights, LayerBias, )
 
     #
     # XMLBehaviors
@@ -1283,8 +1283,8 @@ supermod.LayerBias.subclass = LayerBias
 
 
 class LayerParameters(supermod.LayerParameters):
-    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, paddingType=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, return_sequences=None, return_state=None, stateful=None, inputLength=None, recurrentUnits=None, recurrentActivation=None, recurrentDropout=None, go_backwards=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, recurrentInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, recurrentConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, max_value=None, trainable=None, units=None, Extension=None):
-        super(LayerParameters, self).__init__(activationFunction, inputDimension, outputDimension, featureMaps, kernel, paddingType, stride, dilationRate, poolSize, depthMultiplier, paddingDims, croppingDims, upsamplingSize, return_sequences, return_state, stateful, inputLength, recurrentUnits, recurrentActivation, recurrentDropout, go_backwards, batchNormalizationEpsilon, flattenAxis, batchNormalizationAxis, batchNormalizationMomentum, batchNormalizationCenter, batchNormalizationScale, gaussianNoiseStdev, gaussianDropoutRate, alphaDropoutRate, alphaDropoutSeed, betaInitializer, gammaInitializer, movingMeanInitializer, movingVarianceInitializer, recurrentInitializer, betaRegularizer, gammaRegularizer, betaConstraint, gammaConstraint, kernelInitializer, biasInitializer, kernelRegularizer, biasRegularizer, kernelConstraint, biasConstraint, depthwiseConstraint, pointwiseConstraint, recurrentConstraint, batchSize, dropoutRate, dropoutNoiseShape, dropoutSeed, generalLUAlpha, reshapeTarget, permuteDims, repeatVectorTimes, activityRegularizerL1, activityRegularizerL2, maskValue, mergeLayerOp, mergeLayerDotOperationAxis, mergeLayerDotNormalize, mergeLayerConcatOperationAxes, slicingAxis, max_value, trainable, units, Extension, )
+    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, paddingType=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, return_sequences=None, return_state=None, stateful=None, inputLength=None, recurrentUnits=None, recurrentActivation=None, recurrentDropout=None, go_backwards=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, recurrentInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, recurrentConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, max_value=None, trainable=None, units=None, function=None, pool_shape=None, proposal_count=None, nms_threshold=None, Extension=None):
+        super(LayerParameters, self).__init__(activationFunction, inputDimension, outputDimension, featureMaps, kernel, paddingType, stride, dilationRate, poolSize, depthMultiplier, paddingDims, croppingDims, upsamplingSize, return_sequences, return_state, stateful, inputLength, recurrentUnits, recurrentActivation, recurrentDropout, go_backwards, batchNormalizationEpsilon, flattenAxis, batchNormalizationAxis, batchNormalizationMomentum, batchNormalizationCenter, batchNormalizationScale, gaussianNoiseStdev, gaussianDropoutRate, alphaDropoutRate, alphaDropoutSeed, betaInitializer, gammaInitializer, movingMeanInitializer, movingVarianceInitializer, recurrentInitializer, betaRegularizer, gammaRegularizer, betaConstraint, gammaConstraint, kernelInitializer, biasInitializer, kernelRegularizer, biasRegularizer, kernelConstraint, biasConstraint, depthwiseConstraint, pointwiseConstraint, recurrentConstraint, batchSize, dropoutRate, dropoutNoiseShape, dropoutSeed, generalLUAlpha, reshapeTarget, permuteDims, repeatVectorTimes, activityRegularizerL1, activityRegularizerL2, maskValue, mergeLayerOp, mergeLayerDotOperationAxis, mergeLayerDotNormalize, mergeLayerConcatOperationAxes, slicingAxis, max_value, trainable, units, function, pool_shape, proposal_count, nms_threshold, Extension, )
 
     #
     # XMLBehaviors
@@ -1636,6 +1636,28 @@ class Extension(supermod.Extension):
     #
     # XMLBehaviors
     #
+    def build(self, node, *args):
+        already_processed = set()
+
+        self.buildAttributes(node, node.attrib, already_processed)
+
+        for child in node:
+
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+
+            self.buildChildren(child, node, nodeName_)
+
+        if self.anytypeobjs_ == []:
+
+            if node:
+
+                self.anytypeobjs_ = list(filter(None, [obj_.lstrip(' ') for obj_ in node.text.split('\n')]))
+
+        return self
+    def build_wrapper(self, node, *args):
+        result = self.build(node, *args)
+        return result
+
 supermod.Extension.subclass = Extension
 # end class Extension
 

@@ -36,14 +36,14 @@ KERAS_LAYER_TYPES_MAP = {'InputLayer': 'Input',
 KERAS_LAYER_PARAMS = ['filters', 'kernel_size', 'strides', 'padding',
                       'input_shape', 'output_shape', "activation", "axis",
                       "epsilon", "pool_size", "scale", "depth_multiplier",
-                      "rate", "dilation_rate"]
+                      "rate", "dilation_rate","size"]
 
 NYOKA_LAYER_PARAMS = ['featureMaps', 'kernel', 'stride', 'paddingType',
                       'inputDimension', 'outputDimension',
                       "activationFunction", "axis",
                       "batchNormalizationEpsilon", "poolSize",
                       "batchNormalizationScale", "depthMultiplier",
-                      "dropoutRate", "dilationRate"]
+                      "dropoutRate", "dilationRate","upsamplingSize"]
 
 
 class KerasHeader(ny.Header):
@@ -207,7 +207,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
         layer_config = layer.get_config()
         new_layer_params_dict = {}
         pad_dims = None
-        layer_params_dict['paddingDims']='None'        
+        layer_params_dict['paddingDims']='None'  
         for key, val in layer_params_dict.items():
             if val in layer_config:
                 if val == "activation":
@@ -316,16 +316,25 @@ class KerasNetworkLayer(ny.NetworkLayer):
         """ 
         node_config = layer._inbound_nodes[0].get_config()
         if node_config['inbound_layers']:
-            connection_layers = ", ".join(node_config['inbound_layers'])
+            inbound_layers = []
+            if node_config['inbound_layers'][0] == 'rpn_model':
+                replace_by = layer._inbound_nodes[0].input_tensors[0]._op.name.split('/')[1]
+                for i in range(len(node_config['inbound_layers'])):
+                    inbound_layers.append(replace_by)
+            else:
+                inbound_layers = node_config['inbound_layers']
+            connection_layers = ", ".join(inbound_layers)
         else:
             connection_layers = "na"
         return connection_layers
 
-    def __init__(self, layer,dataSet, layer_type):
+    def __init__(self, layer,dataSet, layer_type,connection_layer_id=True):
         merge_layer_op_type = None
         merge_concat_axes = None
         merge_dot_axes = None
         merge_dot_normalization = False
+        inner_network_layer = None
+        connection_layers = ''
         input_filed_name = None
         if "Pmml" in layer_type:
             layer_type = layer_type[4:]
@@ -333,7 +342,8 @@ class KerasNetworkLayer(ny.NetworkLayer):
         layer_type = KERAS_LAYER_TYPES_MAP.get(layer_type, layer_type)
         layer_params = self._get_layer_params_dict(layer)
         layer_weights, layer_biases = self._get_layer_weights_n_biases(layer)
-        connection_layers = self._get_connection_layer_ids(layer)
+        if connection_layer_id:
+            connection_layers = self._get_connection_layer_ids(layer)
         if layer_type == "MergeLayer":
             merge_layer_op_type = old_layer_type.lower()
             if merge_layer_op_type == "concatenate":
@@ -348,7 +358,8 @@ class KerasNetworkLayer(ny.NetworkLayer):
                     merge_dot_normalization = layer_params["normalize"]
                     del layer_params["normalize"]
                 layer_params["mergeLayerDotNormalize"] = merge_dot_normalization
-        elif layer_type == "BatchNormalization":
+        elif layer_type in ["BatchNormalization","BatchNorm"]:
+            layer_type = "BatchNormalization"
             if "axis" in layer_params:
                 layer_params["batchNormalizationAxis"] = layer_params["axis"]
                 del layer_params["axis"]
@@ -365,6 +376,22 @@ class KerasNetworkLayer(ny.NetworkLayer):
             layer_params["max_value"] = str(layer.max_value.item())
         elif layer_type == 'Dense':
             layer_params["units"] = str(layer.units)
+        elif layer_type == 'Lambda':
+            layer_params['function'] = layer.get_config()['function'][0]
+            out_s = layer.output_shape[1:]
+            if len(out_s) == 1:
+                layer_params['outputDimension'] = str((out_s[0], 1))
+            else:
+                layer_params['outputDimension'] = str(out_s)
+        elif layer_type == 'PyramidROIAlign':
+            layer_params['pool_shape'] = str(layer.pool_shape)
+        elif layer_type == 'ProposalLayer':
+            layer_params['proposal_count'] = str(layer.proposal_count)
+            layer_params['nms_threshold'] = str(layer.nms_threshold)
+        elif layer_type == 'TimeDistributed':
+            inner_layer = layer.layer
+            layer_type_inner = inner_layer.__class__.__name__
+            inner_network_layer = KerasNetworkLayer(inner_layer,dataSet,layer_type_inner,False)
         layer_params["trainable"] = str(layer.trainable)
         layer_params["mergeLayerOp"] = merge_layer_op_type
         layer_params["mergeLayerConcatOperationAxes"] = merge_concat_axes
@@ -377,12 +404,12 @@ class KerasNetworkLayer(ny.NetworkLayer):
                     input_filed_name = dataSet
             else:
                 input_filed_name = "dataSet"
-
         ny.NetworkLayer.__init__(self, inputFieldName=input_filed_name,
                                  layerType=layer_type,
                                  connectionLayerId=connection_layers,
                                  layerId=layer.name,
                                  normalizationMethod="none",
+                                 NetworkLayer_member=inner_network_layer,
                                  LayerParameters=ny.LayerParameters(
                                      **layer_params),
                                  LayerWeights=layer_weights,
@@ -648,8 +675,12 @@ class KerasNetwork(ny.DeepNetwork):
                 network_layers.append(input_layer)
         for layer in model_layers:
             layer_type = layer.__class__.__name__
-            net_layer = KerasNetworkLayer(layer,dataSet, layer_type)
-            network_layers.append(net_layer)
+            if layer_type == 'Model':
+                inner_network_layers = self._create_layers(layer,dataSet)
+                network_layers.extend(inner_network_layers)
+            else:
+                net_layer = KerasNetworkLayer(layer,dataSet, layer_type)
+                network_layers.append(net_layer)
         return network_layers
 
     def __init__(self, keras_model, model_name, dataSet=None, predictedClasses=None):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Feb 27 10:32:50 2019 by generateDS.py version 2.28a.
+# Generated Fri Mar 15 11:46:39 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -13014,7 +13014,7 @@ class Apply(GeneratedsSuper):
 class DeepNetwork(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, normalizationMethod='none', numberOfLayers=None, isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingParameters=None, NetworkLayer=None, NeuralOutputs=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, normalizationMethod='none', numberOfLayers=None, isScorable=True, Extension=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingParameters=None, NetworkLayer=None, NeuralOutputs=None, ModelVerification=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
@@ -13022,6 +13022,10 @@ class DeepNetwork(GeneratedsSuper):
         self.normalizationMethod = _cast(None, normalizationMethod)
         self.numberOfLayers = _cast(int, numberOfLayers)
         self.isScorable = _cast(bool, isScorable)
+        if Extension is None:
+            self.Extension = []
+        else:
+            self.Extension = Extension
         self.MiningSchema = MiningSchema
         self.Output = Output
         self.ModelStats = ModelStats
@@ -13035,10 +13039,6 @@ class DeepNetwork(GeneratedsSuper):
             self.NetworkLayer = NetworkLayer
         self.NeuralOutputs = NeuralOutputs
         self.ModelVerification = ModelVerification
-        if Extension is None:
-            self.Extension = []
-        else:
-            self.Extension = Extension
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -13050,6 +13050,11 @@ class DeepNetwork(GeneratedsSuper):
         else:
             return DeepNetwork(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
+    def add_Extension(self, value): self.Extension.append(value)
+    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
+    def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_MiningSchema(self): return self.MiningSchema
     def set_MiningSchema(self, MiningSchema): self.MiningSchema = MiningSchema
     def get_Output(self): return self.Output
@@ -13073,11 +13078,6 @@ class DeepNetwork(GeneratedsSuper):
     def set_NeuralOutputs(self, NeuralOutputs): self.NeuralOutputs = NeuralOutputs
     def get_ModelVerification(self): return self.ModelVerification
     def set_ModelVerification(self, ModelVerification): self.ModelVerification = ModelVerification
-    def get_Extension(self): return self.Extension
-    def set_Extension(self, Extension): self.Extension = Extension
-    def add_Extension(self, value): self.Extension.append(value)
-    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
-    def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_modelName(self): return self.modelName
     def set_modelName(self, modelName): self.modelName = modelName
     def get_functionName(self): return self.functionName
@@ -13116,6 +13116,7 @@ class DeepNetwork(GeneratedsSuper):
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on NN-NORMALIZATION-METHOD' % {"value" : value.encode("utf-8")} )
     def hasContent_(self):
         if (
+            self.Extension or
             self.MiningSchema is not None or
             self.Output is not None or
             self.ModelStats is not None or
@@ -13125,8 +13126,7 @@ class DeepNetwork(GeneratedsSuper):
             self.TrainingParameters is not None or
             self.NetworkLayer or
             self.NeuralOutputs is not None or
-            self.ModelVerification is not None or
-            self.Extension
+            self.ModelVerification is not None
         ):
             return True
         else:
@@ -13176,6 +13176,8 @@ class DeepNetwork(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
+        for Extension_ in self.Extension:
+            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         if self.MiningSchema is not None:
             self.MiningSchema.export(outfile, level, namespace_, name_='MiningSchema', pretty_print=pretty_print)
         if self.Output is not None:
@@ -13196,8 +13198,6 @@ class DeepNetwork(GeneratedsSuper):
             self.NeuralOutputs.export(outfile, level, namespace_, name_='NeuralOutputs', pretty_print=pretty_print)
         if self.ModelVerification is not None:
             self.ModelVerification.export(outfile, level, namespace_, name_='ModelVerification', pretty_print=pretty_print)
-        for Extension_ in self.Extension:
-            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='DeepNetwork', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{http://www.dmg.org/PMML-4_3}' + name_)
@@ -13215,6 +13215,8 @@ class DeepNetwork(GeneratedsSuper):
             element.set('numberOfLayers', self.gds_format_integer(self.numberOfLayers))
         if self.isScorable is not None:
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
+        for Extension_ in self.Extension:
+            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.MiningSchema is not None:
             MiningSchema_ = self.MiningSchema
             MiningSchema_.to_etree(element, name_='MiningSchema', mapping_=mapping_)
@@ -13244,8 +13246,6 @@ class DeepNetwork(GeneratedsSuper):
         if self.ModelVerification is not None:
             ModelVerification_ = self.ModelVerification
             ModelVerification_.to_etree(element, name_='ModelVerification', mapping_=mapping_)
-        for Extension_ in self.Extension:
-            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[self] = element
         return element
@@ -13281,6 +13281,18 @@ class DeepNetwork(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('isScorable=%s,\n' % (self.isScorable,))
     def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Extension=[\n')
+        level += 1
+        for Extension_ in self.Extension:
+            showIndent(outfile, level)
+            outfile.write('model_.Extension(\n')
+            Extension_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
         if self.MiningSchema is not None:
             showIndent(outfile, level)
             outfile.write('MiningSchema=model_.MiningSchema(\n')
@@ -13347,18 +13359,6 @@ class DeepNetwork(GeneratedsSuper):
             self.ModelVerification.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Extension=[\n')
-        level += 1
-        for Extension_ in self.Extension:
-            showIndent(outfile, level)
-            outfile.write('model_.Extension(\n')
-            Extension_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -13404,7 +13404,12 @@ class DeepNetwork(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'MiningSchema':
+        if nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            self.Extension.append(obj_)
+            obj_.original_tagname_ = 'Extension'
+        elif nodeName_ == 'MiningSchema':
             obj_ = MiningSchema.factory()
             obj_.build(child_)
             self.MiningSchema = obj_
@@ -13454,18 +13459,13 @@ class DeepNetwork(GeneratedsSuper):
             obj_.build(child_)
             self.ModelVerification = obj_
             obj_.original_tagname_ = 'ModelVerification'
-        elif nodeName_ == 'Extension':
-            obj_ = Extension.factory()
-            obj_.build(child_)
-            self.Extension.append(obj_)
-            obj_.original_tagname_ = 'Extension'
 # end class DeepNetwork
 
 
 class NetworkLayer(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, normalizationMethod='none', layerType=None, layerId=None, connectionLayerId=None, inputFieldName=None, Extension=None, LayerParameters=None, LayerWeights=None, LayerBias=None):
+    def __init__(self, normalizationMethod='none', layerType=None, layerId=None, connectionLayerId=None, inputFieldName=None, Extension=None, NetworkLayer_member=None, LayerParameters=None, LayerWeights=None, LayerBias=None):
         self.original_tagname_ = None
         self.normalizationMethod = _cast(None, normalizationMethod)
         self.layerType = _cast(None, layerType)
@@ -13476,6 +13476,7 @@ class NetworkLayer(GeneratedsSuper):
             self.Extension = []
         else:
             self.Extension = Extension
+        self.NetworkLayer = NetworkLayer_member
         self.LayerParameters = LayerParameters
         self.LayerWeights = LayerWeights
         self.LayerBias = LayerBias
@@ -13495,6 +13496,8 @@ class NetworkLayer(GeneratedsSuper):
     def add_Extension(self, value): self.Extension.append(value)
     def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
     def replace_Extension_at(self, index, value): self.Extension[index] = value
+    def get_NetworkLayer(self): return self.NetworkLayer
+    def set_NetworkLayer(self, NetworkLayer): self.NetworkLayer = NetworkLayer
     def get_LayerParameters(self): return self.LayerParameters
     def set_LayerParameters(self, LayerParameters): self.LayerParameters = LayerParameters
     def get_LayerWeights(self): return self.LayerWeights
@@ -13527,7 +13530,7 @@ class NetworkLayer(GeneratedsSuper):
         # Validate type LAYER-TYPE, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
             value = str(value)
-            enumerations = ['Input', 'Dense', 'Activation', 'Dropout', 'Flatten', 'Reshape', 'Permute', 'RepeatVector', 'ActivityRegularization', 'Masking', 'Conv1D', 'Conv2D', 'SeparableConv2D', 'Conv2DTranspose', 'Conv3D', 'DepthwiseConv2D', 'Cropping1D', 'Cropping2D', 'Cropping3D', 'UpSampling1D', 'UpSampling2D', 'UpSampling3D', 'ZeroPadding1D', 'ZeroPadding2D', 'ZeroPadding3D', 'MaxPooling1D', 'MaxPooling2D', 'MaxPooling3D', 'AveragePooling1D', 'AveragePooling2D', 'AveragePooling3D', 'GlobalMaxPooling1D', 'GlobalMaxPooling2D', 'GlobalAveragePooling1D', 'GlobalAveragePooling2D', 'SpatialPyramidPooling', 'LocallyConnected1D', 'LocallyConnected2D', 'RNN', 'LSTM', 'GRU', 'ConvLSTM2D', 'Embedding', 'MergeLayer', 'Slicing', 'BatchNormalization', 'LocalResponseNormalization', 'GaussianNoise', 'GaussianDropout', 'AlphaDropout']
+            enumerations = ['Input', 'Dense', 'Activation', 'Dropout', 'Flatten', 'Reshape', 'Permute', 'RepeatVector', 'ActivityRegularization', 'Masking', 'Conv1D', 'Conv2D', 'SeparableConv2D', 'Conv2DTranspose', 'Conv3D', 'DepthwiseConv2D', 'Cropping1D', 'Cropping2D', 'Cropping3D', 'UpSampling1D', 'UpSampling2D', 'UpSampling3D', 'ZeroPadding1D', 'ZeroPadding2D', 'ZeroPadding3D', 'MaxPooling1D', 'MaxPooling2D', 'MaxPooling3D', 'AveragePooling1D', 'AveragePooling2D', 'AveragePooling3D', 'GlobalMaxPooling1D', 'GlobalMaxPooling2D', 'GlobalAveragePooling1D', 'GlobalAveragePooling2D', 'SpatialPyramidPooling', 'LocallyConnected1D', 'LocallyConnected2D', 'RNN', 'LSTM', 'GRU', 'ConvLSTM2D', 'Embedding', 'MergeLayer', 'Slicing', 'BatchNormalization', 'LocalResponseNormalization', 'GaussianNoise', 'GaussianDropout', 'AlphaDropout', 'Lambda', 'TimeDistributed', 'PyramidROIAlign', 'ProposalLayer', 'DetectionLayer', 'DetectionTargetLayer']
             enumeration_respectee = False
             for enum in enumerations:
                 if value == enum:
@@ -13542,6 +13545,7 @@ class NetworkLayer(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.Extension or
+            self.NetworkLayer is not None or
             self.LayerParameters is not None or
             self.LayerWeights is not None or
             self.LayerBias is not None
@@ -13593,6 +13597,8 @@ class NetworkLayer(GeneratedsSuper):
             eol_ = ''
         for Extension_ in self.Extension:
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
+        if self.NetworkLayer is not None:
+            self.NetworkLayer.export(outfile, level, namespace_, name_='NetworkLayer', pretty_print=pretty_print)
         if self.LayerParameters is not None:
             self.LayerParameters.export(outfile, level, namespace_, name_='LayerParameters', pretty_print=pretty_print)
         if self.LayerWeights is not None:
@@ -13616,6 +13622,9 @@ class NetworkLayer(GeneratedsSuper):
             element.set('inputFieldName', self.inputFieldName)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
+        if self.NetworkLayer is not None:
+            NetworkLayer_ = self.NetworkLayer
+            NetworkLayer_.to_etree(element, name_='NetworkLayer', mapping_=mapping_)
         if self.LayerParameters is not None:
             LayerParameters_ = self.LayerParameters
             LayerParameters_.to_etree(element, name_='LayerParameters', mapping_=mapping_)
@@ -13668,6 +13677,12 @@ class NetworkLayer(GeneratedsSuper):
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
+        if self.NetworkLayer is not None:
+            showIndent(outfile, level)
+            outfile.write('NetworkLayer=model_.NetworkLayer(\n')
+            self.NetworkLayer.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
         if self.LayerParameters is not None:
             showIndent(outfile, level)
             outfile.write('LayerParameters=model_.LayerParameters(\n')
@@ -13723,6 +13738,11 @@ class NetworkLayer(GeneratedsSuper):
             obj_.build(child_)
             self.Extension.append(obj_)
             obj_.original_tagname_ = 'Extension'
+        elif nodeName_ == 'NetworkLayer':
+            obj_ = NetworkLayer.factory()
+            obj_.build(child_)
+            self.NetworkLayer = obj_
+            obj_.original_tagname_ = 'NetworkLayer'
         elif nodeName_ == 'LayerParameters':
             obj_ = LayerParameters.factory()
             obj_.build(child_)
@@ -16334,7 +16354,7 @@ class LayerBias(GeneratedsSuper):
 class LayerParameters(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, paddingType=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, return_sequences=None, return_state=None, stateful=None, inputLength=None, recurrentUnits=None, recurrentActivation=None, recurrentDropout=None, go_backwards=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, recurrentInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, recurrentConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, max_value=None, trainable=None, units=None, Extension=None):
+    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, paddingType=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, return_sequences=None, return_state=None, stateful=None, inputLength=None, recurrentUnits=None, recurrentActivation=None, recurrentDropout=None, go_backwards=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, recurrentInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, recurrentConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, max_value=None, trainable=None, units=None, function=None, pool_shape=None, proposal_count=None, nms_threshold=None, Extension=None):
         self.original_tagname_ = None
         self.activationFunction = _cast(None, activationFunction)
         self.inputDimension = _cast(None, inputDimension)
@@ -16404,6 +16424,10 @@ class LayerParameters(GeneratedsSuper):
         self.max_value = _cast(None, max_value)
         self.trainable = _cast(bool, trainable)
         self.units = _cast(None, units)
+        self.function = _cast(None, function)
+        self.pool_shape = _cast(None, pool_shape)
+        self.proposal_count = _cast(None, proposal_count)
+        self.nms_threshold = _cast(None, nms_threshold)
         if Extension is None:
             self.Extension = []
         else:
@@ -16560,6 +16584,14 @@ class LayerParameters(GeneratedsSuper):
     def set_trainable(self, trainable): self.trainable = trainable
     def get_units(self): return self.units
     def set_units(self, units): self.units = units
+    def get_function(self): return self.function
+    def set_function(self, function): self.function = function
+    def get_pool_shape(self): return self.pool_shape
+    def set_pool_shape(self, pool_shape): self.pool_shape = pool_shape
+    def get_proposal_count(self): return self.proposal_count
+    def set_proposal_count(self, proposal_count): self.proposal_count = proposal_count
+    def get_nms_threshold(self): return self.nms_threshold
+    def set_nms_threshold(self, nms_threshold): self.nms_threshold = nms_threshold
     def validate_DNN_ACTIVATION_FUNCTION(self, value):
         # Validate type DNN-ACTIVATION-FUNCTION, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -16825,6 +16857,18 @@ class LayerParameters(GeneratedsSuper):
         if self.units is not None and 'units' not in already_processed:
             already_processed.add('units')
             outfile.write(' units=%s' % (quote_attrib(self.units), ))
+        if self.function is not None and 'function' not in already_processed:
+            already_processed.add('function')
+            outfile.write(' function=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.function), input_name='function')), ))
+        if self.pool_shape is not None and 'pool_shape' not in already_processed:
+            already_processed.add('pool_shape')
+            outfile.write(' pool_shape=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.pool_shape), input_name='pool_shape')), ))
+        if self.proposal_count is not None and 'proposal_count' not in already_processed:
+            already_processed.add('proposal_count')
+            outfile.write(' proposal_count=%s' % (quote_attrib(self.proposal_count), ))
+        if self.nms_threshold is not None and 'nms_threshold' not in already_processed:
+            already_processed.add('nms_threshold')
+            outfile.write(' nms_threshold=%s' % (quote_attrib(self.nms_threshold), ))
     def exportChildren(self, outfile, level, namespace_='', name_='LayerParameters', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -16973,6 +17017,14 @@ class LayerParameters(GeneratedsSuper):
             element.set('trainable', self.gds_format_boolean(self.trainable))
         if self.units is not None:
             element.set('units', self.units)
+        if self.function is not None:
+            element.set('function', self.gds_format_string(self.function))
+        if self.pool_shape is not None:
+            element.set('pool_shape', self.gds_format_string(self.pool_shape))
+        if self.proposal_count is not None:
+            element.set('proposal_count', self.proposal_count)
+        if self.nms_threshold is not None:
+            element.set('nms_threshold', self.nms_threshold)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if mapping_ is not None:
@@ -17257,6 +17309,22 @@ class LayerParameters(GeneratedsSuper):
             already_processed.add('units')
             showIndent(outfile, level)
             outfile.write('units=%d,\n' % (self.units,))
+        if self.function is not None and 'function' not in already_processed:
+            already_processed.add('function')
+            showIndent(outfile, level)
+            outfile.write('function="%s",\n' % (self.function,))
+        if self.pool_shape is not None and 'pool_shape' not in already_processed:
+            already_processed.add('pool_shape')
+            showIndent(outfile, level)
+            outfile.write('pool_shape="%s",\n' % (self.pool_shape,))
+        if self.proposal_count is not None and 'proposal_count' not in already_processed:
+            already_processed.add('proposal_count')
+            showIndent(outfile, level)
+            outfile.write('proposal_count=%d,\n' % (self.proposal_count,))
+        if self.nms_threshold is not None and 'nms_threshold' not in already_processed:
+            already_processed.add('nms_threshold')
+            showIndent(outfile, level)
+            outfile.write('nms_threshold=%e,\n' % (self.nms_threshold,))
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
         outfile.write('Extension=[\n')
@@ -17684,6 +17752,30 @@ class LayerParameters(GeneratedsSuper):
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             self.validate_INT_NUMBER(self.units)    # validate type INT-NUMBER
+        value = find_attr_value_('function', node)
+        if value is not None and 'function' not in already_processed:
+            already_processed.add('function')
+            self.function = value
+        value = find_attr_value_('pool_shape', node)
+        if value is not None and 'pool_shape' not in already_processed:
+            already_processed.add('pool_shape')
+            self.pool_shape = value
+        value = find_attr_value_('proposal_count', node)
+        if value is not None and 'proposal_count' not in already_processed:
+            already_processed.add('proposal_count')
+            try:
+                self.proposal_count = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            self.validate_INT_NUMBER(self.proposal_count)    # validate type INT-NUMBER
+        value = find_attr_value_('nms_threshold', node)
+        if value is not None and 'nms_threshold' not in already_processed:
+            already_processed.add('nms_threshold')
+            try:
+                self.nms_threshold = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (nms_threshold): %s' % exp)
+            self.validate_REAL_NUMBER(self.nms_threshold)    # validate type REAL-NUMBER
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()

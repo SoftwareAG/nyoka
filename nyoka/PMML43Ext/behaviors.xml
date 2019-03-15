@@ -747,5 +747,15 @@
             </xb:args>
             <xb:impl-url>insCoefficient.py</xb:impl-url>
         </xb:behavior>
+        <xb:behavior>
+            <xb:class>Extension</xb:class>
+            <xb:name>build</xb:name>
+            <xb:args>
+                <xb:arg>
+                    <xb:name>node</xb:name>
+                </xb:arg>
+            </xb:args>
+            <xb:impl-url>buildExtension.py</xb:impl-url>
+        </xb:behavior>
     </xb:behaviors>
  </xb:xml-behavior>

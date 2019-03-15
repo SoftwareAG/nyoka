@@ -799,7 +799,6 @@
                 <xs:element maxOccurs="unbounded" ref="NetworkLayer"/>
                 <xs:element minOccurs="0" ref="NeuralOutputs"/>
                 <xs:element ref="ModelVerification" minOccurs="0"/>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="modelName" type="xs:string"/>
             <xs:attribute name="functionName" type="MINING-FUNCTION" use="required"/>
@@ -813,6 +812,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="NetworkLayer" minOccurs="0"/>
                 <xs:element ref="LayerParameters"/>
                 <xs:element ref="LayerWeights" minOccurs="0"/>
                 <xs:element ref="LayerBias" minOccurs="0"/>
@@ -876,6 +876,12 @@
             <xs:enumeration value="GaussianNoise"/>
             <xs:enumeration value="GaussianDropout"/>
             <xs:enumeration value="AlphaDropout"/>
+            <xs:enumeration value="Lambda"/>
+            <xs:enumeration value="TimeDistributed"/>
+            <xs:enumeration value="PyramidROIAlign"/>
+            <xs:enumeration value="ProposalLayer"/>
+            <xs:enumeration value="DetectionLayer"/>
+            <xs:enumeration value="DetectionTargetLayer"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="LAYEROP-TYPE">
@@ -1167,6 +1173,10 @@
             <xs:attribute name="max_value" type="REAL-NUMBER"/>
             <xs:attribute name="trainable" type="xs:boolean"/>
             <xs:attribute name="units" type="INT-NUMBER"/>
+            <xs:attribute name="function" type="xs:string"/>
+            <xs:attribute name="pool_shape" type="xs:string"/>
+            <xs:attribute name="proposal_count" type="INT-NUMBER"/>
+            <xs:attribute name="nms_threshold" type="REAL-NUMBER"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="DNN-ACTIVATION-FUNCTION">
