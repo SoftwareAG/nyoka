@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Mar 15 11:46:40 2019 by generateDS.py version 2.28a.
+# Generated Fri Mar 15 14:04:37 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -1649,7 +1649,7 @@ class Extension(supermod.Extension):
 
         if self.anytypeobjs_ == []:
 
-            if node:
+            if node.text is not None:
 
                 self.anytypeobjs_ = list(filter(None, [obj_.lstrip(' ') for obj_ in node.text.split('\n')]))
 

@@ -4,6 +4,6 @@
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
         if self.anytypeobjs_ == []:
-            if node:
+            if node.text is not None:
                 self.anytypeobjs_ = list(filter(None, [obj_.lstrip(' ') for obj_ in node.text.split('\n')]))
         return self
