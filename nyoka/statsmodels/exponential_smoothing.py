@@ -131,7 +131,7 @@ class ExponentialSmoothingToPMML:
             trend_obj = None
         if model_obj.seasonal:  # model_obj.seasonal can take values in {'add', 'mul', None}
             period = model_obj.seasonal_periods
-            initial_seasons = ArrayType(n=period)
+            initial_seasons = ArrayType(n=period, type_ = 'real')
             content_value = ' '.join([str(i) for i in results_obj.params['initial_seasons']])
             initial_seasons.content_[0].value = content_value
             if model_obj.seasonal == 'add':
