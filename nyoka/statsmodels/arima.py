@@ -46,24 +46,24 @@ class ArimaToPMML:
             else:
                 d = 0
             q = sm_results._results.specification.k_ma
-            ar_params = ArrayType(n=p)
+            ar_params = ArrayType(n = p, type_ = 'real')
             content_value = ' '.join([str(i) for i in sm_results._results._params_ar] if int(p) > 0 else [])
             ar_params.content_[0].value = content_value
             ma_coeffs = [Coefficient(value=coeff) for coeff in sm_results._results._params_ma] if int(q) > 0 else []
-            ny_ma_obj = MA(Coefficients=Coefficients(numberOfCoefficients=q, Coefficient=ma_coeffs))
+            ny_ma_obj = MA(Coefficients=Coefficients(numberOfCoefficients=q, Coefficient=ma_coeffs)) if q > 0 else None
 
             #Seasonal
             P = sm_results._results.specification.seasonal_order[0]
             D = sm_results._results.specification.seasonal_order[1]
             Q = sm_results._results.specification.seasonal_order[2]
             S = sm_results._results.specification.seasonal_periods
-            seasonal_ar_params = ArrayType(n=p)
+            seasonal_ar_params = ArrayType(n = P, type_ = 'real')
             seasonal_content_value = ' '.join([str(i) for i in sm_results._results._params_seasonal_ar] if int(P) > 0 else [])
             seasonal_ar_params.content_[0].value = seasonal_content_value
             seasonal_ma_coeffs = [Coefficient(value=coeff) for coeff in sm_results._results._params_seasonal_ma] if int(Q) > 0 else []
-            ny_seasonal_ma_obj = MA(Coefficients=Coefficients(numberOfCoefficients=Q, Coefficient=seasonal_ma_coeffs))
+            ny_seasonal_ma_obj = MA(Coefficients=Coefficients(numberOfCoefficients=Q, Coefficient=seasonal_ma_coeffs)) if Q > 0 else None
 
-            nyoka_sarimax_obj = ARIMA(predictionMethod = None,
+            nyoka_sarimax_obj = ARIMA(#predictionMethod = None,
                                 Extension = get_sarimax_extension_list(sm_results),
                                 NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ar_params), MA = ny_ma_obj),
                                 SeasonalComponent = SeasonalComponent(P = P, D = D, Q = Q, period = S, AR = AR(Array = seasonal_ar_params), MA = ny_seasonal_ma_obj))
@@ -85,11 +85,11 @@ class ArimaToPMML:
             else:
                 pred_method = None
 
-            ar_params = ArrayType(n = p)
+            ar_params = ArrayType(n = p, type_ = 'real')
             content_value = ' '.join([str(i) for i in sm_results._results.arparams])
             ar_params.content_[0].value = content_value
             ma_coeffs = [Coefficient(value = coeff) for coeff in sm_results._results.maparams]
-            ny_ma_obj = MA(Coefficients = Coefficients(numberOfCoefficients = q, Coefficient = ma_coeffs))
+            ny_ma_obj = MA(Coefficients = Coefficients(numberOfCoefficients = q, Coefficient = ma_coeffs)) if q > 0 else None
 
             nyoka_arima_obj = ARIMA(constantTerm = sm_results.params[0],
                                 predictionMethod = pred_method,
