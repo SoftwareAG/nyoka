@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Fri Mar 15 14:04:37 2019 by generateDS.py version 2.28a.
+# Generated Wed Mar 27 15:25:51 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -17,7 +17,7 @@
 #   ..\nyoka.PMML43Ext.xsd
 #
 # Command line:
-#   C:\Projects\nyoka\nyoka\PMML43Ext\gds_local.py --no-warnings --export="write literal etree" --super="nyoka.PMML43ExtSuper" --subclass-suffix -o "nyoka.PMML43ExtSuper.py" -s "nyoka.PMML43Ext.py" -b "behaviorsDir.xml" -f ..\nyoka.PMML43Ext.xsd
+#   C:\Projects\nyoka_github\nyoka\PMML43Ext\gds_local.py --no-warnings --export="write literal etree" --super="nyoka.PMML43ExtSuper" --subclass-suffix -o "nyoka.PMML43ExtSuper.py" -s "nyoka.PMML43Ext.py" -b "behaviorsDir.xml" -f ..\nyoka.PMML43Ext.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML43Ext
@@ -1643,7 +1643,7 @@ class Extension(supermod.Extension):
 
         for child in node:
 
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            nodeName_ = supermod.Tag_pattern_.match(child.tag).groups()[-1]
 
             self.buildChildren(child, node, nodeName_)
 

@@ -1,7 +1,7 @@
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            nodeName_ = supermod.Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
         if self.anytypeobjs_ == []:
             if node.text is not None:
