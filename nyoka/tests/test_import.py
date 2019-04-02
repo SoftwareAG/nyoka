@@ -3,7 +3,7 @@ import unittest
 class TestImport(unittest.TestCase):
 
     def test_01(self):
-        exec("import nyoka")
+        import nyoka
         self.assertEqual(hasattr(nyoka,"__version__"),True)
         self.assertEqual(hasattr(nyoka,"__license__"),True)
         self.assertEqual(hasattr(nyoka,"skl_to_pmml"),True)
