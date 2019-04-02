@@ -7,12 +7,7 @@ sys.path.append(BASE_DIR)
 
 from pprint import pprint
 from PMML43Ext import *
-import numpy as np
-import pandas as pd
 from datetime import datetime
-from statsmodels.tsa.statespace import sarimax
-from statsmodels.tsa import arima_model
-
 
 class ArimaToPMML:
     def __init__(self, time_series_data, model_obj, results_obj, pmml_file_name):
@@ -164,20 +159,20 @@ class ArimaToPMML:
             extensions.append(Extension(name="sigmaSquare", value = model.sigma2, anytypeobjs_ = ['']))
             return extensions
         
-        if(isinstance(time_series_data, pd.core.frame.DataFrame)):
+        if(time_series_data.__class__.__name__ == 'DataFrame'):
             time_series_data = time_series_data.T.squeeze()
 
-        if( isinstance(model_obj, sarimax.SARIMAX) and isinstance(results_obj, sarimax.SARIMAXResultsWrapper)):
+        if(model_obj.__class__.__name__ == 'SARIMAX' and results_obj.__class__.__name__ == 'SARIMAXResultsWrapper'):
             #Get SArimaX Object and Export
             sarimax_obj = get_sarimax_obj(model_obj, results_obj)
             model_name = 'sarimax'
             ExportToPMML(model_name = model_name, arima_obj = sarimax_obj)
 
-        elif( isinstance(model_obj, arima_model.ARIMA) and isinstance(results_obj, arima_model.ARIMAResultsWrapper)):
+        elif(model_obj.__class__.__name__ == 'ARIMA' and results_obj.__class__.__name__ == 'ARIMAResultsWrapper'):
             #Get Arima Object and Export
             arima_obj = get_arima_obj(model_obj, results_obj)
             model_name = 'arima'
             ExportToPMML(model_name = model_name, arima_obj = arima_obj)
 
         else:
-            raise NotImplementedError("Not Implemented")
+            raise NotImplementedError("Not Implemented. Currently we support only (SARIMAX , SARIMAXResultsWrapper) , (ARIMA , ARIMAResultsWrapper) Combinations of Model and Result Objects.")
