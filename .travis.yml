@@ -12,7 +12,8 @@ before_script:
   - cd ../../
 script:
   - python nyoka/tests/test_import.py
-  - python nyoka/tests/install_dependencies.py
+  # - python nyoka/tests/install_dependencies.py
+  - pip install -r nyoka/tests/requirements.txt
   - python nyoka/tests/skl_to_pmml_UnitTest.py
   - python nyoka/tests/xgboost_to_pmml_UnitTest.py
   - python nyoka/tests/keras_to_pmml_UnitTest.py
