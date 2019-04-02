@@ -17,7 +17,7 @@ packages = [
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
 
-def install():
+if __name__ == "__main__":
     for pck in packages:
         print('\n',pck.capitalize(),'-->\n')
         installPackage(pck)

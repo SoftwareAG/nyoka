@@ -83,6 +83,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 ### Statsmodels (version 0.9.0):
 
 * ARIMA
+* SARIMAX
 * ExponentialSmoothing
 
 
