@@ -9,7 +9,6 @@ from PMML43Ext import *
 import numpy as np
 import pandas as pd
 from datetime import datetime
-from statsmodels.tsa import holtwinters as hw
 
 
 class ExponentialSmoothingToPMML:

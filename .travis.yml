@@ -2,7 +2,7 @@ language: python
 python:
   - "3.6"
 cache: pip
-install: "pip install -r nyoka/tests/requirements.txt"
+install: "pip install git+https://github.com/nyoka-pmml/nyoka"
 before_script:
   - git clone --recursive https://github.com/dmlc/xgboost
   - cd xgboost
@@ -10,7 +10,9 @@ before_script:
   - cd python-package
   - python setup.py install
   - cd ../../
-script: 
+script:
+  - python nyoka/tests/test_import.py
+  - python nyoka/tests/install_dependencies.py
   - python nyoka/tests/skl_to_pmml_UnitTest.py
   - python nyoka/tests/xgboost_to_pmml_UnitTest.py
   - python nyoka/tests/keras_to_pmml_UnitTest.py
