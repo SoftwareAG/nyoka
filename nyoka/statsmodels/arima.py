@@ -20,8 +20,7 @@ class ArimaToPMML:
 
             pmml = PMML(
                 version = '4.4',
-                Header = Header(copyright = "Copyright (c) 2017 PB&RB", description = "ARIMA Model", 
-                                Application = Application(name = "Rattle/PMML", version = "1.3"), 
+                Header = Header(copyright = "Copyright (c) 2017 PB&RB", description = "ARIMA Model",  
                                 Timestamp = Timestamp(datetime.utcnow())),
                 DataDictionary = DataDictionary(numberOfFields = n_columns, 
                                                 DataField = get_data_field_objs(time_series_data)),

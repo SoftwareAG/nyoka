@@ -7,7 +7,6 @@ sys.path.append(BASE_DIR)
 
 from PMML43Ext import *
 import numpy as np
-import pandas as pd
 from datetime import datetime
 
 
@@ -145,8 +144,7 @@ class ExponentialSmoothingToPMML:
             version='4.4',
             Header=Header(
                 copyright="Copyright (c) 2017 PB&RB", description="Exponential Smoothing Model",
-                # Extension=[Extension(name="user", value="tom", extender="Rattle/PMML")],
-                Application=Application(name="Rattle/PMML", version="1.3"), Timestamp=Timestamp(datetime.utcnow())
+                Timestamp=Timestamp(datetime.utcnow())
             ),
             DataDictionary=DataDictionary(numberOfFields=n_columns, DataField=get_data_field_objs(time_series_data)),
             TimeSeriesModel=[TimeSeriesModel(
