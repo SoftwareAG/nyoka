@@ -374,7 +374,7 @@ def pca(trfm, col_names):
     derived_colnames = list()
     val = trfm.mean_
     zero = 0.0
-    for preprocess_idx in range(trfm.n_components):
+    for preprocess_idx in range(trfm.n_components_):
         add = list()
         for pca_idx in range(trfm.n_features_):
             apply_inner = pml.Apply(function='-',

@@ -7,6 +7,7 @@ from sklearn.preprocessing import StandardScaler, Imputer, LabelEncoder, LabelBi
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.svm import SVC
+from sklearn.decomposition import PCA
 from sklearn_pandas import DataFrameMapper
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -166,6 +167,25 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, "logisticregression_pmml.pmml")
 
         self.assertEqual(os.path.isfile("logisticregression_pmml.pmml"),True)
+
+
+    def test_sklearn_08(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+
+        pipeline_obj = Pipeline([
+            ('pca',PCA(2)),
+            ('mod',LogisticRegression())
+        ])
+        pipeline_obj.fit(irisd[features], irisd[target])
+
+        skl_to_pmml(pipeline_obj, features, target, "logisticregression_pca_pmml.pmml")
+
+        self.assertEqual(os.path.isfile("logisticregression_pca_pmml.pmml"),True)
 
 if __name__=='__main__':
     unittest.main(warnings='ignore')
