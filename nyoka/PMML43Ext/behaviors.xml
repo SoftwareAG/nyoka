@@ -757,5 +757,24 @@
             </xb:args>
             <xb:impl-url>buildExtension.py</xb:impl-url>
         </xb:behavior>
+        <xb:behavior>
+            <xb:class>row</xb:class>
+            <xb:name>buildChildren</xb:name>
+            <xb:args>
+                <xb:arg>
+                    <xb:name>child_</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>node</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>nodeName_</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>fromsubclass_=False</xb:name>
+                </xb:arg>
+            </xb:args>
+            <xb:impl-url>buildChildrenRow.py</xb:impl-url>
+        </xb:behavior>
     </xb:behaviors>
  </xb:xml-behavior>
