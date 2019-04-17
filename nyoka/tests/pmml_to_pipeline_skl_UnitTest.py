@@ -51,16 +51,16 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(model_obj.__class__.__name__,"SGDClassifier")
 
 
-    def test_sklearn_09(self):
-        recon_pipeline = generate_skl_pipeline("linearsvc_pmml.pmml")
-        model_obj = recon_pipeline.steps[-1][-1]
-        self.assertEqual(model_obj.__class__.__name__,"LinearSVC")
+    # def test_sklearn_09(self):
+    #     recon_pipeline = generate_skl_pipeline("linearsvc_pmml.pmml")
+    #     model_obj = recon_pipeline.steps[-1][-1]
+    #     self.assertEqual(model_obj.__class__.__name__,"LinearSVC")
 
 
-    def test_sklearn_10(self):
-        recon_pipeline = generate_skl_pipeline("linearsvr_pmml.pmml")
-        model_obj = recon_pipeline.steps[-1][-1]
-        self.assertEqual(model_obj.__class__.__name__,"LinearSVR")
+    # def test_sklearn_10(self):
+    #     recon_pipeline = generate_skl_pipeline("linearsvr_pmml.pmml")
+    #     model_obj = recon_pipeline.steps[-1][-1]
+    #     self.assertEqual(model_obj.__class__.__name__,"LinearSVR")
 
 
     def test_sklearn_11(self):
@@ -108,7 +108,7 @@ class TestMethods(unittest.TestCase):
     def test_sklearn_18(self):
         recon_pipeline = generate_skl_pipeline("ridge.pmml")
         model_obj = recon_pipeline.steps[-1][-1]
-        self.assertEqual(model_obj.__class__.__name__,"RidgeClassifer")
+        self.assertEqual(model_obj.__class__.__name__,"RidgeClassifier")
 
 
     def test_sklearn_19(self):

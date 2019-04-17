@@ -20,6 +20,10 @@ from nyoka.reconstruct.ensemble_tree import reconstruct,Tree
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from xgboost import XGBClassifier,XGBRegressor
+from lightgbm import LGBMClassifier,LGBMRegressor
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+from sklearn.ensemble import GradientBoostingClassifier,GradientBoostingRegressor,RandomForestClassifier,RandomForestRegressor
 import unicodedata
 from nyoka.reconstruct.text import *
 
