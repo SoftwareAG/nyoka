@@ -12,7 +12,9 @@ packages = [
     "jupyter",
     "sklearn-pandas",
     "lightgbm",
-    "h5py"
+    "h5py",
+    "pandas",
+    "numpy"
 ]
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
