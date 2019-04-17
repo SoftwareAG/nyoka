@@ -180,7 +180,6 @@ def reconstruct(pmml,*args):
     mod.predict = model.predict
     mod.multiple_model_method=model.multiple_model_method
     mod.trees=model.trees
-    mod.n_features_ = model.n_features_
     mod.transformedOutputs=model.transformedOutputs
     mod.classes=model.classes
     return mod

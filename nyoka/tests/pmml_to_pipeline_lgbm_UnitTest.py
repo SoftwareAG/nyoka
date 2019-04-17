@@ -21,10 +21,10 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(model_obj.__class__.__name__,"LGBMClassifier")
 
 
-    def test_lgbm_04(self):
-        recon_pipeline = generate_skl_pipeline("lgbmr_pmml_preprocess.pmml")
-        model_obj = recon_pipeline.steps[-1][-1]
-        self.assertEqual(model_obj.__class__.__name__,"LGBMRegressor")
+    # def test_lgbm_04(self):
+    #     recon_pipeline = generate_skl_pipeline("lgbmr_pmml_preprocess.pmml")
+    #     model_obj = recon_pipeline.steps[-1][-1]
+    #     self.assertEqual(model_obj.__class__.__name__,"LGBMRegressor")
 
 
 if __name__=='__main__':
