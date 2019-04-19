@@ -1,4 +1,4 @@
-from nyoka.reconstruct import generate_keras_model
+from nyoka.reconstruct.pmml_to_keras_model import GenerateKerasModel as generate_keras_model
 from nyoka import PMML43Ext as ny
 import unittest
 

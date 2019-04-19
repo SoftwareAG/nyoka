@@ -1,4 +1,4 @@
-from nyoka.reconstruct import generate_skl_pipeline
+from nyoka.reconstruct.pmml_to_pipeline import generate_skl_pipeline
 import unittest
 
 class TestMethods(unittest.TestCase):

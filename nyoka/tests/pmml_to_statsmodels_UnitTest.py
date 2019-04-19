@@ -1,4 +1,4 @@
-from nyoka.reconstruct import generate_statsmodels
+from nyoka.reconstruct.pmml_to_statsmodels import generate_statsmodels
 import unittest
 
 class TestMethods(unittest.TestCase):
