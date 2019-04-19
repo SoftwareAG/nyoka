@@ -40,6 +40,13 @@ def generate_skl_pipeline(pmml):
         pmml_mining_bldtask = nyoka_pmml.MiningBuildTask
         ext = pmml_mining_bldtask.get_Extension()[0]
         pipeline_obj = ext.get_value()
+        import re
+        if 'CountVectorizer' in pipeline_obj:
+            replace_obj=re.findall('CountVectorizer\((.*)vocabulary=None\)',pipeline_obj.replace('\n',''))[0]
+            pipeline_obj=pipeline_obj.replace('CountVectorizer('+replace_obj+'vocabulary=None)','CountVectorizer()')
+        elif 'TfidfVectorizer' in pipeline_obj:
+            replace_obj=re.findall('TfidfVectorizer\((.*)vocabulary=None\)',pipeline_obj.replace('\n',''))[0]
+            pipeline_obj=pipeline_obj.replace('TfidfVectorizer('+replace_obj+'vocabulary=None)','TfidfVectorizer()')
         pipeline_obj = eval(pipeline_obj)
 
         if nyoka_pmml.RegressionModel:

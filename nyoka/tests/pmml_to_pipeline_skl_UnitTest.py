@@ -27,10 +27,10 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(model_obj.__class__.__name__,"GradientBoostingClassifier")
 
 
-    # def test_sklearn_05(self):
-    #     recon_pipeline = generate_skl_pipeline("dtr_pmml.pmml")
-    #     model_obj = recon_pipeline.steps[-1][-1]
-    #     self.assertEqual(model_obj.__class__.__name__,"DecisionTreeRegressor")
+    def test_sklearn_05(self):
+        recon_pipeline = generate_skl_pipeline("dtr_pmml.pmml")
+        model_obj = recon_pipeline.steps[-1][-1]
+        self.assertEqual(model_obj.__class__.__name__,"DecisionTreeRegressor")
 
 
     def test_sklearn_06(self):
@@ -117,10 +117,10 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(model_obj.__class__.__name__,"LinearDiscriminantAnalysis")
 
 
-    # def test_sklearn_20(self):
-    #     recon_pipeline = generate_skl_pipeline("logisticregression_pca_pmml.pmml")
-    #     model_obj = recon_pipeline.steps[-1][-1]
-    #     self.assertEqual(model_obj.__class__.__name__,"LogisticRegression")
+    def test_sklearn_20(self):
+        recon_pipeline = generate_skl_pipeline("logisticregression_pca_pmml.pmml")
+        model_obj = recon_pipeline.steps[-1][-1]
+        self.assertEqual(model_obj.__class__.__name__,"LogisticRegression")
 
 
 if __name__=='__main__':

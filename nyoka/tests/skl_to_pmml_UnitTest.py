@@ -217,7 +217,7 @@ class TestMethods(unittest.TestCase):
         target = 'Species'
 
         pipeline_obj = Pipeline([
-            ("SGD", LinearSVC())
+            ("lsvc", LinearSVC())
         ])
 
         pipeline_obj.fit(irisd[features], irisd[target])
