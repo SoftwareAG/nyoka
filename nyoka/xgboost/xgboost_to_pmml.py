@@ -459,9 +459,10 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
             segments_equal_to_class = add_segmentation(model,segments_equal_to_estimators,
                                                        mining_schema_for_1st_segment, out, index)
             segments.append(segments_equal_to_class)
+        reg_model=sklToPmml.get_regrs_models(model,oField,oField,target_name,mining_imp_val,categoric_values)[0]
+        reg_model.normalizationMethod='softmax'
         last_segment = pml.Segment(True_=pml.True_(), id=model.n_classes_ + 1,
-                                   RegressionModel=sklToPmml.get_regrs_models(model,oField,oField,target_name,
-                                                                    mining_imp_val,categoric_values)[0])
+                                   RegressionModel=reg_model)
         segments.append(last_segment)
     return segments
 

@@ -284,6 +284,8 @@ class EnsembleModel:
                 for tree_mod in tree_model:
                     main_node = tree_mod.get_Node()
                     all_node = main_node.get_Node()
+                    if len(all_node) == 0:
+                        continue
                     operator = all_node[0].get_SimplePredicate().get_operator()
                     tt = Tree(fields, [1], operator)
                     tt.get_node_info(all_node)
@@ -300,6 +302,8 @@ class EnsembleModel:
             else:
                 main_node = tree_model.get_Node()
                 all_node = main_node.get_Node()
+                if len(all_node) == 0:
+                    continue
                 operator = all_node[0].get_SimplePredicate().get_operator()
                 tt = Tree(fields, classes, operator)
                 tt.get_node_info(all_node)
