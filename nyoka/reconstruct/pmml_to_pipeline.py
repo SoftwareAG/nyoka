@@ -593,7 +593,6 @@ def get_regression_model(cls_model, pmml):
     num_predictors = list()
     funct_name = cls_model.get_functionName()
     model = cls_model.modelName
-    print('model is ',model)
     regression_table = cls_model.get_RegressionTable()
     pmml_file = open(pmml, "r")
     pmml_file_data = pmml_file.read()
