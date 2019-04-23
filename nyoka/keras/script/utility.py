@@ -2,7 +2,7 @@ import re
 
 def update_pmml(fileName):
 
-    with open('2classMBNet.pmml','r') as fp:
+    with open(fileName,'r') as fp:
         lines = fp.readlines()
     
     updatedLines = []
@@ -16,5 +16,5 @@ def update_pmml(fileName):
         line=re.sub(r'architectureName=\"[A-Za-z\s]+\"','architectureName="mobilenet"',line)
         updatedLines.append(line)
 
-    with open('2classMBNet.pmml','w') as fp:
+    with open(fileName,'w') as fp:
         fp.writelines(updatedLines)
