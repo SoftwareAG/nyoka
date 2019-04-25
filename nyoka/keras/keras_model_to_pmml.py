@@ -666,7 +666,7 @@ class KerasNetwork(ny.DeepNetwork):
         if dataSet == 'image':
             local_trans = KerasLocalTransformations(keras_model, dataSet)
         function_Name = "classification" if predictedClasses else "regression"
-        ny.DeepNetwork.__init__(self, modelName=keras_model.__class__.__name__,
+        ny.DeepNetwork.__init__(self, modelName=keras_model.name,
                                 functionName=function_Name, algorithmName=None,
                                 normalizationMethod="none", numberOfLayers=len(network_layers),
                                 isScorable=True, Extension=None, MiningSchema=mining_schema,

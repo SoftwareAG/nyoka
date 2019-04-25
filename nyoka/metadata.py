@@ -1,3 +1,3 @@
-__version__ = '3.0.9rc1'
+__version__ = '3.0.9'
 __license__ = "Apache Software License"
 
