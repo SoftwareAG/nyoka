@@ -104,7 +104,7 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
                 updated_colnames = derived_names
 
     if pml_derived_flds:
-        pml_trfm_dict = [pml.TransformationDictionary(DerivedField=pml_derived_flds)]
+        pml_trfm_dict = pml.TransformationDictionary(DerivedField=pml_derived_flds)
     pml_pp['trfm_dict'] = pml_trfm_dict
     pml_pp['derived_col_names'] = updated_colnames
     pml_pp['preprocessed_col_names'] = dtd_feat_names
