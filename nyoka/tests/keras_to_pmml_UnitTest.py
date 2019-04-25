@@ -4,7 +4,7 @@ from keras import applications
 from keras.layers import *
 from keras.models import Model
 from nyoka import KerasToPmml
-from nyoka import PMML43Ext as ny
+from nyoka import PMML44 as ny
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import pandas as pd

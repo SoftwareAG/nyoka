@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from nyoka import PMML43Ext as pml
+from nyoka import PMML44 as pml
 # from PMML43Ext import row
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.pipeline import Pipeline,make_pipeline

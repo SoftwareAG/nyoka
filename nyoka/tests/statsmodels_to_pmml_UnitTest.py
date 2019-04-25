@@ -6,7 +6,7 @@ from statsmodels.tsa import holtwinters as hw
 from statsmodels.tsa.statespace import sarimax
 from statsmodels.tsa.arima_model import ARIMA
 import unittest
-from nyoka import statsmodels_to_pmml
+from nyoka import ArimaToPMML, ExponentialSmoothingToPMML
 
 
 class TestMethods(unittest.TestCase):
@@ -55,7 +55,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
         
     def test_exponentialSmoothing_02(self):
@@ -68,7 +68,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_03(self):
@@ -81,7 +81,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_04(self):
@@ -94,7 +94,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_05(self):
@@ -107,7 +107,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_06(self):
@@ -120,7 +120,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_07(self):
@@ -133,7 +133,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
         os.remove(f_name)
 
@@ -147,7 +147,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
         
     def test_exponentialSmoothing_09(self):
@@ -160,7 +160,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_10(self):
@@ -173,7 +173,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=None)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_11(self):
@@ -186,7 +186,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_12(self):
@@ -199,7 +199,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=None)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_13(self):
@@ -212,7 +212,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_14(self):
@@ -225,7 +225,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=None)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_15(self):
@@ -238,7 +238,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_exponentialSmoothing_16(self):
@@ -251,7 +251,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=None)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
         
     def test_exponentialSmoothing_17(self):
@@ -264,7 +264,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=None)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
         
     def test_exponentialSmoothing_18(self):
@@ -278,7 +278,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        statsmodels_to_pmml(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
     
     def test_non_seasonal_arima(self):
@@ -304,7 +304,7 @@ class TestMethods(unittest.TestCase):
                 try:
                     c = c + 1
                     file_name = 'non_seasonal_arima'+str(c)+'.pmml'
-                    statsmodels_to_pmml(ts_data, model, result, file_name)
+                    ArimaToPMML(ts_data, model, result, file_name)
                 except:
                     continue
                 finally:
@@ -360,7 +360,7 @@ class TestMethods(unittest.TestCase):
                 try:
                     c = c + 1
                     file_name = 'seasonal_arima'+str(c)+'.pmml'
-                    statsmodels_to_pmml(ts_data, model, result, file_name)
+                    ArimaToPMML(ts_data, model, result, file_name)
                 except:
                     continue
                 finally:

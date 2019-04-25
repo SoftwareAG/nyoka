@@ -359,10 +359,6 @@ def orig_init():
             self.TimeSeriesModel = []
         else:
             self.TimeSeriesModel = TimeSeriesModel
-        if TransformationDictionary is None:
-                self.TransformationDictionary = []
-        else:
-            self.TransformationDictionary = TransformationDictionary
         if TreeModel is None:
             self.TreeModel = []
         else:

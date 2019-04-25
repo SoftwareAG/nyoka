@@ -1,5 +1,5 @@
 from pprint import pprint
-from nyoka.PMML43Ext import *
+from nyoka.PMML44 import *
 import numpy as np
 import pandas as pd
 from datetime import datetime

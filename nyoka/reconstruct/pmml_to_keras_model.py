@@ -5,7 +5,7 @@ from keras.layers import *
 import keras.layers as lays
 from keras.preprocessing import image
 from pprint import pprint
-from nyoka import PMML43Ext as ny
+from nyoka import PMML44 as ny
 
 def update_progress(title, progress, status):
     barLength = 30
