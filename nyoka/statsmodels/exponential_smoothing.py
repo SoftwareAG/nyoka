@@ -122,8 +122,7 @@ class ExponentialSmoothingToPMML:
                     trend_type = 'damped_multiplicative'
                 else:
                     trend_type = 'multiplicative'
-            trend_obj = Trend_ExpoSmooth(trend=trend_type, gamma=gamma, initialTrendValue=initial_trend, phi=phi,
-                                         smoothedValue=trend_smooth_val)
+            trend_obj = Trend_ExpoSmooth(trend=trend_type, gamma=gamma, phi=phi, smoothedValue=trend_smooth_val)
             # extension_objs.append(Extension(name='initialTrend', value=initial_trend))
         else:
             trend_obj = None
@@ -156,7 +155,7 @@ class ExponentialSmoothingToPMML:
                     TimeValue=get_time_value_objs(time_series_data)
                 )],
                 ExponentialSmoothing=ExponentialSmoothing(
-                    Level=Level(alpha=alpha, initialLevelValue=initial_level, smoothedValue=level_smooth_val),
+                    Level=Level(alpha=alpha, smoothedValue=level_smooth_val),
                     Trend_ExpoSmooth=trend_obj,
                     Seasonality_ExpoSmooth=season_obj,
                 ),

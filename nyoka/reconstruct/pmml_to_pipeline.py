@@ -76,7 +76,7 @@ def generate_skl_pipeline(pmml):
 
         loc_transform = nyoka_pmml.get_TransformationDictionary()
         if loc_transform:
-            der_field = loc_transform[0].get_DerivedField()
+            der_field = loc_transform.get_DerivedField()
         sk_model_obj = get_pipelineobj(sk_model_obj, der_field, pipeline_obj, pmml_modelobj, nyoka_pmml)
         return sk_model_obj
     except Exception as err:

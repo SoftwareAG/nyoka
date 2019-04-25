@@ -95,7 +95,7 @@ class GenerateKerasModel:
         elif layer_type == "BatchNormalization":
             x = BatchNormalization(name=layer_name, axis=kwargs["axis"], epsilon=kwargs["epsilon"], scale=kwargs["scale"])(layer_input)
         elif layer_type == "Activation":
-            if kwargs["activation_function"] == "reLU6":
+            if kwargs["activation_function"] == "relu6":
                 x = ReLU(6., name=layer_name)(layer_input)
             else:
                 if kwargs["activation_function"] =='rectifier':
