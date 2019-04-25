@@ -45,7 +45,7 @@ curdir = os.path.abspath(os.curdir)
 
 if "clean" in sys.argv:
     files = [pmmlpy, pmmlpysub, behaviorFileWithDir]
-    for file in [os.path.join(curdir, "PMML43Ext", x) for x in files]:
+    for file in [os.path.join(curdir, "PMML44", x) for x in files]:
         print("\033[36;1mCLEANING " + file + "\033[0m")
         if os.path.exists(file): os.remove(file)
     print("\033[32;1mSUCCESSFULLY CLEANED BUILD FILES\033[0m")

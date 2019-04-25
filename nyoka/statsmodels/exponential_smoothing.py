@@ -5,7 +5,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 
 
-from PMML43Ext import *
+from PMML44 import *
 import numpy as np
 from datetime import datetime
 
@@ -143,7 +143,7 @@ class ExponentialSmoothingToPMML:
         pmml = PMML(
             version='4.4',
             Header=Header(
-                copyright="Copyright (c) 2017 PB&RB", description="Exponential Smoothing Model",
+                copyright="Copyright (c) 2018 Software AG", description="Exponential Smoothing Model",
                 Timestamp=Timestamp(datetime.utcnow())
             ),
             DataDictionary=DataDictionary(numberOfFields=n_columns, DataField=get_data_field_objs(time_series_data)),

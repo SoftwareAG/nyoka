@@ -87,16 +87,13 @@ def new_init():
         self.content_ = [supermod.MixedContainer(1, 2, "", str(content))]
         self.valueOf_ = str(content)
 
-    def PMML_init(self, version='4.3', Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version='4.4', Header=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
-        if script is None:
-            self.script = []
-        else:
-            self.script = script
         self.MiningBuildTask = MiningBuildTask
         self.DataDictionary = DataDictionary
+        self.TransformationDictionary = TransformationDictionary
         if AssociationModel is None:
             self.AssociationModel = []
         else:
@@ -173,10 +170,6 @@ def new_init():
             self.TimeSeriesModel = []
         else:
             self.TimeSeriesModel = TimeSeriesModel
-        if TransformationDictionary is None:
-            self.TransformationDictionary = []
-        else:
-            self.TransformationDictionary = TransformationDictionary
         if TreeModel is None:
             self.TreeModel = []
         else:
@@ -186,26 +179,12 @@ def new_init():
         else:
             self.Extension = Extension
 
-    def script_init(self, content=None, for_=None, class_=None, Extension=None):
-        self.original_tagname_ = None
-        self.for_ = supermod._cast(None, for_)
-        self.class_ = supermod._cast(None, class_)
-        if Extension is None:
-            self.Extension = []
-        else:
-            self.Extension = Extension
-        self.anyAttributes_ = {}
-        self.mixedclass_ = supermod.MixedContainer
-        self.content_ = [supermod.MixedContainer(1, 2, "", str(content))]
-        self.valueOf_ = str(content)
-
     LayerWeights.__init__ = LayerWeights_init
     LayerBias.__init__ = LayerBias_init
     ArrayType.__init__ = ArrayType_init
     Annotation.__init__ = Annotation_init
     Timestamp.__init__ = Timestamp_init
     PMML.__init__ = PMML_init
-    script.__init__ = script_init
 
 def orig_init():
     def LayerWeights_init(self, weightsShape=None, weightsFlattenAxis=None, src=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
@@ -297,14 +276,10 @@ def orig_init():
             self.content_ = content_
         self.valueOf_ = valueOf_
 
-    def PMML_init(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version=None, Header=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
-        if script is None:
-            self.script = []
-        else:
-            self.script = script
         self.MiningBuildTask = MiningBuildTask
         self.DataDictionary = DataDictionary
         self.TransformationDictionary = TransformationDictionary
@@ -397,33 +372,12 @@ def orig_init():
         else:
             self.Extension = Extension
 
-    def script_init(self, for_=None, class_=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
-        self.original_tagname_ = None
-        self.for_ = supermod._cast(None, for_)
-        self.class_ = supermod._cast(None, class_)
-        if Extension is None:
-            self.Extension = []
-        else:
-            self.Extension = Extension
-        self.valueOf_ = valueOf_
-        self.anyAttributes_ = {}
-        if mixedclass_ is None:
-            self.mixedclass_ = supermod.MixedContainer
-        else:
-            self.mixedclass_ = mixedclass_
-        if content_ is None:
-            self.content_ = []
-        else:
-            self.content_ = content_
-        self.valueOf_ = valueOf_
-
     LayerWeights.__init__ = LayerWeights_init
     LayerBias.__init__ = LayerBias_init
     ArrayType.__init__ = ArrayType_init
     Annotation.__init__ = Annotation_init
     Timestamp.__init__ = Timestamp_init
     PMML.__init__ = PMML_init
-    script.__init__ = script_init
 
 new_init()
 

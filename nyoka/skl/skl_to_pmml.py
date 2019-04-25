@@ -4,7 +4,7 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import numpy as np
-import PMML43Ext as pml
+import PMML44 as pml
 from skl import pre_process as pp
 from datetime import datetime
 import math
@@ -251,7 +251,6 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val):
     """
     model_kwargs = dict()
     model_kwargs['functionName'] = get_mining_func(model)
-    # model_kwargs['modelName'] = get_model_name(model)
     model_kwargs['MiningSchema'] = get_mining_schema(model, col_names, target_name, mining_imp_val)
     if 'IsolationForest' in str(model.__class__):
         model_kwargs['Output']=get_anomaly_detection_output(model)
@@ -2102,7 +2101,7 @@ def get_version():
 
     """
 
-    version = '4.3Ext'
+    version = '4.4'
     return version
 
 

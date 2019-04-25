@@ -6,7 +6,7 @@ sys.path.append(BASE_DIR)
 
 
 from pprint import pprint
-from PMML43Ext import *
+from PMML44 import *
 from datetime import datetime
 
 class ArimaToPMML:
@@ -20,7 +20,7 @@ class ArimaToPMML:
 
             pmml = PMML(
                 version = '4.4',
-                Header = Header(copyright = "Copyright (c) 2017 PB&RB", description = "ARIMA Model",  
+                Header = Header(copyright = "Copyright (c) 2018 Software AG", description = "ARIMA Model",  
                                 Timestamp = Timestamp(datetime.utcnow())),
                 DataDictionary = DataDictionary(numberOfFields = n_columns, 
                                                 DataField = get_data_field_objs(time_series_data)),

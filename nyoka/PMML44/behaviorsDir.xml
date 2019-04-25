@@ -2,7 +2,7 @@
 <xb:xml-behavior
     xmlns:xb="http://example.com"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xb:base-impl-url>file:///Projects/nyoka_github/nyoka/PMML43Ext/behaviors/</xb:base-impl-url>
+    <xb:base-impl-url>file:///Projects/nyoka_github/nyoka/PMML44/behaviors/</xb:base-impl-url>
     <xb:behaviors>
         <xb:behavior>
             <xb:class>PMML</xb:class>

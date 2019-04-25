@@ -19,7 +19,7 @@ import json
 import numpy as np
 
 # nyoka imports
-import PMML43Ext as ny
+import PMML44 as ny
 
 LAYERS_DIR = os.path.abspath(os.path.dirname(__file__))
 image_INDEX_PATH = LAYERS_DIR + "/image_class_index.json"
@@ -38,7 +38,7 @@ KERAS_LAYER_PARAMS = ['filters', 'kernel_size', 'strides', 'padding',
                       "epsilon", "pool_size", "scale", "depth_multiplier",
                       "rate", "dilation_rate","size"]
 
-NYOKA_LAYER_PARAMS = ['featureMaps', 'kernel', 'stride', 'paddingType',
+NYOKA_LAYER_PARAMS = ['featureMaps', 'kernel', 'stride', 'pad',
                       'inputDimension', 'outputDimension',
                       "activationFunction", "axis",
                       "batchNormalizationEpsilon", "poolSize",
@@ -238,7 +238,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
             else:
                 layer_params_dict[key] = None
             if layer_params_dict[key] and layer_params_dict[key] != "None":
-                if key == "paddingType" and pad_dims:
+                if key == "pad" and pad_dims:
                     pad_ = list()
                     for val in pad_val:
                         if hasattr(val,'__len__'):
@@ -316,13 +316,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
         """ 
         node_config = layer._inbound_nodes[0].get_config()
         if node_config['inbound_layers']:
-            inbound_layers = []
-            if node_config['inbound_layers'][0] == 'rpn_model':
-                replace_by = layer._inbound_nodes[0].input_tensors[0]._op.name.split('/')[1]
-                for i in range(len(node_config['inbound_layers'])):
-                    inbound_layers.append(replace_by)
-            else:
-                inbound_layers = node_config['inbound_layers']
+            inbound_layers = node_config['inbound_layers']
             connection_layers = ", ".join(inbound_layers)
         else:
             connection_layers = "na"
@@ -333,7 +327,6 @@ class KerasNetworkLayer(ny.NetworkLayer):
         merge_concat_axes = None
         merge_dot_axes = None
         merge_dot_normalization = False
-        inner_network_layer = None
         connection_layers = ''
         input_filed_name = None
         if "Pmml" in layer_type:
@@ -358,7 +351,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
                     merge_dot_normalization = layer_params["normalize"]
                     del layer_params["normalize"]
                 layer_params["mergeLayerDotNormalize"] = merge_dot_normalization
-        elif layer_type in ["BatchNormalization","BatchNorm"]:
+        elif layer_type == "BatchNormalization":
             layer_type = "BatchNormalization"
             if "axis" in layer_params:
                 layer_params["batchNormalizationAxis"] = layer_params["axis"]
@@ -372,27 +365,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
                         "batchNormalizationScale"]
         elif layer_type == "ReLU":
             layer_type = "Activation"
-            layer_params["activationFunction"] = "rectifier"
-            layer_params["max_value"] = str(layer.max_value.item())
-        elif layer_type == 'Dense':
-            layer_params["units"] = str(layer.units)
-        elif layer_type == 'Lambda':
-            layer_params['function'] = layer.get_config()['function'][0]
-            out_s = layer.output_shape[1:]
-            if len(out_s) == 1:
-                layer_params['outputDimension'] = str((out_s[0], 1))
-            else:
-                layer_params['outputDimension'] = str(out_s)
-        elif layer_type == 'PyramidROIAlign':
-            layer_params['pool_shape'] = str(layer.pool_shape)
-        elif layer_type == 'ProposalLayer':
-            layer_params['proposal_count'] = str(layer.proposal_count)
-            layer_params['nms_threshold'] = str(layer.nms_threshold)
-        elif layer_type == 'TimeDistributed':
-            inner_layer = layer.layer
-            layer_type_inner = inner_layer.__class__.__name__
-            inner_network_layer = KerasNetworkLayer(inner_layer,dataSet,layer_type_inner,False)
-        layer_params["trainable"] = str(layer.trainable)
+            layer_params["activationFunction"] = "reLU6"
         layer_params["mergeLayerOp"] = merge_layer_op_type
         layer_params["mergeLayerConcatOperationAxes"] = merge_concat_axes
         layer_params["mergeLayerDotOperationAxis"] = merge_dot_axes
@@ -409,7 +382,6 @@ class KerasNetworkLayer(ny.NetworkLayer):
                                  connectionLayerId=connection_layers,
                                  layerId=layer.name,
                                  normalizationMethod="none",
-                                 NetworkLayer_member=inner_network_layer,
                                  LayerParameters=ny.LayerParameters(
                                      **layer_params),
                                  LayerWeights=layer_weights,
@@ -566,15 +538,23 @@ class KerasLocalTransformations(ny.LocalTransformations):
     -------
     Nyoka's Transformations Object
     """ 
-    def __init__(self, model_name, dataSet):
-        mod_indx = model_name.find("Keras")
-        if mod_indx != -1:
-            model_name = model_name[mod_indx + 5:].lower()
+    def __init__(self, keras_model, dataSet):
+
+        arch_name = 'mobilenet'
+        if 'vgg' in keras_model.name:
+            arch_name = 'vgg'
+        elif 'xception' in keras_model.name:
+            arch_name = 'xception'
+        elif 'inception' in keras_model.name:
+            arch_name = 'inception'
+        elif 'resnet' in keras_model.name:
+            arch_name = 'resnet'
+        
         ny.LocalTransformations.__init__(self)
 
         ny.LocalTransformations.add_DerivedField(self, ny.DerivedField(
             name="base64String", optype="categorical", dataType="string",
-            trainingBackend="tensorflowChannelLast", architectureName=model_name,
+            trainingBackend="tensorflowChannelLast", architectureName=arch_name,
             Apply=ny.Apply(function="CNN:getBase64String",
                            FieldRef=[ny.FieldRef(field="image")])))
 
@@ -630,7 +610,7 @@ class KerasNetwork(ny.DeepNetwork):
             if dataSet == 'image':
                 inputField = "base64String"
             else:
-                inputField = 'dataSet'
+                inputField = dataSet
         else:
             inputField = 'dataSet'
         in_shape = layer.input_shape
@@ -675,22 +655,18 @@ class KerasNetwork(ny.DeepNetwork):
                 network_layers.append(input_layer)
         for layer in model_layers:
             layer_type = layer.__class__.__name__
-            if layer_type == 'Model':
-                inner_network_layers = self._create_layers(layer,dataSet)
-                network_layers.extend(inner_network_layers)
-            else:
-                net_layer = KerasNetworkLayer(layer,dataSet, layer_type)
-                network_layers.append(net_layer)
+            net_layer = KerasNetworkLayer(layer,dataSet, layer_type)
+            network_layers.append(net_layer)
         return network_layers
 
-    def __init__(self, keras_model, model_name, dataSet=None, predictedClasses=None):
+    def __init__(self, keras_model, dataSet=None, predictedClasses=None):
         network_layers = self._create_layers(keras_model, dataSet)
         local_trans = None
         mining_schema = KerasMiningSchema(dataSet)
         if dataSet == 'image':
-            local_trans = KerasLocalTransformations(model_name, dataSet)
+            local_trans = KerasLocalTransformations(keras_model, dataSet)
         function_Name = "classification" if predictedClasses else "regression"
-        ny.DeepNetwork.__init__(self, modelName=model_name,
+        ny.DeepNetwork.__init__(self, modelName=keras_model.__class__.__name__,
                                 functionName=function_Name, algorithmName=None,
                                 normalizationMethod="none", numberOfLayers=len(network_layers),
                                 isScorable=True, Extension=None, MiningSchema=mining_schema,
@@ -720,11 +696,9 @@ class KerasToPmml(ny.PMML):
     -------
     Creates PMML object, this can be saved in file using export function
     """ 
-    def __init__(self, keras_model, model_name="Keras Model",
-                 description="Keras Models in PMML",dataSet=None, predictedClasses=None):
+    def __init__(self, keras_model, dataSet=None, predictedClasses=None):
         data_dict = KerasDataDictionary(dataSet, predictedClasses)
         super(KerasToPmml, self).__init__(
-            version="4.3Ext", Header=KerasHeader(description, copyright="Internal User"),
+            version="4.4", Header=KerasHeader(description="Keras Model in PMML", copyright="Copyright (c) 2018 Software AG"),
             DataDictionary=data_dict, DeepNetwork=[
-                KerasNetwork(keras_model=keras_model, model_name=model_name,
-                             dataSet=dataSet, predictedClasses=predictedClasses)])
+                KerasNetwork(keras_model=keras_model, dataSet=dataSet, predictedClasses=predictedClasses)])

@@ -4,7 +4,7 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import numpy as np
-import PMML43Ext as pml
+import PMML44 as pml
 import nyoka.skl.skl_to_pmml as sklToPmml
 import nyoka.xgboost.xgboost_to_pmml as xgboostToPmml
 import json
