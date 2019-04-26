@@ -40,27 +40,31 @@ class ArimaToPMML:
             else:
                 d = 0
             q = sm_results._results.specification.k_ma
-            ar_params = ArrayType(n = p, type_ = 'real')
-            content_value = ' '.join([str(i) for i in sm_results._results._params_ar] if int(p) > 0 else [])
-            ar_params.content_[0].value = content_value
-            ma_coeffs = [Coefficient(value=coeff) for coeff in sm_results._results._params_ma] if int(q) > 0 else []
-            ny_ma_obj = MA(Coefficients=Coefficients(numberOfCoefficients=q, Coefficient=ma_coeffs)) if q > 0 else None
+            
+            ns_ar_content = ' '.join([str(i) for i in sm_results._results._params_ar] if int(p) > 0 else [])
+            ns_ar_params_array = ArrayType(content = ns_ar_content, n = p, type_ = 'real')
+
+            ns_ma_content = ' '.join([str(coeff) for coeff in sm_results._results._params_ma] if int(q) > 0 else [])
+            ns_ma_coeff_array = ArrayType(content = ns_ma_content, n = q, type_ = 'real')
+            ny_ns_maCoef_obj = MACoefficients(Array = ns_ma_coeff_array)
 
             #Seasonal
             P = sm_results._results.specification.seasonal_order[0]
             D = sm_results._results.specification.seasonal_order[1]
             Q = sm_results._results.specification.seasonal_order[2]
             S = sm_results._results.specification.seasonal_periods
-            seasonal_ar_params = ArrayType(n = P, type_ = 'real')
-            seasonal_content_value = ' '.join([str(i) for i in sm_results._results._params_seasonal_ar] if int(P) > 0 else [])
-            seasonal_ar_params.content_[0].value = seasonal_content_value
-            seasonal_ma_coeffs = [Coefficient(value=coeff) for coeff in sm_results._results._params_seasonal_ma] if int(Q) > 0 else []
-            ny_seasonal_ma_obj = MA(Coefficients=Coefficients(numberOfCoefficients=Q, Coefficient=seasonal_ma_coeffs)) if Q > 0 else None
+
+            seasonal_ar_content = ' '.join([str(i) for i in sm_results._results._params_seasonal_ar] if int(P) > 0 else [])
+            seasonal_ar_params_array = ArrayType(content = seasonal_ar_content, n = P, type_ = 'real')
+
+            seasonal_ma_content = ' '.join([str(coeff) for coeff in sm_results._results._params_seasonal_ma] if int(Q) > 0 else [])
+            seasonal_ma_coeff_array = ArrayType(content = seasonal_ma_content, n = Q, type_ = 'real')
+            ny_seasonal_maCoef_obj = MACoefficients(Array = seasonal_ma_coeff_array)
 
             nyoka_sarimax_obj = ARIMA(#predictionMethod = None,
                                 Extension = get_sarimax_extension_list(sm_results),
-                                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ar_params), MA = ny_ma_obj),
-                                SeasonalComponent = SeasonalComponent(P = P, D = D, Q = Q, period = S, AR = AR(Array = seasonal_ar_params), MA = ny_seasonal_ma_obj))
+                                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ns_ar_params_array), MA = MA(MACoefficients = ny_ns_maCoef_obj)),
+                                SeasonalComponent = SeasonalComponent(P = P, D = D, Q = Q, period = S, AR = AR(Array = seasonal_ar_params_array), MA = MA(MACoefficients = ny_seasonal_maCoef_obj)))
             return nyoka_sarimax_obj
 
         def get_arima_obj(sm_model, sm_results):
@@ -79,16 +83,17 @@ class ArimaToPMML:
             else:
                 pred_method = None
 
-            ar_params = ArrayType(n = p, type_ = 'real')
-            content_value = ' '.join([str(i) for i in sm_results._results.arparams])
-            ar_params.content_[0].value = content_value
-            ma_coeffs = [Coefficient(value = coeff) for coeff in sm_results._results.maparams]
-            ny_ma_obj = MA(Coefficients = Coefficients(numberOfCoefficients = q, Coefficient = ma_coeffs)) if q > 0 else None
+            ar_content = ' '.join([str(i) for i in sm_results._results.arparams] if int(p) > 0 else [])
+            ar_params_array = ArrayType(content = ar_content, n = p, type_ = 'real')
+            
+            ma_content = ' '.join([str(coeff) for coeff in sm_results._results.maparams] if int(q) > 0 else [])
+            ma_coeff_array = ArrayType(content = ma_content, n = q, type_ = 'real')
+            ny_maCoef_obj = MACoefficients(Array = ma_coeff_array)
 
             nyoka_arima_obj = ARIMA(constantTerm = sm_results.params[0],
                                 predictionMethod = pred_method,
                                 Extension = get_arima_extension_list(sm_model),
-                                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ar_params), MA = ny_ma_obj))
+                                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ar_params_array),  MA = MA(MACoefficients = ny_maCoef_obj)))
             return nyoka_arima_obj
 
         def get_time_series_obj_list(ts_data, usage = 'original' , timeRequired = True):
@@ -147,15 +152,15 @@ class ArimaToPMML:
 
         def get_sarimax_extension_list(results):
             extensions = list()
-            extensions.append(Extension(name="sigmaSquare", value = results._params_variance[0], anytypeobjs_ = ['']))
-            extensions.append(Extension(name="cov_type", value = results.cov_type, anytypeobjs_ = ['']))
-            extensions.append(Extension(name="approx_complex_step", value = results._cov_approx_complex_step, anytypeobjs_ = ['']))
-            extensions.append(Extension(name="approx_centered", value = results._cov_approx_centered, anytypeobjs_ = ['']))
+            extensions.append(Extension(name="sigmaSquare", value = results._params_variance[0]))
+            extensions.append(Extension(name="cov_type", value = results.cov_type))
+            extensions.append(Extension(name="approx_complex_step", value = results._cov_approx_complex_step))
+            extensions.append(Extension(name="approx_centered", value = results._cov_approx_centered))
             return extensions
 
         def get_arima_extension_list(model):
             extensions = list()
-            extensions.append(Extension(name="sigmaSquare", value = model.sigma2, anytypeobjs_ = ['']))
+            extensions.append(Extension(name="sigmaSquare", value = model.sigma2))
             return extensions
         
         if(time_series_data.__class__.__name__ == 'DataFrame'):
