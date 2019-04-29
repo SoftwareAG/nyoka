@@ -159,7 +159,7 @@ def reconstruct(pmml,*args):
     if 'XGBRegressor' in extension_value:
         mod=XGBRegressor()
         mod.rescaleConstant = model.get_rescale_Constant(targets)
-    if 'GradientBoostingRegressor' in extension_value:
+    elif 'GradientBoostingRegressor' in extension_value:
         mod=GradientBoostingRegressor()
         mod.rescaleFactor = model.get_rescale_Factor(targets)
         mod.rescaleConstant = model.get_rescale_Constant(targets)
