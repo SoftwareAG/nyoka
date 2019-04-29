@@ -2722,8 +2722,8 @@
 </xs:simpleType>
 <xs:group name="EXPRESSION">
   <xs:choice>
-    <xs:element ref="Constant"/>
     <xs:element ref="FieldRef"/>
+    <xs:element ref="Constant"/>
     <xs:element ref="NormContinuous"/>
     <xs:element ref="NormDiscrete"/>
     <xs:element ref="Discretize"/>

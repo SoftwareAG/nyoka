@@ -48,6 +48,14 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
             for dfm_step in dfm_steps:
                 dfm_step_col_names = dfm_step[0]
                 dfm_step_trfms = dfm_step[1]
+                if not dfm_step_trfms:
+                    for col in dfm_step_col_names:
+                        if col not in dtd_feat_names:
+                            dtd_feat_names.append(col)
+                    for col in dfm_step_col_names:
+                        if col not in dfm_col_names:
+                            dfm_col_names.append(col)
+                    continue
                 if not hasattr(dfm_step_col_names, "__len__") or isinstance(dfm_step_col_names, str):
                     dfm_step_col_names = [dfm_step_col_names]
                 if not hasattr(dfm_step_trfms, "__len__") or isinstance(dfm_step_trfms, str):
@@ -467,6 +475,8 @@ def count_vectorizer(trfm, col_names):
 
     """
     pp_dict = dict()
+    # features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    # extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
     features = trfm.get_feature_names()
     extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()

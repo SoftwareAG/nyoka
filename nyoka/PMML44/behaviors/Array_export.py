@@ -12,13 +12,13 @@
         already_processed = set()
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ArrayType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
+            outfile.write('>')
             if not pretty_print:
                 self.content_[0].value = self.content_[0].value.replace('\t', '').replace(' ', '')
                 self.valueOf_ = self.valueOf_.replace('\t', '').replace(' ', '')
             self.exportChildren(outfile, level + 1, namespace_='', name_='ArrayType', pretty_print=pretty_print)
-            outfile.write(eol_)
-            supermod.showIndent(outfile, level, pretty_print)
+            # outfile.write(eol_)
+            # supermod.showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))

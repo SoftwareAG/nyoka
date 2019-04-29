@@ -148,8 +148,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
         Get the PMML model argument based on scikit learn model object
     """
     skl_mdl_super_cls_names = get_super_cls_names(model)
-    regression_model_names = ('LinearRegression', 'LogisticRegression', 'RidgeClassifier', 'SGDClassifier',
-                              'LinearDiscriminantAnalysis','LinearSVC','LinearSVR')
+    regression_model_names = ('LinearRegression','LinearDiscriminantAnalysis','LinearSVR')
+    regression_mining_model_names = ('LogisticRegression', 'RidgeClassifier', 'SGDClassifier','LinearSVC',)
     tree_model_names = ('BaseDecisionTree',)
     support_vector_model_names = ('SVC', 'SVR')
     anomaly_model_names = ('OneClassSVM',)
@@ -165,6 +165,21 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                     col_names,
                                                     target_name,
                                                     mining_imp_val)}
+    elif any_in(regression_mining_model_names, skl_mdl_super_cls_names):
+        if len(model.classes_) == 2:
+            algo_kwargs = {'RegressionModel': get_regrs_models(model,
+                                                           derived_col_names,
+                                                           col_names,
+                                                           target_name,
+                                                           mining_imp_val,
+                                                           categoric_values)}
+        else:
+            algo_kwargs = {'MiningModel': get_reg_mining_models(model,
+                                                                derived_col_names,
+                                                                col_names,
+                                                                target_name,
+                                                                mining_imp_val,
+                                                                categoric_values)}
     elif any_in(regression_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'RegressionModel': get_regrs_models(model,
                                                            derived_col_names,
@@ -258,6 +273,69 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val):
         model_kwargs['Output'] = get_output(model, target_name)
 
     return model_kwargs
+
+
+def get_reg_mining_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+    num_classes = len(model.classes_)
+    model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
+
+    mining_model = pml.MiningModel(modelName=model.__class__.__name__,**model_kwargs)
+    inner_mining_schema = [mfield for mfield in model_kwargs['MiningSchema'].MiningField if mfield.usageType != 'target']
+    segmentation = pml.Segmentation(multipleModelMethod="modelChain")
+    for i in range(num_classes):
+        segment = pml.Segment(id=str(i+1),True_=pml.True_())
+        segment.RegressionModel = pml.RegressionModel(
+            functionName='regression',
+            normalizationMethod="logit",
+            MiningSchema=pml.MiningSchema(
+                MiningField=inner_mining_schema
+                ),
+            Output=pml.Output(
+                OutputField=[
+                    pml.OutputField(
+                        name="probablity_"+str(i),
+                        optype="continuous",
+                        dataType="double"
+                        )
+                    ]
+                ),
+            RegressionTable=get_reg_tab_for_reg_mining_model(model,derived_col_names,i)
+        )
+        segmentation.add_Segment(segment)
+
+    last_segment = pml.Segment(id=str(num_classes+1),True_=pml.True_())
+    mining_flds_for_last = [pml.MiningField(name="probablity_"+str(i)) for i in range(num_classes)]
+    mining_flds_for_last.append(pml.MiningField(name=target_name,usageType="target"))
+    mining_schema_for_last = pml.MiningSchema(MiningField=mining_flds_for_last)
+    reg_tab_for_last = list()
+    for i in range(num_classes):
+        reg_tab_for_last.append(
+            pml.RegressionTable(
+                intercept="0.0",
+                targetCategory=str(model.classes_[i]),
+                NumericPredictor=[pml.NumericPredictor(
+                    name="probablity_"+str(i),
+                    coefficient="1.0"
+                )]
+            )
+        )
+
+    last_segment.RegressionModel = pml.RegressionModel(
+        functionName="classification",
+        normalizationMethod="simplemax",
+        MiningSchema=mining_schema_for_last,
+        RegressionTable=reg_tab_for_last
+    )
+    segmentation.add_Segment(last_segment)
+    mining_model.set_Segmentation(segmentation)
+    return [mining_model]
+
+
+def get_reg_tab_for_reg_mining_model(model, col_names, index):
+    reg_tab = pml.RegressionTable(intercept=str(model.intercept_[index]))
+    for i, coef in enumerate(model.coef_[index]):
+        reg_tab.add_NumericPredictor(pml.NumericPredictor(name=col_names[i],coefficient=str(coef)))
+    return [reg_tab]
 
 
 def get_anomalydetection_model(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
@@ -439,6 +517,8 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
 
     clustering_models = list()
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
+    values, counts = np.unique(model.labels_,return_counts=True)
+    model_kwargs["Output"] = get_output_for_clustering(values)
     clustering_models.append(
         pml.ClusteringModel(
             modelClass="centerBased",
@@ -446,7 +526,7 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
             numberOfClusters=get_cluster_num(model),
             ComparisonMeasure=get_comp_measure(),
             ClusteringField=get_clustering_flds(derived_col_names),
-            Cluster=get_cluster_vals(model),
+            Cluster=get_cluster_vals(model,counts),
             **model_kwargs
 
         )
@@ -455,7 +535,36 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
     return clustering_models
 
 
-def get_cluster_vals(model):
+def get_output_for_clustering(values):
+    """
+
+    Parameters
+    ----------
+    model :
+        An instance of Scikit-learn model.
+
+    Returns
+    -------
+    output_fields :List
+        Returns a list of OutputField
+    """
+    output_fields = list()
+    output_fields.append(pml.OutputField(name="cluster", optype="categorical",dataType="string",feature="predictedValue"))
+    for idx, val in enumerate(values):
+        output_fields.append(
+            pml.OutputField(
+                name="affinity("+str(idx)+")",
+                optype="continuous",
+                dataType="double",
+                feature="entityAffinity",
+                value=str(val)
+            )
+        )
+    return pml.Output(OutputField=output_fields)
+        
+
+
+def get_cluster_vals(model,counts):
     """
 
     Parameters
@@ -477,7 +586,7 @@ def get_cluster_vals(model):
         for centroid_cordinate_idx in range(centroids.shape[1]):
             centroid_flds.content_[0].value = centroid_values + str(centroids[centroid_idx][centroid_cordinate_idx])
             centroid_values = centroid_flds.content_[0].value + " "
-        cluster_flds.append(pml.Cluster(id=str(centroid_idx), name="clus-" + str(centroid_idx), Array=centroid_flds))
+        cluster_flds.append(pml.Cluster(id=str(centroid_idx), Array=centroid_flds,size=str(counts[centroid_idx])))
     return cluster_flds
 
 
@@ -512,8 +621,8 @@ def get_comp_measure():
         Returns an instance of comparision measure
 
     """
-    comp_equation = pml.squaredEuclidean()
-    return pml.ComparisonMeasure(squaredEuclidean=comp_equation, kind="distance")
+    comp_equation = pml.euclidean()
+    return pml.ComparisonMeasure(euclidean=comp_equation, kind="distance")
 
 
 def get_clustering_flds(col_names):
@@ -814,8 +923,8 @@ def get_bayes_inputs(model, derived_col_names):
         for idx, val in enumerate(model.classes_):
             target_val = pml.TargetValueStat(
                 val, GaussianDistribution=pml.GaussianDistribution(
-                    mean='{:.20f}'.format(means[idx]),
-                    variance='{:.20f}'.format(variances[idx])))
+                    mean=str(means[idx]),
+                    variance=str(variances[idx])))
             target_val_stats.add_TargetValueStat(target_val)
         bayes_inputs.add_BayesInput(pml.BayesInput(fieldName=str(name),
                                                TargetValueStats=target_val_stats))
@@ -905,8 +1014,20 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
         Returns the MiningModel of the respective ensemble model
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val)
-    if 'GradientBoostingRegressor' in str(model.__class__):
+    if model.__class__.__name__ == 'GradientBoostingRegressor':
         model_kwargs['Targets'] = get_targets(model, target_name)
+
+    mining_fields = model_kwargs['MiningSchema'].MiningField
+    new_mining_fields = list()
+    for idx, imp_ in enumerate(model.feature_importances_):
+        if imp_ > 0:
+            new_mining_fields.append(mining_fields[idx])
+    for fld in mining_fields:
+        if fld.usageType == 'target':
+            new_mining_fields.append(fld)
+    model_kwargs['MiningSchema'].MiningField = new_mining_fields
+
+        
     mining_models = list()
     mining_models.append(pml.MiningModel(
         modelName=model.__class__.__name__,
@@ -934,7 +1055,7 @@ def get_targets(model, target_name):
     targets :
         Returns a Target instance.
     """
-    if 'GradientBoostingRegressor' in str(model.__class__):
+    if model.__class__.__name__ == 'GradientBoostingRegressor':
         targets = pml.Targets(
             Target=[
                 pml.Target(
@@ -1079,8 +1200,11 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
     out_field_names = list()
     for estm_idx in range(len(model.estimators_[0])):
         mining_fields_for_first = list()
-        for name in col_names:
-            mining_fields_for_first.append(pml.MiningField(name=name))
+        # for name in col_names:
+        for idx,imp_ in enumerate(model.feature_importances_):
+            # mining_fields_for_first.append(pml.MiningField(name=name))
+            if imp_ > 0:
+                mining_fields_for_first.append(pml.MiningField(name=col_names[idx]))
 
         miningschema_for_first = pml.MiningSchema(MiningField=mining_fields_for_first)
         output_fields = list()
@@ -1164,7 +1288,10 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
             )
         )
     reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values)[0]
-    reg_model.normalizationMethod="logit"
+    if len(model.classes_) == 2:
+        reg_model.normalizationMethod="logit"
+    else:
+        reg_model.normalizationMethod="softmax"
     segments.append(
         pml.Segment(
             id=str(len(model.estimators_[0])),
@@ -1210,8 +1337,12 @@ def get_inner_segments(model, derived_col_names, col_names, index):
                 features_.append(feat)
         if len(features_) != 0:
             mining_fields = list()
-            for feat in col_names:
-                mining_fields.append(pml.MiningField(name=feat))
+            # for feat in col_names:
+            feature_importances = estm.tree_.compute_feature_importances()
+            for idx,imp_ in enumerate(feature_importances):
+                if imp_ > 0:
+                # mining_fields.append(pml.MiningField(name=feat))
+                    mining_fields.append(pml.MiningField(name=col_names[idx]))
             segments.append(
                 pml.Segment(
                     True_=pml.True_(),
@@ -1678,7 +1809,7 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
             regr_predictor = get_regr_predictors(model_coef, row_idx, feature_names, categoric_values)
             merge.append(
                 pml.RegressionTable(
-                    intercept="{:.15f}".format(inter.item()),
+                    intercept=str(inter.item()),
                     targetCategory=target_cat,
                     NumericPredictor=regr_predictor
                 )
@@ -2388,7 +2519,7 @@ def get_categoric_pred(feat_names,row_idx, der_fld_idx, model_coef, class_lbls, 
 
             cat_pred = pml.CategoricalPredictor(name=class_attribute,
                                                 value=class_lbls[-1],
-                                                coefficient="{:.15f}".format(coef))
+                                                coefficient=str(coef))
             cat_pred.original_tagname_ = "CategoricalPredictor"
             categoric_predictor.append(cat_pred)
         else:
@@ -2445,7 +2576,7 @@ def get_numeric_pred(row_idx, der_fld_idx, model_coef, der_fld_name):
     num_pred = pml.NumericPredictor(
                         name=der_fld_name,
                         exponent='1',
-                        coefficient="{:.15f}".format(model_coef[row_idx][der_fld_idx]))
+                        coefficient=str(model_coef[row_idx][der_fld_idx]))
     num_pred.original_tagname_ = "NumericPredictor"
     return num_pred
 

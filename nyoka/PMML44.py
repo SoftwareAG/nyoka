@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Thu Apr 25 14:12:08 2019 by generateDS.py version 2.28a.
+# Generated Mon Apr 29 14:09:46 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -48,8 +48,8 @@ ExternalEncoding = 'utf-8'
 
 
 class DefineFunction(supermod.DefineFunction):
-    def __init__(self, name=None, optype=None, dataType=None, Extension=None, ParameterField=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
-        super(DefineFunction, self).__init__(name, optype, dataType, Extension, ParameterField, Constant, FieldRef, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
+    def __init__(self, name=None, optype=None, dataType=None, Extension=None, ParameterField=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+        super(DefineFunction, self).__init__(name, optype, dataType, Extension, ParameterField, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
 
     #
     # XMLBehaviors
@@ -70,8 +70,8 @@ supermod.ParameterField.subclass = ParameterField
 
 
 class Apply(supermod.Apply):
-    def __init__(self, function=None, mapMissingTo=None, defaultValue=None, invalidValueTreatment='returnInvalid', Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply_member=None, Aggregate=None, Lag=None):
-        super(Apply, self).__init__(function, mapMissingTo, defaultValue, invalidValueTreatment, Extension, Constant, FieldRef, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply_member, Aggregate, Lag, )
+    def __init__(self, function=None, mapMissingTo=None, defaultValue=None, invalidValueTreatment='returnInvalid', Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply_member=None, Aggregate=None, Lag=None):
+        super(Apply, self).__init__(function, mapMissingTo, defaultValue, invalidValueTreatment, Extension, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply_member, Aggregate, Lag, )
 
     #
     # XMLBehaviors
@@ -989,7 +989,7 @@ class ArrayType(supermod.ArrayType):
 
         if self.hasContent_():
 
-            outfile.write('>%s' % (eol_, ))
+            outfile.write('>')
 
             if not pretty_print:
 
@@ -999,9 +999,9 @@ class ArrayType(supermod.ArrayType):
 
             self.exportChildren(outfile, level + 1, namespace_='', name_='ArrayType', pretty_print=pretty_print)
 
-            outfile.write(eol_)
+            # outfile.write(eol_)
 
-            supermod.showIndent(outfile, level, pretty_print)
+            # supermod.showIndent(outfile, level, pretty_print)
 
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
 
@@ -1010,6 +1010,18 @@ class ArrayType(supermod.ArrayType):
             outfile.write('/>%s' % (eol_, ))
     def export_wrapper(self, outfile, level, namespace_='', name_='ArrayType', namespacedef_='', pretty_print=True, *args):
         result = self.export(outfile, level, namespace_='', name_='ArrayType', namespacedef_='', pretty_print=True, *args)
+        return result
+
+    def exportChildren(self, outfile, level, namespace_='', name_='ArrayType', fromsubclass_=False, pretty_print=True, *args):
+        if not fromsubclass_:
+
+            for item_ in self.content_:
+
+                item_.export(outfile, level, item_.name, namespace_, pretty_print=pretty_print)
+
+                
+    def exportChildren_wrapper(self, outfile, level, namespace_='', name_='ArrayType', fromsubclass_=False, pretty_print=True, *args):
+        result = self.exportChildren(outfile, level, namespace_='', name_='ArrayType', fromsubclass_=False, pretty_print=True, *args)
         return result
 
 supermod.ArrayType.subclass = ArrayType
@@ -1754,8 +1766,8 @@ supermod.Output.subclass = Output
 
 
 class OutputField(supermod.OutputField):
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, threshold=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
-        super(OutputField, self).__init__(name, displayName, optype, dataType, targetField, feature, value, numTopCategories, threshold, ruleFeature, algorithm, rank, rankBasis, rankOrder, isMultiValued, segmentId, isFinalResult, Extension, Decisions, Constant, FieldRef, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, threshold=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+        super(OutputField, self).__init__(name, displayName, optype, dataType, targetField, feature, value, numTopCategories, threshold, ruleFeature, algorithm, rank, rankBasis, rankOrder, isMultiValued, segmentId, isFinalResult, Extension, Decisions, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
 
     #
     # XMLBehaviors
@@ -2027,8 +2039,8 @@ supermod.Attribute.subclass = Attribute
 
 
 class ComplexPartialScore(supermod.ComplexPartialScore):
-    def __init__(self, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
-        super(ComplexPartialScore, self).__init__(Extension, Constant, FieldRef, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
+    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+        super(ComplexPartialScore, self).__init__(Extension, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
 
     #
     # XMLBehaviors
@@ -2621,8 +2633,8 @@ supermod.LocalTransformations.subclass = LocalTransformations
 
 
 class DerivedField(supermod.DerivedField):
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, datasetName=None, trainingBackend=None, architectureName=None, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None, Value=None):
-        super(DerivedField, self).__init__(name, displayName, optype, dataType, datasetName, trainingBackend, architectureName, Extension, Constant, FieldRef, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, Value, )
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, datasetName=None, trainingBackend=None, architectureName=None, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None, Value=None):
+        super(DerivedField, self).__init__(name, displayName, optype, dataType, datasetName, trainingBackend, architectureName, Extension, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, Value, )
 
     #
     # XMLBehaviors
@@ -2731,8 +2743,8 @@ supermod.FieldColumnPair.subclass = FieldColumnPair
 
 
 class TextIndex(supermod.TextIndex):
-    def __init__(self, textField=None, localTermWeights='termFrequency', isCaseSensitive=False, maxLevenshteinDistance=0, countHits='allHits', wordSeparatorCharacterRE='\\s+', tokenize=True, Extension=None, TextIndexNormalization=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex_member=None, Apply=None, Aggregate=None, Lag=None):
-        super(TextIndex, self).__init__(textField, localTermWeights, isCaseSensitive, maxLevenshteinDistance, countHits, wordSeparatorCharacterRE, tokenize, Extension, TextIndexNormalization, Constant, FieldRef, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex_member, Apply, Aggregate, Lag, )
+    def __init__(self, textField=None, localTermWeights='termFrequency', isCaseSensitive=False, maxLevenshteinDistance=0, countHits='allHits', wordSeparatorCharacterRE='\\s+', tokenize=True, Extension=None, TextIndexNormalization=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex_member=None, Apply=None, Aggregate=None, Lag=None):
+        super(TextIndex, self).__init__(textField, localTermWeights, isCaseSensitive, maxLevenshteinDistance, countHits, wordSeparatorCharacterRE, tokenize, Extension, TextIndexNormalization, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex_member, Apply, Aggregate, Lag, )
 
     #
     # XMLBehaviors
@@ -4073,8 +4085,8 @@ supermod.UniformDistributionForBN.subclass = UniformDistributionForBN
 
 
 class Mean(supermod.Mean):
-    def __init__(self, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
-        super(Mean, self).__init__(Extension, Constant, FieldRef, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
+    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+        super(Mean, self).__init__(Extension, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
 
     #
     # XMLBehaviors
@@ -4084,8 +4096,8 @@ supermod.Mean.subclass = Mean
 
 
 class Lower(supermod.Lower):
-    def __init__(self, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
-        super(Lower, self).__init__(Extension, Constant, FieldRef, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
+    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+        super(Lower, self).__init__(Extension, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
 
     #
     # XMLBehaviors
@@ -4095,8 +4107,8 @@ supermod.Lower.subclass = Lower
 
 
 class Upper(supermod.Upper):
-    def __init__(self, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
-        super(Upper, self).__init__(Extension, Constant, FieldRef, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
+    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+        super(Upper, self).__init__(Extension, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
 
     #
     # XMLBehaviors
@@ -4106,8 +4118,8 @@ supermod.Upper.subclass = Upper
 
 
 class Variance(supermod.Variance):
-    def __init__(self, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
-        super(Variance, self).__init__(Extension, Constant, FieldRef, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
+    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+        super(Variance, self).__init__(Extension, FieldRef, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Apply, Aggregate, Lag, )
 
     #
     # XMLBehaviors

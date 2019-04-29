@@ -776,5 +776,30 @@
             </xb:args>
             <xb:impl-url>buildChildrenRow.py</xb:impl-url>
         </xb:behavior>
+        <xb:behavior>
+            <xb:class>ArrayType</xb:class>
+            <xb:name>exportChildren</xb:name>
+            <xb:args>
+                <xb:arg>
+                    <xb:name>outfile</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>level</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>namespace_=''</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>name_='ArrayType'</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>fromsubclass_=False</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>pretty_print=True</xb:name>
+                </xb:arg>
+            </xb:args>
+            <xb:impl-url>exportChildrenArrayType.py</xb:impl-url>
+        </xb:behavior>
     </xb:behaviors>
  </xb:xml-behavior>

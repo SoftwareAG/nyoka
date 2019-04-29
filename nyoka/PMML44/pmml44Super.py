@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Thu Apr 25 14:12:06 2019 by generateDS.py version 2.28a.
+# Generated Mon Apr 29 14:09:45 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -712,7 +712,7 @@ def _cast(typ, value):
 class DefineFunction(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, name=None, optype=None, dataType=None, Extension=None, ParameterField=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, name=None, optype=None, dataType=None, Extension=None, ParameterField=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         self.name = _cast(None, name)
         self.optype = _cast(None, optype)
@@ -725,8 +725,8 @@ class DefineFunction(GeneratedsSuper):
             self.ParameterField = []
         else:
             self.ParameterField = ParameterField
-        self.Constant = Constant
         self.FieldRef = FieldRef
+        self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
@@ -756,10 +756,10 @@ class DefineFunction(GeneratedsSuper):
     def add_ParameterField(self, value): self.ParameterField.append(value)
     def insert_ParameterField_at(self, index, value): self.ParameterField.insert(index, value)
     def replace_ParameterField_at(self, index, value): self.ParameterField[index] = value
-    def get_Constant(self): return self.Constant
-    def set_Constant(self, Constant): self.Constant = Constant
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Constant(self): return self.Constant
+    def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
     def set_NormContinuous(self, NormContinuous): self.NormContinuous = NormContinuous
     def get_NormDiscrete(self): return self.NormDiscrete
@@ -810,8 +810,8 @@ class DefineFunction(GeneratedsSuper):
         if (
             self.Extension or
             self.ParameterField or
-            self.Constant is not None or
             self.FieldRef is not None or
+            self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
@@ -864,10 +864,10 @@ class DefineFunction(GeneratedsSuper):
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         for ParameterField_ in self.ParameterField:
             ParameterField_.export(outfile, level, namespace_, name_='ParameterField', pretty_print=pretty_print)
-        if self.Constant is not None:
-            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Constant is not None:
+            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
             self.NormContinuous.export(outfile, level, namespace_, name_='NormContinuous', pretty_print=pretty_print)
         if self.NormDiscrete is not None:
@@ -899,12 +899,12 @@ class DefineFunction(GeneratedsSuper):
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         for ParameterField_ in self.ParameterField:
             ParameterField_.to_etree(element, name_='ParameterField', mapping_=mapping_)
-        if self.Constant is not None:
-            Constant_ = self.Constant
-            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Constant is not None:
+            Constant_ = self.Constant
+            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.NormContinuous is not None:
             NormContinuous_ = self.NormContinuous
             NormContinuous_.to_etree(element, name_='NormContinuous', mapping_=mapping_)
@@ -976,16 +976,16 @@ class DefineFunction(GeneratedsSuper):
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
-        if self.Constant is not None:
-            showIndent(outfile, level)
-            outfile.write('Constant=model_.Constant(\n')
-            self.Constant.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.FieldRef is not None:
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Constant is not None:
+            showIndent(outfile, level)
+            outfile.write('Constant=model_.Constant(\n')
+            self.Constant.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.NormContinuous is not None:
@@ -1069,16 +1069,16 @@ class DefineFunction(GeneratedsSuper):
             obj_.build(child_)
             self.ParameterField.append(obj_)
             obj_.original_tagname_ = 'ParameterField'
-        elif nodeName_ == 'Constant':
-            obj_ = Constant.factory()
-            obj_.build(child_)
-            self.Constant = obj_
-            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'FieldRef':
             obj_ = FieldRef.factory()
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Constant':
+            obj_ = Constant.factory()
+            obj_.build(child_)
+            self.Constant = obj_
+            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'NormContinuous':
             obj_ = NormContinuous.factory()
             obj_.build(child_)
@@ -1296,7 +1296,7 @@ class ParameterField(GeneratedsSuper):
 class Apply(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, function=None, mapMissingTo=None, defaultValue=None, invalidValueTreatment='returnInvalid', Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply_member=None, Aggregate=None, Lag=None):
+    def __init__(self, function=None, mapMissingTo=None, defaultValue=None, invalidValueTreatment='returnInvalid', Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply_member=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         self.function = _cast(None, function)
         self.mapMissingTo = _cast(None, mapMissingTo)
@@ -1306,14 +1306,14 @@ class Apply(GeneratedsSuper):
             self.Extension = []
         else:
             self.Extension = Extension
-        if Constant is None:
-            self.Constant = []
-        else:
-            self.Constant = Constant
         if FieldRef is None:
             self.FieldRef = []
         else:
             self.FieldRef = FieldRef
+        if Constant is None:
+            self.Constant = []
+        else:
+            self.Constant = Constant
         if NormContinuous is None:
             self.NormContinuous = []
         else:
@@ -1362,16 +1362,16 @@ class Apply(GeneratedsSuper):
     def add_Extension(self, value): self.Extension.append(value)
     def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
     def replace_Extension_at(self, index, value): self.Extension[index] = value
-    def get_Constant(self): return self.Constant
-    def set_Constant(self, Constant): self.Constant = Constant
-    def add_Constant(self, value): self.Constant.append(value)
-    def insert_Constant_at(self, index, value): self.Constant.insert(index, value)
-    def replace_Constant_at(self, index, value): self.Constant[index] = value
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
     def add_FieldRef(self, value): self.FieldRef.append(value)
     def insert_FieldRef_at(self, index, value): self.FieldRef.insert(index, value)
     def replace_FieldRef_at(self, index, value): self.FieldRef[index] = value
+    def get_Constant(self): return self.Constant
+    def set_Constant(self, Constant): self.Constant = Constant
+    def add_Constant(self, value): self.Constant.append(value)
+    def insert_Constant_at(self, index, value): self.Constant.insert(index, value)
+    def replace_Constant_at(self, index, value): self.Constant[index] = value
     def get_NormContinuous(self): return self.NormContinuous
     def set_NormContinuous(self, NormContinuous): self.NormContinuous = NormContinuous
     def add_NormContinuous(self, value): self.NormContinuous.append(value)
@@ -1435,8 +1435,8 @@ class Apply(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.Extension or
-            self.Constant or
             self.FieldRef or
+            self.Constant or
             self.NormContinuous or
             self.NormDiscrete or
             self.Discretize or
@@ -1490,10 +1490,10 @@ class Apply(GeneratedsSuper):
             eol_ = ''
         for Extension_ in self.Extension:
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
-        for Constant_ in self.Constant:
-            Constant_.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         for FieldRef_ in self.FieldRef:
             FieldRef_.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        for Constant_ in self.Constant:
+            Constant_.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         for NormContinuous_ in self.NormContinuous:
             NormContinuous_.export(outfile, level, namespace_, name_='NormContinuous', pretty_print=pretty_print)
         for NormDiscrete_ in self.NormDiscrete:
@@ -1525,10 +1525,10 @@ class Apply(GeneratedsSuper):
             element.set('invalidValueTreatment', self.invalidValueTreatment)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
-        for Constant_ in self.Constant:
-            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         for FieldRef_ in self.FieldRef:
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        for Constant_ in self.Constant:
+            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         for NormContinuous_ in self.NormContinuous:
             NormContinuous_.to_etree(element, name_='NormContinuous', mapping_=mapping_)
         for NormDiscrete_ in self.NormDiscrete:
@@ -1585,24 +1585,24 @@ class Apply(GeneratedsSuper):
         showIndent(outfile, level)
         outfile.write('],\n')
         showIndent(outfile, level)
-        outfile.write('Constant=[\n')
-        level += 1
-        for Constant_ in self.Constant:
-            showIndent(outfile, level)
-            outfile.write('model_.Constant(\n')
-            Constant_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
         outfile.write('FieldRef=[\n')
         level += 1
         for FieldRef_ in self.FieldRef:
             showIndent(outfile, level)
             outfile.write('model_.FieldRef(\n')
             FieldRef_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
+        outfile.write('Constant=[\n')
+        level += 1
+        for Constant_ in self.Constant:
+            showIndent(outfile, level)
+            outfile.write('model_.Constant(\n')
+            Constant_.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -1735,16 +1735,16 @@ class Apply(GeneratedsSuper):
             obj_.build(child_)
             self.Extension.append(obj_)
             obj_.original_tagname_ = 'Extension'
-        elif nodeName_ == 'Constant':
-            obj_ = Constant.factory()
-            obj_.build(child_)
-            self.Constant.append(obj_)
-            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'FieldRef':
             obj_ = FieldRef.factory()
             obj_.build(child_)
             self.FieldRef.append(obj_)
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Constant':
+            obj_ = Constant.factory()
+            obj_.build(child_)
+            self.Constant.append(obj_)
+            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'NormContinuous':
             obj_ = NormContinuous.factory()
             obj_.build(child_)
@@ -22962,7 +22962,7 @@ class Output(GeneratedsSuper):
 class OutputField(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, threshold=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, threshold=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         self.name = _cast(None, name)
         self.displayName = _cast(None, displayName)
@@ -22986,8 +22986,8 @@ class OutputField(GeneratedsSuper):
         else:
             self.Extension = Extension
         self.Decisions = Decisions
-        self.Constant = Constant
         self.FieldRef = FieldRef
+        self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
@@ -23014,10 +23014,10 @@ class OutputField(GeneratedsSuper):
     def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_Decisions(self): return self.Decisions
     def set_Decisions(self, Decisions): self.Decisions = Decisions
-    def get_Constant(self): return self.Constant
-    def set_Constant(self, Constant): self.Constant = Constant
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Constant(self): return self.Constant
+    def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
     def set_NormContinuous(self, NormContinuous): self.NormContinuous = NormContinuous
     def get_NormDiscrete(self): return self.NormDiscrete
@@ -23132,8 +23132,8 @@ class OutputField(GeneratedsSuper):
         if (
             self.Extension or
             self.Decisions is not None or
-            self.Constant is not None or
             self.FieldRef is not None or
+            self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
@@ -23228,10 +23228,10 @@ class OutputField(GeneratedsSuper):
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         if self.Decisions is not None:
             self.Decisions.export(outfile, level, namespace_, name_='Decisions', pretty_print=pretty_print)
-        if self.Constant is not None:
-            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Constant is not None:
+            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
             self.NormContinuous.export(outfile, level, namespace_, name_='NormContinuous', pretty_print=pretty_print)
         if self.NormDiscrete is not None:
@@ -23292,12 +23292,12 @@ class OutputField(GeneratedsSuper):
         if self.Decisions is not None:
             Decisions_ = self.Decisions
             Decisions_.to_etree(element, name_='Decisions', mapping_=mapping_)
-        if self.Constant is not None:
-            Constant_ = self.Constant
-            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Constant is not None:
+            Constant_ = self.Constant
+            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.NormContinuous is not None:
             NormContinuous_ = self.NormContinuous
             NormContinuous_.to_etree(element, name_='NormContinuous', mapping_=mapping_)
@@ -23419,16 +23419,16 @@ class OutputField(GeneratedsSuper):
             self.Decisions.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.Constant is not None:
-            showIndent(outfile, level)
-            outfile.write('Constant=model_.Constant(\n')
-            self.Constant.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.FieldRef is not None:
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Constant is not None:
+            showIndent(outfile, level)
+            outfile.write('Constant=model_.Constant(\n')
+            self.Constant.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.NormContinuous is not None:
@@ -23589,16 +23589,16 @@ class OutputField(GeneratedsSuper):
             obj_.build(child_)
             self.Decisions = obj_
             obj_.original_tagname_ = 'Decisions'
-        elif nodeName_ == 'Constant':
-            obj_ = Constant.factory()
-            obj_.build(child_)
-            self.Constant = obj_
-            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'FieldRef':
             obj_ = FieldRef.factory()
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Constant':
+            obj_ = Constant.factory()
+            obj_.build(child_)
+            self.Constant = obj_
+            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'NormContinuous':
             obj_ = NormContinuous.factory()
             obj_.build(child_)
@@ -26893,14 +26893,14 @@ class Attribute(GeneratedsSuper):
 class ComplexPartialScore(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
-        self.Constant = Constant
         self.FieldRef = FieldRef
+        self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
@@ -26925,10 +26925,10 @@ class ComplexPartialScore(GeneratedsSuper):
     def add_Extension(self, value): self.Extension.append(value)
     def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
     def replace_Extension_at(self, index, value): self.Extension[index] = value
-    def get_Constant(self): return self.Constant
-    def set_Constant(self, Constant): self.Constant = Constant
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Constant(self): return self.Constant
+    def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
     def set_NormContinuous(self, NormContinuous): self.NormContinuous = NormContinuous
     def get_NormDiscrete(self): return self.NormDiscrete
@@ -26948,8 +26948,8 @@ class ComplexPartialScore(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.Extension or
-            self.Constant is not None or
             self.FieldRef is not None or
+            self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
@@ -26992,10 +26992,10 @@ class ComplexPartialScore(GeneratedsSuper):
             eol_ = ''
         for Extension_ in self.Extension:
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
-        if self.Constant is not None:
-            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Constant is not None:
+            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
             self.NormContinuous.export(outfile, level, namespace_, name_='NormContinuous', pretty_print=pretty_print)
         if self.NormDiscrete is not None:
@@ -27019,12 +27019,12 @@ class ComplexPartialScore(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
-        if self.Constant is not None:
-            Constant_ = self.Constant
-            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Constant is not None:
+            Constant_ = self.Constant
+            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.NormContinuous is not None:
             NormContinuous_ = self.NormContinuous
             NormContinuous_.to_etree(element, name_='NormContinuous', mapping_=mapping_)
@@ -27073,16 +27073,16 @@ class ComplexPartialScore(GeneratedsSuper):
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
-        if self.Constant is not None:
-            showIndent(outfile, level)
-            outfile.write('Constant=model_.Constant(\n')
-            self.Constant.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.FieldRef is not None:
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Constant is not None:
+            showIndent(outfile, level)
+            outfile.write('Constant=model_.Constant(\n')
+            self.Constant.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.NormContinuous is not None:
@@ -27148,16 +27148,16 @@ class ComplexPartialScore(GeneratedsSuper):
             obj_.build(child_)
             self.Extension.append(obj_)
             obj_.original_tagname_ = 'Extension'
-        elif nodeName_ == 'Constant':
-            obj_ = Constant.factory()
-            obj_.build(child_)
-            self.Constant = obj_
-            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'FieldRef':
             obj_ = FieldRef.factory()
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Constant':
+            obj_ = Constant.factory()
+            obj_.build(child_)
+            self.Constant = obj_
+            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'NormContinuous':
             obj_ = NormContinuous.factory()
             obj_.build(child_)
@@ -38468,7 +38468,7 @@ class LocalTransformations(GeneratedsSuper):
 class DerivedField(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, datasetName=None, trainingBackend=None, architectureName=None, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None, Value=None):
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, datasetName=None, trainingBackend=None, architectureName=None, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None, Value=None):
         self.original_tagname_ = None
         self.name = _cast(None, name)
         self.displayName = _cast(None, displayName)
@@ -38481,8 +38481,8 @@ class DerivedField(GeneratedsSuper):
             self.Extension = []
         else:
             self.Extension = Extension
-        self.Constant = Constant
         self.FieldRef = FieldRef
+        self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
@@ -38511,10 +38511,10 @@ class DerivedField(GeneratedsSuper):
     def add_Extension(self, value): self.Extension.append(value)
     def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
     def replace_Extension_at(self, index, value): self.Extension[index] = value
-    def get_Constant(self): return self.Constant
-    def set_Constant(self, Constant): self.Constant = Constant
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Constant(self): return self.Constant
+    def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
     def set_NormContinuous(self, NormContinuous): self.NormContinuous = NormContinuous
     def get_NormDiscrete(self): return self.NormDiscrete
@@ -38605,8 +38605,8 @@ class DerivedField(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.Extension or
-            self.Constant is not None or
             self.FieldRef is not None or
+            self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
@@ -38670,10 +38670,10 @@ class DerivedField(GeneratedsSuper):
             eol_ = ''
         for Extension_ in self.Extension:
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
-        if self.Constant is not None:
-            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Constant is not None:
+            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
             self.NormContinuous.export(outfile, level, namespace_, name_='NormContinuous', pretty_print=pretty_print)
         if self.NormDiscrete is not None:
@@ -38713,12 +38713,12 @@ class DerivedField(GeneratedsSuper):
             element.set('architectureName', self.architectureName)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
-        if self.Constant is not None:
-            Constant_ = self.Constant
-            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Constant is not None:
+            Constant_ = self.Constant
+            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.NormContinuous is not None:
             NormContinuous_ = self.NormContinuous
             NormContinuous_.to_etree(element, name_='NormContinuous', mapping_=mapping_)
@@ -38796,16 +38796,16 @@ class DerivedField(GeneratedsSuper):
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
-        if self.Constant is not None:
-            showIndent(outfile, level)
-            outfile.write('Constant=model_.Constant(\n')
-            self.Constant.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.FieldRef is not None:
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Constant is not None:
+            showIndent(outfile, level)
+            outfile.write('Constant=model_.Constant(\n')
+            self.Constant.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.NormContinuous is not None:
@@ -38915,16 +38915,16 @@ class DerivedField(GeneratedsSuper):
             obj_.build(child_)
             self.Extension.append(obj_)
             obj_.original_tagname_ = 'Extension'
-        elif nodeName_ == 'Constant':
-            obj_ = Constant.factory()
-            obj_.build(child_)
-            self.Constant = obj_
-            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'FieldRef':
             obj_ = FieldRef.factory()
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Constant':
+            obj_ = Constant.factory()
+            obj_.build(child_)
+            self.Constant = obj_
+            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'NormContinuous':
             obj_ = NormContinuous.factory()
             obj_.build(child_)
@@ -40535,7 +40535,7 @@ class FieldColumnPair(GeneratedsSuper):
 class TextIndex(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, textField=None, localTermWeights='termFrequency', isCaseSensitive=False, maxLevenshteinDistance=0, countHits='allHits', wordSeparatorCharacterRE='\\s+', tokenize=True, Extension=None, TextIndexNormalization=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex_member=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, textField=None, localTermWeights='termFrequency', isCaseSensitive=False, maxLevenshteinDistance=0, countHits='allHits', wordSeparatorCharacterRE='\\s+', tokenize=True, Extension=None, TextIndexNormalization=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex_member=None, Apply=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         self.textField = _cast(None, textField)
         self.localTermWeights = _cast(None, localTermWeights)
@@ -40552,8 +40552,8 @@ class TextIndex(GeneratedsSuper):
             self.TextIndexNormalization = []
         else:
             self.TextIndexNormalization = TextIndexNormalization
-        self.Constant = Constant
         self.FieldRef = FieldRef
+        self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
@@ -40583,10 +40583,10 @@ class TextIndex(GeneratedsSuper):
     def add_TextIndexNormalization(self, value): self.TextIndexNormalization.append(value)
     def insert_TextIndexNormalization_at(self, index, value): self.TextIndexNormalization.insert(index, value)
     def replace_TextIndexNormalization_at(self, index, value): self.TextIndexNormalization[index] = value
-    def get_Constant(self): return self.Constant
-    def set_Constant(self, Constant): self.Constant = Constant
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Constant(self): return self.Constant
+    def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
     def set_NormContinuous(self, NormContinuous): self.NormContinuous = NormContinuous
     def get_NormDiscrete(self): return self.NormDiscrete
@@ -40625,8 +40625,8 @@ class TextIndex(GeneratedsSuper):
         if (
             self.Extension or
             self.TextIndexNormalization or
-            self.Constant is not None or
             self.FieldRef is not None or
+            self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
@@ -40691,10 +40691,10 @@ class TextIndex(GeneratedsSuper):
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         for TextIndexNormalization_ in self.TextIndexNormalization:
             TextIndexNormalization_.export(outfile, level, namespace_, name_='TextIndexNormalization', pretty_print=pretty_print)
-        if self.Constant is not None:
-            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Constant is not None:
+            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
             self.NormContinuous.export(outfile, level, namespace_, name_='NormContinuous', pretty_print=pretty_print)
         if self.NormDiscrete is not None:
@@ -40734,12 +40734,12 @@ class TextIndex(GeneratedsSuper):
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         for TextIndexNormalization_ in self.TextIndexNormalization:
             TextIndexNormalization_.to_etree(element, name_='TextIndexNormalization', mapping_=mapping_)
-        if self.Constant is not None:
-            Constant_ = self.Constant
-            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Constant is not None:
+            Constant_ = self.Constant
+            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.NormContinuous is not None:
             NormContinuous_ = self.NormContinuous
             NormContinuous_.to_etree(element, name_='NormContinuous', mapping_=mapping_)
@@ -40827,16 +40827,16 @@ class TextIndex(GeneratedsSuper):
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
-        if self.Constant is not None:
-            showIndent(outfile, level)
-            outfile.write('Constant=model_.Constant(\n')
-            self.Constant.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.FieldRef is not None:
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Constant is not None:
+            showIndent(outfile, level)
+            outfile.write('Constant=model_.Constant(\n')
+            self.Constant.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.NormContinuous is not None:
@@ -40948,16 +40948,16 @@ class TextIndex(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndexNormalization.append(obj_)
             obj_.original_tagname_ = 'TextIndexNormalization'
-        elif nodeName_ == 'Constant':
-            obj_ = Constant.factory()
-            obj_.build(child_)
-            self.Constant = obj_
-            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'FieldRef':
             obj_ = FieldRef.factory()
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Constant':
+            obj_ = Constant.factory()
+            obj_.build(child_)
+            self.Constant = obj_
+            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'NormContinuous':
             obj_ = NormContinuous.factory()
             obj_.build(child_)
@@ -59775,14 +59775,14 @@ class UniformDistributionForBN(GeneratedsSuper):
 class Mean(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
-        self.Constant = Constant
         self.FieldRef = FieldRef
+        self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
@@ -59807,10 +59807,10 @@ class Mean(GeneratedsSuper):
     def add_Extension(self, value): self.Extension.append(value)
     def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
     def replace_Extension_at(self, index, value): self.Extension[index] = value
-    def get_Constant(self): return self.Constant
-    def set_Constant(self, Constant): self.Constant = Constant
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Constant(self): return self.Constant
+    def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
     def set_NormContinuous(self, NormContinuous): self.NormContinuous = NormContinuous
     def get_NormDiscrete(self): return self.NormDiscrete
@@ -59830,8 +59830,8 @@ class Mean(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.Extension or
-            self.Constant is not None or
             self.FieldRef is not None or
+            self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
@@ -59874,10 +59874,10 @@ class Mean(GeneratedsSuper):
             eol_ = ''
         for Extension_ in self.Extension:
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
-        if self.Constant is not None:
-            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Constant is not None:
+            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
             self.NormContinuous.export(outfile, level, namespace_, name_='NormContinuous', pretty_print=pretty_print)
         if self.NormDiscrete is not None:
@@ -59901,12 +59901,12 @@ class Mean(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
-        if self.Constant is not None:
-            Constant_ = self.Constant
-            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Constant is not None:
+            Constant_ = self.Constant
+            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.NormContinuous is not None:
             NormContinuous_ = self.NormContinuous
             NormContinuous_.to_etree(element, name_='NormContinuous', mapping_=mapping_)
@@ -59955,16 +59955,16 @@ class Mean(GeneratedsSuper):
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
-        if self.Constant is not None:
-            showIndent(outfile, level)
-            outfile.write('Constant=model_.Constant(\n')
-            self.Constant.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.FieldRef is not None:
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Constant is not None:
+            showIndent(outfile, level)
+            outfile.write('Constant=model_.Constant(\n')
+            self.Constant.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.NormContinuous is not None:
@@ -60030,16 +60030,16 @@ class Mean(GeneratedsSuper):
             obj_.build(child_)
             self.Extension.append(obj_)
             obj_.original_tagname_ = 'Extension'
-        elif nodeName_ == 'Constant':
-            obj_ = Constant.factory()
-            obj_.build(child_)
-            self.Constant = obj_
-            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'FieldRef':
             obj_ = FieldRef.factory()
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Constant':
+            obj_ = Constant.factory()
+            obj_.build(child_)
+            self.Constant = obj_
+            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'NormContinuous':
             obj_ = NormContinuous.factory()
             obj_.build(child_)
@@ -60086,14 +60086,14 @@ class Mean(GeneratedsSuper):
 class Lower(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
-        self.Constant = Constant
         self.FieldRef = FieldRef
+        self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
@@ -60118,10 +60118,10 @@ class Lower(GeneratedsSuper):
     def add_Extension(self, value): self.Extension.append(value)
     def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
     def replace_Extension_at(self, index, value): self.Extension[index] = value
-    def get_Constant(self): return self.Constant
-    def set_Constant(self, Constant): self.Constant = Constant
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Constant(self): return self.Constant
+    def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
     def set_NormContinuous(self, NormContinuous): self.NormContinuous = NormContinuous
     def get_NormDiscrete(self): return self.NormDiscrete
@@ -60141,8 +60141,8 @@ class Lower(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.Extension or
-            self.Constant is not None or
             self.FieldRef is not None or
+            self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
@@ -60185,10 +60185,10 @@ class Lower(GeneratedsSuper):
             eol_ = ''
         for Extension_ in self.Extension:
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
-        if self.Constant is not None:
-            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Constant is not None:
+            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
             self.NormContinuous.export(outfile, level, namespace_, name_='NormContinuous', pretty_print=pretty_print)
         if self.NormDiscrete is not None:
@@ -60212,12 +60212,12 @@ class Lower(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
-        if self.Constant is not None:
-            Constant_ = self.Constant
-            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Constant is not None:
+            Constant_ = self.Constant
+            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.NormContinuous is not None:
             NormContinuous_ = self.NormContinuous
             NormContinuous_.to_etree(element, name_='NormContinuous', mapping_=mapping_)
@@ -60266,16 +60266,16 @@ class Lower(GeneratedsSuper):
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
-        if self.Constant is not None:
-            showIndent(outfile, level)
-            outfile.write('Constant=model_.Constant(\n')
-            self.Constant.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.FieldRef is not None:
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Constant is not None:
+            showIndent(outfile, level)
+            outfile.write('Constant=model_.Constant(\n')
+            self.Constant.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.NormContinuous is not None:
@@ -60341,16 +60341,16 @@ class Lower(GeneratedsSuper):
             obj_.build(child_)
             self.Extension.append(obj_)
             obj_.original_tagname_ = 'Extension'
-        elif nodeName_ == 'Constant':
-            obj_ = Constant.factory()
-            obj_.build(child_)
-            self.Constant = obj_
-            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'FieldRef':
             obj_ = FieldRef.factory()
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Constant':
+            obj_ = Constant.factory()
+            obj_.build(child_)
+            self.Constant = obj_
+            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'NormContinuous':
             obj_ = NormContinuous.factory()
             obj_.build(child_)
@@ -60397,14 +60397,14 @@ class Lower(GeneratedsSuper):
 class Upper(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
-        self.Constant = Constant
         self.FieldRef = FieldRef
+        self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
@@ -60429,10 +60429,10 @@ class Upper(GeneratedsSuper):
     def add_Extension(self, value): self.Extension.append(value)
     def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
     def replace_Extension_at(self, index, value): self.Extension[index] = value
-    def get_Constant(self): return self.Constant
-    def set_Constant(self, Constant): self.Constant = Constant
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Constant(self): return self.Constant
+    def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
     def set_NormContinuous(self, NormContinuous): self.NormContinuous = NormContinuous
     def get_NormDiscrete(self): return self.NormDiscrete
@@ -60452,8 +60452,8 @@ class Upper(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.Extension or
-            self.Constant is not None or
             self.FieldRef is not None or
+            self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
@@ -60496,10 +60496,10 @@ class Upper(GeneratedsSuper):
             eol_ = ''
         for Extension_ in self.Extension:
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
-        if self.Constant is not None:
-            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Constant is not None:
+            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
             self.NormContinuous.export(outfile, level, namespace_, name_='NormContinuous', pretty_print=pretty_print)
         if self.NormDiscrete is not None:
@@ -60523,12 +60523,12 @@ class Upper(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
-        if self.Constant is not None:
-            Constant_ = self.Constant
-            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Constant is not None:
+            Constant_ = self.Constant
+            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.NormContinuous is not None:
             NormContinuous_ = self.NormContinuous
             NormContinuous_.to_etree(element, name_='NormContinuous', mapping_=mapping_)
@@ -60577,16 +60577,16 @@ class Upper(GeneratedsSuper):
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
-        if self.Constant is not None:
-            showIndent(outfile, level)
-            outfile.write('Constant=model_.Constant(\n')
-            self.Constant.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.FieldRef is not None:
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Constant is not None:
+            showIndent(outfile, level)
+            outfile.write('Constant=model_.Constant(\n')
+            self.Constant.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.NormContinuous is not None:
@@ -60652,16 +60652,16 @@ class Upper(GeneratedsSuper):
             obj_.build(child_)
             self.Extension.append(obj_)
             obj_.original_tagname_ = 'Extension'
-        elif nodeName_ == 'Constant':
-            obj_ = Constant.factory()
-            obj_.build(child_)
-            self.Constant = obj_
-            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'FieldRef':
             obj_ = FieldRef.factory()
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Constant':
+            obj_ = Constant.factory()
+            obj_.build(child_)
+            self.Constant = obj_
+            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'NormContinuous':
             obj_ = NormContinuous.factory()
             obj_.build(child_)
@@ -60708,14 +60708,14 @@ class Upper(GeneratedsSuper):
 class Variance(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, Constant=None, FieldRef=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
-        self.Constant = Constant
         self.FieldRef = FieldRef
+        self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
@@ -60740,10 +60740,10 @@ class Variance(GeneratedsSuper):
     def add_Extension(self, value): self.Extension.append(value)
     def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
     def replace_Extension_at(self, index, value): self.Extension[index] = value
-    def get_Constant(self): return self.Constant
-    def set_Constant(self, Constant): self.Constant = Constant
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Constant(self): return self.Constant
+    def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
     def set_NormContinuous(self, NormContinuous): self.NormContinuous = NormContinuous
     def get_NormDiscrete(self): return self.NormDiscrete
@@ -60763,8 +60763,8 @@ class Variance(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.Extension or
-            self.Constant is not None or
             self.FieldRef is not None or
+            self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
@@ -60807,10 +60807,10 @@ class Variance(GeneratedsSuper):
             eol_ = ''
         for Extension_ in self.Extension:
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
-        if self.Constant is not None:
-            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Constant is not None:
+            self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
             self.NormContinuous.export(outfile, level, namespace_, name_='NormContinuous', pretty_print=pretty_print)
         if self.NormDiscrete is not None:
@@ -60834,12 +60834,12 @@ class Variance(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
-        if self.Constant is not None:
-            Constant_ = self.Constant
-            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Constant is not None:
+            Constant_ = self.Constant
+            Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         if self.NormContinuous is not None:
             NormContinuous_ = self.NormContinuous
             NormContinuous_.to_etree(element, name_='NormContinuous', mapping_=mapping_)
@@ -60888,16 +60888,16 @@ class Variance(GeneratedsSuper):
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
-        if self.Constant is not None:
-            showIndent(outfile, level)
-            outfile.write('Constant=model_.Constant(\n')
-            self.Constant.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.FieldRef is not None:
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Constant is not None:
+            showIndent(outfile, level)
+            outfile.write('Constant=model_.Constant(\n')
+            self.Constant.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.NormContinuous is not None:
@@ -60963,16 +60963,16 @@ class Variance(GeneratedsSuper):
             obj_.build(child_)
             self.Extension.append(obj_)
             obj_.original_tagname_ = 'Extension'
-        elif nodeName_ == 'Constant':
-            obj_ = Constant.factory()
-            obj_.build(child_)
-            self.Constant = obj_
-            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'FieldRef':
             obj_ = FieldRef.factory()
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Constant':
+            obj_ = Constant.factory()
+            obj_.build(child_)
+            self.Constant = obj_
+            obj_.original_tagname_ = 'Constant'
         elif nodeName_ == 'NormContinuous':
             obj_ = NormContinuous.factory()
             obj_.build(child_)
