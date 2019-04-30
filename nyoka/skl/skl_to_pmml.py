@@ -332,9 +332,9 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
 
 
 def get_reg_tab_for_reg_mining_model(model, col_names, index):
-    reg_tab = pml.RegressionTable(intercept=str(model.intercept_[index]))
+    reg_tab = pml.RegressionTable(intercept="{:.16f}".format(model.intercept_[index]))
     for i, coef in enumerate(model.coef_[index]):
-        reg_tab.add_NumericPredictor(pml.NumericPredictor(name=col_names[i],coefficient=str(coef)))
+        reg_tab.add_NumericPredictor(pml.NumericPredictor(name=col_names[i],coefficient="{:.16f}".format(coef)))
     return [reg_tab]
 
 
@@ -584,7 +584,7 @@ def get_cluster_vals(model,counts):
         centroid_values = ""
         centroid_flds = pml.ArrayType(type_="real")
         for centroid_cordinate_idx in range(centroids.shape[1]):
-            centroid_flds.content_[0].value = centroid_values + str(centroids[centroid_idx][centroid_cordinate_idx])
+            centroid_flds.content_[0].value = centroid_values + "{:.16f}".format(centroids[centroid_idx][centroid_cordinate_idx])
             centroid_values = centroid_flds.content_[0].value + " "
         cluster_flds.append(pml.Cluster(id=str(centroid_idx), Array=centroid_flds,size=str(counts[centroid_idx])))
     return cluster_flds
@@ -923,8 +923,8 @@ def get_bayes_inputs(model, derived_col_names):
         for idx, val in enumerate(model.classes_):
             target_val = pml.TargetValueStat(
                 val, GaussianDistribution=pml.GaussianDistribution(
-                    mean=str(means[idx]),
-                    variance=str(variances[idx])))
+                    mean="{:.16f}".format(means[idx]),
+                    variance="{:.16f}".format(variances[idx])))
             target_val_stats.add_TargetValueStat(target_val)
         bayes_inputs.add_BayesInput(pml.BayesInput(fieldName=str(name),
                                                TargetValueStats=target_val_stats))
@@ -1060,8 +1060,8 @@ def get_targets(model, target_name):
             Target=[
                 pml.Target(
                     field=target_name,
-                    rescaleConstant=str(model.init_.mean),
-                    rescaleFactor=str(model.learning_rate)
+                    rescaleConstant="{:.16f}".format(model.init_.mean),
+                    rescaleFactor="{:.16f}".format(model.learning_rate)
                 )
             ]
         )
@@ -1070,7 +1070,7 @@ def get_targets(model, target_name):
             Target=[
                 pml.Target(
                     field=target_name,
-                    rescaleConstant=str(model.base_score)
+                    rescaleConstant="{:.16f}".format(model.base_score)
                 )
             ]
         )
@@ -1227,13 +1227,13 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                         function="+",
                         Constant=[pml.Constant(
                             dataType="double",
-                            valueOf_=str(model.init_.prior)
+                            valueOf_="{:.16f}".format(model.init_.prior)
                         )],
                         Apply_member=[pml.Apply(
                             function="*",
                             Constant=[pml.Constant(
                                 dataType="double",
-                                valueOf_=str(model.learning_rate)
+                                valueOf_="{:.16f}".format(model.learning_rate)
                             )],
                             FieldRef=[pml.FieldRef(
                                 field="decisionFunction(0)",
@@ -1253,13 +1253,13 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                         function="+",
                         Constant=[pml.Constant(
                             dataType="double",
-                            valueOf_=str(model.init_.priors[estm_idx])
+                            valueOf_="{:.16f}".format(model.init_.priors[estm_idx])
                         )],
                         Apply_member=[pml.Apply(
                             function="*",
                             Constant=[pml.Constant(
                                 dataType="double",
-                                valueOf_=str(model.learning_rate)
+                                valueOf_="{:.16f}".format(model.learning_rate)
                             )],
                             FieldRef=[pml.FieldRef(
                                 field="decisionFunction(" + str(estm_idx) + ")",
@@ -1288,6 +1288,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
             )
         )
     reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values)[0]
+    reg_model.Output = None
     if len(model.classes_) == 2:
         reg_model.normalizationMethod="logit"
     else:
@@ -1606,7 +1607,7 @@ def get_supportVectorMachine(model):
                     all_svs.append(pml.SupportVector(vectorId=sv))
                 all_coefs = list()
                 for coef in (coefs[0]):
-                    all_coefs.append(pml.Coefficient(value=str(coef)))
+                    all_coefs.append(pml.Coefficient(value="{:.16f}".format(coef)))
                 coef_abs_value = model.intercept_[coef_abs_val_index]
                 coef_abs_val_index += 1
                 if len(model.classes_) == 2:
@@ -1809,7 +1810,7 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
             regr_predictor = get_regr_predictors(model_coef, row_idx, feature_names, categoric_values)
             merge.append(
                 pml.RegressionTable(
-                    intercept=str(inter.item()),
+                    intercept="{:.16f}".format(inter.item()),
                     targetCategory=target_cat,
                     NumericPredictor=regr_predictor
                 )
@@ -1827,7 +1828,7 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
                 regr_predictors = get_regr_predictors(model_coef, row_idx, feature_names, categoric_values)
                 merge.append(
                     pml.RegressionTable(
-                        intercept=inter[tg_idx],
+                        intercept="{:.16f}".format(inter[tg_idx]),
                         targetCategory=tgname,
                         NumericPredictor=regr_predictors
                     )
@@ -1902,10 +1903,10 @@ def get_node(model, features_names, main_model=None):
             if model.__class__.__name__ == "ExtraTreeRegressor":
                 prnt = parent + 1
             simplePredicate = pml.SimplePredicate(field=fieldName, operator="lessOrEqual",
-                                                  value=str(tree.threshold[idx]))
+                                                  value="{:.16f}".format(tree.threshold[idx]))
             left_child = _getNode(tree.children_left[idx],prnt, simplePredicate)
             simplePredicate = pml.SimplePredicate(field=fieldName, operator="greaterThan",
-                                                  value=str(tree.threshold[idx]))
+                                                  value="{:.16f}".format(tree.threshold[idx]))
             right_child = _getNode(tree.children_right[idx],prnt, simplePredicate)
             node.add_Node(left_child)
             node.add_Node(right_child)
@@ -1923,9 +1924,9 @@ def get_node(model, features_names, main_model=None):
             else:
                 if model.__class__.__name__ == "ExtraTreeRegressor":
                     nd_sam=node_samples[int(idx)]
-                    node.score = parent+avgPathLength(nd_sam)
+                    node.score = "{:.16f}".format(parent+avgPathLength(nd_sam))
                 else:
-                    node.score=lSum
+                    node.score="{:.16f}".format(lSum)
         return node
     if model.__class__.__name__ == "ExtraTreeRegressor":
         return _getNode(0,0)
@@ -2519,7 +2520,7 @@ def get_categoric_pred(feat_names,row_idx, der_fld_idx, model_coef, class_lbls, 
 
             cat_pred = pml.CategoricalPredictor(name=class_attribute,
                                                 value=class_lbls[-1],
-                                                coefficient=str(coef))
+                                                coefficient="{:.16f}".format(coef))
             cat_pred.original_tagname_ = "CategoricalPredictor"
             categoric_predictor.append(cat_pred)
         else:
@@ -2576,7 +2577,7 @@ def get_numeric_pred(row_idx, der_fld_idx, model_coef, der_fld_name):
     num_pred = pml.NumericPredictor(
                         name=der_fld_name,
                         exponent='1',
-                        coefficient=str(model_coef[row_idx][der_fld_idx]))
+                        coefficient="{:.16f}".format(model_coef[row_idx][der_fld_idx]))
     num_pred.original_tagname_ = "NumericPredictor"
     return num_pred
 
