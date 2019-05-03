@@ -427,9 +427,11 @@ def tfidf_vectorizer(trfm, col_names):
 
     """
     pp_dict = dict()
-    features = trfm.get_feature_names()
+    features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
+    # features = trfm.get_feature_names()
     idfs = trfm.idf_
-    extra_features = list(trfm.vocabulary_.keys())
+    # extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('tfidf@[' + col_names[0] + ']', features)
     derived_flds.append(
@@ -475,10 +477,10 @@ def count_vectorizer(trfm, col_names):
 
     """
     pp_dict = dict()
-    # features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
-    # extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
-    features = trfm.get_feature_names()
-    extra_features = list(trfm.vocabulary_.keys())
+    features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
+    # features = trfm.get_feature_names()
+    # extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
     derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
