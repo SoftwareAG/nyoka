@@ -65,6 +65,8 @@ class KerasHeader(ny.Header):
     def __init__(self, description, copyright):
         if not description:
             description = "Keras Model in PMML"
+        if not copyright:
+            copyright = "Copyright (c) 2018 Software AG"
         ny.Header.__init__(self, copyright=copyright,
                            description=description,
                            Timestamp=ny.Timestamp(str(datetime.datetime.now())))
@@ -257,7 +259,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
         -------
         layer_weights : array
             Weights of the Keras layer in Base64String format
-        layer_biases: array
+        layer_biases : array
             Bias of the Keras layer in Base64String format
 
         """ 
@@ -525,7 +527,7 @@ class KerasLocalTransformations(ny.LocalTransformations):
     ----------
     keras_model : Keras model object
         Keras model object
-    dataSet: String
+    dataSet : String
         Name of the dataset
 
     Returns
@@ -560,13 +562,13 @@ class KerasNetwork(ny.DeepNetwork):
     
     Parameters
     ----------
-    keras_model: Keras model object
+    keras_model : Keras model object
         Keras model object
-    model_name: String
+    model_name : String
         Name of the model
-    dataSet: String
+    dataSet : String
         Name of the dataset
-    predictedClasses: List
+    predictedClasses : List
         List of class names
 
     Returns
@@ -583,7 +585,7 @@ class KerasNetwork(ny.DeepNetwork):
         ----------
         layer : Keras layer object
             Keras layer object
-        dataSet: String
+        dataSet : String
             Name of the dataset
     
         Returns
@@ -626,9 +628,9 @@ class KerasNetwork(ny.DeepNetwork):
         
         Parameters
         ----------
-        keras_model: Keras model object
+        keras_model : Keras model object
             Keras model object
-        dataSet: String
+        dataSet : String
             Name of the dataset
     
         Returns
@@ -676,11 +678,11 @@ class KerasToPmml(ny.PMML):
     ----------
     keras_model : Keras model object
         Keras model object 
-    model_name: String
+    model_name : String
         Name to be given to the model in PMML.
-    description: Sting (Optional)
+    description : Sting (Optional)
         Description to be shown in PMML
-    dataSet: String (Optional)
+    dataSet : String (Optional)
         Name of the dataset. Value is 'image' for Image Classifier, 'None' or any other value is for the rest. 
     predictedClasses : List
         List of the class names for which model has been trained. If not provided, assumed to be regression model.
@@ -690,10 +692,10 @@ class KerasToPmml(ny.PMML):
     -------
     Creates PMML object, this can be saved in file using export function
     """ 
-    def __init__(self, keras_model, model_name=None, description=None,\
+    def __init__(self, keras_model, model_name=None, description=None,copyright=None,\
         dataSet=None, predictedClasses=None):
         data_dict = KerasDataDictionary(dataSet, predictedClasses)
         super(KerasToPmml, self).__init__(
-            version="4.4", Header=KerasHeader(description=description, copyright="Copyright (c) 2018 Software AG"),
+            version="4.4", Header=KerasHeader(description=description, copyright=copyright),
             DataDictionary=data_dict, DeepNetwork=[
                 KerasNetwork(keras_model=keras_model, model_name=model_name, dataSet=dataSet, predictedClasses=predictedClasses)])
