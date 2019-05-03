@@ -4,6 +4,9 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import PMML44 as pml
+import re
+import string
+regex = re.compile('[%s]' % re.escape(string.punctuation))
 exception_cols = list()
 
 def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
@@ -408,6 +411,11 @@ def pca(trfm, col_names):
     pp_dict['der_col_names'] = derived_colnames
     return pp_dict
 
+def remove_punctuation(word):
+    # no_punct_word = regex.sub('', word)
+    return regex.findall(word)
+    # return no_punct_word
+
 
 def tfidf_vectorizer(trfm, col_names):
     """
@@ -427,29 +435,37 @@ def tfidf_vectorizer(trfm, col_names):
 
     """
     pp_dict = dict()
-    features = trfm.get_feature_names()
+    features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    # extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
+    # features = trfm.get_feature_names()
     idfs = trfm.idf_
-    extra_features = list(trfm.vocabulary_.keys())
+    # extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
-    derived_colnames = get_derived_colnames('tfidf@[' + col_names[0] + ']', features)
+    derived_colnames = list()
+    # derived_colnames = get_derived_colnames('tfidf@[' + col_names[0] + ']', features)
     derived_flds.append(
         pml.DerivedField(name='lowercase(' + col_names[0] + ')',
                          optype='categorical', dataType='string',
                          Apply=pml.Apply(function='lowercase',
                                          FieldRef=[pml.FieldRef(field=col_names[0])])))
     for feat_idx, idf in zip(range(len(features)), idfs):
-        derived_flds.append(pml.DerivedField(
-            name=derived_colnames[feat_idx],
-            optype='continuous',
-            dataType='double',
-            Apply=pml.Apply(function='*',
-                            TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
-                                                     wordSeparatorCharacterRE='\s+',
-                                                     tokenize='true',
-                                                     Constant=pml.Constant(valueOf_=features[feat_idx]),
-                                                     Extension=[pml.Extension(anytypeobjs_=[extra_features[feat_idx]])])],
-                            Constant=[pml.Constant(valueOf_=idf)])
-        ))
+        no_punct_word = remove_punctuation(features[feat_idx])
+        if len(no_punct_word) == 0:
+            df_name = 'tfidf_vec@[' + col_names[0] + ']('+ features[feat_idx]+')'
+            derived_colnames.append(df_name)
+            derived_flds.append(pml.DerivedField(
+                name=df_name,
+                optype='continuous',
+                dataType='double',
+                Apply=pml.Apply(function='*',
+                                TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
+                                                        wordSeparatorCharacterRE='\s+',
+                                                        tokenize='true',
+                                                        Constant=pml.Constant(valueOf_=features[feat_idx]),
+                                                        # Extension=[pml.Extension(anytypeobjs_=[extra_features[feat_idx]])]
+                                                        )],
+                                Constant=[pml.Constant(valueOf_=idf)])
+                                ))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     pp_dict['pp_feat_name'] = col_names[0]
@@ -475,30 +491,35 @@ def count_vectorizer(trfm, col_names):
 
     """
     pp_dict = dict()
-    # features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
     # extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
-    features = trfm.get_feature_names()
-    extra_features = list(trfm.vocabulary_.keys())
+    # features = trfm.get_feature_names()
+    # extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
-    derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
+    # derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
+    derived_colnames = list()
     derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
                                          optype='categorical',
                                          dataType='string',
                                          Apply=pml.Apply(function='lowercase',
                                                          FieldRef=[pml.FieldRef(field=col_names[0])])))
     for imp_features, index in zip(features, range(len(features))):
-        df_name = derived_colnames[index]
-        derived_flds.append(pml.DerivedField(name=df_name,
-                                             optype='continuous',
-                                             dataType='double',
-                                             TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
-                                                                     wordSeparatorCharacterRE='\s+',
-                                                                     tokenize='true',
-                                                                     Constant=pml.Constant(dataType="string",
-                                                                                           valueOf_=imp_features),
-                                                                     Extension=[pml.Extension(
-                                                                         anytypeobjs_=[extra_features[index]])]
-                                                                     )))
+        no_punct_word = remove_punctuation(imp_features)
+        if len(no_punct_word) == 0:
+            df_name = 'count_vec@[' + col_names[0] + ']('+ imp_features+')'
+            derived_colnames.append(df_name)
+            # df_name = derived_colnames[index]
+            derived_flds.append(pml.DerivedField(name=df_name,
+                                                optype='continuous',
+                                                dataType='double',
+                                                TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
+                                                                        wordSeparatorCharacterRE='\s+',
+                                                                        tokenize='true',
+                                                                        Constant=pml.Constant(dataType="string",
+                                                                                            valueOf_=imp_features),
+                                                                        # Extension=[pml.Extension(
+                                                                        #     anytypeobjs_=[extra_features[index]])]
+                                                                        )))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     pp_dict['pp_feat_name'] = col_names[0]

@@ -56,8 +56,6 @@ class KerasHeader(ny.Header):
         Adds the information about the copyright.
     description : String
         Description of the PMML file provided as a default
-    Timestamp : Datetime
-        Timestamp of the time when the file is created
 
     Returns
     -------
@@ -76,22 +74,15 @@ class KerasNetworkLayer(ny.NetworkLayer):
 
     Parameters
     ----------
-    inputFieldName : String
-        This parameter is required only for Input layer in keras
-    layerType : String
+    layer : Keras layer object
+        Keras layer object
+    dataSet : String
+        Dataset name
+    layer_type : String
         Any Keras layer (e.g. Input, Dense, Conv2D)
-    connectionLayerId : String
-        Name of the previous layer ID
-    layerId : String
-        Layer ID for defined layer
-    normalizationMethod : String
-        Name of normalization method here
-    LayerParameters : Nyoka LayerParamter Object
-        Nyoka's LayerParameter object which has information of Layerparamters (eg, input dimension and output dimension).
-    LayerWeights : Nyoka's LayerWeights object
-        LayerWeights goes inside the LayerParameters object and provide information about the weigth matrix of the layer.
-    LayerBias : Nyoka's LayerBias object
-        LayerBias goes inside the LayerParameters object and provide value of the bias matrix.
+    connectionLayerId : Boolean
+        Whether to include connection layer IDs or not
+    
 
     Returns
     -------
@@ -105,7 +96,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
 
         Parameters
         ----------
-        weights : String
+        weights : Array
             Array of weights
 
         Returns
@@ -163,7 +154,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
 
         Parameters
         ----------
-        layer : String
+        layer : Keras layer object
             A Keras Layer
 
         Returns
@@ -194,7 +185,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
 
         Parameters
         ----------
-        layer : String
+        layer : Keras layer object
             A Keras Layer
 
         Returns
@@ -258,7 +249,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
 
         Parameters
         ----------
-        layer : String
+        layer : Keras layer object
             A Keras Layer
 
         Returns
@@ -305,7 +296,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
 
         Parameters
         ----------
-        layer : String
+        layer : Keras layer object
             A Keras Layer
 
         Returns
@@ -396,7 +387,7 @@ class KerasDataDictionary(ny.DataDictionary):
     Parameters
     ----------
     dataSet : String
-        Name of the dataset
+        Dataset name
     predictedClasses : List
         List of class names or values to be predicted.
     Returns
@@ -470,7 +461,7 @@ class KerasMiningSchema(ny.MiningSchema):
     Parameters
     ----------
     dataSet : String
-        Name of the dataset
+        Dataset name
 
     Returns
     -------
@@ -531,8 +522,10 @@ class KerasLocalTransformations(ny.LocalTransformations):
     
     Parameters
     ----------
-    model_name : String
-        Name of the model
+    keras_model : Keras model object
+        Keras model object
+    dataSet : String
+        Dataset name
 
     Returns
     -------
@@ -566,24 +559,12 @@ class KerasNetwork(ny.DeepNetwork):
     
     Parameters
     ----------
-    model_name : String
-        Name of the model 
-    functionName: String
-        Regression or Classification
-    numberOfLayers: Int
-        Number of layers in the architecture
-    isScorable: Boolean
-        True or False 
-    Extension: Nyoka's extention tag
-        Allows to pass extra information in Nyoka objects
-    MiningSchema: Nyoka's Mining schema object
-        Nyoka's miningschema object to be passed 
-    Output: Nyoka's Output object
-        Nyoka's Output object to be passed 
-    LocalTransformations: Nyoka's LocalTransformations object
-        Nyoka's LocalTransformations object to be passed 
-    NetworkLayer: Nyoka's LocalTransformations object
-        Nyoka's NetworkLayer object to be passed 
+    keras_model : Keras model object
+        Keras model object
+    dataSet : String
+        Dataset name
+    predictedClasses : List
+        List of Classes for which model has been trained
 
     Returns
     -------
@@ -598,6 +579,9 @@ class KerasNetwork(ny.DeepNetwork):
         Parameters
         ----------
         layer : Keras layer object
+            Keras layer object
+        dataSet : String
+            Dataset name
     
         Returns
         -------
@@ -640,6 +624,9 @@ class KerasNetwork(ny.DeepNetwork):
         Parameters
         ----------
         keras_model : Keras model object
+            Keras model object
+        dataSet : String
+            Dataset name
     
         Returns
         -------
@@ -684,8 +671,6 @@ class KerasToPmml(ny.PMML):
     ----------
     keras_model : keras model object
         Keras model object 
-    model_name: String
-        Name to be given to the model in PMML.
     dataSet: String (Optional)
         Name of the dataset. Value is 'image' for Image Classifier, 'None' or any other value is for the rest. 
     predictedClasses : List
