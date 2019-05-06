@@ -8,7 +8,7 @@ sys.path.append(BASE_DIR)
 from PMML44 import *
 import numpy as np
 from datetime import datetime
-
+import metadata
 
 class ExponentialSmoothingToPMML:
     """
@@ -143,7 +143,8 @@ class ExponentialSmoothingToPMML:
             version='4.4',
             Header=Header(
                 copyright="Copyright (c) 2018 Software AG", description="Exponential Smoothing Model",
-                Timestamp=Timestamp(datetime.utcnow())
+                Timestamp=Timestamp(datetime.utcnow()),
+                Application=Application(name="Nyoka",version=metadata.__version__)
             ),
             DataDictionary=DataDictionary(numberOfFields=n_columns, DataField=get_data_field_objs(time_series_data)),
             TimeSeriesModel=[TimeSeriesModel(
