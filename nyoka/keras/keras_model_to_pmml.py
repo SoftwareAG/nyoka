@@ -20,6 +20,7 @@ import numpy as np
 
 # nyoka imports
 import PMML44 as ny
+import metadata
 
 LAYERS_DIR = os.path.abspath(os.path.dirname(__file__))
 image_INDEX_PATH = LAYERS_DIR + "/image_class_index.json"
@@ -69,7 +70,8 @@ class KerasHeader(ny.Header):
             copyright = "Copyright (c) 2018 Software AG"
         ny.Header.__init__(self, copyright=copyright,
                            description=description,
-                           Timestamp=ny.Timestamp(str(datetime.datetime.now())))
+                           Timestamp=ny.Timestamp(str(datetime.datetime.now())),
+                           Application=ny.Application(name="Nyoka",version=metadata.__version__))
 
 
 class KerasNetworkLayer(ny.NetworkLayer):

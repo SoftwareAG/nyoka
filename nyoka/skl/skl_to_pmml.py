@@ -8,8 +8,9 @@ import PMML44 as pml
 from skl import pre_process as pp
 from datetime import datetime
 import math
+import metadata
 
-def skl_to_pmml(pipeline, col_names, target_name=None, pmml_f_name='from_sklearn.pmml'):
+def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_sklearn.pmml'):
 
     """
     Exports scikit-learn pipeline object into pmml
@@ -21,7 +22,7 @@ def skl_to_pmml(pipeline, col_names, target_name=None, pmml_f_name='from_sklearn
     col_names : List
         Contains list of feature/column names.
     target_name : String
-        Name of the target column.
+        Name of the target column. (Default='target')
     pmml_f_name : String
         Name of the pmml file. (Default='from_sklearn.pmml')
 
@@ -2262,9 +2263,10 @@ def get_header():
 
      """
     copyryt = "Copyright (c) 2018 Software AG"
-    description = "Generated using Nyoka "+metadata.__version__
+    description = "Default Description"
     timestamp = pml.Timestamp(datetime.now())
-    header = pml.Header(copyright=copyryt, description=description, Timestamp=timestamp)
+    application=pml.Application(name="Nyoka",version=metadata.__version__)
+    header = pml.Header(copyright=copyryt, description=description, Timestamp=timestamp, Application=application)
     return header
 
 

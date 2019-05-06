@@ -8,6 +8,7 @@ sys.path.append(BASE_DIR)
 from pprint import pprint
 from PMML44 import *
 from datetime import datetime
+import metadata
 
 class ArimaToPMML:
     def __init__(self, time_series_data, model_obj, results_obj, pmml_file_name):
@@ -21,7 +22,8 @@ class ArimaToPMML:
             pmml = PMML(
                 version = '4.4',
                 Header = Header(copyright = "Copyright (c) 2018 Software AG", description = "ARIMA Model",  
-                                Timestamp = Timestamp(datetime.utcnow())),
+                                Timestamp = Timestamp(datetime.utcnow()),
+                                Application=Application(name="Nyoka",version=metadata.__version__)),
                 DataDictionary = DataDictionary(numberOfFields = n_columns, 
                                                 DataField = get_data_field_objs(time_series_data)),
                 TimeSeriesModel = [ TimeSeriesModel(modelName = model_name,
