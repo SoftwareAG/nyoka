@@ -2103,7 +2103,7 @@ def get_version():
 
     """
 
-    version = '4.3Ext'
+    version = '4.4'
     return version
 
 
