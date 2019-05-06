@@ -232,7 +232,7 @@ def unround_scalers(scalar_val):  # not sure of its purpose ------------------>>
         Returns a numpy floating point number with a precision of 16 digits after decimal.
 
     """
-    unround_val = '{:.25f}'.format(scalar_val)
+    unround_val = '{:.16f}'.format(scalar_val)
     return unround_val
 
 
@@ -390,14 +390,14 @@ def pca(trfm, col_names):
         for pca_idx in range(trfm.n_features_):
             apply_inner = pml.Apply(function='-',
                                     Constant=[pml.Constant(dataType="double",
-                                                           valueOf_=val[pca_idx])],
+                                                           valueOf_="{:.16f}".format(val[pca_idx]))],
                                     FieldRef=[pml.FieldRef(field=col_names[pca_idx])])
             apply_outer = pml.Apply(function="*",
                                     Apply_member=[apply_inner],
                                     Constant=[pml.Constant(dataType="double",
                                                            valueOf_=zero if trfm.components_[preprocess_idx][
                                                                                 pca_idx] == 0.0 else
-                                                           trfm.components_[preprocess_idx][pca_idx])])
+                                                           "{:.16f}".format(trfm.components_[preprocess_idx][pca_idx]))])
             add.append(apply_outer)
         app0 = pml.Apply(function="sum", Apply_member=add)
 
@@ -464,7 +464,7 @@ def tfidf_vectorizer(trfm, col_names):
                                                         Constant=pml.Constant(valueOf_=features[feat_idx]),
                                                         # Extension=[pml.Extension(anytypeobjs_=[extra_features[feat_idx]])]
                                                         )],
-                                Constant=[pml.Constant(valueOf_=idf)])
+                                Constant=[pml.Constant(valueOf_="{:.16f}".format(idf))])
                                 ))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -570,7 +570,7 @@ def std_scaler(trfm, col_names, **kwargs):
             function='-',
             Constant=[pml.Constant(
                 dataType="double",  # <---------------------
-                valueOf_=unround_scalers(trfm.mean_[col_name_idx])
+                valueOf_="{:.16f}".format(trfm.mean_[col_name_idx])
             )],
             FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
         ))
@@ -579,7 +579,7 @@ def std_scaler(trfm, col_names, **kwargs):
             function='/',
             Constant=[pml.Constant(
                 dataType="double",  # <----------------------------
-                valueOf_=unround_scalers(trfm.scale_[col_name_idx])
+                valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
             )]
         )
         derived_flds.append(pml.DerivedField(
@@ -623,7 +623,7 @@ def min_max_scaler(trfm, col_names):
                 function='*',
                 Constant=[pml.Constant(
                     dataType="double",
-                    valueOf_=unround_scalers(trfm.scale_[col_name_idx])
+                    valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
             ))
@@ -632,7 +632,7 @@ def min_max_scaler(trfm, col_names):
                 function='+',
                 Constant=[pml.Constant(
                     dataType="double",
-                    valueOf_=unround_scalers(trfm.min_[col_name_idx])
+                    valueOf_="{:.16f}".format(trfm.min_[col_name_idx])
                 )]
             )
             derived_flds.append(pml.DerivedField(
@@ -673,7 +673,7 @@ def rbst_scaler(trfm, col_names):
                 function='-',
                 Constant=[pml.Constant(
                     dataType="double",  # <---------------------
-                    valueOf_=unround_scalers(trfm.center_[col_name_idx])
+                    valueOf_="{:.16f}".format(trfm.center_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])],
                 Extension=[pml.Extension(name='scaling', anytypeobjs_=['RobustScaler'])]
@@ -683,7 +683,7 @@ def rbst_scaler(trfm, col_names):
                 function='/',
                 Constant=[pml.Constant(
                     dataType="double",  # <----------------------------
-                    valueOf_=unround_scalers(trfm.scale_[col_name_idx])
+                    valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
                 )]
             )
             derived_flds.append(pml.DerivedField(
@@ -723,7 +723,7 @@ def max_abs_scaler(trfm, col_names):
                 function='/',
                 Constant=[pml.Constant(
                     dataType="double",  # <---------------------
-                    valueOf_=unround_scalers(trfm.max_abs_[col_name_idx])
+                    valueOf_="{:.16f}".format(trfm.max_abs_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
             )

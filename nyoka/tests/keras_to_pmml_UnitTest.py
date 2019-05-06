@@ -23,7 +23,8 @@ class TestMethods(unittest.TestCase):
         x = Dense(1024, activation="relu")(x)
         predictions = Dense(2, activation=activType)(x)
         model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
-        cnn_pmml = KerasToPmml(model_final,dataSet='image',predictedClasses=['cats','dogs'])
+        cnn_pmml = KerasToPmml(model_final,model_name="MobileNet",description="Demo",\
+            copyright="Internal User",dataSet='image',predictedClasses=['cats','dogs'])
         cnn_pmml.export(open('2classMBNet.pmml', "w"), 0)
         reconPmmlObj=ny.parse('2classMBNet.pmml',True)
         self.assertEqual(os.path.isfile("2classMBNet.pmml"),True)

@@ -63,6 +63,10 @@ class KerasHeader(ny.Header):
     """ 
  
     def __init__(self, description, copyright):
+        if not description:
+            description = "Keras Model in PMML"
+        if not copyright:
+            copyright = "Copyright (c) 2018 Software AG"
         ny.Header.__init__(self, copyright=copyright,
                            description=description,
                            Timestamp=ny.Timestamp(str(datetime.datetime.now())))
@@ -77,12 +81,11 @@ class KerasNetworkLayer(ny.NetworkLayer):
     layer : Keras layer object
         Keras layer object
     dataSet : String
-        Dataset name
+        Name of the dataset
     layer_type : String
-        Any Keras layer (e.g. Input, Dense, Conv2D)
-    connectionLayerId : Boolean
-        Whether to include connection layer IDs or not
-    
+        Class name of the layer
+    connection_layer_id : boolean
+        Whether to generate connection layer IDs or not
 
     Returns
     -------
@@ -96,7 +99,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
 
         Parameters
         ----------
-        weights : Array
+        weights : array
             Array of weights
 
         Returns
@@ -159,7 +162,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
 
         Returns
         -------
-        activation_function : array
+        activation_function : String
             Activation function of the given Keras layer
 
         """ 
@@ -256,7 +259,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
         -------
         layer_weights : array
             Weights of the Keras layer in Base64String format
-        layer_biases: array
+        layer_biases : array
             Bias of the Keras layer in Base64String format
 
         """ 
@@ -387,7 +390,7 @@ class KerasDataDictionary(ny.DataDictionary):
     Parameters
     ----------
     dataSet : String
-        Dataset name
+        Name of the dataset
     predictedClasses : List
         List of class names or values to be predicted.
     Returns
@@ -461,7 +464,7 @@ class KerasMiningSchema(ny.MiningSchema):
     Parameters
     ----------
     dataSet : String
-        Dataset name
+        Name of the dataset
 
     Returns
     -------
@@ -525,7 +528,7 @@ class KerasLocalTransformations(ny.LocalTransformations):
     keras_model : Keras model object
         Keras model object
     dataSet : String
-        Dataset name
+        Name of the dataset
 
     Returns
     -------
@@ -561,10 +564,12 @@ class KerasNetwork(ny.DeepNetwork):
     ----------
     keras_model : Keras model object
         Keras model object
+    model_name : String
+        Name of the model
     dataSet : String
-        Dataset name
+        Name of the dataset
     predictedClasses : List
-        List of Classes for which model has been trained
+        List of class names
 
     Returns
     -------
@@ -581,7 +586,7 @@ class KerasNetwork(ny.DeepNetwork):
         layer : Keras layer object
             Keras layer object
         dataSet : String
-            Dataset name
+            Name of the dataset
     
         Returns
         -------
@@ -626,7 +631,7 @@ class KerasNetwork(ny.DeepNetwork):
         keras_model : Keras model object
             Keras model object
         dataSet : String
-            Dataset name
+            Name of the dataset
     
         Returns
         -------
@@ -646,14 +651,16 @@ class KerasNetwork(ny.DeepNetwork):
             network_layers.append(net_layer)
         return network_layers
 
-    def __init__(self, keras_model, dataSet=None, predictedClasses=None):
+    def __init__(self, keras_model, model_name, dataSet=None, predictedClasses=None):
+        if not model_name:
+            model_namme = keras_model.name
         network_layers = self._create_layers(keras_model, dataSet)
         local_trans = None
         mining_schema = KerasMiningSchema(dataSet)
         if dataSet == 'image':
             local_trans = KerasLocalTransformations(keras_model, dataSet)
         function_Name = "classification" if predictedClasses else "regression"
-        ny.DeepNetwork.__init__(self, modelName=keras_model.name,
+        ny.DeepNetwork.__init__(self, modelName=model_name,
                                 functionName=function_Name, algorithmName=None,
                                 normalizationMethod="none", numberOfLayers=len(network_layers),
                                 isScorable=True, Extension=None, MiningSchema=mining_schema,
@@ -669,9 +676,13 @@ class KerasToPmml(ny.PMML):
     
     Parameters
     ----------
-    keras_model : keras model object
+    keras_model : Keras model object
         Keras model object 
-    dataSet: String (Optional)
+    model_name : String
+        Name to be given to the model in PMML.
+    description : Sting (Optional)
+        Description to be shown in PMML
+    dataSet : String (Optional)
         Name of the dataset. Value is 'image' for Image Classifier, 'None' or any other value is for the rest. 
     predictedClasses : List
         List of the class names for which model has been trained. If not provided, assumed to be regression model.
@@ -681,9 +692,10 @@ class KerasToPmml(ny.PMML):
     -------
     Creates PMML object, this can be saved in file using export function
     """ 
-    def __init__(self, keras_model, dataSet=None, predictedClasses=None):
+    def __init__(self, keras_model, model_name=None, description=None,copyright=None,\
+        dataSet=None, predictedClasses=None):
         data_dict = KerasDataDictionary(dataSet, predictedClasses)
         super(KerasToPmml, self).__init__(
-            version="4.4", Header=KerasHeader(description="Keras Model in PMML", copyright="Copyright (c) 2018 Software AG"),
+            version="4.4", Header=KerasHeader(description=description, copyright=copyright),
             DataDictionary=data_dict, DeepNetwork=[
-                KerasNetwork(keras_model=keras_model, dataSet=dataSet, predictedClasses=predictedClasses)])
+                KerasNetwork(keras_model=keras_model, model_name=model_name, dataSet=dataSet, predictedClasses=predictedClasses)])

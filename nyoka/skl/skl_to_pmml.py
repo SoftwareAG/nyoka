@@ -243,7 +243,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                     categoric_values
                                                  )}
     else:
-        algo_kwargs = None
+        raise NotImplementedError("{} is not Implemented!".format(model.__class__.__name__))
 
     return algo_kwargs
 
@@ -492,7 +492,7 @@ def get_anomaly_detection_output(model):
                                             Apply=pml.Apply(function="greaterThan", 
                                                             FieldRef=[pml.FieldRef(field="decisionFunction")],
                                                             Constant=[pml.Constant(dataType="double", 
-                                                                                    valueOf_=model.threshold_)])))
+                                                                                    valueOf_="{:.16f}".format(model.threshold_))])))
 
     return pml.Output(OutputField=output_fields)
 
@@ -1097,13 +1097,13 @@ def get_multiple_model_method(model):
     The multiple model method for a mining model.
         
     """
-    if 'GradientBoostingClassifier' in str(model.__class__):
+    if model.__class__.__name__ == 'GradientBoostingClassifier':
         return 'modelChain'
-    elif 'GradientBoostingRegressor' in str(model.__class__):
+    elif model.__class__.__name__ == 'GradientBoostingRegressor':
         return 'sum'
-    elif 'RandomForestClassifier' in str(model.__class__):
+    elif model.__class__.__name__ == 'RandomForestClassifier':
         return 'majorityVote'
-    elif 'RandomForestRegressor' or 'IsolationForest' in str(model.__class__):
+    elif model.__class__.__name__ in ['RandomForestRegressor','IsolationForest']:
         return 'average'
 
 
@@ -1380,7 +1380,7 @@ def get_classificationMethod(model):
     Returns the classification method of the SVM model
         
     """
-    if 'SVC' in str(model.__class__):
+    if model.__class__.__name__ == 'SVC':
         return 'OneAgainstOne'
     else:
         return 'OneAgainstAll'
@@ -1545,16 +1545,16 @@ def get_kernel_type(model):
         kernel_kwargs['LinearKernelType'] = pml.LinearKernelType(description='Linear Kernel Type')
     elif model.kernel == 'poly':
         kernel_kwargs['PolynomialKernelType'] = pml.PolynomialKernelType(description='Polynomial Kernel type',
-                                                                         gamma=model._gamma,
-                                                                         coef0=model.coef0,
+                                                                         gamma="{:.16f}".format(model._gamma),
+                                                                         coef0="{:.16f}".format(model.coef0),
                                                                          degree=model.degree)
     elif model.kernel == 'rbf':
         kernel_kwargs['RadialBasisKernelType'] = pml.RadialBasisKernelType(description='Radial Basis Kernel Type',
                                                                            gamma=model._gamma)
     else:
         kernel_kwargs['SigmoidKernelType'] = pml.SigmoidKernelType(description='Sigmoid Kernel Type',
-                                                               gamma=model._gamma,
-                                                               coef0=model.coef0)
+                                                               gamma="{:.16f}".format(model._gamma),
+                                                               coef0="{:.16f}".format(model.coef0))
     return kernel_kwargs
 
 
@@ -1576,7 +1576,7 @@ def get_supportVectorMachine(model):
 
     """
     support_vector_machines = list()
-    if 'SVR' in str(model.__class__) or 'OneClassSVM' in str(model.__class__):
+    if model.__class__.__name__ in ['SVR','OneClassSVM']:
         support_vector = list()
         for sv in model.support_:
             support_vector.append(pml.SupportVector(vectorId=sv))
@@ -1586,11 +1586,11 @@ def get_supportVectorMachine(model):
         if model.dual_coef_.__class__.__name__ != 'csr_matrix':
             for coef in model.dual_coef_:
                 for num in coef:
-                    coefficient.append(pml.Coefficient(value=num))
+                    coefficient.append(pml.Coefficient(value="{:.16f}".format(num)))
         else:
             dual_coefficent=model.dual_coef_.data
             for num in dual_coefficent:
-                coefficient.append(pml.Coefficient(value=num))
+                coefficient.append(pml.Coefficient(value="{:.16f}".format(num)))
         coeff = pml.Coefficients(absoluteValue=absoValue, Coefficient=coefficient)
         support_vector_machines.append(pml.SupportVectorMachine(SupportVectors=support_vectors, Coefficients=coeff))
     else:
@@ -1621,7 +1621,7 @@ def get_supportVectorMachine(model):
                             targetCategory=model.classes_[class1],
                             alternateTargetCategory=model.classes_[class2],
                             SupportVectors=pml.SupportVectors(SupportVector=all_svs),
-                            Coefficients=pml.Coefficients(absoluteValue=coef_abs_value, Coefficient=all_coefs)
+                            Coefficients=pml.Coefficients(absoluteValue="{:.16f}".format(coef_abs_value), Coefficient=all_coefs)
                         )
                     )
                 else:
@@ -1630,7 +1630,7 @@ def get_supportVectorMachine(model):
                             targetCategory=model.classes_[class2],
                             alternateTargetCategory=model.classes_[class1],
                             SupportVectors=pml.SupportVectors(SupportVector=all_svs),
-                            Coefficients=pml.Coefficients(absoluteValue=coef_abs_value, Coefficient=all_coefs)
+                            Coefficients=pml.Coefficients(absoluteValue="{:.16f}".format(coef_abs_value), Coefficient=all_coefs)
                         )
                     )
     return support_vector_machines
@@ -1757,9 +1757,9 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
         Returns a regression model of the respective model
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
-    if 'SGDClassifier' in str(model.__class__) or 'RidgeClassifier' in str(model.__class__) or 'LinearSVC' in str(model.__class__):
+    if model.__class__.__name__ in ['SGDClassifier','RidgeClassifier','LinearSVC']:
         model_kwargs['normalizationMethod'] = 'logit'
-    elif 'LogisticRegression' in str(model.__class__):
+    elif model.__class__.__name__ == 'LogisticRegression':
         model_kwargs['normalizationMethod'] = 'softmax'
     regrs_models = list()
     regrs_models.append(pml.RegressionModel(
@@ -1800,7 +1800,7 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
         merge = list()
         target_classes = target_name
         row_idx = 0
-        if not hasattr(inter, '__iter__') or'LinearRegression' in str(model.__class__) or 'LinearSVR' in str(model.__class__):
+        if not hasattr(inter, '__iter__') or model.__class__.__name__ in ['LinearRegression','LinearSVR']:
             inter = np.array([inter])
             target_classes = [target_classes]
             model_coef = np.ravel(model_coef)
@@ -1885,7 +1885,7 @@ def get_node(model, features_names, main_model=None):
     """
     tree = model.tree_
     node_samples = tree.n_node_samples
-    if main_model and 'RandomForestClassifier' in str(main_model.__class__):
+    if main_model and main_model.__class__.__name__ == 'RandomForestClassifier':
         classes = main_model.classes_
     elif hasattr(model,'classes_'):
         classes = model.classes_
@@ -1918,7 +1918,7 @@ def get_node(model, features_names, main_model=None):
         else:
             nodeValue = list(tree.value[idx][0])
             lSum = float(sum(nodeValue))
-            if 'DecisionTreeClassifier' in str(model.__class__):
+            if model.__class__.__name__ == 'DecisionTreeClassifier':
                 probs = [x / lSum for x in nodeValue]
                 score_dst = []
                 for i in range(len(probs)):
@@ -2248,6 +2248,7 @@ def get_version():
     version = '4.4'
     return version
 
+from nyoka import metadata
 
 def get_header():
 
@@ -2261,7 +2262,7 @@ def get_header():
 
      """
     copyryt = "Copyright (c) 2018 Software AG"
-    description = "Default description"
+    description = "Generated using Nyoka "+metadata.__version__
     timestamp = pml.Timestamp(datetime.now())
     header = pml.Header(copyright=copyryt, description=description, Timestamp=timestamp)
     return header
@@ -2545,7 +2546,7 @@ def get_categoric_pred(feat_names,row_idx, der_fld_idx, model_coef, class_lbls, 
 
                 cat_pred = pml.CategoricalPredictor(name=class_attribute,
                                                     value=cname,
-                                                    coefficient=coef)
+                                                    coefficient="{:.16f}".format(coef))
                 cat_pred.original_tagname_ = "CategoricalPredictor"
                 categoric_predictor.append(cat_pred)
     else:
@@ -2558,7 +2559,7 @@ def get_categoric_pred(feat_names,row_idx, der_fld_idx, model_coef, class_lbls, 
 
             cat_pred = pml.CategoricalPredictor(name=class_attribute,
                                                 value=cname,
-                                                coefficient=coef)
+                                                coefficient="{:.16f}".format(coef))
             cat_pred.original_tagname_ = "CategoricalPredictor"
             categoric_predictor.append(cat_pred)
     return categoric_predictor
