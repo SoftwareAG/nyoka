@@ -68,7 +68,8 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * VGG-16
 * VGG-19
 * Inception
-* ResNet
+* ResNet50
+* ResNet101
 
 ### LightGBM (version 2.2.2):
 
