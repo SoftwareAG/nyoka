@@ -112,7 +112,7 @@ def get_entire_string(pipe0):
 
 def get_mining_buildtask(pipeline):
     pipeline = get_entire_string(pipeline)
-    extension = [pml.Extension(value=pipeline,anytypeobjs_=[''])]
+    extension = [pml.Extension(value=pipeline)]
     mining_bld_task = pml.MiningBuildTask(Extension = extension)
     return mining_bld_task
 
@@ -149,8 +149,9 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
         Get the PMML model argument based on scikit learn model object
     """
     skl_mdl_super_cls_names = get_super_cls_names(model)
-    regression_model_names = ('LinearRegression','LinearDiscriminantAnalysis','LinearSVR')
-    regression_mining_model_names = ('LogisticRegression', 'RidgeClassifier', 'SGDClassifier','LinearSVC',)
+    regression_model_names = ('LinearRegression','LinearSVR')
+    regression_mining_model_names = ('LogisticRegression', 'RidgeClassifier','LinearDiscriminantAnalysis', \
+                                        'SGDClassifier','LinearSVC',)
     tree_model_names = ('BaseDecisionTree',)
     support_vector_model_names = ('SVC', 'SVR')
     anomaly_model_names = ('OneClassSVM',)
@@ -288,39 +289,40 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
     mining_model = pml.MiningModel(modelName=model.__class__.__name__,**model_kwargs)
     inner_mining_schema = [mfield for mfield in model_kwargs['MiningSchema'].MiningField if mfield.usageType != 'target']
     segmentation = pml.Segmentation(multipleModelMethod="modelChain")
-    for i in range(num_classes):
-        segment = pml.Segment(id=str(i+1),True_=pml.True_())
+    for idx in range(num_classes):
+        segment = pml.Segment(id=str(idx+1),True_=pml.True_())
         segment.RegressionModel = pml.RegressionModel(
             functionName='regression',
-            normalizationMethod="logit",
             MiningSchema=pml.MiningSchema(
                 MiningField=inner_mining_schema
                 ),
             Output=pml.Output(
                 OutputField=[
                     pml.OutputField(
-                        name="probablity_"+str(i),
+                        name="probablity_"+str(idx),
                         optype="continuous",
                         dataType="double"
                         )
                     ]
                 ),
-            RegressionTable=get_reg_tab_for_reg_mining_model(model,derived_col_names,i)
+            RegressionTable=get_reg_tab_for_reg_mining_model(model,derived_col_names,idx)
         )
+        if model.__class__.__name__ != 'LinearSVC':
+            segment.RegressionModel.normalizationMethod="logit"
         segmentation.add_Segment(segment)
 
     last_segment = pml.Segment(id=str(num_classes+1),True_=pml.True_())
-    mining_flds_for_last = [pml.MiningField(name="probablity_"+str(i)) for i in range(num_classes)]
+    mining_flds_for_last = [pml.MiningField(name="probablity_"+str(idx)) for idx in range(num_classes)]
     mining_flds_for_last.append(pml.MiningField(name=target_name,usageType="target"))
     mining_schema_for_last = pml.MiningSchema(MiningField=mining_flds_for_last)
     reg_tab_for_last = list()
-    for i in range(num_classes):
+    for idx in range(num_classes):
         reg_tab_for_last.append(
             pml.RegressionTable(
                 intercept="0.0",
-                targetCategory=str(model.classes_[i]),
+                targetCategory=str(model.classes_[idx]),
                 NumericPredictor=[pml.NumericPredictor(
-                    name="probablity_"+str(i),
+                    name="probablity_"+str(idx),
                     coefficient="1.0"
                 )]
             )
@@ -328,10 +330,11 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
 
     last_segment.RegressionModel = pml.RegressionModel(
         functionName="classification",
-        normalizationMethod="simplemax",
         MiningSchema=mining_schema_for_last,
         RegressionTable=reg_tab_for_last
     )
+    if model.__class__.__name__ != 'LinearSVC':
+        last_segment.RegressionModel.normalizationMethod="simplemax"
     segmentation.add_Segment(last_segment)
     mining_model.set_Segmentation(segmentation)
     return [mining_model]
@@ -339,8 +342,8 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
 
 def get_reg_tab_for_reg_mining_model(model, col_names, index):
     reg_tab = pml.RegressionTable(intercept="{:.16f}".format(model.intercept_[index]))
-    for i, coef in enumerate(model.coef_[index]):
-        reg_tab.add_NumericPredictor(pml.NumericPredictor(name=col_names[i],coefficient="{:.16f}".format(coef)))
+    for idx, coef in enumerate(model.coef_[index]):
+        reg_tab.add_NumericPredictor(pml.NumericPredictor(name=col_names[idx],coefficient="{:.16f}".format(coef)))
     return [reg_tab]
 
 
@@ -1551,7 +1554,7 @@ def get_kernel_type(model):
                                                                          degree=model.degree)
     elif model.kernel == 'rbf':
         kernel_kwargs['RadialBasisKernelType'] = pml.RadialBasisKernelType(description='Radial Basis Kernel Type',
-                                                                           gamma=model._gamma)
+                                                                           gamma="{:.16f}".format(model._gamma))
     else:
         kernel_kwargs['SigmoidKernelType'] = pml.SigmoidKernelType(description='Sigmoid Kernel Type',
                                                                gamma="{:.16f}".format(model._gamma),
@@ -1758,10 +1761,8 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
         Returns a regression model of the respective model
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
-    if model.__class__.__name__ in ['SGDClassifier','RidgeClassifier','LinearSVC']:
+    if model.__class__.__name__ not in ['LinearRegression','LinearSVR','LinearSVC']: 
         model_kwargs['normalizationMethod'] = 'logit'
-    elif model.__class__.__name__ == 'LogisticRegression':
-        model_kwargs['normalizationMethod'] = 'softmax'
     regrs_models = list()
     regrs_models.append(pml.RegressionModel(
         modelName=model.__class__.__name__,
@@ -2081,13 +2082,14 @@ def get_mining_schema(model, feature_names, target_name, mining_imp_val, categor
                                                            missingValueTreatment=mining_strategy[mining_idx],
                                                            usageType=features_pmml_utype[feat_idx]))
                         mining_name_stored.append(feat_name)
-    for cls_attr in categoric_values[1]:
-        mining_flds.append(pml.MiningField(
-            name=cls_attr,
-            usageType='active',
-            optype='categorical'
-        ))
-        mining_name_stored.append(cls_attr)
+    if len(categoric_values) > 0:
+        for cls_attr in categoric_values[1]:
+            mining_flds.append(pml.MiningField(
+                name=cls_attr,
+                usageType='active',
+                optype='categorical'
+            ))
+            mining_name_stored.append(cls_attr)
     for feat_name, feat_idx in zip(feature_names, range(len(feature_names))):
         if feat_name not in mining_name_stored:
             mining_flds.append(pml.MiningField(name=str(feat_name),
