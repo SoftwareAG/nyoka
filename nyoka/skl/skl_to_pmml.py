@@ -274,7 +274,7 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_va
     model_kwargs = dict()
     model_kwargs['functionName'] = get_mining_func(model)
     model_kwargs['MiningSchema'] = get_mining_schema(model, col_names, target_name, mining_imp_val, categoric_values)
-    if 'IsolationForest' in str(model.__class__):
+    if model.__class__.__name__ == 'IsolationForest':
         model_kwargs['Output']=get_anomaly_detection_output(model)
     else:
         model_kwargs['Output'] = get_output(model, target_name)
@@ -308,7 +308,7 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
             RegressionTable=get_reg_tab_for_reg_mining_model(model,derived_col_names,idx)
         )
         if model.__class__.__name__ != 'LinearSVC':
-            segment.RegressionModel.normalizationMethod="logit"
+            segment.RegressionModel.normalizationMethod = "logit"
         segmentation.add_Segment(segment)
 
     last_segment = pml.Segment(id=str(num_classes+1),True_=pml.True_())
@@ -334,7 +334,7 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
         RegressionTable=reg_tab_for_last
     )
     if model.__class__.__name__ != 'LinearSVC':
-        last_segment.RegressionModel.normalizationMethod="simplemax"
+        last_segment.RegressionModel.normalizationMethod = "simplemax"
     segmentation.add_Segment(last_segment)
     mining_model.set_Segmentation(segmentation)
     return [mining_model]

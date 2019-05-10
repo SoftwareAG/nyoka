@@ -443,11 +443,12 @@ def tfidf_vectorizer(trfm, col_names):
     derived_flds = list()
     # derived_colnames = list()
     derived_colnames = get_derived_colnames('tfidf@[' + col_names[0] + ']', features)
-    derived_flds.append(
-        pml.DerivedField(name='lowercase(' + col_names[0] + ')',
-                         optype='categorical', dataType='string',
-                         Apply=pml.Apply(function='lowercase',
-                                         FieldRef=[pml.FieldRef(field=col_names[0])])))
+    if trfm.lowercase:
+        derived_flds.append(
+            pml.DerivedField(name='lowercase(' + col_names[0] + ')',
+                            optype='categorical', dataType='string',
+                            Apply=pml.Apply(function='lowercase',
+                                            FieldRef=[pml.FieldRef(field=col_names[0])])))
     for feat_idx, idf in zip(range(len(features)), idfs):
         # no_punct_word = remove_punctuation(features[feat_idx])
         # if len(no_punct_word) == 0:
@@ -455,12 +456,14 @@ def tfidf_vectorizer(trfm, col_names):
             # derived_colnames.append(df_name)
         derived_flds.append(pml.DerivedField(
             # name=df_name,
-            name = derived_colnames[feat_idx]
+            name = derived_colnames[feat_idx],
             optype='continuous',
             dataType='double',
             Apply=pml.Apply(function='*',
-                            TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
-                                                    wordSeparatorCharacterRE='\s+',
+                            TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
+                                else col_names[0],
+                                                    # wordSeparatorCharacterRE='\s+',
+                                                    wordSeparatorCharacterRE=trfm.token_pattern,
                                                     tokenize='true',
                                                     Constant=pml.Constant(valueOf_=features[feat_idx]),
                                                     # Extension=[pml.Extension(anytypeobjs_=[extra_features[feat_idx]])]
@@ -499,11 +502,12 @@ def count_vectorizer(trfm, col_names):
     derived_flds = list()
     derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
     # derived_colnames = list()
-    derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
-                                         optype='categorical',
-                                         dataType='string',
-                                         Apply=pml.Apply(function='lowercase',
-                                                         FieldRef=[pml.FieldRef(field=col_names[0])])))
+    if trfm.lowercase:
+        derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
+                                            optype='categorical',
+                                            dataType='string',
+                                            Apply=pml.Apply(function='lowercase',
+                                                            FieldRef=[pml.FieldRef(field=col_names[0])])))
     for imp_features, index in zip(features, range(len(features))):
         # no_punct_word = remove_punctuation(imp_features)
         # if len(no_punct_word) == 0:
@@ -513,8 +517,10 @@ def count_vectorizer(trfm, col_names):
         derived_flds.append(pml.DerivedField(name=df_name,
                                             optype='continuous',
                                             dataType='double',
-                                            TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
-                                                                    wordSeparatorCharacterRE='\s+',
+                                            TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
+                                                else col_names[0],
+                                                                    # wordSeparatorCharacterRE='\s+',
+                                                                    wordSeparatorCharacterRE=trfm.token_pattern,
                                                                     tokenize='true',
                                                                     Constant=pml.Constant(dataType="string",
                                                                                         valueOf_=imp_features),
