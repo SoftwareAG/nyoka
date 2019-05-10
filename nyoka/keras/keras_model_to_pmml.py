@@ -683,6 +683,8 @@ class KerasToPmml(ny.PMML):
         Name to be given to the model in PMML.
     description : Sting (Optional)
         Description to be shown in PMML
+    copyright : String (Optionnal)
+        Copyright information
     dataSet : String (Optional)
         Name of the dataset. Value is 'image' for Image Classifier, 'None' or any other value is for the rest. 
     predictedClasses : List
