@@ -3,7 +3,7 @@ import sys
 import os
 
 packages = [
-    "scikit-learn>=0.19.1",
+    "scikit-learn==0.20.3",
     "keras==2.2.4",
     "tensorflow==1.9.0",
     "statsmodels==0.9.0",
@@ -21,5 +21,5 @@ def installPackage(package):
 
 if __name__ == "__main__":
     for pck in packages:
-        print('\n',pck.capitalize(),'-->\n')
+        print('\n',pck,'-->\n')
         installPackage(pck)
