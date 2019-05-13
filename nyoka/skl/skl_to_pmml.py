@@ -804,9 +804,21 @@ def get_comparison_measure(model):
     if model.effective_metric_ == 'euclidean':
         comp_measure = pml.ComparisonMeasure(euclidean=pml.euclidean(), kind="distance")
     elif model.effective_metric_ == 'minkowski':
-        comp_measure = pml.ComparisonMeasure(minkowski=pml.minkowski(), kind="distance")
-    elif model.effective_metric_ == 'manhattan':
+        comp_measure = pml.ComparisonMeasure(minkowski=pml.minkowski(p_parameter=model.p), kind="distance")
+    elif model.effective_metric_ in ['manhattan','cityblock']:
         comp_measure = pml.ComparisonMeasure(cityBlock=pml.cityBlock(), kind="distance")
+    elif model.effective_metric_ == 'sqeuclidean':
+        comp_measure = pml.ComparisonMeasure(squaredEuclidean=pml.squaredEuclidean(), kind="distance")
+    elif model.effective_metric_ == 'chebyshev':
+        comp_measure = pml.ComparisonMeasure(chebychev=pml.chebychev(), kind="distance")
+    elif model.effective_metric_ == 'matching':
+        comp_measure = pml.ComparisonMeasure(simpleMatching=pml.simpleMatching(), kind="similarity")
+    elif model.effective_metric_ == 'jaccard':
+        comp_measure = pml.ComparisonMeasure(jaccard=pml.jaccard(), kind="similarity")
+    elif model.effective_metric_ == 'rogerstanimoto':
+        comp_measure = pml.ComparisonMeasure(tanimoto=pml.tanimoto(), kind="similarity")
+    else:
+        raise NotImplementedError("{} metric is not implemented for KNN Model!".format(model.effective_metric_))
     return comp_measure
 
 
