@@ -15,6 +15,7 @@ from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegress
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from nyoka import skl_to_pmml
+from nyoka import PMML44 as pml
 
 
 class TestMethods(unittest.TestCase):
@@ -27,16 +28,23 @@ class TestMethods(unittest.TestCase):
 
         features = irisd.columns.drop('Species')
         target = 'Species'
-
+        f_name = "svc_pmml.pmml"
+        model = SVC()
         pipeline_obj = Pipeline([
-            ('svm',SVC())
+            ('svm',model)
         ])
 
         pipeline_obj.fit(irisd[features],irisd[target])
+        skl_to_pmml(pipeline_obj,features,target,f_name)
+        pmml_obj = pml.parse(f_name,True)
+        ## 1
+        svms = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
+        for mod_val, recon_val in zip(model.intercept_, svms):
+            self.assertEqual(mod_val,recon_val.Coefficients.absoluteValue)
 
-        skl_to_pmml(pipeline_obj,features,target,"svc_pmml.pmml")
-
-        self.assertEqual(os.path.isfile("svc_pmml.pmml"),True)
+        ## 2
+        svm = pmml_obj.SupportVectorMachineModel[0]
+        self.assertEqual(svm.RadialBasisKernelType.gamma,model._gamma)
 
 
     def test_sklearn_02(self):
@@ -66,20 +74,23 @@ class TestMethods(unittest.TestCase):
 
         features = irisd.columns.drop('Species')
         target = 'Species'
+        f_name = "rf_pmml.pmml"
+        model = RandomForestClassifier(n_estimators = 100)
 
         pipeline_obj = Pipeline([
             ("mapping", DataFrameMapper([
             (['sepal length (cm)', 'sepal width (cm)'], StandardScaler()) , 
             (['petal length (cm)', 'petal width (cm)'], Imputer())
             ])),
-            ("rfc", RandomForestClassifier(n_estimators = 100))
+            ("rfc", model)
         ])
 
         pipeline_obj.fit(irisd[features], irisd[target])
+        skl_to_pmml(pipeline_obj, features, target, f_name)
+        pmml_obj = pml.parse(f_name,True)
 
-        skl_to_pmml(pipeline_obj, features, target, "rf_pmml.pmml")
-
-        self.assertEqual(os.path.isfile("rf_pmml.pmml"),True)
+        ## 1
+        self.assertEqual(model.n_estimators,pmml_obj.MiningModel[0].Segmentation.Segment.__len__())
 
 
     def test_sklearn_04(self):
@@ -122,7 +133,6 @@ class TestMethods(unittest.TestCase):
         ])
 
         pipeline_obj.fit(X,y)
-
         
         skl_to_pmml(pipeline_obj,features,target,"dtr_pmml.pmml")
 
@@ -136,16 +146,25 @@ class TestMethods(unittest.TestCase):
 
         features = X.columns
         target = 'mpg'
+        f_name = "linearregression_pmml.pmml"
+        model = LinearRegression()
 
         pipeline_obj = Pipeline([
-            ('model',LinearRegression())
+            ('model',model)
         ])
 
         pipeline_obj.fit(X,y)
+        skl_to_pmml(pipeline_obj,features,target,f_name)
+        pmml_obj = pml.parse(f_name,True)
 
-        skl_to_pmml(pipeline_obj,features,target,"linearregression_pmml.pmml")
+        ## 1
+        reg_tab = pmml_obj.RegressionModel[0].RegressionTable[0]
+        self.assertEqual(reg_tab.intercept,model.intercept_)
 
-        self.assertEqual(os.path.isfile("linearregression_pmml.pmml"),True)
+        ## 2
+        for model_val, pmml_val in zip(model.coef_, reg_tab.NumericPredictor):
+            self.assertEqual(model_val,pmml_val.coefficient)
+
 
     def test_sklearn_07(self):
         iris = datasets.load_iris()
@@ -154,20 +173,26 @@ class TestMethods(unittest.TestCase):
 
         features = irisd.columns.drop('Species')
         target = 'Species'
+        f_name = "logisticregression_pmml.pmml"
+        model = LogisticRegression()
 
         pipeline_obj = Pipeline([
             ("mapping", DataFrameMapper([
             (['sepal length (cm)', 'sepal width (cm)'], StandardScaler()) , 
             (['petal length (cm)', 'petal width (cm)'], Imputer())
             ])),
-            ("lr", LogisticRegression())
+            ("lr", model)
         ])
 
         pipeline_obj.fit(irisd[features], irisd[target])
+        skl_to_pmml(pipeline_obj, features, target, f_name)
+        pmml_obj = pml.parse(f_name,True)
 
-        skl_to_pmml(pipeline_obj, features, target, "logisticregression_pmml.pmml")
+        ## 1
+        segmentation = pmml_obj.MiningModel[0].Segmentation
+        self.assertEqual(segmentation.Segment.__len__(), model.classes_.__len__())
 
-        self.assertEqual(os.path.isfile("logisticregression_pmml.pmml"),True)
+        ## 2
 
 
     def test_sklearn_08(self):

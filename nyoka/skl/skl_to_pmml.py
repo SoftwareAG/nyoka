@@ -1555,10 +1555,12 @@ def get_kernel_type(model):
     elif model.kernel == 'rbf':
         kernel_kwargs['RadialBasisKernelType'] = pml.RadialBasisKernelType(description='Radial Basis Kernel Type',
                                                                            gamma="{:.16f}".format(model._gamma))
-    else:
+    elif model.kernel == 'sigmoid':
         kernel_kwargs['SigmoidKernelType'] = pml.SigmoidKernelType(description='Sigmoid Kernel Type',
                                                                gamma="{:.16f}".format(model._gamma),
                                                                coef0="{:.16f}".format(model.coef0))
+    else:
+        raise NotImplementedError("{} kernel is not implemented!".format(model.kernel))
     return kernel_kwargs
 
 
