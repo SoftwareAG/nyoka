@@ -1,524 +1,545 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pre_process module &#8212; Nyoka 1.0.0 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/my_theme.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pre_process module &mdash; Nyoka 3.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'3.1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="skl_to_pmml module" href="skl_to_pmml.html" />
-    <link rel="prev" title="lgb_to_pmml module" href="lgb_to_pmml.html" />
+    <link rel="prev" title="metadata module" href="metadata.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
 
-  </head><body>
-  
+          
+            <a href="index.html" class="icon icon-home"> Nyoka
+          
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
+                  <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
+                  <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
+                  <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                  <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                  <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                  <li class="toctree-l1 current"><a class="current reference internal" href="#">Scikit-learn's Pre-Processing Module</a></li>
+                  <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                  <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nyoka</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>pre_process module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+          <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github"> Nyoka's github page</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-pre_process">
 <span id="pre-process-module"></span><h1>pre_process module<a class="headerlink" href="#module-pre_process" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="pre_process.any_in">
 <code class="descclassname">pre_process.</code><code class="descname">any_in</code><span class="sig-paren">(</span><em>seq_a</em>, <em>seq_b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#any_in"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.any_in" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>seq_a</strong> (<em>list</em>) – A list of items</li>
-<li><strong>seq_b</strong> (<em>list</em>) – A list of items</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>seq_a</strong> – Returns a boolean value if any item of seq_a belongs to seq_b or visa versa</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>seq_a <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>A list of items</dd>
+<dt>seq_b <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>A list of items</dd>
+</dl>
+<dl class="docutils">
+<dt>seq_a: bool</dt>
+<dd>Returns a boolean value if any item of seq_a belongs to seq_b or visa versa</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.binarizer">
 <code class="descclassname">pre_process.</code><code class="descname">binarizer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#binarizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.binarizer" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s Binarizer preprocessing instance.</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to Binarizer preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s Binarizer preprocessing instance.</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to Binarizer preprocessing.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pre_process.cat_imputer">
+<code class="descclassname">pre_process.</code><code class="descname">cat_imputer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#cat_imputer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.cat_imputer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s Imputer preprocessing instance</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to Imputer preprocessing.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.count_vectorizer">
 <code class="descclassname">pre_process.</code><code class="descname">count_vectorizer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#count_vectorizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.count_vectorizer" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s CountVectorizer preprocessing instance.</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to CountVectorizer preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s CountVectorizer preprocessing instance.</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to CountVectorizer preprocessing.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.get_class_name">
 <code class="descclassname">pre_process.</code><code class="descname">get_class_name</code><span class="sig-paren">(</span><em>cls</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_class_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_class_name" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cls</strong> – Contains the Sklearn’s preprocessing instance</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>cls.__class__.__name__</strong> – Returns the class name of the pre-processed object.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">String</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>cls :</dt>
+<dd>Contains the Sklearn’s preprocessing instance</dd>
+</dl>
+<dl class="docutils">
+<dt>cls.__class__.__name__: String</dt>
+<dd>Returns the class name of the pre-processed object.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.get_derived_colnames">
 <code class="descclassname">pre_process.</code><code class="descname">get_derived_colnames</code><span class="sig-paren">(</span><em>trfm_name</em>, <em>col_names</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_derived_colnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_derived_colnames" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm_name</strong> (<em>String</em>) – Name of the derived field to be assigned after preprocessing</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pml_pp</strong> – Returns a list that contains names of the preprocessed features.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Name of the derived field to be assigned after preprocessing</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pml_pp: list</dt>
+<dd>Returns a list that contains names of the preprocessed features.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.get_pml_derived_flds">
 <code class="descclassname">pre_process.</code><code class="descname">get_pml_derived_flds</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_pml_derived_flds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_pml_derived_flds" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s preprocessing instance</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pml_pp</strong> – Returns a dictionary that contains attributes related to any preprocessing function .</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s preprocessing instance</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pml_pp: dictionary</dt>
+<dd>Returns a dictionary that contains attributes related to any preprocessing function .</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.get_preprocess_val">
 <code class="descclassname">pre_process.</code><code class="descname">get_preprocess_val</code><span class="sig-paren">(</span><em>ppln_sans_predictor</em>, <em>initial_colnames</em>, <em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_preprocess_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_preprocess_val" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model</strong> – Contains an instance of Sklearn model</li>
-<li><strong>ppln_sans_predictor</strong> – Contains an instance of Sklearn Pipeline</li>
-<li><strong>initial_colnames</strong> (<em>list</em>) – Contains list of feature/column names.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><strong>pml_pp</strong> (<em>dictionary</em>)</li>
-<li><em>Returns a dictionary that contains data related to pre-processing</em></li>
-</ul>
-</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>model :</dt>
+<dd>Contains an instance of Sklearn model</dd>
+<dt>ppln_sans_predictor :</dt>
+<dd>Contains an instance of Sklearn Pipeline</dd>
+<dt>initial_colnames <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.</dd>
+</dl>
+<p>pml_pp: dictionary
+Returns a dictionary that contains data related to pre-processing</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.imputer">
-<code class="descclassname">pre_process.</code><code class="descname">imputer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#imputer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.imputer" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s Imputer preprocessing instance</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to Imputer preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<code class="descclassname">pre_process.</code><code class="descname">imputer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#imputer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.imputer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s Imputer preprocessing instance</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to Imputer preprocessing.</dd>
+</dl>
 </dd></dl>
+
+<dl class="function">
+<dt id="pre_process.is_present">
+<code class="descclassname">pre_process.</code><code class="descname">is_present</code><span class="sig-paren">(</span><em>string1</em>, <em>iterator</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#is_present"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.is_present" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="pre_process.lbl_binarizer">
 <code class="descclassname">pre_process.</code><code class="descname">lbl_binarizer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#lbl_binarizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.lbl_binarizer" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s Label Binarizer preprocessing instance.</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to Label Binarizer preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s Label Binarizer preprocessing instance.</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to Label Binarizer preprocessing.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.lbl_encoder">
 <code class="descclassname">pre_process.</code><code class="descname">lbl_encoder</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#lbl_encoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.lbl_encoder" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s LabelEncoder preprocessing instance</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to LabelEncoder preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s LabelEncoder preprocessing instance</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to LabelEncoder preprocessing.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.max_abs_scaler">
 <code class="descclassname">pre_process.</code><code class="descname">max_abs_scaler</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#max_abs_scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.max_abs_scaler" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s MaxabsScaler preprocessing instance</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to MaxabsScaler preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s MaxabsScaler preprocessing instance</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to MaxabsScaler preprocessing.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.min_max_scaler">
 <code class="descclassname">pre_process.</code><code class="descname">min_max_scaler</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#min_max_scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.min_max_scaler" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s MinMaxScaler preprocessing instance</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to MinMaxScaler preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s MinMaxScaler preprocessing instance</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to MinMaxScaler preprocessing.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pre_process.one_hot_encoder">
+<code class="descclassname">pre_process.</code><code class="descname">one_hot_encoder</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#one_hot_encoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.one_hot_encoder" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s One hot encoder preprocessing instance.</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to Label Binarizer preprocessing.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.pca">
 <code class="descclassname">pre_process.</code><code class="descname">pca</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#pca"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.pca" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s PCA preprocessing instance</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to PCA preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s PCA preprocessing instance</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to PCA preprocessing.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.polynomial_features">
 <code class="descclassname">pre_process.</code><code class="descname">polynomial_features</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#polynomial_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.polynomial_features" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s PolynomialFeatures preprocessing instance.</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to PolynomialFeatures preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s PolynomialFeatures preprocessing instance.</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to PolynomialFeatures preprocessing.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.rbst_scaler">
 <code class="descclassname">pre_process.</code><code class="descname">rbst_scaler</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#rbst_scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.rbst_scaler" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s RobustScaler preprocessing instance</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to RobustScaler preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s RobustScaler preprocessing instance</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to RobustScaler preprocessing.</dd>
+</dl>
 </dd></dl>
+
+<dl class="function">
+<dt id="pre_process.remove_punctuation">
+<code class="descclassname">pre_process.</code><code class="descname">remove_punctuation</code><span class="sig-paren">(</span><em>word</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#remove_punctuation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.remove_punctuation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="pre_process.std_scaler">
 <code class="descclassname">pre_process.</code><code class="descname">std_scaler</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#std_scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.std_scaler" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s Standard Scaler preprocessing instance</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to Standard Scaler preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s Standard Scaler preprocessing instance</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to Standard Scaler preprocessing.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.tfidf_vectorizer">
 <code class="descclassname">pre_process.</code><code class="descname">tfidf_vectorizer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#tfidf_vectorizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.tfidf_vectorizer" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>trfm</strong> – Contains the Sklearn’s TfIdfVectorizer preprocessing instance</li>
-<li><strong>col_names</strong> (<em>list</em>) – Contains list of feature/column names.
-The column names may represent the names of preprocessed attributes.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pp_dict</strong> – Returns a dictionary that contains attributes related to TfIdfVectorizer preprocessing.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dictionary</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Sklearn’s TfIdfVectorizer preprocessing instance</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to TfIdfVectorizer preprocessing.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.unround_scalers">
 <code class="descclassname">pre_process.</code><code class="descname">unround_scalers</code><span class="sig-paren">(</span><em>scalar_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#unround_scalers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.unround_scalers" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scalar_val</strong> (<em>float</em>) – A numpy float value</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>unround_val</strong> – Returns a numpy floating point number with a precision of 16 digits after decimal.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
-</tr>
-</tbody>
-</table>
+<dd><dl class="docutils">
+<dt>scalar_val <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>A numpy float value</dd>
+</dl>
+<dl class="docutils">
+<dt>unround_val: float</dt>
+<dd>Returns a numpy floating point number with a precision of 16 digits after decimal.</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
+           </div>
+           
           </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="skl_to_pmml.html" class="btn btn-neutral float-right" title="skl_to_pmml module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="metadata.html" class="btn btn-neutral float-left" title="metadata module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, maintainer@nyoka.org
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Nyoka</a></h1>
+
+    </section>
+
+  </div>
+  
 
 
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
 
-
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="PMML43Ext.html">PMML43Ext module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">keras_model_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pre_process module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">xgboost_to_pmml module</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="lgb_to_pmml.html" title="previous chapter">lgb_to_pmml module</a></li>
-      <li>Next: <a href="skl_to_pmml.html" title="next chapter">skl_to_pmml module</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2018, Maintainer.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
-      
-      |
-      <a href="_sources/pre_process.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
+  
+  
     
+   
 
-    
-  </body>
+</body>
 </html>
