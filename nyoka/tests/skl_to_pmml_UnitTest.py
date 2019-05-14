@@ -40,7 +40,7 @@ class TestMethods(unittest.TestCase):
         ## 1
         svms = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
         for mod_val, recon_val in zip(model.intercept_, svms):
-            self.assertEqual("{:.16f}".format(mod_val),recon_val.Coefficients.absoluteValue)
+            self.assertEqual("{:.16f}".format(mod_val), "{:.16f}".format(recon_val.Coefficients.absoluteValue))
 
         ## 2
         svm = pmml_obj.SupportVectorMachineModel[0]
@@ -163,7 +163,7 @@ class TestMethods(unittest.TestCase):
 
         ## 2
         for model_val, pmml_val in zip(model.coef_, reg_tab.NumericPredictor):
-            self.assertEqual("{:.16f}".format(model_val),pmml_val.coefficient)
+            self.assertEqual("{:.16f}".format(model_val),"{:.16f}".format(pmml_val.coefficient))
 
 
     def test_sklearn_07(self):
