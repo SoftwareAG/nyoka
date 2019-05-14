@@ -2723,13 +2723,13 @@
 <xs:group name="EXPRESSION">
   <xs:choice>
     <xs:element ref="FieldRef"/>
+    <xs:element ref="Apply"/>
     <xs:element ref="Constant"/>
     <xs:element ref="NormContinuous"/>
     <xs:element ref="NormDiscrete"/>
     <xs:element ref="Discretize"/>
     <xs:element ref="MapValues"/>
     <xs:element ref="TextIndex"/>
-    <xs:element ref="Apply"/>
     <xs:element ref="Aggregate"/>
     <xs:element ref="Lag"/>
   </xs:choice>
