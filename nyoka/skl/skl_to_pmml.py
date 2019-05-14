@@ -1775,7 +1775,7 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
         Returns a regression model of the respective model
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
-    if model.__class__.__name__ not in ['LinearRegression','LinearSVR','LinearSVC']: 
+    if model.__class__.__name__ not in ['LinearRegression','LinearSVR']: 
         model_kwargs['normalizationMethod'] = 'logit'
     regrs_models = list()
     regrs_models.append(pml.RegressionModel(
