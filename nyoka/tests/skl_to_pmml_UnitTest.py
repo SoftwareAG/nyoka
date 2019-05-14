@@ -155,7 +155,7 @@ class TestMethods(unittest.TestCase):
 
         pipeline_obj.fit(X,y)
         skl_to_pmml(pipeline_obj,features,target,f_name)
-        pmml_obj = pml.parse(f_name,True)
+        pmml_obj = pml.parse(f_name)
 
         ## 1
         reg_tab = pmml_obj.RegressionModel[0].RegressionTable[0]
@@ -186,7 +186,7 @@ class TestMethods(unittest.TestCase):
 
         pipeline_obj.fit(irisd[features], irisd[target])
         skl_to_pmml(pipeline_obj, features, target, f_name)
-        pmml_obj = pml.parse(f_name,True)
+        pmml_obj = pml.parse(f_name)
 
         ## 1
         segmentation = pmml_obj.MiningModel[0].Segmentation
