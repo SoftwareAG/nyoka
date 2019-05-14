@@ -10,6 +10,7 @@ import numpy as np
 from datetime import datetime
 import metadata
 
+
 class ExponentialSmoothingToPMML:
     """
     Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.

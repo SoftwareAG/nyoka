@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 29 14:09:45 2019 by generateDS.py version 2.28a.
+# Generated Tue May 14 11:02:10 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -712,7 +712,7 @@ def _cast(typ, value):
 class DefineFunction(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, name=None, optype=None, dataType=None, Extension=None, ParameterField=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, name=None, optype=None, dataType=None, Extension=None, ParameterField=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         self.name = _cast(None, name)
         self.optype = _cast(None, optype)
@@ -726,13 +726,13 @@ class DefineFunction(GeneratedsSuper):
         else:
             self.ParameterField = ParameterField
         self.FieldRef = FieldRef
+        self.Apply = Apply
         self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
         self.MapValues = MapValues
         self.TextIndex = TextIndex
-        self.Apply = Apply
         self.Aggregate = Aggregate
         self.Lag = Lag
     def factory(*args_, **kwargs_):
@@ -758,6 +758,8 @@ class DefineFunction(GeneratedsSuper):
     def replace_ParameterField_at(self, index, value): self.ParameterField[index] = value
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Apply(self): return self.Apply
+    def set_Apply(self, Apply): self.Apply = Apply
     def get_Constant(self): return self.Constant
     def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
@@ -770,8 +772,6 @@ class DefineFunction(GeneratedsSuper):
     def set_MapValues(self, MapValues): self.MapValues = MapValues
     def get_TextIndex(self): return self.TextIndex
     def set_TextIndex(self, TextIndex): self.TextIndex = TextIndex
-    def get_Apply(self): return self.Apply
-    def set_Apply(self, Apply): self.Apply = Apply
     def get_Aggregate(self): return self.Aggregate
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def get_Lag(self): return self.Lag
@@ -811,13 +811,13 @@ class DefineFunction(GeneratedsSuper):
             self.Extension or
             self.ParameterField or
             self.FieldRef is not None or
+            self.Apply is not None or
             self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
             self.MapValues is not None or
             self.TextIndex is not None or
-            self.Apply is not None or
             self.Aggregate is not None or
             self.Lag is not None
         ):
@@ -866,6 +866,8 @@ class DefineFunction(GeneratedsSuper):
             ParameterField_.export(outfile, level, namespace_, name_='ParameterField', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Apply is not None:
+            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Constant is not None:
             self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
@@ -878,8 +880,6 @@ class DefineFunction(GeneratedsSuper):
             self.MapValues.export(outfile, level, namespace_, name_='MapValues', pretty_print=pretty_print)
         if self.TextIndex is not None:
             self.TextIndex.export(outfile, level, namespace_, name_='TextIndex', pretty_print=pretty_print)
-        if self.Apply is not None:
-            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Aggregate is not None:
             self.Aggregate.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         if self.Lag is not None:
@@ -902,6 +902,9 @@ class DefineFunction(GeneratedsSuper):
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Apply is not None:
+            Apply_ = self.Apply
+            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Constant is not None:
             Constant_ = self.Constant
             Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
@@ -920,9 +923,6 @@ class DefineFunction(GeneratedsSuper):
         if self.TextIndex is not None:
             TextIndex_ = self.TextIndex
             TextIndex_.to_etree(element, name_='TextIndex', mapping_=mapping_)
-        if self.Apply is not None:
-            Apply_ = self.Apply
-            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Aggregate is not None:
             Aggregate_ = self.Aggregate
             Aggregate_.to_etree(element, name_='Aggregate', mapping_=mapping_)
@@ -982,6 +982,12 @@ class DefineFunction(GeneratedsSuper):
             self.FieldRef.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
+        if self.Apply is not None:
+            showIndent(outfile, level)
+            outfile.write('Apply=model_.Apply(\n')
+            self.Apply.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
         if self.Constant is not None:
             showIndent(outfile, level)
             outfile.write('Constant=model_.Constant(\n')
@@ -1016,12 +1022,6 @@ class DefineFunction(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('TextIndex=model_.TextIndex(\n')
             self.TextIndex.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Apply is not None:
-            showIndent(outfile, level)
-            outfile.write('Apply=model_.Apply(\n')
-            self.Apply.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Aggregate is not None:
@@ -1074,6 +1074,11 @@ class DefineFunction(GeneratedsSuper):
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Apply':
+            obj_ = Apply.factory()
+            obj_.build(child_)
+            self.Apply = obj_
+            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Constant':
             obj_ = Constant.factory()
             obj_.build(child_)
@@ -1104,11 +1109,6 @@ class DefineFunction(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndex = obj_
             obj_.original_tagname_ = 'TextIndex'
-        elif nodeName_ == 'Apply':
-            obj_ = Apply.factory()
-            obj_.build(child_)
-            self.Apply = obj_
-            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Aggregate':
             obj_ = Aggregate.factory()
             obj_.build(child_)
@@ -1296,7 +1296,7 @@ class ParameterField(GeneratedsSuper):
 class Apply(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, function=None, mapMissingTo=None, defaultValue=None, invalidValueTreatment='returnInvalid', Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply_member=None, Aggregate=None, Lag=None):
+    def __init__(self, function=None, mapMissingTo=None, defaultValue=None, invalidValueTreatment='returnInvalid', Extension=None, FieldRef=None, Apply_member=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         self.function = _cast(None, function)
         self.mapMissingTo = _cast(None, mapMissingTo)
@@ -1310,6 +1310,10 @@ class Apply(GeneratedsSuper):
             self.FieldRef = []
         else:
             self.FieldRef = FieldRef
+        if Apply_member is None:
+            self.Apply = []
+        else:
+            self.Apply = Apply_member
         if Constant is None:
             self.Constant = []
         else:
@@ -1334,10 +1338,6 @@ class Apply(GeneratedsSuper):
             self.TextIndex = []
         else:
             self.TextIndex = TextIndex
-        if Apply_member is None:
-            self.Apply = []
-        else:
-            self.Apply = Apply_member
         if Aggregate is None:
             self.Aggregate = []
         else:
@@ -1367,6 +1367,11 @@ class Apply(GeneratedsSuper):
     def add_FieldRef(self, value): self.FieldRef.append(value)
     def insert_FieldRef_at(self, index, value): self.FieldRef.insert(index, value)
     def replace_FieldRef_at(self, index, value): self.FieldRef[index] = value
+    def get_Apply(self): return self.Apply
+    def set_Apply(self, Apply): self.Apply = Apply
+    def add_Apply(self, value): self.Apply.append(value)
+    def insert_Apply_at(self, index, value): self.Apply.insert(index, value)
+    def replace_Apply_at(self, index, value): self.Apply[index] = value
     def get_Constant(self): return self.Constant
     def set_Constant(self, Constant): self.Constant = Constant
     def add_Constant(self, value): self.Constant.append(value)
@@ -1397,11 +1402,6 @@ class Apply(GeneratedsSuper):
     def add_TextIndex(self, value): self.TextIndex.append(value)
     def insert_TextIndex_at(self, index, value): self.TextIndex.insert(index, value)
     def replace_TextIndex_at(self, index, value): self.TextIndex[index] = value
-    def get_Apply(self): return self.Apply
-    def set_Apply(self, Apply): self.Apply = Apply
-    def add_Apply(self, value): self.Apply.append(value)
-    def insert_Apply_at(self, index, value): self.Apply.insert(index, value)
-    def replace_Apply_at(self, index, value): self.Apply[index] = value
     def get_Aggregate(self): return self.Aggregate
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def add_Aggregate(self, value): self.Aggregate.append(value)
@@ -1436,13 +1436,13 @@ class Apply(GeneratedsSuper):
         if (
             self.Extension or
             self.FieldRef or
+            self.Apply or
             self.Constant or
             self.NormContinuous or
             self.NormDiscrete or
             self.Discretize or
             self.MapValues or
             self.TextIndex or
-            self.Apply or
             self.Aggregate or
             self.Lag
         ):
@@ -1492,6 +1492,8 @@ class Apply(GeneratedsSuper):
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         for FieldRef_ in self.FieldRef:
             FieldRef_.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        for Apply_ in self.Apply:
+            Apply_.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         for Constant_ in self.Constant:
             Constant_.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         for NormContinuous_ in self.NormContinuous:
@@ -1504,8 +1506,6 @@ class Apply(GeneratedsSuper):
             MapValues_.export(outfile, level, namespace_, name_='MapValues', pretty_print=pretty_print)
         for TextIndex_ in self.TextIndex:
             TextIndex_.export(outfile, level, namespace_, name_='TextIndex', pretty_print=pretty_print)
-        for Apply_ in self.Apply:
-            Apply_.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         for Aggregate_ in self.Aggregate:
             Aggregate_.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         for Lag_ in self.Lag:
@@ -1527,6 +1527,8 @@ class Apply(GeneratedsSuper):
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         for FieldRef_ in self.FieldRef:
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        for Apply_ in self.Apply:
+            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         for Constant_ in self.Constant:
             Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
         for NormContinuous_ in self.NormContinuous:
@@ -1539,8 +1541,6 @@ class Apply(GeneratedsSuper):
             MapValues_.to_etree(element, name_='MapValues', mapping_=mapping_)
         for TextIndex_ in self.TextIndex:
             TextIndex_.to_etree(element, name_='TextIndex', mapping_=mapping_)
-        for Apply_ in self.Apply:
-            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         for Aggregate_ in self.Aggregate:
             Aggregate_.to_etree(element, name_='Aggregate', mapping_=mapping_)
         for Lag_ in self.Lag:
@@ -1591,6 +1591,18 @@ class Apply(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('model_.FieldRef(\n')
             FieldRef_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
+        outfile.write('Apply=[\n')
+        level += 1
+        for Apply_ in self.Apply:
+            showIndent(outfile, level)
+            outfile.write('model_.Apply(\n')
+            Apply_.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -1669,18 +1681,6 @@ class Apply(GeneratedsSuper):
         showIndent(outfile, level)
         outfile.write('],\n')
         showIndent(outfile, level)
-        outfile.write('Apply=[\n')
-        level += 1
-        for Apply_ in self.Apply:
-            showIndent(outfile, level)
-            outfile.write('model_.Apply(\n')
-            Apply_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
         outfile.write('Aggregate=[\n')
         level += 1
         for Aggregate_ in self.Aggregate:
@@ -1740,6 +1740,11 @@ class Apply(GeneratedsSuper):
             obj_.build(child_)
             self.FieldRef.append(obj_)
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Apply':
+            obj_ = Apply.factory()
+            obj_.build(child_)
+            self.Apply.append(obj_)
+            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Constant':
             obj_ = Constant.factory()
             obj_.build(child_)
@@ -1770,11 +1775,6 @@ class Apply(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndex.append(obj_)
             obj_.original_tagname_ = 'TextIndex'
-        elif nodeName_ == 'Apply':
-            obj_ = Apply.factory()
-            obj_.build(child_)
-            self.Apply.append(obj_)
-            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Aggregate':
             obj_ = Aggregate.factory()
             obj_.build(child_)
@@ -22962,7 +22962,7 @@ class Output(GeneratedsSuper):
 class OutputField(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, threshold=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, threshold=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         self.name = _cast(None, name)
         self.displayName = _cast(None, displayName)
@@ -22987,13 +22987,13 @@ class OutputField(GeneratedsSuper):
             self.Extension = Extension
         self.Decisions = Decisions
         self.FieldRef = FieldRef
+        self.Apply = Apply
         self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
         self.MapValues = MapValues
         self.TextIndex = TextIndex
-        self.Apply = Apply
         self.Aggregate = Aggregate
         self.Lag = Lag
     def factory(*args_, **kwargs_):
@@ -23016,6 +23016,8 @@ class OutputField(GeneratedsSuper):
     def set_Decisions(self, Decisions): self.Decisions = Decisions
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Apply(self): return self.Apply
+    def set_Apply(self, Apply): self.Apply = Apply
     def get_Constant(self): return self.Constant
     def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
@@ -23028,8 +23030,6 @@ class OutputField(GeneratedsSuper):
     def set_MapValues(self, MapValues): self.MapValues = MapValues
     def get_TextIndex(self): return self.TextIndex
     def set_TextIndex(self, TextIndex): self.TextIndex = TextIndex
-    def get_Apply(self): return self.Apply
-    def set_Apply(self, Apply): self.Apply = Apply
     def get_Aggregate(self): return self.Aggregate
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def get_Lag(self): return self.Lag
@@ -23133,13 +23133,13 @@ class OutputField(GeneratedsSuper):
             self.Extension or
             self.Decisions is not None or
             self.FieldRef is not None or
+            self.Apply is not None or
             self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
             self.MapValues is not None or
             self.TextIndex is not None or
-            self.Apply is not None or
             self.Aggregate is not None or
             self.Lag is not None
         ):
@@ -23230,6 +23230,8 @@ class OutputField(GeneratedsSuper):
             self.Decisions.export(outfile, level, namespace_, name_='Decisions', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Apply is not None:
+            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Constant is not None:
             self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
@@ -23242,8 +23244,6 @@ class OutputField(GeneratedsSuper):
             self.MapValues.export(outfile, level, namespace_, name_='MapValues', pretty_print=pretty_print)
         if self.TextIndex is not None:
             self.TextIndex.export(outfile, level, namespace_, name_='TextIndex', pretty_print=pretty_print)
-        if self.Apply is not None:
-            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Aggregate is not None:
             self.Aggregate.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         if self.Lag is not None:
@@ -23295,6 +23295,9 @@ class OutputField(GeneratedsSuper):
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Apply is not None:
+            Apply_ = self.Apply
+            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Constant is not None:
             Constant_ = self.Constant
             Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
@@ -23313,9 +23316,6 @@ class OutputField(GeneratedsSuper):
         if self.TextIndex is not None:
             TextIndex_ = self.TextIndex
             TextIndex_.to_etree(element, name_='TextIndex', mapping_=mapping_)
-        if self.Apply is not None:
-            Apply_ = self.Apply
-            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Aggregate is not None:
             Aggregate_ = self.Aggregate
             Aggregate_.to_etree(element, name_='Aggregate', mapping_=mapping_)
@@ -23425,6 +23425,12 @@ class OutputField(GeneratedsSuper):
             self.FieldRef.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
+        if self.Apply is not None:
+            showIndent(outfile, level)
+            outfile.write('Apply=model_.Apply(\n')
+            self.Apply.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
         if self.Constant is not None:
             showIndent(outfile, level)
             outfile.write('Constant=model_.Constant(\n')
@@ -23459,12 +23465,6 @@ class OutputField(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('TextIndex=model_.TextIndex(\n')
             self.TextIndex.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Apply is not None:
-            showIndent(outfile, level)
-            outfile.write('Apply=model_.Apply(\n')
-            self.Apply.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Aggregate is not None:
@@ -23594,6 +23594,11 @@ class OutputField(GeneratedsSuper):
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Apply':
+            obj_ = Apply.factory()
+            obj_.build(child_)
+            self.Apply = obj_
+            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Constant':
             obj_ = Constant.factory()
             obj_.build(child_)
@@ -23624,11 +23629,6 @@ class OutputField(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndex = obj_
             obj_.original_tagname_ = 'TextIndex'
-        elif nodeName_ == 'Apply':
-            obj_ = Apply.factory()
-            obj_.build(child_)
-            self.Apply = obj_
-            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Aggregate':
             obj_ = Aggregate.factory()
             obj_.build(child_)
@@ -26893,20 +26893,20 @@ class Attribute(GeneratedsSuper):
 class ComplexPartialScore(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, Extension=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
         self.FieldRef = FieldRef
+        self.Apply = Apply
         self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
         self.MapValues = MapValues
         self.TextIndex = TextIndex
-        self.Apply = Apply
         self.Aggregate = Aggregate
         self.Lag = Lag
     def factory(*args_, **kwargs_):
@@ -26927,6 +26927,8 @@ class ComplexPartialScore(GeneratedsSuper):
     def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Apply(self): return self.Apply
+    def set_Apply(self, Apply): self.Apply = Apply
     def get_Constant(self): return self.Constant
     def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
@@ -26939,8 +26941,6 @@ class ComplexPartialScore(GeneratedsSuper):
     def set_MapValues(self, MapValues): self.MapValues = MapValues
     def get_TextIndex(self): return self.TextIndex
     def set_TextIndex(self, TextIndex): self.TextIndex = TextIndex
-    def get_Apply(self): return self.Apply
-    def set_Apply(self, Apply): self.Apply = Apply
     def get_Aggregate(self): return self.Aggregate
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def get_Lag(self): return self.Lag
@@ -26949,13 +26949,13 @@ class ComplexPartialScore(GeneratedsSuper):
         if (
             self.Extension or
             self.FieldRef is not None or
+            self.Apply is not None or
             self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
             self.MapValues is not None or
             self.TextIndex is not None or
-            self.Apply is not None or
             self.Aggregate is not None or
             self.Lag is not None
         ):
@@ -26994,6 +26994,8 @@ class ComplexPartialScore(GeneratedsSuper):
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Apply is not None:
+            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Constant is not None:
             self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
@@ -27006,8 +27008,6 @@ class ComplexPartialScore(GeneratedsSuper):
             self.MapValues.export(outfile, level, namespace_, name_='MapValues', pretty_print=pretty_print)
         if self.TextIndex is not None:
             self.TextIndex.export(outfile, level, namespace_, name_='TextIndex', pretty_print=pretty_print)
-        if self.Apply is not None:
-            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Aggregate is not None:
             self.Aggregate.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         if self.Lag is not None:
@@ -27022,6 +27022,9 @@ class ComplexPartialScore(GeneratedsSuper):
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Apply is not None:
+            Apply_ = self.Apply
+            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Constant is not None:
             Constant_ = self.Constant
             Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
@@ -27040,9 +27043,6 @@ class ComplexPartialScore(GeneratedsSuper):
         if self.TextIndex is not None:
             TextIndex_ = self.TextIndex
             TextIndex_.to_etree(element, name_='TextIndex', mapping_=mapping_)
-        if self.Apply is not None:
-            Apply_ = self.Apply
-            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Aggregate is not None:
             Aggregate_ = self.Aggregate
             Aggregate_.to_etree(element, name_='Aggregate', mapping_=mapping_)
@@ -27077,6 +27077,12 @@ class ComplexPartialScore(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Apply is not None:
+            showIndent(outfile, level)
+            outfile.write('Apply=model_.Apply(\n')
+            self.Apply.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Constant is not None:
@@ -27115,12 +27121,6 @@ class ComplexPartialScore(GeneratedsSuper):
             self.TextIndex.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.Apply is not None:
-            showIndent(outfile, level)
-            outfile.write('Apply=model_.Apply(\n')
-            self.Apply.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.Aggregate is not None:
             showIndent(outfile, level)
             outfile.write('Aggregate=model_.Aggregate(\n')
@@ -27153,6 +27153,11 @@ class ComplexPartialScore(GeneratedsSuper):
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Apply':
+            obj_ = Apply.factory()
+            obj_.build(child_)
+            self.Apply = obj_
+            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Constant':
             obj_ = Constant.factory()
             obj_.build(child_)
@@ -27183,11 +27188,6 @@ class ComplexPartialScore(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndex = obj_
             obj_.original_tagname_ = 'TextIndex'
-        elif nodeName_ == 'Apply':
-            obj_ = Apply.factory()
-            obj_.build(child_)
-            self.Apply = obj_
-            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Aggregate':
             obj_ = Aggregate.factory()
             obj_.build(child_)
@@ -38468,7 +38468,7 @@ class LocalTransformations(GeneratedsSuper):
 class DerivedField(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, datasetName=None, trainingBackend=None, architectureName=None, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None, Value=None):
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, datasetName=None, trainingBackend=None, architectureName=None, Extension=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None, Value=None):
         self.original_tagname_ = None
         self.name = _cast(None, name)
         self.displayName = _cast(None, displayName)
@@ -38482,13 +38482,13 @@ class DerivedField(GeneratedsSuper):
         else:
             self.Extension = Extension
         self.FieldRef = FieldRef
+        self.Apply = Apply
         self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
         self.MapValues = MapValues
         self.TextIndex = TextIndex
-        self.Apply = Apply
         self.Aggregate = Aggregate
         self.Lag = Lag
         if Value is None:
@@ -38513,6 +38513,8 @@ class DerivedField(GeneratedsSuper):
     def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Apply(self): return self.Apply
+    def set_Apply(self, Apply): self.Apply = Apply
     def get_Constant(self): return self.Constant
     def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
@@ -38525,8 +38527,6 @@ class DerivedField(GeneratedsSuper):
     def set_MapValues(self, MapValues): self.MapValues = MapValues
     def get_TextIndex(self): return self.TextIndex
     def set_TextIndex(self, TextIndex): self.TextIndex = TextIndex
-    def get_Apply(self): return self.Apply
-    def set_Apply(self, Apply): self.Apply = Apply
     def get_Aggregate(self): return self.Aggregate
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def get_Lag(self): return self.Lag
@@ -38606,13 +38606,13 @@ class DerivedField(GeneratedsSuper):
         if (
             self.Extension or
             self.FieldRef is not None or
+            self.Apply is not None or
             self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
             self.MapValues is not None or
             self.TextIndex is not None or
-            self.Apply is not None or
             self.Aggregate is not None or
             self.Lag is not None or
             self.Value
@@ -38672,6 +38672,8 @@ class DerivedField(GeneratedsSuper):
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Apply is not None:
+            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Constant is not None:
             self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
@@ -38684,8 +38686,6 @@ class DerivedField(GeneratedsSuper):
             self.MapValues.export(outfile, level, namespace_, name_='MapValues', pretty_print=pretty_print)
         if self.TextIndex is not None:
             self.TextIndex.export(outfile, level, namespace_, name_='TextIndex', pretty_print=pretty_print)
-        if self.Apply is not None:
-            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Aggregate is not None:
             self.Aggregate.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         if self.Lag is not None:
@@ -38716,6 +38716,9 @@ class DerivedField(GeneratedsSuper):
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Apply is not None:
+            Apply_ = self.Apply
+            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Constant is not None:
             Constant_ = self.Constant
             Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
@@ -38734,9 +38737,6 @@ class DerivedField(GeneratedsSuper):
         if self.TextIndex is not None:
             TextIndex_ = self.TextIndex
             TextIndex_.to_etree(element, name_='TextIndex', mapping_=mapping_)
-        if self.Apply is not None:
-            Apply_ = self.Apply
-            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Aggregate is not None:
             Aggregate_ = self.Aggregate
             Aggregate_.to_etree(element, name_='Aggregate', mapping_=mapping_)
@@ -38802,6 +38802,12 @@ class DerivedField(GeneratedsSuper):
             self.FieldRef.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
+        if self.Apply is not None:
+            showIndent(outfile, level)
+            outfile.write('Apply=model_.Apply(\n')
+            self.Apply.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
         if self.Constant is not None:
             showIndent(outfile, level)
             outfile.write('Constant=model_.Constant(\n')
@@ -38836,12 +38842,6 @@ class DerivedField(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('TextIndex=model_.TextIndex(\n')
             self.TextIndex.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Apply is not None:
-            showIndent(outfile, level)
-            outfile.write('Apply=model_.Apply(\n')
-            self.Apply.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Aggregate is not None:
@@ -38920,6 +38920,11 @@ class DerivedField(GeneratedsSuper):
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Apply':
+            obj_ = Apply.factory()
+            obj_.build(child_)
+            self.Apply = obj_
+            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Constant':
             obj_ = Constant.factory()
             obj_.build(child_)
@@ -38950,11 +38955,6 @@ class DerivedField(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndex = obj_
             obj_.original_tagname_ = 'TextIndex'
-        elif nodeName_ == 'Apply':
-            obj_ = Apply.factory()
-            obj_.build(child_)
-            self.Apply = obj_
-            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Aggregate':
             obj_ = Aggregate.factory()
             obj_.build(child_)
@@ -40535,7 +40535,7 @@ class FieldColumnPair(GeneratedsSuper):
 class TextIndex(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, textField=None, localTermWeights='termFrequency', isCaseSensitive=False, maxLevenshteinDistance=0, countHits='allHits', wordSeparatorCharacterRE='\\s+', tokenize=True, Extension=None, TextIndexNormalization=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex_member=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, textField=None, localTermWeights='termFrequency', isCaseSensitive=False, maxLevenshteinDistance=0, countHits='allHits', wordSeparatorCharacterRE='\\s+', tokenize=True, Extension=None, TextIndexNormalization=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex_member=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         self.textField = _cast(None, textField)
         self.localTermWeights = _cast(None, localTermWeights)
@@ -40553,13 +40553,13 @@ class TextIndex(GeneratedsSuper):
         else:
             self.TextIndexNormalization = TextIndexNormalization
         self.FieldRef = FieldRef
+        self.Apply = Apply
         self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
         self.MapValues = MapValues
         self.TextIndex = TextIndex_member
-        self.Apply = Apply
         self.Aggregate = Aggregate
         self.Lag = Lag
     def factory(*args_, **kwargs_):
@@ -40585,6 +40585,8 @@ class TextIndex(GeneratedsSuper):
     def replace_TextIndexNormalization_at(self, index, value): self.TextIndexNormalization[index] = value
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Apply(self): return self.Apply
+    def set_Apply(self, Apply): self.Apply = Apply
     def get_Constant(self): return self.Constant
     def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
@@ -40597,8 +40599,6 @@ class TextIndex(GeneratedsSuper):
     def set_MapValues(self, MapValues): self.MapValues = MapValues
     def get_TextIndex(self): return self.TextIndex
     def set_TextIndex(self, TextIndex): self.TextIndex = TextIndex
-    def get_Apply(self): return self.Apply
-    def set_Apply(self, Apply): self.Apply = Apply
     def get_Aggregate(self): return self.Aggregate
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def get_Lag(self): return self.Lag
@@ -40626,13 +40626,13 @@ class TextIndex(GeneratedsSuper):
             self.Extension or
             self.TextIndexNormalization or
             self.FieldRef is not None or
+            self.Apply is not None or
             self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
             self.MapValues is not None or
             self.TextIndex is not None or
-            self.Apply is not None or
             self.Aggregate is not None or
             self.Lag is not None
         ):
@@ -40693,6 +40693,8 @@ class TextIndex(GeneratedsSuper):
             TextIndexNormalization_.export(outfile, level, namespace_, name_='TextIndexNormalization', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Apply is not None:
+            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Constant is not None:
             self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
@@ -40705,8 +40707,6 @@ class TextIndex(GeneratedsSuper):
             self.MapValues.export(outfile, level, namespace_, name_='MapValues', pretty_print=pretty_print)
         if self.TextIndex is not None:
             self.TextIndex.export(outfile, level, namespace_, name_='TextIndex', pretty_print=pretty_print)
-        if self.Apply is not None:
-            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Aggregate is not None:
             self.Aggregate.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         if self.Lag is not None:
@@ -40737,6 +40737,9 @@ class TextIndex(GeneratedsSuper):
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Apply is not None:
+            Apply_ = self.Apply
+            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Constant is not None:
             Constant_ = self.Constant
             Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
@@ -40755,9 +40758,6 @@ class TextIndex(GeneratedsSuper):
         if self.TextIndex is not None:
             TextIndex_ = self.TextIndex
             TextIndex_.to_etree(element, name_='TextIndex', mapping_=mapping_)
-        if self.Apply is not None:
-            Apply_ = self.Apply
-            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Aggregate is not None:
             Aggregate_ = self.Aggregate
             Aggregate_.to_etree(element, name_='Aggregate', mapping_=mapping_)
@@ -40833,6 +40833,12 @@ class TextIndex(GeneratedsSuper):
             self.FieldRef.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
+        if self.Apply is not None:
+            showIndent(outfile, level)
+            outfile.write('Apply=model_.Apply(\n')
+            self.Apply.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
         if self.Constant is not None:
             showIndent(outfile, level)
             outfile.write('Constant=model_.Constant(\n')
@@ -40867,12 +40873,6 @@ class TextIndex(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('TextIndex=model_.TextIndex(\n')
             self.TextIndex.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Apply is not None:
-            showIndent(outfile, level)
-            outfile.write('Apply=model_.Apply(\n')
-            self.Apply.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Aggregate is not None:
@@ -40953,6 +40953,11 @@ class TextIndex(GeneratedsSuper):
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Apply':
+            obj_ = Apply.factory()
+            obj_.build(child_)
+            self.Apply = obj_
+            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Constant':
             obj_ = Constant.factory()
             obj_.build(child_)
@@ -40983,11 +40988,6 @@ class TextIndex(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndex = obj_
             obj_.original_tagname_ = 'TextIndex'
-        elif nodeName_ == 'Apply':
-            obj_ = Apply.factory()
-            obj_.build(child_)
-            self.Apply = obj_
-            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Aggregate':
             obj_ = Aggregate.factory()
             obj_.build(child_)
@@ -59775,20 +59775,20 @@ class UniformDistributionForBN(GeneratedsSuper):
 class Mean(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, Extension=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
         self.FieldRef = FieldRef
+        self.Apply = Apply
         self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
         self.MapValues = MapValues
         self.TextIndex = TextIndex
-        self.Apply = Apply
         self.Aggregate = Aggregate
         self.Lag = Lag
     def factory(*args_, **kwargs_):
@@ -59809,6 +59809,8 @@ class Mean(GeneratedsSuper):
     def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Apply(self): return self.Apply
+    def set_Apply(self, Apply): self.Apply = Apply
     def get_Constant(self): return self.Constant
     def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
@@ -59821,8 +59823,6 @@ class Mean(GeneratedsSuper):
     def set_MapValues(self, MapValues): self.MapValues = MapValues
     def get_TextIndex(self): return self.TextIndex
     def set_TextIndex(self, TextIndex): self.TextIndex = TextIndex
-    def get_Apply(self): return self.Apply
-    def set_Apply(self, Apply): self.Apply = Apply
     def get_Aggregate(self): return self.Aggregate
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def get_Lag(self): return self.Lag
@@ -59831,13 +59831,13 @@ class Mean(GeneratedsSuper):
         if (
             self.Extension or
             self.FieldRef is not None or
+            self.Apply is not None or
             self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
             self.MapValues is not None or
             self.TextIndex is not None or
-            self.Apply is not None or
             self.Aggregate is not None or
             self.Lag is not None
         ):
@@ -59876,6 +59876,8 @@ class Mean(GeneratedsSuper):
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Apply is not None:
+            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Constant is not None:
             self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
@@ -59888,8 +59890,6 @@ class Mean(GeneratedsSuper):
             self.MapValues.export(outfile, level, namespace_, name_='MapValues', pretty_print=pretty_print)
         if self.TextIndex is not None:
             self.TextIndex.export(outfile, level, namespace_, name_='TextIndex', pretty_print=pretty_print)
-        if self.Apply is not None:
-            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Aggregate is not None:
             self.Aggregate.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         if self.Lag is not None:
@@ -59904,6 +59904,9 @@ class Mean(GeneratedsSuper):
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Apply is not None:
+            Apply_ = self.Apply
+            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Constant is not None:
             Constant_ = self.Constant
             Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
@@ -59922,9 +59925,6 @@ class Mean(GeneratedsSuper):
         if self.TextIndex is not None:
             TextIndex_ = self.TextIndex
             TextIndex_.to_etree(element, name_='TextIndex', mapping_=mapping_)
-        if self.Apply is not None:
-            Apply_ = self.Apply
-            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Aggregate is not None:
             Aggregate_ = self.Aggregate
             Aggregate_.to_etree(element, name_='Aggregate', mapping_=mapping_)
@@ -59959,6 +59959,12 @@ class Mean(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Apply is not None:
+            showIndent(outfile, level)
+            outfile.write('Apply=model_.Apply(\n')
+            self.Apply.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Constant is not None:
@@ -59997,12 +60003,6 @@ class Mean(GeneratedsSuper):
             self.TextIndex.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.Apply is not None:
-            showIndent(outfile, level)
-            outfile.write('Apply=model_.Apply(\n')
-            self.Apply.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.Aggregate is not None:
             showIndent(outfile, level)
             outfile.write('Aggregate=model_.Aggregate(\n')
@@ -60035,6 +60035,11 @@ class Mean(GeneratedsSuper):
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Apply':
+            obj_ = Apply.factory()
+            obj_.build(child_)
+            self.Apply = obj_
+            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Constant':
             obj_ = Constant.factory()
             obj_.build(child_)
@@ -60065,11 +60070,6 @@ class Mean(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndex = obj_
             obj_.original_tagname_ = 'TextIndex'
-        elif nodeName_ == 'Apply':
-            obj_ = Apply.factory()
-            obj_.build(child_)
-            self.Apply = obj_
-            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Aggregate':
             obj_ = Aggregate.factory()
             obj_.build(child_)
@@ -60086,20 +60086,20 @@ class Mean(GeneratedsSuper):
 class Lower(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, Extension=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
         self.FieldRef = FieldRef
+        self.Apply = Apply
         self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
         self.MapValues = MapValues
         self.TextIndex = TextIndex
-        self.Apply = Apply
         self.Aggregate = Aggregate
         self.Lag = Lag
     def factory(*args_, **kwargs_):
@@ -60120,6 +60120,8 @@ class Lower(GeneratedsSuper):
     def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Apply(self): return self.Apply
+    def set_Apply(self, Apply): self.Apply = Apply
     def get_Constant(self): return self.Constant
     def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
@@ -60132,8 +60134,6 @@ class Lower(GeneratedsSuper):
     def set_MapValues(self, MapValues): self.MapValues = MapValues
     def get_TextIndex(self): return self.TextIndex
     def set_TextIndex(self, TextIndex): self.TextIndex = TextIndex
-    def get_Apply(self): return self.Apply
-    def set_Apply(self, Apply): self.Apply = Apply
     def get_Aggregate(self): return self.Aggregate
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def get_Lag(self): return self.Lag
@@ -60142,13 +60142,13 @@ class Lower(GeneratedsSuper):
         if (
             self.Extension or
             self.FieldRef is not None or
+            self.Apply is not None or
             self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
             self.MapValues is not None or
             self.TextIndex is not None or
-            self.Apply is not None or
             self.Aggregate is not None or
             self.Lag is not None
         ):
@@ -60187,6 +60187,8 @@ class Lower(GeneratedsSuper):
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Apply is not None:
+            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Constant is not None:
             self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
@@ -60199,8 +60201,6 @@ class Lower(GeneratedsSuper):
             self.MapValues.export(outfile, level, namespace_, name_='MapValues', pretty_print=pretty_print)
         if self.TextIndex is not None:
             self.TextIndex.export(outfile, level, namespace_, name_='TextIndex', pretty_print=pretty_print)
-        if self.Apply is not None:
-            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Aggregate is not None:
             self.Aggregate.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         if self.Lag is not None:
@@ -60215,6 +60215,9 @@ class Lower(GeneratedsSuper):
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Apply is not None:
+            Apply_ = self.Apply
+            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Constant is not None:
             Constant_ = self.Constant
             Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
@@ -60233,9 +60236,6 @@ class Lower(GeneratedsSuper):
         if self.TextIndex is not None:
             TextIndex_ = self.TextIndex
             TextIndex_.to_etree(element, name_='TextIndex', mapping_=mapping_)
-        if self.Apply is not None:
-            Apply_ = self.Apply
-            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Aggregate is not None:
             Aggregate_ = self.Aggregate
             Aggregate_.to_etree(element, name_='Aggregate', mapping_=mapping_)
@@ -60270,6 +60270,12 @@ class Lower(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Apply is not None:
+            showIndent(outfile, level)
+            outfile.write('Apply=model_.Apply(\n')
+            self.Apply.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Constant is not None:
@@ -60308,12 +60314,6 @@ class Lower(GeneratedsSuper):
             self.TextIndex.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.Apply is not None:
-            showIndent(outfile, level)
-            outfile.write('Apply=model_.Apply(\n')
-            self.Apply.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.Aggregate is not None:
             showIndent(outfile, level)
             outfile.write('Aggregate=model_.Aggregate(\n')
@@ -60346,6 +60346,11 @@ class Lower(GeneratedsSuper):
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Apply':
+            obj_ = Apply.factory()
+            obj_.build(child_)
+            self.Apply = obj_
+            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Constant':
             obj_ = Constant.factory()
             obj_.build(child_)
@@ -60376,11 +60381,6 @@ class Lower(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndex = obj_
             obj_.original_tagname_ = 'TextIndex'
-        elif nodeName_ == 'Apply':
-            obj_ = Apply.factory()
-            obj_.build(child_)
-            self.Apply = obj_
-            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Aggregate':
             obj_ = Aggregate.factory()
             obj_.build(child_)
@@ -60397,20 +60397,20 @@ class Lower(GeneratedsSuper):
 class Upper(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, Extension=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
         self.FieldRef = FieldRef
+        self.Apply = Apply
         self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
         self.MapValues = MapValues
         self.TextIndex = TextIndex
-        self.Apply = Apply
         self.Aggregate = Aggregate
         self.Lag = Lag
     def factory(*args_, **kwargs_):
@@ -60431,6 +60431,8 @@ class Upper(GeneratedsSuper):
     def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Apply(self): return self.Apply
+    def set_Apply(self, Apply): self.Apply = Apply
     def get_Constant(self): return self.Constant
     def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
@@ -60443,8 +60445,6 @@ class Upper(GeneratedsSuper):
     def set_MapValues(self, MapValues): self.MapValues = MapValues
     def get_TextIndex(self): return self.TextIndex
     def set_TextIndex(self, TextIndex): self.TextIndex = TextIndex
-    def get_Apply(self): return self.Apply
-    def set_Apply(self, Apply): self.Apply = Apply
     def get_Aggregate(self): return self.Aggregate
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def get_Lag(self): return self.Lag
@@ -60453,13 +60453,13 @@ class Upper(GeneratedsSuper):
         if (
             self.Extension or
             self.FieldRef is not None or
+            self.Apply is not None or
             self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
             self.MapValues is not None or
             self.TextIndex is not None or
-            self.Apply is not None or
             self.Aggregate is not None or
             self.Lag is not None
         ):
@@ -60498,6 +60498,8 @@ class Upper(GeneratedsSuper):
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Apply is not None:
+            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Constant is not None:
             self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
@@ -60510,8 +60512,6 @@ class Upper(GeneratedsSuper):
             self.MapValues.export(outfile, level, namespace_, name_='MapValues', pretty_print=pretty_print)
         if self.TextIndex is not None:
             self.TextIndex.export(outfile, level, namespace_, name_='TextIndex', pretty_print=pretty_print)
-        if self.Apply is not None:
-            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Aggregate is not None:
             self.Aggregate.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         if self.Lag is not None:
@@ -60526,6 +60526,9 @@ class Upper(GeneratedsSuper):
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Apply is not None:
+            Apply_ = self.Apply
+            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Constant is not None:
             Constant_ = self.Constant
             Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
@@ -60544,9 +60547,6 @@ class Upper(GeneratedsSuper):
         if self.TextIndex is not None:
             TextIndex_ = self.TextIndex
             TextIndex_.to_etree(element, name_='TextIndex', mapping_=mapping_)
-        if self.Apply is not None:
-            Apply_ = self.Apply
-            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Aggregate is not None:
             Aggregate_ = self.Aggregate
             Aggregate_.to_etree(element, name_='Aggregate', mapping_=mapping_)
@@ -60581,6 +60581,12 @@ class Upper(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Apply is not None:
+            showIndent(outfile, level)
+            outfile.write('Apply=model_.Apply(\n')
+            self.Apply.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Constant is not None:
@@ -60619,12 +60625,6 @@ class Upper(GeneratedsSuper):
             self.TextIndex.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.Apply is not None:
-            showIndent(outfile, level)
-            outfile.write('Apply=model_.Apply(\n')
-            self.Apply.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.Aggregate is not None:
             showIndent(outfile, level)
             outfile.write('Aggregate=model_.Aggregate(\n')
@@ -60657,6 +60657,11 @@ class Upper(GeneratedsSuper):
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Apply':
+            obj_ = Apply.factory()
+            obj_.build(child_)
+            self.Apply = obj_
+            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Constant':
             obj_ = Constant.factory()
             obj_.build(child_)
@@ -60687,11 +60692,6 @@ class Upper(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndex = obj_
             obj_.original_tagname_ = 'TextIndex'
-        elif nodeName_ == 'Apply':
-            obj_ = Apply.factory()
-            obj_.build(child_)
-            self.Apply = obj_
-            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Aggregate':
             obj_ = Aggregate.factory()
             obj_.build(child_)
@@ -60708,20 +60708,20 @@ class Upper(GeneratedsSuper):
 class Variance(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, FieldRef=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Apply=None, Aggregate=None, Lag=None):
+    def __init__(self, Extension=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
         self.FieldRef = FieldRef
+        self.Apply = Apply
         self.Constant = Constant
         self.NormContinuous = NormContinuous
         self.NormDiscrete = NormDiscrete
         self.Discretize = Discretize
         self.MapValues = MapValues
         self.TextIndex = TextIndex
-        self.Apply = Apply
         self.Aggregate = Aggregate
         self.Lag = Lag
     def factory(*args_, **kwargs_):
@@ -60742,6 +60742,8 @@ class Variance(GeneratedsSuper):
     def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_FieldRef(self): return self.FieldRef
     def set_FieldRef(self, FieldRef): self.FieldRef = FieldRef
+    def get_Apply(self): return self.Apply
+    def set_Apply(self, Apply): self.Apply = Apply
     def get_Constant(self): return self.Constant
     def set_Constant(self, Constant): self.Constant = Constant
     def get_NormContinuous(self): return self.NormContinuous
@@ -60754,8 +60756,6 @@ class Variance(GeneratedsSuper):
     def set_MapValues(self, MapValues): self.MapValues = MapValues
     def get_TextIndex(self): return self.TextIndex
     def set_TextIndex(self, TextIndex): self.TextIndex = TextIndex
-    def get_Apply(self): return self.Apply
-    def set_Apply(self, Apply): self.Apply = Apply
     def get_Aggregate(self): return self.Aggregate
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def get_Lag(self): return self.Lag
@@ -60764,13 +60764,13 @@ class Variance(GeneratedsSuper):
         if (
             self.Extension or
             self.FieldRef is not None or
+            self.Apply is not None or
             self.Constant is not None or
             self.NormContinuous is not None or
             self.NormDiscrete is not None or
             self.Discretize is not None or
             self.MapValues is not None or
             self.TextIndex is not None or
-            self.Apply is not None or
             self.Aggregate is not None or
             self.Lag is not None
         ):
@@ -60809,6 +60809,8 @@ class Variance(GeneratedsSuper):
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         if self.FieldRef is not None:
             self.FieldRef.export(outfile, level, namespace_, name_='FieldRef', pretty_print=pretty_print)
+        if self.Apply is not None:
+            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Constant is not None:
             self.Constant.export(outfile, level, namespace_, name_='Constant', pretty_print=pretty_print)
         if self.NormContinuous is not None:
@@ -60821,8 +60823,6 @@ class Variance(GeneratedsSuper):
             self.MapValues.export(outfile, level, namespace_, name_='MapValues', pretty_print=pretty_print)
         if self.TextIndex is not None:
             self.TextIndex.export(outfile, level, namespace_, name_='TextIndex', pretty_print=pretty_print)
-        if self.Apply is not None:
-            self.Apply.export(outfile, level, namespace_, name_='Apply', pretty_print=pretty_print)
         if self.Aggregate is not None:
             self.Aggregate.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         if self.Lag is not None:
@@ -60837,6 +60837,9 @@ class Variance(GeneratedsSuper):
         if self.FieldRef is not None:
             FieldRef_ = self.FieldRef
             FieldRef_.to_etree(element, name_='FieldRef', mapping_=mapping_)
+        if self.Apply is not None:
+            Apply_ = self.Apply
+            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Constant is not None:
             Constant_ = self.Constant
             Constant_.to_etree(element, name_='Constant', mapping_=mapping_)
@@ -60855,9 +60858,6 @@ class Variance(GeneratedsSuper):
         if self.TextIndex is not None:
             TextIndex_ = self.TextIndex
             TextIndex_.to_etree(element, name_='TextIndex', mapping_=mapping_)
-        if self.Apply is not None:
-            Apply_ = self.Apply
-            Apply_.to_etree(element, name_='Apply', mapping_=mapping_)
         if self.Aggregate is not None:
             Aggregate_ = self.Aggregate
             Aggregate_.to_etree(element, name_='Aggregate', mapping_=mapping_)
@@ -60892,6 +60892,12 @@ class Variance(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('FieldRef=model_.FieldRef(\n')
             self.FieldRef.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Apply is not None:
+            showIndent(outfile, level)
+            outfile.write('Apply=model_.Apply(\n')
+            self.Apply.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Constant is not None:
@@ -60930,12 +60936,6 @@ class Variance(GeneratedsSuper):
             self.TextIndex.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.Apply is not None:
-            showIndent(outfile, level)
-            outfile.write('Apply=model_.Apply(\n')
-            self.Apply.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.Aggregate is not None:
             showIndent(outfile, level)
             outfile.write('Aggregate=model_.Aggregate(\n')
@@ -60968,6 +60968,11 @@ class Variance(GeneratedsSuper):
             obj_.build(child_)
             self.FieldRef = obj_
             obj_.original_tagname_ = 'FieldRef'
+        elif nodeName_ == 'Apply':
+            obj_ = Apply.factory()
+            obj_.build(child_)
+            self.Apply = obj_
+            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Constant':
             obj_ = Constant.factory()
             obj_.build(child_)
@@ -60998,11 +61003,6 @@ class Variance(GeneratedsSuper):
             obj_.build(child_)
             self.TextIndex = obj_
             obj_.original_tagname_ = 'TextIndex'
-        elif nodeName_ == 'Apply':
-            obj_ = Apply.factory()
-            obj_.build(child_)
-            self.Apply = obj_
-            obj_.original_tagname_ = 'Apply'
         elif nodeName_ == 'Aggregate':
             obj_ = Aggregate.factory()
             obj_.build(child_)

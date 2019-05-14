@@ -122,7 +122,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     mining_models :
         Returns the MiningModel of the respective Xgboost model
     """
-    model_kwargs = sklToPmml.get_model_kwargs(model, col_names, target_name, mining_imp_val)
+    model_kwargs = sklToPmml.get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
     if 'XGBRegressor' in str(model.__class__):
         model_kwargs['Targets'] = sklToPmml.get_targets(model, target_name)
     mining_models = list()
@@ -295,14 +295,16 @@ def create_node(obj, main_node,derived_col_names):
     def create_left_node(obj,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(
-            pml.SimplePredicate(field=replace_name_with_derivedColumnNames(obj['split'], derived_col_names), operator='lessThan', value=obj['split_condition']))
+            pml.SimplePredicate(field=replace_name_with_derivedColumnNames(obj['split'], derived_col_names),\
+                 operator='lessThan', value="{:.16f}".format(obj['split_condition'])))
         create_node(obj['children'][0], nd, derived_col_names)
         return nd
 
     def create_right_node(obj,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(
-            pml.SimplePredicate(field=replace_name_with_derivedColumnNames(obj['split'], derived_col_names), operator='greaterOrEqual', value=obj['split_condition']))
+            pml.SimplePredicate(field=replace_name_with_derivedColumnNames(obj['split'], derived_col_names),\
+                 operator='greaterOrEqual', value="{:.16f}".format(obj['split_condition'])))
         create_node(obj['children'][1], nd, derived_col_names)
         return nd
 

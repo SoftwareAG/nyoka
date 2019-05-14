@@ -4,6 +4,9 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import PMML44 as pml
+import re
+import string
+regex = re.compile('[%s]' % re.escape(string.punctuation))
 exception_cols = list()
 
 def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
@@ -387,14 +390,14 @@ def pca(trfm, col_names):
         for pca_idx in range(trfm.n_features_):
             apply_inner = pml.Apply(function='-',
                                     Constant=[pml.Constant(dataType="double",
-                                                           valueOf_=val[pca_idx])],
+                                                           valueOf_="{:.16f}".format(val[pca_idx]))],
                                     FieldRef=[pml.FieldRef(field=col_names[pca_idx])])
             apply_outer = pml.Apply(function="*",
                                     Apply_member=[apply_inner],
                                     Constant=[pml.Constant(dataType="double",
                                                            valueOf_=zero if trfm.components_[preprocess_idx][
                                                                                 pca_idx] == 0.0 else
-                                                           trfm.components_[preprocess_idx][pca_idx])])
+                                                           "{:.16f}".format(trfm.components_[preprocess_idx][pca_idx]))])
             add.append(apply_outer)
         app0 = pml.Apply(function="sum", Apply_member=add)
 
@@ -407,6 +410,11 @@ def pca(trfm, col_names):
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     return pp_dict
+
+def remove_punctuation(word):
+    # no_punct_word = regex.sub('', word)
+    return regex.findall(word)
+    # return no_punct_word
 
 
 def tfidf_vectorizer(trfm, col_names):
@@ -428,30 +436,40 @@ def tfidf_vectorizer(trfm, col_names):
     """
     pp_dict = dict()
     features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
-    extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
+    # extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
     # features = trfm.get_feature_names()
     idfs = trfm.idf_
     # extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
+    # derived_colnames = list()
     derived_colnames = get_derived_colnames('tfidf@[' + col_names[0] + ']', features)
-    derived_flds.append(
-        pml.DerivedField(name='lowercase(' + col_names[0] + ')',
-                         optype='categorical', dataType='string',
-                         Apply=pml.Apply(function='lowercase',
-                                         FieldRef=[pml.FieldRef(field=col_names[0])])))
+    if trfm.lowercase:
+        derived_flds.append(
+            pml.DerivedField(name='lowercase(' + col_names[0] + ')',
+                            optype='categorical', dataType='string',
+                            Apply=pml.Apply(function='lowercase',
+                                            FieldRef=[pml.FieldRef(field=col_names[0])])))
     for feat_idx, idf in zip(range(len(features)), idfs):
+        # no_punct_word = remove_punctuation(features[feat_idx])
+        # if len(no_punct_word) == 0:
+            # df_name = 'tfidf_vec@[' + col_names[0] + ']('+ features[feat_idx]+')'
+            # derived_colnames.append(df_name)
         derived_flds.append(pml.DerivedField(
-            name=derived_colnames[feat_idx],
+            # name=df_name,
+            name = derived_colnames[feat_idx],
             optype='continuous',
             dataType='double',
             Apply=pml.Apply(function='*',
-                            TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
-                                                     wordSeparatorCharacterRE='\s+',
-                                                     tokenize='true',
-                                                     Constant=pml.Constant(valueOf_=features[feat_idx]),
-                                                     Extension=[pml.Extension(anytypeobjs_=[extra_features[feat_idx]])])],
-                            Constant=[pml.Constant(valueOf_=idf)])
-        ))
+                            TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
+                                else col_names[0],
+                                                    # wordSeparatorCharacterRE='\s+',
+                                                    wordSeparatorCharacterRE=trfm.token_pattern,
+                                                    tokenize='true',
+                                                    Constant=pml.Constant(valueOf_=features[feat_idx]),
+                                                    # Extension=[pml.Extension(anytypeobjs_=[extra_features[feat_idx]])]
+                                                    )],
+                            Constant=[pml.Constant(valueOf_="{:.16f}".format(idf))])
+                            ))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     pp_dict['pp_feat_name'] = col_names[0]
@@ -478,29 +496,37 @@ def count_vectorizer(trfm, col_names):
     """
     pp_dict = dict()
     features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
-    extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
+    # extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
     # features = trfm.get_feature_names()
     # extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
-    derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
-                                         optype='categorical',
-                                         dataType='string',
-                                         Apply=pml.Apply(function='lowercase',
-                                                         FieldRef=[pml.FieldRef(field=col_names[0])])))
+    # derived_colnames = list()
+    if trfm.lowercase:
+        derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
+                                            optype='categorical',
+                                            dataType='string',
+                                            Apply=pml.Apply(function='lowercase',
+                                                            FieldRef=[pml.FieldRef(field=col_names[0])])))
     for imp_features, index in zip(features, range(len(features))):
+        # no_punct_word = remove_punctuation(imp_features)
+        # if len(no_punct_word) == 0:
+            # df_name = 'count_vec@[' + col_names[0] + ']('+ imp_features+')'
+            # derived_colnames.append(df_name)
         df_name = derived_colnames[index]
         derived_flds.append(pml.DerivedField(name=df_name,
-                                             optype='continuous',
-                                             dataType='double',
-                                             TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
-                                                                     wordSeparatorCharacterRE='\s+',
-                                                                     tokenize='true',
-                                                                     Constant=pml.Constant(dataType="string",
-                                                                                           valueOf_=imp_features),
-                                                                     Extension=[pml.Extension(
-                                                                         anytypeobjs_=[extra_features[index]])]
-                                                                     )))
+                                            optype='continuous',
+                                            dataType='double',
+                                            TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
+                                                else col_names[0],
+                                                                    # wordSeparatorCharacterRE='\s+',
+                                                                    wordSeparatorCharacterRE=trfm.token_pattern,
+                                                                    tokenize='true',
+                                                                    Constant=pml.Constant(dataType="string",
+                                                                                        valueOf_=imp_features),
+                                                                    # Extension=[pml.Extension(
+                                                                    #     anytypeobjs_=[extra_features[index]])]
+                                                                    )))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
     pp_dict['pp_feat_name'] = col_names[0]
@@ -551,7 +577,7 @@ def std_scaler(trfm, col_names, **kwargs):
             function='-',
             Constant=[pml.Constant(
                 dataType="double",  # <---------------------
-                valueOf_=unround_scalers(trfm.mean_[col_name_idx])
+                valueOf_="{:.16f}".format(trfm.mean_[col_name_idx])
             )],
             FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
         ))
@@ -560,7 +586,7 @@ def std_scaler(trfm, col_names, **kwargs):
             function='/',
             Constant=[pml.Constant(
                 dataType="double",  # <----------------------------
-                valueOf_=unround_scalers(trfm.scale_[col_name_idx])
+                valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
             )]
         )
         derived_flds.append(pml.DerivedField(
@@ -604,7 +630,7 @@ def min_max_scaler(trfm, col_names):
                 function='*',
                 Constant=[pml.Constant(
                     dataType="double",
-                    valueOf_=unround_scalers(trfm.scale_[col_name_idx])
+                    valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
             ))
@@ -613,7 +639,7 @@ def min_max_scaler(trfm, col_names):
                 function='+',
                 Constant=[pml.Constant(
                     dataType="double",
-                    valueOf_=unround_scalers(trfm.min_[col_name_idx])
+                    valueOf_="{:.16f}".format(trfm.min_[col_name_idx])
                 )]
             )
             derived_flds.append(pml.DerivedField(
@@ -654,7 +680,7 @@ def rbst_scaler(trfm, col_names):
                 function='-',
                 Constant=[pml.Constant(
                     dataType="double",  # <---------------------
-                    valueOf_=unround_scalers(trfm.center_[col_name_idx])
+                    valueOf_="{:.16f}".format(trfm.center_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])],
                 Extension=[pml.Extension(name='scaling', anytypeobjs_=['RobustScaler'])]
@@ -664,7 +690,7 @@ def rbst_scaler(trfm, col_names):
                 function='/',
                 Constant=[pml.Constant(
                     dataType="double",  # <----------------------------
-                    valueOf_=unround_scalers(trfm.scale_[col_name_idx])
+                    valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
                 )]
             )
             derived_flds.append(pml.DerivedField(
@@ -704,7 +730,7 @@ def max_abs_scaler(trfm, col_names):
                 function='/',
                 Constant=[pml.Constant(
                     dataType="double",  # <---------------------
-                    valueOf_=unround_scalers(trfm.max_abs_[col_name_idx])
+                    valueOf_="{:.16f}".format(trfm.max_abs_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
             )

@@ -654,7 +654,7 @@ class KerasNetwork(ny.DeepNetwork):
 
     def __init__(self, keras_model, model_name, dataSet=None, predictedClasses=None):
         if not model_name:
-            model_namme = keras_model.name
+            model_name = keras_model.name
         network_layers = self._create_layers(keras_model, dataSet)
         local_trans = None
         mining_schema = KerasMiningSchema(dataSet)
