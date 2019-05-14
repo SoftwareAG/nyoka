@@ -1,0 +1,7 @@
+lgb\_to\_pmml module
+====================
+
+.. automodule:: lgb_to_pmml
+    :members:
+    :undoc-members:
+    :show-inheritance:
