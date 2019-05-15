@@ -19,8 +19,9 @@
 #
 import os
 import sys
-sys.path.append(os.path.join(os.curdir, "scripts"))
+# sys.path.append(os.path.join(os.curdir, "scripts"))
 # sys.path.insert(0, os.path.abspath('.'))
+sys.path.append('../../../..')
 
 
 # -- General configuration ------------------------------------------------
