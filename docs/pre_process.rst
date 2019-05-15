@@ -1,7 +1,0 @@
-pre\_process module
-===================
-
-.. automodule:: pre_process
-    :members:
-    :undoc-members:
-    :show-inheritance:
