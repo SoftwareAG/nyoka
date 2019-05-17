@@ -1,36 +1,171 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>keras_model_to_pmml module &#8212; Nyoka 1.0.0 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/my_theme.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>keras_model_to_pmml module &mdash; Nyoka 3.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'3.1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="lgb_to_pmml module" href="lgb_to_pmml.html" />
-    <link rel="prev" title="exponential_smoothing module" href="exponential_smoothing.html" />
+    <link rel="prev" title="exponential_smoothing module" href="exponential_smoothing.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
 
-  </head><body>
-  
+          
+            <a href="index.html" class="icon icon-home"> Nyoka
+          
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Keras Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_process.html">Scikit-learn's Pre-Processing Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nyoka</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>keras_model_to_pmml module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+          <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-keras_model_to_pmml">
 <span id="keras-model-to-pmml-module"></span><h1>keras_model_to_pmml module<a class="headerlink" href="#module-keras_model_to_pmml" title="Permalink to this headline">¶</a></h1>
@@ -38,269 +173,177 @@
 <dl class="class">
 <dt id="keras_model_to_pmml.KerasDataDictionary">
 <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasDataDictionary</code><span class="sig-paren">(</span><em>dataSet</em>, <em>predictedClasses</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasDataDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasDataDictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML43Ext.html#PMML43Ext.DataDictionary" title="PMML43Ext.DataDictionary"><code class="xref py py-class docutils literal notranslate"><span class="pre">PMML43Ext.DataDictionary</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.DataDictionary" title="PMML44.DataDictionary"><code class="xref py py-class docutils literal"><span class="pre">PMML44.DataDictionary</span></code></a></p>
 <p>KerasDataDictionary stores the class information to be predicted  in the PMML model.
-The current implementation takes care of the Imagenet class label by giving dataset name as dataSet parameter.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dataSet</strong> (<em>String</em>) – Name of the dataset</li>
-<li><strong>predictedClasses</strong> (<em>List</em>) – List of class names or values to be predicted.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Nyoka’s Dictionary Object</p>
-</td>
-</tr>
-</tbody>
-</table>
+The current implementation takes care of the image class label by giving dataset name as dataSet parameter.</p>
+<dl class="docutils">
+<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Name of the dataset</dd>
+<dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd>List of class names or values to be predicted.</dd>
+</dl>
+<p>Nyoka’s Dictionary Object</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="keras_model_to_pmml.KerasHeader">
 <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasHeader</code><span class="sig-paren">(</span><em>description</em>, <em>copyright</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasHeader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML43Ext.html#PMML43Ext.Header" title="PMML43Ext.Header"><code class="xref py py-class docutils literal notranslate"><span class="pre">PMML43Ext.Header</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.Header" title="PMML44.Header"><code class="xref py py-class docutils literal"><span class="pre">PMML44.Header</span></code></a></p>
 <p>Creates header for Keras PMML model file using Nyoka</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>copyright</strong> (<em>String</em>) – Adds the information about the copyright.</li>
-<li><strong>description</strong> (<em>String</em>) – Description of the PMML file provided as a default</li>
-<li><strong>Timestamp</strong> (<em>Datetime</em>) – Timestamp of the time when the file is created</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Nyoka header object</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>description <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Description of the PMML file provided as a default.</dd>
+<dt>copyright <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Adds the information about the copyright.</dd>
+</dl>
+<p>Nyoka header object</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="keras_model_to_pmml.KerasLocalTransformations">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasLocalTransformations</code><span class="sig-paren">(</span><em>model_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasLocalTransformations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasLocalTransformations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML43Ext.html#PMML43Ext.LocalTransformations" title="PMML43Ext.LocalTransformations"><code class="xref py py-class docutils literal notranslate"><span class="pre">PMML43Ext.LocalTransformations</span></code></a></p>
+<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasLocalTransformations</code><span class="sig-paren">(</span><em>keras_model</em>, <em>dataSet</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasLocalTransformations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasLocalTransformations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.LocalTransformations" title="PMML44.LocalTransformations"><code class="xref py py-class docutils literal"><span class="pre">PMML44.LocalTransformations</span></code></a></p>
 <p>KerasLocalTransformations provides the information about the list of transformations applied to the data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_name</strong> (<em>String</em>) – Name of the model (internally used to be specific for Keras)</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Nyoka’s Transformations Object</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>keras_model <span class="classifier-delimiter">:</span> <span class="classifier">Keras model object</span></dt>
+<dd>Keras model object</dd>
+<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Name of the dataset</dd>
+</dl>
+<p>Nyoka’s Transformations Object</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="keras_model_to_pmml.KerasMiningSchema">
 <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasMiningSchema</code><span class="sig-paren">(</span><em>dataSet=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasMiningSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasMiningSchema" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML43Ext.html#PMML43Ext.MiningSchema" title="PMML43Ext.MiningSchema"><code class="xref py py-class docutils literal notranslate"><span class="pre">PMML43Ext.MiningSchema</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.MiningSchema" title="PMML44.MiningSchema"><code class="xref py py-class docutils literal"><span class="pre">PMML44.MiningSchema</span></code></a></p>
 <p>KerasMiningSchema stores the attributes which are used to build the model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dataSet</strong> (<em>String</em>) – Name of the dataset</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Nyoka’s Mining Schema Object</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Name of the dataset</dd>
+</dl>
+<p>Nyoka’s Mining Schema Object</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="keras_model_to_pmml.KerasNetwork">
 <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasNetwork</code><span class="sig-paren">(</span><em>keras_model</em>, <em>model_name</em>, <em>dataSet=None</em>, <em>predictedClasses=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasNetwork" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML43Ext.html#PMML43Ext.DeepNetwork" title="PMML43Ext.DeepNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">PMML43Ext.DeepNetwork</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.DeepNetwork" title="PMML44.DeepNetwork"><code class="xref py py-class docutils literal"><span class="pre">PMML44.DeepNetwork</span></code></a></p>
 <p>KerasNetwork creates the DeepNetwork object which stores the NetworkLayer in sequence to define the architecture.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model_name</strong> (<em>String</em>) – Name of the model</li>
-<li><strong>functionName</strong> (<em>String</em>) – Regression or Classification, currently supports classification functionName</li>
-<li><strong>numberOfLayers</strong> (<em>Int</em>) – Number of layers in the architecture</li>
-<li><strong>isScorable</strong> (<em>Boolean</em>) – True or False</li>
-<li><strong>Extension</strong> (<em>Nyoka's extention tag</em>) – Allows to pass extra information in Nyoka objects</li>
-<li><strong>MiningSchema</strong> (<em>Nyoka's Mining schema object</em>) – Nyoka’s miningschema object to be passed</li>
-<li><strong>Output</strong> (<em>Nyoka's Output object</em>) – Nyoka’s Output object to be passed</li>
-<li><strong>LocalTransformations</strong> (<em>Nyoka's LocalTransformations object</em>) – Nyoka’s LocalTransformations object to be passed</li>
-<li><strong>NetworkLayer</strong> (<em>Nyoka's LocalTransformations object</em>) – Nyoka’s NetworkLayer object to be passed</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Nyoka’s DeepNetwork Object</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>keras_model <span class="classifier-delimiter">:</span> <span class="classifier">Keras model object</span></dt>
+<dd>Keras model object</dd>
+<dt>model_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Name of the model</dd>
+<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Name of the dataset</dd>
+<dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd>List of class names</dd>
+</dl>
+<p>Nyoka’s DeepNetwork Object</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="keras_model_to_pmml.KerasNetworkLayer">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasNetworkLayer</code><span class="sig-paren">(</span><em>layer</em>, <em>layer_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasNetworkLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasNetworkLayer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML43Ext.html#PMML43Ext.NetworkLayer" title="PMML43Ext.NetworkLayer"><code class="xref py py-class docutils literal notranslate"><span class="pre">PMML43Ext.NetworkLayer</span></code></a></p>
+<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasNetworkLayer</code><span class="sig-paren">(</span><em>layer</em>, <em>dataSet</em>, <em>layer_type</em>, <em>connection_layer_id=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasNetworkLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasNetworkLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.NetworkLayer" title="PMML44.NetworkLayer"><code class="xref py py-class docutils literal"><span class="pre">PMML44.NetworkLayer</span></code></a></p>
 <p>Creates Networklayer of PMML which has information about the layer type, weight matrix and bias matrix and their properties.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>inputFieldName</strong> (<em>String</em>) – This parameter is required only for Input layer in keras</li>
-<li><strong>layerType</strong> (<em>String</em>) – Any Keras layer (e.g. Input, Dense, Conv2D)</li>
-<li><strong>connectionLayerId</strong> (<em>String</em>) – Name of the previous layer ID</li>
-<li><strong>layerId</strong> (<em>String</em>) – Layer ID for defined layer</li>
-<li><strong>normalizationMethod</strong> (<em>String</em>) – Name of normalization method here</li>
-<li><strong>LayerParameters</strong> (<em>Nyoka LayerParamter Object</em>) – Nyoka’s LayerParameter object which has information of Layerparamters (eg, input dimension and output dimension).</li>
-<li><strong>LayerWeights</strong> (<em>Nyoka's LayerWeights object</em>) – LayerWeights goes inside the LayerParameters object and provide information about the weigth matrix of the layer.</li>
-<li><strong>LayerBias</strong> (<em>Nyoka's LayerBias object</em>) – LayerBias goes inside the LayerParameters object and provide value of the bias matrix.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Nyoka NetworkLayer object</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>layer <span class="classifier-delimiter">:</span> <span class="classifier">Keras layer object</span></dt>
+<dd>Keras layer object</dd>
+<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Name of the dataset</dd>
+<dt>layer_type <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Class name of the layer</dd>
+<dt>connection_layer_id <span class="classifier-delimiter">:</span> <span class="classifier">boolean (Optional, default=”True”)</span></dt>
+<dd>Whether to generate connection layer IDs or not</dd>
+</dl>
+<p>Nyoka NetworkLayer object</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="keras_model_to_pmml.KerasOutput">
 <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasOutput</code><span class="sig-paren">(</span><em>predictedClasses=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasOutput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML43Ext.html#PMML43Ext.Output" title="PMML43Ext.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">PMML43Ext.Output</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.Output" title="PMML44.Output"><code class="xref py py-class docutils literal"><span class="pre">PMML44.Output</span></code></a></p>
 <p>KerasOutput provides the information about the output representation of the PMML. (e.g. Predicted classes, probabilities)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>predictedClasses</strong> (<em>List</em>) – List of Classes for which model has been trained</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Nyoka’s Output Object</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd>List of Classes for which model has been trained</dd>
+</dl>
+<p>Nyoka’s Output Object</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="keras_model_to_pmml.KerasToPmml">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasToPmml</code><span class="sig-paren">(</span><em>keras_model</em>, <em>model_name='KerasNet'</em>, <em>description='Keras Models in PMML'</em>, <em>copyright='Internal User'</em>, <em>dataSet=None</em>, <em>predictedClasses=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML43Ext.html#PMML43Ext.PMML" title="PMML43Ext.PMML"><code class="xref py py-class docutils literal notranslate"><span class="pre">PMML43Ext.PMML</span></code></a></p>
+<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasToPmml</code><span class="sig-paren">(</span><em>keras_model</em>, <em>model_name=None</em>, <em>description=None</em>, <em>copyright=None</em>, <em>dataSet=None</em>, <em>predictedClasses=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.PMML" title="PMML44.PMML"><code class="xref py py-class docutils literal"><span class="pre">PMML44.PMML</span></code></a></p>
 <p>KerasToPmml exports the Keras model object into PMML file using nyoka.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>keras_model</strong> (<em>keras model object</em>) – Keras model object</li>
-<li><strong>model_name</strong> (<em>String</em>) – Name to be given to the model in PMML.</li>
-<li><strong>dataSet</strong> (<em>String</em><em> (</em><em>Optional</em><em>)</em>) – Name of the dataset</li>
-<li><strong>predictedClasses</strong> (<em>List</em>) – List of the class names for which model has been trained</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Creates PMML object, this can be saved in file using export function</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>keras_model <span class="classifier-delimiter">:</span> <span class="classifier">Keras model object</span></dt>
+<dd>Keras model object</dd>
+<dt>model_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>Name to be given to the model in PMML.</dd>
+<dt>description <span class="classifier-delimiter">:</span> <span class="classifier">Sting (Optional)</span></dt>
+<dd>Description to be shown in PMML</dd>
+<dt>copyright <span class="classifier-delimiter">:</span> <span class="classifier">Sting (Optional)</span></dt>
+<dd>Copyright information</dd>
+<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String (Optional)</span></dt>
+<dd>Name of the dataset. Value is ‘image’ for Image Classifier, ‘None’ or any other value is for the rest.</dd>
+<dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd>List of the class names for which model has been trained. If not provided, assumed to be regression model.</dd>
+</dl>
+<p>Creates PMML object, this can be saved in file using export function</p>
 </dd></dl>
 
 </div>
 
 
+           </div>
+           
           </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="lgb_to_pmml.html" class="btn btn-neutral float-right" title="lgb_to_pmml module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="exponential_smoothing.html" class="btn btn-neutral float-left" title="exponential_smoothing module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, maintainer@nyoka.org
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">Nyoka</a></h1>
+
+    </section>
+
+  </div>
+  
 
 
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
 
-
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="PMML43Ext.html">PMML43Ext module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">keras_model_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre_process.html">pre_process module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">xgboost_to_pmml module</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="exponential_smoothing.html" title="previous chapter">exponential_smoothing module</a></li>
-      <li>Next: <a href="lgb_to_pmml.html" title="next chapter">lgb_to_pmml module</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2018, Maintainer.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
-      
-      |
-      <a href="_sources/keras_model_to_pmml.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
+  
+  
     
+   
 
-    
-  </body>
+</body>
 </html>

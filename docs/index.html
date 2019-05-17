@@ -1,118 +1,379 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to Nyoka’s documentation! &#8212; Nyoka 1.0.0 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/my_theme.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Nyoka &mdash; Nyoka 3.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'3.1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PMML43Ext module" href="PMML43Ext.html" />
+    <link rel="next" title="PMML44 module" href="PMML44.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
 
-  </head><body>
-  
+          
+        <a href="#" class="icon icon-home"> Nyoka</a>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+          
             
-  <div class="section" id="welcome-to-nyoka-s-documentation">
-<h1>Welcome to Nyoka’s documentation!<a class="headerlink" href="#welcome-to-nyoka-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Nyoka is a Python library for comprehensive support of the latest PMML standard plus extensions for data preprocessing, script execution and highly compacted representation of deep neural networks. Using Nyoka, Data Scientists can export a large number of Machine Learning and Deep Learning models from popular Python frameworks into PMML by either using any of the numerous included ready-to-use exporters or by creating their own exporter for specialized/individual model types by simply calling a sequence of constructors.</p>
-<p>Besides about 500 Python classes which each cover a PMML tag and all constructor parameters/attributes as defined in the standard, Nyoka also provides an increasing number of convenience classes and functions that make the Data Scientist’s life easier for example by reading or writing any PMML file in one line of code from within your favorite Python environment.</p>
-<p>Nyoka comes to you with the complete source code in Python, an extended HTML documentation for the classes/functions and a growing number of Jupyter Notebook tutorials that help you familiarizing yourself with the way how Nyoka supports you to use PMML as your favorite Data Science transport file format.</p>
+            
+              <div class="version">
+                3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_process.html">Scikit-learn's Pre-Processing Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Nyoka</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Nyoka</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scripts">
+<div class="section" id="welcome-to-nyoka-s-documentation">
+  <h1>Welcome to Nyoka’s documentation!<a class="headerlink" href="#welcome-to-nyoka-s-documentation" title="Permalink to this headline">¶</a></h1>
+  <img src="./nyoka_logo.PNG" width="250px" aria-placeholder="Nyoka logo"/>
+  <p>Nyoka is a Python library for comprehensive support of the latest PMML standard plus extensions for data preprocessing, script execution and highly compacted representation of deep neural networks. Using Nyoka, Data Scientists can export a large number of Machine Learning and Deep Learning models from popular Python frameworks into PMML by either using any of the numerous included ready-to-use exporters or by creating their own exporter for specialized/individual model types by simply calling a sequence of constructors.</p>
+  <p>Besides about 500 Python classes which each cover a PMML tag and all constructor parameters/attributes as defined in the standard, Nyoka also provides an increasing number of convenience classes and functions that make the Data Scientist’s life easier for example by reading or writing any PMML file in one line of code from within your favorite Python environment.</p>
+  <p>Nyoka comes to you with the complete source code in Python, an extended HTML documentation for the classes/functions and a growing number of Jupyter Notebook tutorials that help you familiarizing yourself with the way how Nyoka supports you to use PMML as your favorite Data Science transport file format.</p>
+  
 <div class="toctree-wrapper compound">
+  <h3>The core modules of Nyoka are</h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="PMML43Ext.html">PMML43Ext module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">keras_model_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre_process.html">pre_process module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">xgboost_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_process.html">Scikit-learn's Pre-Processing Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
 </ul>
 </div>
+
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Python 3.6+</li>
+</ul>
+<h3 id="dependencies">Dependencies</h3>
+<p>Nyoka requires lxml</p>
+<h3 id="installation">Installation</h3>
+<p>You can install nyoka using:</p>
+<pre><code>pip <span class="hljs-keyword">install</span> nyoka
+</code></pre><h3 id="usage">Usage</h3>
+<h6 id="nyoka-to-export-scikit-learn-models-">Nyoka to export scikit-learn models:</h6>
+<p><strong>#&nbsp;</strong>Exporting a Support Vector Classifier pipeline object into PMML</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br/>
+from sklearn <span class="hljs-keyword">import</span> datasets<br/>
+from sklearn.pipeline <span class="hljs-keyword">import</span> Pipeline<br/>
+from sklearn.preprocessing <span class="hljs-keyword">import</span> StandardScaler, Imputer<br/>
+from sklearn.svm <span class="hljs-keyword">import</span> SVC<br/>
+<br/>
+iris = datasets.load_iris()<br/>
+irisd = pd.DataFrame(iris.<span class="hljs-keyword">data</span>,columns=iris.feature_names)<br/>
+irisd[<span class="hljs-string">'Species'</span>] = iris.target<br/>
+<br/>
+features = irisd.columns.drop(<span class="hljs-string">'Species'</span>)<br/>
+target = <span class="hljs-string">'Species'</span><br/>
+<br/>
+pipeline_obj = Pipeline([<br/>
+    (<span class="hljs-string">'svm'</span>,SVC())<br/>
+])<br/>
+<br/>
+pipeline_obj.fit(irisd[features],irisd[target])<br/>
+<br/>
+<br/>
+from nyoka <span class="hljs-keyword">import</span> skl_to_pmml<br/>
+<br/>
+skl_to_pmml(pipeline_obj,features,target,<span class="hljs-string">"svc_pmml.pmml"</span>)
+</code></pre>
+<p><strong>#&nbsp;</strong>Exporting a Random Forest Classifier (along with pre-processing) pipeline object into PMML</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br/>
+from sklearn <span class="hljs-keyword">import</span> datasets<br/>
+from sklearn.pipeline <span class="hljs-keyword">import</span> Pipeline<br/>
+from sklearn.preprocessing <span class="hljs-keyword">import</span> StandardScaler, Imputer<br/>
+from sklearn_pandas <span class="hljs-keyword">import</span> DataFrameMapper<br/>
+from sklearn.ensemble <span class="hljs-keyword">import</span> RandomForestClassifier<br/>
+<br/>
+iris = datasets.load_iris()<br/>
+irisd = pd.DataFrame(iris.<span class="hljs-keyword">data</span>, columns=iris.feature_names)<br/>
+irisd[<span class="hljs-string">'Species'</span>] = iris.target<br/>
+<br/>
+features = irisd.columns.drop(<span class="hljs-string">'Species'</span>)<br/>
+target = <span class="hljs-string">'Species'</span><br/>
+<br/>
+pipeline_obj = Pipeline([
+    (<span class="hljs-string">"mapping"</span>, DataFrameMapper([<br/>
+    ([<span class="hljs-string">'sepal length (cm)'</span>, <span class="hljs-string">'sepal width (cm)'</span>], StandardScaler()) , <br/>
+    ([<span class="hljs-string">'petal length (cm)'</span>, <span class="hljs-string">'petal width (cm)'</span>], Imputer())<br/>
+    ])),<br/>
+    (<span class="hljs-string">"rfc"</span>, RandomForestClassifier(n_estimators = <span class="hljs-number">100</span>))<br/>
+])<br/>
+<br/>
+pipeline_obj.fit(irisd[features], irisd[target])<br/>
+<br/>
+<br/>
+from nyoka <span class="hljs-keyword">import</span> skl_to_pmml<br/>
+<br/>
+skl_to_pmml(pipeline_obj, features, target, <span class="hljs-string">"rf_pmml.pmml"</span>)
+</code></pre><br/>
+<h6 id="nyoka-to-export-xgboost-models-">Nyoka to export xgboost models:</h6>
+<p><strong>#&nbsp;</strong>Exporting a XGBoost model into PMML</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br/>
+from sklearn <span class="hljs-keyword">import</span> datasets<br/>
+from sklearn.pipeline <span class="hljs-keyword">import</span> Pipeline<br/>
+from sklearn.preprocessing <span class="hljs-keyword">import</span> StandardScaler<br/>
+<span class="hljs-keyword">import</span> xgboost <span class="hljs-keyword">as</span> xgb<br/>
+<br/>
+boston = datasets.load_boston()<br/>
+y = boston[<span class="hljs-string">'target'</span>]<br/>
+X = boston[<span class="hljs-string">'data'</span>]<br/>
+xgb_model = xgb.XGBRegressor()<br/>
+<br/>
+pipeline_obj = Pipeline([<br/>
+    (<span class="hljs-string">"scaling"</span>, StandardScaler()),<br/>
+    (<span class="hljs-string">"model"</span>, XGBRegressor())<br/>
+])<br/>
+<br/>
+pipeline_obj.fit(X, y)<br/>
+<br/>
+<br/>
+from nyoka <span class="hljs-keyword">import</span> xgboost_to_pmml<br/>
+<br/>
+xgboost_to_pmml(pipeline_obj, boston.feature_names, <span class="hljs-string">'target'</span>, <span class="hljs-string">"xgb_pmml.pmml"</span>)
+</code></pre><br/>
+<h6 id="nyoka-to-export-lightgbm-models-">Nyoka to export lightGBM models:</h6>
+<p><strong>#&nbsp;</strong>Exporting a LGBM model into PMML</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br/>
+from sklearn <span class="hljs-keyword">import</span> datasets<br/>
+from sklearn.pipeline <span class="hljs-keyword">import</span> Pipeline<br/>
+from lightgbm <span class="hljs-keyword">import</span> LGBMRegressor,LGBMClassifier<br/>
+<br/>
+<br/>
+iris = datasets.load_iris()<br/>
+irisd = pd.DataFrame(iris.<span class="hljs-keyword">data</span>,columns=iris.feature_names)<br/>
+irisd[<span class="hljs-string">'Species'</span>] = iris.target<br/>
+<br/>
+features = irisd.columns.drop(<span class="hljs-string">'Species'</span>)<br/>
+target = <span class="hljs-string">'Species'</span><br/>
+<br/>
+pipeline_obj = Pipeline([<br/>
+    (<span class="hljs-string">'lgbmc'</span>,LGBMClassifier())<br/>
+])<br/>
+<br/>
+pipeline_obj.fit(irisd[features],irisd[target])<br/>
+<br/>
+<br/>
+from nyoka <span class="hljs-keyword">import</span> lgb_to_pmml<br/>
+<br/>
+lgb_to_pmml(pipeline_obj,features,target,<span class="hljs-string">"lgbmc_pmml.pmml"</span>)
+</code></pre><br/>
+<h6 id="nyoka-to-export-keras-models-">Nyoka to export keras models:</h6>
+<p><strong>#&nbsp;</strong>Exporting a Mobilenet model into PMML</p>
+<pre><code class="lang-python">from keras <span class="hljs-built_in">import</span> applications<br/>
+from keras.layers <span class="hljs-built_in">import</span> Flatten, Dense<br/>
+from keras.models <span class="hljs-built_in">import</span> Model<br/>
+<br/>
+<span class="hljs-attr">model</span> = applications.MobileNet(<span class="hljs-attr">weights='imagenet',</span> <span class="hljs-attr">include_top=False,input_shape</span> = (<span class="hljs-number">224</span>, <span class="hljs-number">224</span>,<span class="hljs-number">3</span>))<br/>
+<br/>
+<span class="hljs-attr">activType='sigmoid'</span><br/>
+<span class="hljs-attr">x</span> = model.output<br/>
+<span class="hljs-attr">x</span> = Flatten()(x)<br/>
+<span class="hljs-attr">x</span> = Dense(<span class="hljs-number">1024</span>, <span class="hljs-attr">activation="relu")(x)</span><br/>
+<span class="hljs-attr">predictions</span> = Dense(<span class="hljs-number">2</span>, <span class="hljs-attr">activation=activType)(x)</span><br/>
+<span class="hljs-attr">model_final</span> = Model(<span class="hljs-attr">inputs</span> =model.input, <span class="hljs-attr">outputs</span> = predictions,<span class="hljs-attr">name='predictions')</span><br/>
+<br/>
+from nyoka <span class="hljs-built_in">import</span> KerasToPmml<br/>
+<span class="hljs-attr">cnn_pmml</span> = KerasToPmml(model_final,<span class="hljs-attr">dataSet='image',predictedClasses=['cats','dogs'])</span><br/>
+<br/>
+cnn_pmml.export(open('<span class="hljs-number">2</span>classMBNet.pmml', <span class="hljs-string">"w"</span>), <span class="hljs-number">0</span>)
+</code></pre>
+<h3 id="uninstallation">Uninstallation</h3>
+<pre><code><span class="hljs-attribute">pip uninstall nyoka</span>
+</code></pre>
+
+
 </div>
 
 
+           </div>
+           
           </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="PMML44.html" class="btn btn-neutral float-right" title="PMML44 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, maintainer@nyoka.org
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="#">Nyoka</a></h1>
+
+    </section>
+
+  </div>
+  
 
 
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
 
-
-
-
-
-
-<h3>Navigation</h3>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PMML43Ext.html">PMML43Ext module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">keras_model_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre_process.html">pre_process module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">xgboost_to_pmml module</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="PMML43Ext.html" title="next chapter">PMML43Ext module</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2018, Maintainer.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
-      
-      |
-      <a href="_sources/index.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
+  
+  
     
+   
 
-    
-  </body>
+</body>
 </html>

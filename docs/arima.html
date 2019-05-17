@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>arima module &mdash; Nyoka 3.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'3.1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="exponential_smoothing module" href="exponential_smoothing.html" />
+    <link rel="prev" title="PMML44Super module" href="PMML44Super.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nyoka
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+  <li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
+  <li class="toctree-l1 current"><a class="current reference internal" href="#">ARIMA Exporter Module</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Scikit-learn's Pre-Processing Module</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nyoka</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>arima module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+          <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github"> Edit on GitHub</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-arima">
+<span id="arima-module"></span><h1>arima module<a class="headerlink" href="#module-arima" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="arima.ArimaToPMML">
+<em class="property">class </em><code class="descclassname">arima.</code><code class="descname">ArimaToPMML</code><span class="sig-paren">(</span><em>time_series_data</em>, <em>model_obj</em>, <em>results_obj</em>, <em>pmml_file_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.</p>
+<dl class="docutils">
+<dt>time_series_data: Pandas Series object</dt>
+<dd>The input data</dd>
+<dt>model_obj: statsmodels model object</dt>
+<dd>Instance of ExponentialSmoothing from statsmodels</dd>
+<dt>results_obj: statsmodels trained model object</dt>
+<dd>Instance of HoltWintersResults from statsmodels</dd>
+<dt>pmml_file_name: string</dt>
+<dd>Name of the pmml</dd>
+</dl>
+<dl class="method">
+<dt id="arima.ArimaToPMML.ExportToPMML">
+<code class="descname">ExportToPMML</code><span class="sig-paren">(</span><em>model_name</em>, <em>arima_obj</em>, <em>ts_data</em>, <em>f_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML.ExportToPMML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML.ExportToPMML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the PMML file by aggregating all required data</p>
+<dl class="docutils">
+<dt>model_name: string</dt>
+<dd>Name of the model</dd>
+<dt>arima_obj: statsmodels model object</dt>
+<dd>ARIMA model object</dd>
+<dt>ts_data <span class="classifier-delimiter">:</span> <span class="classifier">Pandas Series object</span></dt>
+<dd>The input data</dd>
+<dt>f_name <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd>Pmml file name</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="arima.ArimaToPMML.get_arima_extension_list">
+<code class="descname">get_arima_extension_list</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML.get_arima_extension_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML.get_arima_extension_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Extension for ARIMA object</p>
+<dl class="docutils">
+<dt>model: statsmodels model object</dt>
+<dd>Statsmodels model object</dd>
+</dl>
+<dl class="docutils">
+<dt>extensions <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>A list of Extension object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="arima.ArimaToPMML.get_arima_obj">
+<code class="descname">get_arima_obj</code><span class="sig-paren">(</span><em>sm_model</em>, <em>sm_results</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML.get_arima_obj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML.get_arima_obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Arima’s PMML object</p>
+<dl class="docutils">
+<dt>sm_model: statsmodels model object</dt>
+<dd>Statsmodels model object</dd>
+<dt>sm_results: statsmodels trained model object</dt>
+<dd>Statsmodels trained model object</dd>
+</dl>
+<dl class="docutils">
+<dt>nyoka_sarimax_obj <span class="classifier-delimiter">:</span> <span class="classifier">Nyoka PMML44 object</span></dt>
+<dd>ARIMA object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="arima.ArimaToPMML.get_data_field_objs">
+<code class="descname">get_data_field_objs</code><span class="sig-paren">(</span><em>ts_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML.get_data_field_objs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML.get_data_field_objs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a list with instances of DataField</p>
+<dl class="docutils">
+<dt>ts_data: Pandas Series object</dt>
+<dd>The input data</dd>
+</dl>
+<dl class="docutils">
+<dt>data_field_objs: list</dt>
+<dd>A list of DataField object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="arima.ArimaToPMML.get_mining_field_objs">
+<code class="descname">get_mining_field_objs</code><span class="sig-paren">(</span><em>ts_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML.get_mining_field_objs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML.get_mining_field_objs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a list with instances of MiningField</p>
+<dl class="docutils">
+<dt>ts_data <span class="classifier-delimiter">:</span> <span class="classifier">pandas Series</span></dt>
+<dd>The input data</dd>
+</dl>
+<dl class="docutils">
+<dt>mining_field_obj <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>A list of MiningField object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="arima.ArimaToPMML.get_pmml_datatype_optype">
+<code class="descname">get_pmml_datatype_optype</code><span class="sig-paren">(</span><em>series_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML.get_pmml_datatype_optype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML.get_pmml_datatype_optype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create dataType and opType for the model object</p>
+<dl class="docutils">
+<dt>series_obj: statsmodels model object</dt>
+<dd>Statsmodels model object</dd>
+</dl>
+<dl class="docutils">
+<dt>pmml_data_type: string</dt>
+<dd>Data type</dd>
+<dt>pmml_op_type: string</dt>
+<dd>Optype</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="arima.ArimaToPMML.get_sarimax_extension_list">
+<code class="descname">get_sarimax_extension_list</code><span class="sig-paren">(</span><em>results</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML.get_sarimax_extension_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML.get_sarimax_extension_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Extension for SARIMAX object</p>
+<dl class="docutils">
+<dt>results: statsmodels model object</dt>
+<dd>Statsmodels trained model</dd>
+</dl>
+<dl class="docutils">
+<dt>extensions <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>A list of Extension object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="arima.ArimaToPMML.get_sarimax_obj">
+<code class="descname">get_sarimax_obj</code><span class="sig-paren">(</span><em>sm_model</em>, <em>sm_results</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML.get_sarimax_obj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML.get_sarimax_obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create SeasonalArima’s PMML object</p>
+<dl class="docutils">
+<dt>sm_model: statsmodels model object</dt>
+<dd>Statsmodels model object</dd>
+<dt>sm_results: statsmodels trained model object</dt>
+<dd>Statsmodels trained model object</dd>
+</dl>
+<dl class="docutils">
+<dt>nyoka_sarimax_obj <span class="classifier-delimiter">:</span> <span class="classifier">Nyoka PMML44 Object</span></dt>
+<dd>ARIMA object</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="arima.ArimaToPMML.get_time_series_obj_list">
+<code class="descname">get_time_series_obj_list</code><span class="sig-paren">(</span><em>ts_data</em>, <em>usage='original'</em>, <em>timeRequired=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML.get_time_series_obj_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML.get_time_series_obj_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create TimeSeries object for time series data</p>
+<dl class="docutils">
+<dt>ts_data <span class="classifier-delimiter">:</span> <span class="classifier">pandas Series</span></dt>
+<dd>The input data</dd>
+<dt>usage <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd>usage type (default=”original”)</dd>
+<dt>timeRequired <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd>(default=True)</dd>
+</dl>
+<p>Returns:
+get_time_series_obj_list : list</p>
+<blockquote>
+<div>A list of TimeSeries object</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="exponential_smoothing.html" class="btn btn-neutral float-right" title="exponential_smoothing module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="PMML44Super.html" class="btn btn-neutral float-left" title="PMML44Super module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, maintainer@nyoka.org
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
