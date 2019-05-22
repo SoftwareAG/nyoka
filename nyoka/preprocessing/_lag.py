@@ -11,8 +11,10 @@ class Lag():
     -----------
     aggregation : String
         aggregation type. The valid types are ["min", "max", "sum", "avg", "median", "product", "stddev"]
-    value : Integer (deafault = 1)
-        The number of previous record to aggregate 
+    value : Integer (default = 1)
+        The number of previous record to aggregate
+
+    
     """
     
     _valid_aggs = ["min", "max", "sum", "avg", "median", "product", "stddev"]
@@ -25,22 +27,20 @@ class Lag():
         
     def fit(self, X, y=None):
         self._transformed_X = list()
-        if self.aggregation == "stddev":
-            X = check_array(X, copy=self.copy, warn_on_dtype=True, estimator=self,\
+        X = check_array(X, copy=self.copy, warn_on_dtype=True, estimator=self,\
                         dtype=FLOAT_DTYPES,force_all_finite="allow-nan")       
-            q_list = [queue.Queue() for i in range(len(X[0]))]
+        q_list = [queue.Queue() for i in range(len(X[0]))]
             
-            for _ in range(self.value):
-                for q_ in q_list:
-                    q_.put(0.0)
-
+        for _ in range(self.value):
+            for q_ in q_list:
+                q_.put(0.0)
+        if self.aggregation == "stddev":
             for row in X:
                 std_devs = [np.std(list(q_.queue)) for q_ in q_list]
                 self._transformed_X.append(std_devs)
-                for q_ in q_list:
-                    q_.get()
                 for idx, col in enumerate(row):
                     q_list[idx].put(col)
+                    q_list[idx].get()
         else:
             NotImplementedError(f"The aggregation type '{self.aggregation}' is not implemented!")
             
