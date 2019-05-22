@@ -21,6 +21,8 @@ class Lag:
     
     def __init__(self, aggregation, value=1, copy=True):
         assert aggregation in self._valid_aggs, f"Invalid `aggregation` type. Valid types are {self._valid_aggs}"
+        if aggregation != "stddev":
+            NotImplementedError(f"The aggregation type '{self.aggregation}' is not implemented!")
         self.aggregation = aggregation
         self.value = value
         self.copy = copy
@@ -41,8 +43,6 @@ class Lag:
                 for idx, col in enumerate(row):
                     q_list[idx].put(col)
                     q_list[idx].get()
-        else:
-            NotImplementedError(f"The aggregation type '{self.aggregation}' is not implemented!")
             
         
     def transform(self, X, y=None):
