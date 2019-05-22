@@ -4,6 +4,16 @@ from sklearn.utils import check_array
 FLOAT_DTYPES = (np.float64, np.float32, np.float16)
 
 class Lag():
+    """
+    The Lag class takes `value` number of previous record of the field where it is applied and applies `aggregation` to those values.
+
+    Parameters:
+    -----------
+    aggregation : String
+        aggregation type. The valid types are ["min", "max", "sum", "avg", "median", "product", "stddev"]
+    value : Integer (deafault = 1)
+        The number of previous record to aggregate 
+    """
     
     _valid_aggs = ["min", "max", "sum", "avg", "median", "product", "stddev"]
     
@@ -31,6 +41,8 @@ class Lag():
                     q_.get()
                 for idx, col in enumerate(row):
                     q_list[idx].put(col)
+        else:
+            NotImplementedError(f"The aggregation type '{self.aggregation}' is not implemented!")
             
         
     def transform(self, X, y=None):
