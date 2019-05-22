@@ -22,7 +22,7 @@ class Lag:
     def __init__(self, aggregation, value=1, copy=True):
         assert aggregation in self._valid_aggs, f"Invalid `aggregation` type. Valid types are {self._valid_aggs}"
         if aggregation != "stddev":
-            NotImplementedError(f"The aggregation type '{self.aggregation}' is not implemented!")
+            NotImplementedError(f"The aggregation type '{aggregation}' is not implemented!")
         self.aggregation = aggregation
         self.value = value
         self.copy = copy
