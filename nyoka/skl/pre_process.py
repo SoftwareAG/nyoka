@@ -4,9 +4,6 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import PMML44 as pml
-import re
-import string
-regex = re.compile('[%s]' % re.escape(string.punctuation))
 exception_cols = list()
 
 def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
@@ -187,6 +184,8 @@ def get_pml_derived_flds(trfm, col_names, **kwargs):
         return one_hot_encoder(trfm,col_names,**kwargs)
     elif "CategoricalImputer" == get_class_name(trfm):
         return cat_imputer(trfm, col_names)
+    elif "Lag" == get_class_name(trfm):
+        return lag(trfm, col_names)
     else:
         raise TypeError("This PreProcessing Task is not Supported")
 
@@ -411,11 +410,6 @@ def pca(trfm, col_names):
     pp_dict['der_col_names'] = derived_colnames
     return pp_dict
 
-def remove_punctuation(word):
-    # no_punct_word = regex.sub('', word)
-    return regex.findall(word)
-    # return no_punct_word
-
 
 def tfidf_vectorizer(trfm, col_names):
     """
@@ -544,6 +538,48 @@ def is_present(string1,iterator):
             return True
 
     return False
+
+
+def lag(trfm, col_names):
+    """
+
+    Parameters
+    ----------
+    trfm :
+        Contains the Nyoka's Lag preprocessing instance.
+    col_names : list
+        Contains list of feature/column names.
+        The column names may represent the names of preprocessed attributes.
+
+    Returns
+    -------
+    pp_dict : dictionary
+        Returns a dictionary that contains attributes related to Lag preprocessing.
+
+    """
+    derived_flds = list()
+    pp_dict = dict()
+    derived_colnames = get_derived_colnames(trfm.aggregation, col_names)
+    if trfm.aggregation == 'stddev':
+        for idx, name in enumerate(col_names):
+            applyies = list()
+            for i in range(trfm.value):
+                lags = list()
+                lags.append(pml.Lag(field=name,n=i+1))
+                lags.append(pml.Lag(field=name,n=trfm.value, aggregate="avg"))
+                div_func = pml.Apply(function="-",Lag=lags)
+                pow_func = pml.Apply(function="pow", Apply_member=[div_func], Constant=[pml.Constant(dataType="integer",valueOf_=2)])
+                applyies.append(pow_func)
+            add_func = pml.Apply(function="+", Apply_member=applyies)
+            div_func = pml.Apply(function="/", Apply_member=[add_func], Constant=[pml.Constant(dataType="double", valueOf_=float(trfm.value))])
+            sqrt_func = pml.Apply(function="sqrt", Apply_member=[div_func])
+            derived_fld = pml.DerivedField(name=derived_colnames[idx], Apply=sqrt_func, optype="continuous", dataType="double")
+            derived_flds.append(derived_fld)
+    
+    pp_dict['der_fld'] = derived_flds
+    pp_dict['der_col_names'] = derived_colnames
+    return pp_dict   
+
 
 
 def std_scaler(trfm, col_names, **kwargs):
