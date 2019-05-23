@@ -1,9 +1,10 @@
 import queue
 import numpy as np
 from sklearn.utils import check_array
+from sklearn.base import TransformerMixin
 FLOAT_DTYPES = (np.float64, np.float32, np.float16)
 
-class Lag:
+class Lag(TransformerMixin):
     """
     The Lag class takes `value` number of previous record of the field where it is applied and applies `aggregation` to those values.
 
@@ -48,9 +49,6 @@ class Lag:
     def transform(self, X, y=None):
         return np.array(self._transformed_X)
         
-    def fit_transform(self, X, y=None):
-        self.fit(X,y)
-        return self.transform(X,y)
     
     def __repr__(self):
         return f"Lag(aggregation='{self.aggregation}', value={self.value})"
