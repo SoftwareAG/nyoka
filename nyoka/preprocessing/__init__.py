@@ -44,6 +44,7 @@ class Lag(TransformerMixin):
                     q_list[idx].get()
         else:
             raise NotImplementedError(f"The aggregation type '{self.aggregation}' is not implemented!")
+        return self
             
         
     def transform(self, X, y=None):
