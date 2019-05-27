@@ -1,8 +1,62 @@
 import queue
 import numpy as np
+import pandas as pd
+import inspect, marshal
+from types import FunctionType
 from sklearn.utils import check_array
 from sklearn.base import TransformerMixin
 FLOAT_DTYPES = (np.float64, np.float32, np.float16)
+
+
+class NyokaFunctionTransformer(TransformerMixin):
+    """
+    The NyokaFunctionTransformer class takes a custom function and transforms the data according to that function.
+
+    Note - If the custom function is treating the dataset as pandas DataFrame then only use the transformer inside DataframeMapper, otherwise use it as a step in the pipeline.
+
+    Parameters:
+    ----------
+    function : A python function
+        The custom function
+    input_cols : list
+        The column names of the dataset before executing the custom function
+    output_cols : list
+        The column names of the dataset after executing the custom function
+
+
+    """
+    def __init__(self, function, input_cols, output_cols):
+        self.func = function
+        self.func_code = marshal.dumps(self.func.__code__)
+        self.source_code = inspect.getsource(function)
+        self.globals = function.__globals__
+        self.input_cols = input_cols
+        self.output_cols = output_cols
+        del self.func
+    
+    def fit(self, X, y=None):
+        import inspect
+        calframe = inspect.getouterframes(inspect.currentframe(), 2)
+        caller_name = calframe[3][1]
+        if caller_name.endswith("memory.py"):
+            self.data_format = "array"
+        elif caller_name.endswith("mapper.py"):
+            self.data_format = "dataframe"
+        self.func = FunctionType(marshal.loads(self.func_code), self.globals)
+        return self
+    
+    def transform(self, X, y=None):
+        X = check_array(X)
+        if self.data_format == "dataframe":
+            X = pd.DataFrame(X,columns=self.input_cols)
+        return self.func(X)
+    
+    def fit_transform(self, X, y=None):
+        return self.fit(X).transform(X)
+    
+    def __repr__(self):
+        return f"NyokaFunctionTransformer(function={self.func.__name__}, input_cols={self.input_cols}, output_cols={self.output_cols})"
+
 
 class Lag(TransformerMixin):
     """
