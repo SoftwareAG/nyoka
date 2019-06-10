@@ -464,7 +464,11 @@ class TestMethods(unittest.TestCase):
 
 
 if __name__=='__main__':
-    print(os.path.abspath("."))
+    with open('/home/travis/build/test.txt','w') as test:
+        test.write("Hello World")
+    with open('/home/travis/build/test.txt','r') as tt:
+        val = tt.read()
+        print(val)
     unittest.main(warnings='ignore')
 
 
