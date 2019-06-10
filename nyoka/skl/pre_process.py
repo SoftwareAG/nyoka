@@ -553,23 +553,24 @@ def is_present(string1,iterator):
 def custom_function(trfm, col_names):
     derived_flds = list()
     pp_dict = dict()
-    derived_colnames = get_derived_colnames("customFunction", trfm.output_cols)
+    input_cols = trfm.input_cols
+    output_cols = trfm.output_cols
+    modified_cols = trfm.modified_cols
+    derived_colnames = ['customFunction('+col+')' if col in modified_cols else col for col in output_cols]
 
-    ext = pml.Extension(extender="ADAPA", name="myFunc", value="python", anytypeobjs_=[trfm.source_code])
+    ext = pml.Extension(extender="ADAPA", name=trfm.func.__name__, value="python", anytypeobjs_=[trfm.source_code])
     apply = pml.Apply(function="custom", Extension=[ext])
-    def_func = pml.DefineFunction(name=trfm.func.__name__, optype="continous", dataType="string")
-    if trfm.data_format == "dataframe":
-        for col in trfm.input_cols:
-            def_func.add_ParameterField(pml.ParameterField(name=col))
+    def_func = pml.DefineFunction(name=trfm.func.__name__, optype="continous", dataType="Double-Array")
+    for col in trfm.input_cols:
+        def_func.add_ParameterField(pml.ParameterField(name=col))
     def_func.Apply = apply
 
-    for idx, col in enumerate(trfm.output_cols):
-        fld_refs = list()
-        if trfm.data_format == "dataframe":
-            for fld in trfm.input_cols:
-                fld_refs.append(pml.FieldRef(field=fld))
-        apply = pml.Apply(function=trfm.func.__name__+":"+str(idx), FieldRef=fld_refs)
-        derived_flds.append(pml.DerivedField(name=derived_colnames[idx], optype="continous",\
+    fld_refs = list()
+    for fld in input_cols:
+        fld_refs.append(pml.FieldRef(field=fld))
+    for col in modified_cols:
+        apply = pml.Apply(function=trfm.func.__name__+":"+str(output_cols.index(col)), FieldRef=fld_refs)
+        derived_flds.append(pml.DerivedField(name='customFunction('+col+')', optype="continous",\
                                         dataType="double", Apply=apply))
 
     pp_dict['der_fld'] = derived_flds

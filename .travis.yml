@@ -13,7 +13,7 @@ before_script:
 script:
   - python nyoka/tests/test_import.py
   - python nyoka/tests/install_dependencies.py
-  - python nyoka/tests/skl_to_pmml_UnitTest.py
+  - python nyoka/tests/skl_to_pmml_UnitTest.py $pkg
   # - python nyoka/tests/pmml_to_pipeline_skl_UnitTest.py
   - python nyoka/tests/xgboost_to_pmml_UnitTest.py
   # - python nyoka/tests/pmml_to_pipeline_xgboost_UnitTest.py

@@ -1,6 +1,7 @@
 import os
 import unittest
 import pandas as pd
+import sys
 from sklearn import datasets
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, Imputer, LabelEncoder, LabelBinarizer
@@ -463,6 +464,8 @@ class TestMethods(unittest.TestCase):
 
 
 if __name__=='__main__':
+    env_var = sys.argv[-1]
+    print(env_var)
     unittest.main(warnings='ignore')
 
 
