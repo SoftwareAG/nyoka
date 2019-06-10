@@ -464,8 +464,6 @@ class TestMethods(unittest.TestCase):
 
 
 if __name__=='__main__':
-    env_var = sys.argv[-1]
-    print(env_var)
     unittest.main(warnings='ignore')
 
 
