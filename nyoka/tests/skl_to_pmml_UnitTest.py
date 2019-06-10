@@ -465,7 +465,8 @@ class TestMethods(unittest.TestCase):
 
 if __name__=='__main__':
     
-    print(os.environ)
+    val = os.environ['pkg']
+    print("val is {}{}".format(val[:len(val)//2], val[len(val)//2:]))
     unittest.main(warnings='ignore')
 
 
