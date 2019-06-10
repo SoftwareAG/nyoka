@@ -464,7 +464,7 @@ class TestMethods(unittest.TestCase):
 
 
 if __name__=='__main__':
-    print(os.curdir())
+    print(os.curdir)
     unittest.main(warnings='ignore')
 
 
