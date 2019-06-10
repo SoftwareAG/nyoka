@@ -464,9 +464,7 @@ class TestMethods(unittest.TestCase):
 
 
 if __name__=='__main__':
-    
-    val = os.environ['pkg']
-    print(val+" package")
+    print(os.curdir())
     unittest.main(warnings='ignore')
 
 
