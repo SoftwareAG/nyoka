@@ -464,6 +464,8 @@ class TestMethods(unittest.TestCase):
 
 
 if __name__=='__main__':
+    
+    print(os.environ)
     unittest.main(warnings='ignore')
 
 
