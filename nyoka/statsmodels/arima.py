@@ -181,4 +181,4 @@ class ArimaToPMML:
             ExportToPMML(model_name = model_name, arima_obj = arima_obj)
 
         else:
-            raise NotImplementedError("Not Implemented. Currently we support only (SARIMAX , SARIMAXResultsWrapper) , (ARIMA , ARIMAResultsWrapper) Combinations of Model and Result Objects.")
+            raise NotImplementedError("Not Implemented. Currently we support only ARIMA and SARIMAX.")
