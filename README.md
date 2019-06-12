@@ -256,7 +256,7 @@ ArimaToPMML(results_obj = result,pmml_file_name = pmml_f_name)
 Nyoka contains one submodule called `preprocessing`. This module contains preprocessing classes implemented by Nyoka. Currently there is only one preprocessing class, which is `Lag`.
 
 #### What is Lag? When to use it?
->Lag is a preprocessing class implemented by Nyoka. When used inside scikit-learn's pipeline, it simply applies  an `aggregation` function for the given features of the dataset by combining `n` number of previous records. It takes two arguments- aggregation and value.
+>Lag is a preprocessing class implemented by Nyoka. When used inside scikit-learn's pipeline, it simply applies  an `aggregation` function for the given features of the dataset by combining `value` number of previous records. It takes two arguments- aggregation and value.
 >
 > The valid `aggregation` functions are -
 "min",  "max",  "sum",  "avg",  "median",  "product" and "stddev".
