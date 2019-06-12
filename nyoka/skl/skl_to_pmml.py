@@ -558,7 +558,6 @@ def get_output_for_clustering(values):
         Returns a list of OutputField
     """
     output_fields = list()
-    output_fields.append(pml.OutputField(name="cluster", optype="categorical",dataType="string",feature="predictedValue"))
     for idx, val in enumerate(values):
         output_fields.append(
             pml.OutputField(
@@ -569,6 +568,7 @@ def get_output_for_clustering(values):
                 value=str(val)
             )
         )
+    output_fields.append(pml.OutputField(name="cluster", optype="categorical",dataType="string",feature="predictedValue"))
     return pml.Output(OutputField=output_fields)
         
 

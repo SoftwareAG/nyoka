@@ -42,7 +42,7 @@ class TestMethods(unittest.TestCase):
         svms = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
         for mod_val, recon_val in zip(model.intercept_, svms):
             self.assertEqual("{:.16f}".format(mod_val), "{:.16f}".format(recon_val.Coefficients.absoluteValue))
-
+        
         ## 2
         svm = pmml_obj.SupportVectorMachineModel[0]
         self.assertEqual(svm.RadialBasisKernelType.gamma,model._gamma)
@@ -55,6 +55,7 @@ class TestMethods(unittest.TestCase):
 
         features = irisd.columns.drop('Species')
         target = 'Species'
+        f_name = "knn_pmml.pmml"
 
         pipeline_obj = Pipeline([
             ('scaling',StandardScaler()), 
@@ -63,9 +64,17 @@ class TestMethods(unittest.TestCase):
 
         pipeline_obj.fit(irisd[features],irisd[target])
 
-        skl_to_pmml(pipeline_obj,features,target,"knn_pmml.pmml")
+        skl_to_pmml(pipeline_obj,features,target,f_name)
 
-        self.assertEqual(os.path.isfile("knn_pmml.pmml"),True)
+        pmml_obj = pml.parse(f_name,True)
+        ##1
+        self.assertIsNotNone(pmml_obj.NearestNeighborModel[0].ComparisonMeasure.euclidean)
+        
+        ##2
+        self.assertEqual(pmml_obj.NearestNeighborModel[0].ComparisonMeasure.kind, "distance")
+        
+        ##3
+        self.assertEqual(pmml_obj.steps[-1][-1].n_neighbors, pmml_obj.NearestNeighborModel[0].numberOfNeighbors)
 
     
     def test_sklearn_03(self):
@@ -93,6 +102,9 @@ class TestMethods(unittest.TestCase):
         ## 1
         self.assertEqual(model.n_estimators,pmml_obj.MiningModel[0].Segmentation.Segment.__len__())
 
+        ##2
+        self.assertEqual(pmml_obj.MiningModel[0].Segmentation.multipleModelMethod, "majorityVote")
+
 
     def test_sklearn_04(self):
         titanic = pd.read_csv("nyoka/tests/titanic_train.csv")
@@ -101,6 +113,7 @@ class TestMethods(unittest.TestCase):
 
         features = list(titanic.columns.drop(['PassengerId','Name','Ticket','Cabin','Survived']))
         target = 'Survived'
+        f_name = "gb_pmml.pmml"
 
         pipeline_obj = Pipeline([
             ("mapping", DataFrameMapper([
@@ -113,9 +126,18 @@ class TestMethods(unittest.TestCase):
 
         pipeline_obj.fit(titanic[features],titanic[target])
 
-        skl_to_pmml(pipeline_obj, features, target, "gb_pmml.pmml")
+        skl_to_pmml(pipeline_obj, features, target, f_name)
 
-        self.assertEqual(os.path.isfile("gb_pmml.pmml"),True)
+        pmml_obj = pml.parse(f_name,True)
+
+        ##1
+        self.assertEqual(pmml_obj.MiningModel[0].Segmentation.multipleModelMethod, "modelChain")
+
+        ##2
+        self.assertEqual(pmml_obj.MiningModel[0].Segmentation.Segment.__len__(), 2)
+
+        ##3
+        self.assertEqual(pmml_obj.MiningModel[0].Segmentation.Segment[1].RegressionModel.normalizationMethod, "logit")
 
 
     def test_sklearn_05(self):
@@ -194,7 +216,16 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(segmentation.Segment.__len__(), model.classes_.__len__()+1)
 
         ## 2
+        self.assertEqual(segmentation.multipleModelMethod, "modelChain")
 
+        ##3
+        self.assertEqual(segmentation.Segment[-1].RegressionModel.normalizationMethod, "simplemax")
+
+        ##4
+        for i in range(model.classes_.__len__()):
+            self.assertEqual(segmentation.Segment[i].RegressionModel.normalizationMethod, "logit")
+            self.assertEqual("{:.16f}".format(model.intercept_[i]),\
+                 "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
     def test_sklearn_08(self):
         iris = datasets.load_iris()
@@ -464,7 +495,6 @@ class TestMethods(unittest.TestCase):
 
 
 if __name__=='__main__':
-    print(os.listdir())
     unittest.main(warnings='ignore')
 
 
