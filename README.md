@@ -277,6 +277,6 @@ pip uninstall nyoka
 
 You can ask questions at:
 
-*	[https://stackoverflow.com](https://stackoverflow.com) by tagging your questions with #pmml, #nyoka
+*	[Stack Overflow](https://stackoverflow.com) by tagging your questions with #pmml, #nyoka
 *	You can also post bug reports in [GitHub issues](https://github.com/nyoka-pmml/nyoka/issues) 
  
