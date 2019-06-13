@@ -125,12 +125,12 @@ The main module of __Nyoka__ is `nyoka`. To use it for your model, you need to i
 from nyoka import skl_to_pmml, lgb_to_pmml #... so on
 ```
 #### Note -
- - If scikit-learn, xgboost and lightgbm model is used and it should be used inside sklearn's Pipeline.
+ - If scikit-learn, xgboost and lightgbm model is used then the model should be used inside sklearn's Pipeline.
 	The workflow is as follows -
 	* Create scikit-learn's `Pipeline` object and populate it with any preprocessing steps and the model object.
-	* Call `Pipeline.fit(X,y)` method to train your model.
-	* Pass use the specific exporter and pass the pipeline object, feature names of the training dataset, target name and expected name of the PMML to the exporter function. If target name is not given default value `target` is used. Similarly, for pmml name, default value `from_sklearn.pmml`/`from_xgboost.pmml`/`from_lighgbm.pmml` is used. 
- - For Keras and Statsmodels, the fitted model needs to be passed to the exporte
+	* Call `Pipeline.fit(X,y)` method to train the model.
+	* Use the specific exporter and pass the pipeline object, feature names of the training dataset, target name and expected name of the PMML to the exporter function. If target name is not given default value `target` is used. Similarly, for pmml name, default value `from_sklearn.pmml`/`from_xgboost.pmml`/`from_lighgbm.pmml` is used. 
+ - For Keras and Statsmodels, the fitted model needs to be passed to the exporter.
  
  ___Demo is provided below___
 ### Nyoka to export scikit-learn models:

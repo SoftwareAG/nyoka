@@ -159,8 +159,6 @@ class ArimaToPMML:
             extensions = list()
             extensions.append(Extension(name="sigmaSquare", value = results._params_variance[0]))
             extensions.append(Extension(name="cov_type", value = results.cov_type))
-            extensions.append(Extension(name="approx_complex_step", value = results._cov_approx_complex_step))
-            extensions.append(Extension(name="approx_centered", value = results._cov_approx_centered))
             return extensions
 
         def get_arima_extension_list(model):

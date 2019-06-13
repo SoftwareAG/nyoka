@@ -561,7 +561,7 @@ def lag(trfm, col_names):
     Parameters
     ----------
     trfm :
-        Contains the Nyoka's Lag preprocessing instance.
+        Contains the Nyoka's Lag instance.
     col_names : list
         Contains list of feature/column names.
         The column names may represent the names of preprocessed attributes.
@@ -582,8 +582,8 @@ def lag(trfm, col_names):
                 lags = list()
                 lags.append(pml.Lag(field=name,n=i+1))
                 lags.append(pml.Lag(field=name,n=trfm.value, aggregate="avg"))
-                div_func = pml.Apply(function="-",Lag=lags)
-                pow_func = pml.Apply(function="pow", Apply_member=[div_func], Constant=[pml.Constant(dataType="integer",valueOf_=2)])
+                sub_func = pml.Apply(function="-",Lag=lags)
+                pow_func = pml.Apply(function="pow", Apply_member=[sub_func], Constant=[pml.Constant(dataType="integer",valueOf_=2)])
                 applyies.append(pow_func)
             add_func = pml.Apply(function="+", Apply_member=applyies)
             div_func = pml.Apply(function="/", Apply_member=[add_func], Constant=[pml.Constant(dataType="double", valueOf_=float(trfm.value))])
