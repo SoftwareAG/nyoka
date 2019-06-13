@@ -194,8 +194,6 @@ def get_pml_derived_flds(trfm, col_names, **kwargs):
         return cat_imputer(trfm, col_names)
     elif "Lag" == get_class_name(trfm):
         return lag(trfm, col_names)
-    elif "NyokaFunctionTransformer" == get_class_name(trfm):
-        return custom_function(trfm, col_names)
     else:
         raise TypeError("This PreProcessing Task is not Supported")
 
@@ -440,12 +438,8 @@ def tfidf_vectorizer(trfm, col_names):
     """
     pp_dict = dict()
     features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
-    # extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
-    # features = trfm.get_feature_names()
     idfs = trfm.idf_
-    # extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
-    # derived_colnames = list()
     derived_colnames = get_derived_colnames('tfidf@[' + col_names[0] + ']', features)
     if trfm.lowercase:
         derived_flds.append(
@@ -454,23 +448,16 @@ def tfidf_vectorizer(trfm, col_names):
                             Apply=pml.Apply(function='lowercase',
                                             FieldRef=[pml.FieldRef(field=col_names[0])])))
     for feat_idx, idf in zip(range(len(features)), idfs):
-        # no_punct_word = remove_punctuation(features[feat_idx])
-        # if len(no_punct_word) == 0:
-            # df_name = 'tfidf_vec@[' + col_names[0] + ']('+ features[feat_idx]+')'
-            # derived_colnames.append(df_name)
         derived_flds.append(pml.DerivedField(
-            # name=df_name,
             name = derived_colnames[feat_idx],
             optype='continuous',
             dataType='double',
             Apply=pml.Apply(function='*',
                             TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
                                 else col_names[0],
-                                                    # wordSeparatorCharacterRE='\s+',
                                                     wordSeparatorCharacterRE=trfm.token_pattern,
                                                     tokenize='true',
                                                     Constant=pml.Constant(valueOf_=features[feat_idx]),
-                                                    # Extension=[pml.Extension(anytypeobjs_=[extra_features[feat_idx]])]
                                                     )],
                             Constant=[pml.Constant(valueOf_="{:.16f}".format(idf))])
                             ))
@@ -500,12 +487,8 @@ def count_vectorizer(trfm, col_names):
     """
     pp_dict = dict()
     features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
-    # extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
-    # features = trfm.get_feature_names()
-    # extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
-    # derived_colnames = list()
     if trfm.lowercase:
         derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
                                             optype='categorical',
@@ -513,23 +496,16 @@ def count_vectorizer(trfm, col_names):
                                             Apply=pml.Apply(function='lowercase',
                                                             FieldRef=[pml.FieldRef(field=col_names[0])])))
     for imp_features, index in zip(features, range(len(features))):
-        # no_punct_word = remove_punctuation(imp_features)
-        # if len(no_punct_word) == 0:
-            # df_name = 'count_vec@[' + col_names[0] + ']('+ imp_features+')'
-            # derived_colnames.append(df_name)
         df_name = derived_colnames[index]
         derived_flds.append(pml.DerivedField(name=df_name,
                                             optype='continuous',
                                             dataType='double',
                                             TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
                                                 else col_names[0],
-                                                                    # wordSeparatorCharacterRE='\s+',
                                                                     wordSeparatorCharacterRE=trfm.token_pattern,
                                                                     tokenize='true',
                                                                     Constant=pml.Constant(dataType="string",
                                                                                         valueOf_=imp_features),
-                                                                    # Extension=[pml.Extension(
-                                                                    #     anytypeobjs_=[extra_features[index]])]
                                                                     )))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -613,6 +589,11 @@ def lag(trfm, col_names):
             div_func = pml.Apply(function="/", Apply_member=[add_func], Constant=[pml.Constant(dataType="double", valueOf_=float(trfm.value))])
             sqrt_func = pml.Apply(function="sqrt", Apply_member=[div_func])
             derived_fld = pml.DerivedField(name=derived_colnames[idx], Apply=sqrt_func, optype="continuous", dataType="double")
+            derived_flds.append(derived_fld)
+    else:
+        for idx, name in enumerate(col_names):
+            lag = pml.Lag(field=name, n=trfm.value, aggregate=trfm.aggregation)
+            derived_fld = pml.DerivedField(name=derived_colnames[idx], Lag=lag, optype="continuous", dataType="double")
             derived_flds.append(derived_fld)
     
     pp_dict['der_fld'] = derived_flds
