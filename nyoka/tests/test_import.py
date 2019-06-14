@@ -13,5 +13,14 @@ class TestImport(unittest.TestCase):
         self.assertEqual(hasattr(nyoka,"xgboost_to_pmml"),True)
         self.assertEqual(hasattr(nyoka,"lgb_to_pmml"),True)
 
+        import subprocess
+        label = subprocess.check_output(["git", "branch"]).strip()
+        for lb in label.split("\n"):
+            if lb.startswith("*"):
+                branch=lb.replace("* ","")
+                break
+
+        print(branch)
+
 if __name__=='__main__':
     unittest.main(warnings='ignore')
