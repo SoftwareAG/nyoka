@@ -74,7 +74,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(pmml_obj.NearestNeighborModel[0].ComparisonMeasure.kind, "distance")
         
         ##3
-        self.assertEqual(pmml_obj.steps[-1][-1].n_neighbors, pmml_obj.NearestNeighborModel[0].numberOfNeighbors)
+        self.assertEqual(pipeline_obj.steps[-1][-1].n_neighbors, pmml_obj.NearestNeighborModel[0].numberOfNeighbors)
 
     
     def test_sklearn_03(self):

@@ -9,9 +9,11 @@ from pprint import pprint
 from PMML44 import *
 from datetime import datetime
 import metadata
+import warnings
 
 class ArimaToPMML:
-    def __init__(self, results_obj, pmml_file_name):
+    def __init__(self, time_series_data, model_obj, results_obj, pmml_file_name):
+        
 
         def ExportToPMML(model_name = None, arima_obj = None):
             n_columns = 1  # because we are dealing with Series object
