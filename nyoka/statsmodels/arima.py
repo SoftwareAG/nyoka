@@ -125,7 +125,12 @@ class ArimaToPMML:
             idx_name = results_obj.data.orig_endog.index.name
             idx_usage_type = 'order'
             mining_field_objs.append(MiningField(name = idx_name, usageType = idx_usage_type))
-            ts_name = results_obj.data.orig_endog.columns[0]
+            if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
+                ts_name = results_obj.data.orig_endog.columns[0]
+            elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
+                ts_name = results_obj.data.orig_endog.name
+            else:
+                ts_name = 'input'
             ts_usage_type = 'target'
             mining_field_objs.append(MiningField(name = ts_name, usageType = ts_usage_type))
             return mining_field_objs
@@ -152,7 +157,12 @@ class ArimaToPMML:
             index_name = results_obj.data.orig_endog.index.name
             idx_data_type, idx_op_type = get_pmml_datatype_optype(results_obj.model._index)
             data_field_objs.append(DataField(name=index_name, dataType=idx_data_type, optype=idx_op_type))
-            ts_name = results_obj.data.orig_endog.columns[0]
+            if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
+                ts_name = results_obj.data.orig_endog.columns[0]
+            elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
+                ts_name = results_obj.data.orig_endog.name
+            else:
+                ts_name = 'input'
             tar_data_type, ts_op_type = get_pmml_datatype_optype(results_obj.model.endog)
             data_field_objs.append(DataField(name=ts_name, dataType=tar_data_type, optype=ts_op_type))
             return data_field_objs
