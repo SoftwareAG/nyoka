@@ -38,8 +38,7 @@ class Lag(TransformerMixin):
         
     def fit(self, X, y=None):
         self._transformed_X = list()
-        X = check_array(X, copy=self.copy, warn_on_dtype=True, estimator=self,\
-                        dtype=FLOAT_DTYPES,force_all_finite="allow-nan")       
+        X = check_array(X, copy=self.copy, warn_on_dtype=True, estimator=self)       
         q_list = [queue.Queue() for i in range(len(X[0]))]
             
         for _ in range(self.value):

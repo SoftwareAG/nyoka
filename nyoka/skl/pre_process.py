@@ -35,7 +35,7 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
     mining_replacement_val = list()
     mining_attributes = list()
     derived_flds_hidden = list()
-    pml_trfm_dict = list()
+    pml_trfm_dict = None
     polynomial_features.poly_ctr = 0
     pca.counter = 0
     imputer.col_names = initial_colnames
@@ -981,10 +981,6 @@ def lbl_binarizer(trfm, col_names, **kwargs):
                                          name=derived_colnames[class_idx],
                                          optype="categorical",
                                          dataType="double"))
-    if any_in([model.__class__.__name__], model_exception_list):
-        pp_dict['hidden_lb_der_flds'] = derived_flds
-        exception_cols.extend(derived_colnames)
-        derived_flds = list()
 
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -1014,7 +1010,7 @@ def one_hot_encoder(trfm, col_names, **kwargs):
     derived_flds = list()
     derived_colnames = list()
     pp_dict = dict()
-    categoric_lbls = trfm.active_features_.tolist()
+    categoric_lbls = trfm.categories_[0].tolist()
     model_exception_list = ["LinearRegression", "LogisticRegression", "SVR", "SVC"]
     model = kwargs['model']
     for col_name_idx in range(len(col_names)):
@@ -1028,10 +1024,6 @@ def one_hot_encoder(trfm, col_names, **kwargs):
                                      name=derived_colnames[class_idx],
                                      optype="categorical",
                                      dataType="double"))
-    if any_in([model.__class__.__name__], model_exception_list):
-        pp_dict['hidden_ohe_der_flds'] = derived_flds
-        exception_cols.extend(derived_colnames)
-        derived_flds = list()
 
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames

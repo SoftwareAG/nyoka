@@ -12,9 +12,6 @@ class TestImport(unittest.TestCase):
         self.assertEqual(hasattr(nyoka,"KerasToPmml"),True)
         self.assertEqual(hasattr(nyoka,"xgboost_to_pmml"),True)
         self.assertEqual(hasattr(nyoka,"lgb_to_pmml"),True)
-        import subprocess
-        label = subprocess.call(["git", "branch"])
-        print(label)
 
 if __name__=='__main__':
     unittest.main(warnings='ignore')

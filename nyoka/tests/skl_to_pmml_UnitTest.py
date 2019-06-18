@@ -4,8 +4,10 @@ import pandas as pd
 import sys
 from sklearn import datasets
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler, Imputer, LabelEncoder, LabelBinarizer
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import StandardScaler, Imputer, LabelEncoder, LabelBinarizer, MinMaxScaler, MaxAbsScaler, RobustScaler,\
+    Binarizer, PolynomialFeatures, OneHotEncoder
+from sklearn_pandas import CategoricalImputer
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.svm import SVC, SVR, LinearSVC, LinearSVR, OneClassSVM
 from sklearn.decomposition import PCA
@@ -492,6 +494,172 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, "lda.pmml")
 
         self.assertEqual(os.path.isfile("lda.pmml"),True)
+
+
+    def test_sklearn_22(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        model = LogisticRegression()
+        pipeline_obj = Pipeline([
+            ("scaler",Binarizer(threshold=2)),
+            ("model", model)
+        ])
+        pipeline_obj.fit(irisd[features], irisd[target])
+
+        skl_to_pmml(pipeline_obj, features, target, "binarizer.pmml")
+
+        self.assertEqual(os.path.isfile("binarizer.pmml"),True)
+
+    
+    def test_sklearn_23(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        model = LogisticRegression()
+        pipeline_obj = Pipeline([
+            ("scaler",MinMaxScaler()),
+            ("model", model)
+        ])
+        pipeline_obj.fit(irisd[features], irisd[target])
+
+        skl_to_pmml(pipeline_obj, features, target, "minmax.pmml")
+
+        self.assertEqual(os.path.isfile("minmax.pmml"),True)
+
+
+    def test_sklearn_24(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        model = LogisticRegression()
+        pipeline_obj = Pipeline([
+            ("scaler",RobustScaler()),
+            ("model", model)
+        ])
+        pipeline_obj.fit(irisd[features], irisd[target])
+
+        skl_to_pmml(pipeline_obj, features, target, "robust.pmml")
+
+        self.assertEqual(os.path.isfile("robust.pmml"),True)
+
+
+    def test_sklearn_25(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        model = LogisticRegression()
+        pipeline_obj = Pipeline([
+            ("scaler",MaxAbsScaler()),
+            ("model", model)
+        ])
+        pipeline_obj.fit(irisd[features], irisd[target])
+
+        skl_to_pmml(pipeline_obj, features, target, "maxabs.pmml")
+
+        self.assertEqual(os.path.isfile("maxabs.pmml"),True)
+
+    def test_sklearn_25(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+        irisd['new'] = [i%3 for i in range(iris.data.shape[0])]
+        irisd.to_csv("test_new.csv",index=False)
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        model = LogisticRegression()
+        pipeline_obj = Pipeline([
+            ("mapper", DataFrameMapper([
+                (["new"], LabelBinarizer()),
+                (iris.feature_names, None)
+            ])),
+            ('scale', StandardScaler()),
+            ("model", model)
+        ])
+        pipeline_obj.fit(irisd[features], irisd[target])
+
+        skl_to_pmml(pipeline_obj, features, target, "labelbinarizer.pmml")
+
+        self.assertEqual(os.path.isfile("labelbinarizer.pmml"),True)
+
+    
+    def test_sklearn_26(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+        irisd['new'] = [i%3 for i in range(iris.data.shape[0])]
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        model = LinearRegression()
+        pipeline_obj = Pipeline([
+            ("mapper", DataFrameMapper([
+                (["new"], OneHotEncoder(categories='auto'))
+            ])),
+            ("model", model)
+        ])
+        pipeline_obj.fit(irisd[features], irisd[target])
+
+        skl_to_pmml(pipeline_obj, features, target, "onehot.pmml")
+
+        self.assertEqual(os.path.isfile("onehot.pmml"),True)
+
+
+    def test_sklearn_27(self):
+        df = pd.read_csv('nyoka/tests/auto-mpg.csv')
+        X = df.drop(['origin'],axis=1)
+        y = df['origin']
+
+        features = [name for name in df.columns if name not in ('origin')]
+        target = 'origin'
+
+        pipeline_obj = Pipeline([
+            ('mapper', DataFrameMapper([
+                ('car name', CountVectorizer())
+            ])),
+            ('model',LogisticRegression())
+        ])
+
+        pipeline_obj.fit(X,y)
+        
+        skl_to_pmml(pipeline_obj,features,target,"countvec.pmml")
+
+        self.assertEqual(os.path.isfile("countvec.pmml"),True)
+
+
+    def test_sklearn_28(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+        irisd['new'] = [i%3 for i in range(iris.data.shape[0])]
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        model = LogisticRegression()
+        pipeline_obj = Pipeline([
+            ("mapper", DataFrameMapper([
+                (["new"], PolynomialFeatures())
+            ])),
+            ("model", model)
+        ])
+        pipeline_obj.fit(irisd[features], irisd[target])
+
+        skl_to_pmml(pipeline_obj, features, target, "polyfeat.pmml")
+
+        self.assertEqual(os.path.isfile("polyfeat.pmml"),True)
 
 
 if __name__=='__main__':
