@@ -2,7 +2,9 @@ language: python
 python:
   - "3.6"
 cache: pip
-install: "pip install git+https://github.com/nyoka-pmml/nyoka.git"
+install:
+  - pip install git+https://github.com/nyoka-pmml/nyoka.git
+  - pip install coverage
 before_script:
   - git clone --recursive https://github.com/dmlc/xgboost
   - cd xgboost
