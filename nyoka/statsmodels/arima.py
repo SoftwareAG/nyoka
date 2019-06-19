@@ -12,7 +12,7 @@ import metadata
 import warnings
 
 class ArimaToPMML:
-    def __init__(self, time_series_data, model_obj, results_obj, pmml_file_name):
+    def __init__(self, time_series_data=None, model_obj=None, results_obj, pmml_file_name):
         
 
         def ExportToPMML(model_name = None, arima_obj = None):
@@ -181,13 +181,13 @@ class ArimaToPMML:
         if(results_obj.model.__class__.__name__ == 'SARIMAX' and results_obj.__class__.__name__ == 'SARIMAXResultsWrapper'):
             #Get SArimaX Object and Export
             sarimax_obj = get_sarimax_obj(results_obj)
-            model_name = 'sarimax'
+            model_name = 'SARIMAX'
             ExportToPMML(model_name = model_name, arima_obj = sarimax_obj)
 
         elif(results_obj.model.__class__.__name__ == 'ARIMA' and results_obj.__class__.__name__ == 'ARIMAResultsWrapper'):
             #Get Arima Object and Export
             arima_obj = get_arima_obj(results_obj)
-            model_name = 'arima'
+            model_name = 'ARIMA'
             ExportToPMML(model_name = model_name, arima_obj = arima_obj)
 
         else:
