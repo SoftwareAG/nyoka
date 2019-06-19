@@ -20,7 +20,6 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from nyoka import skl_to_pmml
 from nyoka import PMML44 as pml
 
-
 class TestMethods(unittest.TestCase):
     
     def test_sklearn_01(self):
