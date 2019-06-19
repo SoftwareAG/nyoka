@@ -63,6 +63,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * PCA
 * LabelBinarizer
 * OneHotEncoder
+* CategoricalImputer
 </Details>
 
 ### Keras (version 2.2.4):
