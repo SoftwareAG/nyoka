@@ -6,7 +6,7 @@
 [![license](https://img.shields.io/github/license/nyoka-pmml/nyoka.svg)](https://github.com/nyoka-pmml/nyoka/blob/master/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.6-blue.svg)](https://badge.fury.io/py/nyoka)
 
-<img src="https://raw.githubusercontent.com/nyoka-pmml/nyoka/master/docs/nyoka_logo.PNG" alt="nyoka_logo" height="240" style="float:right"/>
+<img src="https://raw.githubusercontent.com/nyoka-pmml/nyoka/master/docs/nyoka_logo.PNG" alt="nyoka_logo" height="200" style="float:right"/>
 
 ## Overview
 
