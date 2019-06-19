@@ -17,9 +17,9 @@ class ExponentialSmoothingToPMML:
 
     Parameters:
     -----------
-    time_series_data: 
+    time_series_data: (Optional)
         Pandas Series object
-    model_obj: 
+    model_obj: (Optional)
         Instance of ExponentialSmoothing from statsmodels
     results_obj: 
         Instance of HoltWintersResults from statsmodels

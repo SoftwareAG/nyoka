@@ -13,7 +13,19 @@ import warnings
 
 class ArimaToPMML:
     def __init__(self, time_series_data=None, model_obj=None, results_obj=None, pmml_file_name="from_arima.pmml"):
-        
+        """
+        Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.
+
+        Parameters:
+        -----------
+        time_series_data: (Optional)
+            Pandas Series object
+        model_obj: (Optional)
+            Instance of ARIMA/SARIMAX from statsmodels
+        results_obj: 
+            Instance of ARIMAResultsWrapper/SARIMAXResultsWrapper from statsmodels
+        pmml_file_name: string
+        """
 
         def ExportToPMML(model_name = None, arima_obj = None):
             n_columns = 1  # because we are dealing with Series object
