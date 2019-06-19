@@ -12,7 +12,7 @@ import metadata
 import warnings
 
 class ArimaToPMML:
-    def __init__(self, time_series_data=None, model_obj=None, results_obj, pmml_file_name):
+    def __init__(self, time_series_data=None, model_obj=None, results_obj=None, pmml_file_name="from_arima.pmml"):
         
 
         def ExportToPMML(model_name = None, arima_obj = None):
