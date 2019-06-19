@@ -21,7 +21,11 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 
 ## List of libraries and models supported by Nyoka :
 
-<details><summary>### Scikit-Learn (version >= 1.19.1):</summary>
+<details><summary>
+
+### Scikit-Learn (version >= 1.19.1):
+</summary>
+
 #### Models -
 * LinearRegression
 * LogisticRegression
@@ -64,7 +68,10 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * CategoricalImputer
 </Details>
 
-<details><summary>### Keras (version 2.2.4):</summary>
+<details><summary>
+
+### Keras (version 2.2.4):
+</summary>
 
 * Mobilenet
 * VGG-16
@@ -73,19 +80,28 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * ResNet
 </details>
 
-<details><summary>### LightGBM (version 2.2.2):</summary>
+<details><summary>
+
+### LightGBM (version 2.2.2):
+</summary>
 
 * LGBMClassifier
 * LGBMRegressor
 </details>
 
-<details><summary>### XGBoost (version 0.81):</summary>
+<details><summary>
+
+### XGBoost (version 0.81):
+</summary>
 
 * XGBClassifier
 * XGBRegressor
 </details>
 
-<details><summary>### Statsmodels (version 0.9.0):</summary>
+<details><summary>
+
+### Statsmodels (version 0.9.0):
+</summary>
 
 * ARIMA
 * SARIMAX
