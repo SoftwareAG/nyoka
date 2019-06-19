@@ -305,7 +305,7 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
                         )
                     ]
                 ),
-            RegressionTable=get_reg_tab_for_reg_mining_model(model,derived_col_names,idx)
+            RegressionTable=get_reg_tab_for_reg_mining_model(model,derived_col_names,idx,categoric_values)
         )
         if model.__class__.__name__ != 'LinearSVC':
             segment.RegressionModel.normalizationMethod = "logit"
@@ -340,7 +340,7 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
     return [mining_model]
 
 
-def get_reg_tab_for_reg_mining_model(model, col_names, index):
+def get_reg_tab_for_reg_mining_model(model, col_names, index, categorical_values):
     reg_tab = pml.RegressionTable(intercept="{:.16f}".format(model.intercept_[index]))
     for idx, coef in enumerate(model.coef_[index]):
         reg_tab.add_NumericPredictor(pml.NumericPredictor(name=col_names[idx],coefficient="{:.16f}".format(coef)))
@@ -558,7 +558,6 @@ def get_output_for_clustering(values):
         Returns a list of OutputField
     """
     output_fields = list()
-    output_fields.append(pml.OutputField(name="cluster", optype="categorical",dataType="string",feature="predictedValue"))
     for idx, val in enumerate(values):
         output_fields.append(
             pml.OutputField(
@@ -569,6 +568,7 @@ def get_output_for_clustering(values):
                 value=str(val)
             )
         )
+    output_fields.append(pml.OutputField(name="cluster", optype="categorical",dataType="string",feature="predictedValue"))
     return pml.Output(OutputField=output_fields)
         
 

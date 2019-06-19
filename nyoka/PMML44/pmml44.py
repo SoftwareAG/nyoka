@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue May 14 11:02:11 2019 by generateDS.py version 2.28a.
+# Generated Mon May 27 13:49:55 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -785,6 +785,51 @@ class Extension(supermod.Extension):
         return self
     def build_wrapper(self, node, *args):
         result = self.build(node, *args)
+        return result
+
+    def exportChildren(self, outfile, level, namespace_='', name_='Extension', fromsubclass_=False, pretty_print=True, *args):
+        for item_ in self.content_:
+            item_.export(outfile, level, item_.name, namespace_, pretty_print=pretty_print)
+            
+    def exportChildren_wrapper(self, outfile, level, namespace_='', name_='Extension', fromsubclass_=False, pretty_print=True, *args):
+        result = self.exportChildren(outfile, level, namespace_='', name_='Extension', fromsubclass_=False, pretty_print=True, *args)
+        return result
+
+    def export(self, outfile, level, namespace_='', name_='Extension', namespacedef_='', pretty_print=True, *args):
+        imported_ns_def_ = supermod.GenerateDSNamespaceDefs_.get('Extension')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Extension')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            lines = []
+            code = self.anytypeobjs_[0].lstrip('\n')
+            leading_spaces = len(code) - len(code.lstrip(' '))
+            for line in code.split('\n'):
+                lines.append(line[leading_spaces:])
+            code = '\n'.join(lines)
+            indent = "    " * (level + 1)
+            count = code.count('\n')
+            indented = indent + code.replace("\n", "\n" + indent, count - 1)
+            self.content_ = [supermod.MixedContainer(1, 2, "", str(indented))]
+            self.valueOf_ = str(indented)
+            self.exportChildren(outfile, level + 1, namespace_='', name_='Extension', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+            
+    def export_wrapper(self, outfile, level, namespace_='', name_='Extension', namespacedef_='', pretty_print=True, *args):
+        result = self.export(outfile, level, namespace_='', name_='Extension', namespacedef_='', pretty_print=True, *args)
         return result
 
 supermod.Extension.subclass = Extension

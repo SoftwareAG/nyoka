@@ -2707,12 +2707,14 @@ def generateExportAttributes(wrt, element, hasAttributes):
                         else:
                             s1 = '        if self.%s is not None and ' % (
                                 cleanName, )
-                    elif attr_type in NumericTypes:
-                        s1 = '        if self.%s != %s and ' % (
-                            cleanName, default, )
+                    # elif attr_type in NumericTypes:
+                    #     s1 = '        if self.%s != %s and ' % (
+                    #         cleanName, default, )
+                    # else:
+                    #     s1 = '        if self.%s != "%s" and ' % (
+                    #         cleanName, default, )
                     else:
-                        s1 = '        if self.%s != "%s" and ' % (
-                            cleanName, default, )
+                       s1 = '        if self.%s is not None and ' % (cleanName, ) 
                 s1 += "'%s' not in already_processed:\n" % (cleanName, )
                 wrt(s1)
                 wrt("            already_processed.add('%s')\n" % (

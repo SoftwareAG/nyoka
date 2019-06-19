@@ -58,13 +58,12 @@ def generate_statsmodels(pmml_file_name):
         seasonal_ar_params = get_ar_ma_params(component = season_comp, ar_or_ma = "AR")
         seasonal_ma_params = get_ar_ma_params(component = season_comp, ar_or_ma = "MA")
         
-        sigma2, cov_type, cov_kwds = get_seasonal_arima_extension_params(arima_obj)
+        sigma2, cov_kwds = get_seasonal_arima_extension_params(arima_obj)
         
         if seasonal_ar_params.size:
             params=np.append(params,seasonal_ar_params)
         if seasonal_ma_params.size:
             params=np.append(params,seasonal_ma_params)
-            
         params = np.append(params,sigma2)
         
         model = smm.tsa.statespace.SARIMAX(endog=ts_data, order=(p, d, q), seasonal_order=(P,D,Q,S), enforce_stationarity=False,enforce_invertibility=False)
@@ -73,8 +72,8 @@ def generate_statsmodels(pmml_file_name):
         model.polynomial_ma = get_structured_params(model.polynomial_ma, non_seasonal_ma_params, ar_or_ma = 'ma')
         model.polynomial_seasonal_ar = get_structured_params(model.polynomial_seasonal_ar, seasonal_ar_params, ar_or_ma = 'ar')
         model.polynomial_seasonal_ma = get_structured_params(model.polynomial_seasonal_ma, seasonal_ma_params, ar_or_ma = 'ma')
-   
-        result = model.smooth(params, transformed=True, cov_type = cov_type, cov_kwds=cov_kwds)
+
+        result = model.smooth(params, transformed=True, cov_kwds=cov_kwds)
         return result, model
 
     def get_non_seasonal_model_from_pmml(ts_data, ts_model_obj):
@@ -130,13 +129,11 @@ def generate_statsmodels(pmml_file_name):
             for extension in ExtensionList:
                 if extension.get_name() == 'sigmaSquare':
                     sigma2 = np.float64(extension.get_value())
-                if extension.get_name() == 'cov_type':
-                    cov_type = extension.get_value()
                 if extension.get_name() == 'approx_complex_step':
                     cov_kwds['approx_complex_step'] = asBool[extension.get_value()]
                 if extension.get_name() == 'approx_centered':
                     cov_kwds['approx_centered'] = asBool[extension.get_value()]
-        return sigma2, cov_type, cov_kwds
+        return sigma2, cov_kwds
 
     def get_ar_ma_params(component = None, ar_or_ma = None):
         if ar_or_ma == "AR":
