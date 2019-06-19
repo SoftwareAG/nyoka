@@ -69,6 +69,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 ### Keras (version 2.2.4):
 <details><summary>Click to expand!</summary>
 
+#### Models -
 * Mobilenet
 * VGG-16
 * VGG-19
@@ -79,6 +80,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 ### LightGBM (version 2.2.2):
 <details><summary>Click to expand!</summary>
 
+#### Models -
 * LGBMClassifier
 * LGBMRegressor
 </details>
@@ -86,6 +88,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 ### XGBoost (version 0.81):
 <details><summary>Click to expand!</summary>
 
+#### Models -
 * XGBClassifier
 * XGBRegressor
 </details>
@@ -93,6 +96,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 ### Statsmodels (version 0.9.0):
 <details><summary>Click to expand!</summary>
 
+#### Models -
 * ARIMA
 * SARIMAX
 * ExponentialSmoothing
