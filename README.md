@@ -21,7 +21,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 
 ## List of libraries and models supported by Nyoka :
 
-### Scikit-Learn (version >= 1.19.1):
+### Scikit-Learn (version <= 0.20.3):
 <details><summary>Click to expand!</summary>
 
 #### Models -
