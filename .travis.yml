@@ -19,10 +19,10 @@ script:
   - python nyoka/tests/xgboost_to_pmml_UnitTest.py
   - python nyoka/tests/lgbm_to_pmml_UnitTest.py
   - python nyoka/tests/keras_to_pmml_UnitTest.py
-  - python nyoka/tests/statsmodels_to_pmml_UnitTest.py
   - python nyoka/tests/testScoreWithAdapaSklearn.py
   - python nyoka/tests/testScoreWithAdapaXgboost.py
   - python nyoka/tests/testScoreWithAdapaLgbm.py
+  - python nyoka/tests/statsmodels_to_pmml_UnitTest.py
   - python nyoka/tests/test2.py
   - jupyter nbconvert --to notebook --execute nyoka/tests/Nyoka_String_Export.ipynb
   - jupyter nbconvert --to notebook --execute nyoka/tests/1_SVM.ipynb
