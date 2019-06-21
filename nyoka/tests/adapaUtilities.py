@@ -26,6 +26,7 @@ class AdapaUtility:
                 return
             files = {'file': open(file_name,'r')}
             res = requests.post(self.endpoint+"model", auth = HTTPBasicAuth(self.username, self.password),files=files)
+        print(res)
         return res.json()['modelName']
 
     def delete_model(self, model_name):
