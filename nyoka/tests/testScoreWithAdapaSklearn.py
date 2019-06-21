@@ -24,8 +24,8 @@ from nyoka import PMML44 as pml
 import unittest
 import ast
 import numpy
-from nyoka.tests.adapaUtilities import AdapaUtility
-from nyoka.tests.dataUtilities import DataUtility
+from .adapaUtilities import AdapaUtility
+from .dataUtilities import DataUtility
 
 class TestCases(unittest.TestCase):
 

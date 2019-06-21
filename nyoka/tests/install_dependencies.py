@@ -14,12 +14,12 @@ packages = [
     "lightgbm",
     "h5py",
     "pandas",
-    "numpy"
+    "numpy",
+    "requests"
 ]
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
 
 if __name__ == "__main__":
     for pck in packages:
-        print('\n',pck,'-->\n')
         installPackage(pck)

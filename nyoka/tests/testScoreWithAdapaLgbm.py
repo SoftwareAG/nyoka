@@ -16,7 +16,7 @@ import json
 from requests.auth import HTTPBasicAuth
 import ast
 import numpy
-from nyoka.tests.adapaUtilities import AdapaUtility
+from .adapaUtilities import AdapaUtility
 
 class TestCases(unittest.TestCase):
 
