@@ -15,7 +15,8 @@ packages = [
     "h5py",
     "pandas",
     "numpy",
-    "requests"
+    "requests",
+    "Pillow"
 ]
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
