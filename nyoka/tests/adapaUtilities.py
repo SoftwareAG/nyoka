@@ -32,27 +32,40 @@ class AdapaUtility:
         res = requests.delete(self.endpoint+"model/"+model_name, auth=HTTPBasicAuth(self.username,self.password))
         return res.status_code
 
-    def score_in_zserver(self, model_name, test_file):
-        files = {'file': open(test_file,'r')}
+    def score_in_zserver(self, model_name, test_file, deep_network=False):
+        mode = 'r' if test_file.endswith(".csv") else 'rb'
+        files = {'file': open(test_file,mode)}
         res = requests.post(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password),files=files)
-        all_rows = res.text.split('\r\n')
-        predictions = []
-        probabilities = []
-        if all_rows[0].split(",").__len__() == 1:
-            for row in all_rows[1:]:
-                if row.__class__.__name__ == 'str' and row.__len__() > 0:
-                    row = ast.literal_eval(row)
-                else:
-                    continue
-                predictions.append(row)
-            probabilities = None
+        if deep_network:
+            if test_file.endswith(".csv"):
+                info=res.text.split("\n")[1]
+                info = info.replace('"','')
+                predictions = info.split(",")[0]
+                probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in info.split(",")[2:]}
+            else:
+                resp=json.loads(res.text)
+                outs = resp["outputs"][0]
+                predictions = outs["predictedValue_predictions"]
+                probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in outs["top5_prob"].split(",")}
         else:
-            for row in all_rows[1:]:
-                cols = row.split(",")
-                if cols[0] == '':
-                    continue
-                predictions.append(ast.literal_eval(cols[-1]))
-                probabilities.append([ast.literal_eval(c) for c in cols[:-1]])
+            all_rows = res.text.split('\r\n')
+            predictions = []
+            probabilities = []
+            if all_rows[0].split(",").__len__() == 1:
+                for row in all_rows[1:]:
+                    if row.__class__.__name__ == 'str' and row.__len__() > 0:
+                        row = ast.literal_eval(row)
+                    else:
+                        continue
+                    predictions.append(row)
+                probabilities = None
+            else:
+                for row in all_rows[1:]:
+                    cols = row.split(",")
+                    if cols[0] == '':
+                        continue
+                    predictions.append(ast.literal_eval(cols[-1]))
+                    probabilities.append([ast.literal_eval(c) for c in cols[:-1]])
         return predictions, probabilities
         
     def compare_predictions(self, z_pred, m_pred):
