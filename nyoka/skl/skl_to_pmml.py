@@ -44,7 +44,7 @@ def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_skl
         categoric_values = tuple()
         mining_imp_val = tuple()
         if ppln_sans_predictor:
-            pml_pp = pp.get_preprocess_val(ppln_sans_predictor, col_names, model,custom_function)
+            pml_pp = pp.get_preprocess_val(ppln_sans_predictor, col_names, model)
             trfm_dict_kwargs['TransformationDictionary'] = pml_pp['trfm_dict']
             derived_col_names = pml_pp['derived_col_names']
             col_names = pml_pp['preprocessed_col_names']
@@ -1814,9 +1814,7 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
         func_name = get_mining_func(model)
         inter = model.intercept_
         model_coef = model.coef_
-        merge = list()
         target_classes = target_name
-        row_idx = 0
         if not hasattr(inter, '__iter__') or model.__class__.__name__ in ['LinearRegression','LinearSVR']:
             inter = np.array([inter])
             target_classes = [target_classes]
@@ -1828,33 +1826,26 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
             max_target_index = len(target_classes) - 1
             target_cat = target_classes[max_target_index]
 
-        if len(inter) == 1:
-            regr_predictor = get_regr_predictors(model_coef, row_idx, feature_names, categoric_values)
+        if hasattr(model_coef[0],"__len__"):
+            model_coef = model_coef[0]
+        reg_preds=list()
+        for idx, feat in enumerate(feature_names):
+            reg_preds.append(pml.NumericPredictor(name=feat, coefficient="{:.16f}".format(model_coef[idx])))
+        merge.append(
+            pml.RegressionTable(
+                intercept="{:.16f}".format(inter.item()),
+                targetCategory=target_cat,
+                NumericPredictor=reg_preds
+            )
+        )
+        if func_name != 'regression':
             merge.append(
                 pml.RegressionTable(
-                    intercept="{:.16f}".format(inter.item()),
-                    targetCategory=target_cat,
-                    NumericPredictor=regr_predictor
+                    intercept="0.0",
+                    targetCategory=target_classes[0]
                 )
             )
-            if func_name != 'regression':
-                merge.append(
-                    pml.RegressionTable(
-                        intercept="0.0",
-                        targetCategory=target_classes[0]
-                    )
-                )
-        else:
-            for tgname, tg_idx in zip(np.unique(target_classes), range(len(np.unique(target_classes)))):
-                row_idx = tg_idx
-                regr_predictors = get_regr_predictors(model_coef, row_idx, feature_names, categoric_values)
-                merge.append(
-                    pml.RegressionTable(
-                        intercept="{:.16f}".format(inter[tg_idx]),
-                        targetCategory=tgname,
-                        NumericPredictor=regr_predictors
-                    )
-                )
+
     else:
         if len(model.classes_) == 2:
             merge.append(

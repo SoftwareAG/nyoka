@@ -39,7 +39,6 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
     polynomial_features.poly_ctr = 0
     pca.counter = 0
     imputer.col_names = initial_colnames
-    def_func = list()
 
     for ppln_step in ppln_sans_predictor:
         ppln_step_inst = ppln_step[1]
@@ -84,8 +83,6 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
                         derived_flds_hidden.extend(pp_dict['hidden_lb_der_flds'])
                     if 'hidden_ohe_der_flds' in pp_dict.keys():
                         derived_flds_hidden.extend(pp_dict['hidden_ohe_der_flds'])
-                    if 'def_func' in pp_dict.keys():
-                        def_func.append(pp_dict['def_func'])
                     pml_derived_flds.extend(derived_flds)
                     dfm_step_col_names = derived_names
                 dfm_col_names.extend(derived_names)
@@ -111,15 +108,11 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
                     mining_attributes.append(pp_dict['der_col_names'])
                     mining_strategy.append(pp_dict['mining_strategy'])
                     mining_replacement_val.append(pp_dict['mining_replacement_val'])
-                if 'def_func' in pp_dict.keys():
-                    def_func.append(pp_dict['def_func'])
                 pml_derived_flds.extend(derived_flds)
                 updated_colnames = derived_names
 
     if pml_derived_flds:
         pml_trfm_dict = pml.TransformationDictionary(DerivedField=pml_derived_flds)
-        if def_func.__len__() != 0:
-            pml_trfm_dict.add_DefineFunction(def_func[0])
 
     pml_pp['trfm_dict'] = pml_trfm_dict
     pml_pp['derived_col_names'] = updated_colnames
@@ -523,36 +516,7 @@ def is_present(string1,iterator):
         if string1 in iterator:
             return True
 
-    return False
-
-
-def custom_function(trfm, col_names):
-    derived_flds = list()
-    pp_dict = dict()
-    input_cols = trfm.input_cols
-    output_cols = trfm.output_cols
-    modified_cols = trfm.modified_cols
-    derived_colnames = ['customFunction('+col+')' if col in modified_cols else col for col in output_cols]
-
-    ext = pml.Extension(extender="ADAPA", name=trfm.func.__name__, value="python", anytypeobjs_=[trfm.source_code])
-    apply = pml.Apply(function="custom", Extension=[ext])
-    def_func = pml.DefineFunction(name=trfm.func.__name__, optype="continous", dataType="Double-Array")
-    for col in trfm.input_cols:
-        def_func.add_ParameterField(pml.ParameterField(name=col))
-    def_func.Apply = apply
-
-    fld_refs = list()
-    for fld in input_cols:
-        fld_refs.append(pml.FieldRef(field=fld))
-    for col in modified_cols:
-        apply = pml.Apply(function=trfm.func.__name__+":"+str(output_cols.index(col)), FieldRef=fld_refs)
-        derived_flds.append(pml.DerivedField(name='customFunction('+col+')', optype="continous",\
-                                        dataType="double", Apply=apply))
-
-    pp_dict['der_fld'] = derived_flds
-    pp_dict['der_col_names'] = derived_colnames
-    pp_dict['def_func'] = def_func
-    return pp_dict  
+    return False 
 
 
 def lag(trfm, col_names):
