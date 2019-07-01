@@ -2265,6 +2265,8 @@ def get_version():
     version = '4.4'
     return version
 
+from nyoka import metadata
+
 def get_header():
 
     """
