@@ -121,43 +121,43 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
-    def test_sklearn_04(self):
-        titanic = pd.read_csv("nyoka/tests/titanic_train.csv")
+    # def test_sklearn_04(self):
+    #     titanic = pd.read_csv("nyoka/tests/titanic_train.csv")
 
-        titanic['Embarked'] = titanic['Embarked'].fillna('S')
+    #     titanic['Embarked'] = titanic['Embarked'].fillna('S')
 
-        features = list(titanic.columns.drop(['PassengerId','Name','Ticket','Cabin','Survived']))
-        target = 'Survived'
+    #     features = list(titanic.columns.drop(['PassengerId','Name','Ticket','Cabin','Survived']))
+    #     target = 'Survived'
 
-        pipeline_obj = Pipeline([
-            ("mapping", DataFrameMapper([
-                (['Sex'], LabelEncoder()),
-                (['Embarked'], LabelEncoder())
-            ])),
-            ("imp", Imputer(strategy="median"))
-        ])
+    #     pipeline_obj = Pipeline([
+    #         ("mapping", DataFrameMapper([
+    #             (['Sex'], LabelEncoder()),
+    #             (['Embarked'], LabelEncoder())
+    #         ])),
+    #         ("imp", Imputer(strategy="median"))
+    #     ])
 
-        X = pipeline_obj.fit_transform(titanic[features])
+    #     X = pipeline_obj.fit_transform(titanic[features])
 
-        gbc = GradientBoostingClassifier(n_estimators = 10)
-        gbc.fit(X,titanic[target])
+    #     gbc = GradientBoostingClassifier(n_estimators = 10)
+    #     gbc.fit(X,titanic[target])
 
-        pmml_file_name = "gb_pmml.pmml"
-        toExportDict={
-            'model1':{
-                'hyperparameters':None,
-                'preProcessingScript':None,
-                'pipelineObj':pipeline_obj,
-                'modelObj':gbc,
-                'featuresUsed':features,
-                'targetName':target,
-                'postProcessingScript':None,
-                'taskType': 'score'
-            }
-        }
-        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
+    #     pmml_file_name = "gb_pmml.pmml"
+    #     toExportDict={
+    #         'model1':{
+    #             'hyperparameters':None,
+    #             'preProcessingScript':None,
+    #             'pipelineObj':pipeline_obj,
+    #             'modelObj':gbc,
+    #             'featuresUsed':features,
+    #             'targetName':target,
+    #             'postProcessingScript':None,
+    #             'taskType': 'score'
+    #         }
+    #     }
+    #     model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        self.assertEqual(os.path.isfile(pmml_file_name),True)
+    #     self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_05(self):
@@ -386,33 +386,33 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
-    def test_sklearn_12(self):
-        df = pd.read_csv('nyoka/tests/auto-mpg.csv')
-        X = df.drop(['mpg','car name'],axis=1)
-        y = df['mpg']
+    # def test_sklearn_12(self):
+    #     df = pd.read_csv('nyoka/tests/auto-mpg.csv')
+    #     X = df.drop(['mpg','car name'],axis=1)
+    #     y = df['mpg']
 
-        features = X.columns
-        target = 'mpg'
+    #     features = X.columns
+    #     target = 'mpg'
 
-        model = GradientBoostingRegressor()
-        model.fit(X,y)
+    #     model = GradientBoostingRegressor()
+    #     model.fit(X,y)
 
-        pmml_file_name = "gbr.pmml"
-        toExportDict={
-            'model1':{
-                'hyperparameters':None,
-                'preProcessingScript':None,
-                'pipelineObj':None,
-                'modelObj':model,
-                'featuresUsed':features,
-                'targetName':target,
-                'postProcessingScript':None,
-                'taskType': 'score'
-            }
-        }
-        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
+    #     pmml_file_name = "gbr.pmml"
+    #     toExportDict={
+    #         'model1':{
+    #             'hyperparameters':None,
+    #             'preProcessingScript':None,
+    #             'pipelineObj':None,
+    #             'modelObj':model,
+    #             'featuresUsed':features,
+    #             'targetName':target,
+    #             'postProcessingScript':None,
+    #             'taskType': 'score'
+    #         }
+    #     }
+    #     model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        self.assertEqual(os.path.isfile(pmml_file_name),True)
+    #     self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_13(self):
