@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.6"
+cache: pip
+install: "pip install git+https://github.com/nyoka-pmml/nyoka.git@44Ext"
+script:
+  - python nyoka/tests/test_import.py
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+notifications:
+  email:
+    recipients:
+      - maintainer@nyoka.org
+    on_success: never
+    on_failure: always
