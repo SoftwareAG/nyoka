@@ -1,8 +1,6 @@
 
 # Nyoka
 
-[![Build Status](https://travis-ci.org/nyoka-pmml/nyoka.svg?branch=master)](https://travis-ci.org/nyoka-pmml/nyoka)
-[![PyPI version](https://badge.fury.io/py/nyoka.svg)](https://badge.fury.io/py/nyoka)
 [![license](https://img.shields.io/github/license/nyoka-pmml/nyoka.svg)](https://github.com/nyoka-pmml/nyoka/blob/master/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.6-blue.svg)](https://badge.fury.io/py/nyoka)
 
@@ -10,7 +8,7 @@
 
 ## Overview
 
-Nyoka is a Python library for comprehensive support of the latest PMML (PMML 4.4) standard. Using Nyoka, Data Scientists can export a large number of Machine Learning and Deep Learning models from popular Python frameworks into PMML by either using any of the numerous included ready-to-use exporters or by creating their own exporter for specialized/individual model types by simply calling a sequence of constructors.
+Nyoka is a Python library for comprehensive support of the latest PMML (PMML 4.4) standard plus plus extensions for data preprocessing, script execution and highly compacted representation of deep neural networks. Using Nyoka, Data Scientists can export a large number of Machine Learning and Deep Learning models from popular Python frameworks into PMML by either using any of the numerous included ready-to-use exporters or by creating their own exporter for specialized/individual model types by simply calling a sequence of constructors.
 
 Besides about 500 Python classes which each cover a PMML tag and all constructor parameters/attributes as defined in the standard, Nyoka also provides an increasing number of convenience classes and functions that make the Data Scientist’s life easier for example by reading or writing any PMML file in one line of code from within your favorite Python environment.
 
@@ -118,7 +116,7 @@ nyoka requires:
 You can install nyoka using:
 
 ```
-pip install --upgrade nyoka
+pip install git+https://github.com/nyoka-pmml/nyoka.git@44Ext 
 ```
 	
 ## Usage
@@ -136,68 +134,64 @@ Nyoka contains seperate exporters for each library, e.g., scikit-learn, keras, x
 The main module of __Nyoka__ is `nyoka`. To use it for your model, you need to import the specific exporter from nyoka as -
 
 ```python
-from nyoka import skl_to_pmml, lgb_to_pmml #... so on
+from nyoka import model_to_pmml
 ```
-#### Note -
- - If scikit-learn, xgboost and lightgbm model is used then the model should be used inside sklearn's Pipeline.
-	The workflow is as follows -
-	* Create scikit-learn's `Pipeline` object and populate it with any preprocessing steps and the model object.
-	* Call `Pipeline.fit(X,y)` method to train the model.
-	* Use the specific exporter and pass the pipeline object, feature names of the training dataset, target name and expected name of the PMML to the exporter function. If target name is not given default value `target` is used. Similarly, for pmml name, default value `from_sklearn.pmml`/`from_xgboost.pmml`/`from_lighgbm.pmml` is used. 
- - For Keras and Statsmodels, the fitted model needs to be passed to the exporter.
  
  ___Demo is provided below___
 ### Nyoka to export scikit-learn models:
 
->Exporting a Support Vector Classifier pipeline object into PMML
+>Exporting a Random Forest Classifier object into PMML with Pipeline and custome preprocessing steps
 
 ```python
+
+def script1():
+    r3 = r1+r2
+    
+def script2():
+    r6 = r1+r2+r3-r4
+
 import pandas as pd
 from sklearn import datasets
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, Imputer
+from sklearn_pandas import DataFrameMapper
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
+from nyoka import model_to_pmml
 
 iris = datasets.load_iris()
-irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
 irisd['Species'] = iris.target
+
 features = irisd.columns.drop('Species')
 target = 'Species'
 
-pipeline_obj = Pipeline([
-    ('scaler', StandardScaler()),
-    ('svm',SVC())
-])
-pipeline_obj.fit(irisd[features],irisd[target])
-
-from nyoka import skl_to_pmml
-skl_to_pmml(pipeline_obj,features,target,"svc_pmml.pmml")
-```
-
-### Nyoka to export xgboost models:
-
->Exporting a XGBoost model into PMML
-
-```python
-from sklearn import datasets
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-import xgboost as xgb
-
-boston = datasets.load_boston()
-y = boston['target']
-X = boston['data']
-xgb_model = xgb.XGBRegressor()
-
-pipeline_obj = Pipeline([
-    ("scaling", StandardScaler()),
-    ("model", XGBRegressor())
+pipelineOnly = Pipeline([
+    ('Scaling', StandardScaler()), 
+    ('Imputing', Imputer())
 ])
 
-pipeline_obj.fit(X, y)
+pipelineOnly.fit(irisd[features])
+Xdata = pipelineOnly.transform(irisd[features])
 
-from nyoka import xgboost_to_pmml
-xgboost_to_pmml(pipeline_obj, boston.feature_names, 'target', "xgb_pmml.pmml")
+rfObj = RandomForestClassifier()
+rfObj.fit(Xdata,irisd['Species'])
+
+toExportDict={
+    'model1':{
+        'hyperparameters':None,
+        'preProcessingScript':{'scripts':[script1,script2], 'scriptpurpose':['train','score']},
+        'pipelineObj':pipelineOnly,
+        'modelObj':rfObj,
+        'featuresUsed':features,
+        'targetName':'Species',
+        'postProcessingScript':{'scripts':[script1], 'scriptpurpose':['postprocess']},
+        'taskType': 'trainAndscore'
+    }
+}
+
+pmml = model_to_pmml(toExportDict, pmml_f_name="sklearnppOnly.pmml")
 ```
 
 ### Nyoka to export lightGBM models:
@@ -228,24 +222,61 @@ lgb_to_pmml(pipeline_obj,features,target,"lgbmc_pmml.pmml")
 
 ### Nyoka to export keras models:
 
->Exporting a Mobilenet model into PMML
+>Exporting a Keras LSTM model into PMML
 
 ```python
-from keras import applications
-from keras.layers import Flatten, Dense
-from keras.models import Model
 
-model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
-activType='sigmoid'
-x = model.output
-x = Flatten()(x)
-x = Dense(1024, activation="relu")(x)
-predictions = Dense(2, activation=activType)(x)
-model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+def script1():
+    r3 = r1+r2
+    
+def script2():
+    r6 = r1+r2+r3-r4
 
-from nyoka import KerasToPmml
-cnn_pmml = KerasToPmml(model_final,dataSet='image',predictedClasses=['cats','dogs'])
-cnn_pmml.export(open('2classMBNet.pmml', "w"), 0)
+import keras
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation
+from keras.optimizers import SGD
+
+# Generate dummy data
+import numpy as np
+x_train = np.random.random((1000, 20))
+y_train = keras.utils.to_categorical(np.random.randint(10, size=(1000, 1)), num_classes=10)
+x_test = np.random.random((100, 20))
+y_test = keras.utils.to_categorical(np.random.randint(10, size=(100, 1)), num_classes=10)
+
+model = Sequential()
+# Dense(64) is a fully-connected layer with 64 hidden units.
+# in the first layer, you must specify the expected input data shape:
+# here, 20-dimensional vectors.
+model.add(Dense(64, activation='relu', input_dim=20))
+model.add(Dropout(0.5))
+model.add(Dense(64, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(10, activation='softmax'))
+
+sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(loss='categorical_crossentropy',
+              optimizer=sgd,
+              metrics=['accuracy'])
+
+model.fit(x_train, y_train,
+          epochs=20,
+          batch_size=128, verbose=0)
+
+toExportDict={
+    'model1':{
+        'hyperparameters':None,
+        'preProcessingScript':{'scripts':[script1,script2], 'scriptpurpose':['train','score']},
+        'pipelineObj':pipelineOnly,
+        'modelObj':model,
+        'featuresUsed':features,
+        'targetName':None,
+        'postProcessingScript':{'scripts':[script1], 'scriptpurpose':['postprocess']},
+        'taskType': 'trainAndscore'
+    }
+}
+
+pmml = model_to_pmml(toExportDict, pmml_f_name="KerasppOnly.pmml")
 ```
 ### Nyoka to export statsmodels model
 >Exporting ARIMA to PMML
@@ -265,21 +296,6 @@ result = model.fit()
 pmml_f_name = 'non_seasonal_car_sales.pmml'
 ArimaToPMML(results_obj = result,pmml_file_name = pmml_f_name)
 ```
-
-## More in Nyoka
-Nyoka contains one submodule called `preprocessing`. This module contains preprocessing classes implemented by Nyoka. Currently there is only one preprocessing class, which is `Lag`.
-
-#### What is Lag? When to use it?
->Lag is a preprocessing class implemented by Nyoka. When used inside scikit-learn's pipeline, it simply applies  an `aggregation` function for the given features of the dataset by combining `value` number of previous records. It takes two arguments- aggregation and value.
->
-> The valid `aggregation` functions are -
-"min",  "max",  "sum",  "avg",  "median",  "product" and "stddev".
->
-To use __Lag__ -
-* Import it from nyoka as `from nyoka.preprocessing import Lag`
-* Create an instance of Lag as `Lag(aggregation="sum", value=5)`
-	* This means, take 5 previous values for the given fields and perform summation.
-* Use this object inside scikit-learn's pipeline to train.
 
 ## Uninstallation
 
