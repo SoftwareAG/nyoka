@@ -167,6 +167,7 @@ irisd['Species'] = iris.target
 features = irisd.columns.drop('Species')
 target = 'Species'
 
+# Build a pipeline of pre-processing steps
 pipelineOnly = Pipeline([
     ('Scaling', StandardScaler()), 
     ('Imputing', Imputer())
@@ -175,9 +176,11 @@ pipelineOnly = Pipeline([
 pipelineOnly.fit(irisd[features])
 Xdata = pipelineOnly.transform(irisd[features])
 
+# Build a Random Forest classifier model
 rfObj = RandomForestClassifier()
 rfObj.fit(Xdata,irisd['Species'])
 
+# Export into PMML
 toExportDict={
     'model1':{
         'hyperparameters':None,
@@ -316,6 +319,116 @@ toExportDict={
 
 model_to_pmml(toExportDict, pmml_f_name="KerasppOnly.pmml")
 ```
+
+### Nyoka to export multiple models:
+
+>Exporting multiple models at once into PMML
+
+```python
+def script1():
+    r3 = r1+r2
+    
+def script2():
+    r6 = r1+r2+r3-r4
+
+# First model
+import pandas as pd
+from sklearn import datasets
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, Imputer
+from sklearn_pandas import DataFrameMapper
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from nyoka import model_to_pmml
+
+iris = datasets.load_iris()
+irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+irisd['Species'] = iris.target
+
+features = irisd.columns.drop('Species')
+target = 'Species'
+
+# Build a pipeline of pre-processings
+pipelineOnly = Pipeline([
+    ('Scaling', StandardScaler()), 
+    ('Imputing', Imputer())
+])
+
+pipelineOnly.fit(irisd[features])
+Xdata = pipelineOnly.transform(irisd[features])
+
+# Build a Random Forest Classifier model
+rfObj = RandomForestClassifier()
+rfObj.fit(Xdata,irisd['Species'])
+
+
+# Second model
+import sklearn.preprocessing
+import numpy as np
+import keras
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, LSTM
+from keras.optimizers import SGD 
+from nyoka import model_to_pmml
+
+x = preprocessingScript()
+
+data = []
+for x,y in zip(x['temperature'].values, x['pressure'].values):
+    data+= [x,y]
+    
+data = np.asarray(data)
+data = data.reshape(500, 10, 2)
+
+#create labels
+labels = np.random.randint(4, size=500)
+label_binarizer = sklearn.preprocessing.LabelBinarizer()
+label_binarizer.fit(range(max(labels)+1))
+labels = label_binarizer.transform(labels)
+
+verbose, epochs, batch_size = 1, 5, 32
+
+# Build a LSTM model
+model = Sequential()
+model.add(LSTM(32, input_shape=(10,2)))
+# model.add(Dropout(0.5))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(4, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+model.fit(data, labels, epochs=epochs, batch_size=32, verbose=verbose)
+
+# Export multiple models into PMML using Nyoka
+
+toExportDict={
+    'model1':{
+        'hyperparameters':None,
+        'preProcessingScript':{'scripts':[script1,script2], 'scriptpurpose':['train','score']},
+        'pipelineObj':pipelineOnly,
+        'modelObj':rfObj,
+        'featuresUsed':features,
+        'targetName':'Species',
+        'postProcessingScript':{'scripts':[script1], 'scriptpurpose':['postprocess']},
+        'taskType': 'trainAndscore'
+    },
+    'model2':{
+        'hyperparameters':None,
+        'preProcessingScript':{'scripts':[script1], 'scriptpurpose':['train']},
+        'pipelineObj':None,
+        'modelObj':model,
+        'featuresUsed':None,
+        'targetName':None,
+        'postProcessingScript':{'scripts':[script1], 'scriptpurpose':['postprocess']},
+        'taskType': 'score'
+    },
+}
+
+model_to_pmml(toExportDict, pmml_f_name="MultipleModels.pmml")
+
+```
+
+
 ### Nyoka to export statsmodels model
 >Exporting ARIMA to PMML
 ```python
