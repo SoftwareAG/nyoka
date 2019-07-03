@@ -222,7 +222,7 @@ lgb_to_pmml(pipeline_obj,features,target,"lgbmc_pmml.pmml")
 
 ### Nyoka to export keras models:
 
->Exporting a Keras LSTM model into PMML
+>Exporting a Keras model into PMML
 
 ```python
 
