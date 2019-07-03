@@ -1,9 +1,9 @@
-import nyoka.PMML44 as pml
+import nyoka.PMML43Ext as pml
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.ensemble import GradientBoostingClassifier,GradientBoostingRegressor,RandomForestClassifier,RandomForestRegressor
+from sklearn.ensemble import GradientBoostingClassifier,GradientBoostingRegressor,RandomForestClassifier,RandomForestRegressor, IsolationForest
 from sklearn.ensemble.gradient_boosting import PriorProbabilityEstimator
 from xgboost import XGBClassifier,XGBRegressor
 from lightgbm import LGBMClassifier,LGBMRegressor
@@ -155,11 +155,16 @@ def reconstruct(pmml,*args):
     model.set_classes(classes)
     model.set_tree_objs(tree_objs)
     model.n_features_ = len(fields)
-    extension_value=pmml.get_MiningBuildTask().get_Extension()[0].get_value()
+    #extension_value=pmml.get_MiningBuildTask().get_Extension()[0].get_value()
+    # Vinay's logic
+    for ext in range(len(pmml.get_MiningBuildTask().get_Extension())):
+        if pmml.get_MiningBuildTask().get_Extension()[ext].get_name() == 'modelObject':
+            extension_value=pmml.get_MiningBuildTask().get_Extension()[ext].get_value()
+    # Vinay's logic ends
     if 'XGBRegressor' in extension_value:
         mod=XGBRegressor()
         mod.rescaleConstant = model.get_rescale_Constant(targets)
-    elif 'GradientBoostingRegressor' in extension_value:
+    if 'GradientBoostingRegressor' in extension_value:
         mod=GradientBoostingRegressor()
         mod.rescaleFactor = model.get_rescale_Factor(targets)
         mod.rescaleConstant = model.get_rescale_Constant(targets)
@@ -177,7 +182,16 @@ def reconstruct(pmml,*args):
     elif 'GradientBoostingClassifier' in extension_value:
         mod=GradientBoostingClassifier()
         mod.normalizationMethod=model.normalizationMethod
-    mod.predict = model.predict
+    elif 'IsolationForest' in extension_value:
+        normalizedScore = mining_model.Output.OutputField[1].Apply.get_Constant()[0].get_valueOf_()
+        threshold = mining_model.Output.OutputField[3].Apply.get_Constant()[0].get_valueOf_()
+        model.normalizedScore = normalizedScore
+        model.threshold = threshold
+        mod=IsolationForest()
+    if 'IsolationForest' in extension_value:
+        mod.predict = model.predict_anomaly
+    else:
+        mod.predict = model.predict
     mod.multiple_model_method=model.multiple_model_method
     mod.trees=model.trees
     mod.transformedOutputs=model.transformedOutputs
@@ -339,6 +353,19 @@ class EnsembleModel:
                                 classes.append(int(vv.get_value()))
                             else:
                                 classes.append(vv.get_value())
+        
+        # Vinays logic
+        dfNames = []
+        fieldRefs = []
+        td = pmml.get_TransformationDictionary()[0]
+        for df in td.DerivedField:
+            dfNames.append(df.name)
+            if hasattr(df.Apply, "Apply"):
+                fieldRefs.append(df.Apply.Apply[0].FieldRef[0].field)
+            else:
+                fieldRefs.append(df.Apply[0].FieldRef[0].field)
+        fields.extend(dfNames)
+        fields = list(set(fields)-set(fieldRefs))
         return fields, classes
 
 
@@ -407,3 +434,18 @@ class EnsembleModel:
                     res_arr = np.array(res)
                     results.append(self.classes[np.argmax(res_arr)])
         return np.array(results)
+
+    def predict_anomaly(self,X):
+        anomalies = []
+        predictions = self.predict(X)
+        for pre in predictions:
+            anomalies.append(self.calculate_anomaly(pre))
+        return np.array(anomalies)
+
+    def calculate_anomaly(self,X):
+        normal = X / eval(self.normalizedScore)
+        decisionfunc = 0.5 - (pow(2,(normal*(-1))))
+        if decisionfunc < eval(self.threshold):
+            return -1
+        else:
+            return 1

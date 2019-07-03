@@ -1,5 +1,5 @@
 from nyoka.reconstruct.pmml_to_keras_model import GenerateKerasModel as generate_keras_model
-from nyoka import PMML44 as ny
+from nyoka import PMML43Ext as ny
 import unittest
 
 class TestMethods(unittest.TestCase):

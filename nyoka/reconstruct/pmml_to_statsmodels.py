@@ -1,5 +1,5 @@
 from pprint import pprint
-from nyoka.PMML44 import *
+from nyoka.PMML43Ext import *
 import numpy as np
 import pandas as pd
 from datetime import datetime
@@ -40,9 +40,8 @@ def generate_statsmodels(pmml_file_name):
         p = non_season_comp.get_p()
         d = non_season_comp.get_d()
         q = non_season_comp.get_q()
-
-        non_seasonal_ar_params = get_ar_ma_params(component = non_season_comp, ar_or_ma = "AR")
-        non_seasonal_ma_params = get_ar_ma_params(component = non_season_comp, ar_or_ma = "MA")
+        non_seasonal_ar_params = get_non_seasonal_ar_params(ts_model_obj)
+        non_seasonal_ma_params = np.array([i.get_value() for i in non_season_comp.get_MA().get_Coefficients().get_Coefficient()] if q>0 else [])
         
         params = np.array([])
         if non_seasonal_ar_params.size:
@@ -55,15 +54,16 @@ def generate_statsmodels(pmml_file_name):
         D = season_comp.get_D()
         Q = season_comp.get_Q()
         S = season_comp.get_period()
-        seasonal_ar_params = get_ar_ma_params(component = season_comp, ar_or_ma = "AR")
-        seasonal_ma_params = get_ar_ma_params(component = season_comp, ar_or_ma = "MA")
+        seasonal_ar_params = get_seasonal_ar_params(ts_model_obj)
+        seasonal_ma_params = np.array([i.get_value() for i in season_comp.get_MA().get_Coefficients().get_Coefficient()] if Q>0 else [])
         
-        sigma2, cov_kwds = get_seasonal_arima_extension_params(arima_obj)
+        sigma2, cov_type, cov_kwds = get_seasonal_arima_extension_params(arima_obj)
         
         if seasonal_ar_params.size:
             params=np.append(params,seasonal_ar_params)
         if seasonal_ma_params.size:
             params=np.append(params,seasonal_ma_params)
+            
         params = np.append(params,sigma2)
         
         model = smm.tsa.statespace.SARIMAX(endog=ts_data, order=(p, d, q), seasonal_order=(P,D,Q,S), enforce_stationarity=False,enforce_invertibility=False)
@@ -72,8 +72,8 @@ def generate_statsmodels(pmml_file_name):
         model.polynomial_ma = get_structured_params(model.polynomial_ma, non_seasonal_ma_params, ar_or_ma = 'ma')
         model.polynomial_seasonal_ar = get_structured_params(model.polynomial_seasonal_ar, seasonal_ar_params, ar_or_ma = 'ar')
         model.polynomial_seasonal_ma = get_structured_params(model.polynomial_seasonal_ma, seasonal_ma_params, ar_or_ma = 'ma')
-
-        result = model.smooth(params, transformed=True, cov_kwds=cov_kwds)
+   
+        result = model.smooth(params, transformed=True, cov_type = cov_type, cov_kwds=cov_kwds)
         return result, model
 
     def get_non_seasonal_model_from_pmml(ts_data, ts_model_obj):
@@ -84,8 +84,8 @@ def generate_statsmodels(pmml_file_name):
         d = non_season_comp.get_d()
         q = non_season_comp.get_q()
         sigma2 = get_sigma(ts_model_obj)
-        ar_params = get_ar_ma_params(component = non_season_comp, ar_or_ma = "AR")
-        ma_params = get_ar_ma_params(component = non_season_comp, ar_or_ma = "MA")
+        ar_params = get_non_seasonal_ar_params(ts_model_obj)
+        ma_params = np.array([i.get_value() for i in non_season_comp.get_MA().get_Coefficients().get_Coefficient()] if q>0 else [])
 
         params = np.array([])
         params=np.append(params,const)
@@ -129,21 +129,31 @@ def generate_statsmodels(pmml_file_name):
             for extension in ExtensionList:
                 if extension.get_name() == 'sigmaSquare':
                     sigma2 = np.float64(extension.get_value())
+                if extension.get_name() == 'cov_type':
+                    cov_type = extension.get_value()
                 if extension.get_name() == 'approx_complex_step':
                     cov_kwds['approx_complex_step'] = asBool[extension.get_value()]
                 if extension.get_name() == 'approx_centered':
                     cov_kwds['approx_centered'] = asBool[extension.get_value()]
-        return sigma2, cov_kwds
+        return sigma2, cov_type, cov_kwds
 
-    def get_ar_ma_params(component = None, ar_or_ma = None):
-        if ar_or_ma == "AR":
-            array = component.get_AR().get_Array()
-        elif ar_or_ma == "MA":
-            array = component.get_MA().get_MACoefficients().get_Array()
+    def get_non_seasonal_ar_params(ts_model_obj):
+        non_season_comp = ts_model_obj.get_ARIMA().get_NonseasonalComponent()
+        str_params = non_season_comp.get_AR().get_Array().get_valueOf_().strip()
+        if len(str_params):
+            ar_params = np.array(str_params.split(' '), dtype=np.float64)
+        else:
+            ar_params = np.array(list())
+        return ar_params
 
-        str_params = array.get_valueOf_().strip()
-        params = np.array(str_params.split(' '), dtype=np.float64) if len(str_params) else np.array(list())
-        return params
+    def get_seasonal_ar_params(ts_model_obj):
+        season_comp = ts_model_obj.get_ARIMA().get_SeasonalComponent()
+        str_params = season_comp.get_AR().get_Array().get_valueOf_().strip()
+        if len(str_params):
+            ar_params = np.array(str_params.split(' '), dtype=np.float64)
+        else:
+            ar_params = np.array(list())
+        return ar_params
 
     def make_exog(endog, exog, trend):
         if exog is None and trend == 1:

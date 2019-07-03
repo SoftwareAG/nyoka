@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from nyoka import PMML44 as pml
+from nyoka import PMML43Ext as pml
 # from PMML43Ext import row
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.pipeline import Pipeline,make_pipeline
@@ -23,7 +23,7 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from xgboost import XGBClassifier,XGBRegressor
 from lightgbm import LGBMClassifier,LGBMRegressor
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.ensemble import GradientBoostingClassifier,GradientBoostingRegressor,RandomForestClassifier,RandomForestRegressor
+from sklearn.ensemble import GradientBoostingClassifier,GradientBoostingRegressor,RandomForestClassifier,RandomForestRegressor,IsolationForest
 import unicodedata
 from nyoka.reconstruct.text import *
 
@@ -76,7 +76,7 @@ def generate_skl_pipeline(pmml):
 
         loc_transform = nyoka_pmml.get_TransformationDictionary()
         if loc_transform:
-            der_field = loc_transform.get_DerivedField()
+            der_field = loc_transform[0].get_DerivedField()
         sk_model_obj = get_pipelineobj(sk_model_obj, der_field, pipeline_obj, pmml_modelobj, nyoka_pmml)
         return sk_model_obj
     except Exception as err:

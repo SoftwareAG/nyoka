@@ -5,7 +5,7 @@ from keras.layers import *
 import keras.layers as lays
 from keras.preprocessing import image
 from pprint import pprint
-from nyoka import PMML44 as ny
+from nyoka import PMML43Ext as ny
 
 def update_progress(title, progress, status):
     barLength = 30
@@ -94,21 +94,22 @@ class GenerateKerasModel:
             x =  SeparableConv2D(kwargs["filters"], kwargs["kernel"], padding=kwargs["pad"], use_bias=kwargs["use_bs"], name=layer_name)(layer_input)
         elif layer_type == "BatchNormalization":
             x = BatchNormalization(name=layer_name, axis=kwargs["axis"], epsilon=kwargs["epsilon"], scale=kwargs["scale"])(layer_input)
+        elif layer_type == "ReLU":
+            x = ReLU(6., name=layer_name)(layer_input)
         elif layer_type == "Activation":
             if kwargs["activation_function"] == "relu6":
                 x = ReLU(6., name=layer_name)(layer_input)
+            elif kwargs["activation_function"] == "rectifier":
+                max_val = float(kwargs["max_value"]) if kwargs["max_value"] else 1.0
+                x = ReLU(max_val, name=layer_name)(layer_input)
             else:
-                if kwargs["activation_function"] =='rectifier':
-                    kwargs["activation_function"] = "relu"
-                elif kwargs["activation_function"] =='tanch':
-                    kwargs["activation_function"] = "tanh" 
                 x = Activation(kwargs["activation_function"], name=layer_name)(layer_input)
         elif layer_type == "Dense":
             if kwargs["activation_function"] =='rectifier':
                 kwargs["activation_function"] = "relu"
             elif kwargs["activation_function"] =='tanch':
                 kwargs["activation_function"] = "tanh"
-            x = Dense(int(kwargs["output_shape"][0]), activation=kwargs["activation_function"], name=layer_name)(layer_input)
+            x = Dense(int(kwargs["units"]), activation=kwargs["activation_function"], name=layer_name)(layer_input)
         elif layer_type == "MaxPooling2D":
             if not kwargs["stride"]:
                 kwargs["stride"]=None
@@ -186,11 +187,13 @@ class GenerateKerasModel:
             kwargs["epsilon"] = layer_params.get_batchNormalizationEpsilon()
             kwargs["depth_multiplier"] = layer_params.get_depthMultiplier()
             kwargs["dropout_rate"] = layer_params.get_dropoutRate()
+            kwargs["max_value"] = layer_params.get_max_value()
+            kwargs["units"] = layer_params.get_units()
             try:
                 kwargs["pad"] = eval(str(layer_params.get_paddingDims()))
             except:
                 kwargs["pad"] = str(layer_params.get_paddingDims())
-            kwargs["pad"] = str(layer_params.get_pad()) if kwargs["pad"] is None else kwargs["pad"]
+            kwargs["pad"] = str(layer_params.get_paddingType()) if kwargs["pad"] is None else kwargs["pad"]
             if layer_params.get_kernel():
                 kwargs["kernel"] = eval(layer_params.get_kernel())
             if layer_params.get_stride():

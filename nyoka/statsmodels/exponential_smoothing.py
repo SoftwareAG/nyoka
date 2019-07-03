@@ -5,10 +5,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 
 
-from PMML44 import *
+from PMML43Ext import *
 import numpy as np
 from datetime import datetime
-import metadata
 
 
 class ExponentialSmoothingToPMML:
@@ -17,17 +16,17 @@ class ExponentialSmoothingToPMML:
 
     Parameters:
     -----------
-    time_series_data: (Optional)
+    time_series_data: 
         Pandas Series object
-    model_obj: (Optional)
+    model_obj: 
         Instance of ExponentialSmoothing from statsmodels
     results_obj: 
         Instance of HoltWintersResults from statsmodels
     pmml_file_name: string
     """
-    def __init__(self, time_series_data=None, model_obj=None, results_obj=None, pmml_file_name="from_ExponentialSmoothing.pmml"):
+    def __init__(self, time_series_data, model_obj, results_obj, pmml_file_name):
 
-        def get_time_value_objs():
+        def get_time_value_objs(ts_data):
             """
             Does not have time attribute
 
@@ -40,10 +39,10 @@ class ExponentialSmoothingToPMML:
             time_value_objs: list
                 Instances of TimeValue
             """
-            ts_int_index = range(len(results_obj.model.endog))
+            ts_int_index = range(len(ts_data))
             time_value_objs = list()
             for int_idx in ts_int_index:
-                time_value_objs.append(TimeValue(index=int_idx, value=results_obj.model.endog[int_idx]))
+                time_value_objs.append(TimeValue(index=int_idx, value=ts_data.iat[int_idx]))
             return time_value_objs
 
         def get_pmml_datatype_optype(series_obj):
@@ -63,44 +62,33 @@ class ExponentialSmoothingToPMML:
                 pmml_op_type = 'continuous'
             return pmml_data_type, pmml_op_type
 
-        def get_data_field_objs():
+        def get_data_field_objs(ts_data):
             """
             Create a list with instances of DataField
             """
             data_field_objs = list()
-            index_name = results_obj.data.orig_endog.index.name
-            idx_data_type, idx_op_type = get_pmml_datatype_optype(results_obj.model._index)
+            index_name = ts_data.index.name
+            idx_data_type, idx_op_type = get_pmml_datatype_optype(ts_data.index)
             data_field_objs.append(DataField(name=index_name, dataType=idx_data_type, optype=idx_op_type))
-            if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
-                ts_name = results_obj.data.orig_endog.columns[0]
-            elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
-                ts_name = results_obj.data.orig_endog.name
-            else:
-                ts_name = 'input'
-            ts_data_type, ts_op_type = get_pmml_datatype_optype(results_obj.model.endog)
+            ts_name = ts_data.name
+            ts_data_type, ts_op_type = get_pmml_datatype_optype(ts_data)
             data_field_objs.append(DataField(name=ts_name, dataType=ts_data_type, optype=ts_op_type))
             return data_field_objs
 
-        def get_mining_field_objs():
+        def get_mining_field_objs(ts_data):
             """
             Create a list with instances of MiningField
             """
             mining_field_objs = list()
-            if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
-                ts_name = results_obj.data.orig_endog.columns[0]
-            elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
-                ts_name = results_obj.data.orig_endog.name
-            else:
-                ts_name = 'input'
-            idx_name = results_obj.data.orig_endog.index.name
-            idx_usage_type = 'order'
+            idx_name = ts_data.index.name
             idx_usage_type = 'order'
             mining_field_objs.append(MiningField(name=idx_name, usageType=idx_usage_type))
+            ts_name = ts_data.name
             ts_usage_type = 'target'
             mining_field_objs.append(MiningField(name=ts_name, usageType=ts_usage_type))
             return mining_field_objs
 
-        n_samples = results_obj.model.nobs
+        n_samples = time_series_data.size
         n_columns = 1  # because we are dealing with Series object
         function_name = 'timeSeries'
         best_fit = 'ExponentialSmoothing'
@@ -121,29 +109,30 @@ class ExponentialSmoothingToPMML:
             phi = 1
         else:
             phi = results_obj.params['damping_slope']  # damping parameter; which is applied on trend/slope
-        if results_obj.model.trend:  # model_obj.trend can take values in {'add', 'mul', None}
+        if model_obj.trend:  # model_obj.trend can take values in {'add', 'mul', None}
             trend_smooth_val = results_obj.slope[-1]
             initial_trend = results_obj.params['initial_slope']
-            if results_obj.model.trend == 'add':
-                if results_obj.model.damped:
+            if model_obj.trend == 'add':
+                if model_obj.damped:
                     trend_type = 'damped_additive'
                 else:
                     trend_type = 'additive'
             else:  # model_obj.trend == 'mul':
-                if results_obj.model.damped:
+                if model_obj.damped:
                     trend_type = 'damped_multiplicative'
                 else:
                     trend_type = 'multiplicative'
-            trend_obj = Trend_ExpoSmooth(trend=trend_type, gamma=gamma, phi=phi, smoothedValue=trend_smooth_val)
+            trend_obj = Trend_ExpoSmooth(trend=trend_type, gamma=gamma, initialTrendValue=initial_trend, phi=phi,
+                                         smoothedValue=trend_smooth_val)
             # extension_objs.append(Extension(name='initialTrend', value=initial_trend))
         else:
             trend_obj = None
-        if results_obj.model.seasonal:  # model_obj.seasonal can take values in {'add', 'mul', None}
-            period = results_obj.model.seasonal_periods
+        if model_obj.seasonal:  # model_obj.seasonal can take values in {'add', 'mul', None}
+            period = model_obj.seasonal_periods
             initial_seasons = ArrayType(n=period, type_ = 'real')
             content_value = ' '.join([str(i) for i in results_obj.params['initial_seasons']])
             initial_seasons.content_[0].value = content_value
-            if results_obj.model.seasonal == 'add':
+            if model_obj.seasonal == 'add':
                 seasonal_type = 'additive'
             else:  # model_obj.seasonal == 'mul':
                 seasonal_type = 'multiplicative'
@@ -154,21 +143,20 @@ class ExponentialSmoothingToPMML:
         pmml = PMML(
             version='4.4',
             Header=Header(
-                copyright="Copyright (c) 2018 Software AG", description="Exponential Smoothing Model",
-                Timestamp=Timestamp(datetime.utcnow()),
-                Application=Application(name="Nyoka",version=metadata.__version__)
+                copyright="Copyright (c) 2017 PB&RB", description="Exponential Smoothing Model",
+                Timestamp=Timestamp(datetime.utcnow())
             ),
-            DataDictionary=DataDictionary(numberOfFields=n_columns, DataField=get_data_field_objs()),
+            DataDictionary=DataDictionary(numberOfFields=n_columns, DataField=get_data_field_objs(time_series_data)),
             TimeSeriesModel=[TimeSeriesModel(
                 modelName='simple exponential smoothing',
                 functionName=function_name, bestFit=best_fit, isScorable=True,
-                MiningSchema=MiningSchema(MiningField=get_mining_field_objs()),
+                MiningSchema=MiningSchema(MiningField=get_mining_field_objs(time_series_data)),
                 TimeSeries=[TimeSeries(
                     usage='original', startTime=0, endTime=n_samples - 1, interpolationMethod='none',
-                    TimeValue=get_time_value_objs()
+                    TimeValue=get_time_value_objs(time_series_data)
                 )],
                 ExponentialSmoothing=ExponentialSmoothing(
-                    Level=Level(alpha=alpha, smoothedValue=level_smooth_val),
+                    Level=Level(alpha=alpha, initialLevelValue=initial_level, smoothedValue=level_smooth_val),
                     Trend_ExpoSmooth=trend_obj,
                     Seasonality_ExpoSmooth=season_obj,
                 ),

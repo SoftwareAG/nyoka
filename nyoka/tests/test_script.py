@@ -1,5 +1,5 @@
 import sys
-from nyoka.PMML44 import *
+from nyoka.PMML43Ext import *
 
 net1_target_class1 = .8873
 net1_target_class2 = .0644

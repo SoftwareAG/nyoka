@@ -15,7 +15,7 @@ import numpy
 import os
 
 # nyoka import PMML43Ext
-from nyoka.PMML44 import *
+from nyoka.PMML43Ext import *
 
 
 def create_data_dict_with_fields():

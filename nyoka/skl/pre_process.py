@@ -3,10 +3,13 @@ import sys, os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
-import PMML44 as pml
+import PMML43Ext as pml
+import re
+import string
+regex = re.compile('[%s]' % re.escape(string.punctuation))
 exception_cols = list()
 
-def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
+def get_preprocess_val(ppln_sans_predictor, initial_colnames, model, model_name):
     """
 
     Parameters
@@ -35,11 +38,10 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
     mining_replacement_val = list()
     mining_attributes = list()
     derived_flds_hidden = list()
-    pml_trfm_dict = None
+    pml_trfm_dict = list()
     polynomial_features.poly_ctr = 0
     pca.counter = 0
     imputer.col_names = initial_colnames
-    def_func = list()
 
     for ppln_step in ppln_sans_predictor:
         ppln_step_inst = ppln_step[1]
@@ -84,8 +86,6 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
                         derived_flds_hidden.extend(pp_dict['hidden_lb_der_flds'])
                     if 'hidden_ohe_der_flds' in pp_dict.keys():
                         derived_flds_hidden.extend(pp_dict['hidden_ohe_der_flds'])
-                    if 'def_func' in pp_dict.keys():
-                        def_func.append(pp_dict['def_func'])
                     pml_derived_flds.extend(derived_flds)
                     dfm_step_col_names = derived_names
                 dfm_col_names.extend(derived_names)
@@ -111,16 +111,11 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
                     mining_attributes.append(pp_dict['der_col_names'])
                     mining_strategy.append(pp_dict['mining_strategy'])
                     mining_replacement_val.append(pp_dict['mining_replacement_val'])
-                if 'def_func' in pp_dict.keys():
-                    def_func.append(pp_dict['def_func'])
                 pml_derived_flds.extend(derived_flds)
                 updated_colnames = derived_names
 
     if pml_derived_flds:
-        pml_trfm_dict = pml.TransformationDictionary(DerivedField=pml_derived_flds)
-        if def_func.__len__() != 0:
-            pml_trfm_dict.add_DefineFunction(def_func[0])
-
+        pml_trfm_dict = pml.TransformationDictionary(DerivedField=pml_derived_flds,for_=model_name)
     pml_pp['trfm_dict'] = pml_trfm_dict
     pml_pp['derived_col_names'] = updated_colnames
     pml_pp['preprocessed_col_names'] = dtd_feat_names
@@ -192,8 +187,6 @@ def get_pml_derived_flds(trfm, col_names, **kwargs):
         return one_hot_encoder(trfm,col_names,**kwargs)
     elif "CategoricalImputer" == get_class_name(trfm):
         return cat_imputer(trfm, col_names)
-    elif "Lag" == get_class_name(trfm):
-        return lag(trfm, col_names)
     else:
         raise TypeError("This PreProcessing Task is not Supported")
 
@@ -418,6 +411,11 @@ def pca(trfm, col_names):
     pp_dict['der_col_names'] = derived_colnames
     return pp_dict
 
+def remove_punctuation(word):
+    # no_punct_word = regex.sub('', word)
+    return regex.findall(word)
+    # return no_punct_word
+
 
 def tfidf_vectorizer(trfm, col_names):
     """
@@ -438,8 +436,12 @@ def tfidf_vectorizer(trfm, col_names):
     """
     pp_dict = dict()
     features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    # extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
+    # features = trfm.get_feature_names()
     idfs = trfm.idf_
+    # extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
+    # derived_colnames = list()
     derived_colnames = get_derived_colnames('tfidf@[' + col_names[0] + ']', features)
     if trfm.lowercase:
         derived_flds.append(
@@ -448,16 +450,23 @@ def tfidf_vectorizer(trfm, col_names):
                             Apply=pml.Apply(function='lowercase',
                                             FieldRef=[pml.FieldRef(field=col_names[0])])))
     for feat_idx, idf in zip(range(len(features)), idfs):
+        # no_punct_word = remove_punctuation(features[feat_idx])
+        # if len(no_punct_word) == 0:
+            # df_name = 'tfidf_vec@[' + col_names[0] + ']('+ features[feat_idx]+')'
+            # derived_colnames.append(df_name)
         derived_flds.append(pml.DerivedField(
+            # name=df_name,
             name = derived_colnames[feat_idx],
             optype='continuous',
             dataType='double',
             Apply=pml.Apply(function='*',
                             TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
                                 else col_names[0],
+                                                    # wordSeparatorCharacterRE='\s+',
                                                     wordSeparatorCharacterRE=trfm.token_pattern,
                                                     tokenize='true',
                                                     Constant=pml.Constant(valueOf_=features[feat_idx]),
+                                                    # Extension=[pml.Extension(anytypeobjs_=[extra_features[feat_idx]])]
                                                     )],
                             Constant=[pml.Constant(valueOf_="{:.16f}".format(idf))])
                             ))
@@ -487,8 +496,12 @@ def count_vectorizer(trfm, col_names):
     """
     pp_dict = dict()
     features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    # extra_features = [str(feat.encode("utf8"))[2:-1] for feat in list(trfm.vocabulary_.keys())]
+    # features = trfm.get_feature_names()
+    # extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
+    # derived_colnames = list()
     if trfm.lowercase:
         derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
                                             optype='categorical',
@@ -496,16 +509,23 @@ def count_vectorizer(trfm, col_names):
                                             Apply=pml.Apply(function='lowercase',
                                                             FieldRef=[pml.FieldRef(field=col_names[0])])))
     for imp_features, index in zip(features, range(len(features))):
+        # no_punct_word = remove_punctuation(imp_features)
+        # if len(no_punct_word) == 0:
+            # df_name = 'count_vec@[' + col_names[0] + ']('+ imp_features+')'
+            # derived_colnames.append(df_name)
         df_name = derived_colnames[index]
         derived_flds.append(pml.DerivedField(name=df_name,
                                             optype='continuous',
                                             dataType='double',
                                             TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
                                                 else col_names[0],
+                                                                    # wordSeparatorCharacterRE='\s+',
                                                                     wordSeparatorCharacterRE=trfm.token_pattern,
                                                                     tokenize='true',
                                                                     Constant=pml.Constant(dataType="string",
                                                                                         valueOf_=imp_features),
+                                                                    # Extension=[pml.Extension(
+                                                                    #     anytypeobjs_=[extra_features[index]])]
                                                                     )))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -524,82 +544,6 @@ def is_present(string1,iterator):
             return True
 
     return False
-
-
-def custom_function(trfm, col_names):
-    derived_flds = list()
-    pp_dict = dict()
-    input_cols = trfm.input_cols
-    output_cols = trfm.output_cols
-    modified_cols = trfm.modified_cols
-    derived_colnames = ['customFunction('+col+')' if col in modified_cols else col for col in output_cols]
-
-    ext = pml.Extension(extender="ADAPA", name=trfm.func.__name__, value="python", anytypeobjs_=[trfm.source_code])
-    apply = pml.Apply(function="custom", Extension=[ext])
-    def_func = pml.DefineFunction(name=trfm.func.__name__, optype="continous", dataType="Double-Array")
-    for col in trfm.input_cols:
-        def_func.add_ParameterField(pml.ParameterField(name=col))
-    def_func.Apply = apply
-
-    fld_refs = list()
-    for fld in input_cols:
-        fld_refs.append(pml.FieldRef(field=fld))
-    for col in modified_cols:
-        apply = pml.Apply(function=trfm.func.__name__+":"+str(output_cols.index(col)), FieldRef=fld_refs)
-        derived_flds.append(pml.DerivedField(name='customFunction('+col+')', optype="continous",\
-                                        dataType="double", Apply=apply))
-
-    pp_dict['der_fld'] = derived_flds
-    pp_dict['der_col_names'] = derived_colnames
-    pp_dict['def_func'] = def_func
-    return pp_dict  
-
-
-def lag(trfm, col_names):
-    """
-
-    Parameters
-    ----------
-    trfm :
-        Contains the Nyoka's Lag instance.
-    col_names : list
-        Contains list of feature/column names.
-        The column names may represent the names of preprocessed attributes.
-
-    Returns
-    -------
-    pp_dict : dictionary
-        Returns a dictionary that contains attributes related to Lag preprocessing.
-
-    """
-    derived_flds = list()
-    pp_dict = dict()
-    derived_colnames = get_derived_colnames(trfm.aggregation, col_names)
-    if trfm.aggregation == 'stddev':
-        for idx, name in enumerate(col_names):
-            applyies = list()
-            for i in range(trfm.value):
-                lags = list()
-                lags.append(pml.Lag(field=name,n=i+1))
-                lags.append(pml.Lag(field=name,n=trfm.value, aggregate="avg"))
-                sub_func = pml.Apply(function="-",Lag=lags)
-                pow_func = pml.Apply(function="pow", Apply_member=[sub_func], Constant=[pml.Constant(dataType="integer",valueOf_=2)])
-                applyies.append(pow_func)
-            add_func = pml.Apply(function="+", Apply_member=applyies)
-            div_func = pml.Apply(function="/", Apply_member=[add_func], Constant=[pml.Constant(dataType="double", valueOf_=float(trfm.value))])
-            sqrt_func = pml.Apply(function="sqrt", Apply_member=[div_func])
-            derived_fld = pml.DerivedField(name=derived_colnames[idx], Apply=sqrt_func, optype="continuous", dataType="double")
-            derived_flds.append(derived_fld)
-    else:
-        for idx, name in enumerate(col_names):
-            lag = pml.Lag(field=name, n=trfm.value, aggregate=trfm.aggregation)
-            derived_fld = pml.DerivedField(name=derived_colnames[idx], Lag=lag, optype="continuous", dataType="double")
-            derived_flds.append(derived_fld)
-    
-    pp_dict['der_fld'] = derived_flds
-    pp_dict['der_col_names'] = derived_colnames
-    return pp_dict   
-
 
 
 def std_scaler(trfm, col_names, **kwargs):
@@ -981,6 +925,10 @@ def lbl_binarizer(trfm, col_names, **kwargs):
                                          name=derived_colnames[class_idx],
                                          optype="categorical",
                                          dataType="double"))
+    if any_in([model.__class__.__name__], model_exception_list):
+        pp_dict['hidden_lb_der_flds'] = derived_flds
+        exception_cols.extend(derived_colnames)
+        derived_flds = list()
 
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -1010,7 +958,7 @@ def one_hot_encoder(trfm, col_names, **kwargs):
     derived_flds = list()
     derived_colnames = list()
     pp_dict = dict()
-    categoric_lbls = trfm.categories_[0].tolist()
+    categoric_lbls = trfm.active_features_.tolist()
     model_exception_list = ["LinearRegression", "LogisticRegression", "SVR", "SVC"]
     model = kwargs['model']
     for col_name_idx in range(len(col_names)):
@@ -1024,6 +972,10 @@ def one_hot_encoder(trfm, col_names, **kwargs):
                                      name=derived_colnames[class_idx],
                                      optype="categorical",
                                      dataType="double"))
+    if any_in([model.__class__.__name__], model_exception_list):
+        pp_dict['hidden_ohe_der_flds'] = derived_flds
+        exception_cols.extend(derived_colnames)
+        derived_flds = list()
 
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames

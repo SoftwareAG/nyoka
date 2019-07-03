@@ -4,13 +4,18 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import numpy as np
-import PMML44 as pml
+import PMML43Ext as pml
 from skl import pre_process as pp
 from datetime import datetime
 import math
 import metadata
+import inspect
+from nyoka.keras.keras_model_to_pmml import KerasToPmml
+from nyoka.xgboost.xgboost_to_pmml import xgboost_to_pmml
+from nyoka.lgbm.lgb_to_pmml import lgb_to_pmml
+from nyoka.lgbm.lgbmTrainingAPI_to_pmml import ExportToPMML as ext
 
-def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_sklearn.pmml'):
+def model_to_pmml(toExportDict, pmml_f_name='from_sklearn.pmml'):
 
     """
     Exports scikit-learn pipeline object into pmml
@@ -31,41 +36,172 @@ def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_skl
     Returns a pmml file 
     
     """
-    try:
-        model = pipeline.steps[-1][1]
-    except:
-        raise TypeError("Exporter expects pipeleine_instance and not an estimator_instance")
-    else:
-        if isinstance(col_names, np.ndarray):
-            col_names = col_names.tolist()
-        ppln_sans_predictor = pipeline.steps[:-1]
-        trfm_dict_kwargs = dict()
-        derived_col_names = col_names
+    # To support multiple models and Transformation dictionaries
+    models_dict = {'DeepNetwork':[]}
+    trfm_dict_kwargs = {'TransformationDictionary':[]}
+    data_dicts = []
+    visited = []
+    categoric_values = None
+    derived_col_names = None
+    mining_imp_val = None
+
+
+    for model_name in toExportDict.keys():
+        col_names = toExportDict[model_name]['featuresUsed']
+        target_name = toExportDict[model_name]['targetName']
+        tasktype = toExportDict[model_name]['taskType']
+
+        model = toExportDict[model_name]['modelObj']
+
+        pipelineOnly = toExportDict[model_name]['pipelineObj']
+
         categoric_values = tuple()
+        derived_col_names = col_names
         mining_imp_val = tuple()
-        if ppln_sans_predictor:
-            pml_pp = pp.get_preprocess_val(ppln_sans_predictor, col_names, model)
-            trfm_dict_kwargs['TransformationDictionary'] = pml_pp['trfm_dict']
-            derived_col_names = pml_pp['derived_col_names']
-            col_names = pml_pp['preprocessed_col_names']
-            categoric_values = pml_pp['categorical_feat_values']
-            mining_imp_val = pml_pp['mining_imp_values']
-        PMML_kwargs = get_PMML_kwargs(model,
-                                      derived_col_names,
-                                      col_names,
-                                      target_name,
-                                      mining_imp_val,
-                                      categoric_values)
-             
-        pmml = pml.PMML(
-            version=get_version(),
-            Header=get_header(),
-            MiningBuildTask=get_mining_buildtask(pipeline),
-            DataDictionary=get_data_dictionary(model, col_names, target_name, categoric_values),
-            **trfm_dict_kwargs,
-            **PMML_kwargs
-        )
-        pmml.export(outfile=open(pmml_f_name, "w"), level=0)
+
+        if (pipelineOnly is not None) and (pipelineOnly not in visited):
+            derived_col_names,categoric_values,mining_imp_val,trfm_dict_kwargs = get_trfm_dict_kwargs(col_names,pipelineOnly,
+                                                                                                      trfm_dict_kwargs,model,model_name)
+        else:
+            derived_col_names = col_names
+
+        if 'keras' in str(model):
+            KerasPMML = KerasToPmml(model,model_name=pmml_f_name,targetVarName=target_name)
+
+            model_obj = KerasPMML.DeepNetwork[0]
+            model_obj.modelName = model_name
+            model_obj.taskType=tasktype
+            models_dict['DeepNetwork'].append(model_obj)
+
+
+        else:    
+            #model = pipeline.steps[-1][1]
+            #ppln_sans_predictor = pipeline.steps[:-1]
+            #derived_col_names,categoric_values,mining_imp_val,trfm_dict_kwargs = get_trfm_dict_kwargs(col_names,pipelineOnly,
+            #                                                                                          trfm_dict_kwargs,modelobj,model_name)
+
+            if ('XGBRegressor' in str(model)) or ('XGBClassifier' in str(model)):
+                PMML_kwargs = xgboost_to_pmml(model,
+                                            derived_col_names,
+                                            col_names,
+                                            target_name,
+                                            mining_imp_val,
+                                            categoric_values,
+                                            tasktype)
+            
+            elif ('LGBMRegressor' in str(model)) or ('LGBMClassifier' in str(model)):
+                PMML_kwargs = lgb_to_pmml(model,
+                                            derived_col_names,
+                                            col_names,
+                                            target_name,
+                                            mining_imp_val,
+                                            categoric_values,
+                                            tasktype)                                
+            
+            elif ('Booster' in str(model)):
+                PMML_kwargs = ext(model,tasktype,target_name)
+            
+            else:
+                PMML_kwargs = get_PMML_kwargs(model,
+                                                derived_col_names,
+                                                col_names,
+                                                target_name,
+                                                mining_imp_val,
+                                                categoric_values,
+                                                tasktype)
+            model_obj = list(PMML_kwargs.values())[0][0]
+            model_obj.modelName = model_name
+            key = list(PMML_kwargs.keys())[0]
+            if key in models_dict:
+                models_dict[key].append(model_obj)
+            else:
+                PMML_kwargs = {key:[model_obj]}
+                models_dict.update(PMML_kwargs)
+
+            data_dicts.append(get_data_dictionary(model, col_names, target_name, categoric_values))
+                   
+    
+    pmml = pml.PMML(
+        version=get_version(),
+        Header=get_header(),
+        MiningBuildTask=get_mining_buildtask(toExportDict),
+        DataDictionary=get_data_dictionary_values(data_dicts),
+        script = get_script_execution(toExportDict),
+        **trfm_dict_kwargs,
+        **models_dict
+    )
+    pmml.export(outfile=open(pmml_f_name, "w"), level=0)
+    return pmml
+
+
+def get_trfm_dict_kwargs(col_names,pipelineOnly,trfm_dict_kwargs,model,model_name):
+    if isinstance(col_names, np.ndarray):
+        col_names = col_names.tolist()
+    #ppln_sans_predictor = pipeline.steps[:-1]
+    ppln_sans_predictor = pipelineOnly.steps
+    derived_col_names = col_names
+    categoric_values = tuple()
+    mining_imp_val = tuple()
+    if ppln_sans_predictor:
+        pml_pp = pp.get_preprocess_val(ppln_sans_predictor, col_names, model, model_name)
+        trfm_dict_kwargs['TransformationDictionary'].append(pml_pp['trfm_dict'])
+        derived_col_names = pml_pp['derived_col_names']
+        col_names = pml_pp['preprocessed_col_names']
+        categoric_values = pml_pp['categorical_feat_values']
+        mining_imp_val = pml_pp['mining_imp_values']
+
+    return derived_col_names,categoric_values,mining_imp_val,trfm_dict_kwargs
+
+def processScript(scr):
+
+    scr=scr.replace('&','&amp;')
+    return scr
+
+def get_data_dictionary_values(data_dicts):
+    data_dicts = [x for x in data_dicts if x is not None]
+    lst = []
+    lislen = len(data_dicts)
+    if lislen != 0:
+        for indfile in data_dicts[0].DataField:
+            lst.append(indfile.get_name())
+    if lislen == 0:
+        datadict = None
+    elif lislen == 1:
+        datadict = data_dicts[0]
+    else:
+        for dd in range(1,lislen):
+            for indfile in data_dicts[dd].DataField:
+                if indfile.get_name() in lst and len(indfile.get_Value())==0:
+                    pass
+                else:
+                    data_dicts[0].add_DataField(indfile)
+                    lst.append(indfile.get_name())
+        datadict = data_dicts[0]
+    return datadict
+
+def get_script_execution(toExportDict):
+
+    # Script execution
+    scrps = []
+    for model_name in toExportDict.keys():
+        if toExportDict[model_name]['preProcessingScript'] is not None:
+            lstlen = len(toExportDict[model_name]['preProcessingScript']['scripts'])
+            for leng in range(lstlen):
+                scrps.append(pml.script(content=processScript(inspect.getsource(toExportDict[model_name]['preProcessingScript']['scripts'][leng])), 
+                                        for_= model_name, 
+                                        class_ = 'preprocessing',
+                                        scriptPurpose = toExportDict[model_name]['preProcessingScript']['scriptpurpose'][leng]
+                                        ))
+        if toExportDict[model_name]['postProcessingScript'] is not None:
+            lstlen = len(toExportDict[model_name]['postProcessingScript']['scripts'])
+            for leng in range(0,lstlen):
+                scrps.append(pml.script(content=processScript(inspect.getsource(toExportDict[model_name]['postProcessingScript']['scripts'][leng])), 
+                                        for_= model_name, 
+                                        class_ = 'postprocessing',
+                                        scriptPurpose = toExportDict[model_name]['postProcessingScript']['scriptpurpose'][leng]
+                                    ))
+
+    return scrps
 
 def get_entire_string(pipe0):
     pipe_steps = pipe0.steps
@@ -110,20 +246,30 @@ def get_entire_string(pipe0):
 
     return pipe_container
 
-def get_mining_buildtask(pipeline):
-    pipeline = get_entire_string(pipeline)
-    extension = [pml.Extension(value=pipeline)]
+def get_mining_buildtask(toExportDict):
+    extension = []
+    for model_name in toExportDict.keys():
+        pipeline = toExportDict[model_name]['pipelineObj']
+        if 'keras' in str(pipeline):
+            pass
+        else:
+            if pipeline:
+                pipeline = get_entire_string(pipeline)
+                extension.append(pml.Extension(value=pipeline,for_=model_name,name="preprocessingPipeline"))
+        modelobj = toExportDict[model_name]['modelObj']
+        modelobj = str(modelobj)
+        extension.append(pml.Extension(value=modelobj,for_=model_name,name="modelObject"))
+        if toExportDict[model_name]['hyperparameters']:
+            extension.append(pml.Extension(value=toExportDict[model_name]['hyperparameters'],for_=model_name,name="hyperparameters"))
     mining_bld_task = pml.MiningBuildTask(Extension = extension)
     return mining_bld_task
-
-
 
 
 def any_in(seq_a, seq_b):
     return any(elem in seq_b for elem in seq_a)
 
 
-def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, tasktype):
 
     """
     It returns all the pmml elements.
@@ -167,7 +313,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                     col_names,
                                                     target_name,
                                                     mining_imp_val,
-                                                    categoric_values)}
+                                                    categoric_values,
+                                                    tasktype)}
     elif any_in(regression_mining_model_names, skl_mdl_super_cls_names):
         if len(model.classes_) == 2:
             algo_kwargs = {'RegressionModel': get_regrs_models(model,
@@ -175,21 +322,24 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                            col_names,
                                                            target_name,
                                                            mining_imp_val,
-                                                           categoric_values)}
+                                                           categoric_values,
+                                                           tasktype)}
         else:
             algo_kwargs = {'MiningModel': get_reg_mining_models(model,
                                                                 derived_col_names,
                                                                 col_names,
                                                                 target_name,
                                                                 mining_imp_val,
-                                                                categoric_values)}
+                                                                categoric_values,
+                                                                tasktype)}
     elif any_in(regression_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'RegressionModel': get_regrs_models(model,
                                                            derived_col_names,
                                                            col_names,
                                                            target_name,
                                                            mining_imp_val,
-                                                           categoric_values)}
+                                                           categoric_values,
+                                                           tasktype)}
     elif any_in(support_vector_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'SupportVectorMachineModel':
                            get_supportVectorMachine_models(model,
@@ -197,28 +347,32 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                            col_names,
                                                            target_name,
                                                            mining_imp_val,
-                                                           categoric_values)}
+                                                           categoric_values,
+                                                           tasktype)}
     elif any_in(mining_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'MiningModel': get_ensemble_models(model,
                                                           derived_col_names,
                                                           col_names,
                                                           target_name,
                                                           mining_imp_val,
-                                                          categoric_values)}
+                                                          categoric_values,
+                                                          tasktype)}
     elif any_in(neurl_netwk_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'NeuralNetwork': get_neural_models(model,
                                                           derived_col_names,
                                                           col_names,
                                                           target_name,
                                                           mining_imp_val,
-                                                          categoric_values)}
+                                                          categoric_values,
+                                                          tasktype)}
     elif any_in(naive_bayes_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'NaiveBayesModel': get_naiveBayesModel(model,
                                                               derived_col_names,
                                                               col_names,
                                                               target_name,
                                                               mining_imp_val,
-                                                              categoric_values)}
+                                                              categoric_values,
+                                                              tasktype)}
     elif any_in(nearest_neighbour_names, skl_mdl_super_cls_names):
         algo_kwargs = {'NearestNeighborModel':
                            get_nearestNeighbour_model(model,
@@ -226,7 +380,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                       col_names,
                                                       target_name,
                                                       mining_imp_val,
-                                                      categoric_values)}
+                                                      categoric_values,
+                                                      tasktype)}
     elif any_in(anomaly_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'AnomalyDetectionModel':
                             get_anomalydetection_model(model,
@@ -234,7 +389,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                         col_names,
                                                         target_name,
                                                         mining_imp_val,
-                                                        categoric_values)}
+                                                        categoric_values,
+                                                        tasktype)}
     elif any_in(clustering_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'ClusteringModel':
                             get_clustering_model(model,
@@ -242,7 +398,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                     col_names,
                                                     target_name,
                                                     mining_imp_val,
-                                                    categoric_values
+                                                    categoric_values,
+                                                    tasktype
                                                  )}
     else:
         raise NotImplementedError("{} is not Implemented!".format(model.__class__.__name__))
@@ -282,11 +439,11 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_va
     return model_kwargs
 
 
-def get_reg_mining_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_reg_mining_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, tasktype):
     num_classes = len(model.classes_)
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
 
-    mining_model = pml.MiningModel(modelName=model.__class__.__name__,**model_kwargs)
+    mining_model = pml.MiningModel(modelName=model.__class__.__name__, taskType=tasktype,**model_kwargs)
     inner_mining_schema = [mfield for mfield in model_kwargs['MiningSchema'].MiningField if mfield.usageType != 'target']
     segmentation = pml.Segmentation(multipleModelMethod="modelChain")
     for idx in range(num_classes):
@@ -305,7 +462,7 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
                         )
                     ]
                 ),
-            RegressionTable=get_reg_tab_for_reg_mining_model(model,derived_col_names,idx,categoric_values)
+            RegressionTable=get_reg_tab_for_reg_mining_model(model,derived_col_names,idx)
         )
         if model.__class__.__name__ != 'LinearSVC':
             segment.RegressionModel.normalizationMethod = "logit"
@@ -340,14 +497,14 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
     return [mining_model]
 
 
-def get_reg_tab_for_reg_mining_model(model, col_names, index, categorical_values):
+def get_reg_tab_for_reg_mining_model(model, col_names, index):
     reg_tab = pml.RegressionTable(intercept="{:.16f}".format(model.intercept_[index]))
     for idx, coef in enumerate(model.coef_[index]):
         reg_tab.add_NumericPredictor(pml.NumericPredictor(name=col_names[idx],coefficient="{:.16f}".format(coef)))
     return [reg_tab]
 
 
-def get_anomalydetection_model(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_anomalydetection_model(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, tasktype):
     """
     It returns the KMean Clustering model element.
 
@@ -382,12 +539,13 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
                 functionName="regression",
                 MiningSchema=get_mining_schema(model, col_names, target_name, mining_imp_val,categoric_values),
                 Output=get_anomaly_detection_output(model),
+                taskType=tasktype,
                 SupportVectorMachineModel=get_supportVectorMachine_models(model,
                                                             derived_col_names,
                                                             col_names,
                                                             target_name,
                                                             mining_imp_val,
-                                                            categoric_values)[0]
+                                                            categoric_values,tasktype)[0]
             )
         )
     # else:
@@ -501,7 +659,7 @@ def get_anomaly_detection_output(model):
     return pml.Output(OutputField=output_fields)
 
 
-def get_clustering_model(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_clustering_model(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,tasktype):
     """
     It returns the KMean Clustering model element.
 
@@ -536,6 +694,7 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
             ComparisonMeasure=get_comp_measure(),
             ClusteringField=get_clustering_flds(derived_col_names),
             Cluster=get_cluster_vals(model,counts),
+            taskType=tasktype,
             **model_kwargs
 
         )
@@ -558,6 +717,7 @@ def get_output_for_clustering(values):
         Returns a list of OutputField
     """
     output_fields = list()
+    output_fields.append(pml.OutputField(name="cluster", optype="categorical",dataType="string",feature="predictedValue"))
     for idx, val in enumerate(values):
         output_fields.append(
             pml.OutputField(
@@ -568,7 +728,6 @@ def get_output_for_clustering(values):
                 value=str(val)
             )
         )
-    output_fields.append(pml.OutputField(name="cluster", optype="categorical",dataType="string",feature="predictedValue"))
     return pml.Output(OutputField=output_fields)
         
 
@@ -656,7 +815,7 @@ def get_clustering_flds(col_names):
     return clustering_flds
 
 
-def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,tasktype):
     
     """
     It returns the Nearest Neighbour model element.
@@ -690,6 +849,7 @@ def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name,
             KNNInputs=get_knn_inputs(derived_col_names),
             ComparisonMeasure=get_comparison_measure(model),
             TrainingInstances=get_training_instances(model, derived_col_names, target_name),
+            taskType=tasktype,
             **model_kwargs
         )
     )
@@ -843,7 +1003,7 @@ def get_knn_inputs(col_names):
     return pml.KNNInputs(KNNInput=knnInput)
 
 
-def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,tasktype):
 
     """
     It returns the Naive Bayes Model element of the model.
@@ -871,6 +1031,7 @@ def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining
         BayesInputs=get_bayes_inputs(model, derived_col_names),
         BayesOutput=get_bayes_output(model, target_name),
         threshold=get_threshold(),
+        taskType=tasktype,
         **model_kwargs
     ))
     return naive_bayes_model
@@ -953,7 +1114,7 @@ def get_bayes_inputs(model, derived_col_names):
 
 
 def get_supportVectorMachine_models(model, derived_col_names, col_names, target_names,
- 									mining_imp_val, categoric_values):
+ 									mining_imp_val, categoric_values, tasktype):
     
     """
     It returns the Support Vector Machine Model element.
@@ -988,6 +1149,7 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
         classificationMethod=get_classificationMethod(model),
         VectorDictionary=get_vectorDictionary(model, derived_col_names, categoric_values),
         SupportVectorMachine=get_supportVectorMachine(model),
+        taskType=tasktype,
         **kernel_type,
         **model_kwargs
     ))
@@ -1009,7 +1171,7 @@ def get_model_name(model):
     elif 'RandomForest' in str(model.__class__):
         return 'RandomForestModel'
 
-def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, tasktype):
     
     """
     It returns the Mining Model element of the model
@@ -1040,8 +1202,12 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
 
     mining_fields = model_kwargs['MiningSchema'].MiningField
     new_mining_fields = list()
-    for idx, imp_ in enumerate(model.feature_importances_):
-        if imp_ > 0:
+    if model.__class__.__name__ != 'IsolationForest':
+        for idx, imp_ in enumerate(model.feature_importances_):
+            if imp_ > 0:
+                new_mining_fields.append(mining_fields[idx])
+    else:
+        for idx in range(len(col_names)):
             new_mining_fields.append(mining_fields[idx])
     for fld in mining_fields:
         if fld.usageType == 'target':
@@ -1053,7 +1219,8 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     mining_models.append(pml.MiningModel(
         modelName=model.__class__.__name__,
         Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name,
-                                            mining_imp_val, categoric_values),
+                                            mining_imp_val, categoric_values,tasktype),
+        taskType=tasktype,
         **model_kwargs
     ))
     return mining_models
@@ -1123,7 +1290,7 @@ def get_multiple_model_method(model):
         return 'average'
 
 
-def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,tasktype):
     
     """
     It returns the Segmentation element of the model.
@@ -1151,12 +1318,12 @@ def get_outer_segmentation(model, derived_col_names, col_names, target_name, min
     """
     segmentation = pml.Segmentation(
         multipleModelMethod=get_multiple_model_method(model),
-        Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values)
+        Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,tasktype)
     )
     return segmentation
 
 
-def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,tasktype):
 
     """
     It returns the Segment element of the model.
@@ -1185,13 +1352,13 @@ def get_segments(model, derived_col_names, col_names, target_name, mining_imp_va
     segments = None
     if 'GradientBoostingClassifier' in str(model.__class__):
         segments = get_segments_for_gbc(model, derived_col_names, col_names, target_name,
-                                        mining_imp_val, categoric_values)
+                                        mining_imp_val, categoric_values,tasktype)
     else:
         segments = get_inner_segments(model, derived_col_names, col_names, 0)
     return segments
 
 
-def get_segments_for_gbc(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_segments_for_gbc(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,tasktype):
     
     """
     It returns list of Segments element of the model.
@@ -1308,7 +1475,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                 )
             )
         )
-    reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values)[0]
+    reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values,tasktype)[0]
     reg_model.Output = None
     if len(model.classes_) == 2:
         reg_model.normalizationMethod="logit"
@@ -1654,7 +1821,7 @@ def get_supportVectorMachine(model):
     return support_vector_machines
 
 
-def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,tasktype):
 
     """
     It return Tree Model element of the model
@@ -1683,12 +1850,13 @@ def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp
     tree_models.append(pml.TreeModel(
         modelName=model.__class__.__name__,
         Node=get_node(model, derived_col_names),
+        taskType=tasktype,
         **model_kwargs
     ))
     return tree_models
 
 
-def get_neural_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_neural_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,tasktype):
 
     """
     It returns Neural Network element of the model.
@@ -1749,7 +1917,7 @@ def get_funct(sk_model):
     return a_fn
 
 
-def get_regrs_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_regrs_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, tasktype):
 
     """
     It returns the Regression Model element of the model
@@ -1781,6 +1949,7 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
     regrs_models.append(pml.RegressionModel(
         modelName=model.__class__.__name__,
         RegressionTable=get_regrs_tabl(model, derived_col_names, target_name, categoric_values),
+        taskType=tasktype,
         **model_kwargs
     ))
     return regrs_models
@@ -2276,7 +2445,7 @@ def get_header():
          Returns the header of the pmml.
 
      """
-    copyryt = "Copyright (c) 2018 Software AG"
+    copyryt = "Copyright (c) 2019 Software AG"
     description = "Default Description"
     timestamp = pml.Timestamp(datetime.now())
     application=pml.Application(name="Nyoka",version=metadata.__version__)
@@ -2310,7 +2479,7 @@ def get_dtype(feat_value):
     if 'str' in data_type:
         return 'string'
 
-def get_data_dictionary(model, feature_names, target_name, categoric_values):
+def get_data_dictionary(model, feature_names, target_name, categoric_values=None):
 
     """
     It returns the Data Dictionary element.
@@ -2355,7 +2524,7 @@ def get_data_dictionary(model, feature_names, target_name, categoric_values):
     if categoric_values:
         for class_list, attr_for_class in zip(categoric_labels, categoric_feature_name):
             category_flds = pml.DataField(name=str(attr_for_class), optype="categorical",
-                                          dataType=get_dtype(class_list[0]) if class_list else 'string')
+                                        dataType=get_dtype(class_list[0]) if class_list else 'string')
             if class_list:
                 for values in class_list:
                     category_flds.add_Value(pml.Value(value=str(values)))
@@ -2363,8 +2532,8 @@ def get_data_dictionary(model, feature_names, target_name, categoric_values):
     attr_without_class_attr = [feat_name for feat_name in feature_names if feat_name not in categoric_feature_name]
     for feature_idx, feat_name in enumerate(attr_without_class_attr):
         data_fields.append(pml.DataField(name=str(feat_name),
-                                         optype=features_pmml_optype[feature_idx],
-                                         dataType=features_pmml_dtype[feature_idx]))
+                                        optype=features_pmml_optype[feature_idx],
+                                        dataType=features_pmml_dtype[feature_idx]))
     if has_target(model):
         class_node = pml.DataField(name=str(target_name), optype=target_pmml_optype,
                                 dataType=target_pmml_dtype)

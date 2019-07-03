@@ -29,10 +29,10 @@ curdir = os.path.abspath(os.curdir)
 def gen(name, folder, clean=""):
     text = "CLEANING " if clean is "clean" else "BUILDING "
     print("\033[33;1m" + ("-" * 10) + text + name + ("-" * 10) + "\033[0m")
-    if subprocess.call([sys.executable, os.path.join(curdir, "PMML44", "gen.py"), name, clean], cwd=folder) != 0:
+    if subprocess.call([sys.executable, os.path.join(curdir, "PMML43Ext", "gen.py"), name, clean], cwd=folder) != 0:
         exit(1)
 
-pmml44FolderPath = os.path.join(curdir, "PMML44")
+pmml43ExtFolderPath = os.path.join(curdir, "PMML43Ext")
 
 if "clean" in sys.argv:
     find = subprocess.Popen(["find", ".", "-type", "f"], stdout=subprocess.PIPE)
@@ -46,29 +46,29 @@ if "clean" in sys.argv:
     for file in files:
         print("\033[36;1mCLEANING " + file + "\033[0m")
         if os.path.exists(file): os.remove(file)
-    gen("PMML44", curdir, "clean")
-    subprocess.call(["make", "-C", os.path.join(curdir, "PMML44", "doc"), "clean"])
+    gen("PMML43Ext", curdir, "clean")
+    subprocess.call(["make", "-C", os.path.join(curdir, "PMML43Ext", "doc"), "clean"])
     exit(0)
 
-pmml44SuperPy = os.path.join(pmml44FolderPath, "pmml44Super.py")
-pmml44Py = os.path.join(pmml44FolderPath, "pmml44.py")
-nyoka_pmml44SuperPy = os.path.join(curdir, "PMML44Super.py")
-nyoka_pmml44Py = os.path.join(curdir, "PMML44.py")
-wrapper44 = open(os.path.join(pmml44FolderPath, "wrapper44.py"), 'r')
+pmml43ExtSuperPy = os.path.join(pmml43ExtFolderPath, "pmml43ExtSuper.py")
+pmml43ExtPy = os.path.join(pmml43ExtFolderPath, "pmml43Ext.py")
+nyoka_pmml43ExtSuperPy = os.path.join(curdir, "PMML43ExtSuper.py")
+nyoka_pmml43ExtPy = os.path.join(curdir, "PMML43Ext.py")
+wrapper43Ext = open(os.path.join(pmml43ExtFolderPath, "wrapper43Ext.py"), 'r')
 
-gen("PMML44", pmml44FolderPath)
-copy(pmml44SuperPy, nyoka_pmml44SuperPy)
-copy(pmml44Py, nyoka_pmml44Py)
-sed(r"pmml44\b", "nyoka.PMML44", nyoka_pmml44Py)
-sed(r"pmml44Super\b", "nyoka.PMML44Super", nyoka_pmml44Py)
-sed(r"def parse\(", "def parseSub(", nyoka_pmml44Py)
-with open(nyoka_pmml44Py, 'a') as f: f.write(wrapper44.read())
+gen("PMML43Ext", pmml43ExtFolderPath)
+copy(pmml43ExtSuperPy, nyoka_pmml43ExtSuperPy)
+copy(pmml43ExtPy, nyoka_pmml43ExtPy)
+sed(r"pmml43Ext\b", "nyoka.PMML43Ext", nyoka_pmml43ExtPy)
+sed(r"pmml43ExtSuper\b", "nyoka.PMML43ExtSuper", nyoka_pmml43ExtPy)
+sed(r"def parse\(", "def parseSub(", nyoka_pmml43ExtPy)
+with open(nyoka_pmml43ExtPy, 'a') as f: f.write(wrapper43Ext.read())
 
 subprocess.call([sys.executable,
-                 os.path.join(curdir, "PMML44", "doc.py"),
+                 os.path.join(curdir, "PMML43Ext", "doc.py"),
                  "doc" if "doc" in sys.argv else "",
                  "open" if "open" in sys.argv else ""],
-                 cwd=pmml44FolderPath)
+                 cwd=pmml43ExtFolderPath)
 
 if "test" in sys.argv:
-    subprocess.call([sys.executable, os.path.join(curdir, "PMML44", "test.py")])
+    subprocess.call([sys.executable, os.path.join(curdir, "PMML43Ext", "test.py")])
