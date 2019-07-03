@@ -14,7 +14,7 @@ from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier, RandomForestRegressor
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from nyoka import skl_to_pmml
+from nyoka import model_to_pmml
 
 
 class TestMethods(unittest.TestCase):
@@ -28,15 +28,25 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         target = 'Species'
 
-        pipeline_obj = Pipeline([
-            ('svm',SVC())
-        ])
+        svm = SVC()
+        svm.fit(irisd[features],irisd[target])
 
-        pipeline_obj.fit(irisd[features],irisd[target])
+        pmml_file_name = "svc_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':svm,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj,features,target,"svc_pmml.pmml")
-
-        self.assertEqual(os.path.isfile("svc_pmml.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_02(self):
@@ -48,15 +58,29 @@ class TestMethods(unittest.TestCase):
         target = 'Species'
 
         pipeline_obj = Pipeline([
-            ('scaling',StandardScaler()), 
-            ('knn',KNeighborsClassifier(n_neighbors = 5))
+            ('scaling',StandardScaler())
         ])
 
-        pipeline_obj.fit(irisd[features],irisd[target])
+        knn = KNeighborsClassifier(n_neighbors = 5)
+        X = pipeline_obj.fit_transform(irisd[features])
+        knn.fit(X,irisd[target])
 
-        skl_to_pmml(pipeline_obj,features,target,"knn_pmml.pmml")
+        pmml_file_name = "knn_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':pipeline_obj,
+                'modelObj':knn,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        self.assertEqual(os.path.isfile("knn_pmml.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
     
     def test_sklearn_03(self):
@@ -71,15 +95,30 @@ class TestMethods(unittest.TestCase):
             ("mapping", DataFrameMapper([
             (['sepal length (cm)', 'sepal width (cm)'], StandardScaler()) , 
             (['petal length (cm)', 'petal width (cm)'], Imputer())
-            ])),
-            ("rfc", RandomForestClassifier(n_estimators = 100))
+            ]))
         ])
 
-        pipeline_obj.fit(irisd[features], irisd[target])
+        X = pipeline_obj.fit_transform(irisd[features])
 
-        skl_to_pmml(pipeline_obj, features, target, "rf_pmml.pmml")
+        rfc = RandomForestClassifier(n_estimators = 100)
+        rfc.fit(X,irisd[target])
 
-        self.assertEqual(os.path.isfile("rf_pmml.pmml"),True)
+        pmml_file_name = "rf_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':pipeline_obj,
+                'modelObj':rfc,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
+
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_04(self):
@@ -95,15 +134,30 @@ class TestMethods(unittest.TestCase):
                 (['Sex'], LabelEncoder()),
                 (['Embarked'], LabelEncoder())
             ])),
-            ("imp", Imputer(strategy="median")),
-            ("gbc", GradientBoostingClassifier(n_estimators = 10))
+            ("imp", Imputer(strategy="median"))
         ])
 
-        pipeline_obj.fit(titanic[features],titanic[target])
+        X = pipeline_obj.fit_transform(titanic[features])
 
-        skl_to_pmml(pipeline_obj, features, target, "gb_pmml.pmml")
+        gbc = GradientBoostingClassifier(n_estimators = 10)
+        gbc.fit(X,titanic[target])
 
-        self.assertEqual(os.path.isfile("gb_pmml.pmml"),True)
+        pmml_file_name = "gb_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':pipeline_obj,
+                'modelObj':gbc,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
+
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_05(self):
@@ -117,16 +171,30 @@ class TestMethods(unittest.TestCase):
         pipeline_obj = Pipeline([
             ('mapper', DataFrameMapper([
                 ('car name', TfidfVectorizer())
-            ])),
-            ('model',DecisionTreeRegressor())
+            ]))
         ])
 
-        pipeline_obj.fit(X,y)
+        X = pipeline_obj.fit_transform(X)
 
-        
-        skl_to_pmml(pipeline_obj,features,target,"dtr_pmml.pmml")
+        model = DecisionTreeRegressor()
+        model.fit(X,y)
 
-        self.assertEqual(os.path.isfile("dtr_pmml.pmml"),True)
+        pmml_file_name = "dtr_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':pipeline_obj,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
+
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_06(self):
@@ -137,15 +205,26 @@ class TestMethods(unittest.TestCase):
         features = X.columns
         target = 'mpg'
 
-        pipeline_obj = Pipeline([
-            ('model',LinearRegression())
-        ])
+        model = LinearRegression()
+        model.fit(X,y)
 
-        pipeline_obj.fit(X,y)
+        pmml_file_name = "linearregression_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj,features,target,"linearregression_pmml.pmml")
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
-        self.assertEqual(os.path.isfile("linearregression_pmml.pmml"),True)
 
     def test_sklearn_07(self):
         iris = datasets.load_iris()
@@ -159,15 +238,30 @@ class TestMethods(unittest.TestCase):
             ("mapping", DataFrameMapper([
             (['sepal length (cm)', 'sepal width (cm)'], StandardScaler()) , 
             (['petal length (cm)', 'petal width (cm)'], Imputer())
-            ])),
-            ("lr", LogisticRegression())
+            ]))
         ])
 
-        pipeline_obj.fit(irisd[features], irisd[target])
+        X = pipeline_obj.fit_transform(irisd[features])
+        
+        lr = LogisticRegression()
+        lr.fit(X,irisd[target])
 
-        skl_to_pmml(pipeline_obj, features, target, "logisticregression_pmml.pmml")
+        pmml_file_name = "logisticregression_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':pipeline_obj,
+                'modelObj':lr,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        self.assertEqual(os.path.isfile("logisticregression_pmml.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_08(self):
@@ -179,14 +273,30 @@ class TestMethods(unittest.TestCase):
         target = 'Species'
 
         pipeline_obj = Pipeline([
-            ('pca',PCA(2)),
-            ('mod',LogisticRegression())
+            ('pca',PCA(2))
         ])
-        pipeline_obj.fit(irisd[features], irisd[target])
 
-        skl_to_pmml(pipeline_obj, features, target, "logisticregression_pca_pmml.pmml")
+        X = pipeline_obj.fit_transform(irisd[features])
 
-        self.assertEqual(os.path.isfile("logisticregression_pca_pmml.pmml"),True)
+        mod = LogisticRegression()
+        mod.fit(X,irisd[target])
+
+        pmml_file_name = "logisticregression_pca_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':pipeline_obj,
+                'modelObj':mod,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
+
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_09(self):
@@ -197,15 +307,25 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         target = 'Species'
 
-        pipeline_obj = Pipeline([
-            ("SGD", SGDClassifier())
-        ])
+        SGD = SGDClassifier()
+        SGD.fit(irisd[features],irisd[target])
 
-        pipeline_obj.fit(irisd[features], irisd[target])
+        pmml_file_name = "sgdclassifier_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':SGD,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj, features, target, "sgdclassifier_pmml.pmml")
-
-        self.assertEqual(os.path.isfile("sgdclassifier_pmml.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_10(self):
@@ -216,15 +336,25 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         target = 'Species'
 
-        pipeline_obj = Pipeline([
-            ("lsvc", LinearSVC())
-        ])
+        lsvc = LinearSVC()
+        lsvc.fit(irisd[features], irisd[target])
 
-        pipeline_obj.fit(irisd[features], irisd[target])
+        pmml_file_name = "linearsvc_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':lsvc,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj, features, target, "linearsvc_pmml.pmml")
-
-        self.assertEqual(os.path.isfile("linearsvc_pmml.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_11(self):
@@ -235,15 +365,25 @@ class TestMethods(unittest.TestCase):
         features = X.columns
         target = 'mpg'
 
-        pipeline_obj = Pipeline([
-            ('model',LinearSVR())
-        ])
+        model = LinearSVR()
+        model.fit(X,y)
 
-        pipeline_obj.fit(X,y)
+        pmml_file_name = "linearsvr_pmml.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj,features,target,"linearsvr_pmml.pmml")
-
-        self.assertEqual(os.path.isfile("linearsvr_pmml.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_12(self):
@@ -254,15 +394,25 @@ class TestMethods(unittest.TestCase):
         features = X.columns
         target = 'mpg'
 
-        pipeline_obj = Pipeline([
-            ('model',GradientBoostingRegressor())
-        ])
+        model = GradientBoostingRegressor()
+        model.fit(X,y)
 
-        pipeline_obj.fit(X,y)
+        pmml_file_name = "gbr.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj,features,target,"gbr.pmml")
-
-        self.assertEqual(os.path.isfile("gbr.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_13(self):
@@ -273,15 +423,26 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         target = 'Species'
 
-        pipeline_obj = Pipeline([
-            ("SGD", DecisionTreeClassifier())
-        ])
+        SGD = DecisionTreeClassifier()
 
-        pipeline_obj.fit(irisd[features], irisd[target])
+        SGD.fit(irisd[features], irisd[target])
 
-        skl_to_pmml(pipeline_obj, features, target, "dtr_clf.pmml")
+        pmml_file_name = "dtr_clf.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':SGD,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        self.assertEqual(os.path.isfile("dtr_clf.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_14(self):
@@ -292,15 +453,25 @@ class TestMethods(unittest.TestCase):
         features = X.columns
         target = 'mpg'
 
-        pipeline_obj = Pipeline([
-            ('model',RandomForestRegressor())
-        ])
+        model = RandomForestRegressor()
+        model.fit(X,y)
 
-        pipeline_obj.fit(X,y)
+        pmml_file_name = "rfr.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj,features,target,"rfr.pmml")
-
-        self.assertEqual(os.path.isfile("rfr.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_15(self):
@@ -311,15 +482,25 @@ class TestMethods(unittest.TestCase):
         features = X.columns
         target = 'mpg'
 
-        pipeline_obj = Pipeline([
-            ('model',KNeighborsRegressor())
-        ])
+        model = KNeighborsRegressor()
+        model.fit(X,y)
 
-        pipeline_obj.fit(X,y)
+        pmml_file_name = "knnr.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj,features,target,"knnr.pmml")
-
-        self.assertEqual(os.path.isfile("knnr.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_16(self):
@@ -330,15 +511,25 @@ class TestMethods(unittest.TestCase):
         features = X.columns
         target = 'mpg'
 
-        pipeline_obj = Pipeline([
-            ('model',SVR())
-        ])
+        model = SVR()
+        model.fit(X,y)
 
-        pipeline_obj.fit(X,y)
+        pmml_file_name = "svr.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj,features,target,"svr.pmml")
-
-        self.assertEqual(os.path.isfile("svr.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_17(self):
@@ -352,13 +543,28 @@ class TestMethods(unittest.TestCase):
         
         pipeline_obj = Pipeline([
             ('standard_scaler',StandardScaler()),
-            ('Imputer',Imputer()),
-            ('model',OneClassSVM())
+            ('Imputer',Imputer())
         ])
+        X = pipeline_obj.fit_transform(X)
+        model = OneClassSVM()
+        model.fit(X)
 
-        pipeline_obj.fit(X)
-        skl_to_pmml(pipeline_obj, feature_names, pmml_f_name="one_class_svm.pmml")
-        self.assertEqual(os.path.isfile("one_class_svm.pmml"),True)
+        pmml_file_name = "one_class_svm.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':pipeline_obj,
+                'modelObj':model,
+                'featuresUsed':feature_names,
+                'targetName':None,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
+
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_18(self):
@@ -369,16 +575,25 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         target = 'Species'
 
-        pipeline_obj = Pipeline([
-            ("model", GaussianNB())
-        ])
+        model = GaussianNB()
+        model.fit(irisd[features], irisd[target])
 
-        pipeline_obj.fit(irisd[features], irisd[target])
+        pmml_file_name = "gnb.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj, features, target, "gnb.pmml")
-
-        self.assertEqual(os.path.isfile("gnb.pmml"),True)
-
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
     def test_sklearn_19(self):
         iris = datasets.load_iris()
@@ -388,15 +603,25 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         target = 'Species'
 
-        pipeline_obj = Pipeline([
-            ("model", SGDClassifier())
-        ])
+        model = SGDClassifier()
+        model.fit(irisd[features], irisd[target])
 
-        pipeline_obj.fit(irisd[features], irisd[target])
+        pmml_file_name = "sgdc.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj, features, target, "sgdc.pmml")
-
-        self.assertEqual(os.path.isfile("sgdc.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_20(self):
@@ -407,15 +632,25 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         target = 'Species'
 
-        pipeline_obj = Pipeline([
-            ("model", RidgeClassifier())
-        ])
+        model = RidgeClassifier()
+        model.fit(irisd[features], irisd[target])
 
-        pipeline_obj.fit(irisd[features], irisd[target])
+        pmml_file_name = "ridge.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj, features, target, "ridge.pmml")
-
-        self.assertEqual(os.path.isfile("ridge.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
     def test_sklearn_21(self):
@@ -426,15 +661,25 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         target = 'Species'
 
-        pipeline_obj = Pipeline([
-            ("model", LinearDiscriminantAnalysis())
-        ])
+        model = LinearDiscriminantAnalysis()
+        model.fit(irisd[features], irisd[target])
 
-        pipeline_obj.fit(irisd[features], irisd[target])
+        pmml_file_name = "lda.pmml"
+        toExportDict={
+            'model1':{
+                'hyperparameters':None,
+                'preProcessingScript':None,
+                'pipelineObj':None,
+                'modelObj':model,
+                'featuresUsed':features,
+                'targetName':target,
+                'postProcessingScript':None,
+                'taskType': 'score'
+            }
+        }
+        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
 
-        skl_to_pmml(pipeline_obj, features, target, "lda.pmml")
-
-        self.assertEqual(os.path.isfile("lda.pmml"),True)
+        self.assertEqual(os.path.isfile(pmml_file_name),True)
 
 
 if __name__=='__main__':
