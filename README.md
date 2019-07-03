@@ -191,18 +191,17 @@ toExportDict={
     }
 }
 
-pmml = model_to_pmml(toExportDict, pmml_f_name="sklearnppOnly.pmml")
+model_to_pmml(toExportDict, pmml_f_name="sklearnppOnly.pmml")
 ```
 
-### Nyoka to export lightGBM models:
+### Nyoka to export lightGBM Train models:
 
->Exporting a LGBM model into PMML
+>Exporting a LGBM Train Model into PMML
 
 ```python
-import pandas as pd
 from sklearn import datasets
-from sklearn.pipeline import Pipeline
-from lightgbm import LGBMClassifier
+import pandas as pd
+import lightgbm as lgb
 
 
 iris = datasets.load_iris()
@@ -211,13 +210,52 @@ irisd['Species'] = iris.target
 features = irisd.columns.drop('Species')
 target = 'Species'
 
-pipeline_obj = Pipeline([
-    ('lgbmc',LGBMClassifier())
-])
-pipeline_obj.fit(irisd[features],irisd[target])
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(irisd[features], irisd[target], test_size=0.3, random_state=0) 
 
-from nyoka import lgb_to_pmml
-lgb_to_pmml(pipeline_obj,features,target,"lgbmc_pmml.pmml")
+# create dataset for lightgbm
+lgb_train = lgb.Dataset(X_train, y_train , free_raw_data=False)
+lgb_eval = lgb.Dataset(X_test, y_test, reference=lgb_train, free_raw_data=False)
+
+# specify your configurations as a dict
+params = {
+    'boosting_type': 'gbdt',
+    'objective': 'multiclass',
+    'num_class':3,
+    'metric': 'multi_logloss',
+    'num_leaves': 31,
+    'learning_rate': 0.05,
+    'feature_fraction': 0.9,
+    'bagging_fraction': 0.8,
+    'bagging_freq': 5,
+    'verbose': 20
+}
+
+gbm = lgb.train(params,
+                lgb_train,
+                num_boost_round=1000,
+                valid_sets=lgb_eval,
+                early_stopping_rounds=50,
+                verbose_eval = True
+               )
+
+from nyoka import model_to_pmml
+
+toExportDict={
+    'model1':{
+        'hyperparameters':params,
+        'preProcessingScript':None,
+        'pipelineObj':None,
+        'modelObj':gbm,
+        'featuresUsed':features,
+        'targetName':target,
+        'postProcessingScript':None,
+        'taskType': 'trainAndscore'
+    }
+}
+
+model_to_pmml(toExportDict, pmml_f_name="LGBM_Train_API_Example.pmml")
+
 ```
 
 ### Nyoka to export keras models:
@@ -276,7 +314,7 @@ toExportDict={
     }
 }
 
-pmml = model_to_pmml(toExportDict, pmml_f_name="KerasppOnly.pmml")
+model_to_pmml(toExportDict, pmml_f_name="KerasppOnly.pmml")
 ```
 ### Nyoka to export statsmodels model
 >Exporting ARIMA to PMML
