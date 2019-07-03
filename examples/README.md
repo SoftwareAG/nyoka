@@ -4,6 +4,6 @@
 * Change the branch to 44Ext ($ git checkout 44Ext)
 * Navigate to examples folder ($ cd nyoka/examples)
 * Start a jupyter notebook session ($ jupyter notebook)
-* Navigate to notebooks folder
+* Navigate to Notebook folder
 * Click on any of the notebook (ipynb file) and start executing the cells 
 
