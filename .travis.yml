@@ -7,6 +7,7 @@ script:
   - python nyoka/tests/test_import.py
   - python nyoka/tests/install_dependencies.py
   - python nyoka/tests/skl_to_pmml_UnitTest.py
+  - python nyoka/tests/xgboost_to_pmml_UnitTest.py
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
