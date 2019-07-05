@@ -135,7 +135,7 @@ class TestMethods(unittest.TestCase):
             'model1':{
                 'hyperparameters':None,
                 'preProcessingScript':None,
-                'pipelineObj':None,
+                'pipelineObj':pipeline_obj,
                 'modelObj':lgbmr,
                 'featuresUsed':feature_names,
                 'targetName':target_name,
