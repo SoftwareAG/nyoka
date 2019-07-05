@@ -22,8 +22,8 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         target = 'Species'
 
-        lgbmc = XGBClassifier()
-        lgbmc.fit(irisd[features],irisd[target])
+        xgb = XGBClassifier()
+        xgb.fit(irisd[features],irisd[target])
 
         pmml_file_name = "xgbc_pmml.pmml"
         toExportDict={
@@ -31,7 +31,7 @@ class TestMethods(unittest.TestCase):
                 'hyperparameters':None,
                 'preProcessingScript':None,
                 'pipelineObj':None,
-                'modelObj':lgbmc,
+                'modelObj':xgb,
                 'featuresUsed':features,
                 'targetName':target,
                 'postProcessingScript':None,
@@ -52,8 +52,8 @@ class TestMethods(unittest.TestCase):
         feature_names = [name for name in auto.columns if name not in ('mpg','car name')]
         target_name='mpg'
 
-        lgbmr = XGBRegressor()
-        lgbmr.fit(auto[feature_names],auto[target_name])
+        xgbr = XGBRegressor()
+        xgbr.fit(auto[feature_names],auto[target_name])
 
         pmml_file_name = "xgbr_pmml.pmml"
         toExportDict={
@@ -61,7 +61,7 @@ class TestMethods(unittest.TestCase):
                 'hyperparameters':None,
                 'preProcessingScript':None,
                 'pipelineObj':None,
-                'modelObj':lgbmr,
+                'modelObj':xgbr,
                 'featuresUsed':feature_names,
                 'targetName':target_name,
                 'postProcessingScript':None,
@@ -88,8 +88,8 @@ class TestMethods(unittest.TestCase):
 
         X = pipeline_obj.fit_transform(irisd[features])
 
-        lgbmc = XGBClassifier(n_estimators=5)
-        lgbmc.fit(X,irisd[target])
+        xgbc = XGBClassifier(n_estimators=5)
+        xgbc.fit(X,irisd[target])
 
         pmml_file_name = "xgbc_pmml_preprocess.pmml"
         toExportDict={
@@ -97,7 +97,7 @@ class TestMethods(unittest.TestCase):
                 'hyperparameters':None,
                 'preProcessingScript':None,
                 'pipelineObj':pipeline_obj,
-                'modelObj':lgbmc,
+                'modelObj':xgbc,
                 'featuresUsed':features,
                 'targetName':target,
                 'postProcessingScript':None,
@@ -128,8 +128,8 @@ class TestMethods(unittest.TestCase):
 
         X = pipeline_obj.fit_transform(x_train)
 
-        lgbmr = XGBRegressor()
-        lgbmr.fit(X,y_train)
+        xgbr = XGBRegressor()
+        xgbr.fit(X,y_train)
 
         pmml_file_name = "xgbr_pmml_preprocess.pmml"
         toExportDict={
@@ -137,7 +137,7 @@ class TestMethods(unittest.TestCase):
                 'hyperparameters':None,
                 'preProcessingScript':None,
                 'pipelineObj':pipeline_obj,
-                'modelObj':lgbmr,
+                'modelObj':xgbr,
                 'featuresUsed':feature_names,
                 'targetName':target_name,
                 'postProcessingScript':None,
