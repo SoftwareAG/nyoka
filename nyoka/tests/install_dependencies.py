@@ -12,6 +12,7 @@ packages = [
     "jupyter",
     "sklearn-pandas",
     "lightgbm",
+    "xgboost",
     "h5py",
     "pandas",
     "numpy"
