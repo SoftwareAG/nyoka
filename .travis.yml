@@ -9,7 +9,7 @@ script:
   - python nyoka/tests/skl_to_pmml_UnitTest.py
   - python nyoka/tests/xgboost_to_pmml_UnitTest.py
   - python nyoka/tests/lgbm_to_pmml_UnitTest.py
-  # - python nyoka/tests/keras_to_pmml_UnitTest.py
+  - python nyoka/tests/lgbm_train_api_UnitTest.py
   - python nyoka/tests/statsmodels_to_pmml_UnitTest.py
 
 after_success:
