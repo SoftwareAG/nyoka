@@ -571,7 +571,7 @@ class KerasMiningSchema(ny.MiningSchema):
         if targetVarName:
             ny.MiningSchema.add_MiningField(self, ny.MiningField(name=targetVarName, usageType="target",invalidValueTreatment="asIs"))
         else:
-            print('Came here')
+            # print('Came here')
             ny.MiningSchema.add_MiningField(self, ny.MiningField(name="predictions", usageType="target",invalidValueTreatment="asIs"))
 
 

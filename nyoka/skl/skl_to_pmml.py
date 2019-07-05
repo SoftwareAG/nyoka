@@ -62,11 +62,19 @@ def model_to_pmml(toExportDict, pmml_f_name='from_sklearn.pmml'):
         if (pipelineOnly is not None) and (pipelineOnly not in visited):
             derived_col_names,categoric_values,mining_imp_val,trfm_dict_kwargs = get_trfm_dict_kwargs(col_names,pipelineOnly,
                                                                                                       trfm_dict_kwargs,model,model_name)
-        else:
-            derived_col_names = col_names
-
         if 'keras' in str(model):
-            KerasPMML = KerasToPmml(model,model_name=pmml_f_name,targetVarName=target_name)
+
+            KModelObj=toExportDict[model_name]
+
+            if 'model_graph' in KModelObj:
+                model_graph = KModelObj['model_graph']
+                with model_graph.as_default():
+                    tf_session = KModelObj['tf_session']
+                    with tf_session.as_default():
+                        KerasPMML = KerasToPmml(model,model_name=pmml_f_name,targetVarName=target_name)
+                            
+            else:
+                KerasPMML = KerasToPmml(model,model_name=pmml_f_name,targetVarName=target_name)
 
             model_obj = KerasPMML.DeepNetwork[0]
             model_obj.modelName = model_name
@@ -131,7 +139,6 @@ def model_to_pmml(toExportDict, pmml_f_name='from_sklearn.pmml'):
         **models_dict
     )
     pmml.export(outfile=open(pmml_f_name, "w"), level=0)
-    return pmml
 
 
 def get_trfm_dict_kwargs(col_names,pipelineOnly,trfm_dict_kwargs,model,model_name):

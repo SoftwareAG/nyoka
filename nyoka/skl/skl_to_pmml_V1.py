@@ -42,10 +42,11 @@ def model_to_pmml(toExportDict, pmml_f_name='from_sklearn.pmml'):
     data_dicts = []
     visited = []
     categoric_values = None
+    derived_col_names = None
+    mining_imp_val = None
 
 
     for model_name in toExportDict.keys():
-        print ('model_name >>>>>>>> ',model_name)
         col_names = toExportDict[model_name]['featuresUsed']
         target_name = toExportDict[model_name]['targetName']
         tasktype = toExportDict[model_name]['taskType']
@@ -54,13 +55,26 @@ def model_to_pmml(toExportDict, pmml_f_name='from_sklearn.pmml'):
 
         pipelineOnly = toExportDict[model_name]['pipelineObj']
 
+        categoric_values = tuple()
+        derived_col_names = col_names
+        mining_imp_val = tuple()
+
         if (pipelineOnly is not None) and (pipelineOnly not in visited):
             derived_col_names,categoric_values,mining_imp_val,trfm_dict_kwargs = get_trfm_dict_kwargs(col_names,pipelineOnly,
                                                                                                       trfm_dict_kwargs,model,model_name)
-
         if 'keras' in str(model):
-            model=model.model
-            KerasPMML = KerasToPmml(model,model_name=pmml_f_name)
+
+            KModelObj=toExportDict[model_name]
+
+            if 'model_graph' in KModelObj:
+                model_graph = KModelObj['model_graph']
+                with model_graph.as_default():
+                    tf_session = KModelObj['tf_session']
+                    with tf_session.as_default():
+                        KerasPMML = KerasToPmml(model.model,model_name=pmml_f_name,targetVarName=target_name)
+                            
+            else:
+                KerasPMML = KerasToPmml(model,model_name=pmml_f_name,targetVarName=target_name)
 
             model_obj = KerasPMML.DeepNetwork[0]
             model_obj.modelName = model_name
@@ -125,7 +139,6 @@ def model_to_pmml(toExportDict, pmml_f_name='from_sklearn.pmml'):
         **models_dict
     )
     pmml.export(outfile=open(pmml_f_name, "w"), level=0)
-    return pmml
 
 
 def get_trfm_dict_kwargs(col_names,pipelineOnly,trfm_dict_kwargs,model,model_name):
@@ -1213,7 +1226,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     mining_models.append(pml.MiningModel(
         modelName=model.__class__.__name__,
         Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name,
-                                            mining_imp_val, categoric_values),
+                                            mining_imp_val, categoric_values,tasktype),
         taskType=tasktype,
         **model_kwargs
     ))
@@ -1284,7 +1297,7 @@ def get_multiple_model_method(model):
         return 'average'
 
 
-def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,tasktype):
     
     """
     It returns the Segmentation element of the model.
@@ -1312,12 +1325,12 @@ def get_outer_segmentation(model, derived_col_names, col_names, target_name, min
     """
     segmentation = pml.Segmentation(
         multipleModelMethod=get_multiple_model_method(model),
-        Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values)
+        Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,tasktype)
     )
     return segmentation
 
 
-def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,tasktype):
 
     """
     It returns the Segment element of the model.
@@ -1346,13 +1359,13 @@ def get_segments(model, derived_col_names, col_names, target_name, mining_imp_va
     segments = None
     if 'GradientBoostingClassifier' in str(model.__class__):
         segments = get_segments_for_gbc(model, derived_col_names, col_names, target_name,
-                                        mining_imp_val, categoric_values)
+                                        mining_imp_val, categoric_values,tasktype)
     else:
         segments = get_inner_segments(model, derived_col_names, col_names, 0)
     return segments
 
 
-def get_segments_for_gbc(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_segments_for_gbc(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,tasktype):
     
     """
     It returns list of Segments element of the model.
@@ -1469,7 +1482,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                 )
             )
         )
-    reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values)[0]
+    reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values,tasktype)[0]
     reg_model.Output = None
     if len(model.classes_) == 2:
         reg_model.normalizationMethod="logit"
