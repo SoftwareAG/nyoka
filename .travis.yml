@@ -2,10 +2,8 @@ language: python
 python:
   - "3.6"
 cache: pip
-# install: "pip install git+https://github.com/nyoka-pmml/nyoka.git@dev"
+install: "pip install -e ."
 script:
-  # - git clone --branch=dev https://github.com/nyoka-pmml/nyoka.git
-  # - cd nyoka
   - python nyoka/tests/test_import.py
   - python nyoka/tests/_install_dependencies.py
   - python nyoka/tests/test_skl_to_pmml_UnitTest.py
