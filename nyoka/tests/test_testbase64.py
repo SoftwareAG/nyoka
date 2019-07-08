@@ -2,7 +2,7 @@ from __future__ import print_function
 import sys,os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
-from ...Base64 import *
+from .Base64 import *
 
 # from nyoka.Base64 import *
 

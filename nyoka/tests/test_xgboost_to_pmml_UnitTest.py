@@ -12,7 +12,7 @@ from sklearn.preprocessing import StandardScaler, Imputer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor,XGBClassifier
-from ...xgboost.xgboost_to_pmml import xgboost_to_pmml
+from .xgboost.xgboost_to_pmml import xgboost_to_pmml
 # from nyoka import xgboost_to_pmml
 
 
