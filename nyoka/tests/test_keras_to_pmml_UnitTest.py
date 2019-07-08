@@ -7,9 +7,9 @@ import unittest
 from keras import applications
 from keras.layers import *
 from keras.models import Model
-from nyoka.nyoka.keras.keras_model_to_pmml import KerasDataDictionary
+from ...keras.keras_model_to_pmml import KerasDataDictionary
 # from nyoka import KerasToPmml
-from nyoka.nyoka import PMML44 as ny
+from .. import PMML44 as ny
 # from nyoka import PMML44 as ny
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
