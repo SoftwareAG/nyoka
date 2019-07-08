@@ -1,9 +1,8 @@
 from __future__ import absolute_import
-import sys
+import sys,os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
-
-import os
+ 
 import unittest
 import pandas as pd
 from sklearn import datasets

@@ -1,9 +1,8 @@
 from __future__ import absolute_import
-import sys
+import sys,os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 
-import sys, os
 import pandas as pd
 import numpy as np
 from statsmodels.tsa.base import tsa_model as tsa
