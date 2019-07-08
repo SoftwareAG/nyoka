@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 import sys,os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-sys.path.append(BASE_DIR)
+sys.path.append("../../")
 
 import unittest
 import pandas as pd
@@ -12,7 +11,7 @@ from sklearn.preprocessing import StandardScaler, Imputer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor,XGBClassifier
-from .xgboost.xgboost_to_pmml import xgboost_to_pmml
+from nyoka.xgboost.xgboost_to_pmml import xgboost_to_pmml
 # from nyoka import xgboost_to_pmml
 
 

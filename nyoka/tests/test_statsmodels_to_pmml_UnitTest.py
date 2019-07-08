@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 import sys,os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-sys.path.append(BASE_DIR)
+
+sys.path.append("../../")
 
 import pandas as pd
 import numpy as np
@@ -10,8 +10,8 @@ from statsmodels.tsa import holtwinters as hw
 from statsmodels.tsa.statespace import sarimax
 from statsmodels.tsa.arima_model import ARIMA
 import unittest
-from .statsmodels.arima import ArimaToPMML
-from .statsmodels.exponential_smoothing import ExponentialSmoothingToPMML
+from nyoka.statsmodels.arima import ArimaToPMML
+from nyoka.statsmodels.exponential_smoothing import ExponentialSmoothingToPMML
 
 # from nyoka import ArimaToPMML, ExponentialSmoothingToPMML
 

@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 import sys,os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-sys.path.append(BASE_DIR)
+
+sys.path.append("../../")
  
 import unittest
 import pandas as pd
@@ -13,7 +13,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from lightgbm import LGBMRegressor,LGBMClassifier
 # from nyoka import lgb_to_pmml
-from .lgbm.lgb_to_pmml import lgb_to_pmml
+from nyoka.lgbm.lgb_to_pmml import lgb_to_pmml
 
 
 class TestMethods(unittest.TestCase):

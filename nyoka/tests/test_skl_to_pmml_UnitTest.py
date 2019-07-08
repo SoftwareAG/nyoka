@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 import sys, os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-sys.path.append(BASE_DIR)
+
+sys.path.append("../../")
 
 import unittest
 import pandas as pd
@@ -21,8 +21,8 @@ from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier, RandomForestRegressor
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from .skl.skl_to_pmml import skl_to_pmml
-from . import PMML44 as pml
+from nyoka.skl.skl_to_pmml import skl_to_pmml
+from nyoka import PMML44 as pml
 # from nyoka import skl_to_pmml
 # from nyoka import PMML44 as pml
 
