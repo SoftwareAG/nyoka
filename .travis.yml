@@ -12,22 +12,17 @@ before_script:
   - cd ../../
 script:
   - python nyoka/tests/test_import.py
-  - python nyoka/tests/install_dependencies.py
-  - python nyoka/tests/skl_to_pmml_UnitTest.py
-  # - python nyoka/tests/pmml_to_pipeline_skl_UnitTest.py
-  - python nyoka/tests/xgboost_to_pmml_UnitTest.py
-  # - python nyoka/tests/pmml_to_pipeline_xgboost_UnitTest.py
-  - python nyoka/tests/lgbm_to_pmml_UnitTest.py
-  # - python nyoka/tests/pmml_to_pipeline_lgbm_UnitTest.py
-  - python nyoka/tests/keras_to_pmml_UnitTest.py
-  # - python nyoka/tests/pmml_to_keras_UnitTest.py
-  - python nyoka/tests/statsmodels_to_pmml_UnitTest.py
-  # - python nyoka/tests/pmml_to_statsmodels_UnitTest.py
-  - python nyoka/tests/test2.py
-  # - python nyoka/tests/test_script.py nyoka/tests/script_test.pmml nyoka/tests/script_tested.pmml
-  - jupyter nbconvert --to notebook --execute nyoka/tests/Nyoka_String_Export.ipynb
-  # - jupyter nbconvert --to notebook --execute nyoka/tests/Nyoka_Script_Tag.ipynb
-  - jupyter nbconvert --to notebook --execute nyoka/tests/1_SVM.ipynb
+  - python nyoka/tests/_install_dependencies.py
+  - python nyoka/tests/test_skl_to_pmml_UnitTest.py
+  - python nyoka/tests/test_xgboost_to_pmml_UnitTest.py
+  - python nyoka/tests/test_lgbm_to_pmml_UnitTest.py
+  - python nyoka/tests/test_keras_to_pmml_UnitTest.py
+  - python nyoka/tests/test_statsmodels_to_pmml_UnitTest.py
+  - py.test  --cov-report term --cov=nyoka/tests/
+
+after_script:
+  - codecov
+
 notifications:
   email:
     recipients:

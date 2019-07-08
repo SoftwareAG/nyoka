@@ -14,7 +14,10 @@ packages = [
     "lightgbm",
     "h5py",
     "pandas",
-    "numpy"
+    "numpy",
+    "pytest-cov",
+    "pytest",
+    "codecov"
 ]
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
