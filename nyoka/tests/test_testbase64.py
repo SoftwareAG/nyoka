@@ -1,6 +1,8 @@
 from __future__ import print_function
 import sys
-from nyoka.Base64 import *
+from ..Base64 import *
+
+# from nyoka.Base64 import *
 
 def test1():
 	"""test static methods to_base64 and to_float"""
