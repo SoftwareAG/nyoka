@@ -3,13 +3,6 @@ python:
   - "3.6"
 cache: pip
 install: "pip install git+https://github.com/nyoka-pmml/nyoka.git@dev"
-before_script:
-  - git clone --recursive https://github.com/dmlc/xgboost
-  - cd xgboost
-  - make -j4
-  - cd python-package
-  - python setup.py install
-  - cd ../../
 script:
   - python nyoka/tests/test_import.py
   - python nyoka/tests/_install_dependencies.py
