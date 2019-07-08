@@ -1,7 +1,5 @@
-from __future__ import absolute_import
-import sys,os
 
-sys.path.append("../../../")
+import sys,os
 
 import pandas as pd
 import numpy as np
@@ -10,10 +8,8 @@ from statsmodels.tsa import holtwinters as hw
 from statsmodels.tsa.statespace import sarimax
 from statsmodels.tsa.arima_model import ARIMA
 import unittest
-from nyoka.statsmodels.arima import ArimaToPMML
-from nyoka.statsmodels.exponential_smoothing import ExponentialSmoothingToPMML
 
-# from nyoka import ArimaToPMML, ExponentialSmoothingToPMML
+from nyoka import ArimaToPMML, ExponentialSmoothingToPMML
 
 
 class TestMethods(unittest.TestCase):
