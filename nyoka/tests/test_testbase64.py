@@ -1,7 +1,7 @@
 from __future__ import print_function
 import sys,os
 
-sys.path.append("../../")
+sys.path.append("../../../")
 from nyoka.Base64 import *
 
 # from nyoka.Base64 import *
