@@ -75,6 +75,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * DenseNet
 * Inception
 * ResNet
+* Xception
 </details>
 
 ### LightGBM (version 2.2.2):
