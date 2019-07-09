@@ -79,10 +79,6 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
                         mining_attributes.append(pp_dict['der_col_names'])
                         mining_strategy.append(pp_dict['mining_strategy'])
                         mining_replacement_val.append(pp_dict['mining_replacement_val'])
-                    if 'hidden_lb_der_flds' in pp_dict.keys():
-                        derived_flds_hidden.extend(pp_dict['hidden_lb_der_flds'])
-                    if 'hidden_ohe_der_flds' in pp_dict.keys():
-                        derived_flds_hidden.extend(pp_dict['hidden_ohe_der_flds'])
                     pml_derived_flds.extend(derived_flds)
                     dfm_step_col_names = derived_names
                 dfm_col_names.extend(derived_names)
