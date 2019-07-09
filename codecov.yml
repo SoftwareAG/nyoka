@@ -2,4 +2,5 @@ ignore:
   - "nyoka/reconstruct/"
   - "nyoka/skl/tests/"
   - "nyoka/build.py"
-  - "nyoka/PMML44*.py"
+  - "nyoka/PMML44.py"
+  - "nyoka/PMML44Super.py"
