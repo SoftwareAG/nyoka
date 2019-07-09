@@ -302,9 +302,11 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
         Get the PMML model argument based on scikit learn model object
     """
     skl_mdl_super_cls_names = get_super_cls_names(model)
-    regression_model_names = ('LinearRegression','LinearSVR')
-    regression_mining_model_names = ('LogisticRegression', 'RidgeClassifier','LinearDiscriminantAnalysis', \
-                                        'SGDClassifier','LinearSVC',)
+    # regression_model_names = ('LinearRegression','LinearSVR')
+    # regression_mining_model_names = ('LogisticRegression', 'RidgeClassifier','LinearDiscriminantAnalysis', \
+    #                                     'SGDClassifier','LinearSVC',)
+    regression_model_names = ('LinearRegression', 'LogisticRegression', 'RidgeClassifier', 'SGDClassifier',
+                              'LinearDiscriminantAnalysis','LinearSVC','LinearSVR')
     tree_model_names = ('BaseDecisionTree',)
     support_vector_model_names = ('SVC', 'SVR')
     anomaly_model_names = ('OneClassSVM',)
@@ -322,23 +324,23 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                     mining_imp_val,
                                                     categoric_values,
                                                     tasktype)}
-    elif any_in(regression_mining_model_names, skl_mdl_super_cls_names):
-        if len(model.classes_) == 2:
-            algo_kwargs = {'RegressionModel': get_regrs_models(model,
-                                                           derived_col_names,
-                                                           col_names,
-                                                           target_name,
-                                                           mining_imp_val,
-                                                           categoric_values,
-                                                           tasktype)}
-        else:
-            algo_kwargs = {'MiningModel': get_reg_mining_models(model,
-                                                                derived_col_names,
-                                                                col_names,
-                                                                target_name,
-                                                                mining_imp_val,
-                                                                categoric_values,
-                                                                tasktype)}
+    # elif any_in(regression_mining_model_names, skl_mdl_super_cls_names):
+    #     if len(model.classes_) == 2:
+    #         algo_kwargs = {'RegressionModel': get_regrs_models(model,
+    #                                                        derived_col_names,
+    #                                                        col_names,
+    #                                                        target_name,
+    #                                                        mining_imp_val,
+    #                                                        categoric_values,
+    #                                                        tasktype)}
+    #     else:
+    #         algo_kwargs = {'MiningModel': get_reg_mining_models(model,
+    #                                                             derived_col_names,
+    #                                                             col_names,
+    #                                                             target_name,
+    #                                                             mining_imp_val,
+    #                                                             categoric_values,
+    #                                                             tasktype)}
     elif any_in(regression_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'RegressionModel': get_regrs_models(model,
                                                            derived_col_names,
