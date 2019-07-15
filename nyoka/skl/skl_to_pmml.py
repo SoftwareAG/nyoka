@@ -1039,15 +1039,15 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     if model.__class__.__name__ == 'GradientBoostingRegressor':
         model_kwargs['Targets'] = get_targets(model, target_name)
 
-    mining_fields = model_kwargs['MiningSchema'].MiningField
-    new_mining_fields = list()
-    for idx, imp_ in enumerate(model.feature_importances_):
-        if imp_ > 0:
-            new_mining_fields.append(mining_fields[idx])
-    for fld in mining_fields:
-        if fld.usageType == 'target':
-            new_mining_fields.append(fld)
-    model_kwargs['MiningSchema'].MiningField = new_mining_fields
+    # mining_fields = model_kwargs['MiningSchema'].MiningField
+    # new_mining_fields = list()
+    # for idx, imp_ in enumerate(model.feature_importances_):
+    #     if imp_ > 0:
+    #         new_mining_fields.append(mining_fields[idx])
+    # for fld in mining_fields:
+    #     if fld.usageType == 'target':
+    #         new_mining_fields.append(fld)
+    # model_kwargs['MiningSchema'].MiningField = new_mining_fields
 
         
     mining_models = list()
@@ -1360,12 +1360,8 @@ def get_inner_segments(model, derived_col_names, col_names, index):
                 features_.append(feat)
         if len(features_) != 0:
             mining_fields = list()
-            # for feat in col_names:
-            feature_importances = estm.tree_.compute_feature_importances()
-            for idx,imp_ in enumerate(feature_importances):
-                if imp_ > 0:
-                # mining_fields.append(pml.MiningField(name=feat))
-                    mining_fields.append(pml.MiningField(name=col_names[idx]))
+            for feat in col_names:
+                mining_fields.append(pml.MiningField(name=feat))
             segments.append(
                 pml.Segment(
                     True_=pml.True_(),
@@ -1423,7 +1419,6 @@ def get_vectorDictionary(model, derived_col_names, categoric_values):
         A Vector Dictionary instance.
         
     """
-    model_coef = model.C
     fieldref_element = list()
     for name in derived_col_names:
         fieldref_element.append(pml.FieldRef(field=name))

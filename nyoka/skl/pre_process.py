@@ -428,6 +428,7 @@ def tfidf_vectorizer(trfm, col_names):
     pp_dict = dict()
     features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
     idfs = trfm.idf_
+    extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('tfidf@[' + col_names[0] + ']', features)
     if trfm.lowercase:
@@ -442,12 +443,11 @@ def tfidf_vectorizer(trfm, col_names):
             optype='continuous',
             dataType='double',
             Apply=pml.Apply(function='*',
-                            TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
-                                else col_names[0],
-                                                    wordSeparatorCharacterRE=trfm.token_pattern,
-                                                    tokenize='true',
-                                                    Constant=pml.Constant(valueOf_=features[feat_idx]),
-                                                    )],
+                            TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
+                                                     wordSeparatorCharacterRE='\\s+',
+                                                     tokenize='true',
+                                                     Constant=pml.Constant(valueOf_=features[feat_idx]),
+Extension=[pml.Extension(value=extra_features[feat_idx])])],
                             Constant=[pml.Constant(valueOf_="{:.16f}".format(idf))])
                             ))
     pp_dict['der_fld'] = derived_flds
@@ -476,6 +476,7 @@ def count_vectorizer(trfm, col_names):
     """
     pp_dict = dict()
     features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
     if trfm.lowercase:
@@ -491,10 +492,11 @@ def count_vectorizer(trfm, col_names):
                                             dataType='double',
                                             TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
                                                 else col_names[0],
-                                                                    wordSeparatorCharacterRE=trfm.token_pattern,
+                                                                    wordSeparatorCharacterRE=trfm.token_pattern.replace('(?u)',''),
                                                                     tokenize='true',
                                                                     Constant=pml.Constant(dataType="string",
                                                                                         valueOf_=imp_features),
+                                                                    Extension=[pml.Extension(value=extra_features[index])]
                                                                     )))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -918,8 +920,6 @@ def lbl_binarizer(trfm, col_names, **kwargs):
     derived_colnames = list()
     pp_dict = dict()
     categoric_lbls = trfm.classes_.tolist()
-    model_exception_list = ["LinearRegression", "LogisticRegression", "SVR", "SVC"]
-    model = kwargs['model']
     for col_name_idx in range(len(col_names)):
         if len(categoric_lbls) == 2:
             derived_colnames = get_derived_colnames("labelBinarizer(" + str(col_names[col_name_idx]),
@@ -971,8 +971,6 @@ def one_hot_encoder(trfm, col_names, **kwargs):
     derived_colnames = list()
     pp_dict = dict()
     categoric_lbls = trfm.categories_[0].tolist()
-    model_exception_list = ["LinearRegression", "LogisticRegression", "SVR", "SVC"]
-    model = kwargs['model']
     for col_name_idx in range(len(col_names)):
         derived_colnames = get_derived_colnames("oneHotEncoder(" + str(col_names[col_name_idx]),
                                                 categoric_lbls, ")")

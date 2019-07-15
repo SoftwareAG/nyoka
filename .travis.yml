@@ -13,7 +13,7 @@ script:
   - python nyoka/tests/test_statsmodels_to_pmml_UnitTest.py
   - py.test  --cov-report term --cov=nyoka/
 
-after_script:
+after_success:
   - codecov
 
 notifications:

@@ -11,7 +11,7 @@
         outfile.write('<?xml version="1.0" encoding="UTF-8"?>' + eol_)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        outfile.write(' xmlns="http://www.dmg.org/PMML-4_3"')
+        outfile.write(' xmlns="http://www.dmg.org/PMML-4_4"')
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='Timestamp')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))

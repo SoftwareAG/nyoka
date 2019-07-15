@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon May 27 13:49:55 2019 by generateDS.py version 2.28a.
+# Generated Tue Jul  9 16:23:44 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -17,7 +17,7 @@
 #   ..\nyoka.PMML44.xsd
 #
 # Command line:
-#   C:\Projects\nyoka_github\nyoka\PMML44\gds_local.py --no-warnings --export="write literal etree" --super="nyoka.PMML44Super" --subclass-suffix -o "nyoka.PMML44Super.py" -s "nyoka.PMML44.py" -b "behaviorsDir.xml" -f ..\nyoka.PMML44.xsd
+#   C:\Projects\Nyoka\nyoka_github\nyoka\PMML44\gds_local.py --no-warnings --export="write literal etree" --super="nyoka.PMML44Super" --subclass-suffix -o "nyoka.PMML44Super.py" -s "nyoka.PMML44.py" -b "behaviorsDir.xml" -f ..\nyoka.PMML44.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML44
@@ -882,7 +882,7 @@ class PMML(supermod.PMML):
 
         already_processed = set()
 
-        outfile.write(' xmlns="http://www.dmg.org/PMML-4_3"')
+        outfile.write(' xmlns="http://www.dmg.org/PMML-4_4"')
 
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='Timestamp')
 

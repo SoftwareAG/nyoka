@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon May 27 13:49:53 2019 by generateDS.py version 2.28a.
+# Generated Tue Jul  9 16:23:43 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -18,7 +18,7 @@
 #   ..\pmml44.xsd
 #
 # Command line:
-#   C:\Projects\nyoka_github\nyoka\PMML44\gds_local.py --no-warnings --export="write literal etree" --super="pmml44Super" --subclass-suffix -o "pmml44Super.py" -s "pmml44.py" -b "behaviorsDir.xml" -f ..\pmml44.xsd
+#   C:\Projects\Nyoka\nyoka_github\nyoka\PMML44\gds_local.py --no-warnings --export="write literal etree" --super="pmml44Super" --subclass-suffix -o "pmml44Super.py" -s "pmml44.py" -b "behaviorsDir.xml" -f ..\pmml44.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML44

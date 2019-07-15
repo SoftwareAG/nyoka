@@ -1023,7 +1023,7 @@ def get_textIndexValueComponent(der_fld,const_out_list,const_in_list,const_merge
             const_in_list = []
     der_fld_one_pp_obj.append(der_fld_name)
     const_out_val = txt_index.get_Constant().get_valueOf_()
-    const_in_val = txt_index.get_Extension()[0].get_anytypeobjs_()[0]
+    const_in_val = txt_index.get_Extension()[0].get_value()
     const_out_list.append(const_out_val)
     const_in_list.append(const_in_val)
 
