@@ -72,10 +72,11 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 
 #### Models -
 * Mobilenet
-* VGG-16
-* VGG-19
+* VGG
+* DenseNet
 * Inception
 * ResNet
+* Xception
 </details>
 
 ### LightGBM (version 2.2.2):
