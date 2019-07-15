@@ -3,6 +3,7 @@
 
 [![Build Status](https://travis-ci.org/nyoka-pmml/nyoka.svg?branch=master)](https://travis-ci.org/nyoka-pmml/nyoka)
 [![PyPI version](https://badge.fury.io/py/nyoka.svg)](https://badge.fury.io/py/nyoka)
+[![codecov](https://codecov.io/gh/nyoka-pmml/nyoka/branch/master/graph/badge.svg)](https://codecov.io/gh/nyoka-pmml/nyoka)
 [![license](https://img.shields.io/github/license/nyoka-pmml/nyoka.svg)](https://github.com/nyoka-pmml/nyoka/blob/master/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.6-blue.svg)](https://badge.fury.io/py/nyoka)
 
