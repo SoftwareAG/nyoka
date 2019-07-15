@@ -79,7 +79,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * Xception
 </details>
 
-### LightGBM (version 2.2.2):
+### LightGBM:
 <details><summary>Click to expand!</summary>
 
 #### Models -
@@ -87,7 +87,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * LGBMRegressor
 </details>
 
-### XGBoost (version 0.81):
+### XGBoost:
 <details><summary>Click to expand!</summary>
 
 #### Models -
@@ -95,7 +95,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * XGBRegressor
 </details>
 
-### Statsmodels (version 0.9.0):
+### Statsmodels:
 <details><summary>Click to expand!</summary>
 
 #### Models -
