@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon May 27 13:49:55 2019 by generateDS.py version 2.28a.
+# Generated Tue Jul  9 16:23:44 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -17,7 +17,7 @@
 #   ..\pmml44.xsd
 #
 # Command line:
-#   C:\Projects\nyoka_github\nyoka\PMML44\gds_local.py --no-warnings --export="write literal etree" --super="pmml44Super" --subclass-suffix -o "pmml44Super.py" -s "pmml44.py" -b "behaviorsDir.xml" -f ..\pmml44.xsd
+#   C:\Projects\Nyoka\nyoka_github\nyoka\PMML44\gds_local.py --no-warnings --export="write literal etree" --super="pmml44Super" --subclass-suffix -o "pmml44Super.py" -s "pmml44.py" -b "behaviorsDir.xml" -f ..\pmml44.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML44
@@ -737,7 +737,7 @@ class PMML(supermod.PMML):
         outfile.write('<?xml version="1.0" encoding="UTF-8"?>' + eol_)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        outfile.write(' xmlns="http://www.dmg.org/PMML-4_3"')
+        outfile.write(' xmlns="http://www.dmg.org/PMML-4_4"')
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='Timestamp')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))

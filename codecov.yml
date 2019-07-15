@@ -1,12 +1,10 @@
-comment: false
-
-coverage:
-  status:
-    project:
-      default:
-        target: auto
-        threshold: 1%
-    patch:
-      default:
-        target: auto
-threshold: 1%
+ignore:
+  - "nyoka/reconstruct/"
+  - "nyoka/skl/tests/"
+  - "nyoka/tests/test_import.py"
+  - "nyoka/tests/_validateSchema.py"
+  - "nyoka/tests/_install_dependencies.py"
+  - "nyoka/build.py"
+  - "nyoka/PMML44.py"
+  - "nyoka/PMML44Super.py"
+  - "nyoka/Base64.py"

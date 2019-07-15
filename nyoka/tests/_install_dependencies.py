@@ -7,6 +7,7 @@ packages = [
     "keras==2.2.4",
     "tensorflow==1.9.0",
     "statsmodels==0.9.0",
+    "xgboost",
     "glibc",
     "lxml",
     "jupyter",
@@ -15,12 +16,14 @@ packages = [
     "h5py",
     "pandas",
     "numpy",
-    "requests",
-    "Pillow"
+    "pytest-cov",
+    "pytest",
+    "codecov"
 ]
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
 
 if __name__ == "__main__":
     for pck in packages:
+        print('\n',pck.capitalize(),'-->\n')
         installPackage(pck)

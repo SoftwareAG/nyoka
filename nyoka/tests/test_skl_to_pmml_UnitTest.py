@@ -1,4 +1,7 @@
-import os
+
+import sys, os
+
+
 import unittest
 import pandas as pd
 import sys
@@ -17,6 +20,7 @@ from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier, RandomForestRegressor
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
 from nyoka import skl_to_pmml
 from nyoka import PMML44 as pml
 

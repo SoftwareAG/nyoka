@@ -90,11 +90,9 @@ class ArimaToPMML:
             else:
                 d = 0
             q = sm_results._results.k_ma
-            if sm_results.model.method == 'css-mle':
-                pred_method = "conditionalLeastSquares-exactLeastSquares"
-            elif sm_results.model.method == 'css':
+            if sm_results.model.method == 'css':
                 pred_method = "conditionalLeastSquares"
-            elif sm_results.model.method == 'mle':
+            elif sm_results.model.method in ['mle', 'css-mle']:
                 pred_method = "exactLeastSquares"
             else:
                 pred_method = None
