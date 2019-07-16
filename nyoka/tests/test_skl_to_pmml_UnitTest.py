@@ -767,25 +767,6 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj,features,target,"lb_two.pmml")
         self.assertEqual(os.path.isfile("lb_two.pmml"),True)
 
-    def test_sklearn_35(self):
-        iris = datasets.load_iris()
-        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
-        irisd['new'] = [i%2 for i in range(irisd.shape[0])]
-        irisd['Species'] = iris.target
-
-        features = irisd.columns.drop('Species')
-        target = 'Species'
-        model = LogisticRegression()
-        pipeline_obj = Pipeline([
-            ('mapper', DataFrameMapper([
-                ('new', CategoricalImputer())
-            ])),
-            ('model',model)
-        ])
-        pipeline_obj.fit(irisd[features],irisd[target])
-        skl_to_pmml(pipeline_obj,features,target,"cat_imp.pmml")
-        self.assertEqual(os.path.isfile("cat_imp.pmml"),True)
-
 
 if __name__=='__main__':
     unittest.main(warnings='ignore')
