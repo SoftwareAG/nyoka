@@ -14,6 +14,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.svm import SVC, SVR, LinearSVC, LinearSVR, OneClassSVM
 from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
 from sklearn.naive_bayes import GaussianNB
 from sklearn_pandas import DataFrameMapper
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
@@ -680,7 +681,7 @@ class TestMethods(unittest.TestCase):
         ])
         pipe.fit(irisd[features], irisd[target])
         file_name = 'mlp_model_numlti_class_classification.pmml'
-        skl_to_pmml(pipe, self.features, target,file_name)
+        skl_to_pmml(pipe, iris.feature_names, target,file_name)
         self.assertEqual(os.path.isfile(file_name),True)
 
     def test_sklearn_30(self):
@@ -707,7 +708,7 @@ class TestMethods(unittest.TestCase):
         ])
         pipe.fit(irisd[features], irisd[target])
         file_name = 'gbc_model_numlti_class_classification.pmml'
-        skl_to_pmml(pipe, self.features, target,file_name)
+        skl_to_pmml(pipe, iris.feature_names, target,file_name)
         self.assertEqual(os.path.isfile(file_name),True)
 
 
