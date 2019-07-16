@@ -11,7 +11,9 @@ from nyoka import PMML44 as ny
 from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import pandas as pd
+from keras.layers import Input
 from keras.models import Sequential
+from keras.layers.normalization import BatchNormalization
 
 
 class TestMethods(unittest.TestCase):
@@ -53,6 +55,31 @@ class TestMethods(unittest.TestCase):
         reconPmmlObj=ny.parse('sequentialModel.pmml',True)
         self.assertEqual(os.path.isfile("sequentialModel.pmml"),True)
         self.assertEqual(len(model.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer)-1)
+
+
+    def test_keras_03(self):
+        input_tensor=x=Input(shape=(2,4,1))
+        x=Conv2D(activation="relu",filters=32, kernel_size=(2,3),padding='same', strides=(1,1))(x)
+        x=BatchNormalization(center=True, scale=False)(x)
+        x=ZeroPadding2D(padding=((3,4),(1,2)))(x)
+
+        x=Conv2D(activation="relu",filters=64, kernel_size=(2,2),padding='valid', strides=(1,1))(x)
+        x=MaxPooling2D(padding="same",strides=(2,2), pool_size=(2,2))(x)
+        x=Dropout(rate=0.25)(x)
+        x=BatchNormalization(center=False, scale=True)(x)
+
+        x=Conv2D(activation="relu",filters=32, kernel_size=(2,2),padding='valid', strides=(1,1))(x)
+        x=MaxPooling2D(padding="same",strides=(2,2), pool_size=(2,2))(x)
+        x=Dropout(rate=0.25)(x)
+        x=BatchNormalization(center=False, scale=False)(x)
+
+        x=Flatten()(x)
+        x=Dense(units=2, activation="softmax")(x)
+        model = Model(input=input_tensor, output=x)
+        pmml_obj=KerasToPmml(keras_model=model,predictedClasses=["yes","no"])
+        pmml_obj.export(open("custom_model.pmml",'w'),0)
+        self.assertEqual(os.path.isfile("custom_model.pmml"),True)
+
 
 
 if __name__=='__main__':

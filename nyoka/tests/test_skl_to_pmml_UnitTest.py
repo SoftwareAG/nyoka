@@ -18,7 +18,8 @@ from sklearn.cluster import KMeans
 from sklearn.naive_bayes import GaussianNB
 from sklearn_pandas import DataFrameMapper
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
-from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier,\
+     RandomForestRegressor, IsolationForest
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
@@ -727,6 +728,25 @@ class TestMethods(unittest.TestCase):
         file_name = 'mlp_model_binary_class_classification.pmml'
         skl_to_pmml(pipe, iris.feature_names, target,file_name)
         self.assertEqual(os.path.isfile(file_name),True)
+
+    def test_sklearn_33(self):
+        irisdata = datasets.load_iris()
+        iris = pd.DataFrame(irisdata.data,columns=irisdata.feature_names)
+        iris['Species'] = irisdata.target
+
+        feature_names = iris.columns.drop('Species')
+
+        X = iris[iris.columns.drop(['Species'])]
+        
+        pipeline_obj = Pipeline([
+            ('standard_scaler',StandardScaler()),
+            ('Imputer',Imputer()),
+            ('model',IsolationForest())
+        ])
+
+        pipeline_obj.fit(X)
+        skl_to_pmml(pipeline_obj, feature_names, pmml_f_name="iforest.pmml")
+        self.assertEqual(os.path.isfile("iforest.pmml"),True)
 
 
 if __name__=='__main__':
