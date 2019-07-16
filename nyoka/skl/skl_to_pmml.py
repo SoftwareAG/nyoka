@@ -1451,25 +1451,6 @@ def get_vectorDictionary(model, derived_col_names, categoric_values):
     return vd
 
 
-def is_onehotencoder(feat_name):
-    """
-
-    Parameters
-    ----------
-    feat_name : string
-        Contains the name of the attribute
-
-    Returns
-    -------
-        Returns a boolean value that states whether OneHotEncoder has been applied or not
-
-    """
-    if "oneHotEncoder" in feat_name:
-        return True
-    else:
-        return False
-
-
 def get_kernel_type(model):
 
     """
@@ -1924,7 +1905,7 @@ def get_output(model, target_name):
                 name=alt_target_name,
                 feature="predictedValue",
                 optype="categorical",
-                dataType="string"))
+                dataType=get_dtype(model.classes_[0])))
         else:
             output_fields.append(pml.OutputField(
                 name=alt_target_name,
@@ -2221,15 +2202,11 @@ def get_dtype(feat_value):
         Returns the respective data type of that value.
 
     """
-    data_type=str(type(feat_value))
+    data_type=feat_value.__class__.__name__
     if 'float' in data_type:
-        return 'float'
+        return 'double'
     if 'int' in data_type:
         return 'integer'
-    if 'long' in data_type:
-        return 'long'
-    if 'complex' in data_type:
-        return 'complex'
     if 'str' in data_type:
         return 'string'
 

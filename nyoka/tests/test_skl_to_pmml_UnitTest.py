@@ -21,6 +21,8 @@ from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegress
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
+from nyoka.preprocessing import Lag
+
 from nyoka import skl_to_pmml
 from nyoka import PMML44 as pml
 
@@ -235,7 +237,7 @@ class TestMethods(unittest.TestCase):
     def test_sklearn_08(self):
         iris = datasets.load_iris()
         irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
-        irisd['Species'] = iris.target
+        irisd['Species'] = [i%2 for i in range(iris.data.shape[0])]
 
         features = irisd.columns.drop('Species')
         target = 'Species'
@@ -663,6 +665,50 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, "polyfeat.pmml")
 
         self.assertEqual(os.path.isfile("polyfeat.pmml"),True)
+
+    def test_sklearn_29(self):
+        from sklearn.neural_network import MLPClassifier
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+        target = 'Species'
+        features = irisd.columns.drop('Species')
+        model = MLPClassifier()
+        pipe = Pipeline([
+            ('lag', Lag(aggregation="stddev", value=3)),
+            ('model',model)
+        ])
+        pipe.fit(irisd[features], irisd[target])
+        file_name = 'mlp_model_numlti_class_classification.pmml'
+        skl_to_pmml(pipe, self.features, target,file_name)
+        self.assertEqual(os.path.isfile(file_name),True)
+
+    def test_sklearn_30(self):
+        iris = datasets.load_iris()
+        model = KMeans()
+        pipe = Pipeline([
+            ('model',model)
+        ])
+        pipe.fit(iris.data)
+        file_name = 'kmeans_model.pmml'
+        skl_to_pmml(pipe, iris.feature_names, 'target',file_name)
+        self.assertEqual(os.path.isfile(file_name),True)
+
+    def test_sklearn_31(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+        target = 'Species'
+        features = irisd.columns.drop('Species')
+        model = GradientBoostingClassifier()
+        pipe = Pipeline([
+            ('scaler', MaxAbsScaler()),
+            ('model',model)
+        ])
+        pipe.fit(irisd[features], irisd[target])
+        file_name = 'gbc_model_numlti_class_classification.pmml'
+        skl_to_pmml(pipe, self.features, target,file_name)
+        self.assertEqual(os.path.isfile(file_name),True)
 
 
 if __name__=='__main__':
