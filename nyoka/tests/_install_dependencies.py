@@ -18,7 +18,8 @@ packages = [
     "numpy",
     "pytest-cov",
     "pytest",
-    "codecov"
+    "codecov",
+    "pillow"
 ]
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
