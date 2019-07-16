@@ -711,6 +711,23 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipe, iris.feature_names, target,file_name)
         self.assertEqual(os.path.isfile(file_name),True)
 
+    def test_sklearn_32(self):
+        from sklearn.neural_network import MLPClassifier
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['target'] = [i%2 for i in range(iris.data.shape[0])]
+        target = 'target'
+        features = irisd.columns.drop('target')
+        model = MLPClassifier()
+        pipe = Pipeline([
+            ('lag', Lag(aggregation="sum", value=3)),
+            ('model',model)
+        ])
+        pipe.fit(irisd[features], irisd[target])
+        file_name = 'mlp_model_binary_class_classification.pmml'
+        skl_to_pmml(pipe, iris.feature_names, target,file_name)
+        self.assertEqual(os.path.isfile(file_name),True)
+
 
 if __name__=='__main__':
     unittest.main(warnings='ignore')

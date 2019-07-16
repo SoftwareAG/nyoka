@@ -94,9 +94,28 @@ class TestMethods(unittest.TestCase):
         ])
         pipeline_obj.fit(x_train,y_train)
         
-        lgb_to_pmml(pipeline_obj,feature_names,target_name,"lgbmr_pmml_preprocess.pmml")
+        lgb_to_pmml(pipeline_obj,feature_names,target_name,"lgbmr_pmml_preprocess2.pmml")
 
-        self.assertEqual(os.path.isfile("lgbmr_pmml_preprocess.pmml"),True)
+        self.assertEqual(os.path.isfile("lgbmr_pmml_preprocess2.pmml"),True)
+
+    def test_lgbm_05(self):
+
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['target'] = [i%2 for i in range(iris.data.shape[0])]
+
+        features = irisd.columns.drop('target')
+        target = 'target'
+
+        pipeline_obj = Pipeline([
+            ('lgbmc',LGBMClassifier())
+        ])
+
+        pipeline_obj.fit(irisd[features],irisd[target])
+
+        lgb_to_pmml(pipeline_obj,features,target,"lgbc_bin_pmml.pmml")
+
+        self.assertEqual(os.path.isfile("lgbc_bin_pmml.pmml"),True)
 
 if __name__=='__main__':
     unittest.main(warnings='ignore')

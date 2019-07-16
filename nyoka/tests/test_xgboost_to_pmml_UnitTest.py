@@ -95,9 +95,28 @@ class TestMethods(unittest.TestCase):
         ])
         pipeline_obj.fit(x_train,y_train)
         
-        xgboost_to_pmml(pipeline_obj,feature_names,target_name,"xgbr_pmml_preprocess.pmml")
+        xgboost_to_pmml(pipeline_obj,feature_names,target_name,"xgbr_pmml_preprocess2.pmml")
 
-        self.assertEqual(os.path.isfile("xgbr_pmml_preprocess.pmml"),True)
+        self.assertEqual(os.path.isfile("xgbr_pmml_preprocess2.pmml"),True)
+
+    def test_xgboost_05(self):
+
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['target'] = [i%2 for i in range(iris.data.shape[0])]
+
+        features = irisd.columns.drop('target')
+        target = 'target'
+
+        pipeline_obj = Pipeline([
+            ('lgbmc',XGBClassifier())
+        ])
+
+        pipeline_obj.fit(irisd[features],irisd[target])
+
+        xgboost_to_pmml(pipeline_obj,features,target,"xgbc_bin_pmml.pmml")
+
+        self.assertEqual(os.path.isfile("xgbc_bin_pmml.pmml"),True)
 
 if __name__=='__main__':
     unittest.main(warnings='ignore')
