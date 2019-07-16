@@ -214,24 +214,6 @@ def get_derived_colnames(trfm_name, col_names, *args):
     return derived_colnames
 
 
-def unround_scalers(scalar_val):  # not sure of its purpose ------------------>>>>
-    """
-
-    Parameters
-    ----------
-    scalar_val : float
-        A numpy float value
-
-    Returns
-    -------
-    unround_val: float
-        Returns a numpy floating point number with a precision of 16 digits after decimal.
-
-    """
-    unround_val = '{:.25f}'.format(scalar_val)
-    return unround_val
-
-
 def any_in(seq_a, seq_b):
     """
 
