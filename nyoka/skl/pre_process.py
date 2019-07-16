@@ -34,7 +34,6 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
     mining_strategy = list()
     mining_replacement_val = list()
     mining_attributes = list()
-    derived_flds_hidden = list()
     pml_trfm_dict = None
     polynomial_features.poly_ctr = 0
     pca.counter = 0
@@ -65,8 +64,7 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
                         dtd_feat_names.append(name)
 
                 for trfm in dfm_step_trfms:
-                    pp_dict = get_pml_derived_flds(trfm, dfm_step_col_names, derived_fld=derived_flds_hidden,
-                                                   model=model)
+                    pp_dict = get_pml_derived_flds(trfm, dfm_step_col_names, model=model)
                     derived_flds = pp_dict['der_fld']
                     derived_names = pp_dict['der_col_names']
                     if 'pp_feat_class_lbl' in pp_dict.keys():
@@ -91,7 +89,7 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
             if not hasattr(ppln_step_inst, "__len__") or isinstance(ppln_step_inst, str):
                 ppln_step_inst = [ppln_step_inst]
             for trfm in ppln_step_inst:
-                pp_dict = get_pml_derived_flds(trfm, updated_colnames, derived_fld=derived_flds_hidden, model=model)
+                pp_dict = get_pml_derived_flds(trfm, updated_colnames, model=model)
                 derived_flds = pp_dict['der_fld']
                 derived_names = pp_dict['der_col_names']
                 if 'pp_feat_class_lbl' in pp_dict.keys():
@@ -487,18 +485,6 @@ def count_vectorizer(trfm, col_names):
     return pp_dict
 
 
-def is_present(string1,iterator):
-    if isinstance(iterator,(list,tuple)):
-        for iterator_item in iterator:
-            if string1 in iterator_item:
-                return True
-    elif isinstance(iterator,str):
-        if string1 in iterator:
-            return True
-
-    return False 
-
-
 def lag(trfm, col_names):
     """
 
@@ -565,10 +551,6 @@ def std_scaler(trfm, col_names, **kwargs):
     """
     derived_flds = list()
     pp_dict = dict()
-    if is_present("labelBinarizer",col_names):
-        derived_flds_hidden = kwargs['derived_fld']
-        if derived_flds_hidden:
-            derived_flds.extend(derived_flds_hidden)
 
     derived_colnames = get_derived_colnames('standardScaler', col_names)
     for col_name_idx in range(len(col_names)):
