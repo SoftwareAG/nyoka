@@ -36,14 +36,14 @@ KERAS_LAYER_TYPES_MAP = {'InputLayer': 'Input',
 
 KERAS_LAYER_PARAMS = ['filters', 'kernel_size', 'strides', 'padding',
                       'input_shape', 'output_shape', "activation", "axis",
-                      "epsilon", "pool_size", "scale", "depth_multiplier",
+                      "epsilon", "pool_size", "scale", "center", "depth_multiplier",
                       "rate", "dilation_rate","size"]
 
 NYOKA_LAYER_PARAMS = ['featureMaps', 'kernel', 'stride', 'pad',
                       'inputDimension', 'outputDimension',
                       "activationFunction", "axis",
                       "batchNormalizationEpsilon", "poolSize",
-                      "batchNormalizationScale", "depthMultiplier",
+                      "batchNormalizationScale", "batchNormalizationCenter", "depthMultiplier",
                       "dropoutRate", "dilationRate","upsamplingSize"]
 
 
@@ -358,6 +358,13 @@ class KerasNetworkLayer(ny.NetworkLayer):
                 except:
                     layer_params["batchNormalizationScale"] = layer_params[
                         "batchNormalizationScale"]
+            if "batchNormalizationCenter" in layer_params:
+                try:
+                    layer_params["batchNormalizationCenter"] = eval(layer_params[
+                        "batchNormalizationCenter"])
+                except:
+                    layer_params["batchNormalizationCenter"] = layer_params[
+                        "batchNormalizationCenter"]
         elif layer_type == "ReLU":
             layer_type = "Activation"
             layer_params["activationFunction"] = "reLU6"

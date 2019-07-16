@@ -996,19 +996,6 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
 
     return supportVector_models
 
-def get_model_name(model):
-    if 'OneClassSVM' in str(model.__class__):
-        return 'ocsvm'
-    elif 'IsolationForest' in str(model.__class__):
-        return 'iforest'
-    elif 'XGB' in str(model.__class__):
-        return 'XGBoostModel'
-    elif 'LGB' in str(model.__class__):
-        return 'LightGBModel'
-    elif 'GradientBoosting' in str(model.__class__):
-        return 'GradientBoostingModel'
-    elif 'RandomForest' in str(model.__class__):
-        return 'RandomForestModel'
 
 def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     
@@ -1449,25 +1436,6 @@ def get_vectorDictionary(model, derived_col_names, categoric_values):
             ))
     vd=pml.VectorDictionary(VectorFields=vectorfields_element, VectorInstance=vecinsts)
     return vd
-
-
-def is_onehotencoder(feat_name):
-    """
-
-    Parameters
-    ----------
-    feat_name : string
-        Contains the name of the attribute
-
-    Returns
-    -------
-        Returns a boolean value that states whether OneHotEncoder has been applied or not
-
-    """
-    if "oneHotEncoder" in feat_name:
-        return True
-    else:
-        return False
 
 
 def get_kernel_type(model):
