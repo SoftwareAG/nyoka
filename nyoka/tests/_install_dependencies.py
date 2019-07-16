@@ -25,5 +25,4 @@ def installPackage(package):
 
 if __name__ == "__main__":
     for pck in packages:
-        print('\n',pck.capitalize(),'-->\n')
         installPackage(pck)
