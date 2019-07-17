@@ -776,7 +776,7 @@ class TestMethods(unittest.TestCase):
         target = 'Species'
         model = LogisticRegression()
         pipeline_obj = Pipeline([
-            (['new'], OneHotEncoder()),
+            ("enc", OneHotEncoder()),
             ('model',model)
         ])
         pipeline_obj.fit(irisd['new'],irisd[target])
