@@ -80,6 +80,14 @@ class TestMethods(unittest.TestCase):
         pmml_obj.export(open("custom_model.pmml",'w'),0)
         self.assertEqual(os.path.isfile("custom_model.pmml"),True)
 
+    
+    def test_keras_04(self):
+        input_tensor = Input(shape=(224,224,3))
+        model = applications.InceptionV3(weights="imagenet", input_tensor=input_tensor)
+        pmmlObj = KerasToPmml(keras_model=model, dataSet='image',predictedClasses=[str(i) for i in range(1000)])
+        pmmlObj.export(open("Inception.pmml",'w'),0)
+        self.assertEqual(os.path.isfile("Inception.pmml"),True)
+
 
 
 if __name__=='__main__':
