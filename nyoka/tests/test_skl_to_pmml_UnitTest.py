@@ -768,20 +768,6 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj,features,target,"lb_two.pmml")
         self.assertEqual(os.path.isfile("lb_two.pmml"),True)
 
-    def test_sklearn_36(self):
-        iris = datasets.load_iris()
-        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
-        irisd['new'] = [i%3 for i in range(irisd.shape[0])]
-        irisd['Species'] = iris.target
-        target = 'Species'
-        model = LogisticRegression()
-        pipeline_obj = Pipeline([
-            ("enc", OneHotEncoder()),
-            ('model',model)
-        ])
-        pipeline_obj.fit(irisd['new'],irisd[target])
-        skl_to_pmml(pipeline_obj,['new',],target,"ohe_single.pmml")
-        self.assertEqual(os.path.isfile("ohe_single.pmml"),True)
 
     def test_sklearn_37(self):
         iris = datasets.load_iris()
