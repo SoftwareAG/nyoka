@@ -4,15 +4,17 @@ import sys, os
 
 import unittest
 import pandas as pd
+import numpy
 import sys
 from sklearn import datasets
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, Imputer, LabelEncoder, LabelBinarizer, MinMaxScaler, MaxAbsScaler, RobustScaler,\
-    Binarizer, PolynomialFeatures, OneHotEncoder
+    Binarizer, PolynomialFeatures, OneHotEncoder, KBinsDiscretizer
 from sklearn_pandas import CategoricalImputer
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.svm import SVC, SVR, LinearSVC, LinearSVR, OneClassSVM
+from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from sklearn.naive_bayes import GaussianNB
@@ -22,7 +24,7 @@ from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegress
      RandomForestRegressor, IsolationForest
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-
+from sklearn.gaussian_process import GaussianProcessClassifier
 from nyoka.preprocessing import Lag
 
 from nyoka import skl_to_pmml
@@ -669,7 +671,6 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(os.path.isfile("polyfeat.pmml"),True)
 
     def test_sklearn_29(self):
-        from sklearn.neural_network import MLPClassifier
         iris = datasets.load_iris()
         irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
         irisd['Species'] = iris.target
@@ -766,6 +767,192 @@ class TestMethods(unittest.TestCase):
         pipeline_obj.fit(irisd[features],irisd[target])
         skl_to_pmml(pipeline_obj,features,target,"lb_two.pmml")
         self.assertEqual(os.path.isfile("lb_two.pmml"),True)
+
+    def test_sklearn_35(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['new'] = [i%3 for i in range(irisd.shape[0])]
+        irisd['Species'] = iris.target
+        target = 'Species'
+        model = LogisticRegression()
+        pipeline_obj = Pipeline([
+            ('new', LabelBinarizer()),
+            ('model',model)
+        ])
+        pipeline_obj.fit(irisd['new'],irisd[target])
+        skl_to_pmml(pipeline_obj,['new',],target,"lb_single.pmml")
+        self.assertEqual(os.path.isfile("lb_single.pmml"),True)
+
+    def test_sklearn_36(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['new'] = [i%3 for i in range(irisd.shape[0])]
+        irisd['Species'] = iris.target
+        target = 'Species'
+        model = LogisticRegression()
+        pipeline_obj = Pipeline([
+            ('new', OneHotEncoder()),
+            ('model',model)
+        ])
+        pipeline_obj.fit(irisd['new'],irisd[target])
+        skl_to_pmml(pipeline_obj,['new',],target,"ohe_single.pmml")
+        self.assertEqual(os.path.isfile("ohe_single.pmml"),True)
+
+    def test_sklearn_37(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['Species'] = iris.target
+        target = 'Species'
+        features = irisd.columns.drop('Species')
+        model = LogisticRegression()
+        pipeline_obj = Pipeline([
+            ('new', StandardScaler()),
+            ('imputer', Imputer()),
+            ('model',model)
+        ])
+        pipeline_obj.fit(irisd[features],irisd[target])
+        skl_to_pmml(pipeline_obj,features,target,"imputer.pmml")
+        self.assertEqual(os.path.isfile("imputer.pmml"),True)
+
+    def test_sklearn_38(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['Species'] = iris.target
+        target = 'Species'
+        features = irisd.columns.drop('Species')
+        model = LogisticRegression()
+        pipeline_obj = Pipeline([
+            ('mapper', DataFrameMapper([
+                ('sepal length (cm)', KBinsDiscretizer()),
+            ])),
+            ('model',model)
+        ])
+        pipeline_obj.fit(irisd[features],irisd[target])
+        self.assertRaises(TypeError, skl_to_pmml(pipeline_obj,features,target,"kbins.pmml"))
+
+    def test_sklearn_39(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['Species'] = iris.target
+        target = 'Species'
+        features = irisd.columns.drop('Species')
+        model = GaussianProcessClassifier()
+        pipeline_obj = Pipeline([
+            ('model',model)
+        ])
+        pipeline_obj.fit(irisd[features],irisd[target])
+        self.assertRaises(NotImplementedError, skl_to_pmml(pipeline_obj,numpy.array(features),target,"gpc.pmml"))
+
+    def test_sklearn_40(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['Species'] = iris.target
+        target = 'Species'
+        features = irisd.columns.drop('Species')
+        model = GaussianProcessClassifier()
+        model.fit(irisd[features],irisd[target])
+        self.assertRaises(TypeError, skl_to_pmml(model,features,target,"no_pipeline.pmml"))
+
+    def test_sklearn_41(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        f_name = "svc_linear.pmml"
+        model = SVC(kernel='linear')
+        pipeline_obj = Pipeline([
+            ('svm',model)
+        ])
+
+        pipeline_obj.fit(irisd[features],irisd[target])
+        skl_to_pmml(pipeline_obj,features,target,f_name)
+        self.assertEqual(os.path.isfile(f_name),True)
+
+    def test_sklearn_42(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        f_name = "svc_poly.pmml"
+        model = SVC(kernel='poly')
+        pipeline_obj = Pipeline([
+            ('svm',model)
+        ])
+
+        pipeline_obj.fit(irisd[features],irisd[target])
+        skl_to_pmml(pipeline_obj,features,target,f_name)
+        self.assertEqual(os.path.isfile(f_name),True)
+
+    def test_sklearn_43(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        f_name = "svc_poly.pmml"
+        model = SVC(kernel='sigmoid')
+        pipeline_obj = Pipeline([
+            ('svm',model)
+        ])
+
+        pipeline_obj.fit(irisd[features],irisd[target])
+        skl_to_pmml(pipeline_obj,features,target,f_name)
+        self.assertEqual(os.path.isfile(f_name),True)
+
+    def test_sklearn_43(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        f_name = "svc_error.pmml"
+        model = SVC(kernel='precomputed')
+        pipeline_obj = Pipeline([
+            ('svm',model)
+        ])
+
+        pipeline_obj.fit(irisd[features],irisd[target])
+        self.assertRaises(NotImplementedError,skl_to_pmml(pipeline_obj,features,target,f_name))
+
+    def test_sklearn_44(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
+        irisd['Species'] = [i%2 for i in range(irisd.shape[0])]
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        f_name = "svc_bin.pmml"
+        model = SVC()
+        pipeline_obj = Pipeline([
+            ('svm',model)
+        ])
+
+        pipeline_obj.fit(irisd[features],irisd[target])
+        skl_to_pmml(pipeline_obj,features,target,f_name)
+        self.assertEqual(os.path.isfile(f_name),True)
+
+    def test_sklearn_45(self):
+        df = pd.read_csv('nyoka/tests/auto-mpg.csv')
+        X = df.drop(['mpg'],axis=1)
+        y = df['mpg']
+        features = [name for name in df.columns if name not in ('mpg')]
+        target = 'mpg'
+        pipeline_obj = Pipeline([
+            ('mapper', DataFrameMapper([
+                ('car name', TfidfVectorizer())
+            ])),
+            ('model',MLPRegressor())
+        ])
+        pipeline_obj.fit(X,y)
+        skl_to_pmml(pipeline_obj,features,target,"mlpr_pmml.pmml")
+        self.assertEqual(os.path.isfile("mlpr_pmml.pmml"),True)
+
 
 
 if __name__=='__main__':
