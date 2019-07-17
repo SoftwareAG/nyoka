@@ -768,21 +768,6 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj,features,target,"lb_two.pmml")
         self.assertEqual(os.path.isfile("lb_two.pmml"),True)
 
-    def test_sklearn_35(self):
-        iris = datasets.load_iris()
-        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
-        irisd['new'] = [i%3 for i in range(irisd.shape[0])]
-        irisd['Species'] = iris.target
-        target = 'Species'
-        model = LogisticRegression()
-        pipeline_obj = Pipeline([
-            ('new', LabelBinarizer()),
-            ('model',model)
-        ])
-        pipeline_obj.fit(irisd['new'],irisd[target])
-        skl_to_pmml(pipeline_obj,['new',],target,"lb_single.pmml")
-        self.assertEqual(os.path.isfile("lb_single.pmml"),True)
-
     def test_sklearn_36(self):
         iris = datasets.load_iris()
         irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
@@ -791,7 +776,7 @@ class TestMethods(unittest.TestCase):
         target = 'Species'
         model = LogisticRegression()
         pipeline_obj = Pipeline([
-            ('new', OneHotEncoder()),
+            (['new'], OneHotEncoder()),
             ('model',model)
         ])
         pipeline_obj.fit(irisd['new'],irisd[target])
@@ -823,12 +808,13 @@ class TestMethods(unittest.TestCase):
         model = LogisticRegression()
         pipeline_obj = Pipeline([
             ('mapper', DataFrameMapper([
-                ('sepal length (cm)', KBinsDiscretizer()),
+                (['sepal length (cm)'], KBinsDiscretizer()),
             ])),
             ('model',model)
         ])
         pipeline_obj.fit(irisd[features],irisd[target])
-        self.assertRaises(TypeError, skl_to_pmml(pipeline_obj,features,target,"kbins.pmml"))
+        with self.assertRaises(TypeError):
+            skl_to_pmml(pipeline_obj,features,target,"kbins.pmml")
 
     def test_sklearn_39(self):
         iris = datasets.load_iris()
@@ -841,7 +827,8 @@ class TestMethods(unittest.TestCase):
             ('model',model)
         ])
         pipeline_obj.fit(irisd[features],irisd[target])
-        self.assertRaises(NotImplementedError, skl_to_pmml(pipeline_obj,numpy.array(features),target,"gpc.pmml"))
+        with self.assertRaises(NotImplementedError):
+            skl_to_pmml(pipeline_obj,numpy.array(features),target,"gpc.pmml")
 
     def test_sklearn_40(self):
         iris = datasets.load_iris()
@@ -851,7 +838,8 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         model = GaussianProcessClassifier()
         model.fit(irisd[features],irisd[target])
-        self.assertRaises(TypeError, skl_to_pmml(model,features,target,"no_pipeline.pmml"))
+        with self.assertRaises(TypeError):
+            skl_to_pmml(model,features,target,"no_pipeline.pmml")
 
     def test_sklearn_41(self):
         iris = datasets.load_iris()
@@ -886,39 +874,6 @@ class TestMethods(unittest.TestCase):
         pipeline_obj.fit(irisd[features],irisd[target])
         skl_to_pmml(pipeline_obj,features,target,f_name)
         self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_sklearn_43(self):
-        iris = datasets.load_iris()
-        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
-        irisd['Species'] = iris.target
-
-        features = irisd.columns.drop('Species')
-        target = 'Species'
-        f_name = "svc_poly.pmml"
-        model = SVC(kernel='sigmoid')
-        pipeline_obj = Pipeline([
-            ('svm',model)
-        ])
-
-        pipeline_obj.fit(irisd[features],irisd[target])
-        skl_to_pmml(pipeline_obj,features,target,f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_sklearn_43(self):
-        iris = datasets.load_iris()
-        irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
-        irisd['Species'] = iris.target
-
-        features = irisd.columns.drop('Species')
-        target = 'Species'
-        f_name = "svc_error.pmml"
-        model = SVC(kernel='precomputed')
-        pipeline_obj = Pipeline([
-            ('svm',model)
-        ])
-
-        pipeline_obj.fit(irisd[features],irisd[target])
-        self.assertRaises(NotImplementedError,skl_to_pmml(pipeline_obj,features,target,f_name))
 
     def test_sklearn_44(self):
         iris = datasets.load_iris()
