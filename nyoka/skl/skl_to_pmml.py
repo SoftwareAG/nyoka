@@ -1209,11 +1209,11 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
     out_field_names = list()
     for estm_idx in range(len(model.estimators_[0])):
         mining_fields_for_first = list()
-        # for name in col_names:
-        for idx,imp_ in enumerate(model.feature_importances_):
-            # mining_fields_for_first.append(pml.MiningField(name=name))
-            if imp_ > 0:
-                mining_fields_for_first.append(pml.MiningField(name=col_names[idx]))
+        for name in col_names:
+        # for idx,imp_ in enumerate(model.feature_importances_):
+            mining_fields_for_first.append(pml.MiningField(name=name))
+            # if imp_ > 0:
+                # mining_fields_for_first.append(pml.MiningField(name=col_names[idx]))
 
         miningschema_for_first = pml.MiningSchema(MiningField=mining_fields_for_first)
         output_fields = list()
