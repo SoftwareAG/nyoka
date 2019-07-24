@@ -298,7 +298,7 @@ def create_node(obj, main_node,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(
             pml.SimplePredicate(field=xgboostToPmml.replace_name_with_derivedColumnNames(derived_col_names[int(obj['split_feature'])],\
-                 derived_col_names), operator='lessThan', value="{:.16f}".format(obj['threshold'])))
+                 derived_col_names), operator='lessOrEqual', value="{:.16f}".format(obj['threshold'])))
         create_node(obj['left_child'], nd, derived_col_names)
         return nd
 
@@ -306,7 +306,7 @@ def create_node(obj, main_node,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(
             pml.SimplePredicate(field=xgboostToPmml.replace_name_with_derivedColumnNames(derived_col_names[int(obj['split_feature'])],\
-                 derived_col_names), operator='greaterOrEqual', value="{:.16f}".format(obj['threshold'])))
+                 derived_col_names), operator='greaterThan', value="{:.16f}".format(obj['threshold'])))
         create_node(obj['right_child'], nd, derived_col_names)
         return nd
 
