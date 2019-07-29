@@ -119,19 +119,11 @@ class TestMethods(unittest.TestCase):
 
     def test_sklearn_04(self):
         titanic = pd.read_csv("nyoka/tests/titanic_train.csv")
-
-        # titanic['Embarked'] = titanic['Embarked'].fillna('S')
-
-        # features = list(titanic.columns.drop(['PassengerId','Name','Ticket','Cabin','Survived']))
         features = titanic.columns
         target = 'Survived'
         f_name = "gb_pmml.pmml"
 
         pipeline_obj = Pipeline([
-            ("mapping", DataFrameMapper([
-                (['Sex'], LabelEncoder()),
-                # (['Embarked'], LabelEncoder())
-            ])),
             ("imp", Imputer(strategy="median")),
             ("gbc", GradientBoostingClassifier(n_estimators = 10))
         ])
