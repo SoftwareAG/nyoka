@@ -122,7 +122,8 @@ class TestMethods(unittest.TestCase):
 
         # titanic['Embarked'] = titanic['Embarked'].fillna('S')
 
-        features = list(titanic.columns.drop(['PassengerId','Name','Ticket','Cabin','Survived']))
+        # features = list(titanic.columns.drop(['PassengerId','Name','Ticket','Cabin','Survived']))
+        features = titanic.columns
         target = 'Survived'
         f_name = "gb_pmml.pmml"
 
