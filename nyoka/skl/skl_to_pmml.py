@@ -1812,11 +1812,17 @@ def get_node(model, features_names, main_model=None):
             prnt = None
             if model.__class__.__name__ == "ExtraTreeRegressor":
                 prnt = parent + 1
-            simplePredicate = pml.SimplePredicate(field=fieldName, operator="lessOrEqual",
-                                                  value="{:.16f}".format(tree.threshold[idx]))
+            thresh = 0
+            try:
+                rnd_ = str(tree.threshold[idx]).split(".")[1]
+                thresh = round(tree.threshold[idx], min(rnd_, 16))
+            except:
+                thresh = tree.threshold[idx]
+            simplePredicate = pml.SimplePredicate(field=fieldName, operator="lessOrEqual",value = str(thresh))
+                                                #   value="{:.16f}".format(tree.threshold[idx]))
             left_child = _getNode(tree.children_left[idx],prnt, simplePredicate)
-            simplePredicate = pml.SimplePredicate(field=fieldName, operator="greaterThan",
-                                                  value="{:.16f}".format(tree.threshold[idx]))
+            simplePredicate = pml.SimplePredicate(field=fieldName, operator="greaterThan", value= str(thresh))
+                                                #   value="{:.16f}".format(tree.threshold[idx]))
             right_child = _getNode(tree.children_right[idx],prnt, simplePredicate)
             node.add_Node(left_child)
             node.add_Node(right_child)

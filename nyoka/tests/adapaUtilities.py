@@ -11,9 +11,9 @@ import numpy
 class AdapaUtility:
 
     def __init__(self):
-        self.endpoint = os.environ["ADAPA_URL"]
-        self.username = os.environ["ADAPA_UN"]
-        self.password = os.environ["ADAPA_PW"]
+        self.endpoint = "https://myadapa.zementis.com/adapars/"#"http://localhost:8080/adapars/"#os.environ["ADAPA_URL"]
+        self.username = "anujprotim.baruah@softwareag.com"#"adapa"#os.environ["ADAPA_UN"]
+        self.password = "zementis"#"adapa"#os.environ["ADAPA_PW"]
 
     def upload_to_zserver(self, file_name):
         files = {'file': open(file_name,'r')}
@@ -58,6 +58,7 @@ class AdapaUtility:
                     else:
                         continue
                     predictions.append(row)
+                predictions = numpy.array(predictions)
                 probabilities = None
             else:
                 for row in all_rows[1:]:
@@ -65,19 +66,27 @@ class AdapaUtility:
                     if cols[0] == '':
                         continue
                     predictions.append(ast.literal_eval(cols[-1]))
-                    probabilities.append([ast.literal_eval(c) for c in cols[:-1]])
+                    probabilities.append(numpy.array([ast.literal_eval(c) for c in cols[:-1]]))
+                predictions = numpy.array(predictions)
         return predictions, probabilities
         
     def compare_predictions(self, z_pred, m_pred):
-        for z, m in zip(z_pred, m_pred):
-            if round(z,10) != round(m,10):
-                return False
+
+        if z_pred[0].__class__.__name__ == 'str':
+            for z, m in zip(z_pred, m_pred):
+                if z != m:
+                    return False
+        else:
+            for z, m in zip(z_pred, m_pred):
+                if "{:.3f}".format(z) != "{:.3f}".format(m):
+                    return False
         return True
 
     def compare_probability(self, z_prob, m_prob):
         for z, m in zip(z_prob, m_prob):
-            if not numpy.allclose(numpy.array(z), numpy.array(m)):
-                return False
+            for z_, m_ in zip(z,m):
+                if "{:.3f}".format(z_) != "{:.3f}".format(m_):
+                    return False
         return True
 
         
