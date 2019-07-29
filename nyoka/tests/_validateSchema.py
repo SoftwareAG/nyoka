@@ -123,7 +123,7 @@ class PmmlValidation(unittest.TestCase):
         self.X_reg = data.data
         self.y_reg = data.target
         self.features_reg =  data.feature_names
-        self.schema = xmlschema.XMLSchema("nyoka/pmml44New.xsd")
+        self.schema = xmlschema.XMLSchema("nyoka/pmml44.xsd")
         self.statsmodels_data_helper = StatsmodelsDataHelper()
 
     

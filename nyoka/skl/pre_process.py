@@ -472,7 +472,7 @@ def count_vectorizer(trfm, col_names):
                                             dataType='double',
                                             TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
                                                 else col_names[0],
-                                                                    wordSeparatorCharacterRE=trfm.token_pattern.replace('(?u)',''),
+                                                                    wordSeparatorCharacterRE='\\s+',
                                                                     tokenize='true',
                                                                     Constant=pml.Constant(dataType="string",
                                                                                         valueOf_=imp_features),

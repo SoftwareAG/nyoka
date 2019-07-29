@@ -26,7 +26,6 @@ class AdapaUtility:
                 return
             files = {'file': open(file_name,'r')}
             res = requests.post(self.endpoint+"model", auth = HTTPBasicAuth(self.username, self.password),files=files)
-        print(res.text)
         return res.json()['modelName']
 
     def delete_model(self, model_name):
@@ -49,7 +48,7 @@ class AdapaUtility:
                 predictions = outs["predictedValue_predictions"]
                 probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in outs["top5_prob"].split(",")}
         else:
-            all_rows = res.text.split('\r\n')
+            all_rows = res.text.split('\n')
             predictions = []
             probabilities = []
             if all_rows[0].split(",").__len__() == 1:
@@ -70,17 +69,15 @@ class AdapaUtility:
         return predictions, probabilities
         
     def compare_predictions(self, z_pred, m_pred):
-        count = 0
         for z, m in zip(z_pred, m_pred):
-            if not numpy.allclose(numpy.array(z), numpy.array(m),1,0):
-                count += 1
-        return count
+            if round(z,10) != round(m,10):
+                return False
+        return True
 
     def compare_probability(self, z_prob, m_prob):
-        count = 0
         for z, m in zip(z_prob, m_prob):
-            if not numpy.allclose(numpy.array(z), numpy.array(m),1,0):
-                count += 1
-        return count
+            if not numpy.allclose(numpy.array(z), numpy.array(m)):
+                return False
+        return True
 
         
