@@ -50,7 +50,7 @@ class TestCases(unittest.TestCase):
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
         predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
     def test_02_linear_regression_with_scaler(self):
         print("\ntest 02 (linear regression with preprocessing)\n")
@@ -72,7 +72,7 @@ class TestCases(unittest.TestCase):
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
         predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
     def test_03_logistic_regression_with_scaler(self):
         print("\ntest 03 (logistic regression with preprocessing) [multi-class]\n")
@@ -95,8 +95,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_04_logistic_regression_with_scaler(self):
         print("\ntest 04 (logistic regression with preprocessing) [binary-class]\n")
@@ -119,8 +119,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_05_logistic_regression(self):
         print("\ntest 05 (logistic regression without preprocessing) [multi-class]\n")
@@ -138,8 +138,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_06_logistic_regression(self):
         print("\ntest 06 (logistic regression without preprocessing) [binary-class]\n")
@@ -160,8 +160,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_07_ridge_classifier(self):
         print("\ntest 07 (Ridge Classifier) [multi-class]\n")
@@ -179,8 +179,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = model._predict_proba_lr(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_08_ridge_classifier(self):
         print("\ntest 08 (Ridge Classifier) [binary-class]\n")
@@ -198,8 +198,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = model._predict_proba_lr(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_09_sgd_classifier(self):
         print("\ntest 09 (SGD Classifier with preprocessing) [multi-class]\n")
@@ -218,8 +218,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_10_sgd_classifier(self):
         print("\ntest 10 (SGD Classifier with preprocessing) [binary-class]\n")
@@ -238,8 +238,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_11_lda(self):
         print("\ntest 11 (LDA with preprocessing) [multi-class]\n")
@@ -258,8 +258,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_12_lda(self):
         print("\ntest 12 (LDA with preprocessing) [binary-class]\n")
@@ -278,8 +278,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_13_linearsvc(self):
         print("\ntest 13 (LinearSVC with preprocessing) [multi-class]\n")
@@ -298,8 +298,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.decision_function(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_14_linearsvc(self):
         print("\ntest 14 (LinearSVC with preprocessing) [binary-class]\n")
@@ -317,8 +317,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = model._predict_proba_lr(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_15_linearsvr(self):
         print("\ntest 15 (linear svr without preprocessing)\n")
@@ -335,7 +335,7 @@ class TestCases(unittest.TestCase):
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
         predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
     def test_16_linearsvr(self):
         print("\ntest 16 (linear svr with preprocessing)\n")
@@ -353,7 +353,7 @@ class TestCases(unittest.TestCase):
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
         predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
     def test_17_decisiontreeclassifier(self):
         print("\ntest 17 (decision tree classifier with preprocessing) [multi-class]\n")
@@ -372,8 +372,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_18_decisiontreeclassifier(self):
         print("\ntest 18 (decision tree classifier with preprocessing) [binary-class]\n")
@@ -392,8 +392,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_19_decisiontreeclassifier(self):
         print("\ntest 19 (decision tree classifier without preprocessing) [multi-class]\n")
@@ -411,8 +411,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_20_decisiontreeclassifier(self):
         print("\ntest 20 (decision tree classifier without preprocessing) [binary-class]\n")
@@ -430,8 +430,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_21_svr(self):
         print("\ntest 21 (SVR without preprocessing)\n")
@@ -448,7 +448,7 @@ class TestCases(unittest.TestCase):
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
         predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
     def test_22_gaussian_nb(self):
         print("\ntest 22 (GaussianNB without preprocessing) [binary-class]\n")
@@ -466,8 +466,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_23_gaussian_nb(self):
         print("\ntest 23 (GaussianNB without preprocessing) [multi-class]\n")
@@ -485,8 +485,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_24_gaussian_nb(self):
         print("\ntest 24 (GaussianNB with preprocessing) [multi-class]\n")
@@ -505,8 +505,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_25_random_forest_regressor(self):
         print("\ntest 25 (random forest regressor without preprocessing)\n")
@@ -523,7 +523,7 @@ class TestCases(unittest.TestCase):
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
         predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
     def test_26_random_forest_classifier(self):
         print("\ntest 26 (random forest classifier with preprocessing) [multi-class]\n")
@@ -542,8 +542,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_27_random_forest_classifier(self):
         print("\ntest 27 (random forest classifier with preprocessing) [binary-class]\n")
@@ -562,8 +562,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_28_gradient_boosting_classifier(self):
         print("\ntest 28 (gradient boosting classifier with preprocessing) [binary-class]\n")
@@ -582,8 +582,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_29_gradient_boosting_classifier(self):
         print("\ntest 29 (gradient boosting classifier with preprocessing) [multi-class]\n")
@@ -602,8 +602,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_30_gradient_boosting_regressor(self):
         print("\ntest 30 (gradient boosting regressor without preprocessing)\n")
@@ -620,7 +620,7 @@ class TestCases(unittest.TestCase):
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
         predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
     def test_31_knn_classifier(self):
         print("\ntest 31 (knn classifier without preprocessing) [binary-class]\n")
@@ -638,8 +638,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_32_knn_classifier(self):
         print("\ntest 32 (knn classifier without preprocessing) [multi-class]\n")
@@ -657,8 +657,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.predict_proba(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_33_knn_regressor(self):
         print("\ntest 33 (knn regressor without preprocessing)\n")
@@ -675,7 +675,7 @@ class TestCases(unittest.TestCase):
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
         predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
     def test_34_kmeans(self):
         print("\ntest 34 (kmeans without preprocessing\n")
@@ -692,8 +692,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
         model_prob = pipeline_obj.transform(X_test)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     @classmethod
     def tearDownClass(self):

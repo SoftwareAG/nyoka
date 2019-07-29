@@ -51,8 +51,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, self.test_file)
         model_pred = pipeline_obj.predict(self.X)
         model_prob = pipeline_obj.predict_proba(self.X)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     def test_02_xgb_regressor(self):
         print("\ntest 02 (xgb regressor without preprocessing)\n")
@@ -66,7 +66,7 @@ class TestCases(unittest.TestCase):
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
         predictions, _ = self.adapa_utility.score_in_zserver(model_name, self.test_file)
         model_pred = pipeline_obj.predict(self.X)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
     def test_03_xgb_classifier(self):
         print("\ntest 03 (xgb classifier with preprocessing) [binary-class]\n")
@@ -82,8 +82,8 @@ class TestCases(unittest.TestCase):
         predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, self.test_file)
         model_pred = pipeline_obj.predict(self.X)
         model_prob = pipeline_obj.predict_proba(self.X)
-        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), 0)
-        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), 0)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     @classmethod
     def tearDownClass(self):
