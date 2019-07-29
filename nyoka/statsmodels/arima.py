@@ -104,9 +104,12 @@ class ArimaToPMML:
             ma_coeff_array = ArrayType(content = ma_content, n = q, type_ = 'real')
             ny_maCoef_obj = MACoefficients(Array = ma_coeff_array)
 
-            nyoka_arima_obj = ARIMA(constantTerm = sm_results.params[0],
+            const_term = 0.0
+            if sm_results.k_trend:
+                const_term = sm_results.params[0]
+
+            nyoka_arima_obj = ARIMA(constantTerm = const_term,
                                 predictionMethod = pred_method,
-                                Extension = get_arima_extension_list(sm_results.model),
                                 NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ar_params_array),  MA = MA(MACoefficients = ny_maCoef_obj)))
             return nyoka_arima_obj
 
@@ -181,11 +184,6 @@ class ArimaToPMML:
             extensions = list()
             extensions.append(Extension(name="sigmaSquare", value = results._params_variance[0]))
             extensions.append(Extension(name="cov_type", value = results.cov_type))
-            return extensions
-
-        def get_arima_extension_list(model):
-            extensions = list()
-            extensions.append(Extension(name="sigmaSquare", value = model.sigma2))
             return extensions
 
         if(results_obj.model.__class__.__name__ == 'SARIMAX' and results_obj.__class__.__name__ == 'SARIMAXResultsWrapper'):
