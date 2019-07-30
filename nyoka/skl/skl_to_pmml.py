@@ -2017,7 +2017,7 @@ def get_neural_layer(model, feature_names, target_name):
         weight1=[-1.0,1.0]
         con = list()
         linear = ['linear/1']
-        i_d = ['true', 'false']
+        i_d = ['false', 'true']
         con.append(pml.Con(from_ = input_features[0], weight = 1.0))
         neuron.append(pml.Neuron(id = linear[0], bias = ('0.0'), Con = con))
         all_neuron_layer.append(pml.NeuralLayer(activationFunction = "logistic", Neuron = neuron))
@@ -2028,6 +2028,7 @@ def get_neural_layer(model, feature_names, target_name):
             neuron.append(pml.Neuron(id = i_d[num], bias = format(bias1[num]), Con = con))
             con = list()
         all_neuron_layer.append(pml.NeuralLayer(activationFunction = "identity", Neuron = neuron))
+        input_features = i_d
     if 'MLPClassifier' in str(model.__class__):
         neural_output = list()
         for values, count in zip(model.classes_, range(len(model.classes_))):
@@ -2035,7 +2036,7 @@ def get_neural_layer(model, feature_names, target_name):
             derived_flds = pml.DerivedField(optype = "categorical", dataType = 'double',
                                     NormDiscrete = norm_discrete)
             if len(input_features)==1:
-                class_node = pml.NeuralOutput(outputNeuron = input_features, DerivedField = derived_flds)
+                class_node = pml.NeuralOutput(outputNeuron = input_features[0], DerivedField = derived_flds)
             else:
                 class_node = pml.NeuralOutput(outputNeuron = input_features[count],DerivedField = derived_flds)
             neural_output.append(class_node)
@@ -2045,9 +2046,9 @@ def get_neural_layer(model, feature_names, target_name):
         neural_output = list()
         fieldRef = pml.FieldRef(field = target_name)
         derived_flds = pml.DerivedField(optype = "continuous", dataType = "double", FieldRef = fieldRef)
-        class_node = pml.NeuralOutput(outputNeuron = input_features, DerivedField = derived_flds)
+        class_node = pml.NeuralOutput(outputNeuron = input_features[0], DerivedField = derived_flds)
         neural_output.append(class_node)
-    neural_output_element = pml.NeuralOutputs(numberOfOutputs = None, Extension = None, NeuralOutput = neural_output)
+        neural_output_element = pml.NeuralOutputs(numberOfOutputs = None, Extension = None, NeuralOutput = neural_output)
     return all_neuron_layer, neural_output_element
 
 
