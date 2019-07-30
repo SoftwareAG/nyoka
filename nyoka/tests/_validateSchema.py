@@ -1,6 +1,9 @@
 # Exporters
 from nyoka import skl_to_pmml, KerasToPmml, ArimaToPMML, ExponentialSmoothingToPMML
 
+# Nyoka preprocessings
+from nyoka.preprocessing import Lag
+
 # Pipeline/ DataFrameMapper
 from sklearn.pipeline import Pipeline
 from sklearn_pandas import DataFrameMapper
@@ -20,10 +23,11 @@ from sklearn.linear_model import LinearRegression, LogisticRegression, SGDClassi
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 
 # SVM
-from sklearn.svm import SVC, SVR, LinearSVC, LinearSVR
+from sklearn.svm import SVC, SVR, LinearSVC, LinearSVR, OneClassSVM
 
 # Ensemble
-from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier,\
+     RandomForestRegressor, IsolationForest
 
 # Clustering
 from sklearn.cluster import KMeans
@@ -388,6 +392,52 @@ class PmmlValidation(unittest.TestCase):
         ])
         pipeline.fit(X, Y)
         skl_to_pmml(pipeline, features , target, file_name)
+        self.assertEqual(self.schema.is_valid(file_name), True)
+
+    def test_validate_isolation_forest(self):
+        iris = datasets.load_iris()
+        X = iris.data
+        features = iris.feature_names
+        model = IsolationForest()
+        pipeline = Pipeline([
+            ('standard_scaler',StandardScaler()),
+            ('Imputer',Imputer()),
+            ('model',model)
+        ])
+        pipeline.fit(X)
+        file_name = model.__class__.__name__+'.pmml'
+        skl_to_pmml(pipeline, features ,pmml_f_name= file_name)
+        self.assertEqual(self.schema.is_valid(file_name), True)
+
+    def test_validate_ocsvm(self):
+        iris = datasets.load_iris()
+        X = iris.data
+        y = iris.target
+        features = iris.feature_names
+        model = OneClassSVM()
+        pipeline = Pipeline([
+            ('standard_scaler',StandardScaler()),
+            ('Imputer',Imputer()),
+            ('model',model)
+        ])
+        pipeline.fit(X,y)
+        file_name = model.__class__.__name__+'.pmml'
+        skl_to_pmml(pipeline, features ,pmml_f_name= file_name)
+        self.assertEqual(self.schema.is_valid(file_name), True)
+
+    def test_validate_lag(self):
+        iris = datasets.load_iris()
+        X = iris.data
+        y = iris.target
+        features = iris.feature_names
+        model = LogisticRegression()
+        pipeline = Pipeline([
+            ('lag',Lag(aggregation="stddev", value=3)),
+            ('model',model)
+        ])
+        pipeline.fit(X,y)
+        file_name = model.__class__.__name__+'lag_stddev.pmml'
+        skl_to_pmml(pipeline, features , 'species',pmml_f_name= file_name)
         self.assertEqual(self.schema.is_valid(file_name), True)
 
     def test_validate_keras_mobilenet(self):

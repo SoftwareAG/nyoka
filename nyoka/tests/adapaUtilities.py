@@ -11,9 +11,9 @@ import numpy
 class AdapaUtility:
 
     def __init__(self):
-        self.endpoint = "https://myadapa.zementis.com/adapars/"
-        self.username = "anujprotim.baruah@softwareag.com"
-        self.password = "zementis"
+        self.endpoint = os.environ['ADAPA_URL']
+        self.username = os.environ['ADAPA_UN']
+        self.password = os.environ['ADAPA_PW']
 
     def upload_to_zserver(self, file_name):
         files = {'file': open(file_name,'r')}

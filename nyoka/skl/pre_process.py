@@ -505,26 +505,10 @@ def lag(trfm, col_names):
     derived_flds = list()
     pp_dict = dict()
     derived_colnames = get_derived_colnames(trfm.aggregation, col_names)
-    if trfm.aggregation == 'stddev':
-        for idx, name in enumerate(col_names):
-            applyies = list()
-            for i in range(trfm.value):
-                lags = list()
-                lags.append(pml.Lag(field=name,n=i+1))
-                lags.append(pml.Lag(field=name,n=trfm.value, aggregate="avg"))
-                sub_func = pml.Apply(function="-",Lag=lags)
-                pow_func = pml.Apply(function="pow", Apply_member=[sub_func], Constant=[pml.Constant(dataType="integer",valueOf_=2)])
-                applyies.append(pow_func)
-            add_func = pml.Apply(function="+", Apply_member=applyies)
-            div_func = pml.Apply(function="/", Apply_member=[add_func], Constant=[pml.Constant(dataType="double", valueOf_=float(trfm.value))])
-            sqrt_func = pml.Apply(function="sqrt", Apply_member=[div_func])
-            derived_fld = pml.DerivedField(name=derived_colnames[idx], Apply=sqrt_func, optype="continuous", dataType="double")
-            derived_flds.append(derived_fld)
-    else:
-        for idx, name in enumerate(col_names):
-            lag = pml.Lag(field=name, n=trfm.value, aggregate=trfm.aggregation)
-            derived_fld = pml.DerivedField(name=derived_colnames[idx], Lag=lag, optype="continuous", dataType="double")
-            derived_flds.append(derived_fld)
+    for idx, name in enumerate(col_names):
+        lag = pml.Lag(field=name, n=trfm.value, aggregate=trfm.aggregation)
+        derived_fld = pml.DerivedField(name=derived_colnames[idx], Lag=lag, optype="continuous", dataType="double")
+        derived_flds.append(derived_fld)
     
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
