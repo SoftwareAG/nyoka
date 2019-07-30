@@ -887,6 +887,22 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj,features,target,"mlpr_pmml.pmml")
         self.assertEqual(os.path.isfile("mlpr_pmml.pmml"),True)
 
+    def test_sklearn_46(self):
+        iris = datasets.load_iris()
+        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+        irisd['Species'] = iris.target
+        irisd['new'] = [i%2 for i in range(iris.data.shape[0])]
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        model = MLPClassifier()
+        pipeline_obj = Pipeline([
+            ("model", model)
+        ])
+        pipeline_obj.fit(irisd[features], irisd[target])
+        skl_to_pmml(pipeline_obj, features, target, "mlp2.pmml")
+        self.assertEqual(os.path.isfile("mlp2.pmml"),True)
+
 
 
 if __name__=='__main__':

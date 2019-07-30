@@ -19,6 +19,7 @@ from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegress
     RandomForestClassifier, RandomForestRegressor
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.neural_network import MLPClassifier, MLPRegressor
 from nyoka import skl_to_pmml
 from nyoka import PMML44 as pml
 import unittest
@@ -687,6 +688,52 @@ class TestCases(unittest.TestCase):
         model_prob = pipeline_obj.transform(X_test)
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
+
+    def test_35_mlp(self):
+        print("\ntest 35 (MLPRegressor without preprocessing\n")
+        X, X_test, y, features, target, test_file = self.data_utility.get_data_for_regression()
+        pipeline_obj = Pipeline([
+            ('model',MLPRegressor())
+        ])
+        pipeline_obj.fit(X,y)
+        file_name = 'test35sklearn.pmml'
+        skl_to_pmml(pipeline_obj,features,target,file_name)
+        model_name  = self.adapa_utility.upload_to_zserver(file_name)
+        predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
+        model_pred = pipeline_obj.predict(X_test)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+
+    def test_36_mlp(self):
+        print("\ntest 36 (MLPClassifier without preprocessing [multi-class]\n")
+        X, X_test, y, features, target, test_file = self.data_utility.get_data_for_multi_class_classification()
+        pipeline_obj = Pipeline([
+            ('model',MLPClassifier())
+        ])
+        pipeline_obj.fit(X,y)
+        file_name = 'test36sklearn.pmml'
+        skl_to_pmml(pipeline_obj,features,target,file_name)
+        model_name  = self.adapa_utility.upload_to_zserver(file_name)
+        predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
+        model_pred = pipeline_obj.predict(X_test)
+        model_prob = pipeline_obj.predict_proba(X_test)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_predictions(probabilities, model_prob), True)
+
+    def test_37_mlp(self):
+        print("\ntest 37 (MLPClassifier without preprocessing binary-class]\n")
+        X, X_test, y, features, target, test_file = self.data_utility.get_data_for_binary_classification()
+        pipeline_obj = Pipeline([
+            ('model',MLPClassifier())
+        ])
+        pipeline_obj.fit(X,y)
+        file_name = 'test37sklearn.pmml'
+        skl_to_pmml(pipeline_obj,features,target,file_name)
+        model_name  = self.adapa_utility.upload_to_zserver(file_name)
+        predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
+        model_pred = pipeline_obj.predict(X_test)
+        model_prob = pipeline_obj.predict_proba(X_test)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_predictions(probabilities, model_prob), True)
 
     @classmethod
     def tearDownClass(self):
