@@ -275,9 +275,6 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_va
     model_kwargs = dict()
     model_kwargs['functionName'] = get_mining_func(model)
     model_kwargs['MiningSchema'] = get_mining_schema(model, col_names, target_name, mining_imp_val, categoric_values)
-    # if model.__class__.__name__ == 'IsolationForest':
-    #     model_kwargs['Output']=get_anomaly_detection_output(model)
-    # else:
     model_kwargs['Output'] = get_output(model, target_name)
 
     return model_kwargs
@@ -450,89 +447,10 @@ def get_anomaly_detection_output(model):
                         feature="decision",
                         isFinalResult="true", 
                         Apply=pml.Apply(function="lessThan", 
-                                        FieldRef=[pml.FieldRef(field="rawAnomalyScore")],
+                                        FieldRef=[pml.FieldRef(field="anomalyScore")],
                                         Constant=[pml.Constant(dataType="double", 
                                         valueOf_="0" if thresh==0 else "{:.16f}".format(thresh))]))
     )
-
-    # if 'OneClassSVM' in str(model.__class__):
-    #     output_fields.append(pml.OutputField(
-    #         name="anomalyScore",
-    #         feature="predictedValue",
-    #         optype="continuous",
-    #         dataType="float"))
-    #     output_fields.append(pml.OutputField(
-    #         name="anomaly",
-    #         feature="decision",
-    #         optype="categorical",
-    #         dataType="boolean",
-    #         threshold="0"
-    #     ))
-
-    # else:
-    #     # n = model.max_samples_
-    #     # eulers_gamma = 0.577215664901532860606512090082402431
-
-    #     output_fields.append(pml.OutputField(name="rawAnomalyScore", 
-    #                                         optype="continuous", 
-    #                                         dataType="double",
-    #                                         feature="predictedValue",
-    #                                         isFinalResult="false"))
-
-    #     # output_fields.append(pml.OutputField(name="normalizedAnomalyScore",
-    #     #                                     optype="continuous",
-    #     #                                     dataType="double",
-    #     #                                     feature="transformedValue",
-    #     #                                     isFinalResult="false", 
-    #     #                                     Apply=pml.Apply(function="/", 
-    #     #                                                     FieldRef=[pml.FieldRef(field="rawAnomalyScore")], 
-    #     #                                                     Constant=[pml.Constant(dataType="double",
-    #     #                                                                            valueOf_=(2.0*(math.log(n-1.0)+eulers_gamma))-
-    #     #                                                                                     (2.0*((n-1.0)/n)))])))
-
-    #     # appl_inner_inner = pml.Apply(function="*")
-    #     # cnst = pml.Constant(dataType="double", valueOf_=-1.0)
-    #     # fldref = pml.FieldRef(field="normalizedAnomalyScore")
-    #     # cnst.original_tagname_ = 'Constant'
-    #     # appl_inner_inner.add_FieldRef(cnst)
-    #     # appl_inner_inner.add_FieldRef(fldref)
-
-    #     # appl_inner = pml.Apply(function='pow')
-    #     # cnst = pml.Constant(dataType="double", valueOf_=2.0)
-    #     # cnst.original_tagname_ = 'Constant'
-    #     # appl_inner.add_FieldRef(cnst)
-    #     # appl_inner_inner.original_tagname_='Apply'
-    #     # appl_inner.add_FieldRef(appl_inner_inner)
-
-    #     # appl_outer = pml.Apply(function="-")
-    #     # cnst = pml.Constant(dataType="double", valueOf_=0.5)
-    #     # cnst.original_tagname_ = 'Constant'
-    #     # appl_outer.add_FieldRef(cnst)
-    #     # appl_inner.original_tagname_='Apply'
-    #     # appl_outer.add_FieldRef(appl_inner)
-
-    #     # output_fields.append(pml.OutputField(name="decisionFunction",
-    #     #                                     optype="continuous",
-    #     #                                     dataType="double",
-    #     #                                     feature="transformedValue",
-    #     #                                     isFinalResult="false", 
-    #     #                                     Apply=appl_outer))
-    #     thresh = 0
-    #     try:
-    #         thresh=model.threshold_
-    #     except:
-    #         thresh = 0
-
-    #     output_fields.append(pml.OutputField(name="outlier",
-    #                                         optype="categorical",
-    #                                         dataType="boolean",
-    #                                         feature="decision",
-    #                                         isFinalResult="true", 
-    #                                         Apply=pml.Apply(function="lessThan", 
-    #                                                         FieldRef=[pml.FieldRef(field="rawAnomalyScore")],
-    #                                                         Constant=[pml.Constant(dataType="double", 
-    #                                                                                 valueOf_="{:.16f}".format(thresh+model.offset_))])))
-
     return pml.Output(OutputField=output_fields)
 
 
@@ -1026,7 +944,6 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
         **kernel_type,
         **model_kwargs
     ))
-    # supportVector_models[0].export(sys.stdout,0," ")
 
     return supportVector_models
 
@@ -1059,17 +976,6 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
     if model.__class__.__name__ == 'GradientBoostingRegressor':
         model_kwargs['Targets'] = get_targets(model, target_name)
-
-    # mining_fields = model_kwargs['MiningSchema'].MiningField
-    # new_mining_fields = list()
-    # for idx, imp_ in enumerate(model.feature_importances_):
-    #     if imp_ > 0:
-    #         new_mining_fields.append(mining_fields[idx])
-    # for fld in mining_fields:
-    #     if fld.usageType == 'target':
-    #         new_mining_fields.append(fld)
-    # model_kwargs['MiningSchema'].MiningField = new_mining_fields
-
         
     mining_models = list()
     mining_models.append(pml.MiningModel(
@@ -1244,10 +1150,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
     for estm_idx in range(len(model.estimators_[0])):
         mining_fields_for_first = list()
         for name in col_names:
-        # for idx,imp_ in enumerate(model.feature_importances_):
             mining_fields_for_first.append(pml.MiningField(name=name))
-            # if imp_ > 0:
-                # mining_fields_for_first.append(pml.MiningField(name=col_names[idx]))
 
         miningschema_for_first = pml.MiningSchema(MiningField=mining_fields_for_first)
         output_fields = list()

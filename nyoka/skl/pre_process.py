@@ -648,8 +648,7 @@ def rbst_scaler(trfm, col_names):
                     dataType="double",  # <---------------------
                     valueOf_="{:.16f}".format(trfm.center_[col_name_idx])
                 )],
-                FieldRef=[pml.FieldRef(field=col_names[col_name_idx])],
-                Extension=[pml.Extension(name='scaling', anytypeobjs_=['RobustScaler'])]
+                FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
             ))
             apply_outer = pml.Apply(
                 Apply_member=apply_inner,
