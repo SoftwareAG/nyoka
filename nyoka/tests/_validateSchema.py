@@ -397,7 +397,6 @@ class PmmlValidation(unittest.TestCase):
     def test_validate_isolation_forest(self):
         iris = datasets.load_iris()
         X = iris.data
-        y = iris.target
         features = iris.feature_names
         model = IsolationForest()
         pipeline = Pipeline([
@@ -405,12 +404,12 @@ class PmmlValidation(unittest.TestCase):
             ('Imputer',Imputer()),
             ('model',model)
         ])
-        pipeline.fit(X,y)
+        pipeline.fit(X)
         file_name = model.__class__.__name__+'.pmml'
-        skl_to_pmml(pipeline, features , file_name)
+        skl_to_pmml(pipeline, features ,pmml_f_name= file_name)
         self.assertEqual(self.schema.is_valid(file_name), True)
 
-    def test_validate_isolation_forest(self):
+    def test_validate_ocsvm(self):
         iris = datasets.load_iris()
         X = iris.data
         y = iris.target
@@ -423,7 +422,7 @@ class PmmlValidation(unittest.TestCase):
         ])
         pipeline.fit(X,y)
         file_name = model.__class__.__name__+'.pmml'
-        skl_to_pmml(pipeline, features , file_name)
+        skl_to_pmml(pipeline, features ,pmml_f_name= file_name)
         self.assertEqual(self.schema.is_valid(file_name), True)
 
     def test_validate_lag(self):
@@ -438,7 +437,7 @@ class PmmlValidation(unittest.TestCase):
         ])
         pipeline.fit(X,y)
         file_name = model.__class__.__name__+'lag_stddev.pmml'
-        skl_to_pmml(pipeline, features , file_name)
+        skl_to_pmml(pipeline, features , 'species',pmml_f_name= file_name)
         self.assertEqual(self.schema.is_valid(file_name), True)
 
     def test_validate_keras_mobilenet(self):

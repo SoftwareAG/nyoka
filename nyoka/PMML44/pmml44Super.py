@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Jul  9 16:23:43 2019 by generateDS.py version 2.28a.
+# Generated Tue Jul 30 13:07:15 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -6636,9 +6636,10 @@ class MiningModel(GeneratedsSuper):
 class Segmentation(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, multipleModelMethod=None, missingThreshold='1', Extension=None, Segment=None):
+    def __init__(self, multipleModelMethod=None, missingPredictionTreatment='continue', missingThreshold='1', Extension=None, Segment=None):
         self.original_tagname_ = None
         self.multipleModelMethod = _cast(None, multipleModelMethod)
+        self.missingPredictionTreatment = _cast(None, missingPredictionTreatment)
         self.missingThreshold = _cast(None, missingThreshold)
         if Extension is None:
             self.Extension = []
@@ -6671,6 +6672,8 @@ class Segmentation(GeneratedsSuper):
     def replace_Segment_at(self, index, value): self.Segment[index] = value
     def get_multipleModelMethod(self): return self.multipleModelMethod
     def set_multipleModelMethod(self, multipleModelMethod): self.multipleModelMethod = multipleModelMethod
+    def get_missingPredictionTreatment(self): return self.missingPredictionTreatment
+    def set_missingPredictionTreatment(self, missingPredictionTreatment): self.missingPredictionTreatment = missingPredictionTreatment
     def get_missingThreshold(self): return self.missingThreshold
     def set_missingThreshold(self, missingThreshold): self.missingThreshold = missingThreshold
     def validate_MULTIPLE_MODEL_METHOD(self, value):
@@ -6685,6 +6688,18 @@ class Segmentation(GeneratedsSuper):
                     break
             if not enumeration_respectee:
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on MULTIPLE-MODEL-METHOD' % {"value" : value.encode("utf-8")} )
+    def validate_MISSING_PREDICTION_TREATMENT(self, value):
+        # Validate type MISSING-PREDICTION-TREATMENT, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_:
+            value = str(value)
+            enumerations = ['returnMissing', 'skipSegment', 'continue']
+            enumeration_respectee = False
+            for enum in enumerations:
+                if value == enum:
+                    enumeration_respectee = True
+                    break
+            if not enumeration_respectee:
+                warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on MISSING-PREDICTION-TREATMENT' % {"value" : value.encode("utf-8")} )
     def validate_PROB_NUMBER(self, value):
         # Validate type PROB-NUMBER, a restriction on xs:double.
         if value is not None and Validate_simpletypes_:
@@ -6722,6 +6737,9 @@ class Segmentation(GeneratedsSuper):
         if self.multipleModelMethod is not None and 'multipleModelMethod' not in already_processed:
             already_processed.add('multipleModelMethod')
             outfile.write(' multipleModelMethod=%s' % (quote_attrib(self.multipleModelMethod), ))
+        if self.missingPredictionTreatment != "continue" and 'missingPredictionTreatment' not in already_processed:
+            already_processed.add('missingPredictionTreatment')
+            outfile.write(' missingPredictionTreatment=%s' % (quote_attrib(self.missingPredictionTreatment), ))
         if self.missingThreshold is not None and 'missingThreshold' not in already_processed:
             already_processed.add('missingThreshold')
             outfile.write(' missingThreshold=%s' % (quote_attrib(self.missingThreshold), ))
@@ -6741,6 +6759,8 @@ class Segmentation(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.multipleModelMethod is not None:
             element.set('multipleModelMethod', self.multipleModelMethod)
+        if self.missingPredictionTreatment is not None:
+            element.set('missingPredictionTreatment', self.missingPredictionTreatment)
         if self.missingThreshold is not None:
             element.set('missingThreshold', self.missingThreshold)
         for Extension_ in self.Extension:
@@ -6761,6 +6781,10 @@ class Segmentation(GeneratedsSuper):
             already_processed.add('multipleModelMethod')
             showIndent(outfile, level)
             outfile.write('multipleModelMethod="%s",\n' % (self.multipleModelMethod,))
+        if self.missingPredictionTreatment is not None and 'missingPredictionTreatment' not in already_processed:
+            already_processed.add('missingPredictionTreatment')
+            showIndent(outfile, level)
+            outfile.write('missingPredictionTreatment="%s",\n' % (self.missingPredictionTreatment,))
         if self.missingThreshold is not None and 'missingThreshold' not in already_processed:
             already_processed.add('missingThreshold')
             showIndent(outfile, level)
@@ -6803,6 +6827,11 @@ class Segmentation(GeneratedsSuper):
             already_processed.add('multipleModelMethod')
             self.multipleModelMethod = value
             self.validate_MULTIPLE_MODEL_METHOD(self.multipleModelMethod)    # validate type MULTIPLE-MODEL-METHOD
+        value = find_attr_value_('missingPredictionTreatment', node)
+        if value is not None and 'missingPredictionTreatment' not in already_processed:
+            already_processed.add('missingPredictionTreatment')
+            self.missingPredictionTreatment = value
+            self.validate_MISSING_PREDICTION_TREATMENT(self.missingPredictionTreatment)    # validate type MISSING-PREDICTION-TREATMENT
         value = find_attr_value_('missingThreshold', node)
         if value is not None and 'missingThreshold' not in already_processed:
             already_processed.add('missingThreshold')
@@ -6828,7 +6857,7 @@ class Segmentation(GeneratedsSuper):
 class Segment(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, id=None, weight='1', Extension=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, AnomalyDetectionModel=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, VariableWeight=None):
+    def __init__(self, id=None, weight='1', Extension=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, AnomalyDetectionModel=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, VariableWeight=None):
         self.original_tagname_ = None
         self.id = _cast(None, id)
         self.weight = _cast(None, weight)
@@ -6841,12 +6870,12 @@ class Segment(GeneratedsSuper):
         self.SimpleSetPredicate = SimpleSetPredicate
         self.True_ = True_
         self.False_ = False_
+        self.AnomalyDetectionModel = AnomalyDetectionModel
         self.AssociationModel = AssociationModel
         self.BayesianNetworkModel = BayesianNetworkModel
         self.BaselineModel = BaselineModel
         self.ClusteringModel = ClusteringModel
         self.DeepNetwork = DeepNetwork
-        self.AnomalyDetectionModel = AnomalyDetectionModel
         self.GaussianProcessModel = GaussianProcessModel
         self.GeneralRegressionModel = GeneralRegressionModel
         self.MiningModel = MiningModel
@@ -6888,6 +6917,8 @@ class Segment(GeneratedsSuper):
     def set_True(self, True_): self.True_ = True_
     def get_False(self): return self.False_
     def set_False(self, False_): self.False_ = False_
+    def get_AnomalyDetectionModel(self): return self.AnomalyDetectionModel
+    def set_AnomalyDetectionModel(self, AnomalyDetectionModel): self.AnomalyDetectionModel = AnomalyDetectionModel
     def get_AssociationModel(self): return self.AssociationModel
     def set_AssociationModel(self, AssociationModel): self.AssociationModel = AssociationModel
     def get_BayesianNetworkModel(self): return self.BayesianNetworkModel
@@ -6898,8 +6929,6 @@ class Segment(GeneratedsSuper):
     def set_ClusteringModel(self, ClusteringModel): self.ClusteringModel = ClusteringModel
     def get_DeepNetwork(self): return self.DeepNetwork
     def set_DeepNetwork(self, DeepNetwork): self.DeepNetwork = DeepNetwork
-    def get_AnomalyDetectionModel(self): return self.AnomalyDetectionModel
-    def set_AnomalyDetectionModel(self, AnomalyDetectionModel): self.AnomalyDetectionModel = AnomalyDetectionModel
     def get_GaussianProcessModel(self): return self.GaussianProcessModel
     def set_GaussianProcessModel(self, GaussianProcessModel): self.GaussianProcessModel = GaussianProcessModel
     def get_GeneralRegressionModel(self): return self.GeneralRegressionModel
@@ -6946,12 +6975,12 @@ class Segment(GeneratedsSuper):
             self.SimpleSetPredicate is not None or
             self.True_ is not None or
             self.False_ is not None or
+            self.AnomalyDetectionModel is not None or
             self.AssociationModel is not None or
             self.BayesianNetworkModel is not None or
             self.BaselineModel is not None or
             self.ClusteringModel is not None or
             self.DeepNetwork is not None or
-            self.AnomalyDetectionModel is not None or
             self.GaussianProcessModel is not None or
             self.GeneralRegressionModel is not None or
             self.MiningModel is not None or
@@ -7016,6 +7045,8 @@ class Segment(GeneratedsSuper):
             self.True_.export(outfile, level, namespace_, name_='True', pretty_print=pretty_print)
         if self.False_ is not None:
             self.False_.export(outfile, level, namespace_, name_='False', pretty_print=pretty_print)
+        if self.AnomalyDetectionModel is not None:
+            self.AnomalyDetectionModel.export(outfile, level, namespace_, name_='AnomalyDetectionModel', pretty_print=pretty_print)
         if self.AssociationModel is not None:
             self.AssociationModel.export(outfile, level, namespace_, name_='AssociationModel', pretty_print=pretty_print)
         if self.BayesianNetworkModel is not None:
@@ -7026,8 +7057,6 @@ class Segment(GeneratedsSuper):
             self.ClusteringModel.export(outfile, level, namespace_, name_='ClusteringModel', pretty_print=pretty_print)
         if self.DeepNetwork is not None:
             self.DeepNetwork.export(outfile, level, namespace_, name_='DeepNetwork', pretty_print=pretty_print)
-        if self.AnomalyDetectionModel is not None:
-            self.AnomalyDetectionModel.export(outfile, level, namespace_, name_='AnomalyDetectionModel', pretty_print=pretty_print)
         if self.GaussianProcessModel is not None:
             self.GaussianProcessModel.export(outfile, level, namespace_, name_='GaussianProcessModel', pretty_print=pretty_print)
         if self.GeneralRegressionModel is not None:
@@ -7084,6 +7113,9 @@ class Segment(GeneratedsSuper):
         if self.False_ is not None:
             False__ = self.False_
             False__.to_etree(element, name_='False', mapping_=mapping_)
+        if self.AnomalyDetectionModel is not None:
+            AnomalyDetectionModel_ = self.AnomalyDetectionModel
+            AnomalyDetectionModel_.to_etree(element, name_='AnomalyDetectionModel', mapping_=mapping_)
         if self.AssociationModel is not None:
             AssociationModel_ = self.AssociationModel
             AssociationModel_.to_etree(element, name_='AssociationModel', mapping_=mapping_)
@@ -7099,9 +7131,6 @@ class Segment(GeneratedsSuper):
         if self.DeepNetwork is not None:
             DeepNetwork_ = self.DeepNetwork
             DeepNetwork_.to_etree(element, name_='DeepNetwork', mapping_=mapping_)
-        if self.AnomalyDetectionModel is not None:
-            AnomalyDetectionModel_ = self.AnomalyDetectionModel
-            AnomalyDetectionModel_.to_etree(element, name_='AnomalyDetectionModel', mapping_=mapping_)
         if self.GaussianProcessModel is not None:
             GaussianProcessModel_ = self.GaussianProcessModel
             GaussianProcessModel_.to_etree(element, name_='GaussianProcessModel', mapping_=mapping_)
@@ -7208,6 +7237,12 @@ class Segment(GeneratedsSuper):
             self.False_.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
+        if self.AnomalyDetectionModel is not None:
+            showIndent(outfile, level)
+            outfile.write('AnomalyDetectionModel=model_.AnomalyDetectionModel(\n')
+            self.AnomalyDetectionModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
         if self.AssociationModel is not None:
             showIndent(outfile, level)
             outfile.write('AssociationModel=model_.AssociationModel(\n')
@@ -7236,12 +7271,6 @@ class Segment(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('DeepNetwork=model_.DeepNetwork(\n')
             self.DeepNetwork.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.AnomalyDetectionModel is not None:
-            showIndent(outfile, level)
-            outfile.write('AnomalyDetectionModel=model_.AnomalyDetectionModel(\n')
-            self.AnomalyDetectionModel.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.GaussianProcessModel is not None:
@@ -7385,6 +7414,11 @@ class Segment(GeneratedsSuper):
             obj_.build(child_)
             self.False_ = obj_
             obj_.original_tagname_ = 'False'
+        elif nodeName_ == 'AnomalyDetectionModel':
+            obj_ = AnomalyDetectionModel.factory()
+            obj_.build(child_)
+            self.AnomalyDetectionModel = obj_
+            obj_.original_tagname_ = 'AnomalyDetectionModel'
         elif nodeName_ == 'AssociationModel':
             obj_ = AssociationModel.factory()
             obj_.build(child_)
@@ -7410,11 +7444,6 @@ class Segment(GeneratedsSuper):
             obj_.build(child_)
             self.DeepNetwork = obj_
             obj_.original_tagname_ = 'DeepNetwork'
-        elif nodeName_ == 'AnomalyDetectionModel':
-            obj_ = AnomalyDetectionModel.factory()
-            obj_.build(child_)
-            self.AnomalyDetectionModel = obj_
-            obj_.original_tagname_ = 'AnomalyDetectionModel'
         elif nodeName_ == 'GaussianProcessModel':
             obj_ = GaussianProcessModel.factory()
             obj_.build(child_)
@@ -7697,7 +7726,7 @@ class ResultField(GeneratedsSuper):
         # Validate type RESULT-FEATURE, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
             value = str(value)
-            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'anomaly', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage']
+            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage']
             enumeration_respectee = False
             for enum in enumerations:
                 if value == enum:
@@ -11184,13 +11213,17 @@ class Coefficient(GeneratedsSuper):
 class PMML(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, version=None, Header=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, AnomalyDetectionModel=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def __init__(self, version=None, Header=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AnomalyDetectionModel=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = _cast(None, version)
         self.Header = Header
         self.MiningBuildTask = MiningBuildTask
         self.DataDictionary = DataDictionary
         self.TransformationDictionary = TransformationDictionary
+        if AnomalyDetectionModel is None:
+            self.AnomalyDetectionModel = []
+        else:
+            self.AnomalyDetectionModel = AnomalyDetectionModel
         if AssociationModel is None:
             self.AssociationModel = []
         else:
@@ -11211,10 +11244,6 @@ class PMML(GeneratedsSuper):
             self.DeepNetwork = []
         else:
             self.DeepNetwork = DeepNetwork
-        if AnomalyDetectionModel is None:
-            self.AnomalyDetectionModel = []
-        else:
-            self.AnomalyDetectionModel = AnomalyDetectionModel
         if GaussianProcessModel is None:
             self.GaussianProcessModel = []
         else:
@@ -11294,6 +11323,11 @@ class PMML(GeneratedsSuper):
     def set_DataDictionary(self, DataDictionary): self.DataDictionary = DataDictionary
     def get_TransformationDictionary(self): return self.TransformationDictionary
     def set_TransformationDictionary(self, TransformationDictionary): self.TransformationDictionary = TransformationDictionary
+    def get_AnomalyDetectionModel(self): return self.AnomalyDetectionModel
+    def set_AnomalyDetectionModel(self, AnomalyDetectionModel): self.AnomalyDetectionModel = AnomalyDetectionModel
+    def add_AnomalyDetectionModel(self, value): self.AnomalyDetectionModel.append(value)
+    def insert_AnomalyDetectionModel_at(self, index, value): self.AnomalyDetectionModel.insert(index, value)
+    def replace_AnomalyDetectionModel_at(self, index, value): self.AnomalyDetectionModel[index] = value
     def get_AssociationModel(self): return self.AssociationModel
     def set_AssociationModel(self, AssociationModel): self.AssociationModel = AssociationModel
     def add_AssociationModel(self, value): self.AssociationModel.append(value)
@@ -11319,11 +11353,6 @@ class PMML(GeneratedsSuper):
     def add_DeepNetwork(self, value): self.DeepNetwork.append(value)
     def insert_DeepNetwork_at(self, index, value): self.DeepNetwork.insert(index, value)
     def replace_DeepNetwork_at(self, index, value): self.DeepNetwork[index] = value
-    def get_AnomalyDetectionModel(self): return self.AnomalyDetectionModel
-    def set_AnomalyDetectionModel(self, AnomalyDetectionModel): self.AnomalyDetectionModel = AnomalyDetectionModel
-    def add_AnomalyDetectionModel(self, value): self.AnomalyDetectionModel.append(value)
-    def insert_AnomalyDetectionModel_at(self, index, value): self.AnomalyDetectionModel.insert(index, value)
-    def replace_AnomalyDetectionModel_at(self, index, value): self.AnomalyDetectionModel[index] = value
     def get_GaussianProcessModel(self): return self.GaussianProcessModel
     def set_GaussianProcessModel(self, GaussianProcessModel): self.GaussianProcessModel = GaussianProcessModel
     def add_GaussianProcessModel(self, value): self.GaussianProcessModel.append(value)
@@ -11407,12 +11436,12 @@ class PMML(GeneratedsSuper):
             self.MiningBuildTask is not None or
             self.DataDictionary is not None or
             self.TransformationDictionary is not None or
+            self.AnomalyDetectionModel or
             self.AssociationModel or
             self.BayesianNetworkModel or
             self.BaselineModel or
             self.ClusteringModel or
             self.DeepNetwork or
-            self.AnomalyDetectionModel or
             self.GaussianProcessModel or
             self.GeneralRegressionModel or
             self.MiningModel or
@@ -11470,6 +11499,8 @@ class PMML(GeneratedsSuper):
             self.DataDictionary.export(outfile, level, namespace_, name_='DataDictionary', pretty_print=pretty_print)
         if self.TransformationDictionary is not None:
             self.TransformationDictionary.export(outfile, level, namespace_, name_='TransformationDictionary', pretty_print=pretty_print)
+        for AnomalyDetectionModel_ in self.AnomalyDetectionModel:
+            AnomalyDetectionModel_.export(outfile, level, namespace_, name_='AnomalyDetectionModel', pretty_print=pretty_print)
         for AssociationModel_ in self.AssociationModel:
             AssociationModel_.export(outfile, level, namespace_, name_='AssociationModel', pretty_print=pretty_print)
         for BayesianNetworkModel_ in self.BayesianNetworkModel:
@@ -11480,8 +11511,6 @@ class PMML(GeneratedsSuper):
             ClusteringModel_.export(outfile, level, namespace_, name_='ClusteringModel', pretty_print=pretty_print)
         for DeepNetwork_ in self.DeepNetwork:
             DeepNetwork_.export(outfile, level, namespace_, name_='DeepNetwork', pretty_print=pretty_print)
-        for AnomalyDetectionModel_ in self.AnomalyDetectionModel:
-            AnomalyDetectionModel_.export(outfile, level, namespace_, name_='AnomalyDetectionModel', pretty_print=pretty_print)
         for GaussianProcessModel_ in self.GaussianProcessModel:
             GaussianProcessModel_.export(outfile, level, namespace_, name_='GaussianProcessModel', pretty_print=pretty_print)
         for GeneralRegressionModel_ in self.GeneralRegressionModel:
@@ -11531,6 +11560,8 @@ class PMML(GeneratedsSuper):
         if self.TransformationDictionary is not None:
             TransformationDictionary_ = self.TransformationDictionary
             TransformationDictionary_.to_etree(element, name_='TransformationDictionary', mapping_=mapping_)
+        for AnomalyDetectionModel_ in self.AnomalyDetectionModel:
+            AnomalyDetectionModel_.to_etree(element, name_='AnomalyDetectionModel', mapping_=mapping_)
         for AssociationModel_ in self.AssociationModel:
             AssociationModel_.to_etree(element, name_='AssociationModel', mapping_=mapping_)
         for BayesianNetworkModel_ in self.BayesianNetworkModel:
@@ -11541,8 +11572,6 @@ class PMML(GeneratedsSuper):
             ClusteringModel_.to_etree(element, name_='ClusteringModel', mapping_=mapping_)
         for DeepNetwork_ in self.DeepNetwork:
             DeepNetwork_.to_etree(element, name_='DeepNetwork', mapping_=mapping_)
-        for AnomalyDetectionModel_ in self.AnomalyDetectionModel:
-            AnomalyDetectionModel_.to_etree(element, name_='AnomalyDetectionModel', mapping_=mapping_)
         for GaussianProcessModel_ in self.GaussianProcessModel:
             GaussianProcessModel_.to_etree(element, name_='GaussianProcessModel', mapping_=mapping_)
         for GeneralRegressionModel_ in self.GeneralRegressionModel:
@@ -11613,6 +11642,18 @@ class PMML(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('),\n')
         showIndent(outfile, level)
+        outfile.write('AnomalyDetectionModel=[\n')
+        level += 1
+        for AnomalyDetectionModel_ in self.AnomalyDetectionModel:
+            showIndent(outfile, level)
+            outfile.write('model_.AnomalyDetectionModel(\n')
+            AnomalyDetectionModel_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
         outfile.write('AssociationModel=[\n')
         level += 1
         for AssociationModel_ in self.AssociationModel:
@@ -11667,18 +11708,6 @@ class PMML(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('model_.DeepNetwork(\n')
             DeepNetwork_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('AnomalyDetectionModel=[\n')
-        level += 1
-        for AnomalyDetectionModel_ in self.AnomalyDetectionModel:
-            showIndent(outfile, level)
-            outfile.write('model_.AnomalyDetectionModel(\n')
-            AnomalyDetectionModel_.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -11897,6 +11926,11 @@ class PMML(GeneratedsSuper):
             obj_.build(child_)
             self.TransformationDictionary = obj_
             obj_.original_tagname_ = 'TransformationDictionary'
+        elif nodeName_ == 'AnomalyDetectionModel':
+            obj_ = AnomalyDetectionModel.factory()
+            obj_.build(child_)
+            self.AnomalyDetectionModel.append(obj_)
+            obj_.original_tagname_ = 'AnomalyDetectionModel'
         elif nodeName_ == 'AssociationModel':
             obj_ = AssociationModel.factory()
             obj_.build(child_)
@@ -11922,11 +11956,6 @@ class PMML(GeneratedsSuper):
             obj_.build(child_)
             self.DeepNetwork.append(obj_)
             obj_.original_tagname_ = 'DeepNetwork'
-        elif nodeName_ == 'AnomalyDetectionModel':
-            obj_ = AnomalyDetectionModel.factory()
-            obj_.build(child_)
-            self.AnomalyDetectionModel.append(obj_)
-            obj_.original_tagname_ = 'AnomalyDetectionModel'
         elif nodeName_ == 'GaussianProcessModel':
             obj_ = GaussianProcessModel.factory()
             obj_.build(child_)
@@ -21441,10 +21470,10 @@ class AssociationRule(GeneratedsSuper):
             outfile.write(' confidence=%s' % (quote_attrib(self.confidence), ))
         if self.lift is not None and 'lift' not in already_processed:
             already_processed.add('lift')
-            outfile.write(' lift="%s"' % self.gds_format_float(self.lift, input_name='lift'))
+            outfile.write(' lift="%s"' % self.gds_format_double(self.lift, input_name='lift'))
         if self.leverage is not None and 'leverage' not in already_processed:
             already_processed.add('leverage')
-            outfile.write(' leverage="%s"' % self.gds_format_float(self.leverage, input_name='leverage'))
+            outfile.write(' leverage="%s"' % self.gds_format_double(self.leverage, input_name='leverage'))
         if self.affinity is not None and 'affinity' not in already_processed:
             already_processed.add('affinity')
             outfile.write(' affinity=%s' % (quote_attrib(self.affinity), ))
@@ -21472,9 +21501,9 @@ class AssociationRule(GeneratedsSuper):
         if self.confidence is not None:
             element.set('confidence', self.confidence)
         if self.lift is not None:
-            element.set('lift', self.gds_format_float(self.lift))
+            element.set('lift', self.gds_format_double(self.lift))
         if self.leverage is not None:
-            element.set('leverage', self.gds_format_float(self.leverage))
+            element.set('leverage', self.gds_format_double(self.leverage))
         if self.affinity is not None:
             element.set('affinity', self.affinity)
         if self.id is not None:
@@ -21510,11 +21539,11 @@ class AssociationRule(GeneratedsSuper):
         if self.lift is not None and 'lift' not in already_processed:
             already_processed.add('lift')
             showIndent(outfile, level)
-            outfile.write('lift=%f,\n' % (self.lift,))
+            outfile.write('lift=%e,\n' % (self.lift,))
         if self.leverage is not None and 'leverage' not in already_processed:
             already_processed.add('leverage')
             showIndent(outfile, level)
-            outfile.write('leverage=%f,\n' % (self.leverage,))
+            outfile.write('leverage=%e,\n' % (self.leverage,))
         if self.affinity is not None and 'affinity' not in already_processed:
             already_processed.add('affinity')
             showIndent(outfile, level)
@@ -21601,704 +21630,6 @@ class AssociationRule(GeneratedsSuper):
             self.Extension.append(obj_)
             obj_.original_tagname_ = 'Extension'
 # end class AssociationRule
-
-
-class AnomalyDetectionModel(GeneratedsSuper):
-    subclass = None
-    superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, algorithmType=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, AnomalyDetectionModel_member=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
-        self.original_tagname_ = None
-        self.modelName = _cast(None, modelName)
-        self.functionName = _cast(None, functionName)
-        self.algorithmName = _cast(None, algorithmName)
-        self.algorithmType = _cast(None, algorithmType)
-        self.MiningSchema = MiningSchema
-        self.Output = Output
-        self.LocalTransformations = LocalTransformations
-        self.ParameterList = ParameterList
-        self.ModelVerification = ModelVerification
-        self.AssociationModel = AssociationModel
-        self.BayesianNetworkModel = BayesianNetworkModel
-        self.BaselineModel = BaselineModel
-        self.ClusteringModel = ClusteringModel
-        self.DeepNetwork = DeepNetwork
-        self.AnomalyDetectionModel = AnomalyDetectionModel_member
-        self.GaussianProcessModel = GaussianProcessModel
-        self.GeneralRegressionModel = GeneralRegressionModel
-        self.MiningModel = MiningModel
-        self.NaiveBayesModel = NaiveBayesModel
-        self.NearestNeighborModel = NearestNeighborModel
-        self.NeuralNetwork = NeuralNetwork
-        self.RegressionModel = RegressionModel
-        self.RuleSetModel = RuleSetModel
-        self.SequenceModel = SequenceModel
-        self.Scorecard = Scorecard
-        self.SupportVectorMachineModel = SupportVectorMachineModel
-        self.TextModel = TextModel
-        self.TimeSeriesModel = TimeSeriesModel
-        self.TreeModel = TreeModel
-        if Extension is None:
-            self.Extension = []
-        else:
-            self.Extension = Extension
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, AnomalyDetectionModel)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if AnomalyDetectionModel.subclass:
-            return AnomalyDetectionModel.subclass(*args_, **kwargs_)
-        else:
-            return AnomalyDetectionModel(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_MiningSchema(self): return self.MiningSchema
-    def set_MiningSchema(self, MiningSchema): self.MiningSchema = MiningSchema
-    def get_Output(self): return self.Output
-    def set_Output(self, Output): self.Output = Output
-    def get_LocalTransformations(self): return self.LocalTransformations
-    def set_LocalTransformations(self, LocalTransformations): self.LocalTransformations = LocalTransformations
-    def get_ParameterList(self): return self.ParameterList
-    def set_ParameterList(self, ParameterList): self.ParameterList = ParameterList
-    def get_ModelVerification(self): return self.ModelVerification
-    def set_ModelVerification(self, ModelVerification): self.ModelVerification = ModelVerification
-    def get_AssociationModel(self): return self.AssociationModel
-    def set_AssociationModel(self, AssociationModel): self.AssociationModel = AssociationModel
-    def get_BayesianNetworkModel(self): return self.BayesianNetworkModel
-    def set_BayesianNetworkModel(self, BayesianNetworkModel): self.BayesianNetworkModel = BayesianNetworkModel
-    def get_BaselineModel(self): return self.BaselineModel
-    def set_BaselineModel(self, BaselineModel): self.BaselineModel = BaselineModel
-    def get_ClusteringModel(self): return self.ClusteringModel
-    def set_ClusteringModel(self, ClusteringModel): self.ClusteringModel = ClusteringModel
-    def get_DeepNetwork(self): return self.DeepNetwork
-    def set_DeepNetwork(self, DeepNetwork): self.DeepNetwork = DeepNetwork
-    def get_AnomalyDetectionModel(self): return self.AnomalyDetectionModel
-    def set_AnomalyDetectionModel(self, AnomalyDetectionModel): self.AnomalyDetectionModel = AnomalyDetectionModel
-    def get_GaussianProcessModel(self): return self.GaussianProcessModel
-    def set_GaussianProcessModel(self, GaussianProcessModel): self.GaussianProcessModel = GaussianProcessModel
-    def get_GeneralRegressionModel(self): return self.GeneralRegressionModel
-    def set_GeneralRegressionModel(self, GeneralRegressionModel): self.GeneralRegressionModel = GeneralRegressionModel
-    def get_MiningModel(self): return self.MiningModel
-    def set_MiningModel(self, MiningModel): self.MiningModel = MiningModel
-    def get_NaiveBayesModel(self): return self.NaiveBayesModel
-    def set_NaiveBayesModel(self, NaiveBayesModel): self.NaiveBayesModel = NaiveBayesModel
-    def get_NearestNeighborModel(self): return self.NearestNeighborModel
-    def set_NearestNeighborModel(self, NearestNeighborModel): self.NearestNeighborModel = NearestNeighborModel
-    def get_NeuralNetwork(self): return self.NeuralNetwork
-    def set_NeuralNetwork(self, NeuralNetwork): self.NeuralNetwork = NeuralNetwork
-    def get_RegressionModel(self): return self.RegressionModel
-    def set_RegressionModel(self, RegressionModel): self.RegressionModel = RegressionModel
-    def get_RuleSetModel(self): return self.RuleSetModel
-    def set_RuleSetModel(self, RuleSetModel): self.RuleSetModel = RuleSetModel
-    def get_SequenceModel(self): return self.SequenceModel
-    def set_SequenceModel(self, SequenceModel): self.SequenceModel = SequenceModel
-    def get_Scorecard(self): return self.Scorecard
-    def set_Scorecard(self, Scorecard): self.Scorecard = Scorecard
-    def get_SupportVectorMachineModel(self): return self.SupportVectorMachineModel
-    def set_SupportVectorMachineModel(self, SupportVectorMachineModel): self.SupportVectorMachineModel = SupportVectorMachineModel
-    def get_TextModel(self): return self.TextModel
-    def set_TextModel(self, TextModel): self.TextModel = TextModel
-    def get_TimeSeriesModel(self): return self.TimeSeriesModel
-    def set_TimeSeriesModel(self, TimeSeriesModel): self.TimeSeriesModel = TimeSeriesModel
-    def get_TreeModel(self): return self.TreeModel
-    def set_TreeModel(self, TreeModel): self.TreeModel = TreeModel
-    def get_Extension(self): return self.Extension
-    def set_Extension(self, Extension): self.Extension = Extension
-    def add_Extension(self, value): self.Extension.append(value)
-    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
-    def replace_Extension_at(self, index, value): self.Extension[index] = value
-    def get_modelName(self): return self.modelName
-    def set_modelName(self, modelName): self.modelName = modelName
-    def get_functionName(self): return self.functionName
-    def set_functionName(self, functionName): self.functionName = functionName
-    def get_algorithmName(self): return self.algorithmName
-    def set_algorithmName(self, algorithmName): self.algorithmName = algorithmName
-    def get_algorithmType(self): return self.algorithmType
-    def set_algorithmType(self, algorithmType): self.algorithmType = algorithmType
-    def validate_MINING_FUNCTION(self, value):
-        # Validate type MINING-FUNCTION, a restriction on xs:string.
-        if value is not None and Validate_simpletypes_:
-            value = str(value)
-            enumerations = ['associationRules', 'sequences', 'classification', 'regression', 'clustering', 'timeSeries', 'mixed']
-            enumeration_respectee = False
-            for enum in enumerations:
-                if value == enum:
-                    enumeration_respectee = True
-                    break
-            if not enumeration_respectee:
-                warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on MINING-FUNCTION' % {"value" : value.encode("utf-8")} )
-    def validate_ALGORITHM_TYPE(self, value):
-        # Validate type ALGORITHM-TYPE, a restriction on xs:string.
-        if value is not None and Validate_simpletypes_:
-            value = str(value)
-            enumerations = ['iforest', 'fpi', 'fpof', 'ocsvm']
-            enumeration_respectee = False
-            for enum in enumerations:
-                if value == enum:
-                    enumeration_respectee = True
-                    break
-            if not enumeration_respectee:
-                warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on ALGORITHM-TYPE' % {"value" : value.encode("utf-8")} )
-    def hasContent_(self):
-        if (
-            self.MiningSchema is not None or
-            self.Output is not None or
-            self.LocalTransformations is not None or
-            self.ParameterList is not None or
-            self.ModelVerification is not None or
-            self.AssociationModel is not None or
-            self.BayesianNetworkModel is not None or
-            self.BaselineModel is not None or
-            self.ClusteringModel is not None or
-            self.DeepNetwork is not None or
-            self.AnomalyDetectionModel is not None or
-            self.GaussianProcessModel is not None or
-            self.GeneralRegressionModel is not None or
-            self.MiningModel is not None or
-            self.NaiveBayesModel is not None or
-            self.NearestNeighborModel is not None or
-            self.NeuralNetwork is not None or
-            self.RegressionModel is not None or
-            self.RuleSetModel is not None or
-            self.SequenceModel is not None or
-            self.Scorecard is not None or
-            self.SupportVectorMachineModel is not None or
-            self.TextModel is not None or
-            self.TimeSeriesModel is not None or
-            self.TreeModel is not None or
-            self.Extension
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespace_='', name_='AnomalyDetectionModel', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('AnomalyDetectionModel')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AnomalyDetectionModel')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_='', name_='AnomalyDetectionModel', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='AnomalyDetectionModel'):
-        if self.modelName is not None and 'modelName' not in already_processed:
-            already_processed.add('modelName')
-            outfile.write(' modelName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.modelName), input_name='modelName')), ))
-        if self.functionName is not None and 'functionName' not in already_processed:
-            already_processed.add('functionName')
-            outfile.write(' functionName=%s' % (quote_attrib(self.functionName), ))
-        if self.algorithmName is not None and 'algorithmName' not in already_processed:
-            already_processed.add('algorithmName')
-            outfile.write(' algorithmName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.algorithmName), input_name='algorithmName')), ))
-        if self.algorithmType is not None and 'algorithmType' not in already_processed:
-            already_processed.add('algorithmType')
-            outfile.write(' algorithmType=%s' % (quote_attrib(self.algorithmType), ))
-    def exportChildren(self, outfile, level, namespace_='', name_='AnomalyDetectionModel', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.MiningSchema is not None:
-            self.MiningSchema.export(outfile, level, namespace_, name_='MiningSchema', pretty_print=pretty_print)
-        if self.Output is not None:
-            self.Output.export(outfile, level, namespace_, name_='Output', pretty_print=pretty_print)
-        if self.LocalTransformations is not None:
-            self.LocalTransformations.export(outfile, level, namespace_, name_='LocalTransformations', pretty_print=pretty_print)
-        if self.ParameterList is not None:
-            self.ParameterList.export(outfile, level, namespace_, name_='ParameterList', pretty_print=pretty_print)
-        if self.ModelVerification is not None:
-            self.ModelVerification.export(outfile, level, namespace_, name_='ModelVerification', pretty_print=pretty_print)
-        if self.AssociationModel is not None:
-            self.AssociationModel.export(outfile, level, namespace_, name_='AssociationModel', pretty_print=pretty_print)
-        if self.BayesianNetworkModel is not None:
-            self.BayesianNetworkModel.export(outfile, level, namespace_, name_='BayesianNetworkModel', pretty_print=pretty_print)
-        if self.BaselineModel is not None:
-            self.BaselineModel.export(outfile, level, namespace_, name_='BaselineModel', pretty_print=pretty_print)
-        if self.ClusteringModel is not None:
-            self.ClusteringModel.export(outfile, level, namespace_, name_='ClusteringModel', pretty_print=pretty_print)
-        if self.DeepNetwork is not None:
-            self.DeepNetwork.export(outfile, level, namespace_, name_='DeepNetwork', pretty_print=pretty_print)
-        if self.AnomalyDetectionModel is not None:
-            self.AnomalyDetectionModel.export(outfile, level, namespace_, name_='AnomalyDetectionModel', pretty_print=pretty_print)
-        if self.GaussianProcessModel is not None:
-            self.GaussianProcessModel.export(outfile, level, namespace_, name_='GaussianProcessModel', pretty_print=pretty_print)
-        if self.GeneralRegressionModel is not None:
-            self.GeneralRegressionModel.export(outfile, level, namespace_, name_='GeneralRegressionModel', pretty_print=pretty_print)
-        if self.MiningModel is not None:
-            self.MiningModel.export(outfile, level, namespace_, name_='MiningModel', pretty_print=pretty_print)
-        if self.NaiveBayesModel is not None:
-            self.NaiveBayesModel.export(outfile, level, namespace_, name_='NaiveBayesModel', pretty_print=pretty_print)
-        if self.NearestNeighborModel is not None:
-            self.NearestNeighborModel.export(outfile, level, namespace_, name_='NearestNeighborModel', pretty_print=pretty_print)
-        if self.NeuralNetwork is not None:
-            self.NeuralNetwork.export(outfile, level, namespace_, name_='NeuralNetwork', pretty_print=pretty_print)
-        if self.RegressionModel is not None:
-            self.RegressionModel.export(outfile, level, namespace_, name_='RegressionModel', pretty_print=pretty_print)
-        if self.RuleSetModel is not None:
-            self.RuleSetModel.export(outfile, level, namespace_, name_='RuleSetModel', pretty_print=pretty_print)
-        if self.SequenceModel is not None:
-            self.SequenceModel.export(outfile, level, namespace_, name_='SequenceModel', pretty_print=pretty_print)
-        if self.Scorecard is not None:
-            self.Scorecard.export(outfile, level, namespace_, name_='Scorecard', pretty_print=pretty_print)
-        if self.SupportVectorMachineModel is not None:
-            self.SupportVectorMachineModel.export(outfile, level, namespace_, name_='SupportVectorMachineModel', pretty_print=pretty_print)
-        if self.TextModel is not None:
-            self.TextModel.export(outfile, level, namespace_, name_='TextModel', pretty_print=pretty_print)
-        if self.TimeSeriesModel is not None:
-            self.TimeSeriesModel.export(outfile, level, namespace_, name_='TimeSeriesModel', pretty_print=pretty_print)
-        if self.TreeModel is not None:
-            self.TreeModel.export(outfile, level, namespace_, name_='TreeModel', pretty_print=pretty_print)
-        for Extension_ in self.Extension:
-            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='AnomalyDetectionModel', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
-        if self.modelName is not None:
-            element.set('modelName', self.gds_format_string(self.modelName))
-        if self.functionName is not None:
-            element.set('functionName', self.functionName)
-        if self.algorithmName is not None:
-            element.set('algorithmName', self.gds_format_string(self.algorithmName))
-        if self.algorithmType is not None:
-            element.set('algorithmType', self.algorithmType)
-        if self.MiningSchema is not None:
-            MiningSchema_ = self.MiningSchema
-            MiningSchema_.to_etree(element, name_='MiningSchema', mapping_=mapping_)
-        if self.Output is not None:
-            Output_ = self.Output
-            Output_.to_etree(element, name_='Output', mapping_=mapping_)
-        if self.LocalTransformations is not None:
-            LocalTransformations_ = self.LocalTransformations
-            LocalTransformations_.to_etree(element, name_='LocalTransformations', mapping_=mapping_)
-        if self.ParameterList is not None:
-            ParameterList_ = self.ParameterList
-            ParameterList_.to_etree(element, name_='ParameterList', mapping_=mapping_)
-        if self.ModelVerification is not None:
-            ModelVerification_ = self.ModelVerification
-            ModelVerification_.to_etree(element, name_='ModelVerification', mapping_=mapping_)
-        if self.AssociationModel is not None:
-            AssociationModel_ = self.AssociationModel
-            AssociationModel_.to_etree(element, name_='AssociationModel', mapping_=mapping_)
-        if self.BayesianNetworkModel is not None:
-            BayesianNetworkModel_ = self.BayesianNetworkModel
-            BayesianNetworkModel_.to_etree(element, name_='BayesianNetworkModel', mapping_=mapping_)
-        if self.BaselineModel is not None:
-            BaselineModel_ = self.BaselineModel
-            BaselineModel_.to_etree(element, name_='BaselineModel', mapping_=mapping_)
-        if self.ClusteringModel is not None:
-            ClusteringModel_ = self.ClusteringModel
-            ClusteringModel_.to_etree(element, name_='ClusteringModel', mapping_=mapping_)
-        if self.DeepNetwork is not None:
-            DeepNetwork_ = self.DeepNetwork
-            DeepNetwork_.to_etree(element, name_='DeepNetwork', mapping_=mapping_)
-        if self.AnomalyDetectionModel is not None:
-            AnomalyDetectionModel_ = self.AnomalyDetectionModel
-            AnomalyDetectionModel_.to_etree(element, name_='AnomalyDetectionModel', mapping_=mapping_)
-        if self.GaussianProcessModel is not None:
-            GaussianProcessModel_ = self.GaussianProcessModel
-            GaussianProcessModel_.to_etree(element, name_='GaussianProcessModel', mapping_=mapping_)
-        if self.GeneralRegressionModel is not None:
-            GeneralRegressionModel_ = self.GeneralRegressionModel
-            GeneralRegressionModel_.to_etree(element, name_='GeneralRegressionModel', mapping_=mapping_)
-        if self.MiningModel is not None:
-            MiningModel_ = self.MiningModel
-            MiningModel_.to_etree(element, name_='MiningModel', mapping_=mapping_)
-        if self.NaiveBayesModel is not None:
-            NaiveBayesModel_ = self.NaiveBayesModel
-            NaiveBayesModel_.to_etree(element, name_='NaiveBayesModel', mapping_=mapping_)
-        if self.NearestNeighborModel is not None:
-            NearestNeighborModel_ = self.NearestNeighborModel
-            NearestNeighborModel_.to_etree(element, name_='NearestNeighborModel', mapping_=mapping_)
-        if self.NeuralNetwork is not None:
-            NeuralNetwork_ = self.NeuralNetwork
-            NeuralNetwork_.to_etree(element, name_='NeuralNetwork', mapping_=mapping_)
-        if self.RegressionModel is not None:
-            RegressionModel_ = self.RegressionModel
-            RegressionModel_.to_etree(element, name_='RegressionModel', mapping_=mapping_)
-        if self.RuleSetModel is not None:
-            RuleSetModel_ = self.RuleSetModel
-            RuleSetModel_.to_etree(element, name_='RuleSetModel', mapping_=mapping_)
-        if self.SequenceModel is not None:
-            SequenceModel_ = self.SequenceModel
-            SequenceModel_.to_etree(element, name_='SequenceModel', mapping_=mapping_)
-        if self.Scorecard is not None:
-            Scorecard_ = self.Scorecard
-            Scorecard_.to_etree(element, name_='Scorecard', mapping_=mapping_)
-        if self.SupportVectorMachineModel is not None:
-            SupportVectorMachineModel_ = self.SupportVectorMachineModel
-            SupportVectorMachineModel_.to_etree(element, name_='SupportVectorMachineModel', mapping_=mapping_)
-        if self.TextModel is not None:
-            TextModel_ = self.TextModel
-            TextModel_.to_etree(element, name_='TextModel', mapping_=mapping_)
-        if self.TimeSeriesModel is not None:
-            TimeSeriesModel_ = self.TimeSeriesModel
-            TimeSeriesModel_.to_etree(element, name_='TimeSeriesModel', mapping_=mapping_)
-        if self.TreeModel is not None:
-            TreeModel_ = self.TreeModel
-            TreeModel_.to_etree(element, name_='TreeModel', mapping_=mapping_)
-        for Extension_ in self.Extension:
-            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
-        if mapping_ is not None:
-            mapping_[self] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='AnomalyDetectionModel'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.modelName is not None and 'modelName' not in already_processed:
-            already_processed.add('modelName')
-            showIndent(outfile, level)
-            outfile.write('modelName="%s",\n' % (self.modelName,))
-        if self.functionName is not None and 'functionName' not in already_processed:
-            already_processed.add('functionName')
-            showIndent(outfile, level)
-            outfile.write('functionName="%s",\n' % (self.functionName,))
-        if self.algorithmName is not None and 'algorithmName' not in already_processed:
-            already_processed.add('algorithmName')
-            showIndent(outfile, level)
-            outfile.write('algorithmName="%s",\n' % (self.algorithmName,))
-        if self.algorithmType is not None and 'algorithmType' not in already_processed:
-            already_processed.add('algorithmType')
-            showIndent(outfile, level)
-            outfile.write('algorithmType="%s",\n' % (self.algorithmType,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.MiningSchema is not None:
-            showIndent(outfile, level)
-            outfile.write('MiningSchema=model_.MiningSchema(\n')
-            self.MiningSchema.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Output is not None:
-            showIndent(outfile, level)
-            outfile.write('Output=model_.Output(\n')
-            self.Output.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.LocalTransformations is not None:
-            showIndent(outfile, level)
-            outfile.write('LocalTransformations=model_.LocalTransformations(\n')
-            self.LocalTransformations.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.ParameterList is not None:
-            showIndent(outfile, level)
-            outfile.write('ParameterList=model_.ParameterList(\n')
-            self.ParameterList.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.ModelVerification is not None:
-            showIndent(outfile, level)
-            outfile.write('ModelVerification=model_.ModelVerification(\n')
-            self.ModelVerification.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.AssociationModel is not None:
-            showIndent(outfile, level)
-            outfile.write('AssociationModel=model_.AssociationModel(\n')
-            self.AssociationModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.BayesianNetworkModel is not None:
-            showIndent(outfile, level)
-            outfile.write('BayesianNetworkModel=model_.BayesianNetworkModel(\n')
-            self.BayesianNetworkModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.BaselineModel is not None:
-            showIndent(outfile, level)
-            outfile.write('BaselineModel=model_.BaselineModel(\n')
-            self.BaselineModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.ClusteringModel is not None:
-            showIndent(outfile, level)
-            outfile.write('ClusteringModel=model_.ClusteringModel(\n')
-            self.ClusteringModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.DeepNetwork is not None:
-            showIndent(outfile, level)
-            outfile.write('DeepNetwork=model_.DeepNetwork(\n')
-            self.DeepNetwork.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.AnomalyDetectionModel is not None:
-            showIndent(outfile, level)
-            outfile.write('AnomalyDetectionModel=model_.AnomalyDetectionModel(\n')
-            self.AnomalyDetectionModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.GaussianProcessModel is not None:
-            showIndent(outfile, level)
-            outfile.write('GaussianProcessModel=model_.GaussianProcessModel(\n')
-            self.GaussianProcessModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.GeneralRegressionModel is not None:
-            showIndent(outfile, level)
-            outfile.write('GeneralRegressionModel=model_.GeneralRegressionModel(\n')
-            self.GeneralRegressionModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.MiningModel is not None:
-            showIndent(outfile, level)
-            outfile.write('MiningModel=model_.MiningModel(\n')
-            self.MiningModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.NaiveBayesModel is not None:
-            showIndent(outfile, level)
-            outfile.write('NaiveBayesModel=model_.NaiveBayesModel(\n')
-            self.NaiveBayesModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.NearestNeighborModel is not None:
-            showIndent(outfile, level)
-            outfile.write('NearestNeighborModel=model_.NearestNeighborModel(\n')
-            self.NearestNeighborModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.NeuralNetwork is not None:
-            showIndent(outfile, level)
-            outfile.write('NeuralNetwork=model_.NeuralNetwork(\n')
-            self.NeuralNetwork.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.RegressionModel is not None:
-            showIndent(outfile, level)
-            outfile.write('RegressionModel=model_.RegressionModel(\n')
-            self.RegressionModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.RuleSetModel is not None:
-            showIndent(outfile, level)
-            outfile.write('RuleSetModel=model_.RuleSetModel(\n')
-            self.RuleSetModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.SequenceModel is not None:
-            showIndent(outfile, level)
-            outfile.write('SequenceModel=model_.SequenceModel(\n')
-            self.SequenceModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Scorecard is not None:
-            showIndent(outfile, level)
-            outfile.write('Scorecard=model_.Scorecard(\n')
-            self.Scorecard.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.SupportVectorMachineModel is not None:
-            showIndent(outfile, level)
-            outfile.write('SupportVectorMachineModel=model_.SupportVectorMachineModel(\n')
-            self.SupportVectorMachineModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.TextModel is not None:
-            showIndent(outfile, level)
-            outfile.write('TextModel=model_.TextModel(\n')
-            self.TextModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.TimeSeriesModel is not None:
-            showIndent(outfile, level)
-            outfile.write('TimeSeriesModel=model_.TimeSeriesModel(\n')
-            self.TimeSeriesModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.TreeModel is not None:
-            showIndent(outfile, level)
-            outfile.write('TreeModel=model_.TreeModel(\n')
-            self.TreeModel.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Extension=[\n')
-        level += 1
-        for Extension_ in self.Extension:
-            showIndent(outfile, level)
-            outfile.write('model_.Extension(\n')
-            Extension_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('modelName', node)
-        if value is not None and 'modelName' not in already_processed:
-            already_processed.add('modelName')
-            self.modelName = value
-        value = find_attr_value_('functionName', node)
-        if value is not None and 'functionName' not in already_processed:
-            already_processed.add('functionName')
-            self.functionName = value
-            self.validate_MINING_FUNCTION(self.functionName)    # validate type MINING-FUNCTION
-        value = find_attr_value_('algorithmName', node)
-        if value is not None and 'algorithmName' not in already_processed:
-            already_processed.add('algorithmName')
-            self.algorithmName = value
-        value = find_attr_value_('algorithmType', node)
-        if value is not None and 'algorithmType' not in already_processed:
-            already_processed.add('algorithmType')
-            self.algorithmType = value
-            self.validate_ALGORITHM_TYPE(self.algorithmType)    # validate type ALGORITHM-TYPE
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'MiningSchema':
-            obj_ = MiningSchema.factory()
-            obj_.build(child_)
-            self.MiningSchema = obj_
-            obj_.original_tagname_ = 'MiningSchema'
-        elif nodeName_ == 'Output':
-            obj_ = Output.factory()
-            obj_.build(child_)
-            self.Output = obj_
-            obj_.original_tagname_ = 'Output'
-        elif nodeName_ == 'LocalTransformations':
-            obj_ = LocalTransformations.factory()
-            obj_.build(child_)
-            self.LocalTransformations = obj_
-            obj_.original_tagname_ = 'LocalTransformations'
-        elif nodeName_ == 'ParameterList':
-            obj_ = ParameterList.factory()
-            obj_.build(child_)
-            self.ParameterList = obj_
-            obj_.original_tagname_ = 'ParameterList'
-        elif nodeName_ == 'ModelVerification':
-            obj_ = ModelVerification.factory()
-            obj_.build(child_)
-            self.ModelVerification = obj_
-            obj_.original_tagname_ = 'ModelVerification'
-        elif nodeName_ == 'AssociationModel':
-            obj_ = AssociationModel.factory()
-            obj_.build(child_)
-            self.AssociationModel = obj_
-            obj_.original_tagname_ = 'AssociationModel'
-        elif nodeName_ == 'BayesianNetworkModel':
-            obj_ = BayesianNetworkModel.factory()
-            obj_.build(child_)
-            self.BayesianNetworkModel = obj_
-            obj_.original_tagname_ = 'BayesianNetworkModel'
-        elif nodeName_ == 'BaselineModel':
-            obj_ = BaselineModel.factory()
-            obj_.build(child_)
-            self.BaselineModel = obj_
-            obj_.original_tagname_ = 'BaselineModel'
-        elif nodeName_ == 'ClusteringModel':
-            obj_ = ClusteringModel.factory()
-            obj_.build(child_)
-            self.ClusteringModel = obj_
-            obj_.original_tagname_ = 'ClusteringModel'
-        elif nodeName_ == 'DeepNetwork':
-            obj_ = DeepNetwork.factory()
-            obj_.build(child_)
-            self.DeepNetwork = obj_
-            obj_.original_tagname_ = 'DeepNetwork'
-        elif nodeName_ == 'AnomalyDetectionModel':
-            obj_ = AnomalyDetectionModel.factory()
-            obj_.build(child_)
-            self.AnomalyDetectionModel = obj_
-            obj_.original_tagname_ = 'AnomalyDetectionModel'
-        elif nodeName_ == 'GaussianProcessModel':
-            obj_ = GaussianProcessModel.factory()
-            obj_.build(child_)
-            self.GaussianProcessModel = obj_
-            obj_.original_tagname_ = 'GaussianProcessModel'
-        elif nodeName_ == 'GeneralRegressionModel':
-            obj_ = GeneralRegressionModel.factory()
-            obj_.build(child_)
-            self.GeneralRegressionModel = obj_
-            obj_.original_tagname_ = 'GeneralRegressionModel'
-        elif nodeName_ == 'MiningModel':
-            obj_ = MiningModel.factory()
-            obj_.build(child_)
-            self.MiningModel = obj_
-            obj_.original_tagname_ = 'MiningModel'
-        elif nodeName_ == 'NaiveBayesModel':
-            obj_ = NaiveBayesModel.factory()
-            obj_.build(child_)
-            self.NaiveBayesModel = obj_
-            obj_.original_tagname_ = 'NaiveBayesModel'
-        elif nodeName_ == 'NearestNeighborModel':
-            obj_ = NearestNeighborModel.factory()
-            obj_.build(child_)
-            self.NearestNeighborModel = obj_
-            obj_.original_tagname_ = 'NearestNeighborModel'
-        elif nodeName_ == 'NeuralNetwork':
-            obj_ = NeuralNetwork.factory()
-            obj_.build(child_)
-            self.NeuralNetwork = obj_
-            obj_.original_tagname_ = 'NeuralNetwork'
-        elif nodeName_ == 'RegressionModel':
-            obj_ = RegressionModel.factory()
-            obj_.build(child_)
-            self.RegressionModel = obj_
-            obj_.original_tagname_ = 'RegressionModel'
-        elif nodeName_ == 'RuleSetModel':
-            obj_ = RuleSetModel.factory()
-            obj_.build(child_)
-            self.RuleSetModel = obj_
-            obj_.original_tagname_ = 'RuleSetModel'
-        elif nodeName_ == 'SequenceModel':
-            obj_ = SequenceModel.factory()
-            obj_.build(child_)
-            self.SequenceModel = obj_
-            obj_.original_tagname_ = 'SequenceModel'
-        elif nodeName_ == 'Scorecard':
-            obj_ = Scorecard.factory()
-            obj_.build(child_)
-            self.Scorecard = obj_
-            obj_.original_tagname_ = 'Scorecard'
-        elif nodeName_ == 'SupportVectorMachineModel':
-            obj_ = SupportVectorMachineModel.factory()
-            obj_.build(child_)
-            self.SupportVectorMachineModel = obj_
-            obj_.original_tagname_ = 'SupportVectorMachineModel'
-        elif nodeName_ == 'TextModel':
-            obj_ = TextModel.factory()
-            obj_.build(child_)
-            self.TextModel = obj_
-            obj_.original_tagname_ = 'TextModel'
-        elif nodeName_ == 'TimeSeriesModel':
-            obj_ = TimeSeriesModel.factory()
-            obj_.build(child_)
-            self.TimeSeriesModel = obj_
-            obj_.original_tagname_ = 'TimeSeriesModel'
-        elif nodeName_ == 'TreeModel':
-            obj_ = TreeModel.factory()
-            obj_.build(child_)
-            self.TreeModel = obj_
-            obj_.original_tagname_ = 'TreeModel'
-        elif nodeName_ == 'Extension':
-            obj_ = Extension.factory()
-            obj_.build(child_)
-            self.Extension.append(obj_)
-            obj_.original_tagname_ = 'Extension'
-# end class AnomalyDetectionModel
 
 
 class MiningSchema(GeneratedsSuper):
@@ -22962,7 +22293,7 @@ class Output(GeneratedsSuper):
 class OutputField(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, threshold=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
         self.original_tagname_ = None
         self.name = _cast(None, name)
         self.displayName = _cast(None, displayName)
@@ -22972,7 +22303,6 @@ class OutputField(GeneratedsSuper):
         self.feature = _cast(None, feature)
         self.value = _cast(None, value)
         self.numTopCategories = _cast(None, numTopCategories)
-        self.threshold = _cast(None, threshold)
         self.ruleFeature = _cast(None, ruleFeature)
         self.algorithm = _cast(None, algorithm)
         self.rank = _cast(None, rank)
@@ -23050,8 +22380,6 @@ class OutputField(GeneratedsSuper):
     def set_value(self, value): self.value = value
     def get_numTopCategories(self): return self.numTopCategories
     def set_numTopCategories(self, numTopCategories): self.numTopCategories = numTopCategories
-    def get_threshold(self): return self.threshold
-    def set_threshold(self, threshold): self.threshold = threshold
     def get_ruleFeature(self): return self.ruleFeature
     def set_ruleFeature(self, ruleFeature): self.ruleFeature = ruleFeature
     def get_algorithm(self): return self.algorithm
@@ -23100,7 +22428,7 @@ class OutputField(GeneratedsSuper):
         # Validate type RESULT-FEATURE, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
             value = str(value)
-            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'anomaly', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage']
+            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage']
             enumeration_respectee = False
             for enum in enumerations:
                 if value == enum:
@@ -23110,10 +22438,6 @@ class OutputField(GeneratedsSuper):
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on RESULT-FEATURE' % {"value" : value.encode("utf-8")} )
     def validate_INT_NUMBER(self, value):
         # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
-    def validate_REAL_NUMBER(self, value):
-        # Validate type REAL-NUMBER, a restriction on xs:double.
         if value is not None and Validate_simpletypes_:
             pass
     def validate_RULE_FEATURE(self, value):
@@ -23192,9 +22516,6 @@ class OutputField(GeneratedsSuper):
         if self.numTopCategories is not None and 'numTopCategories' not in already_processed:
             already_processed.add('numTopCategories')
             outfile.write(' numTopCategories=%s' % (quote_attrib(self.numTopCategories), ))
-        if self.threshold is not None and 'threshold' not in already_processed:
-            already_processed.add('threshold')
-            outfile.write(' threshold=%s' % (quote_attrib(self.threshold), ))
         if self.ruleFeature != "consequent" and 'ruleFeature' not in already_processed:
             already_processed.add('ruleFeature')
             outfile.write(' ruleFeature=%s' % (quote_attrib(self.ruleFeature), ))
@@ -23269,8 +22590,6 @@ class OutputField(GeneratedsSuper):
             element.set('value', self.gds_format_string(self.value))
         if self.numTopCategories is not None:
             element.set('numTopCategories', self.numTopCategories)
-        if self.threshold is not None:
-            element.set('threshold', self.threshold)
         if self.ruleFeature is not None:
             element.set('ruleFeature', self.ruleFeature)
         if self.algorithm is not None:
@@ -23364,10 +22683,6 @@ class OutputField(GeneratedsSuper):
             already_processed.add('numTopCategories')
             showIndent(outfile, level)
             outfile.write('numTopCategories=%d,\n' % (self.numTopCategories,))
-        if self.threshold is not None and 'threshold' not in already_processed:
-            already_processed.add('threshold')
-            showIndent(outfile, level)
-            outfile.write('threshold=%e,\n' % (self.threshold,))
         if self.ruleFeature is not None and 'ruleFeature' not in already_processed:
             already_processed.add('ruleFeature')
             showIndent(outfile, level)
@@ -23528,14 +22843,6 @@ class OutputField(GeneratedsSuper):
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             self.validate_INT_NUMBER(self.numTopCategories)    # validate type INT-NUMBER
-        value = find_attr_value_('threshold', node)
-        if value is not None and 'threshold' not in already_processed:
-            already_processed.add('threshold')
-            try:
-                self.threshold = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (threshold): %s' % exp)
-            self.validate_REAL_NUMBER(self.threshold)    # validate type REAL-NUMBER
         value = find_attr_value_('ruleFeature', node)
         if value is not None and 'ruleFeature' not in already_processed:
             already_processed.add('ruleFeature')
@@ -29970,6 +29277,872 @@ class PartitionFieldStats(GeneratedsSuper):
             self.Array.append(obj_)
             obj_.original_tagname_ = 'Array'
 # end class PartitionFieldStats
+
+
+class AnomalyDetectionModel(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, modelName=None, algorithmName=None, functionName=None, algorithmType=None, sampleDataSize=None, isScorable=True, MiningSchema=None, Output=None, LocalTransformations=None, ModelVerification=None, AnomalyDetectionModel_member=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, MeanClusterDistances=None, Extension=None):
+        self.original_tagname_ = None
+        self.modelName = _cast(None, modelName)
+        self.algorithmName = _cast(None, algorithmName)
+        self.functionName = _cast(None, functionName)
+        self.algorithmType = _cast(None, algorithmType)
+        self.sampleDataSize = _cast(None, sampleDataSize)
+        self.isScorable = _cast(bool, isScorable)
+        self.MiningSchema = MiningSchema
+        self.Output = Output
+        self.LocalTransformations = LocalTransformations
+        self.ModelVerification = ModelVerification
+        self.AnomalyDetectionModel = AnomalyDetectionModel_member
+        self.AssociationModel = AssociationModel
+        self.BayesianNetworkModel = BayesianNetworkModel
+        self.BaselineModel = BaselineModel
+        self.ClusteringModel = ClusteringModel
+        self.DeepNetwork = DeepNetwork
+        self.GaussianProcessModel = GaussianProcessModel
+        self.GeneralRegressionModel = GeneralRegressionModel
+        self.MiningModel = MiningModel
+        self.NaiveBayesModel = NaiveBayesModel
+        self.NearestNeighborModel = NearestNeighborModel
+        self.NeuralNetwork = NeuralNetwork
+        self.RegressionModel = RegressionModel
+        self.RuleSetModel = RuleSetModel
+        self.SequenceModel = SequenceModel
+        self.Scorecard = Scorecard
+        self.SupportVectorMachineModel = SupportVectorMachineModel
+        self.TextModel = TextModel
+        self.TimeSeriesModel = TimeSeriesModel
+        self.TreeModel = TreeModel
+        self.MeanClusterDistances = MeanClusterDistances
+        if Extension is None:
+            self.Extension = []
+        else:
+            self.Extension = Extension
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, AnomalyDetectionModel)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if AnomalyDetectionModel.subclass:
+            return AnomalyDetectionModel.subclass(*args_, **kwargs_)
+        else:
+            return AnomalyDetectionModel(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_MiningSchema(self): return self.MiningSchema
+    def set_MiningSchema(self, MiningSchema): self.MiningSchema = MiningSchema
+    def get_Output(self): return self.Output
+    def set_Output(self, Output): self.Output = Output
+    def get_LocalTransformations(self): return self.LocalTransformations
+    def set_LocalTransformations(self, LocalTransformations): self.LocalTransformations = LocalTransformations
+    def get_ModelVerification(self): return self.ModelVerification
+    def set_ModelVerification(self, ModelVerification): self.ModelVerification = ModelVerification
+    def get_AnomalyDetectionModel(self): return self.AnomalyDetectionModel
+    def set_AnomalyDetectionModel(self, AnomalyDetectionModel): self.AnomalyDetectionModel = AnomalyDetectionModel
+    def get_AssociationModel(self): return self.AssociationModel
+    def set_AssociationModel(self, AssociationModel): self.AssociationModel = AssociationModel
+    def get_BayesianNetworkModel(self): return self.BayesianNetworkModel
+    def set_BayesianNetworkModel(self, BayesianNetworkModel): self.BayesianNetworkModel = BayesianNetworkModel
+    def get_BaselineModel(self): return self.BaselineModel
+    def set_BaselineModel(self, BaselineModel): self.BaselineModel = BaselineModel
+    def get_ClusteringModel(self): return self.ClusteringModel
+    def set_ClusteringModel(self, ClusteringModel): self.ClusteringModel = ClusteringModel
+    def get_DeepNetwork(self): return self.DeepNetwork
+    def set_DeepNetwork(self, DeepNetwork): self.DeepNetwork = DeepNetwork
+    def get_GaussianProcessModel(self): return self.GaussianProcessModel
+    def set_GaussianProcessModel(self, GaussianProcessModel): self.GaussianProcessModel = GaussianProcessModel
+    def get_GeneralRegressionModel(self): return self.GeneralRegressionModel
+    def set_GeneralRegressionModel(self, GeneralRegressionModel): self.GeneralRegressionModel = GeneralRegressionModel
+    def get_MiningModel(self): return self.MiningModel
+    def set_MiningModel(self, MiningModel): self.MiningModel = MiningModel
+    def get_NaiveBayesModel(self): return self.NaiveBayesModel
+    def set_NaiveBayesModel(self, NaiveBayesModel): self.NaiveBayesModel = NaiveBayesModel
+    def get_NearestNeighborModel(self): return self.NearestNeighborModel
+    def set_NearestNeighborModel(self, NearestNeighborModel): self.NearestNeighborModel = NearestNeighborModel
+    def get_NeuralNetwork(self): return self.NeuralNetwork
+    def set_NeuralNetwork(self, NeuralNetwork): self.NeuralNetwork = NeuralNetwork
+    def get_RegressionModel(self): return self.RegressionModel
+    def set_RegressionModel(self, RegressionModel): self.RegressionModel = RegressionModel
+    def get_RuleSetModel(self): return self.RuleSetModel
+    def set_RuleSetModel(self, RuleSetModel): self.RuleSetModel = RuleSetModel
+    def get_SequenceModel(self): return self.SequenceModel
+    def set_SequenceModel(self, SequenceModel): self.SequenceModel = SequenceModel
+    def get_Scorecard(self): return self.Scorecard
+    def set_Scorecard(self, Scorecard): self.Scorecard = Scorecard
+    def get_SupportVectorMachineModel(self): return self.SupportVectorMachineModel
+    def set_SupportVectorMachineModel(self, SupportVectorMachineModel): self.SupportVectorMachineModel = SupportVectorMachineModel
+    def get_TextModel(self): return self.TextModel
+    def set_TextModel(self, TextModel): self.TextModel = TextModel
+    def get_TimeSeriesModel(self): return self.TimeSeriesModel
+    def set_TimeSeriesModel(self, TimeSeriesModel): self.TimeSeriesModel = TimeSeriesModel
+    def get_TreeModel(self): return self.TreeModel
+    def set_TreeModel(self, TreeModel): self.TreeModel = TreeModel
+    def get_MeanClusterDistances(self): return self.MeanClusterDistances
+    def set_MeanClusterDistances(self, MeanClusterDistances): self.MeanClusterDistances = MeanClusterDistances
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
+    def add_Extension(self, value): self.Extension.append(value)
+    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
+    def replace_Extension_at(self, index, value): self.Extension[index] = value
+    def get_modelName(self): return self.modelName
+    def set_modelName(self, modelName): self.modelName = modelName
+    def get_algorithmName(self): return self.algorithmName
+    def set_algorithmName(self, algorithmName): self.algorithmName = algorithmName
+    def get_functionName(self): return self.functionName
+    def set_functionName(self, functionName): self.functionName = functionName
+    def get_algorithmType(self): return self.algorithmType
+    def set_algorithmType(self, algorithmType): self.algorithmType = algorithmType
+    def get_sampleDataSize(self): return self.sampleDataSize
+    def set_sampleDataSize(self, sampleDataSize): self.sampleDataSize = sampleDataSize
+    def get_isScorable(self): return self.isScorable
+    def set_isScorable(self, isScorable): self.isScorable = isScorable
+    def validate_MINING_FUNCTION(self, value):
+        # Validate type MINING-FUNCTION, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_:
+            value = str(value)
+            enumerations = ['associationRules', 'sequences', 'classification', 'regression', 'clustering', 'timeSeries', 'mixed']
+            enumeration_respectee = False
+            for enum in enumerations:
+                if value == enum:
+                    enumeration_respectee = True
+                    break
+            if not enumeration_respectee:
+                warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on MINING-FUNCTION' % {"value" : value.encode("utf-8")} )
+    def validate_ALGORITHM_TYPE(self, value):
+        # Validate type ALGORITHM-TYPE, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_:
+            value = str(value)
+            enumerations = ['iforest', 'ocsvm', 'clusterMeanDist', 'other']
+            enumeration_respectee = False
+            for enum in enumerations:
+                if value == enum:
+                    enumeration_respectee = True
+                    break
+            if not enumeration_respectee:
+                warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on ALGORITHM-TYPE' % {"value" : value.encode("utf-8")} )
+    def hasContent_(self):
+        if (
+            self.MiningSchema is not None or
+            self.Output is not None or
+            self.LocalTransformations is not None or
+            self.ModelVerification is not None or
+            self.AnomalyDetectionModel is not None or
+            self.AssociationModel is not None or
+            self.BayesianNetworkModel is not None or
+            self.BaselineModel is not None or
+            self.ClusteringModel is not None or
+            self.DeepNetwork is not None or
+            self.GaussianProcessModel is not None or
+            self.GeneralRegressionModel is not None or
+            self.MiningModel is not None or
+            self.NaiveBayesModel is not None or
+            self.NearestNeighborModel is not None or
+            self.NeuralNetwork is not None or
+            self.RegressionModel is not None or
+            self.RuleSetModel is not None or
+            self.SequenceModel is not None or
+            self.Scorecard is not None or
+            self.SupportVectorMachineModel is not None or
+            self.TextModel is not None or
+            self.TimeSeriesModel is not None or
+            self.TreeModel is not None or
+            self.MeanClusterDistances is not None or
+            self.Extension
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='', name_='AnomalyDetectionModel', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('AnomalyDetectionModel')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AnomalyDetectionModel')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='AnomalyDetectionModel', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='AnomalyDetectionModel'):
+        if self.modelName is not None and 'modelName' not in already_processed:
+            already_processed.add('modelName')
+            outfile.write(' modelName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.modelName), input_name='modelName')), ))
+        if self.algorithmName is not None and 'algorithmName' not in already_processed:
+            already_processed.add('algorithmName')
+            outfile.write(' algorithmName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.algorithmName), input_name='algorithmName')), ))
+        if self.functionName is not None and 'functionName' not in already_processed:
+            already_processed.add('functionName')
+            outfile.write(' functionName=%s' % (quote_attrib(self.functionName), ))
+        if self.algorithmType is not None and 'algorithmType' not in already_processed:
+            already_processed.add('algorithmType')
+            outfile.write(' algorithmType=%s' % (quote_attrib(self.algorithmType), ))
+        if self.sampleDataSize is not None and 'sampleDataSize' not in already_processed:
+            already_processed.add('sampleDataSize')
+            outfile.write(' sampleDataSize=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.sampleDataSize), input_name='sampleDataSize')), ))
+        if not self.isScorable and 'isScorable' not in already_processed:
+            already_processed.add('isScorable')
+            outfile.write(' isScorable="%s"' % self.gds_format_boolean(self.isScorable, input_name='isScorable'))
+    def exportChildren(self, outfile, level, namespace_='', name_='AnomalyDetectionModel', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.MiningSchema is not None:
+            self.MiningSchema.export(outfile, level, namespace_, name_='MiningSchema', pretty_print=pretty_print)
+        if self.Output is not None:
+            self.Output.export(outfile, level, namespace_, name_='Output', pretty_print=pretty_print)
+        if self.LocalTransformations is not None:
+            self.LocalTransformations.export(outfile, level, namespace_, name_='LocalTransformations', pretty_print=pretty_print)
+        if self.ModelVerification is not None:
+            self.ModelVerification.export(outfile, level, namespace_, name_='ModelVerification', pretty_print=pretty_print)
+        if self.AnomalyDetectionModel is not None:
+            self.AnomalyDetectionModel.export(outfile, level, namespace_, name_='AnomalyDetectionModel', pretty_print=pretty_print)
+        if self.AssociationModel is not None:
+            self.AssociationModel.export(outfile, level, namespace_, name_='AssociationModel', pretty_print=pretty_print)
+        if self.BayesianNetworkModel is not None:
+            self.BayesianNetworkModel.export(outfile, level, namespace_, name_='BayesianNetworkModel', pretty_print=pretty_print)
+        if self.BaselineModel is not None:
+            self.BaselineModel.export(outfile, level, namespace_, name_='BaselineModel', pretty_print=pretty_print)
+        if self.ClusteringModel is not None:
+            self.ClusteringModel.export(outfile, level, namespace_, name_='ClusteringModel', pretty_print=pretty_print)
+        if self.DeepNetwork is not None:
+            self.DeepNetwork.export(outfile, level, namespace_, name_='DeepNetwork', pretty_print=pretty_print)
+        if self.GaussianProcessModel is not None:
+            self.GaussianProcessModel.export(outfile, level, namespace_, name_='GaussianProcessModel', pretty_print=pretty_print)
+        if self.GeneralRegressionModel is not None:
+            self.GeneralRegressionModel.export(outfile, level, namespace_, name_='GeneralRegressionModel', pretty_print=pretty_print)
+        if self.MiningModel is not None:
+            self.MiningModel.export(outfile, level, namespace_, name_='MiningModel', pretty_print=pretty_print)
+        if self.NaiveBayesModel is not None:
+            self.NaiveBayesModel.export(outfile, level, namespace_, name_='NaiveBayesModel', pretty_print=pretty_print)
+        if self.NearestNeighborModel is not None:
+            self.NearestNeighborModel.export(outfile, level, namespace_, name_='NearestNeighborModel', pretty_print=pretty_print)
+        if self.NeuralNetwork is not None:
+            self.NeuralNetwork.export(outfile, level, namespace_, name_='NeuralNetwork', pretty_print=pretty_print)
+        if self.RegressionModel is not None:
+            self.RegressionModel.export(outfile, level, namespace_, name_='RegressionModel', pretty_print=pretty_print)
+        if self.RuleSetModel is not None:
+            self.RuleSetModel.export(outfile, level, namespace_, name_='RuleSetModel', pretty_print=pretty_print)
+        if self.SequenceModel is not None:
+            self.SequenceModel.export(outfile, level, namespace_, name_='SequenceModel', pretty_print=pretty_print)
+        if self.Scorecard is not None:
+            self.Scorecard.export(outfile, level, namespace_, name_='Scorecard', pretty_print=pretty_print)
+        if self.SupportVectorMachineModel is not None:
+            self.SupportVectorMachineModel.export(outfile, level, namespace_, name_='SupportVectorMachineModel', pretty_print=pretty_print)
+        if self.TextModel is not None:
+            self.TextModel.export(outfile, level, namespace_, name_='TextModel', pretty_print=pretty_print)
+        if self.TimeSeriesModel is not None:
+            self.TimeSeriesModel.export(outfile, level, namespace_, name_='TimeSeriesModel', pretty_print=pretty_print)
+        if self.TreeModel is not None:
+            self.TreeModel.export(outfile, level, namespace_, name_='TreeModel', pretty_print=pretty_print)
+        if self.MeanClusterDistances is not None:
+            self.MeanClusterDistances.export(outfile, level, namespace_, name_='MeanClusterDistances', pretty_print=pretty_print)
+        for Extension_ in self.Extension:
+            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='AnomalyDetectionModel', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
+        if self.modelName is not None:
+            element.set('modelName', self.gds_format_string(self.modelName))
+        if self.algorithmName is not None:
+            element.set('algorithmName', self.gds_format_string(self.algorithmName))
+        if self.functionName is not None:
+            element.set('functionName', self.functionName)
+        if self.algorithmType is not None:
+            element.set('algorithmType', self.algorithmType)
+        if self.sampleDataSize is not None:
+            element.set('sampleDataSize', self.gds_format_string(self.sampleDataSize))
+        if self.isScorable is not None:
+            element.set('isScorable', self.gds_format_boolean(self.isScorable))
+        if self.MiningSchema is not None:
+            MiningSchema_ = self.MiningSchema
+            MiningSchema_.to_etree(element, name_='MiningSchema', mapping_=mapping_)
+        if self.Output is not None:
+            Output_ = self.Output
+            Output_.to_etree(element, name_='Output', mapping_=mapping_)
+        if self.LocalTransformations is not None:
+            LocalTransformations_ = self.LocalTransformations
+            LocalTransformations_.to_etree(element, name_='LocalTransformations', mapping_=mapping_)
+        if self.ModelVerification is not None:
+            ModelVerification_ = self.ModelVerification
+            ModelVerification_.to_etree(element, name_='ModelVerification', mapping_=mapping_)
+        if self.AnomalyDetectionModel is not None:
+            AnomalyDetectionModel_ = self.AnomalyDetectionModel
+            AnomalyDetectionModel_.to_etree(element, name_='AnomalyDetectionModel', mapping_=mapping_)
+        if self.AssociationModel is not None:
+            AssociationModel_ = self.AssociationModel
+            AssociationModel_.to_etree(element, name_='AssociationModel', mapping_=mapping_)
+        if self.BayesianNetworkModel is not None:
+            BayesianNetworkModel_ = self.BayesianNetworkModel
+            BayesianNetworkModel_.to_etree(element, name_='BayesianNetworkModel', mapping_=mapping_)
+        if self.BaselineModel is not None:
+            BaselineModel_ = self.BaselineModel
+            BaselineModel_.to_etree(element, name_='BaselineModel', mapping_=mapping_)
+        if self.ClusteringModel is not None:
+            ClusteringModel_ = self.ClusteringModel
+            ClusteringModel_.to_etree(element, name_='ClusteringModel', mapping_=mapping_)
+        if self.DeepNetwork is not None:
+            DeepNetwork_ = self.DeepNetwork
+            DeepNetwork_.to_etree(element, name_='DeepNetwork', mapping_=mapping_)
+        if self.GaussianProcessModel is not None:
+            GaussianProcessModel_ = self.GaussianProcessModel
+            GaussianProcessModel_.to_etree(element, name_='GaussianProcessModel', mapping_=mapping_)
+        if self.GeneralRegressionModel is not None:
+            GeneralRegressionModel_ = self.GeneralRegressionModel
+            GeneralRegressionModel_.to_etree(element, name_='GeneralRegressionModel', mapping_=mapping_)
+        if self.MiningModel is not None:
+            MiningModel_ = self.MiningModel
+            MiningModel_.to_etree(element, name_='MiningModel', mapping_=mapping_)
+        if self.NaiveBayesModel is not None:
+            NaiveBayesModel_ = self.NaiveBayesModel
+            NaiveBayesModel_.to_etree(element, name_='NaiveBayesModel', mapping_=mapping_)
+        if self.NearestNeighborModel is not None:
+            NearestNeighborModel_ = self.NearestNeighborModel
+            NearestNeighborModel_.to_etree(element, name_='NearestNeighborModel', mapping_=mapping_)
+        if self.NeuralNetwork is not None:
+            NeuralNetwork_ = self.NeuralNetwork
+            NeuralNetwork_.to_etree(element, name_='NeuralNetwork', mapping_=mapping_)
+        if self.RegressionModel is not None:
+            RegressionModel_ = self.RegressionModel
+            RegressionModel_.to_etree(element, name_='RegressionModel', mapping_=mapping_)
+        if self.RuleSetModel is not None:
+            RuleSetModel_ = self.RuleSetModel
+            RuleSetModel_.to_etree(element, name_='RuleSetModel', mapping_=mapping_)
+        if self.SequenceModel is not None:
+            SequenceModel_ = self.SequenceModel
+            SequenceModel_.to_etree(element, name_='SequenceModel', mapping_=mapping_)
+        if self.Scorecard is not None:
+            Scorecard_ = self.Scorecard
+            Scorecard_.to_etree(element, name_='Scorecard', mapping_=mapping_)
+        if self.SupportVectorMachineModel is not None:
+            SupportVectorMachineModel_ = self.SupportVectorMachineModel
+            SupportVectorMachineModel_.to_etree(element, name_='SupportVectorMachineModel', mapping_=mapping_)
+        if self.TextModel is not None:
+            TextModel_ = self.TextModel
+            TextModel_.to_etree(element, name_='TextModel', mapping_=mapping_)
+        if self.TimeSeriesModel is not None:
+            TimeSeriesModel_ = self.TimeSeriesModel
+            TimeSeriesModel_.to_etree(element, name_='TimeSeriesModel', mapping_=mapping_)
+        if self.TreeModel is not None:
+            TreeModel_ = self.TreeModel
+            TreeModel_.to_etree(element, name_='TreeModel', mapping_=mapping_)
+        if self.MeanClusterDistances is not None:
+            MeanClusterDistances_ = self.MeanClusterDistances
+            MeanClusterDistances_.to_etree(element, name_='MeanClusterDistances', mapping_=mapping_)
+        for Extension_ in self.Extension:
+            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='AnomalyDetectionModel'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.modelName is not None and 'modelName' not in already_processed:
+            already_processed.add('modelName')
+            showIndent(outfile, level)
+            outfile.write('modelName="%s",\n' % (self.modelName,))
+        if self.algorithmName is not None and 'algorithmName' not in already_processed:
+            already_processed.add('algorithmName')
+            showIndent(outfile, level)
+            outfile.write('algorithmName="%s",\n' % (self.algorithmName,))
+        if self.functionName is not None and 'functionName' not in already_processed:
+            already_processed.add('functionName')
+            showIndent(outfile, level)
+            outfile.write('functionName="%s",\n' % (self.functionName,))
+        if self.algorithmType is not None and 'algorithmType' not in already_processed:
+            already_processed.add('algorithmType')
+            showIndent(outfile, level)
+            outfile.write('algorithmType="%s",\n' % (self.algorithmType,))
+        if self.sampleDataSize is not None and 'sampleDataSize' not in already_processed:
+            already_processed.add('sampleDataSize')
+            showIndent(outfile, level)
+            outfile.write('sampleDataSize="%s",\n' % (self.sampleDataSize,))
+        if self.isScorable is not None and 'isScorable' not in already_processed:
+            already_processed.add('isScorable')
+            showIndent(outfile, level)
+            outfile.write('isScorable=%s,\n' % (self.isScorable,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.MiningSchema is not None:
+            showIndent(outfile, level)
+            outfile.write('MiningSchema=model_.MiningSchema(\n')
+            self.MiningSchema.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Output is not None:
+            showIndent(outfile, level)
+            outfile.write('Output=model_.Output(\n')
+            self.Output.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.LocalTransformations is not None:
+            showIndent(outfile, level)
+            outfile.write('LocalTransformations=model_.LocalTransformations(\n')
+            self.LocalTransformations.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.ModelVerification is not None:
+            showIndent(outfile, level)
+            outfile.write('ModelVerification=model_.ModelVerification(\n')
+            self.ModelVerification.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.AnomalyDetectionModel is not None:
+            showIndent(outfile, level)
+            outfile.write('AnomalyDetectionModel=model_.AnomalyDetectionModel(\n')
+            self.AnomalyDetectionModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.AssociationModel is not None:
+            showIndent(outfile, level)
+            outfile.write('AssociationModel=model_.AssociationModel(\n')
+            self.AssociationModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.BayesianNetworkModel is not None:
+            showIndent(outfile, level)
+            outfile.write('BayesianNetworkModel=model_.BayesianNetworkModel(\n')
+            self.BayesianNetworkModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.BaselineModel is not None:
+            showIndent(outfile, level)
+            outfile.write('BaselineModel=model_.BaselineModel(\n')
+            self.BaselineModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.ClusteringModel is not None:
+            showIndent(outfile, level)
+            outfile.write('ClusteringModel=model_.ClusteringModel(\n')
+            self.ClusteringModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.DeepNetwork is not None:
+            showIndent(outfile, level)
+            outfile.write('DeepNetwork=model_.DeepNetwork(\n')
+            self.DeepNetwork.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.GaussianProcessModel is not None:
+            showIndent(outfile, level)
+            outfile.write('GaussianProcessModel=model_.GaussianProcessModel(\n')
+            self.GaussianProcessModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.GeneralRegressionModel is not None:
+            showIndent(outfile, level)
+            outfile.write('GeneralRegressionModel=model_.GeneralRegressionModel(\n')
+            self.GeneralRegressionModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.MiningModel is not None:
+            showIndent(outfile, level)
+            outfile.write('MiningModel=model_.MiningModel(\n')
+            self.MiningModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.NaiveBayesModel is not None:
+            showIndent(outfile, level)
+            outfile.write('NaiveBayesModel=model_.NaiveBayesModel(\n')
+            self.NaiveBayesModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.NearestNeighborModel is not None:
+            showIndent(outfile, level)
+            outfile.write('NearestNeighborModel=model_.NearestNeighborModel(\n')
+            self.NearestNeighborModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.NeuralNetwork is not None:
+            showIndent(outfile, level)
+            outfile.write('NeuralNetwork=model_.NeuralNetwork(\n')
+            self.NeuralNetwork.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.RegressionModel is not None:
+            showIndent(outfile, level)
+            outfile.write('RegressionModel=model_.RegressionModel(\n')
+            self.RegressionModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.RuleSetModel is not None:
+            showIndent(outfile, level)
+            outfile.write('RuleSetModel=model_.RuleSetModel(\n')
+            self.RuleSetModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.SequenceModel is not None:
+            showIndent(outfile, level)
+            outfile.write('SequenceModel=model_.SequenceModel(\n')
+            self.SequenceModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Scorecard is not None:
+            showIndent(outfile, level)
+            outfile.write('Scorecard=model_.Scorecard(\n')
+            self.Scorecard.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.SupportVectorMachineModel is not None:
+            showIndent(outfile, level)
+            outfile.write('SupportVectorMachineModel=model_.SupportVectorMachineModel(\n')
+            self.SupportVectorMachineModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.TextModel is not None:
+            showIndent(outfile, level)
+            outfile.write('TextModel=model_.TextModel(\n')
+            self.TextModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.TimeSeriesModel is not None:
+            showIndent(outfile, level)
+            outfile.write('TimeSeriesModel=model_.TimeSeriesModel(\n')
+            self.TimeSeriesModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.TreeModel is not None:
+            showIndent(outfile, level)
+            outfile.write('TreeModel=model_.TreeModel(\n')
+            self.TreeModel.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.MeanClusterDistances is not None:
+            showIndent(outfile, level)
+            outfile.write('MeanClusterDistances=model_.MeanClusterDistances(\n')
+            self.MeanClusterDistances.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        showIndent(outfile, level)
+        outfile.write('Extension=[\n')
+        level += 1
+        for Extension_ in self.Extension:
+            showIndent(outfile, level)
+            outfile.write('model_.Extension(\n')
+            Extension_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('modelName', node)
+        if value is not None and 'modelName' not in already_processed:
+            already_processed.add('modelName')
+            self.modelName = value
+        value = find_attr_value_('algorithmName', node)
+        if value is not None and 'algorithmName' not in already_processed:
+            already_processed.add('algorithmName')
+            self.algorithmName = value
+        value = find_attr_value_('functionName', node)
+        if value is not None and 'functionName' not in already_processed:
+            already_processed.add('functionName')
+            self.functionName = value
+            self.validate_MINING_FUNCTION(self.functionName)    # validate type MINING-FUNCTION
+        value = find_attr_value_('algorithmType', node)
+        if value is not None and 'algorithmType' not in already_processed:
+            already_processed.add('algorithmType')
+            self.algorithmType = value
+            self.validate_ALGORITHM_TYPE(self.algorithmType)    # validate type ALGORITHM-TYPE
+        value = find_attr_value_('sampleDataSize', node)
+        if value is not None and 'sampleDataSize' not in already_processed:
+            already_processed.add('sampleDataSize')
+            self.sampleDataSize = value
+        value = find_attr_value_('isScorable', node)
+        if value is not None and 'isScorable' not in already_processed:
+            already_processed.add('isScorable')
+            if value in ('true', '1'):
+                self.isScorable = True
+            elif value in ('false', '0'):
+                self.isScorable = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'MiningSchema':
+            obj_ = MiningSchema.factory()
+            obj_.build(child_)
+            self.MiningSchema = obj_
+            obj_.original_tagname_ = 'MiningSchema'
+        elif nodeName_ == 'Output':
+            obj_ = Output.factory()
+            obj_.build(child_)
+            self.Output = obj_
+            obj_.original_tagname_ = 'Output'
+        elif nodeName_ == 'LocalTransformations':
+            obj_ = LocalTransformations.factory()
+            obj_.build(child_)
+            self.LocalTransformations = obj_
+            obj_.original_tagname_ = 'LocalTransformations'
+        elif nodeName_ == 'ModelVerification':
+            obj_ = ModelVerification.factory()
+            obj_.build(child_)
+            self.ModelVerification = obj_
+            obj_.original_tagname_ = 'ModelVerification'
+        elif nodeName_ == 'AnomalyDetectionModel':
+            obj_ = AnomalyDetectionModel.factory()
+            obj_.build(child_)
+            self.AnomalyDetectionModel = obj_
+            obj_.original_tagname_ = 'AnomalyDetectionModel'
+        elif nodeName_ == 'AssociationModel':
+            obj_ = AssociationModel.factory()
+            obj_.build(child_)
+            self.AssociationModel = obj_
+            obj_.original_tagname_ = 'AssociationModel'
+        elif nodeName_ == 'BayesianNetworkModel':
+            obj_ = BayesianNetworkModel.factory()
+            obj_.build(child_)
+            self.BayesianNetworkModel = obj_
+            obj_.original_tagname_ = 'BayesianNetworkModel'
+        elif nodeName_ == 'BaselineModel':
+            obj_ = BaselineModel.factory()
+            obj_.build(child_)
+            self.BaselineModel = obj_
+            obj_.original_tagname_ = 'BaselineModel'
+        elif nodeName_ == 'ClusteringModel':
+            obj_ = ClusteringModel.factory()
+            obj_.build(child_)
+            self.ClusteringModel = obj_
+            obj_.original_tagname_ = 'ClusteringModel'
+        elif nodeName_ == 'DeepNetwork':
+            obj_ = DeepNetwork.factory()
+            obj_.build(child_)
+            self.DeepNetwork = obj_
+            obj_.original_tagname_ = 'DeepNetwork'
+        elif nodeName_ == 'GaussianProcessModel':
+            obj_ = GaussianProcessModel.factory()
+            obj_.build(child_)
+            self.GaussianProcessModel = obj_
+            obj_.original_tagname_ = 'GaussianProcessModel'
+        elif nodeName_ == 'GeneralRegressionModel':
+            obj_ = GeneralRegressionModel.factory()
+            obj_.build(child_)
+            self.GeneralRegressionModel = obj_
+            obj_.original_tagname_ = 'GeneralRegressionModel'
+        elif nodeName_ == 'MiningModel':
+            obj_ = MiningModel.factory()
+            obj_.build(child_)
+            self.MiningModel = obj_
+            obj_.original_tagname_ = 'MiningModel'
+        elif nodeName_ == 'NaiveBayesModel':
+            obj_ = NaiveBayesModel.factory()
+            obj_.build(child_)
+            self.NaiveBayesModel = obj_
+            obj_.original_tagname_ = 'NaiveBayesModel'
+        elif nodeName_ == 'NearestNeighborModel':
+            obj_ = NearestNeighborModel.factory()
+            obj_.build(child_)
+            self.NearestNeighborModel = obj_
+            obj_.original_tagname_ = 'NearestNeighborModel'
+        elif nodeName_ == 'NeuralNetwork':
+            obj_ = NeuralNetwork.factory()
+            obj_.build(child_)
+            self.NeuralNetwork = obj_
+            obj_.original_tagname_ = 'NeuralNetwork'
+        elif nodeName_ == 'RegressionModel':
+            obj_ = RegressionModel.factory()
+            obj_.build(child_)
+            self.RegressionModel = obj_
+            obj_.original_tagname_ = 'RegressionModel'
+        elif nodeName_ == 'RuleSetModel':
+            obj_ = RuleSetModel.factory()
+            obj_.build(child_)
+            self.RuleSetModel = obj_
+            obj_.original_tagname_ = 'RuleSetModel'
+        elif nodeName_ == 'SequenceModel':
+            obj_ = SequenceModel.factory()
+            obj_.build(child_)
+            self.SequenceModel = obj_
+            obj_.original_tagname_ = 'SequenceModel'
+        elif nodeName_ == 'Scorecard':
+            obj_ = Scorecard.factory()
+            obj_.build(child_)
+            self.Scorecard = obj_
+            obj_.original_tagname_ = 'Scorecard'
+        elif nodeName_ == 'SupportVectorMachineModel':
+            obj_ = SupportVectorMachineModel.factory()
+            obj_.build(child_)
+            self.SupportVectorMachineModel = obj_
+            obj_.original_tagname_ = 'SupportVectorMachineModel'
+        elif nodeName_ == 'TextModel':
+            obj_ = TextModel.factory()
+            obj_.build(child_)
+            self.TextModel = obj_
+            obj_.original_tagname_ = 'TextModel'
+        elif nodeName_ == 'TimeSeriesModel':
+            obj_ = TimeSeriesModel.factory()
+            obj_.build(child_)
+            self.TimeSeriesModel = obj_
+            obj_.original_tagname_ = 'TimeSeriesModel'
+        elif nodeName_ == 'TreeModel':
+            obj_ = TreeModel.factory()
+            obj_.build(child_)
+            self.TreeModel = obj_
+            obj_.original_tagname_ = 'TreeModel'
+        elif nodeName_ == 'MeanClusterDistances':
+            obj_ = MeanClusterDistances.factory()
+            obj_.build(child_)
+            self.MeanClusterDistances = obj_
+            obj_.original_tagname_ = 'MeanClusterDistances'
+        elif nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            self.Extension.append(obj_)
+            obj_.original_tagname_ = 'Extension'
+# end class AnomalyDetectionModel
+
+
+class MeanClusterDistances(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, Extension=None, Array=None):
+        self.original_tagname_ = None
+        if Extension is None:
+            self.Extension = []
+        else:
+            self.Extension = Extension
+        self.Array = Array
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, MeanClusterDistances)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if MeanClusterDistances.subclass:
+            return MeanClusterDistances.subclass(*args_, **kwargs_)
+        else:
+            return MeanClusterDistances(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
+    def add_Extension(self, value): self.Extension.append(value)
+    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
+    def replace_Extension_at(self, index, value): self.Extension[index] = value
+    def get_Array(self): return self.Array
+    def set_Array(self, Array): self.Array = Array
+    def hasContent_(self):
+        if (
+            self.Extension or
+            self.Array is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='', name_='MeanClusterDistances', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('MeanClusterDistances')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MeanClusterDistances')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='MeanClusterDistances', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='MeanClusterDistances'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='', name_='MeanClusterDistances', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Extension_ in self.Extension:
+            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
+        if self.Array is not None:
+            self.Array.export(outfile, level, namespace_, name_='Array', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='MeanClusterDistances', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
+        for Extension_ in self.Extension:
+            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
+        if self.Array is not None:
+            Array_ = self.Array
+            Array_.to_etree(element, name_='Array', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='MeanClusterDistances'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Extension=[\n')
+        level += 1
+        for Extension_ in self.Extension:
+            showIndent(outfile, level)
+            outfile.write('model_.Extension(\n')
+            Extension_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        if self.Array is not None:
+            showIndent(outfile, level)
+            outfile.write('Array=model_.Array(\n')
+            self.Array.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            self.Extension.append(obj_)
+            obj_.original_tagname_ = 'Extension'
+        elif nodeName_ == 'Array':
+            obj_ = ArrayType.factory()
+            obj_.build(child_)
+            self.Array = obj_
+            obj_.original_tagname_ = 'Array'
+# end class MeanClusterDistances
 
 
 class SequenceModel(GeneratedsSuper):
@@ -38976,9 +39149,10 @@ class DerivedField(GeneratedsSuper):
 class Constant(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, dataType=None, valueOf_=None):
+    def __init__(self, dataType=None, missing=False, valueOf_=None):
         self.original_tagname_ = None
         self.dataType = _cast(None, dataType)
+        self.missing = _cast(bool, missing)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -38993,6 +39167,8 @@ class Constant(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_dataType(self): return self.dataType
     def set_dataType(self, dataType): self.dataType = dataType
+    def get_missing(self): return self.missing
+    def set_missing(self, missing): self.missing = missing
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def validate_DATATYPE(self, value):
@@ -39039,6 +39215,9 @@ class Constant(GeneratedsSuper):
         if self.dataType is not None and 'dataType' not in already_processed:
             already_processed.add('dataType')
             outfile.write(' dataType=%s' % (quote_attrib(self.dataType), ))
+        if self.missing and 'missing' not in already_processed:
+            already_processed.add('missing')
+            outfile.write(' missing="%s"' % self.gds_format_boolean(self.missing, input_name='missing'))
     def exportChildren(self, outfile, level, namespace_='', name_='Constant', fromsubclass_=False, pretty_print=True):
         pass
     def to_etree(self, parent_element=None, name_='Constant', mapping_=None):
@@ -39048,6 +39227,8 @@ class Constant(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.dataType is not None:
             element.set('dataType', self.dataType)
+        if self.missing is not None:
+            element.set('missing', self.gds_format_boolean(self.missing))
         if self.hasContent_():
             element.text = self.gds_format_string(self.get_valueOf_())
         if mapping_ is not None:
@@ -39066,6 +39247,10 @@ class Constant(GeneratedsSuper):
             already_processed.add('dataType')
             showIndent(outfile, level)
             outfile.write('dataType="%s",\n' % (self.dataType,))
+        if self.missing is not None and 'missing' not in already_processed:
+            already_processed.add('missing')
+            showIndent(outfile, level)
+            outfile.write('missing=%s,\n' % (self.missing,))
     def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
@@ -39082,6 +39267,15 @@ class Constant(GeneratedsSuper):
             already_processed.add('dataType')
             self.dataType = value
             self.validate_DATATYPE(self.dataType)    # validate type DATATYPE
+        value = find_attr_value_('missing', node)
+        if value is not None and 'missing' not in already_processed:
+            already_processed.add('missing')
+            if value in ('true', '1'):
+                self.missing = True
+            elif value in ('false', '0'):
+                self.missing = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
 # end class Constant
@@ -44284,11 +44478,11 @@ class ARIMA(GeneratedsSuper):
 class NonseasonalComponent(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, p=None, d=None, q=None, Extension=None, AR=None, MA=None):
+    def __init__(self, p=0, d=0, q=0, Extension=None, AR=None, MA=None):
         self.original_tagname_ = None
-        self.p = _cast(None, p)
-        self.d = _cast(None, d)
-        self.q = _cast(None, q)
+        self.p = _cast(int, p)
+        self.d = _cast(int, d)
+        self.q = _cast(int, q)
         if Extension is None:
             self.Extension = []
         else:
@@ -44321,10 +44515,6 @@ class NonseasonalComponent(GeneratedsSuper):
     def set_d(self, d): self.d = d
     def get_q(self): return self.q
     def set_q(self, q): self.q = q
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def hasContent_(self):
         if (
             self.Extension or
@@ -44358,13 +44548,13 @@ class NonseasonalComponent(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='NonseasonalComponent'):
         if self.p is not None and 'p' not in already_processed:
             already_processed.add('p')
-            outfile.write(' p=%s' % (quote_attrib(self.p), ))
+            outfile.write(' p="%s"' % self.gds_format_integer(self.p, input_name='p'))
         if self.d is not None and 'd' not in already_processed:
             already_processed.add('d')
-            outfile.write(' d=%s' % (quote_attrib(self.d), ))
+            outfile.write(' d="%s"' % self.gds_format_integer(self.d, input_name='d'))
         if self.q is not None and 'q' not in already_processed:
             already_processed.add('q')
-            outfile.write(' q=%s' % (quote_attrib(self.q), ))
+            outfile.write(' q="%s"' % self.gds_format_integer(self.q, input_name='q'))
     def exportChildren(self, outfile, level, namespace_='', name_='NonseasonalComponent', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -44382,11 +44572,11 @@ class NonseasonalComponent(GeneratedsSuper):
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.p is not None:
-            element.set('p', self.p)
+            element.set('p', self.gds_format_integer(self.p))
         if self.d is not None:
-            element.set('d', self.d)
+            element.set('d', self.gds_format_integer(self.d))
         if self.q is not None:
-            element.set('q', self.q)
+            element.set('q', self.gds_format_integer(self.q))
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.AR is not None:
@@ -44457,7 +44647,8 @@ class NonseasonalComponent(GeneratedsSuper):
                 self.p = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.p)    # validate type INT-NUMBER
+            if self.p < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('d', node)
         if value is not None and 'd' not in already_processed:
             already_processed.add('d')
@@ -44465,7 +44656,8 @@ class NonseasonalComponent(GeneratedsSuper):
                 self.d = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.d)    # validate type INT-NUMBER
+            if self.d < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('q', node)
         if value is not None and 'q' not in already_processed:
             already_processed.add('q')
@@ -44473,7 +44665,8 @@ class NonseasonalComponent(GeneratedsSuper):
                 self.q = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.q)    # validate type INT-NUMBER
+            if self.q < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -44496,12 +44689,12 @@ class NonseasonalComponent(GeneratedsSuper):
 class SeasonalComponent(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, P=None, D=None, Q=None, period=None, Extension=None, AR=None, MA=None):
+    def __init__(self, P=0, D=0, Q=0, period=None, Extension=None, AR=None, MA=None):
         self.original_tagname_ = None
-        self.P = _cast(None, P)
-        self.D = _cast(None, D)
-        self.Q = _cast(None, Q)
-        self.period = _cast(None, period)
+        self.P = _cast(int, P)
+        self.D = _cast(int, D)
+        self.Q = _cast(int, Q)
+        self.period = _cast(int, period)
         if Extension is None:
             self.Extension = []
         else:
@@ -44536,10 +44729,6 @@ class SeasonalComponent(GeneratedsSuper):
     def set_Q(self, Q): self.Q = Q
     def get_period(self): return self.period
     def set_period(self, period): self.period = period
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def hasContent_(self):
         if (
             self.Extension or
@@ -44573,16 +44762,16 @@ class SeasonalComponent(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='SeasonalComponent'):
         if self.P is not None and 'P' not in already_processed:
             already_processed.add('P')
-            outfile.write(' P=%s' % (quote_attrib(self.P), ))
+            outfile.write(' P="%s"' % self.gds_format_integer(self.P, input_name='P'))
         if self.D is not None and 'D' not in already_processed:
             already_processed.add('D')
-            outfile.write(' D=%s' % (quote_attrib(self.D), ))
+            outfile.write(' D="%s"' % self.gds_format_integer(self.D, input_name='D'))
         if self.Q is not None and 'Q' not in already_processed:
             already_processed.add('Q')
-            outfile.write(' Q=%s' % (quote_attrib(self.Q), ))
+            outfile.write(' Q="%s"' % self.gds_format_integer(self.Q, input_name='Q'))
         if self.period is not None and 'period' not in already_processed:
             already_processed.add('period')
-            outfile.write(' period=%s' % (quote_attrib(self.period), ))
+            outfile.write(' period="%s"' % self.gds_format_integer(self.period, input_name='period'))
     def exportChildren(self, outfile, level, namespace_='', name_='SeasonalComponent', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -44600,13 +44789,13 @@ class SeasonalComponent(GeneratedsSuper):
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.P is not None:
-            element.set('P', self.P)
+            element.set('P', self.gds_format_integer(self.P))
         if self.D is not None:
-            element.set('D', self.D)
+            element.set('D', self.gds_format_integer(self.D))
         if self.Q is not None:
-            element.set('Q', self.Q)
+            element.set('Q', self.gds_format_integer(self.Q))
         if self.period is not None:
-            element.set('period', self.period)
+            element.set('period', self.gds_format_integer(self.period))
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.AR is not None:
@@ -44681,7 +44870,8 @@ class SeasonalComponent(GeneratedsSuper):
                 self.P = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.P)    # validate type INT-NUMBER
+            if self.P < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('D', node)
         if value is not None and 'D' not in already_processed:
             already_processed.add('D')
@@ -44689,7 +44879,8 @@ class SeasonalComponent(GeneratedsSuper):
                 self.D = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.D)    # validate type INT-NUMBER
+            if self.D < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('Q', node)
         if value is not None and 'Q' not in already_processed:
             already_processed.add('Q')
@@ -44697,7 +44888,8 @@ class SeasonalComponent(GeneratedsSuper):
                 self.Q = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.Q)    # validate type INT-NUMBER
+            if self.Q < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('period', node)
         if value is not None and 'period' not in already_processed:
             already_processed.add('period')
@@ -44705,7 +44897,8 @@ class SeasonalComponent(GeneratedsSuper):
                 self.period = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.period)    # validate type INT-NUMBER
+            if self.period < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -63888,13 +64081,13 @@ class KohonenMap(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='KohonenMap'):
         if self.coord1 is not None and 'coord1' not in already_processed:
             already_processed.add('coord1')
-            outfile.write(' coord1="%s"' % self.gds_format_float(self.coord1, input_name='coord1'))
+            outfile.write(' coord1="%s"' % self.gds_format_double(self.coord1, input_name='coord1'))
         if self.coord2 is not None and 'coord2' not in already_processed:
             already_processed.add('coord2')
-            outfile.write(' coord2="%s"' % self.gds_format_float(self.coord2, input_name='coord2'))
+            outfile.write(' coord2="%s"' % self.gds_format_double(self.coord2, input_name='coord2'))
         if self.coord3 is not None and 'coord3' not in already_processed:
             already_processed.add('coord3')
-            outfile.write(' coord3="%s"' % self.gds_format_float(self.coord3, input_name='coord3'))
+            outfile.write(' coord3="%s"' % self.gds_format_double(self.coord3, input_name='coord3'))
     def exportChildren(self, outfile, level, namespace_='', name_='KohonenMap', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -63908,11 +64101,11 @@ class KohonenMap(GeneratedsSuper):
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.coord1 is not None:
-            element.set('coord1', self.gds_format_float(self.coord1))
+            element.set('coord1', self.gds_format_double(self.coord1))
         if self.coord2 is not None:
-            element.set('coord2', self.gds_format_float(self.coord2))
+            element.set('coord2', self.gds_format_double(self.coord2))
         if self.coord3 is not None:
-            element.set('coord3', self.gds_format_float(self.coord3))
+            element.set('coord3', self.gds_format_double(self.coord3))
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if mapping_ is not None:
@@ -63928,15 +64121,15 @@ class KohonenMap(GeneratedsSuper):
         if self.coord1 is not None and 'coord1' not in already_processed:
             already_processed.add('coord1')
             showIndent(outfile, level)
-            outfile.write('coord1=%f,\n' % (self.coord1,))
+            outfile.write('coord1=%e,\n' % (self.coord1,))
         if self.coord2 is not None and 'coord2' not in already_processed:
             already_processed.add('coord2')
             showIndent(outfile, level)
-            outfile.write('coord2=%f,\n' % (self.coord2,))
+            outfile.write('coord2=%e,\n' % (self.coord2,))
         if self.coord3 is not None and 'coord3' not in already_processed:
             already_processed.add('coord3')
             showIndent(outfile, level)
-            outfile.write('coord3=%f,\n' % (self.coord3,))
+            outfile.write('coord3=%e,\n' % (self.coord3,))
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
         outfile.write('Extension=[\n')
@@ -67703,6 +67896,7 @@ __all__ = [
     "Matrix",
     "MaximumLikelihoodStat",
     "Mean",
+    "MeanClusterDistances",
     "MeasurementMatrix",
     "Metrics",
     "MiningBuildTask",

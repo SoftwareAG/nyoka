@@ -465,6 +465,7 @@
       <xs:element ref="Segment" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="multipleModelMethod" type="MULTIPLE-MODEL-METHOD" use="required"/>
+    <xs:attribute name="missingPredictionTreatment" type="MISSING-PREDICTION-TREATMENT" default="continue"/>
 	<xs:attribute name="missingThreshold" type="PROB-NUMBER" default="1"/>
   </xs:complexType>
 </xs:element>
@@ -505,6 +506,13 @@
       <xs:attribute name="field" type="FIELD-NAME" use="required"/>
     </xs:complexType>
   </xs:element>
+<xs:simpleType name="MISSING-PREDICTION-TREATMENT">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="returnMissing"/>
+    <xs:enumeration value="skipSegment"/>
+    <xs:enumeration value="continue"/>
+  </xs:restriction>
+</xs:simpleType>
 <xs:group name="EmbeddedModel">
   <xs:sequence>
     <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
@@ -765,12 +773,12 @@
 
 <xs:group name="MODEL-ELEMENT">
   <xs:choice>
+    <xs:element ref="AnomalyDetectionModel"/>
     <xs:element ref="AssociationModel"/>
     <xs:element ref="BayesianNetworkModel"/>
     <xs:element ref="BaselineModel"/>
     <xs:element ref="ClusteringModel"/>
             <xs:element ref="DeepNetwork"/>
-            <xs:element ref="AnomalyDetectionModel"/>
     <xs:element ref="GaussianProcessModel"/>
     <xs:element ref="GeneralRegressionModel"/>
     <xs:element ref="MiningModel"/>
@@ -1473,40 +1481,12 @@
     <xs:attribute name="consequent" type="xs:string" use="required"/>
     <xs:attribute name="support" type="PROB-NUMBER" use="required"/>
     <xs:attribute name="confidence" type="PROB-NUMBER" use="required"/>
-    <xs:attribute name="lift" type="xs:float" use="optional"/>
-    <xs:attribute name="leverage" type="xs:float" use="optional"/>
+    <xs:attribute name="lift" type="xs:double" use="optional"/>
+    <xs:attribute name="leverage" type="xs:double" use="optional"/>
     <xs:attribute name="affinity" type="PROB-NUMBER" use="optional"/>
     <xs:attribute name="id" type="xs:string" use="optional"/>
   </xs:complexType>
 </xs:element>
-    <xs:element name="AnomalyDetectionModel">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="MiningSchema"/>
-                <xs:element ref="Output" minOccurs="0"/>
-                <xs:element ref="LocalTransformations" minOccurs="0"/>
-                <xs:element ref="ParameterList" minOccurs="0"/>
-                <xs:element ref="ModelVerification" minOccurs="0"/>
-                <xs:sequence minOccurs="1" maxOccurs="1">
-                    <xs:group ref="MODEL-ELEMENT"/>
-                </xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="modelName" type="xs:string"/>
-            <xs:attribute name="functionName" type="MINING-FUNCTION" use="required"/>
-            <xs:attribute name="algorithmName" type="xs:string" use="optional"/>
-            <xs:attribute name="algorithmType" type="ALGORITHM-TYPE" use="required"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:simpleType name="ALGORITHM-TYPE">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="iforest"/>
-            <xs:enumeration value="fpi"/>
-            <xs:enumeration value="fpof"/>
-            <xs:enumeration value="ocsvm"/>
-        </xs:restriction>
-    </xs:simpleType>
 <xs:element name="MiningSchema">
   <xs:complexType>
     <xs:sequence>
@@ -1601,7 +1581,6 @@
     <xs:attribute name="feature" type="RESULT-FEATURE" default="predictedValue"/>
     <xs:attribute name="value" type="xs:string"/>
             <xs:attribute name="numTopCategories" type="INT-NUMBER"/>
-            <xs:attribute name="threshold" type="REAL-NUMBER"/>
     <xs:attribute name="ruleFeature" type="RULE-FEATURE" default="consequent"/>
     <xs:attribute name="algorithm" default="exclusiveRecommendation">
       <xs:simpleType>
@@ -1646,7 +1625,6 @@
     <xs:enumeration value="decision"/>
     <xs:enumeration value="probability"/>
             <xs:enumeration value="topCategories"/>
-            <xs:enumeration value="anomaly"/>
     <xs:enumeration value="affinity"/>
     <xs:enumeration value="residual"/>
     <xs:enumeration value="standardError"/>
@@ -2131,6 +2109,45 @@
     </xs:attribute>
   </xs:complexType>
 </xs:element>
+<xs:element name="AnomalyDetectionModel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="MiningSchema"/>
+        <xs:element ref="Output" minOccurs="0"/>
+        <xs:element ref="LocalTransformations" minOccurs="0"/>
+        <xs:element ref="ModelVerification" minOccurs="0"/>
+        <xs:group ref="MODEL-ELEMENT"/>
+        <xs:element ref="MeanClusterDistances" minOccurs="0"/>
+        <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="modelName" type="xs:string"/>
+      <xs:attribute name="algorithmName" type="xs:string"/>
+      <xs:attribute name="functionName" type="MINING-FUNCTION" use="required"/>
+      <xs:attribute name="algorithmType" type="ALGORITHM-TYPE" use="required"/>
+      <xs:attribute name="sampleDataSize" type="xs:string"/>
+      <xs:attribute name="isScorable" type="xs:boolean" default="true"/>   
+   </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="ALGORITHM-TYPE">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="iforest"/>
+      <xs:enumeration value="ocsvm"/>
+      <xs:enumeration value="clusterMeanDist"/>
+	  <xs:enumeration value="other"/>
+    </xs:restriction>
+  </xs:simpleType>
+ 
+  <xs:element name="MeanClusterDistances">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:group ref="NUM-ARRAY"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+ 
 <xs:element name="SequenceModel">
   <xs:complexType>
     <xs:sequence>
@@ -2775,6 +2792,7 @@
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute name="dataType" type="DATATYPE"/>
+		<xs:attribute name="missing" type="xs:boolean" default="false"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
@@ -2958,6 +2976,7 @@
             <xs:enumeration value="min"/>
             <xs:enumeration value="product"/>
             <xs:enumeration value="sum"/>
+            <xs:enumeration value="stddev"/>
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
@@ -3008,13 +3027,12 @@
     <xs:enumeration value="StateSpaceModel"/>
     <xs:enumeration value="GARCH"/>
   </xs:restriction>
-</xs:simpleType>   
-
+</xs:simpleType>  
 <xs:element name="TimeSeries">
   <xs:complexType>
     <xs:sequence>
       <xs:element ref="TimeAnchor" minOccurs="0" maxOccurs="1"/>
-      <xs:element ref="TimeValue" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="TimeValue" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="usage" type="TIMESERIES-USAGE" default="original"/>
     <xs:attribute name="startTime" type="REAL-NUMBER"/>
@@ -3229,9 +3247,9 @@
       <xs:element ref="AR" minOccurs="0"/>
       <xs:element ref="MA" minOccurs="0"/>
     </xs:sequence>
-    <xs:attribute name="p" type="INT-NUMBER"/>
-    <xs:attribute name="d" type="INT-NUMBER"/>
-    <xs:attribute name="q" type="INT-NUMBER"/>
+    <xs:attribute name="p" type="xs:nonNegativeInteger" default="0"/>
+    <xs:attribute name="d" type="xs:nonNegativeInteger" default="0"/>
+    <xs:attribute name="q" type="xs:nonNegativeInteger" default="0"/>
   </xs:complexType>
 </xs:element>
 <xs:element name="SeasonalComponent">
@@ -3241,10 +3259,10 @@
       <xs:element ref="AR" minOccurs="0"/>
       <xs:element ref="MA" minOccurs="0"/>
     </xs:sequence>
-    <xs:attribute name="P" type="INT-NUMBER"/>
-    <xs:attribute name="D" type="INT-NUMBER"/>
-    <xs:attribute name="Q" type="INT-NUMBER"/>
-    <xs:attribute name="period" type="INT-NUMBER"/>
+    <xs:attribute name="P" type="xs:nonNegativeInteger" default="0"/>
+    <xs:attribute name="D" type="xs:nonNegativeInteger" default="0"/>
+    <xs:attribute name="Q" type="xs:nonNegativeInteger" default="0"/>
+    <xs:attribute name="period" type="xs:nonNegativeInteger" use="required"/>
   </xs:complexType>
 </xs:element>
 <xs:element name="AR">
@@ -3305,6 +3323,7 @@
           <xs:enumeration value="constant"/>
           <xs:enumeration value="trend"/>
           <xs:enumeration value="stored"/>
+          <xs:enumeration value="otherModel"/>
           <xs:enumeration value="userSupplied"/>
         </xs:restriction>
       </xs:simpleType>
@@ -4568,9 +4587,9 @@
     <xs:sequence>
       <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="coord1" type="xs:float" use="optional"/>
-    <xs:attribute name="coord2" type="xs:float" use="optional"/>
-    <xs:attribute name="coord3" type="xs:float" use="optional"/>
+    <xs:attribute name="coord1" type="xs:double" use="optional"/>
+    <xs:attribute name="coord2" type="xs:double" use="optional"/>
+    <xs:attribute name="coord3" type="xs:double" use="optional"/>
   </xs:complexType>
 </xs:element>
 <xs:element name="Covariances">

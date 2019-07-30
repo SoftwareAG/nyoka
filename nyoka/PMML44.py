@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jul  9 16:23:44 2019 by generateDS.py version 2.28a.
+# Generated Tue Jul 30 13:07:16 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -568,8 +568,8 @@ supermod.MiningModel.subclass = MiningModel
 
 
 class Segmentation(supermod.Segmentation):
-    def __init__(self, multipleModelMethod=None, missingThreshold='1', Extension=None, Segment=None):
-        super(Segmentation, self).__init__(multipleModelMethod, missingThreshold, Extension, Segment, )
+    def __init__(self, multipleModelMethod=None, missingPredictionTreatment='continue', missingThreshold='1', Extension=None, Segment=None):
+        super(Segmentation, self).__init__(multipleModelMethod, missingPredictionTreatment, missingThreshold, Extension, Segment, )
 
     #
     # XMLBehaviors
@@ -579,8 +579,8 @@ supermod.Segmentation.subclass = Segmentation
 
 
 class Segment(supermod.Segment):
-    def __init__(self, id=None, weight='1', Extension=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, AnomalyDetectionModel=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, VariableWeight=None):
-        super(Segment, self).__init__(id, weight, Extension, SimplePredicate, CompoundPredicate, SimpleSetPredicate, True_, False_, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, AnomalyDetectionModel, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, VariableWeight, )
+    def __init__(self, id=None, weight='1', Extension=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, AnomalyDetectionModel=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, VariableWeight=None):
+        super(Segment, self).__init__(id, weight, Extension, SimplePredicate, CompoundPredicate, SimpleSetPredicate, True_, False_, AnomalyDetectionModel, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, VariableWeight, )
 
     #
     # XMLBehaviors
@@ -849,8 +849,8 @@ supermod.Coefficient.subclass = Coefficient
 
 
 class PMML(supermod.PMML):
-    def __init__(self, version=None, Header=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, AnomalyDetectionModel=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
-        super(PMML, self).__init__(version, Header, MiningBuildTask, DataDictionary, TransformationDictionary, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, AnomalyDetectionModel, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
+    def __init__(self, version=None, Header=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AnomalyDetectionModel=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+        super(PMML, self).__init__(version, Header, MiningBuildTask, DataDictionary, TransformationDictionary, AnomalyDetectionModel, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
 
     #
     # XMLBehaviors
@@ -1735,17 +1735,6 @@ supermod.AssociationRule.subclass = AssociationRule
 # end class AssociationRule
 
 
-class AnomalyDetectionModel(supermod.AnomalyDetectionModel):
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, algorithmType=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, AnomalyDetectionModel_member=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
-        super(AnomalyDetectionModel, self).__init__(modelName, functionName, algorithmName, algorithmType, MiningSchema, Output, LocalTransformations, ParameterList, ModelVerification, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, AnomalyDetectionModel_member, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
-
-    #
-    # XMLBehaviors
-    #
-supermod.AnomalyDetectionModel.subclass = AnomalyDetectionModel
-# end class AnomalyDetectionModel
-
-
 class MiningSchema(supermod.MiningSchema):
     def __init__(self, Extension=None, MiningField=None):
         super(MiningSchema, self).__init__(Extension, MiningField, )
@@ -1844,8 +1833,8 @@ supermod.Output.subclass = Output
 
 
 class OutputField(supermod.OutputField):
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, threshold=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
-        super(OutputField, self).__init__(name, displayName, optype, dataType, targetField, feature, value, numTopCategories, threshold, ruleFeature, algorithm, rank, rankBasis, rankOrder, isMultiValued, segmentId, isFinalResult, Extension, Decisions, FieldRef, Apply, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Aggregate, Lag, )
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
+        super(OutputField, self).__init__(name, displayName, optype, dataType, targetField, feature, value, numTopCategories, ruleFeature, algorithm, rank, rankBasis, rankOrder, isMultiValued, segmentId, isFinalResult, Extension, Decisions, FieldRef, Apply, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Aggregate, Lag, )
 
     #
     # XMLBehaviors
@@ -1946,12 +1935,6 @@ class OutputField(supermod.OutputField):
             already_processed.add('numTopCategories')
 
             outfile.write(' numTopCategories=%s' % (supermod.quote_attrib(self.numTopCategories), ))
-
-        if self.threshold is not None and 'threshold' not in already_processed:
-
-            already_processed.add('threshold')
-
-            outfile.write(' threshold=%s' % (supermod.quote_attrib(self.threshold), ))
 
 
     def exportAttributes_wrapper(self, outfile, level, already_processed, namespace_='', name_='OutputFields', *args):
@@ -2268,6 +2251,28 @@ class PartitionFieldStats(supermod.PartitionFieldStats):
     #
 supermod.PartitionFieldStats.subclass = PartitionFieldStats
 # end class PartitionFieldStats
+
+
+class AnomalyDetectionModel(supermod.AnomalyDetectionModel):
+    def __init__(self, modelName=None, algorithmName=None, functionName=None, algorithmType=None, sampleDataSize=None, isScorable=True, MiningSchema=None, Output=None, LocalTransformations=None, ModelVerification=None, AnomalyDetectionModel_member=None, AssociationModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, MeanClusterDistances=None, Extension=None):
+        super(AnomalyDetectionModel, self).__init__(modelName, algorithmName, functionName, algorithmType, sampleDataSize, isScorable, MiningSchema, Output, LocalTransformations, ModelVerification, AnomalyDetectionModel_member, AssociationModel, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, MeanClusterDistances, Extension, )
+
+    #
+    # XMLBehaviors
+    #
+supermod.AnomalyDetectionModel.subclass = AnomalyDetectionModel
+# end class AnomalyDetectionModel
+
+
+class MeanClusterDistances(supermod.MeanClusterDistances):
+    def __init__(self, Extension=None, Array=None):
+        super(MeanClusterDistances, self).__init__(Extension, Array, )
+
+    #
+    # XMLBehaviors
+    #
+supermod.MeanClusterDistances.subclass = MeanClusterDistances
+# end class MeanClusterDistances
 
 
 class SequenceModel(supermod.SequenceModel):
@@ -2722,8 +2727,8 @@ supermod.DerivedField.subclass = DerivedField
 
 
 class Constant(supermod.Constant):
-    def __init__(self, dataType=None, valueOf_=None):
-        super(Constant, self).__init__(dataType, valueOf_, )
+    def __init__(self, dataType=None, missing=False, valueOf_=None):
+        super(Constant, self).__init__(dataType, missing, valueOf_, )
 
     #
     # XMLBehaviors
@@ -2997,7 +3002,7 @@ supermod.ARIMA.subclass = ARIMA
 
 
 class NonseasonalComponent(supermod.NonseasonalComponent):
-    def __init__(self, p=None, d=None, q=None, Extension=None, AR=None, MA=None):
+    def __init__(self, p=0, d=0, q=0, Extension=None, AR=None, MA=None):
         super(NonseasonalComponent, self).__init__(p, d, q, Extension, AR, MA, )
 
     #
@@ -3008,7 +3013,7 @@ supermod.NonseasonalComponent.subclass = NonseasonalComponent
 
 
 class SeasonalComponent(supermod.SeasonalComponent):
-    def __init__(self, P=None, D=None, Q=None, period=None, Extension=None, AR=None, MA=None):
+    def __init__(self, P=0, D=0, Q=0, period=None, Extension=None, AR=None, MA=None):
         super(SeasonalComponent, self).__init__(P, D, Q, period, Extension, AR, MA, )
 
     #
