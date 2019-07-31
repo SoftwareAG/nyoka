@@ -573,7 +573,7 @@ class TestMethods(unittest.TestCase):
 
         self.assertEqual(os.path.isfile("maxabs.pmml"),True)
 
-    def test_sklearn_25(self):
+    def test_sklearn_25_(self):
         iris = datasets.load_iris()
         irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
         irisd['Species'] = iris.target

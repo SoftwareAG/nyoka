@@ -689,6 +689,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
+
     @classmethod
     def tearDownClass(self):
         print("\n******* Finished *******\n")
