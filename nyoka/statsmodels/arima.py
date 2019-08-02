@@ -10,6 +10,7 @@ from PMML44 import *
 from datetime import datetime
 import metadata
 import warnings
+import math
 
 class ArimaToPMML:
     def __init__(self, time_series_data=None, model_obj=None, results_obj=None, pmml_file_name="from_arima.pmml"):
@@ -94,8 +95,6 @@ class ArimaToPMML:
                 pred_method = "conditionalLeastSquares"
             elif sm_results.model.method in ['mle', 'css-mle']:
                 pred_method = "exactLeastSquares"
-            else:
-                pred_method = None
 
             ar_content = ' '.join([str(i) for i in sm_results._results.arparams] if int(p) > 0 else [])
             ar_params_array = ArrayType(content = ar_content, n = p, type_ = 'real')
@@ -104,13 +103,26 @@ class ArimaToPMML:
             ma_coeff_array = ArrayType(content = ma_content, n = q, type_ = 'real')
             ny_maCoef_obj = MACoefficients(Array = ma_coeff_array)
 
-            const_term = 0.0
+            residuals = list()
+            try:
+                residuals = sm_results._results.resid[-q:]
+            except:
+                pass
+            resid_content = ' '.join([str(res) for res in residuals])
+            resid_array = ArrayType(content = resid_content, n = len(residuals), type_ = 'real')
+            residual_obj = Residuals(Array = resid_array)
+
+
+            const_term = 0
             if sm_results.k_trend:
                 const_term = sm_results.params[0]
 
             nyoka_arima_obj = ARIMA(constantTerm = const_term,
                                 predictionMethod = pred_method,
-                                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ar_params_array),  MA = MA(MACoefficients = ny_maCoef_obj)))
+                                RMSE=math.sqrt(sm_results.model.sigma2),
+                                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ar_params_array),\
+                                      MA = MA(MACoefficients = ny_maCoef_obj, Residuals = residual_obj))
+                                )
             return nyoka_arima_obj
 
         def get_time_series_obj_list(usage = 'original' , timeRequired = True):
@@ -118,18 +130,18 @@ class ArimaToPMML:
             def get_time_value_objs():
                 time_value_objs = list()
                 if(usage == 'original' and timeRequired == True):
-                    if results_obj.model.__class__.__name__ == 'ARIMA':
-                        for int_idx in range(results_obj.model.endog.size):
-                            time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.model.endog[int_idx]), Timestamp = Timestamp(str(results_obj.model._index[int_idx]))))
+                    if results_obj.model.__class__.__name__ in ['ARIMA', 'ARMA']:
+                        for int_idx in range(results_obj.data.endog.size):
+                            time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx]), Timestamp = Timestamp(str(results_obj.model.data.orig_endog._index[int_idx]))))
                     else:
-                        for int_idx in range(results_obj.model.endog.size):
-                            time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.model.endog[int_idx][0]), Timestamp = Timestamp(str(results_obj.model._index[int_idx]))))
+                        for int_idx in range(results_obj.data.endog.size):
+                            time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx][0]), Timestamp = Timestamp(str(results_obj.model.data.orig_endog._index[int_idx]))))
                 elif(usage == 'logical' and timeRequired == True):
                     #TODO: Implement This
                     raise NotImplementedError("Not Implemented")
                 return time_value_objs
 
-            obj = TimeSeries(usage = usage, startTime = 0, endTime = results_obj.model.endog.size - 1, interpolationMethod = 'none', TimeValue = get_time_value_objs())
+            obj = TimeSeries(usage = usage, startTime = 0, endTime = results_obj.data.endog.size - 1, interpolationMethod = 'none', TimeValue = get_time_value_objs())
             get_time_series_obj_list.append(obj)
             return get_time_series_obj_list
 
@@ -146,6 +158,7 @@ class ArimaToPMML:
                 ts_name = 'input'
             ts_usage_type = 'target'
             mining_field_objs.append(MiningField(name = ts_name, usageType = ts_usage_type))
+            mining_field_objs.append(MiningField(name = 'h', usageType = 'supplementary'))
             return mining_field_objs
 
         def get_pmml_datatype_optype(series_obj):
@@ -178,6 +191,7 @@ class ArimaToPMML:
                 ts_name = 'input'
             tar_data_type, ts_op_type = get_pmml_datatype_optype(results_obj.model.endog)
             data_field_objs.append(DataField(name=ts_name, dataType=tar_data_type, optype=ts_op_type))
+            data_field_objs.append(DataField(name='h', dataType='integer', optype='continuous'))
             return data_field_objs
 
         def get_sarimax_extension_list(results):
@@ -186,13 +200,13 @@ class ArimaToPMML:
             extensions.append(Extension(name="cov_type", value = results.cov_type))
             return extensions
 
-        if(results_obj.model.__class__.__name__ == 'SARIMAX' and results_obj.__class__.__name__ == 'SARIMAXResultsWrapper'):
+        if results_obj.model.__class__.__name__ == 'SARIMAX':
             #Get SArimaX Object and Export
             sarimax_obj = get_sarimax_obj(results_obj)
             model_name = 'SARIMAX'
             ExportToPMML(model_name = model_name, arima_obj = sarimax_obj)
 
-        elif(results_obj.model.__class__.__name__ == 'ARIMA' and results_obj.__class__.__name__ == 'ARIMAResultsWrapper'):
+        elif results_obj.model.__class__.__name__ in ['ARIMA', 'ARMA']:
             #Get Arima Object and Export
             arima_obj = get_arima_obj(results_obj)
             model_name = 'ARIMA'
