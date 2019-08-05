@@ -130,12 +130,8 @@ class ArimaToPMML:
             def get_time_value_objs():
                 time_value_objs = list()
                 if(usage == 'original' and timeRequired == True):
-                    if results_obj.model.__class__.__name__ in ['ARIMA', 'ARMA']:
-                        for int_idx in range(results_obj.data.endog.size):
-                            time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx]), Timestamp = Timestamp(str(results_obj.model.data.orig_endog._index[int_idx]))))
-                    else:
-                        for int_idx in range(results_obj.data.endog.size):
-                            time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx]), Timestamp = Timestamp(str(results_obj.model.data.orig_endog._index[int_idx]))))
+                    for int_idx in range(results_obj.data.endog.size):
+                        time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx]), Timestamp = Timestamp(str(results_obj.model.data.orig_endog._index[int_idx]))))
                 elif(usage == 'logical' and timeRequired == True):
                     #TODO: Implement This
                     raise NotImplementedError("Not Implemented")
