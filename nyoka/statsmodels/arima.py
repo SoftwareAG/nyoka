@@ -135,7 +135,7 @@ class ArimaToPMML:
                             time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx]), Timestamp = Timestamp(str(results_obj.model.data.orig_endog._index[int_idx]))))
                     else:
                         for int_idx in range(results_obj.data.endog.size):
-                            time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx][0]), Timestamp = Timestamp(str(results_obj.model.data.orig_endog._index[int_idx]))))
+                            time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx]), Timestamp = Timestamp(str(results_obj.model.data.orig_endog._index[int_idx]))))
                 elif(usage == 'logical' and timeRequired == True):
                     #TODO: Implement This
                     raise NotImplementedError("Not Implemented")
