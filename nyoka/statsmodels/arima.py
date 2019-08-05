@@ -29,7 +29,7 @@ class ArimaToPMML:
         """
 
         def ExportToPMML(model_name = None, arima_obj = None):
-            n_columns = 1  # because we are dealing with Series object
+            n_columns = 2  # because we are dealing with Series object plus h (horizon)
             n_samples = results_obj.model.nobs
             function_name = 'timeSeries'
             best_fit = 'ARIMA'
@@ -103,11 +103,7 @@ class ArimaToPMML:
             ma_coeff_array = ArrayType(content = ma_content, n = q, type_ = 'real')
             ny_maCoef_obj = MACoefficients(Array = ma_coeff_array)
 
-            residuals = list()
-            try:
-                residuals = sm_results._results.resid[-q:]
-            except:
-                pass
+            residuals = sm_results._results.resid[-q:] if q>0 else []
             resid_content = ' '.join([str(res) for res in residuals])
             resid_array = ArrayType(content = resid_content, n = len(residuals), type_ = 'real')
             residual_obj = Residuals(Array = resid_array)
@@ -143,9 +139,6 @@ class ArimaToPMML:
 
         def get_mining_field_objs():
             mining_field_objs = list()
-            idx_name = results_obj.data.orig_endog.index.name
-            idx_usage_type = 'order'
-            mining_field_objs.append(MiningField(name = idx_name, usageType = idx_usage_type))
             if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
                 ts_name = results_obj.data.orig_endog.columns[0]
             elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
@@ -176,9 +169,6 @@ class ArimaToPMML:
 
         def get_data_field_objs():
             data_field_objs = list()
-            index_name = results_obj.data.orig_endog.index.name
-            idx_data_type, idx_op_type = get_pmml_datatype_optype(results_obj.model._index)
-            data_field_objs.append(DataField(name=index_name, dataType=idx_data_type, optype=idx_op_type))
             if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
                 ts_name = results_obj.data.orig_endog.columns[0]
             elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
@@ -196,6 +186,9 @@ class ArimaToPMML:
             extensions.append(Extension(name="cov_type", value = results.cov_type))
             return extensions
 
+        if 'int' in str(results_obj.model.endog.dtype):
+            results_obj.model.endog=results_obj.model.endog.astype('float64')
+            results_obj.model.data.endog=results_obj.model.data.endog.astype('float64')
         if results_obj.model.__class__.__name__ == 'SARIMAX':
             #Get SArimaX Object and Export
             sarimax_obj = get_sarimax_obj(results_obj)
