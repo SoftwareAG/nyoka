@@ -36,7 +36,11 @@ class Lag(TransformerMixin):
         self.value = value
         self.copy = copy
         
-    def fit(self, X, y=None):
+    def fit(self, X, y=None):        
+        return self
+            
+        
+    def transform(self, X, y=None):
         self._transformed_X = list()
         X = check_array(X, copy=self.copy, warn_on_dtype=True, estimator=self)       
         q_list = [queue.Queue() for i in range(len(X[0]))]
@@ -51,11 +55,6 @@ class Lag(TransformerMixin):
             for idx, col in enumerate(row):
                 q_list[idx].put(col)
                 q_list[idx].get()
-        
-        return self
-            
-        
-    def transform(self, X, y=None):
         return np.array(self._transformed_X)
         
     
