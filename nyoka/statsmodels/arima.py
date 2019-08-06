@@ -44,6 +44,7 @@ class ArimaToPMML:
                 TimeSeriesModel = [ TimeSeriesModel(modelName = model_name,
                                                     functionName = function_name, bestFit = best_fit, isScorable = True,
                                                     MiningSchema = MiningSchema(MiningField = get_mining_field_objs()),
+                                                    Output = Output(OutputField = get_output_field()),
                                                     TimeSeries = get_time_series_obj_list(usage = 'original' , timeRequired = True),
                                                     ARIMA = arima_obj) ])
 
@@ -77,11 +78,16 @@ class ArimaToPMML:
             seasonal_ma_content = ' '.join([str(coeff) for coeff in sm_results._results._params_seasonal_ma] if int(Q) > 0 else [])
             seasonal_ma_coeff_array = ArrayType(content = seasonal_ma_content, n = Q, type_ = 'real')
             ny_seasonal_maCoef_obj = MACoefficients(Array = seasonal_ma_coeff_array)
+            residuals_ = ' '.join([str(val) for val in sm_results.forecasts_error[0][-S:]] if S>0  else [])
+            residual_array = ArrayType(content = residuals_, n = S, type_ = 'real')
 
-            nyoka_sarimax_obj = ARIMA(#predictionMethod = None,
-                                Extension = get_sarimax_extension_list(sm_results),
-                                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ns_ar_params_array), MA = MA(MACoefficients = ny_ns_maCoef_obj)),
-                                SeasonalComponent = SeasonalComponent(P = P, D = D, Q = Q, period = S, AR = AR(Array = seasonal_ar_params_array), MA = MA(MACoefficients = ny_seasonal_maCoef_obj)))
+            nyoka_sarimax_obj = ARIMA(RMSE=math.sqrt(sm_results._params_variance[0]),
+                                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ns_ar_params_array),\
+                                     MA = MA(MACoefficients = ny_ns_maCoef_obj)),
+                                SeasonalComponent = SeasonalComponent(P = P, D = D, Q = Q, period = S, 
+                                AR = AR(Array = seasonal_ar_params_array), 
+                                MA = MA(MACoefficients = ny_seasonal_maCoef_obj,
+                                Residuals = Residuals(Array=residual_array))))
             return nyoka_sarimax_obj
 
         def get_arima_obj(sm_results):
@@ -126,8 +132,13 @@ class ArimaToPMML:
             def get_time_value_objs():
                 time_value_objs = list()
                 if(usage == 'original' and timeRequired == True):
+                    if results_obj.model.__class__.__name__ in ["ARIMA", "ARMA"]:
+                        timestamp_index = results_obj.model.data.orig_endog
+                    else:
+                        timestamp_index = results_obj.model
                     for int_idx in range(results_obj.data.endog.size):
-                        time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx]), Timestamp = Timestamp(str(results_obj.model.data.orig_endog._index[int_idx]))))
+                        time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx]),\
+                             Timestamp = Timestamp(str(timestamp_index._index[int_idx]))))
                 elif(usage == 'logical' and timeRequired == True):
                     #TODO: Implement This
                     raise NotImplementedError("Not Implemented")
@@ -137,6 +148,17 @@ class ArimaToPMML:
             get_time_series_obj_list.append(obj)
             return get_time_series_obj_list
 
+        def get_output_field():
+            out_flds = list()
+            if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
+                ts_name = results_obj.data.orig_endog.columns[0]
+            elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
+                ts_name = results_obj.data.orig_endog.name
+            else:
+                ts_name = 'value'
+            out_flds.append(OutputField(name="predicted_"+ts_name, optype="continuous", dataType="double", feature="predictedValue"))
+            return out_flds
+
         def get_mining_field_objs():
             mining_field_objs = list()
             if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
@@ -144,7 +166,7 @@ class ArimaToPMML:
             elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
                 ts_name = results_obj.data.orig_endog.name
             else:
-                ts_name = 'input'
+                ts_name = 'value'
             ts_usage_type = 'target'
             mining_field_objs.append(MiningField(name = ts_name, usageType = ts_usage_type))
             mining_field_objs.append(MiningField(name = 'h', usageType = 'supplementary'))
@@ -174,7 +196,7 @@ class ArimaToPMML:
             elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
                 ts_name = results_obj.data.orig_endog.name
             else:
-                ts_name = 'input'
+                ts_name = 'value'
             tar_data_type, ts_op_type = get_pmml_datatype_optype(results_obj.model.endog)
             data_field_objs.append(DataField(name=ts_name, dataType=tar_data_type, optype=ts_op_type))
             data_field_objs.append(DataField(name='h', dataType='integer', optype='continuous'))
