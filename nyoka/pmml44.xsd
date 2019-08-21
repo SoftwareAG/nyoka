@@ -117,6 +117,11 @@
             <xs:enumeration value="Slicing"/>
             <xs:enumeration value="BatchNormalization"/>
             <xs:enumeration value="LocalResponseNormalization"/>
+            <xs:enumeration value="UpsampleLike"/>
+            <xs:enumeration value="Anchors"/>
+            <xs:enumeration value="RegressBoxes"/>
+            <xs:enumeration value="ClipBoxes"/>
+            <xs:enumeration value="FilterDetections"/>
             <xs:enumeration value="GaussianNoise"/>
             <xs:enumeration value="GaussianDropout"/>
             <xs:enumeration value="AlphaDropout"/>
@@ -396,6 +401,12 @@
             <xs:attribute name="mergeLayerDotNormalize" type="xs:boolean"/>
             <xs:attribute name="mergeLayerConcatOperationAxes" type="xs:string"/>
             <xs:attribute name="slicingAxis" type="INT-NUMBER"/>
+            <xs:attribute name="anchorSize" type="INT-NUMBER"/>
+            <xs:attribute name="anchorStride" type="INT-NUMBER"/>
+            <xs:attribute name="anchorScales" type="xs:string"/>
+            <xs:attribute name="anchorRatios" type="xs:string"/>
+            <xs:attribute name="regressBoxesMean" type="xs:string"/>
+            <xs:attribute name="regressBoxesStd" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="DNN-ACTIVATION-FUNCTION">
@@ -676,7 +687,7 @@
       <xs:element ref="VectorFields"/>
       <xs:element ref="VectorInstance" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="numberOfVectors" type="INT-NUMBER" use="optional"/>
+    <xs:attribute name="numberOfVectors" type="xs:nonNegativeInteger" use="optional"/>
   </xs:complexType>
 </xs:element>
 
@@ -689,7 +700,7 @@
         <xs:element ref="CategoricalPredictor"/> 
       </xs:choice>
     </xs:sequence>
-    <xs:attribute name="numberOfFields" type="INT-NUMBER" use="optional"/>
+    <xs:attribute name="numberOfFields" type="xs:nonNegativeInteger" use="optional"/>
   </xs:complexType>
 </xs:element>
 
@@ -723,8 +734,8 @@
       <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="SupportVector" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="numberOfSupportVectors" type="INT-NUMBER" use="optional"/>
-    <xs:attribute name="numberOfAttributes" type="INT-NUMBER" use="optional"/>
+    <xs:attribute name="numberOfSupportVectors" type="xs:nonNegativeInteger" use="optional"/>
+    <xs:attribute name="numberOfAttributes" type="xs:nonNegativeInteger" use="optional"/>
   </xs:complexType>
 </xs:element>
 
@@ -742,7 +753,7 @@
       <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="Coefficient" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="numberOfCoefficients" type="INT-NUMBER" use="optional"/>
+    <xs:attribute name="numberOfCoefficients" type="xs:nonNegativeInteger" use="optional"/>
     <xs:attribute name="absoluteValue" type="REAL-NUMBER" use="optional" default="0"/>
   </xs:complexType>
 </xs:element>
@@ -1428,15 +1439,15 @@
     <xs:attribute name="modelName" type="xs:string"/>
     <xs:attribute name="functionName" type="MINING-FUNCTION" use="required"/>
     <xs:attribute name="algorithmName" type="xs:string"/>
-    <xs:attribute name="numberOfTransactions" type="INT-NUMBER" use="required"/>
-    <xs:attribute name="maxNumberOfItemsPerTA" type="INT-NUMBER"/>
+    <xs:attribute name="numberOfTransactions" type="xs:nonNegativeInteger" use="required"/>
+    <xs:attribute name="maxNumberOfItemsPerTA" type="xs:nonNegativeInteger"/>
     <xs:attribute name="avgNumberOfItemsPerTA" type="REAL-NUMBER"/>
     <xs:attribute name="minimumSupport" type="PROB-NUMBER" use="required"/>
     <xs:attribute name="minimumConfidence" type="PROB-NUMBER" use="required"/>
     <xs:attribute name="lengthLimit" type="INT-NUMBER"/>
-    <xs:attribute name="numberOfItems" type="INT-NUMBER" use="required"/>
-    <xs:attribute name="numberOfItemsets" type="INT-NUMBER" use="required"/>
-    <xs:attribute name="numberOfRules" type="INT-NUMBER" use="required"/>
+    <xs:attribute name="numberOfItems" type="xs:nonNegativeInteger" use="required"/>
+    <xs:attribute name="numberOfItemsets" type="xs:nonNegativeInteger" use="required"/>
+    <xs:attribute name="numberOfRules" type="xs:nonNegativeInteger" use="required"/>
     <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
   </xs:complexType>
 </xs:element>
@@ -2166,11 +2177,11 @@
     <xs:attribute name="modelName" type="xs:string"/>
     <xs:attribute name="functionName" type="MINING-FUNCTION" use="required"/>
     <xs:attribute name="algorithmName" type="xs:string"/>
-    <xs:attribute name="numberOfTransactions" type="INT-NUMBER"/>
-    <xs:attribute name="maxNumberOfItemsPerTransaction" type="INT-NUMBER"/>
+    <xs:attribute name="numberOfTransactions" type="xs:nonNegativeInteger"/>
+    <xs:attribute name="maxNumberOfItemsPerTransaction" type="xs:nonNegativeInteger"/>
     <xs:attribute name="avgNumberOfItemsPerTransaction" type="REAL-NUMBER"/>      
-    <xs:attribute name="numberOfTransactionGroups" type="INT-NUMBER"/>
-    <xs:attribute name="maxNumberOfTAsPerTAGroup" type="INT-NUMBER"/>
+    <xs:attribute name="numberOfTransactionGroups" type="xs:nonNegativeInteger"/>
+    <xs:attribute name="maxNumberOfTAsPerTAGroup" type="xs:nonNegativeInteger"/>
     <xs:attribute name="avgNumberOfTAsPerTAGroup" type="REAL-NUMBER"/>
     <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
   </xs:complexType>
@@ -2180,12 +2191,12 @@
     <xs:sequence>
       <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="minimumNumberOfItems" type="INT-NUMBER" default="1"/>
-    <xs:attribute name="maximumNumberOfItems" type="INT-NUMBER"/>
-    <xs:attribute name="minimumNumberOfAntecedentItems" type="INT-NUMBER" default="1"/>
-    <xs:attribute name="maximumNumberOfAntecedentItems" type="INT-NUMBER"/>
-    <xs:attribute name="minimumNumberOfConsequentItems" type="INT-NUMBER" default="1"/>
-    <xs:attribute name="maximumNumberOfConsequentItems" type="INT-NUMBER"/>
+    <xs:attribute name="minimumNumberOfItems" type="xs:nonNegativeInteger" default="1"/>
+    <xs:attribute name="maximumNumberOfItems" type="xs:nonNegativeInteger"/>
+    <xs:attribute name="minimumNumberOfAntecedentItems" type="xs:nonNegativeInteger" default="1"/>
+    <xs:attribute name="maximumNumberOfAntecedentItems" type="xs:nonNegativeInteger"/>
+    <xs:attribute name="minimumNumberOfConsequentItems" type="xs:nonNegativeInteger" default="1"/>
+    <xs:attribute name="maximumNumberOfConsequentItems" type="xs:nonNegativeInteger"/>
     <xs:attribute name="minimumSupport" type="REAL-NUMBER" default="0"/>
     <xs:attribute name="minimumConfidence" type="REAL-NUMBER" default="0"/>
     <xs:attribute name="minimumLift" type="REAL-NUMBER" default="0"/>
@@ -2268,7 +2279,7 @@
       <xs:element ref="Time" minOccurs="0"/>
     </xs:sequence>
     <xs:attribute name="id" type="ELEMENT-ID" use="required"/>
-    <xs:attribute name="numberOfSets" type="INT-NUMBER"/>
+    <xs:attribute name="numberOfSets" type="xs:nonNegativeInteger"/>
     <xs:attribute name="occurrence" type="INT-NUMBER"/>
     <xs:attribute name="support" type="REAL-NUMBER"/>
   </xs:complexType>
@@ -2292,7 +2303,7 @@
       <xs:element ref="Time" minOccurs="0"/>
     </xs:sequence>
     <xs:attribute name="id" type="ELEMENT-ID" use="required"/>
-    <xs:attribute name="numberOfSets" type="INT-NUMBER" use="required"/>
+    <xs:attribute name="numberOfSets" type="xs:nonNegativeInteger" use="required"/>
     <xs:attribute name="occurrence" type="INT-NUMBER" use="required"/>
     <xs:attribute name="support" type="REAL-NUMBER" use="required"/>
     <xs:attribute name="confidence" type="REAL-NUMBER" use="required"/>
@@ -2450,7 +2461,6 @@
       <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required"/>
-            <xs:attribute name="value" type="xs:string"/>
     <xs:attribute name="label" type="xs:string"/>
     <xs:attribute name="referencePoint" type="REAL-NUMBER" default="0"/>
   </xs:complexType>
@@ -2663,7 +2673,7 @@
     <xs:attribute name="modelName" type="xs:string"/>
     <xs:attribute name="functionName" type="MINING-FUNCTION" use="required"/>
     <xs:attribute name="algorithmName" type="xs:string"/>
-    <xs:attribute name="numberOfNeighbors" type="INT-NUMBER" use="required"/>
+    <xs:attribute name="numberOfNeighbors" type="xs:nonNegativeInteger" use="required"/>
     <xs:attribute name="continuousScoringMethod" type="CONT-SCORING-METHOD" default="average"/>
     <xs:attribute name="categoricalScoringMethod" type="CAT-SCORING-METHOD" default="majorityVote"/>
     <xs:attribute name="instanceIdVariable" type="FIELD-NAME"/>
@@ -4435,8 +4445,8 @@
     <xs:attribute name="modelName" type="xs:string"/>
     <xs:attribute name="functionName" type="MINING-FUNCTION" use="required"/>
     <xs:attribute name="algorithmName" type="xs:string"/>
-    <xs:attribute name="numberOfTerms" type="xs:integer" use="required"/>
-    <xs:attribute name="numberOfDocuments" type="xs:integer" use="required"/>
+    <xs:attribute name="numberOfTerms" type="xs:nonNegativeInteger" use="required"/>
+    <xs:attribute name="numberOfDocuments" type="xs:nonNegativeInteger" use="required"/>
     <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
   </xs:complexType>
 </xs:element>
