@@ -37,14 +37,16 @@ KERAS_LAYER_TYPES_MAP = {'InputLayer': 'Input',
 KERAS_LAYER_PARAMS = ['filters', 'kernel_size', 'strides', 'padding',
                       'input_shape', 'output_shape', "activation", "axis",
                       "epsilon", "pool_size", "scale", "center", "depth_multiplier",
-                      "rate", "dilation_rate","size"]
+                      "rate", "dilation_rate","size","stride","ratios","scales","mean","std","nms_threshold",
+                      "score_threshold"]
 
 NYOKA_LAYER_PARAMS = ['featureMaps', 'kernel', 'stride', 'pad',
                       'inputDimension', 'outputDimension',
                       "activationFunction", "axis",
                       "batchNormalizationEpsilon", "poolSize",
                       "batchNormalizationScale", "batchNormalizationCenter", "depthMultiplier",
-                      "dropoutRate", "dilationRate","upsamplingSize"]
+                      "dropoutRate", "dilationRate","upsamplingSize","anchorStride","anchorRatios","anchorScales",
+                      "regressBoxesMean", "regressBoxesStd","nmsThreshold","scoreThreshold"]
 
 
 class KerasHeader(ny.Header):
@@ -228,7 +230,8 @@ class KerasNetworkLayer(ny.NetworkLayer):
                     else:
                         layer_params_dict[key] = str(out_s)
                 else:
-                    layer_params_dict[key] = str(getattr(layer, val))
+                    layer_params_dict[key] = str(tuple(layer_config.get(val)))\
+                         if layer_config.get(val).__class__.__name__ == 'list' else str(layer_config.get(val))
             else:
                 layer_params_dict[key] = None
             if layer_params_dict[key] and layer_params_dict[key] != "None":
@@ -367,6 +370,17 @@ class KerasNetworkLayer(ny.NetworkLayer):
         elif layer_type == "ReLU":
             layer_type = "Activation"
             layer_params["activationFunction"] = "reLU6"
+        elif layer_type == "Anchors":
+            layer_params["anchorSize"] = layer_params["upsamplingSize"]
+            del layer_params["upsamplingSize"]
+            layer_params["anchorRatios"] = layer_params["anchorRatios"]
+            layer_params["anchorScales"] = layer_params["anchorScales"]
+        elif layer_type == "RegressBoxes":
+            layer_params["regressBoxesMean"] = layer_params["regressBoxesMean"]
+            layer_params["regressBoxesStd"] = layer_params["regressBoxesStd"]
+        elif layer_type == 'FilterDetections':
+            layer_params['nms'] = layer.nms
+            layer_params['classSpecificFilter'] = layer.class_specific_filter
         layer_params["mergeLayerOp"] = merge_layer_op_type
         layer_params["mergeLayerConcatOperationAxes"] = merge_concat_axes
         layer_params["mergeLayerDotOperationAxis"] = merge_dot_axes
@@ -404,7 +418,7 @@ class KerasDataDictionary(ny.DataDictionary):
     def __init__(self, dataSet, predictedClasses, script_args):
         ny.DataDictionary.__init__(self)
         if predictedClasses:
-            class_node = ny.DataField(name="predictions", optype="categorical",
+            class_node = ny.DataField(name="labels", optype="categorical",
                                     dataType="string")
             if type(predictedClasses) == list:
                 if not all(type(pC) == str for pC in predictedClasses):
@@ -451,7 +465,7 @@ class KerasMiningSchema(ny.MiningSchema):
     -------
     Nyoka's Mining Schema Object
     """ 
-    def __init__(self, dataSet=None):
+    def __init__(self, dataSet, predictedClasses):
         ny.MiningSchema.__init__(self)
         name = dataSet
         ny.MiningSchema.add_MiningField(self, ny.MiningField(
@@ -459,7 +473,7 @@ class KerasMiningSchema(ny.MiningSchema):
             invalidValueTreatment="asIs"))
 
         ny.MiningSchema.add_MiningField(self, ny.MiningField(
-            name="predictions", usageType="target",
+            name="labels" if predictedClasses else "predictions", usageType="target",
             invalidValueTreatment="asIs"))
 
 
@@ -480,7 +494,7 @@ class KerasOutput(ny.Output):
         ny.Output.__init__(self)
         if predictedClasses:
             ny.Output.add_OutputField(self, ny.OutputField(
-                name="predictedValue_predictions", feature="predictedValue",
+                name="predicted_label", feature="predictedValue",
                 dataType="string", optype="categorical"))
             ny.Output.add_OutputField(self, ny.OutputField(
                 name="top1_prob", feature="probability", dataType="double"))
@@ -489,7 +503,7 @@ class KerasOutput(ny.Output):
                 dataType="string", optype="categorical"))
         else:
             ny.Output.add_OutputField(self, ny.OutputField(
-                name="predictedValue_predictions", feature="predictedValue",
+                name="predicted_predictions", feature="predictedValue",
                 dataType="double", optype="continuous"))
 
 
@@ -686,7 +700,7 @@ class KerasNetwork(ny.DeepNetwork):
             model_namme = keras_model.name
         network_layers = self._create_layers(keras_model, dataSet, script_args)
         local_trans = None
-        mining_schema = KerasMiningSchema(dataSet)
+        mining_schema = KerasMiningSchema(dataSet, predictedClasses)
         if dataSet == 'image' or script_args:
             local_trans = KerasLocalTransformations(keras_model, dataSet, script_args)
         function_Name = "classification" if predictedClasses else "regression"
@@ -726,7 +740,7 @@ class KerasToPmml(ny.PMML):
             return_type : string
                 The return type of the function. Valid values are ('string', 'double', 'float','integer')
             encode : boolean
-                The representation of the script in PMML. If True, the script will be represented as base64 encoded string. Else as plain text.
+                The representation of the script in PMML. If True, the script will be represented as base64 encoded string, else as plain text.
                 If not provided, default value `True` is considered.
 
     Returns
@@ -734,15 +748,35 @@ class KerasToPmml(ny.PMML):
     Creates PMML object, this can be saved in file using export function
     """
 
+    @property
+    def content_error(self):
+        return "`content` should be present in script_args, which is either a function or a string (script content)"
+
+    @property
+    def def_name_error(self):
+        return "`def_name`, the name of the funciton is required when `content` is a string."
+
+    @property
+    def ret_type_error(self):
+        return "`return_type` of the preprocessing function is required. Valid return types are ('string', 'double', 'float', 'intger')"
+
+    @property
+    def ret_type_value_error(self):
+        return "Valid return types are ('string', 'double', 'float', 'intger')"
+
+    @property
+    def encode_error(self):
+        return "Valid values for `encode` are (True, False)"
+    
     def validate_script_args(self, script_args):
-        assert 'content' in script_args, "`content` should be present in script_args, which is either a function or a string (script content)"
+        assert 'content' in script_args, self.content_error
         if script_args['content'].__class__.__name__ == 'str':
-            assert 'def_name' in script_args, "`def_name`, the name of the funciton is required when `content` is a string."
-        assert 'return_type' in script_args, "`return_type` of the preprocessing function is required. Valid return types are ('string', 'double', 'float', 'intger')"
+            assert 'def_name' in script_args, self.def_name_error
+        assert 'return_type' in script_args, self.ret_type_error
         ret_type = script_args['return_type'].lower()
-        assert ret_type in ("string", "double", "float", "intger"), "Valid return types are ('string', 'double', 'float', 'intger')"
+        assert ret_type in ("string", "double", "float", "intger"), self.ret_type_value_error
         if 'encode' in script_args:
-            assert script_args['encode'] in [True, False], f"Valid values for `encode` are (True, False), found {script_args['encode']}"
+            assert script_args['encode'] in [True, False], self.encode_error
 
 
     def __init__(self, keras_model, model_name=None, description=None,copyright=None,\
@@ -752,7 +786,8 @@ class KerasToPmml(ny.PMML):
         data_dict = KerasDataDictionary(dataSet, predictedClasses, script_args)
         trans_dict = None
         if dataSet == 'image' and not script_args:
-            warnings.warn("Input data is `image` (dataSet='image') but no script (script_args parameter) is provided to convert the image into base64 string!")
+            warnings.warn("Input data is `image` (dataSet='image') but no script (script_args parameter)\
+                 is provided to convert the image into base64 string!")
         if script_args:
             self.validate_script_args(script_args)
             trans_dict = KerasTransformationDictionary(dataSet,script_args)

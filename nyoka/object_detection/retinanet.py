@@ -40,6 +40,7 @@ class RetinanetToPmml:
         self._pyramid_layers = ("P3", "P4", "P5", "P6", "P7")
         self.model = model
         self.input_shape = input_shape
+        self.max_detections = model.layers[-1].max_detections
         self.pmml_obj = None
         self._layer_outputs = dict()
         self.generate_pmml(model, input_shape,input_data,trained_classes,pmml_file_name)
@@ -73,8 +74,8 @@ class RetinanetToPmml:
             mod.add(l)
         
         if trained_classes == None:
-            warnings.warn("trained_classes are not provided. Default `max_classes`(1 to 300) will be considered.")
-            trained_classes = ["Category_"+str(i+1).zfill(3) for i in range(300)]
+            warnings.warn(f"trained_classes are not provided. Default `max_classes`(1 to {self.max_detections}) will be considered.")
+            trained_classes = ["Category_"+str(i+1).zfill(3) for i in range(self.max_detections)]
 
         group1_pmml = kerasAPI.KerasToPmml(mod,model_name=model.name,dataSet=input_data, predictedClasses=trained_classes)
         for idx, layer in enumerate(group1_pmml.DeepNetwork[0].NetworkLayer):
@@ -188,16 +189,10 @@ class RetinanetToPmml:
         out_flds = []
         out_flds.append(
             pml.OutputField(
-                name="boxes_scores_labels_json",
+                name="predicted_LabelBoxScore",
                 dataType="string",
-                feature="array"
-            )
-        )
-        out_flds.append(
-            pml.OutputField(
-                name="labels",
-                dataType="string",
-                feature="predictedValue"
+                feature="predictedValue",
+                Extension = [pml.Extension(extender="ADAPA", name="format", value="JSON")]
             )
         )
         return pml.Output(OutputField=out_flds)
