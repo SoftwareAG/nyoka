@@ -16,7 +16,7 @@ import sys
 import re
 import traceback
 
-def generate_pipeline(parsedPMML):
+def generate_pipeline(parsedPMML,pmmlModel):
     scikitLearnModel = None
     derivedField = list()
     try:
@@ -40,30 +40,30 @@ def generate_pipeline(parsedPMML):
             preProcessingPipeline=preProcessingPipeline.replace('TfidfVectorizer('+replacement+'vocabulary=None)','TfidfVectorizer()')
         preProcessingPipeline = eval(preProcessingPipeline)
 
-        if parsedPMML.RegressionModel:
-            pmmlModel = parsedPMML.RegressionModel[0]
-            # sk_model_obj = get_regression_model(pmml_modelobj,pmml)
-        elif parsedPMML.NeuralNetwork:
-            pmmlModel = parsedPMML.NeuralNetwork[0]
-            # sk_model_obj = get_neural_net_model(nyoka_pmml)
-        elif parsedPMML.TreeModel:
-            pmmlModel = parsedPMML.TreeModel[0]
-            # sk_model_obj = get_tree_model(nyoka_pmml)
-        elif parsedPMML.SupportVectorMachineModel:
-            pmmlModel = parsedPMML.SupportVectorMachineModel[0]
-            # sk_model_obj = get_svm_model(pmml_modelobj,nyoka_pmml)
-        elif parsedPMML.ClusteringModel:
-            pmmlModel = parsedPMML.ClusteringModel[0]
-            # sk_model_obj = get_kmean_model(pmml_modelobj)
-        elif parsedPMML.MiningModel:
-            pmmlModel = parsedPMML.MiningModel[0]
-            # sk_model_obj = get_ensemble_model(nyoka_pmml)
-        elif parsedPMML.NaiveBayesModel:
-            pmmlModel = parsedPMML.NaiveBayesModel[0]
-            # sk_model_obj = get_naivebayes_model(nyoka_pmml)
-        elif parsedPMML.NearestNeighborModel:
-            pmmlModel = parsedPMML.NearestNeighborModel[0]
-            # sk_model_obj = get_knn_model(nyoka_pmml)
+        # if parsedPMML.RegressionModel:
+        #     pmmlModel = parsedPMML.RegressionModel[0]
+        #     # sk_model_obj = get_regression_model(pmml_modelobj,pmml)
+        # elif parsedPMML.NeuralNetwork:
+        #     pmmlModel = parsedPMML.NeuralNetwork[0]
+        #     # sk_model_obj = get_neural_net_model(nyoka_pmml)
+        # elif parsedPMML.TreeModel:
+        #     pmmlModel = parsedPMML.TreeModel[0]
+        #     # sk_model_obj = get_tree_model(nyoka_pmml)
+        # elif parsedPMML.SupportVectorMachineModel:
+        #     pmmlModel = parsedPMML.SupportVectorMachineModel[0]
+        #     # sk_model_obj = get_svm_model(pmml_modelobj,nyoka_pmml)
+        # elif parsedPMML.ClusteringModel:
+        #     pmmlModel = parsedPMML.ClusteringModel[0]
+        #     # sk_model_obj = get_kmean_model(pmml_modelobj)
+        # elif parsedPMML.MiningModel:
+        #     pmmlModel = parsedPMML.MiningModel[0]
+        #     # sk_model_obj = get_ensemble_model(nyoka_pmml)
+        # elif parsedPMML.NaiveBayesModel:
+        #     pmmlModel = parsedPMML.NaiveBayesModel[0]
+        #     # sk_model_obj = get_naivebayes_model(nyoka_pmml)
+        # elif parsedPMML.NearestNeighborModel:
+        #     pmmlModel = parsedPMML.NearestNeighborModel[0]
+        #     # sk_model_obj = get_knn_model(nyoka_pmml)
 
         transformationDictionary = parsedPMML.get_TransformationDictionary()
         if transformationDictionary:

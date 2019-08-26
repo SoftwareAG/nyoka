@@ -27,45 +27,74 @@ from sklearn.ensemble import GradientBoostingClassifier,GradientBoostingRegresso
 import unicodedata
 from nyoka.reconstruct.text import *
 import nyoka.reconstruct.pmml_to_lgbmTrainAPI as RClgbmTrainAPI
+import nyoka.reconstruct.pmml_to_pipeline_pp as reconstructPeprocessingPipeline
 from nyoka.keras.pmml_to_keras_model import GenerateKerasModel
 import sys
 import re
 import traceback
 
 
-def generate_skl_model(nyoka_pmml):
+def reconstructPMML(pmml, output = "preProcessingPipelineWithModel"):
+    return generate_skl_model(pmml, output)
+
+def generate_skl_model(pmml, output = "preProcessingPipelineWithModel"):
+    # output = ['modelOnly','preProcessingPipelineWithModel','asDictionary]
+
+    if pmml.__class__.__name__ == "PMML":
+        pass
+    elif pmml.__class__.__name__ == "str":
+        pmml = pml.parse(pmml, silence=True)
+    else:
+        raise NotImplementedError("Not Implemented")
+        
     sk_model_obj = None
     der_field = list()
     try:
-        if nyoka_pmml.RegressionModel:
-            sk_model_obj = get_regression_model(nyoka_pmml)
-        elif nyoka_pmml.NeuralNetwork:
-            sk_model_obj = get_neural_net_model(nyoka_pmml)
-        elif nyoka_pmml.TreeModel:
-            sk_model_obj = get_tree_model(nyoka_pmml)
-        elif nyoka_pmml.SupportVectorMachineModel:
-            pmml_modelobj = nyoka_pmml.SupportVectorMachineModel[0]
-            sk_model_obj = get_svm_model(pmml_modelobj,nyoka_pmml)
-        elif nyoka_pmml.ClusteringModel:
-            pmml_modelobj = nyoka_pmml.ClusteringModel[0]
+        if pmml.RegressionModel:
+            pmml_modelobj = pmml.RegressionModel[0]
+            sk_model_obj = get_regression_model(pmml)
+        elif pmml.NeuralNetwork:
+            pmml_modelobj = pmml.NeuralNetwork[0]
+            sk_model_obj = get_neural_net_model(pmml)
+        elif pmml.TreeModel:
+            pmml_modelobj = pmml.TreeModel[0]
+            sk_model_obj = get_tree_model(pmml)
+        elif pmml.SupportVectorMachineModel:
+            pmml_modelobj = pmml.SupportVectorMachineModel[0]
+            sk_model_obj = get_svm_model(pmml_modelobj,pmml)
+        elif pmml.ClusteringModel:
+            pmml_modelobj = pmml.ClusteringModel[0]
             sk_model_obj = get_kmean_model(pmml_modelobj)
-        elif nyoka_pmml.MiningModel:
-            pmml_modelobj = nyoka_pmml.MiningModel[0]
+        elif pmml.MiningModel:
+            pmml_modelobj = pmml.MiningModel[0]
             if(pmml_modelobj.get_algorithmName()=='LightGBM'):
-                sk_model_obj = RClgbmTrainAPI.reconstruct(nyoka_pmml)
+                sk_model_obj = RClgbmTrainAPI.reconstruct(pmml)
             else:
-                sk_model_obj = get_ensemble_model(nyoka_pmml)
-        elif nyoka_pmml.NaiveBayesModel:
-            pmml_modelobj = nyoka_pmml.NaiveBayesModel[0]
-            sk_model_obj = get_naivebayes_model(nyoka_pmml)
-        elif nyoka_pmml.NearestNeighborModel:
-            pmml_modelobj = nyoka_pmml.NearestNeighborModel[0]
-            sk_model_obj = get_knn_model(nyoka_pmml)
-        elif nyoka_pmml.DeepNetwork:
-            pmml_modelobj = nyoka_pmml.DeepNetwork[0]
-            sk_model_obj = GenerateKerasModel(nyoka_pmml)
-
-        return sk_model_obj
+                sk_model_obj = get_ensemble_model(pmml)
+        elif pmml.NaiveBayesModel:
+            pmml_modelobj = pmml.NaiveBayesModel[0]
+            sk_model_obj = get_naivebayes_model(pmml)
+        elif pmml.NearestNeighborModel:
+            pmml_modelobj = pmml.NearestNeighborModel[0]
+            sk_model_obj = get_knn_model(pmml)
+        elif pmml.DeepNetwork:
+            pmml_modelobj = pmml.DeepNetwork[0]
+            sk_model_obj = GenerateKerasModel(pmml)
+        else:
+            raise NotImplementedError("Not Implemented")
+        if output == "modelOnly":
+            return sk_model_obj
+        elif output == "preProcessingPipelineWithModel":
+            pipe = reconstructPeprocessingPipeline.generate_pipeline(pmml,pmml_modelobj)
+            if pipe:
+                pipe.steps.append(("model", sk_model_obj))
+                return pipe
+            else:
+                return sk_model_obj
+        elif output == "asDictionary":
+            return {"preProcessingPipeline" : reconstructPeprocessingPipeline.generate_pipeline(pmml,pmml_modelobj), "model" : sk_model_obj}
+        else:
+            raise ValueError("Invalid Arguments")
     except Exception as err:
         print("Error Occurred while reconstructing, details are : {} ".format(str(err)))
         print(str(traceback.format_exc()))
