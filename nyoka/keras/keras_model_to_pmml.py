@@ -524,16 +524,6 @@ class KerasLocalTransformations(ny.LocalTransformations):
     Nyoka's Transformations Object
     """ 
     def __init__(self, keras_model, dataSet, script_args):
-
-        arch_name = 'mobilenet'
-        if 'vgg' in keras_model.name:
-            arch_name = 'vgg'
-        elif 'xception' in keras_model.name:
-            arch_name = 'xception'
-        elif 'inception' in keras_model.name:
-            arch_name = 'inception'
-        elif 'resnet' in keras_model.name:
-            arch_name = 'resnet'
         ny.LocalTransformations.__init__(self)
         if script_args:
             ret_type = script_args['return_type'].lower()
@@ -547,7 +537,6 @@ class KerasLocalTransformations(ny.LocalTransformations):
         else:
             ny.LocalTransformations.add_DerivedField(self, ny.DerivedField(
                 name="base64String", optype="categorical", dataType="string",
-                trainingBackend="tensorflowChannelLast", architectureName=arch_name,
                 Apply=ny.Apply(function="CNN:getBase64String",
                             FieldRef=[ny.FieldRef(field="image")])))
 
@@ -785,9 +774,6 @@ class KerasToPmml(ny.PMML):
             dataSet = 'input'
         data_dict = KerasDataDictionary(dataSet, predictedClasses, script_args)
         trans_dict = None
-        if dataSet == 'image' and not script_args:
-            warnings.warn("Input data is `image` (dataSet='image') but no script (script_args parameter)\
-                 is provided to convert the image into base64 string!")
         if script_args:
             self.validate_script_args(script_args)
             trans_dict = KerasTransformationDictionary(dataSet,script_args)

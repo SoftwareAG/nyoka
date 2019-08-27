@@ -401,12 +401,16 @@
             <xs:attribute name="mergeLayerDotNormalize" type="xs:boolean"/>
             <xs:attribute name="mergeLayerConcatOperationAxes" type="xs:string"/>
             <xs:attribute name="slicingAxis" type="INT-NUMBER"/>
-            <xs:attribute name="anchorSize" type="INT-NUMBER"/>
+            <xs:attribute name="anchorSize" type="xs:positiveInteger"/>
             <xs:attribute name="anchorStride" type="INT-NUMBER"/>
             <xs:attribute name="anchorScales" type="xs:string"/>
             <xs:attribute name="anchorRatios" type="xs:string"/>
             <xs:attribute name="regressBoxesMean" type="xs:string"/>
             <xs:attribute name="regressBoxesStd" type="xs:string"/>
+            <xs:attribute name="scoreThreshold" type="REAL-NUMBER" use="optional"/>
+            <xs:attribute name="nms" type="xs:boolean" use="optional"/>
+            <xs:attribute name="nmsThreshold" type="REAL-NUMBER" use="optional"/>
+            <xs:attribute name="classSpecificFilter" type="xs:boolean" use="optional"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="DNN-ACTIVATION-FUNCTION">
@@ -443,6 +447,7 @@
             <xs:enumeration value="resnet"/>
             <xs:enumeration value="inception"/>
             <xs:enumeration value="vgg"/>
+            <xs:enumeration value="retinanet"/>
         </xs:restriction>
     </xs:simpleType>
 <xs:element name="MiningModel">

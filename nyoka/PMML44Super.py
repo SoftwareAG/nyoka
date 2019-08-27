@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Aug 20 15:50:32 2019 by generateDS.py version 2.28a.
+# Generated Tue Aug 27 12:09:15 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -5111,7 +5111,7 @@ class LayerBias(GeneratedsSuper):
 class LayerParameters(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, pad=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, anchorSize=None, anchorStride=None, anchorScales=None, anchorRatios=None, regressBoxesMean=None, regressBoxesStd=None, Extension=None):
+    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, pad=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, anchorSize=None, anchorStride=None, anchorScales=None, anchorRatios=None, regressBoxesMean=None, regressBoxesStd=None, scoreThreshold=None, nms=None, nmsThreshold=None, classSpecificFilter=None, Extension=None):
         self.original_tagname_ = None
         self.activationFunction = _cast(None, activationFunction)
         self.inputDimension = _cast(None, inputDimension)
@@ -5168,12 +5168,16 @@ class LayerParameters(GeneratedsSuper):
         self.mergeLayerDotNormalize = _cast(bool, mergeLayerDotNormalize)
         self.mergeLayerConcatOperationAxes = _cast(None, mergeLayerConcatOperationAxes)
         self.slicingAxis = _cast(None, slicingAxis)
-        self.anchorSize = _cast(None, anchorSize)
+        self.anchorSize = _cast(int, anchorSize)
         self.anchorStride = _cast(None, anchorStride)
         self.anchorScales = _cast(None, anchorScales)
         self.anchorRatios = _cast(None, anchorRatios)
         self.regressBoxesMean = _cast(None, regressBoxesMean)
         self.regressBoxesStd = _cast(None, regressBoxesStd)
+        self.scoreThreshold = _cast(None, scoreThreshold)
+        self.nms = _cast(bool, nms)
+        self.nmsThreshold = _cast(None, nmsThreshold)
+        self.classSpecificFilter = _cast(bool, classSpecificFilter)
         if Extension is None:
             self.Extension = []
         else:
@@ -5316,6 +5320,14 @@ class LayerParameters(GeneratedsSuper):
     def set_regressBoxesMean(self, regressBoxesMean): self.regressBoxesMean = regressBoxesMean
     def get_regressBoxesStd(self): return self.regressBoxesStd
     def set_regressBoxesStd(self, regressBoxesStd): self.regressBoxesStd = regressBoxesStd
+    def get_scoreThreshold(self): return self.scoreThreshold
+    def set_scoreThreshold(self, scoreThreshold): self.scoreThreshold = scoreThreshold
+    def get_nms(self): return self.nms
+    def set_nms(self, nms): self.nms = nms
+    def get_nmsThreshold(self): return self.nmsThreshold
+    def set_nmsThreshold(self, nmsThreshold): self.nmsThreshold = nmsThreshold
+    def get_classSpecificFilter(self): return self.classSpecificFilter
+    def set_classSpecificFilter(self, classSpecificFilter): self.classSpecificFilter = classSpecificFilter
     def validate_DNN_ACTIVATION_FUNCTION(self, value):
         # Validate type DNN-ACTIVATION-FUNCTION, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -5544,7 +5556,7 @@ class LayerParameters(GeneratedsSuper):
             outfile.write(' slicingAxis=%s' % (quote_attrib(self.slicingAxis), ))
         if self.anchorSize is not None and 'anchorSize' not in already_processed:
             already_processed.add('anchorSize')
-            outfile.write(' anchorSize=%s' % (quote_attrib(self.anchorSize), ))
+            outfile.write(' anchorSize="%s"' % self.gds_format_integer(self.anchorSize, input_name='anchorSize'))
         if self.anchorStride is not None and 'anchorStride' not in already_processed:
             already_processed.add('anchorStride')
             outfile.write(' anchorStride=%s' % (quote_attrib(self.anchorStride), ))
@@ -5560,6 +5572,18 @@ class LayerParameters(GeneratedsSuper):
         if self.regressBoxesStd is not None and 'regressBoxesStd' not in already_processed:
             already_processed.add('regressBoxesStd')
             outfile.write(' regressBoxesStd=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.regressBoxesStd), input_name='regressBoxesStd')), ))
+        if self.scoreThreshold is not None and 'scoreThreshold' not in already_processed:
+            already_processed.add('scoreThreshold')
+            outfile.write(' scoreThreshold=%s' % (quote_attrib(self.scoreThreshold), ))
+        if self.nms is not None and 'nms' not in already_processed:
+            already_processed.add('nms')
+            outfile.write(' nms="%s"' % self.gds_format_boolean(self.nms, input_name='nms'))
+        if self.nmsThreshold is not None and 'nmsThreshold' not in already_processed:
+            already_processed.add('nmsThreshold')
+            outfile.write(' nmsThreshold=%s' % (quote_attrib(self.nmsThreshold), ))
+        if self.classSpecificFilter is not None and 'classSpecificFilter' not in already_processed:
+            already_processed.add('classSpecificFilter')
+            outfile.write(' classSpecificFilter="%s"' % self.gds_format_boolean(self.classSpecificFilter, input_name='classSpecificFilter'))
     def exportChildren(self, outfile, level, namespace_='', name_='LayerParameters', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -5683,7 +5707,7 @@ class LayerParameters(GeneratedsSuper):
         if self.slicingAxis is not None:
             element.set('slicingAxis', self.slicingAxis)
         if self.anchorSize is not None:
-            element.set('anchorSize', self.anchorSize)
+            element.set('anchorSize', self.gds_format_integer(self.anchorSize))
         if self.anchorStride is not None:
             element.set('anchorStride', self.anchorStride)
         if self.anchorScales is not None:
@@ -5694,6 +5718,14 @@ class LayerParameters(GeneratedsSuper):
             element.set('regressBoxesMean', self.gds_format_string(self.regressBoxesMean))
         if self.regressBoxesStd is not None:
             element.set('regressBoxesStd', self.gds_format_string(self.regressBoxesStd))
+        if self.scoreThreshold is not None:
+            element.set('scoreThreshold', self.scoreThreshold)
+        if self.nms is not None:
+            element.set('nms', self.gds_format_boolean(self.nms))
+        if self.nmsThreshold is not None:
+            element.set('nmsThreshold', self.nmsThreshold)
+        if self.classSpecificFilter is not None:
+            element.set('classSpecificFilter', self.gds_format_boolean(self.classSpecificFilter))
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if mapping_ is not None:
@@ -5950,6 +5982,22 @@ class LayerParameters(GeneratedsSuper):
             already_processed.add('regressBoxesStd')
             showIndent(outfile, level)
             outfile.write('regressBoxesStd="%s",\n' % (self.regressBoxesStd,))
+        if self.scoreThreshold is not None and 'scoreThreshold' not in already_processed:
+            already_processed.add('scoreThreshold')
+            showIndent(outfile, level)
+            outfile.write('scoreThreshold=%e,\n' % (self.scoreThreshold,))
+        if self.nms is not None and 'nms' not in already_processed:
+            already_processed.add('nms')
+            showIndent(outfile, level)
+            outfile.write('nms=%s,\n' % (self.nms,))
+        if self.nmsThreshold is not None and 'nmsThreshold' not in already_processed:
+            already_processed.add('nmsThreshold')
+            showIndent(outfile, level)
+            outfile.write('nmsThreshold=%e,\n' % (self.nmsThreshold,))
+        if self.classSpecificFilter is not None and 'classSpecificFilter' not in already_processed:
+            already_processed.add('classSpecificFilter')
+            showIndent(outfile, level)
+            outfile.write('classSpecificFilter=%s,\n' % (self.classSpecificFilter,))
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
         outfile.write('Extension=[\n')
@@ -6291,7 +6339,8 @@ class LayerParameters(GeneratedsSuper):
                 self.anchorSize = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.anchorSize)    # validate type INT-NUMBER
+            if self.anchorSize <= 0:
+                raise_parse_error(node, 'Invalid PositiveInteger')
         value = find_attr_value_('anchorStride', node)
         if value is not None and 'anchorStride' not in already_processed:
             already_processed.add('anchorStride')
@@ -6316,6 +6365,40 @@ class LayerParameters(GeneratedsSuper):
         if value is not None and 'regressBoxesStd' not in already_processed:
             already_processed.add('regressBoxesStd')
             self.regressBoxesStd = value
+        value = find_attr_value_('scoreThreshold', node)
+        if value is not None and 'scoreThreshold' not in already_processed:
+            already_processed.add('scoreThreshold')
+            try:
+                self.scoreThreshold = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (scoreThreshold): %s' % exp)
+            self.validate_REAL_NUMBER(self.scoreThreshold)    # validate type REAL-NUMBER
+        value = find_attr_value_('nms', node)
+        if value is not None and 'nms' not in already_processed:
+            already_processed.add('nms')
+            if value in ('true', '1'):
+                self.nms = True
+            elif value in ('false', '0'):
+                self.nms = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
+        value = find_attr_value_('nmsThreshold', node)
+        if value is not None and 'nmsThreshold' not in already_processed:
+            already_processed.add('nmsThreshold')
+            try:
+                self.nmsThreshold = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (nmsThreshold): %s' % exp)
+            self.validate_REAL_NUMBER(self.nmsThreshold)    # validate type REAL-NUMBER
+        value = find_attr_value_('classSpecificFilter', node)
+        if value is not None and 'classSpecificFilter' not in already_processed:
+            already_processed.add('classSpecificFilter')
+            if value in ('true', '1'):
+                self.classSpecificFilter = True
+            elif value in ('false', '0'):
+                self.classSpecificFilter = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -38850,7 +38933,7 @@ class DerivedField(GeneratedsSuper):
         # Validate type ARCHITECTURENAME, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
             value = str(value)
-            enumerations = ['mobilenet', 'xception', 'resnet', 'inception', 'vgg']
+            enumerations = ['mobilenet', 'xception', 'resnet', 'inception', 'vgg', 'retinanet']
             enumeration_respectee = False
             for enum in enumerations:
                 if value == enum:
