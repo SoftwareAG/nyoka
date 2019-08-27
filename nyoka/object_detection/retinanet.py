@@ -57,7 +57,6 @@ class RetinanetToPmml:
         self.model = model
         self.input_shape = input_shape
         self.input_data = input_data
-        self.max_detections = model.layers[-1].max_detections
 
         self.pmml_obj = None
         self._pyramid_layers = ("P3", "P4", "P5", "P6", "P7")
@@ -75,8 +74,8 @@ class RetinanetToPmml:
                 break
             mod.add(l)
         if trained_classes == None:
-            warnings.warn(f"trained_classes are not provided. Default `max_classes`(1 to {self.max_detections}) will be considered.")
-            trained_classes = ["Category_"+str(i+1).zfill(3) for i in range(self.max_detections)]
+            warnings.warn(f"trained_classes are not provided. Maximum 80 classes will be considered.")
+            trained_classes = ["Category_"+str(i+1).zfill(2) for i in range(80)]
         group1_pmml = kerasAPI.KerasToPmml(mod,model_name="KerasRetinanNet"+self.input_data.title(),dataSet=input_data, predictedClasses=trained_classes)
         return group1_pmml
 
