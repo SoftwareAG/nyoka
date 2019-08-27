@@ -74,7 +74,7 @@ class RetinanetToPmml:
                 break
             mod.add(l)
         if trained_classes == None:
-            warnings.warn(f"trained_classes are not provided. Default (1 to 80) will be considered.")
+            warnings.warn(f"trained_classes are not provided. Maximum 80 classes will be considered.")
             trained_classes = ["Category_"+str(i+1).zfill(2) for i in range(80)]
         group1_pmml = kerasAPI.KerasToPmml(mod,model_name="KerasRetinanNet"+self.input_data.title(),dataSet=input_data, predictedClasses=trained_classes)
         return group1_pmml
