@@ -12,6 +12,7 @@ from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from keras.models import Sequential
+import base64
 
 
 class TestMethods(unittest.TestCase):
@@ -53,6 +54,190 @@ class TestMethods(unittest.TestCase):
         reconPmmlObj=ny.parse('sequentialModel.pmml',True)
         self.assertEqual(os.path.isfile("sequentialModel.pmml"),True)
         self.assertEqual(len(model.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer)-1)
+
+    def test_encoded_script(self):
+
+        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
+        x = model.output
+        x = Flatten()(x)
+        x = Dense(1024, activation="relu")(x)
+        predictions = Dense(2, activation='sigmoid')(x)
+        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+        script_content = open("nyoka/tests/preprocess.py",'r').read()
+        pmml_obj=KerasToPmml(model_final,
+                    dataSet='image',
+                    predictedClasses=['cat','dog'],
+                    script_args = {
+                        "content" : script_content,
+                        "def_name" : "getBase64EncodedString",
+                        "return_type" : "string",
+                        "encode":True
+                    }
+                )
+        pmml_obj.export(open("script_with_keras_encoded.pmml",'w'),0)
+        self.assertEqual(os.path.isfile("script_with_keras_encoded.pmml"),True)
+        reconPmmlObj = ny.parse("script_with_keras_encoded.pmml",True)
+        content=reconPmmlObj.TransformationDictionary.DefineFunction[0].Apply.Extension[0].anytypeobjs_[0]
+        content = base64.b64decode(content).decode()
+        self.assertEqual(script_content, content)
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
+
+    def test_plain_text_script(self):
+
+        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
+        x = model.output
+        x = Flatten()(x)
+        x = Dense(1024, activation="relu")(x)
+        predictions = Dense(2, activation='sigmoid')(x)
+        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+        script_content = open("nyoka/tests/preprocess.py",'r').read()
+        pmml_obj=KerasToPmml(model_final,
+                    dataSet='image',
+                    predictedClasses=['cat','dog'],
+                    script_args = {
+                        "content" : script_content,
+                        "def_name" : "getBase64EncodedString",
+                        "return_type" : "string",
+                        "encode":False
+                    }
+                )
+        pmml_obj.export(open("script_with_keras_plain.pmml",'w'),0)
+        self.assertEqual(os.path.isfile("script_with_keras_plain.pmml"),True)
+        reconPmmlObj = ny.parse("script_with_keras_plain.pmml",True)
+        content=reconPmmlObj.TransformationDictionary.DefineFunction[0].Apply.Extension[0].anytypeobjs_
+        content[0] = content[0].replace("\t","")
+        content="\n".join(content)
+        self.assertEqual(script_content, content)
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
+
+    def test_script_from_function_plain(self):
+        def getBase64EncodedString(input):
+            def from_floatArray(floatArray):
+                import sys
+                from array import array
+                import base64
+                if sys.version_info >= (3,0):
+                    result = ""
+                    fArray = array('f')
+                    for i in range(0, len(floatArray)):
+                        fArray.append(floatArray[i])
+                    result += str(base64.standard_b64encode(fArray), 'utf-8')
+                    return result
+                else:
+                    result = ""
+                    fArray = array('f')
+                    for i in range(0, len(floatArray)):
+                        fArray.append(floatArray[i])
+                    result += base64.standard_b64encode(fArray)
+                return result
+            
+            import sys
+            import array as arr
+            import struct
+            import base64
+            from PIL import Image
+            import numpy as np
+            with Image.open(input) as img:
+                width, height = img.size
+                pix=img.load()
+                x=list(img.getdata())
+            pixels = list()
+            for t in x:
+                R,G,B=t
+                for pix in [R, G, B]:
+                    pixels.append(pix / 127.5 - 1.0)
+            myarray = np.asarray(pixels)
+            return from_floatArray(myarray)
+
+        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
+        x = model.output
+        x = Flatten()(x)
+        x = Dense(1024, activation="relu")(x)
+        predictions = Dense(2, activation='sigmoid')(x)
+        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+        pmml_obj=KerasToPmml(model_final,
+                    dataSet='image',
+                    predictedClasses=['cat','dog'],
+                    script_args = {
+                        "content" : getBase64EncodedString,
+                        "return_type" : "string",
+                        "encode":False
+                    }
+                )
+        pmml_obj.export(open("script_with_keras_function_plain.pmml",'w'),0)
+        self.assertEqual(os.path.isfile("script_with_keras_function_plain.pmml"),True)
+        reconPmmlObj = ny.parse("script_with_keras_function_plain.pmml",True)
+        content=reconPmmlObj.TransformationDictionary.DefineFunction[0].Apply.Extension[0].anytypeobjs_
+        content[0] = content[0].replace("\t","")
+        content="\n".join(content)
+        import inspect
+        script_content = inspect.getsource(getBase64EncodedString)
+        self.assertEqual(script_content, content)
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
+
+    def test_script_from_function_encoded(self):
+        def getBase64EncodedString(input):
+            def from_floatArray(floatArray):
+                import sys
+                from array import array
+                import base64
+                if sys.version_info >= (3,0):
+                    result = ""
+                    fArray = array('f')
+                    for i in range(0, len(floatArray)):
+                        fArray.append(floatArray[i])
+                    result += str(base64.standard_b64encode(fArray), 'utf-8')
+                    return result
+                else:
+                    result = ""
+                    fArray = array('f')
+                    for i in range(0, len(floatArray)):
+                        fArray.append(floatArray[i])
+                    result += base64.standard_b64encode(fArray)
+                return result
+            
+            import sys
+            import array as arr
+            import struct
+            import base64
+            from PIL import Image
+            import numpy as np
+            with Image.open(input) as img:
+                width, height = img.size
+                pix=img.load()
+                x=list(img.getdata())
+            pixels = list()
+            for t in x:
+                R,G,B=t
+                for pix in [R, G, B]:
+                    pixels.append(pix / 127.5 - 1.0)
+            myarray = np.asarray(pixels)
+            return from_floatArray(myarray)
+
+        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
+        x = model.output
+        x = Flatten()(x)
+        x = Dense(1024, activation="relu")(x)
+        predictions = Dense(2, activation='sigmoid')(x)
+        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+        pmml_obj=KerasToPmml(model_final,
+                    dataSet='image',
+                    predictedClasses=['cat','dog'],
+                    script_args = {
+                        "content" : getBase64EncodedString,
+                        "return_type" : "string",
+                        "encode":True
+                    }
+                )
+        pmml_obj.export(open("script_with_keras_function_plain.pmml",'w'),0)
+        self.assertEqual(os.path.isfile("script_with_keras_function_plain.pmml"),True)
+        reconPmmlObj = ny.parse("script_with_keras_function_plain.pmml",True)
+        content=reconPmmlObj.TransformationDictionary.DefineFunction[0].Apply.Extension[0].anytypeobjs_
+        content = base64.b64decode(content).decode()
+        import inspect
+        script_content = inspect.getsource(getBase64EncodedString)
+        self.assertEqual(script_content, content)
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
 
 if __name__=='__main__':
