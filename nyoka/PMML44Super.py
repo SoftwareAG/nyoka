@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Jul 30 13:07:15 2019 by generateDS.py version 2.28a.
+# Generated Tue Aug 27 12:09:15 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -2304,7 +2304,7 @@ class NetworkLayer(GeneratedsSuper):
         # Validate type LAYER-TYPE, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
             value = str(value)
-            enumerations = ['Input', 'Dense', 'Activation', 'Dropout', 'Flatten', 'Reshape', 'Permute', 'RepeatVector', 'ActivityRegularization', 'Masking', 'Conv1D', 'Conv2D', 'SeparableConv2D', 'Conv2DTranspose', 'Conv3D', 'DepthwiseConv2D', 'Cropping1D', 'Cropping2D', 'Cropping3D', 'UpSampling1D', 'UpSampling2D', 'UpSampling3D', 'ZeroPadding1D', 'ZeroPadding2D', 'ZeroPadding3D', 'MaxPooling1D', 'MaxPooling2D', 'MaxPooling3D', 'AveragePooling1D', 'AveragePooling2D', 'AveragePooling3D', 'GlobalMaxPooling1D', 'GlobalMaxPooling2D', 'GlobalAveragePooling1D', 'GlobalAveragePooling2D', 'SpatialPyramidPooling', 'LocallyConnected1D', 'LocallyConnected2D', 'Embedding', 'MergeLayer', 'Slicing', 'BatchNormalization', 'LocalResponseNormalization', 'GaussianNoise', 'GaussianDropout', 'AlphaDropout']
+            enumerations = ['Input', 'Dense', 'Activation', 'Dropout', 'Flatten', 'Reshape', 'Permute', 'RepeatVector', 'ActivityRegularization', 'Masking', 'Conv1D', 'Conv2D', 'SeparableConv2D', 'Conv2DTranspose', 'Conv3D', 'DepthwiseConv2D', 'Cropping1D', 'Cropping2D', 'Cropping3D', 'UpSampling1D', 'UpSampling2D', 'UpSampling3D', 'ZeroPadding1D', 'ZeroPadding2D', 'ZeroPadding3D', 'MaxPooling1D', 'MaxPooling2D', 'MaxPooling3D', 'AveragePooling1D', 'AveragePooling2D', 'AveragePooling3D', 'GlobalMaxPooling1D', 'GlobalMaxPooling2D', 'GlobalAveragePooling1D', 'GlobalAveragePooling2D', 'SpatialPyramidPooling', 'LocallyConnected1D', 'LocallyConnected2D', 'Embedding', 'MergeLayer', 'Slicing', 'BatchNormalization', 'LocalResponseNormalization', 'UpsampleLike', 'Anchors', 'RegressBoxes', 'ClipBoxes', 'FilterDetections', 'GaussianNoise', 'GaussianDropout', 'AlphaDropout']
             enumeration_respectee = False
             for enum in enumerations:
                 if value == enum:
@@ -5111,7 +5111,7 @@ class LayerBias(GeneratedsSuper):
 class LayerParameters(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, pad=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, Extension=None):
+    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, pad=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, anchorSize=None, anchorStride=None, anchorScales=None, anchorRatios=None, regressBoxesMean=None, regressBoxesStd=None, scoreThreshold=None, nms=None, nmsThreshold=None, classSpecificFilter=None, Extension=None):
         self.original_tagname_ = None
         self.activationFunction = _cast(None, activationFunction)
         self.inputDimension = _cast(None, inputDimension)
@@ -5168,6 +5168,16 @@ class LayerParameters(GeneratedsSuper):
         self.mergeLayerDotNormalize = _cast(bool, mergeLayerDotNormalize)
         self.mergeLayerConcatOperationAxes = _cast(None, mergeLayerConcatOperationAxes)
         self.slicingAxis = _cast(None, slicingAxis)
+        self.anchorSize = _cast(int, anchorSize)
+        self.anchorStride = _cast(None, anchorStride)
+        self.anchorScales = _cast(None, anchorScales)
+        self.anchorRatios = _cast(None, anchorRatios)
+        self.regressBoxesMean = _cast(None, regressBoxesMean)
+        self.regressBoxesStd = _cast(None, regressBoxesStd)
+        self.scoreThreshold = _cast(None, scoreThreshold)
+        self.nms = _cast(bool, nms)
+        self.nmsThreshold = _cast(None, nmsThreshold)
+        self.classSpecificFilter = _cast(bool, classSpecificFilter)
         if Extension is None:
             self.Extension = []
         else:
@@ -5298,6 +5308,26 @@ class LayerParameters(GeneratedsSuper):
     def set_mergeLayerConcatOperationAxes(self, mergeLayerConcatOperationAxes): self.mergeLayerConcatOperationAxes = mergeLayerConcatOperationAxes
     def get_slicingAxis(self): return self.slicingAxis
     def set_slicingAxis(self, slicingAxis): self.slicingAxis = slicingAxis
+    def get_anchorSize(self): return self.anchorSize
+    def set_anchorSize(self, anchorSize): self.anchorSize = anchorSize
+    def get_anchorStride(self): return self.anchorStride
+    def set_anchorStride(self, anchorStride): self.anchorStride = anchorStride
+    def get_anchorScales(self): return self.anchorScales
+    def set_anchorScales(self, anchorScales): self.anchorScales = anchorScales
+    def get_anchorRatios(self): return self.anchorRatios
+    def set_anchorRatios(self, anchorRatios): self.anchorRatios = anchorRatios
+    def get_regressBoxesMean(self): return self.regressBoxesMean
+    def set_regressBoxesMean(self, regressBoxesMean): self.regressBoxesMean = regressBoxesMean
+    def get_regressBoxesStd(self): return self.regressBoxesStd
+    def set_regressBoxesStd(self, regressBoxesStd): self.regressBoxesStd = regressBoxesStd
+    def get_scoreThreshold(self): return self.scoreThreshold
+    def set_scoreThreshold(self, scoreThreshold): self.scoreThreshold = scoreThreshold
+    def get_nms(self): return self.nms
+    def set_nms(self, nms): self.nms = nms
+    def get_nmsThreshold(self): return self.nmsThreshold
+    def set_nmsThreshold(self, nmsThreshold): self.nmsThreshold = nmsThreshold
+    def get_classSpecificFilter(self): return self.classSpecificFilter
+    def set_classSpecificFilter(self, classSpecificFilter): self.classSpecificFilter = classSpecificFilter
     def validate_DNN_ACTIVATION_FUNCTION(self, value):
         # Validate type DNN-ACTIVATION-FUNCTION, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -5524,6 +5554,36 @@ class LayerParameters(GeneratedsSuper):
         if self.slicingAxis is not None and 'slicingAxis' not in already_processed:
             already_processed.add('slicingAxis')
             outfile.write(' slicingAxis=%s' % (quote_attrib(self.slicingAxis), ))
+        if self.anchorSize is not None and 'anchorSize' not in already_processed:
+            already_processed.add('anchorSize')
+            outfile.write(' anchorSize="%s"' % self.gds_format_integer(self.anchorSize, input_name='anchorSize'))
+        if self.anchorStride is not None and 'anchorStride' not in already_processed:
+            already_processed.add('anchorStride')
+            outfile.write(' anchorStride=%s' % (quote_attrib(self.anchorStride), ))
+        if self.anchorScales is not None and 'anchorScales' not in already_processed:
+            already_processed.add('anchorScales')
+            outfile.write(' anchorScales=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.anchorScales), input_name='anchorScales')), ))
+        if self.anchorRatios is not None and 'anchorRatios' not in already_processed:
+            already_processed.add('anchorRatios')
+            outfile.write(' anchorRatios=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.anchorRatios), input_name='anchorRatios')), ))
+        if self.regressBoxesMean is not None and 'regressBoxesMean' not in already_processed:
+            already_processed.add('regressBoxesMean')
+            outfile.write(' regressBoxesMean=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.regressBoxesMean), input_name='regressBoxesMean')), ))
+        if self.regressBoxesStd is not None and 'regressBoxesStd' not in already_processed:
+            already_processed.add('regressBoxesStd')
+            outfile.write(' regressBoxesStd=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.regressBoxesStd), input_name='regressBoxesStd')), ))
+        if self.scoreThreshold is not None and 'scoreThreshold' not in already_processed:
+            already_processed.add('scoreThreshold')
+            outfile.write(' scoreThreshold=%s' % (quote_attrib(self.scoreThreshold), ))
+        if self.nms is not None and 'nms' not in already_processed:
+            already_processed.add('nms')
+            outfile.write(' nms="%s"' % self.gds_format_boolean(self.nms, input_name='nms'))
+        if self.nmsThreshold is not None and 'nmsThreshold' not in already_processed:
+            already_processed.add('nmsThreshold')
+            outfile.write(' nmsThreshold=%s' % (quote_attrib(self.nmsThreshold), ))
+        if self.classSpecificFilter is not None and 'classSpecificFilter' not in already_processed:
+            already_processed.add('classSpecificFilter')
+            outfile.write(' classSpecificFilter="%s"' % self.gds_format_boolean(self.classSpecificFilter, input_name='classSpecificFilter'))
     def exportChildren(self, outfile, level, namespace_='', name_='LayerParameters', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -5646,6 +5706,26 @@ class LayerParameters(GeneratedsSuper):
             element.set('mergeLayerConcatOperationAxes', self.gds_format_string(self.mergeLayerConcatOperationAxes))
         if self.slicingAxis is not None:
             element.set('slicingAxis', self.slicingAxis)
+        if self.anchorSize is not None:
+            element.set('anchorSize', self.gds_format_integer(self.anchorSize))
+        if self.anchorStride is not None:
+            element.set('anchorStride', self.anchorStride)
+        if self.anchorScales is not None:
+            element.set('anchorScales', self.gds_format_string(self.anchorScales))
+        if self.anchorRatios is not None:
+            element.set('anchorRatios', self.gds_format_string(self.anchorRatios))
+        if self.regressBoxesMean is not None:
+            element.set('regressBoxesMean', self.gds_format_string(self.regressBoxesMean))
+        if self.regressBoxesStd is not None:
+            element.set('regressBoxesStd', self.gds_format_string(self.regressBoxesStd))
+        if self.scoreThreshold is not None:
+            element.set('scoreThreshold', self.scoreThreshold)
+        if self.nms is not None:
+            element.set('nms', self.gds_format_boolean(self.nms))
+        if self.nmsThreshold is not None:
+            element.set('nmsThreshold', self.nmsThreshold)
+        if self.classSpecificFilter is not None:
+            element.set('classSpecificFilter', self.gds_format_boolean(self.classSpecificFilter))
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if mapping_ is not None:
@@ -5878,6 +5958,46 @@ class LayerParameters(GeneratedsSuper):
             already_processed.add('slicingAxis')
             showIndent(outfile, level)
             outfile.write('slicingAxis=%d,\n' % (self.slicingAxis,))
+        if self.anchorSize is not None and 'anchorSize' not in already_processed:
+            already_processed.add('anchorSize')
+            showIndent(outfile, level)
+            outfile.write('anchorSize=%d,\n' % (self.anchorSize,))
+        if self.anchorStride is not None and 'anchorStride' not in already_processed:
+            already_processed.add('anchorStride')
+            showIndent(outfile, level)
+            outfile.write('anchorStride=%d,\n' % (self.anchorStride,))
+        if self.anchorScales is not None and 'anchorScales' not in already_processed:
+            already_processed.add('anchorScales')
+            showIndent(outfile, level)
+            outfile.write('anchorScales="%s",\n' % (self.anchorScales,))
+        if self.anchorRatios is not None and 'anchorRatios' not in already_processed:
+            already_processed.add('anchorRatios')
+            showIndent(outfile, level)
+            outfile.write('anchorRatios="%s",\n' % (self.anchorRatios,))
+        if self.regressBoxesMean is not None and 'regressBoxesMean' not in already_processed:
+            already_processed.add('regressBoxesMean')
+            showIndent(outfile, level)
+            outfile.write('regressBoxesMean="%s",\n' % (self.regressBoxesMean,))
+        if self.regressBoxesStd is not None and 'regressBoxesStd' not in already_processed:
+            already_processed.add('regressBoxesStd')
+            showIndent(outfile, level)
+            outfile.write('regressBoxesStd="%s",\n' % (self.regressBoxesStd,))
+        if self.scoreThreshold is not None and 'scoreThreshold' not in already_processed:
+            already_processed.add('scoreThreshold')
+            showIndent(outfile, level)
+            outfile.write('scoreThreshold=%e,\n' % (self.scoreThreshold,))
+        if self.nms is not None and 'nms' not in already_processed:
+            already_processed.add('nms')
+            showIndent(outfile, level)
+            outfile.write('nms=%s,\n' % (self.nms,))
+        if self.nmsThreshold is not None and 'nmsThreshold' not in already_processed:
+            already_processed.add('nmsThreshold')
+            showIndent(outfile, level)
+            outfile.write('nmsThreshold=%e,\n' % (self.nmsThreshold,))
+        if self.classSpecificFilter is not None and 'classSpecificFilter' not in already_processed:
+            already_processed.add('classSpecificFilter')
+            showIndent(outfile, level)
+            outfile.write('classSpecificFilter=%s,\n' % (self.classSpecificFilter,))
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
         outfile.write('Extension=[\n')
@@ -6212,6 +6332,73 @@ class LayerParameters(GeneratedsSuper):
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             self.validate_INT_NUMBER(self.slicingAxis)    # validate type INT-NUMBER
+        value = find_attr_value_('anchorSize', node)
+        if value is not None and 'anchorSize' not in already_processed:
+            already_processed.add('anchorSize')
+            try:
+                self.anchorSize = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            if self.anchorSize <= 0:
+                raise_parse_error(node, 'Invalid PositiveInteger')
+        value = find_attr_value_('anchorStride', node)
+        if value is not None and 'anchorStride' not in already_processed:
+            already_processed.add('anchorStride')
+            try:
+                self.anchorStride = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            self.validate_INT_NUMBER(self.anchorStride)    # validate type INT-NUMBER
+        value = find_attr_value_('anchorScales', node)
+        if value is not None and 'anchorScales' not in already_processed:
+            already_processed.add('anchorScales')
+            self.anchorScales = value
+        value = find_attr_value_('anchorRatios', node)
+        if value is not None and 'anchorRatios' not in already_processed:
+            already_processed.add('anchorRatios')
+            self.anchorRatios = value
+        value = find_attr_value_('regressBoxesMean', node)
+        if value is not None and 'regressBoxesMean' not in already_processed:
+            already_processed.add('regressBoxesMean')
+            self.regressBoxesMean = value
+        value = find_attr_value_('regressBoxesStd', node)
+        if value is not None and 'regressBoxesStd' not in already_processed:
+            already_processed.add('regressBoxesStd')
+            self.regressBoxesStd = value
+        value = find_attr_value_('scoreThreshold', node)
+        if value is not None and 'scoreThreshold' not in already_processed:
+            already_processed.add('scoreThreshold')
+            try:
+                self.scoreThreshold = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (scoreThreshold): %s' % exp)
+            self.validate_REAL_NUMBER(self.scoreThreshold)    # validate type REAL-NUMBER
+        value = find_attr_value_('nms', node)
+        if value is not None and 'nms' not in already_processed:
+            already_processed.add('nms')
+            if value in ('true', '1'):
+                self.nms = True
+            elif value in ('false', '0'):
+                self.nms = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
+        value = find_attr_value_('nmsThreshold', node)
+        if value is not None and 'nmsThreshold' not in already_processed:
+            already_processed.add('nmsThreshold')
+            try:
+                self.nmsThreshold = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (nmsThreshold): %s' % exp)
+            self.validate_REAL_NUMBER(self.nmsThreshold)    # validate type REAL-NUMBER
+        value = find_attr_value_('classSpecificFilter', node)
+        if value is not None and 'classSpecificFilter' not in already_processed:
+            already_processed.add('classSpecificFilter')
+            if value in ('true', '1'):
+                self.classSpecificFilter = True
+            elif value in ('false', '0'):
+                self.classSpecificFilter = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -9834,7 +10021,7 @@ class VectorDictionary(GeneratedsSuper):
     superclass = None
     def __init__(self, numberOfVectors=None, Extension=None, VectorFields=None, VectorInstance=None):
         self.original_tagname_ = None
-        self.numberOfVectors = _cast(None, numberOfVectors)
+        self.numberOfVectors = _cast(int, numberOfVectors)
         if Extension is None:
             self.Extension = []
         else:
@@ -9869,10 +10056,6 @@ class VectorDictionary(GeneratedsSuper):
     def replace_VectorInstance_at(self, index, value): self.VectorInstance[index] = value
     def get_numberOfVectors(self): return self.numberOfVectors
     def set_numberOfVectors(self, numberOfVectors): self.numberOfVectors = numberOfVectors
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def hasContent_(self):
         if (
             self.Extension or
@@ -9906,7 +10089,7 @@ class VectorDictionary(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='VectorDictionary'):
         if self.numberOfVectors is not None and 'numberOfVectors' not in already_processed:
             already_processed.add('numberOfVectors')
-            outfile.write(' numberOfVectors=%s' % (quote_attrib(self.numberOfVectors), ))
+            outfile.write(' numberOfVectors="%s"' % self.gds_format_integer(self.numberOfVectors, input_name='numberOfVectors'))
     def exportChildren(self, outfile, level, namespace_='', name_='VectorDictionary', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -9924,7 +10107,7 @@ class VectorDictionary(GeneratedsSuper):
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.numberOfVectors is not None:
-            element.set('numberOfVectors', self.numberOfVectors)
+            element.set('numberOfVectors', self.gds_format_integer(self.numberOfVectors))
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.VectorFields is not None:
@@ -9992,7 +10175,8 @@ class VectorDictionary(GeneratedsSuper):
                 self.numberOfVectors = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfVectors)    # validate type INT-NUMBER
+            if self.numberOfVectors < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -10017,7 +10201,7 @@ class VectorFields(GeneratedsSuper):
     superclass = None
     def __init__(self, numberOfFields=None, Extension=None, FieldRef=None, CategoricalPredictor=None):
         self.original_tagname_ = None
-        self.numberOfFields = _cast(None, numberOfFields)
+        self.numberOfFields = _cast(int, numberOfFields)
         if Extension is None:
             self.Extension = []
         else:
@@ -10058,10 +10242,6 @@ class VectorFields(GeneratedsSuper):
     def replace_CategoricalPredictor_at(self, index, value): self.CategoricalPredictor[index] = value
     def get_numberOfFields(self): return self.numberOfFields
     def set_numberOfFields(self, numberOfFields): self.numberOfFields = numberOfFields
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def hasContent_(self):
         if (
             self.Extension or
@@ -10095,7 +10275,7 @@ class VectorFields(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='VectorFields'):
         if self.numberOfFields is not None and 'numberOfFields' not in already_processed:
             already_processed.add('numberOfFields')
-            outfile.write(' numberOfFields=%s' % (quote_attrib(self.numberOfFields), ))
+            outfile.write(' numberOfFields="%s"' % self.gds_format_integer(self.numberOfFields, input_name='numberOfFields'))
     def exportChildren(self, outfile, level, namespace_='', name_='VectorFields', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -10113,7 +10293,7 @@ class VectorFields(GeneratedsSuper):
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.numberOfFields is not None:
-            element.set('numberOfFields', self.numberOfFields)
+            element.set('numberOfFields', self.gds_format_integer(self.numberOfFields))
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         for FieldRef_ in self.FieldRef:
@@ -10186,7 +10366,8 @@ class VectorFields(GeneratedsSuper):
                 self.numberOfFields = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfFields)    # validate type INT-NUMBER
+            if self.numberOfFields < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -10584,8 +10765,8 @@ class SupportVectors(GeneratedsSuper):
     superclass = None
     def __init__(self, numberOfSupportVectors=None, numberOfAttributes=None, Extension=None, SupportVector=None):
         self.original_tagname_ = None
-        self.numberOfSupportVectors = _cast(None, numberOfSupportVectors)
-        self.numberOfAttributes = _cast(None, numberOfAttributes)
+        self.numberOfSupportVectors = _cast(int, numberOfSupportVectors)
+        self.numberOfAttributes = _cast(int, numberOfAttributes)
         if Extension is None:
             self.Extension = []
         else:
@@ -10619,10 +10800,6 @@ class SupportVectors(GeneratedsSuper):
     def set_numberOfSupportVectors(self, numberOfSupportVectors): self.numberOfSupportVectors = numberOfSupportVectors
     def get_numberOfAttributes(self): return self.numberOfAttributes
     def set_numberOfAttributes(self, numberOfAttributes): self.numberOfAttributes = numberOfAttributes
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def hasContent_(self):
         if (
             self.Extension or
@@ -10655,10 +10832,10 @@ class SupportVectors(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='SupportVectors'):
         if self.numberOfSupportVectors is not None and 'numberOfSupportVectors' not in already_processed:
             already_processed.add('numberOfSupportVectors')
-            outfile.write(' numberOfSupportVectors=%s' % (quote_attrib(self.numberOfSupportVectors), ))
+            outfile.write(' numberOfSupportVectors="%s"' % self.gds_format_integer(self.numberOfSupportVectors, input_name='numberOfSupportVectors'))
         if self.numberOfAttributes is not None and 'numberOfAttributes' not in already_processed:
             already_processed.add('numberOfAttributes')
-            outfile.write(' numberOfAttributes=%s' % (quote_attrib(self.numberOfAttributes), ))
+            outfile.write(' numberOfAttributes="%s"' % self.gds_format_integer(self.numberOfAttributes, input_name='numberOfAttributes'))
     def exportChildren(self, outfile, level, namespace_='', name_='SupportVectors', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -10674,9 +10851,9 @@ class SupportVectors(GeneratedsSuper):
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.numberOfSupportVectors is not None:
-            element.set('numberOfSupportVectors', self.numberOfSupportVectors)
+            element.set('numberOfSupportVectors', self.gds_format_integer(self.numberOfSupportVectors))
         if self.numberOfAttributes is not None:
-            element.set('numberOfAttributes', self.numberOfAttributes)
+            element.set('numberOfAttributes', self.gds_format_integer(self.numberOfAttributes))
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         for SupportVector_ in self.SupportVector:
@@ -10739,7 +10916,8 @@ class SupportVectors(GeneratedsSuper):
                 self.numberOfSupportVectors = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfSupportVectors)    # validate type INT-NUMBER
+            if self.numberOfSupportVectors < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('numberOfAttributes', node)
         if value is not None and 'numberOfAttributes' not in already_processed:
             already_processed.add('numberOfAttributes')
@@ -10747,7 +10925,8 @@ class SupportVectors(GeneratedsSuper):
                 self.numberOfAttributes = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfAttributes)    # validate type INT-NUMBER
+            if self.numberOfAttributes < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -10896,7 +11075,7 @@ class Coefficients(GeneratedsSuper):
     superclass = None
     def __init__(self, numberOfCoefficients=None, absoluteValue='0', Extension=None, Coefficient=None):
         self.original_tagname_ = None
-        self.numberOfCoefficients = _cast(None, numberOfCoefficients)
+        self.numberOfCoefficients = _cast(int, numberOfCoefficients)
         self.absoluteValue = _cast(None, absoluteValue)
         if Extension is None:
             self.Extension = []
@@ -10931,10 +11110,6 @@ class Coefficients(GeneratedsSuper):
     def set_numberOfCoefficients(self, numberOfCoefficients): self.numberOfCoefficients = numberOfCoefficients
     def get_absoluteValue(self): return self.absoluteValue
     def set_absoluteValue(self, absoluteValue): self.absoluteValue = absoluteValue
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def validate_REAL_NUMBER(self, value):
         # Validate type REAL-NUMBER, a restriction on xs:double.
         if value is not None and Validate_simpletypes_:
@@ -10971,7 +11146,7 @@ class Coefficients(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='Coefficients'):
         if self.numberOfCoefficients is not None and 'numberOfCoefficients' not in already_processed:
             already_processed.add('numberOfCoefficients')
-            outfile.write(' numberOfCoefficients=%s' % (quote_attrib(self.numberOfCoefficients), ))
+            outfile.write(' numberOfCoefficients="%s"' % self.gds_format_integer(self.numberOfCoefficients, input_name='numberOfCoefficients'))
         if self.absoluteValue is not None and 'absoluteValue' not in already_processed:
             already_processed.add('absoluteValue')
             outfile.write(' absoluteValue=%s' % (quote_attrib(self.absoluteValue), ))
@@ -10990,7 +11165,7 @@ class Coefficients(GeneratedsSuper):
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.numberOfCoefficients is not None:
-            element.set('numberOfCoefficients', self.numberOfCoefficients)
+            element.set('numberOfCoefficients', self.gds_format_integer(self.numberOfCoefficients))
         if self.absoluteValue is not None:
             element.set('absoluteValue', self.absoluteValue)
         for Extension_ in self.Extension:
@@ -11055,7 +11230,8 @@ class Coefficients(GeneratedsSuper):
                 self.numberOfCoefficients = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfCoefficients)    # validate type INT-NUMBER
+            if self.numberOfCoefficients < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('absoluteValue', node)
         if value is not None and 'absoluteValue' not in already_processed:
             already_processed.add('absoluteValue')
@@ -20266,15 +20442,15 @@ class AssociationModel(GeneratedsSuper):
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
         self.algorithmName = _cast(None, algorithmName)
-        self.numberOfTransactions = _cast(None, numberOfTransactions)
-        self.maxNumberOfItemsPerTA = _cast(None, maxNumberOfItemsPerTA)
+        self.numberOfTransactions = _cast(int, numberOfTransactions)
+        self.maxNumberOfItemsPerTA = _cast(int, maxNumberOfItemsPerTA)
         self.avgNumberOfItemsPerTA = _cast(None, avgNumberOfItemsPerTA)
         self.minimumSupport = _cast(None, minimumSupport)
         self.minimumConfidence = _cast(None, minimumConfidence)
         self.lengthLimit = _cast(None, lengthLimit)
-        self.numberOfItems = _cast(None, numberOfItems)
-        self.numberOfItemsets = _cast(None, numberOfItemsets)
-        self.numberOfRules = _cast(None, numberOfRules)
+        self.numberOfItems = _cast(int, numberOfItems)
+        self.numberOfItemsets = _cast(int, numberOfItemsets)
+        self.numberOfRules = _cast(int, numberOfRules)
         self.isScorable = _cast(bool, isScorable)
         self.MiningSchema = MiningSchema
         self.Output = Output
@@ -20376,16 +20552,16 @@ class AssociationModel(GeneratedsSuper):
                     break
             if not enumeration_respectee:
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on MINING-FUNCTION' % {"value" : value.encode("utf-8")} )
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def validate_REAL_NUMBER(self, value):
         # Validate type REAL-NUMBER, a restriction on xs:double.
         if value is not None and Validate_simpletypes_:
             pass
     def validate_PROB_NUMBER(self, value):
         # Validate type PROB-NUMBER, a restriction on xs:double.
+        if value is not None and Validate_simpletypes_:
+            pass
+    def validate_INT_NUMBER(self, value):
+        # Validate type INT-NUMBER, a restriction on xs:integer.
         if value is not None and Validate_simpletypes_:
             pass
     def hasContent_(self):
@@ -20436,10 +20612,10 @@ class AssociationModel(GeneratedsSuper):
             outfile.write(' algorithmName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.algorithmName), input_name='algorithmName')), ))
         if self.numberOfTransactions is not None and 'numberOfTransactions' not in already_processed:
             already_processed.add('numberOfTransactions')
-            outfile.write(' numberOfTransactions=%s' % (quote_attrib(self.numberOfTransactions), ))
+            outfile.write(' numberOfTransactions="%s"' % self.gds_format_integer(self.numberOfTransactions, input_name='numberOfTransactions'))
         if self.maxNumberOfItemsPerTA is not None and 'maxNumberOfItemsPerTA' not in already_processed:
             already_processed.add('maxNumberOfItemsPerTA')
-            outfile.write(' maxNumberOfItemsPerTA=%s' % (quote_attrib(self.maxNumberOfItemsPerTA), ))
+            outfile.write(' maxNumberOfItemsPerTA="%s"' % self.gds_format_integer(self.maxNumberOfItemsPerTA, input_name='maxNumberOfItemsPerTA'))
         if self.avgNumberOfItemsPerTA is not None and 'avgNumberOfItemsPerTA' not in already_processed:
             already_processed.add('avgNumberOfItemsPerTA')
             outfile.write(' avgNumberOfItemsPerTA=%s' % (quote_attrib(self.avgNumberOfItemsPerTA), ))
@@ -20454,13 +20630,13 @@ class AssociationModel(GeneratedsSuper):
             outfile.write(' lengthLimit=%s' % (quote_attrib(self.lengthLimit), ))
         if self.numberOfItems is not None and 'numberOfItems' not in already_processed:
             already_processed.add('numberOfItems')
-            outfile.write(' numberOfItems=%s' % (quote_attrib(self.numberOfItems), ))
+            outfile.write(' numberOfItems="%s"' % self.gds_format_integer(self.numberOfItems, input_name='numberOfItems'))
         if self.numberOfItemsets is not None and 'numberOfItemsets' not in already_processed:
             already_processed.add('numberOfItemsets')
-            outfile.write(' numberOfItemsets=%s' % (quote_attrib(self.numberOfItemsets), ))
+            outfile.write(' numberOfItemsets="%s"' % self.gds_format_integer(self.numberOfItemsets, input_name='numberOfItemsets'))
         if self.numberOfRules is not None and 'numberOfRules' not in already_processed:
             already_processed.add('numberOfRules')
-            outfile.write(' numberOfRules=%s' % (quote_attrib(self.numberOfRules), ))
+            outfile.write(' numberOfRules="%s"' % self.gds_format_integer(self.numberOfRules, input_name='numberOfRules'))
         if not self.isScorable and 'isScorable' not in already_processed:
             already_processed.add('isScorable')
             outfile.write(' isScorable="%s"' % self.gds_format_boolean(self.isScorable, input_name='isScorable'))
@@ -20499,9 +20675,9 @@ class AssociationModel(GeneratedsSuper):
         if self.algorithmName is not None:
             element.set('algorithmName', self.gds_format_string(self.algorithmName))
         if self.numberOfTransactions is not None:
-            element.set('numberOfTransactions', self.numberOfTransactions)
+            element.set('numberOfTransactions', self.gds_format_integer(self.numberOfTransactions))
         if self.maxNumberOfItemsPerTA is not None:
-            element.set('maxNumberOfItemsPerTA', self.maxNumberOfItemsPerTA)
+            element.set('maxNumberOfItemsPerTA', self.gds_format_integer(self.maxNumberOfItemsPerTA))
         if self.avgNumberOfItemsPerTA is not None:
             element.set('avgNumberOfItemsPerTA', self.avgNumberOfItemsPerTA)
         if self.minimumSupport is not None:
@@ -20511,11 +20687,11 @@ class AssociationModel(GeneratedsSuper):
         if self.lengthLimit is not None:
             element.set('lengthLimit', self.lengthLimit)
         if self.numberOfItems is not None:
-            element.set('numberOfItems', self.numberOfItems)
+            element.set('numberOfItems', self.gds_format_integer(self.numberOfItems))
         if self.numberOfItemsets is not None:
-            element.set('numberOfItemsets', self.numberOfItemsets)
+            element.set('numberOfItemsets', self.gds_format_integer(self.numberOfItemsets))
         if self.numberOfRules is not None:
-            element.set('numberOfRules', self.numberOfRules)
+            element.set('numberOfRules', self.gds_format_integer(self.numberOfRules))
         if self.isScorable is not None:
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
         if self.MiningSchema is not None:
@@ -20710,7 +20886,8 @@ class AssociationModel(GeneratedsSuper):
                 self.numberOfTransactions = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfTransactions)    # validate type INT-NUMBER
+            if self.numberOfTransactions < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('maxNumberOfItemsPerTA', node)
         if value is not None and 'maxNumberOfItemsPerTA' not in already_processed:
             already_processed.add('maxNumberOfItemsPerTA')
@@ -20718,7 +20895,8 @@ class AssociationModel(GeneratedsSuper):
                 self.maxNumberOfItemsPerTA = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.maxNumberOfItemsPerTA)    # validate type INT-NUMBER
+            if self.maxNumberOfItemsPerTA < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('avgNumberOfItemsPerTA', node)
         if value is not None and 'avgNumberOfItemsPerTA' not in already_processed:
             already_processed.add('avgNumberOfItemsPerTA')
@@ -20758,7 +20936,8 @@ class AssociationModel(GeneratedsSuper):
                 self.numberOfItems = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfItems)    # validate type INT-NUMBER
+            if self.numberOfItems < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('numberOfItemsets', node)
         if value is not None and 'numberOfItemsets' not in already_processed:
             already_processed.add('numberOfItemsets')
@@ -20766,7 +20945,8 @@ class AssociationModel(GeneratedsSuper):
                 self.numberOfItemsets = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfItemsets)    # validate type INT-NUMBER
+            if self.numberOfItemsets < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('numberOfRules', node)
         if value is not None and 'numberOfRules' not in already_processed:
             already_processed.add('numberOfRules')
@@ -20774,7 +20954,8 @@ class AssociationModel(GeneratedsSuper):
                 self.numberOfRules = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfRules)    # validate type INT-NUMBER
+            if self.numberOfRules < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('isScorable', node)
         if value is not None and 'isScorable' not in already_processed:
             already_processed.add('isScorable')
@@ -30153,11 +30334,11 @@ class SequenceModel(GeneratedsSuper):
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
         self.algorithmName = _cast(None, algorithmName)
-        self.numberOfTransactions = _cast(None, numberOfTransactions)
-        self.maxNumberOfItemsPerTransaction = _cast(None, maxNumberOfItemsPerTransaction)
+        self.numberOfTransactions = _cast(int, numberOfTransactions)
+        self.maxNumberOfItemsPerTransaction = _cast(int, maxNumberOfItemsPerTransaction)
         self.avgNumberOfItemsPerTransaction = _cast(None, avgNumberOfItemsPerTransaction)
-        self.numberOfTransactionGroups = _cast(None, numberOfTransactionGroups)
-        self.maxNumberOfTAsPerTAGroup = _cast(None, maxNumberOfTAsPerTAGroup)
+        self.numberOfTransactionGroups = _cast(int, numberOfTransactionGroups)
+        self.maxNumberOfTAsPerTAGroup = _cast(int, maxNumberOfTAsPerTAGroup)
         self.avgNumberOfTAsPerTAGroup = _cast(None, avgNumberOfTAsPerTAGroup)
         self.isScorable = _cast(bool, isScorable)
         self.MiningSchema = MiningSchema
@@ -30269,10 +30450,6 @@ class SequenceModel(GeneratedsSuper):
                     break
             if not enumeration_respectee:
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on MINING-FUNCTION' % {"value" : value.encode("utf-8")} )
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def validate_REAL_NUMBER(self, value):
         # Validate type REAL-NUMBER, a restriction on xs:double.
         if value is not None and Validate_simpletypes_:
@@ -30326,19 +30503,19 @@ class SequenceModel(GeneratedsSuper):
             outfile.write(' algorithmName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.algorithmName), input_name='algorithmName')), ))
         if self.numberOfTransactions is not None and 'numberOfTransactions' not in already_processed:
             already_processed.add('numberOfTransactions')
-            outfile.write(' numberOfTransactions=%s' % (quote_attrib(self.numberOfTransactions), ))
+            outfile.write(' numberOfTransactions="%s"' % self.gds_format_integer(self.numberOfTransactions, input_name='numberOfTransactions'))
         if self.maxNumberOfItemsPerTransaction is not None and 'maxNumberOfItemsPerTransaction' not in already_processed:
             already_processed.add('maxNumberOfItemsPerTransaction')
-            outfile.write(' maxNumberOfItemsPerTransaction=%s' % (quote_attrib(self.maxNumberOfItemsPerTransaction), ))
+            outfile.write(' maxNumberOfItemsPerTransaction="%s"' % self.gds_format_integer(self.maxNumberOfItemsPerTransaction, input_name='maxNumberOfItemsPerTransaction'))
         if self.avgNumberOfItemsPerTransaction is not None and 'avgNumberOfItemsPerTransaction' not in already_processed:
             already_processed.add('avgNumberOfItemsPerTransaction')
             outfile.write(' avgNumberOfItemsPerTransaction=%s' % (quote_attrib(self.avgNumberOfItemsPerTransaction), ))
         if self.numberOfTransactionGroups is not None and 'numberOfTransactionGroups' not in already_processed:
             already_processed.add('numberOfTransactionGroups')
-            outfile.write(' numberOfTransactionGroups=%s' % (quote_attrib(self.numberOfTransactionGroups), ))
+            outfile.write(' numberOfTransactionGroups="%s"' % self.gds_format_integer(self.numberOfTransactionGroups, input_name='numberOfTransactionGroups'))
         if self.maxNumberOfTAsPerTAGroup is not None and 'maxNumberOfTAsPerTAGroup' not in already_processed:
             already_processed.add('maxNumberOfTAsPerTAGroup')
-            outfile.write(' maxNumberOfTAsPerTAGroup=%s' % (quote_attrib(self.maxNumberOfTAsPerTAGroup), ))
+            outfile.write(' maxNumberOfTAsPerTAGroup="%s"' % self.gds_format_integer(self.maxNumberOfTAsPerTAGroup, input_name='maxNumberOfTAsPerTAGroup'))
         if self.avgNumberOfTAsPerTAGroup is not None and 'avgNumberOfTAsPerTAGroup' not in already_processed:
             already_processed.add('avgNumberOfTAsPerTAGroup')
             outfile.write(' avgNumberOfTAsPerTAGroup=%s' % (quote_attrib(self.avgNumberOfTAsPerTAGroup), ))
@@ -30382,15 +30559,15 @@ class SequenceModel(GeneratedsSuper):
         if self.algorithmName is not None:
             element.set('algorithmName', self.gds_format_string(self.algorithmName))
         if self.numberOfTransactions is not None:
-            element.set('numberOfTransactions', self.numberOfTransactions)
+            element.set('numberOfTransactions', self.gds_format_integer(self.numberOfTransactions))
         if self.maxNumberOfItemsPerTransaction is not None:
-            element.set('maxNumberOfItemsPerTransaction', self.maxNumberOfItemsPerTransaction)
+            element.set('maxNumberOfItemsPerTransaction', self.gds_format_integer(self.maxNumberOfItemsPerTransaction))
         if self.avgNumberOfItemsPerTransaction is not None:
             element.set('avgNumberOfItemsPerTransaction', self.avgNumberOfItemsPerTransaction)
         if self.numberOfTransactionGroups is not None:
-            element.set('numberOfTransactionGroups', self.numberOfTransactionGroups)
+            element.set('numberOfTransactionGroups', self.gds_format_integer(self.numberOfTransactionGroups))
         if self.maxNumberOfTAsPerTAGroup is not None:
-            element.set('maxNumberOfTAsPerTAGroup', self.maxNumberOfTAsPerTAGroup)
+            element.set('maxNumberOfTAsPerTAGroup', self.gds_format_integer(self.maxNumberOfTAsPerTAGroup))
         if self.avgNumberOfTAsPerTAGroup is not None:
             element.set('avgNumberOfTAsPerTAGroup', self.avgNumberOfTAsPerTAGroup)
         if self.isScorable is not None:
@@ -30594,7 +30771,8 @@ class SequenceModel(GeneratedsSuper):
                 self.numberOfTransactions = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfTransactions)    # validate type INT-NUMBER
+            if self.numberOfTransactions < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('maxNumberOfItemsPerTransaction', node)
         if value is not None and 'maxNumberOfItemsPerTransaction' not in already_processed:
             already_processed.add('maxNumberOfItemsPerTransaction')
@@ -30602,7 +30780,8 @@ class SequenceModel(GeneratedsSuper):
                 self.maxNumberOfItemsPerTransaction = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.maxNumberOfItemsPerTransaction)    # validate type INT-NUMBER
+            if self.maxNumberOfItemsPerTransaction < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('avgNumberOfItemsPerTransaction', node)
         if value is not None and 'avgNumberOfItemsPerTransaction' not in already_processed:
             already_processed.add('avgNumberOfItemsPerTransaction')
@@ -30618,7 +30797,8 @@ class SequenceModel(GeneratedsSuper):
                 self.numberOfTransactionGroups = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfTransactionGroups)    # validate type INT-NUMBER
+            if self.numberOfTransactionGroups < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('maxNumberOfTAsPerTAGroup', node)
         if value is not None and 'maxNumberOfTAsPerTAGroup' not in already_processed:
             already_processed.add('maxNumberOfTAsPerTAGroup')
@@ -30626,7 +30806,8 @@ class SequenceModel(GeneratedsSuper):
                 self.maxNumberOfTAsPerTAGroup = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.maxNumberOfTAsPerTAGroup)    # validate type INT-NUMBER
+            if self.maxNumberOfTAsPerTAGroup < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('avgNumberOfTAsPerTAGroup', node)
         if value is not None and 'avgNumberOfTAsPerTAGroup' not in already_processed:
             already_processed.add('avgNumberOfTAsPerTAGroup')
@@ -30701,14 +30882,14 @@ class SequenceModel(GeneratedsSuper):
 class Constraints(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, minimumNumberOfItems='1', maximumNumberOfItems=None, minimumNumberOfAntecedentItems='1', maximumNumberOfAntecedentItems=None, minimumNumberOfConsequentItems='1', maximumNumberOfConsequentItems=None, minimumSupport='0', minimumConfidence='0', minimumLift='0', minimumTotalSequenceTime='0', maximumTotalSequenceTime=None, minimumItemsetSeparationTime='0', maximumItemsetSeparationTime=None, minimumAntConsSeparationTime='0', maximumAntConsSeparationTime=None, Extension=None):
+    def __init__(self, minimumNumberOfItems=1, maximumNumberOfItems=None, minimumNumberOfAntecedentItems=1, maximumNumberOfAntecedentItems=None, minimumNumberOfConsequentItems=1, maximumNumberOfConsequentItems=None, minimumSupport='0', minimumConfidence='0', minimumLift='0', minimumTotalSequenceTime='0', maximumTotalSequenceTime=None, minimumItemsetSeparationTime='0', maximumItemsetSeparationTime=None, minimumAntConsSeparationTime='0', maximumAntConsSeparationTime=None, Extension=None):
         self.original_tagname_ = None
-        self.minimumNumberOfItems = _cast(None, minimumNumberOfItems)
-        self.maximumNumberOfItems = _cast(None, maximumNumberOfItems)
-        self.minimumNumberOfAntecedentItems = _cast(None, minimumNumberOfAntecedentItems)
-        self.maximumNumberOfAntecedentItems = _cast(None, maximumNumberOfAntecedentItems)
-        self.minimumNumberOfConsequentItems = _cast(None, minimumNumberOfConsequentItems)
-        self.maximumNumberOfConsequentItems = _cast(None, maximumNumberOfConsequentItems)
+        self.minimumNumberOfItems = _cast(int, minimumNumberOfItems)
+        self.maximumNumberOfItems = _cast(int, maximumNumberOfItems)
+        self.minimumNumberOfAntecedentItems = _cast(int, minimumNumberOfAntecedentItems)
+        self.maximumNumberOfAntecedentItems = _cast(int, maximumNumberOfAntecedentItems)
+        self.minimumNumberOfConsequentItems = _cast(int, minimumNumberOfConsequentItems)
+        self.maximumNumberOfConsequentItems = _cast(int, maximumNumberOfConsequentItems)
         self.minimumSupport = _cast(None, minimumSupport)
         self.minimumConfidence = _cast(None, minimumConfidence)
         self.minimumLift = _cast(None, minimumLift)
@@ -30768,10 +30949,6 @@ class Constraints(GeneratedsSuper):
     def set_minimumAntConsSeparationTime(self, minimumAntConsSeparationTime): self.minimumAntConsSeparationTime = minimumAntConsSeparationTime
     def get_maximumAntConsSeparationTime(self): return self.maximumAntConsSeparationTime
     def set_maximumAntConsSeparationTime(self, maximumAntConsSeparationTime): self.maximumAntConsSeparationTime = maximumAntConsSeparationTime
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def validate_REAL_NUMBER(self, value):
         # Validate type REAL-NUMBER, a restriction on xs:double.
         if value is not None and Validate_simpletypes_:
@@ -30807,22 +30984,22 @@ class Constraints(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='Constraints'):
         if self.minimumNumberOfItems is not None and 'minimumNumberOfItems' not in already_processed:
             already_processed.add('minimumNumberOfItems')
-            outfile.write(' minimumNumberOfItems=%s' % (quote_attrib(self.minimumNumberOfItems), ))
+            outfile.write(' minimumNumberOfItems="%s"' % self.gds_format_integer(self.minimumNumberOfItems, input_name='minimumNumberOfItems'))
         if self.maximumNumberOfItems is not None and 'maximumNumberOfItems' not in already_processed:
             already_processed.add('maximumNumberOfItems')
-            outfile.write(' maximumNumberOfItems=%s' % (quote_attrib(self.maximumNumberOfItems), ))
+            outfile.write(' maximumNumberOfItems="%s"' % self.gds_format_integer(self.maximumNumberOfItems, input_name='maximumNumberOfItems'))
         if self.minimumNumberOfAntecedentItems is not None and 'minimumNumberOfAntecedentItems' not in already_processed:
             already_processed.add('minimumNumberOfAntecedentItems')
-            outfile.write(' minimumNumberOfAntecedentItems=%s' % (quote_attrib(self.minimumNumberOfAntecedentItems), ))
+            outfile.write(' minimumNumberOfAntecedentItems="%s"' % self.gds_format_integer(self.minimumNumberOfAntecedentItems, input_name='minimumNumberOfAntecedentItems'))
         if self.maximumNumberOfAntecedentItems is not None and 'maximumNumberOfAntecedentItems' not in already_processed:
             already_processed.add('maximumNumberOfAntecedentItems')
-            outfile.write(' maximumNumberOfAntecedentItems=%s' % (quote_attrib(self.maximumNumberOfAntecedentItems), ))
+            outfile.write(' maximumNumberOfAntecedentItems="%s"' % self.gds_format_integer(self.maximumNumberOfAntecedentItems, input_name='maximumNumberOfAntecedentItems'))
         if self.minimumNumberOfConsequentItems is not None and 'minimumNumberOfConsequentItems' not in already_processed:
             already_processed.add('minimumNumberOfConsequentItems')
-            outfile.write(' minimumNumberOfConsequentItems=%s' % (quote_attrib(self.minimumNumberOfConsequentItems), ))
+            outfile.write(' minimumNumberOfConsequentItems="%s"' % self.gds_format_integer(self.minimumNumberOfConsequentItems, input_name='minimumNumberOfConsequentItems'))
         if self.maximumNumberOfConsequentItems is not None and 'maximumNumberOfConsequentItems' not in already_processed:
             already_processed.add('maximumNumberOfConsequentItems')
-            outfile.write(' maximumNumberOfConsequentItems=%s' % (quote_attrib(self.maximumNumberOfConsequentItems), ))
+            outfile.write(' maximumNumberOfConsequentItems="%s"' % self.gds_format_integer(self.maximumNumberOfConsequentItems, input_name='maximumNumberOfConsequentItems'))
         if self.minimumSupport is not None and 'minimumSupport' not in already_processed:
             already_processed.add('minimumSupport')
             outfile.write(' minimumSupport=%s' % (quote_attrib(self.minimumSupport), ))
@@ -30863,17 +31040,17 @@ class Constraints(GeneratedsSuper):
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.minimumNumberOfItems is not None:
-            element.set('minimumNumberOfItems', self.minimumNumberOfItems)
+            element.set('minimumNumberOfItems', self.gds_format_integer(self.minimumNumberOfItems))
         if self.maximumNumberOfItems is not None:
-            element.set('maximumNumberOfItems', self.maximumNumberOfItems)
+            element.set('maximumNumberOfItems', self.gds_format_integer(self.maximumNumberOfItems))
         if self.minimumNumberOfAntecedentItems is not None:
-            element.set('minimumNumberOfAntecedentItems', self.minimumNumberOfAntecedentItems)
+            element.set('minimumNumberOfAntecedentItems', self.gds_format_integer(self.minimumNumberOfAntecedentItems))
         if self.maximumNumberOfAntecedentItems is not None:
-            element.set('maximumNumberOfAntecedentItems', self.maximumNumberOfAntecedentItems)
+            element.set('maximumNumberOfAntecedentItems', self.gds_format_integer(self.maximumNumberOfAntecedentItems))
         if self.minimumNumberOfConsequentItems is not None:
-            element.set('minimumNumberOfConsequentItems', self.minimumNumberOfConsequentItems)
+            element.set('minimumNumberOfConsequentItems', self.gds_format_integer(self.minimumNumberOfConsequentItems))
         if self.maximumNumberOfConsequentItems is not None:
-            element.set('maximumNumberOfConsequentItems', self.maximumNumberOfConsequentItems)
+            element.set('maximumNumberOfConsequentItems', self.gds_format_integer(self.maximumNumberOfConsequentItems))
         if self.minimumSupport is not None:
             element.set('minimumSupport', self.minimumSupport)
         if self.minimumConfidence is not None:
@@ -30992,7 +31169,8 @@ class Constraints(GeneratedsSuper):
                 self.minimumNumberOfItems = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.minimumNumberOfItems)    # validate type INT-NUMBER
+            if self.minimumNumberOfItems < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('maximumNumberOfItems', node)
         if value is not None and 'maximumNumberOfItems' not in already_processed:
             already_processed.add('maximumNumberOfItems')
@@ -31000,7 +31178,8 @@ class Constraints(GeneratedsSuper):
                 self.maximumNumberOfItems = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.maximumNumberOfItems)    # validate type INT-NUMBER
+            if self.maximumNumberOfItems < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('minimumNumberOfAntecedentItems', node)
         if value is not None and 'minimumNumberOfAntecedentItems' not in already_processed:
             already_processed.add('minimumNumberOfAntecedentItems')
@@ -31008,7 +31187,8 @@ class Constraints(GeneratedsSuper):
                 self.minimumNumberOfAntecedentItems = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.minimumNumberOfAntecedentItems)    # validate type INT-NUMBER
+            if self.minimumNumberOfAntecedentItems < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('maximumNumberOfAntecedentItems', node)
         if value is not None and 'maximumNumberOfAntecedentItems' not in already_processed:
             already_processed.add('maximumNumberOfAntecedentItems')
@@ -31016,7 +31196,8 @@ class Constraints(GeneratedsSuper):
                 self.maximumNumberOfAntecedentItems = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.maximumNumberOfAntecedentItems)    # validate type INT-NUMBER
+            if self.maximumNumberOfAntecedentItems < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('minimumNumberOfConsequentItems', node)
         if value is not None and 'minimumNumberOfConsequentItems' not in already_processed:
             already_processed.add('minimumNumberOfConsequentItems')
@@ -31024,7 +31205,8 @@ class Constraints(GeneratedsSuper):
                 self.minimumNumberOfConsequentItems = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.minimumNumberOfConsequentItems)    # validate type INT-NUMBER
+            if self.minimumNumberOfConsequentItems < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('maximumNumberOfConsequentItems', node)
         if value is not None and 'maximumNumberOfConsequentItems' not in already_processed:
             already_processed.add('maximumNumberOfConsequentItems')
@@ -31032,7 +31214,8 @@ class Constraints(GeneratedsSuper):
                 self.maximumNumberOfConsequentItems = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.maximumNumberOfConsequentItems)    # validate type INT-NUMBER
+            if self.maximumNumberOfConsequentItems < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('minimumSupport', node)
         if value is not None and 'minimumSupport' not in already_processed:
             already_processed.add('minimumSupport')
@@ -31664,7 +31847,7 @@ class Sequence(GeneratedsSuper):
     def __init__(self, id=None, numberOfSets=None, occurrence=None, support=None, Extension=None, Delimiter=None, SetReference=None, Time=None):
         self.original_tagname_ = None
         self.id = _cast(None, id)
-        self.numberOfSets = _cast(None, numberOfSets)
+        self.numberOfSets = _cast(int, numberOfSets)
         self.occurrence = _cast(None, occurrence)
         self.support = _cast(None, support)
         if Extension is None:
@@ -31765,7 +31948,7 @@ class Sequence(GeneratedsSuper):
             outfile.write(' id=%s' % (quote_attrib(self.id), ))
         if self.numberOfSets is not None and 'numberOfSets' not in already_processed:
             already_processed.add('numberOfSets')
-            outfile.write(' numberOfSets=%s' % (quote_attrib(self.numberOfSets), ))
+            outfile.write(' numberOfSets="%s"' % self.gds_format_integer(self.numberOfSets, input_name='numberOfSets'))
         if self.occurrence is not None and 'occurrence' not in already_processed:
             already_processed.add('occurrence')
             outfile.write(' occurrence=%s' % (quote_attrib(self.occurrence), ))
@@ -31793,7 +31976,7 @@ class Sequence(GeneratedsSuper):
         if self.id is not None:
             element.set('id', self.id)
         if self.numberOfSets is not None:
-            element.set('numberOfSets', self.numberOfSets)
+            element.set('numberOfSets', self.gds_format_integer(self.numberOfSets))
         if self.occurrence is not None:
             element.set('occurrence', self.occurrence)
         if self.support is not None:
@@ -31896,7 +32079,8 @@ class Sequence(GeneratedsSuper):
                 self.numberOfSets = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfSets)    # validate type INT-NUMBER
+            if self.numberOfSets < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('occurrence', node)
         if value is not None and 'occurrence' not in already_processed:
             already_processed.add('occurrence')
@@ -32072,7 +32256,7 @@ class SequenceRule(GeneratedsSuper):
     def __init__(self, id=None, numberOfSets=None, occurrence=None, support=None, confidence=None, lift=None, Extension=None, AntecedentSequence=None, Delimiter=None, ConsequentSequence=None, Time=None):
         self.original_tagname_ = None
         self.id = _cast(None, id)
-        self.numberOfSets = _cast(None, numberOfSets)
+        self.numberOfSets = _cast(int, numberOfSets)
         self.occurrence = _cast(None, occurrence)
         self.support = _cast(None, support)
         self.confidence = _cast(None, confidence)
@@ -32171,7 +32355,7 @@ class SequenceRule(GeneratedsSuper):
             outfile.write(' id=%s' % (quote_attrib(self.id), ))
         if self.numberOfSets is not None and 'numberOfSets' not in already_processed:
             already_processed.add('numberOfSets')
-            outfile.write(' numberOfSets=%s' % (quote_attrib(self.numberOfSets), ))
+            outfile.write(' numberOfSets="%s"' % self.gds_format_integer(self.numberOfSets, input_name='numberOfSets'))
         if self.occurrence is not None and 'occurrence' not in already_processed:
             already_processed.add('occurrence')
             outfile.write(' occurrence=%s' % (quote_attrib(self.occurrence), ))
@@ -32207,7 +32391,7 @@ class SequenceRule(GeneratedsSuper):
         if self.id is not None:
             element.set('id', self.id)
         if self.numberOfSets is not None:
-            element.set('numberOfSets', self.numberOfSets)
+            element.set('numberOfSets', self.gds_format_integer(self.numberOfSets))
         if self.occurrence is not None:
             element.set('occurrence', self.occurrence)
         if self.support is not None:
@@ -32321,7 +32505,8 @@ class SequenceRule(GeneratedsSuper):
                 self.numberOfSets = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfSets)    # validate type INT-NUMBER
+            if self.numberOfSets < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('occurrence', node)
         if value is not None and 'occurrence' not in already_processed:
             already_processed.add('occurrence')
@@ -34320,10 +34505,9 @@ class ParameterList(GeneratedsSuper):
 class Parameter(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, name=None, value=None, label=None, referencePoint='0', Extension=None):
+    def __init__(self, name=None, label=None, referencePoint='0', Extension=None):
         self.original_tagname_ = None
         self.name = _cast(None, name)
-        self.value = _cast(None, value)
         self.label = _cast(None, label)
         self.referencePoint = _cast(None, referencePoint)
         if Extension is None:
@@ -34348,8 +34532,6 @@ class Parameter(GeneratedsSuper):
     def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_name(self): return self.name
     def set_name(self, name): self.name = name
-    def get_value(self): return self.value
-    def set_value(self, value): self.value = value
     def get_label(self): return self.label
     def set_label(self, label): self.label = label
     def get_referencePoint(self): return self.referencePoint
@@ -34390,9 +34572,6 @@ class Parameter(GeneratedsSuper):
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
             outfile.write(' name=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.name), input_name='name')), ))
-        if self.value is not None and 'value' not in already_processed:
-            already_processed.add('value')
-            outfile.write(' value=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.value), input_name='value')), ))
         if self.label is not None and 'label' not in already_processed:
             already_processed.add('label')
             outfile.write(' label=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.label), input_name='label')), ))
@@ -34413,8 +34592,6 @@ class Parameter(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         if self.name is not None:
             element.set('name', self.gds_format_string(self.name))
-        if self.value is not None:
-            element.set('value', self.gds_format_string(self.value))
         if self.label is not None:
             element.set('label', self.gds_format_string(self.label))
         if self.referencePoint is not None:
@@ -34435,10 +34612,6 @@ class Parameter(GeneratedsSuper):
             already_processed.add('name')
             showIndent(outfile, level)
             outfile.write('name="%s",\n' % (self.name,))
-        if self.value is not None and 'value' not in already_processed:
-            already_processed.add('value')
-            showIndent(outfile, level)
-            outfile.write('value="%s",\n' % (self.value,))
         if self.label is not None and 'label' not in already_processed:
             already_processed.add('label')
             showIndent(outfile, level)
@@ -34472,10 +34645,6 @@ class Parameter(GeneratedsSuper):
         if value is not None and 'name' not in already_processed:
             already_processed.add('name')
             self.name = value
-        value = find_attr_value_('value', node)
-        if value is not None and 'value' not in already_processed:
-            already_processed.add('value')
-            self.value = value
         value = find_attr_value_('label', node)
         if value is not None and 'label' not in already_processed:
             already_processed.add('label')
@@ -36970,7 +37139,7 @@ class NearestNeighborModel(GeneratedsSuper):
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
         self.algorithmName = _cast(None, algorithmName)
-        self.numberOfNeighbors = _cast(None, numberOfNeighbors)
+        self.numberOfNeighbors = _cast(int, numberOfNeighbors)
         self.continuousScoringMethod = _cast(None, continuousScoringMethod)
         self.categoricalScoringMethod = _cast(None, categoricalScoringMethod)
         self.instanceIdVariable = _cast(None, instanceIdVariable)
@@ -37056,10 +37225,6 @@ class NearestNeighborModel(GeneratedsSuper):
                     break
             if not enumeration_respectee:
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on MINING-FUNCTION' % {"value" : value.encode("utf-8")} )
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def validate_CONT_SCORING_METHOD(self, value):
         # Validate type CONT-SCORING-METHOD, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -37142,7 +37307,7 @@ class NearestNeighborModel(GeneratedsSuper):
             outfile.write(' algorithmName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.algorithmName), input_name='algorithmName')), ))
         if self.numberOfNeighbors is not None and 'numberOfNeighbors' not in already_processed:
             already_processed.add('numberOfNeighbors')
-            outfile.write(' numberOfNeighbors=%s' % (quote_attrib(self.numberOfNeighbors), ))
+            outfile.write(' numberOfNeighbors="%s"' % self.gds_format_integer(self.numberOfNeighbors, input_name='numberOfNeighbors'))
         if self.continuousScoringMethod != "average" and 'continuousScoringMethod' not in already_processed:
             already_processed.add('continuousScoringMethod')
             outfile.write(' continuousScoringMethod=%s' % (quote_attrib(self.continuousScoringMethod), ))
@@ -37197,7 +37362,7 @@ class NearestNeighborModel(GeneratedsSuper):
         if self.algorithmName is not None:
             element.set('algorithmName', self.gds_format_string(self.algorithmName))
         if self.numberOfNeighbors is not None:
-            element.set('numberOfNeighbors', self.numberOfNeighbors)
+            element.set('numberOfNeighbors', self.gds_format_integer(self.numberOfNeighbors))
         if self.continuousScoringMethod is not None:
             element.set('continuousScoringMethod', self.continuousScoringMethod)
         if self.categoricalScoringMethod is not None:
@@ -37387,7 +37552,8 @@ class NearestNeighborModel(GeneratedsSuper):
                 self.numberOfNeighbors = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfNeighbors)    # validate type INT-NUMBER
+            if self.numberOfNeighbors < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('continuousScoringMethod', node)
         if value is not None and 'continuousScoringMethod' not in already_processed:
             already_processed.add('continuousScoringMethod')
@@ -38767,7 +38933,7 @@ class DerivedField(GeneratedsSuper):
         # Validate type ARCHITECTURENAME, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
             value = str(value)
-            enumerations = ['mobilenet', 'xception', 'resnet', 'inception', 'vgg']
+            enumerations = ['mobilenet', 'xception', 'resnet', 'inception', 'vgg', 'retinanet']
             enumeration_respectee = False
             for enum in enumerations:
                 if value == enum:
@@ -62223,6 +62389,8 @@ class TextModel(GeneratedsSuper):
                 self.numberOfTerms = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            if self.numberOfTerms < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('numberOfDocuments', node)
         if value is not None and 'numberOfDocuments' not in already_processed:
             already_processed.add('numberOfDocuments')
@@ -62230,6 +62398,8 @@ class TextModel(GeneratedsSuper):
                 self.numberOfDocuments = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            if self.numberOfDocuments < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('isScorable', node)
         if value is not None and 'isScorable' not in already_processed:
             already_processed.add('isScorable')

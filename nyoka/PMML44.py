@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jul 30 13:07:16 2019 by generateDS.py version 2.28a.
+# Generated Tue Aug 27 12:09:16 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -546,8 +546,8 @@ supermod.LayerBias.subclass = LayerBias
 
 
 class LayerParameters(supermod.LayerParameters):
-    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, pad=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, Extension=None):
-        super(LayerParameters, self).__init__(activationFunction, inputDimension, outputDimension, featureMaps, kernel, pad, stride, dilationRate, poolSize, depthMultiplier, paddingDims, croppingDims, upsamplingSize, batchNormalizationEpsilon, flattenAxis, batchNormalizationAxis, batchNormalizationMomentum, batchNormalizationCenter, batchNormalizationScale, gaussianNoiseStdev, gaussianDropoutRate, alphaDropoutRate, alphaDropoutSeed, betaInitializer, gammaInitializer, movingMeanInitializer, movingVarianceInitializer, betaRegularizer, gammaRegularizer, betaConstraint, gammaConstraint, kernelInitializer, biasInitializer, kernelRegularizer, biasRegularizer, kernelConstraint, biasConstraint, depthwiseConstraint, pointwiseConstraint, batchSize, dropoutRate, dropoutNoiseShape, dropoutSeed, generalLUAlpha, reshapeTarget, permuteDims, repeatVectorTimes, activityRegularizerL1, activityRegularizerL2, maskValue, mergeLayerOp, mergeLayerDotOperationAxis, mergeLayerDotNormalize, mergeLayerConcatOperationAxes, slicingAxis, Extension, )
+    def __init__(self, activationFunction=None, inputDimension=None, outputDimension=None, featureMaps=None, kernel=None, pad=None, stride=None, dilationRate=None, poolSize=None, depthMultiplier=None, paddingDims=None, croppingDims=None, upsamplingSize=None, batchNormalizationEpsilon=None, flattenAxis=None, batchNormalizationAxis=None, batchNormalizationMomentum=None, batchNormalizationCenter=None, batchNormalizationScale=None, gaussianNoiseStdev=None, gaussianDropoutRate=None, alphaDropoutRate=None, alphaDropoutSeed=None, betaInitializer=None, gammaInitializer=None, movingMeanInitializer=None, movingVarianceInitializer=None, betaRegularizer=None, gammaRegularizer=None, betaConstraint=None, gammaConstraint=None, kernelInitializer=None, biasInitializer=None, kernelRegularizer=None, biasRegularizer=None, kernelConstraint=None, biasConstraint=None, depthwiseConstraint=None, pointwiseConstraint=None, batchSize=None, dropoutRate=None, dropoutNoiseShape=None, dropoutSeed=None, generalLUAlpha=None, reshapeTarget=None, permuteDims=None, repeatVectorTimes=None, activityRegularizerL1=None, activityRegularizerL2=None, maskValue=None, mergeLayerOp=None, mergeLayerDotOperationAxis=None, mergeLayerDotNormalize=None, mergeLayerConcatOperationAxes=None, slicingAxis=None, anchorSize=None, anchorStride=None, anchorScales=None, anchorRatios=None, regressBoxesMean=None, regressBoxesStd=None, scoreThreshold=None, nms=None, nmsThreshold=None, classSpecificFilter=None, Extension=None):
+        super(LayerParameters, self).__init__(activationFunction, inputDimension, outputDimension, featureMaps, kernel, pad, stride, dilationRate, poolSize, depthMultiplier, paddingDims, croppingDims, upsamplingSize, batchNormalizationEpsilon, flattenAxis, batchNormalizationAxis, batchNormalizationMomentum, batchNormalizationCenter, batchNormalizationScale, gaussianNoiseStdev, gaussianDropoutRate, alphaDropoutRate, alphaDropoutSeed, betaInitializer, gammaInitializer, movingMeanInitializer, movingVarianceInitializer, betaRegularizer, gammaRegularizer, betaConstraint, gammaConstraint, kernelInitializer, biasInitializer, kernelRegularizer, biasRegularizer, kernelConstraint, biasConstraint, depthwiseConstraint, pointwiseConstraint, batchSize, dropoutRate, dropoutNoiseShape, dropoutSeed, generalLUAlpha, reshapeTarget, permuteDims, repeatVectorTimes, activityRegularizerL1, activityRegularizerL2, maskValue, mergeLayerOp, mergeLayerDotOperationAxis, mergeLayerDotNormalize, mergeLayerConcatOperationAxes, slicingAxis, anchorSize, anchorStride, anchorScales, anchorRatios, regressBoxesMean, regressBoxesStd, scoreThreshold, nms, nmsThreshold, classSpecificFilter, Extension, )
 
     #
     # XMLBehaviors
@@ -950,22 +950,6 @@ class Extension(supermod.Extension):
         return result
 
     def exportChildren(self, outfile, level, namespace_='', name_='Extension', fromsubclass_=False, pretty_print=True, *args):
-        for item_ in self.content_:
-
-            item_.export(outfile, level, item_.name, namespace_, pretty_print=pretty_print)
-
-            
-    def exportChildren_wrapper(self, outfile, level, namespace_='', name_='Extension', fromsubclass_=False, pretty_print=True, *args):
-        result = self.exportChildren(outfile, level, namespace_='', name_='Extension', fromsubclass_=False, pretty_print=True, *args)
-        return result
-
-    def export(self, outfile, level, namespace_='', name_='Extension', namespacedef_='', pretty_print=True, *args):
-        imported_ns_def_ = supermod.GenerateDSNamespaceDefs_.get('Extension')
-
-        if imported_ns_def_ is not None:
-
-            namespacedef_ = imported_ns_def_
-
         if pretty_print:
 
             eol_ = '\n'
@@ -974,57 +958,43 @@ class Extension(supermod.Extension):
 
             eol_ = ''
 
-        if self.original_tagname_ is not None:
+        for obj_ in self.anytypeobjs_:
 
-            name_ = self.original_tagname_
+            try:
 
-        showIndent(outfile, level, pretty_print)
+                obj_.export(outfile, level, namespace_, pretty_print=pretty_print)
 
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+            except:
 
-        already_processed = set()
+                showIndent(outfile, level, pretty_print)
 
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Extension')
+                outfile.write(str(obj_))
 
-        if self.hasContent_():
+                outfile.write(eol_)
 
-            outfile.write('>%s' % (eol_, ))
+        for objName_ in self.elementobjs_:
 
-            lines = []
+            obj_ = eval("self." + objName_)
 
-            code = self.anytypeobjs_[0].lstrip('\n')
+            if eval("isinstance(obj_, list)"):
 
-            leading_spaces = len(code) - len(code.lstrip(' '))
+                for s in obj_:
 
-            for line in code.split('\n'):
+                    showIndent(outfile, level, pretty_print)
 
-                lines.append(line[leading_spaces:])
+                    outfile.write("<" + objName_ + ">" + str(s) + "</" + objName_ + ">")
 
-            code = '\n'.join(lines)
+                    outfile.write(eol_)
 
-            indent = "    " * (level + 1)
+            else:
 
-            count = code.count('\n')
+                showIndent(outfile, level, pretty_print)
 
-            indented = indent + code.replace("\n", "\n" + indent, count - 1)
+                outfile.write("<" + objName_ + ">" + str(obj_) + "</" + objName_ + ">")
 
-            self.content_ = [supermod.MixedContainer(1, 2, "", str(indented))]
-
-            self.valueOf_ = str(indented)
-
-            self.exportChildren(outfile, level + 1, namespace_='', name_='Extension', pretty_print=pretty_print)
-
-            showIndent(outfile, level, pretty_print)
-
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
-
-        else:
-
-            outfile.write('/>%s' % (eol_, ))
-
-            
-    def export_wrapper(self, outfile, level, namespace_='', name_='Extension', namespacedef_='', pretty_print=True, *args):
-        result = self.export(outfile, level, namespace_='', name_='Extension', namespacedef_='', pretty_print=True, *args)
+                outfile.write(eol_)
+    def exportChildren_wrapper(self, outfile, level, namespace_='', name_='Extension', fromsubclass_=False, pretty_print=True, *args):
+        result = self.exportChildren(outfile, level, namespace_='', name_='Extension', fromsubclass_=False, pretty_print=True, *args)
         return result
 
 supermod.Extension.subclass = Extension
@@ -2287,7 +2257,7 @@ supermod.SequenceModel.subclass = SequenceModel
 
 
 class Constraints(supermod.Constraints):
-    def __init__(self, minimumNumberOfItems='1', maximumNumberOfItems=None, minimumNumberOfAntecedentItems='1', maximumNumberOfAntecedentItems=None, minimumNumberOfConsequentItems='1', maximumNumberOfConsequentItems=None, minimumSupport='0', minimumConfidence='0', minimumLift='0', minimumTotalSequenceTime='0', maximumTotalSequenceTime=None, minimumItemsetSeparationTime='0', maximumItemsetSeparationTime=None, minimumAntConsSeparationTime='0', maximumAntConsSeparationTime=None, Extension=None):
+    def __init__(self, minimumNumberOfItems=1, maximumNumberOfItems=None, minimumNumberOfAntecedentItems=1, maximumNumberOfAntecedentItems=None, minimumNumberOfConsequentItems=1, maximumNumberOfConsequentItems=None, minimumSupport='0', minimumConfidence='0', minimumLift='0', minimumTotalSequenceTime='0', maximumTotalSequenceTime=None, minimumItemsetSeparationTime='0', maximumItemsetSeparationTime=None, minimumAntConsSeparationTime='0', maximumAntConsSeparationTime=None, Extension=None):
         super(Constraints, self).__init__(minimumNumberOfItems, maximumNumberOfItems, minimumNumberOfAntecedentItems, maximumNumberOfAntecedentItems, minimumNumberOfConsequentItems, maximumNumberOfConsequentItems, minimumSupport, minimumConfidence, minimumLift, minimumTotalSequenceTime, maximumTotalSequenceTime, minimumItemsetSeparationTime, maximumItemsetSeparationTime, minimumAntConsSeparationTime, maximumAntConsSeparationTime, Extension, )
 
     #
@@ -2452,8 +2422,8 @@ supermod.ParameterList.subclass = ParameterList
 
 
 class Parameter(supermod.Parameter):
-    def __init__(self, name=None, value=None, label=None, referencePoint='0', Extension=None):
-        super(Parameter, self).__init__(name, value, label, referencePoint, Extension, )
+    def __init__(self, name=None, label=None, referencePoint='0', Extension=None):
+        super(Parameter, self).__init__(name, label, referencePoint, Extension, )
 
     #
     # XMLBehaviors

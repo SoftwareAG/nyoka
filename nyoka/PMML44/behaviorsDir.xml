@@ -826,30 +826,5 @@
             </xb:args>
             <xb:impl-url>extension_exportChildren.py</xb:impl-url>
         </xb:behavior>
-        <xb:behavior>
-            <xb:class>Extension</xb:class>
-            <xb:name>export</xb:name>
-            <xb:args>
-                <xb:arg>
-                    <xb:name>outfile</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>level</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>namespace_=''</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>name_='Extension'</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>namespacedef_=''</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>pretty_print=True</xb:name>
-                </xb:arg>
-            </xb:args>
-            <xb:impl-url>extension_export.py</xb:impl-url>
-        </xb:behavior>
     </xb:behaviors>
  </xb:xml-behavior>

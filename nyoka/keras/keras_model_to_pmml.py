@@ -21,9 +21,9 @@ import numpy as np
 # nyoka imports
 import PMML44 as ny
 import metadata
-
-LAYERS_DIR = os.path.abspath(os.path.dirname(__file__))
-image_INDEX_PATH = LAYERS_DIR + "/image_class_index.json"
+import warnings
+import base64
+warnings.formatwarning = warnings.formatwarning = lambda msg, *args, **kwargs: str(msg)+'\n'
 
 KERAS_LAYER_TYPES_MAP = {'InputLayer': 'Input',
                          'Add': 'MergeLayer',
@@ -37,14 +37,16 @@ KERAS_LAYER_TYPES_MAP = {'InputLayer': 'Input',
 KERAS_LAYER_PARAMS = ['filters', 'kernel_size', 'strides', 'padding',
                       'input_shape', 'output_shape', "activation", "axis",
                       "epsilon", "pool_size", "scale", "center", "depth_multiplier",
-                      "rate", "dilation_rate","size"]
+                      "rate", "dilation_rate","size","stride","ratios","scales","mean","std","nms_threshold",
+                      "score_threshold"]
 
 NYOKA_LAYER_PARAMS = ['featureMaps', 'kernel', 'stride', 'pad',
                       'inputDimension', 'outputDimension',
                       "activationFunction", "axis",
                       "batchNormalizationEpsilon", "poolSize",
                       "batchNormalizationScale", "batchNormalizationCenter", "depthMultiplier",
-                      "dropoutRate", "dilationRate","upsamplingSize"]
+                      "dropoutRate", "dilationRate","upsamplingSize","anchorStride","anchorRatios","anchorScales",
+                      "regressBoxesMean", "regressBoxesStd","nmsThreshold","scoreThreshold"]
 
 
 class KerasHeader(ny.Header):
@@ -62,6 +64,7 @@ class KerasHeader(ny.Header):
     -------
     Nyoka header object
     """ 
+ 
     def __init__(self, description, copyright):
         if not description:
             description = "Keras Model in PMML"
@@ -209,13 +212,11 @@ class KerasNetworkLayer(ny.NetworkLayer):
                     layer_params_dict[key] = self._get_activation_function(layer)
                 elif val == "padding":
                     pad_val = layer_config.get(val)
-                    # print (val,pad_val)
                     if pad_val in ['valid','same']:
                         layer_params_dict[key] = str(pad_val)
                     else:
                         pad_dims=str(pad_val)
                         layer_params_dict['paddingDims'] = pad_dims
-                        # print ('>>>',layer_params_dict)
                 else:
                     layer_params_dict[key] = str(layer_config.get(val))
             elif hasattr(layer, val):
@@ -229,7 +230,8 @@ class KerasNetworkLayer(ny.NetworkLayer):
                     else:
                         layer_params_dict[key] = str(out_s)
                 else:
-                    layer_params_dict[key] = str(getattr(layer, val))
+                    layer_params_dict[key] = str(tuple(layer_config.get(val)))\
+                         if layer_config.get(val).__class__.__name__ == 'list' else str(layer_config.get(val))
             else:
                 layer_params_dict[key] = None
             if layer_params_dict[key] and layer_params_dict[key] != "None":
@@ -317,13 +319,13 @@ class KerasNetworkLayer(ny.NetworkLayer):
             connection_layers = "na"
         return connection_layers
 
-    def __init__(self, layer,dataSet, layer_type,connection_layer_id=True):
+    def __init__(self, layer,dataSet, layer_type, script_args, connection_layer_id=True):
         merge_layer_op_type = None
         merge_concat_axes = None
         merge_dot_axes = None
         merge_dot_normalization = False
         connection_layers = ''
-        input_filed_name = None
+        input_field_name = None
         if "Pmml" in layer_type:
             layer_type = layer_type[4:]
         old_layer_type = layer_type
@@ -368,18 +370,26 @@ class KerasNetworkLayer(ny.NetworkLayer):
         elif layer_type == "ReLU":
             layer_type = "Activation"
             layer_params["activationFunction"] = "reLU6"
+        elif layer_type == "Anchors":
+            layer_params["anchorSize"] = layer_params["upsamplingSize"]
+            del layer_params["upsamplingSize"]
+            layer_params["anchorRatios"] = layer_params["anchorRatios"]
+            layer_params["anchorScales"] = layer_params["anchorScales"]
+        elif layer_type == "RegressBoxes":
+            layer_params["regressBoxesMean"] = layer_params["regressBoxesMean"]
+            layer_params["regressBoxesStd"] = layer_params["regressBoxesStd"]
+        elif layer_type == 'FilterDetections':
+            layer_params['nms'] = layer.nms
+            layer_params['classSpecificFilter'] = layer.class_specific_filter
         layer_params["mergeLayerOp"] = merge_layer_op_type
         layer_params["mergeLayerConcatOperationAxes"] = merge_concat_axes
         layer_params["mergeLayerDotOperationAxis"] = merge_dot_axes
         if layer_type == "Input":
-            if dataSet:
-                if dataSet == "image":
-                    input_filed_name = "base64String"
-                else:
-                    input_filed_name = dataSet
+            if dataSet=='image' or script_args:
+                input_field_name = 'base64String'
             else:
-                input_filed_name = "dataSet"
-        ny.NetworkLayer.__init__(self, inputFieldName=input_filed_name,
+                input_field_name = dataSet
+        ny.NetworkLayer.__init__(self, inputFieldName=input_field_name,
                                  layerType=layer_type,
                                  connectionLayerId=connection_layers,
                                  layerId=layer.name,
@@ -405,62 +415,39 @@ class KerasDataDictionary(ny.DataDictionary):
     -------
     Nyoka's Dictionary Object
     """ 
-    def __init__(self, dataSet, predictedClasses):
+    def __init__(self, dataSet, predictedClasses, script_args):
         ny.DataDictionary.__init__(self)
-
-        if dataSet:
-            if predictedClasses:
-                class_node = ny.DataField(name="predictions", optype="categorical",
-                                      dataType="string")
-                if type(predictedClasses) == list:
-                    if not all(type(pC) == str for pC in predictedClasses):
-                        print(
-                            "Not all classes are given as String. Values will be attempted to be converted to String.")
-                    for i in range(len(predictedClasses)):
-                        data_val = predictedClasses[i]
-                        class_node.add_Value(ny.Value(value=str(data_val)))
-                elif type(predictedClasses) == dict:
-                    if not all(type(pC) == str for pC in predictedClasses.keys()):
-                        print(
-                            "Class indices are expected as strings in dictionary keys. Keys will be attempted to be converted to String.")
-                    for i in range(len(predictedClasses.keys())):
-                        data_val = predictedClasses.keys()[i]
-                        class_node.add_Value(ny.Value(value=str(data_val)))
-            else:
-                class_node = ny.DataField(name="predictions", optype="continuous",
-                                          dataType="double")
-            if dataSet == "image":
-                name = "image"
-                ny.DataDictionary.add_DataField(self, ny.DataField(
-                    name=name, optype="categorical", dataType="binary",
-                    mimeType="image/png", Extension=[ny.Extension(
-                        extender="ADAPA", name="BINARY_BUFFERED", value="true" ,anytypeobjs_=[''])]))
-            else:
-                name = dataSet
-                ny.DataDictionary.add_DataField(self, ny.DataField(
-                    name=name, optype="categorical", dataType="string"
-                ))           
-        elif not dataSet:
-            name = 'dataSet'
-            ny.DataDictionary.add_DataField(self, ny.DataField(name=name, optype="categorical", dataType="string"))
-            if predictedClasses:
-                class_node = ny.DataField(name="predictions", optype="categorical",
-                                          dataType="string")
-                if type(predictedClasses)==list:
-                    if not all(type(pC)==str for pC in predictedClasses):
-                        print("Not all classes are given as String. Values will be attempted to be converted to String.")
-                    for i in range(len(predictedClasses)):
-                        data_val = predictedClasses[i]
-                        class_node.add_Value(ny.Value(value=str(data_val)))
-                elif type(predictedClasses)==dict:
-                    if not all(type(pC)==str for pC in predictedClasses.keys()):
-                        print("Class indices are expected as strings in dictionary keys. Keys will be attempted to be converted to String.")
-                    for i in range(len(predictedClasses.keys())):
-                        data_val = predictedClasses.keys()[i]
-                        class_node.add_Value(ny.Value(value=str(data_val)))
-            else:
-                class_node = ny.DataField(name="predictions", optype="continuous",
-                                          dataType="double")
+        if predictedClasses:
+            class_node = ny.DataField(name="labels", optype="categorical",
+                                    dataType="string")
+            if type(predictedClasses) == list:
+                if not all(type(pC) == str for pC in predictedClasses):
+                    warnings.warn(
+                        "Not all classes are given as String. Values will be attempted to be converted to String.")
+                for i in range(len(predictedClasses)):
+                    data_val = predictedClasses[i]
+                    class_node.add_Value(ny.Value(value=str(data_val)))
+            elif type(predictedClasses) == dict:
+                if not all(type(pC) == str for pC in predictedClasses.keys()):
+                    warnings.warn(
+                        "Class indices are expected as strings in dictionary keys. Keys will be attempted to be converted to String.")
+                for i in range(len(predictedClasses.keys())):
+                    data_val = predictedClasses.keys()[i]
+                    class_node.add_Value(ny.Value(value=str(data_val)))
+        else:
+            class_node = ny.DataField(name="predictions", optype="continuous",
+                                        dataType="double")
+        if dataSet == "image" or script_args:
+            name = dataSet
+            ny.DataDictionary.add_DataField(self, ny.DataField(
+                name=name, optype="categorical", dataType="binary",
+                mimeType="image/png", Extension=[ny.Extension(
+                    extender="ADAPA", name="BINARY_BUFFERED", value="true")]))
+        else:
+            name = dataSet
+            ny.DataDictionary.add_DataField(self, ny.DataField(
+                name=name, optype="categorical", dataType="string"
+            ))           
 
         ny.DataDictionary.add_DataField(self, class_node)
 
@@ -478,21 +465,15 @@ class KerasMiningSchema(ny.MiningSchema):
     -------
     Nyoka's Mining Schema Object
     """ 
-    def __init__(self, dataSet=None):
+    def __init__(self, dataSet, predictedClasses):
         ny.MiningSchema.__init__(self)
-        if dataSet:
-            name = dataSet
-            ny.MiningSchema.add_MiningField(self, ny.MiningField(
-                name=name, usageType="active",
-                invalidValueTreatment="asIs"))
-        else:
-            name = "dataSet"
-            ny.MiningSchema.add_MiningField(self, ny.MiningField(
-                name=name, usageType="active",
-                invalidValueTreatment="asIs"))
+        name = dataSet
+        ny.MiningSchema.add_MiningField(self, ny.MiningField(
+            name=name, usageType="active",
+            invalidValueTreatment="asIs"))
 
         ny.MiningSchema.add_MiningField(self, ny.MiningField(
-            name="predictions", usageType="target",
+            name="labels" if predictedClasses else "predictions", usageType="target",
             invalidValueTreatment="asIs"))
 
 
@@ -513,7 +494,7 @@ class KerasOutput(ny.Output):
         ny.Output.__init__(self)
         if predictedClasses:
             ny.Output.add_OutputField(self, ny.OutputField(
-                name="predictedValue_predictions", feature="predictedValue",
+                name="predicted_label", feature="predictedValue",
                 dataType="string", optype="categorical"))
             ny.Output.add_OutputField(self, ny.OutputField(
                 name="top1_prob", feature="probability", dataType="double"))
@@ -522,7 +503,7 @@ class KerasOutput(ny.Output):
                 dataType="string", optype="categorical"))
         else:
             ny.Output.add_OutputField(self, ny.OutputField(
-                name="predictedValue_predictions", feature="predictedValue",
+                name="predicted_predictions", feature="predictedValue",
                 dataType="double", optype="continuous"))
 
 
@@ -542,25 +523,71 @@ class KerasLocalTransformations(ny.LocalTransformations):
     -------
     Nyoka's Transformations Object
     """ 
-    def __init__(self, keras_model, dataSet):
-
-        arch_name = 'mobilenet'
-        if 'vgg' in keras_model.name:
-            arch_name = 'vgg'
-        elif 'xception' in keras_model.name:
-            arch_name = 'xception'
-        elif 'inception' in keras_model.name:
-            arch_name = 'inception'
-        elif 'resnet' in keras_model.name:
-            arch_name = 'resnet'
-        
+    def __init__(self, keras_model, dataSet, script_args):
         ny.LocalTransformations.__init__(self)
+        if script_args:
+            ret_type = script_args['return_type'].lower()
+            def_name = script_args['def_name'] if script_args['content'].__class__.__name__=='str' else script_args['content'].__name__
 
-        ny.LocalTransformations.add_DerivedField(self, ny.DerivedField(
-            name="base64String", optype="categorical", dataType="string",
-            trainingBackend="tensorflowChannelLast", architectureName=arch_name,
-            Apply=ny.Apply(function="CNN:getBase64String",
-                           FieldRef=[ny.FieldRef(field="image")])))
+            ny.LocalTransformations.add_DerivedField(self, ny.DerivedField(
+                name="base64String", optype="categorical" if ret_type=="string" else "continuous",
+                dataType=ret_type, Apply=ny.Apply(function='customFunc',
+                FieldRef=[ny.FieldRef(field=dataSet)])
+            ))
+        else:
+            ny.LocalTransformations.add_DerivedField(self, ny.DerivedField(
+                name="base64String", optype="categorical", dataType="string",
+                Apply=ny.Apply(function="CNN:getBase64String",
+                            FieldRef=[ny.FieldRef(field="image")])))
+
+
+class KerasTransformationDictionary(ny.TransformationDictionary):
+    """
+    KerasTransformationDictionary provides the information about the list of transformations functions applied to the data.
+    
+    Parameters
+    ----------
+    dataSet : string
+        name of the input
+    script_args : Dictionary
+        Arguments for the script
+
+    Returns
+    -------
+    Nyoka's TransformationDictionary object 
+    """
+    def __init__(self, dataSet, script_args):
+        if script_args['content'].__class__.__name__ == 'str':
+            content = script_args['content']
+            def_name = script_args['def_name']
+        else:
+            import inspect
+            content = inspect.getsource(script_args['content'])
+            def_name = script_args['content'].__name__
+        encode = True
+        if "encode" in script_args:
+            encode = script_args['encode']
+        
+        if encode:
+            content = base64.b64encode(content.encode()).decode()
+        return_type = script_args['return_type'].lower()
+        extension = [ny.Extension(
+            extender='ADAPA', 
+            name=def_name, 
+            value=return_type,
+            anytypeobjs_=[content]
+            )]
+        def_func = ny.DefineFunction(
+            name='customFunc',
+            optype='categorical' if return_type == 'string' else 'continous',
+            dataType=return_type,
+            ParameterField=[ny.ParameterField(name=dataSet, dataType='binary')],
+            Apply = ny.Apply(function='python', Extension=extension, FieldRef=[ny.FieldRef(field=dataSet)]),
+
+        )
+        ny.TransformationDictionary.__init__(self)
+        ny.TransformationDictionary.add_DefineFunction(self, def_func)
+
 
 
 
@@ -585,7 +612,7 @@ class KerasNetwork(ny.DeepNetwork):
     """ 
 
 
-    def _create_an_input_layer(self, layer, dataSet):
+    def _create_an_input_layer(self, layer, dataSet, script_args):
         """
         Creates a PMML input layer from Keras Input Layer object
         
@@ -603,13 +630,11 @@ class KerasNetwork(ny.DeepNetwork):
         """
 
         
-        if dataSet:
-            if dataSet == 'image':
-                inputField = "base64String"
-            else:
-                inputField = dataSet
+        if dataSet=='image' or script_args:
+            inputField = "base64String"
         else:
-            inputField = 'dataSet'
+            inputField = dataSet
+
         in_shape = layer.input_shape
         if in_shape[0] is not None:
             if len(in_shape) == 1:
@@ -630,7 +655,7 @@ class KerasNetwork(ny.DeepNetwork):
                 outputDimension=output_dims))
         return input_layer
 
-    def _create_layers(self, keras_model, dataSet):
+    def _create_layers(self, keras_model, dataSet, script_args):
         """
         Create list of PMML network layers from Keras Model object.
         
@@ -650,23 +675,23 @@ class KerasNetwork(ny.DeepNetwork):
         model_layers = keras_model.layers
         first_layer = model_layers[0]
         if first_layer.__class__.__name__ != "InputLayer":
-            input_layer = self._create_an_input_layer(first_layer, dataSet)
+            input_layer = self._create_an_input_layer(first_layer, dataSet, script_args)
             if input_layer:
                 network_layers.append(input_layer)
         for layer in model_layers:
             layer_type = layer.__class__.__name__
-            net_layer = KerasNetworkLayer(layer,dataSet, layer_type)
+            net_layer = KerasNetworkLayer(layer,dataSet, layer_type,script_args)
             network_layers.append(net_layer)
         return network_layers
 
-    def __init__(self, keras_model, model_name, dataSet=None, predictedClasses=None):
+    def __init__(self, keras_model, model_name, dataSet=None, predictedClasses=None, script_args=None):
         if not model_name:
-            model_name = keras_model.name
-        network_layers = self._create_layers(keras_model, dataSet)
+            model_namme = keras_model.name
+        network_layers = self._create_layers(keras_model, dataSet, script_args)
         local_trans = None
-        mining_schema = KerasMiningSchema(dataSet)
-        if dataSet == 'image':
-            local_trans = KerasLocalTransformations(keras_model, dataSet)
+        mining_schema = KerasMiningSchema(dataSet, predictedClasses)
+        if dataSet == 'image' or script_args:
+            local_trans = KerasLocalTransformations(keras_model, dataSet, script_args)
         function_Name = "classification" if predictedClasses else "regression"
         ny.DeepNetwork.__init__(self, modelName=model_name,
                                 functionName=function_Name, algorithmName=None,
@@ -690,22 +715,73 @@ class KerasToPmml(ny.PMML):
         Name to be given to the model in PMML.
     description : Sting (Optional)
         Description to be shown in PMML
-    copyright : String (Optionnal)
-        Copyright information
     dataSet : String (Optional)
         Name of the dataset. Value is 'image' for Image Classifier, 'None' or any other value is for the rest. 
     predictedClasses : List
         List of the class names for which model has been trained. If not provided, assumed to be regression model.
-
+    script_args : Dictionary
+        Contains information of the script to be used to convert `image` data into base64 string. Required when dataSet=`image`.
+        Required attributes - 
+            content : string or function
+                The content of the script
+            def_name : string
+                name of the function to be used. Required when content is string
+            return_type : string
+                The return type of the function. Valid values are ('string', 'double', 'float','integer')
+            encode : boolean
+                The representation of the script in PMML. If True, the script will be represented as base64 encoded string, else as plain text.
+                If not provided, default value `True` is considered.
 
     Returns
     -------
     Creates PMML object, this can be saved in file using export function
-    """ 
+    """
+
+    @property
+    def content_error(self):
+        return "`content` should be present in script_args, which is either a function or a string (script content)"
+
+    @property
+    def def_name_error(self):
+        return "`def_name`, the name of the funciton is required when `content` is a string."
+
+    @property
+    def ret_type_error(self):
+        return "`return_type` of the preprocessing function is required. Valid return types are ('string', 'double', 'float', 'intger')"
+
+    @property
+    def ret_type_value_error(self):
+        return "Valid return types are ('string', 'double', 'float', 'intger')"
+
+    @property
+    def encode_error(self):
+        return "Valid values for `encode` are (True, False)"
+    
+    def validate_script_args(self, script_args):
+        assert 'content' in script_args, self.content_error
+        if script_args['content'].__class__.__name__ == 'str':
+            assert 'def_name' in script_args, self.def_name_error
+        assert 'return_type' in script_args, self.ret_type_error
+        ret_type = script_args['return_type'].lower()
+        assert ret_type in ("string", "double", "float", "intger"), self.ret_type_value_error
+        if 'encode' in script_args:
+            assert script_args['encode'] in [True, False], self.encode_error
+
+
     def __init__(self, keras_model, model_name=None, description=None,copyright=None,\
-        dataSet=None, predictedClasses=None):
-        data_dict = KerasDataDictionary(dataSet, predictedClasses)
+        dataSet=None, predictedClasses=None, script_args=None):
+        if not dataSet:
+            dataSet = 'input'
+        data_dict = KerasDataDictionary(dataSet, predictedClasses, script_args)
+        trans_dict = None
+        if script_args:
+            self.validate_script_args(script_args)
+            trans_dict = KerasTransformationDictionary(dataSet,script_args)
         super(KerasToPmml, self).__init__(
             version="4.4", Header=KerasHeader(description=description, copyright=copyright),
-            DataDictionary=data_dict, DeepNetwork=[
-                KerasNetwork(keras_model=keras_model, model_name=model_name, dataSet=dataSet, predictedClasses=predictedClasses)])
+            DataDictionary=data_dict, TransformationDictionary= trans_dict, DeepNetwork=[
+                KerasNetwork(keras_model=keras_model, 
+                model_name=model_name, 
+                dataSet=dataSet, 
+                predictedClasses=predictedClasses,
+                script_args=script_args)])
