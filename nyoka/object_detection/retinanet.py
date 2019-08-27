@@ -220,7 +220,7 @@ class RetinanetToPmml:
 
     def get_local_transformation(self):
         apply = pml.Apply(
-            function='KerasRetinaNet:getBase64String',
+            function='KerasRetinaNet:getBase64StringFromBufferedInput',
             FieldRef = [pml.FieldRef(field=self.input_data)],
             Constant = [pml.Constant(valueOf_='tf' if self.backbone_name in ['mobilenet', 'densenet'] else 'caffe')]
         )
