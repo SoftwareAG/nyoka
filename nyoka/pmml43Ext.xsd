@@ -1870,6 +1870,18 @@
         </xs:complexType>
     </xs:element>
 
+     <xs:element name="Data">
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="filePath" type="xs:string" use="required"/>
+            <xs:attribute name="for" type="xs:string" use="required"/>
+            <!-- <xs:attribute name="type" type="LANGUAGES"/> -->
+            <xs:anyAttribute/>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="Application">
         <xs:complexType>
             <xs:sequence>
@@ -2328,6 +2340,8 @@
             <xs:attribute name="algorithmName" type="xs:string" use="optional"/>
             <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
             <xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="objective" type="xs:string" use="optional"/>
+            <xs:attribute name="numberOfClass" type="INT-NUMBER" use="optional"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Segmentation">
@@ -4793,6 +4807,7 @@
             <xs:attribute name="modelName" type="xs:string"/>
             <xs:attribute name="functionName" type="MINING-FUNCTION" use="required"/>
             <xs:attribute name="algorithmName" type="xs:string"/>
+            <xs:attribute name="shrinkage" type="PROB-NUMBER"/>
             <xs:attribute name="missingValueStrategy" type="MISSING-VALUE-STRATEGY" default="none"/>
             <xs:attribute name="missingValuePenalty" type="PROB-NUMBER" default="1.0"/>
             <xs:attribute name="noTrueChildStrategy" type="NO-TRUE-CHILD-STRATEGY" default="returnNullPrediction"/>
@@ -4823,6 +4838,8 @@
                 </xs:choice>
             </xs:sequence>
             <xs:attribute name="id" type="xs:string"/>
+            <xs:attribute name="gain" type="NUMBER"/>
+            <xs:attribute name="missingType" type="xs:string"/>
             <xs:attribute name="score" type="xs:string"/>
             <xs:attribute name="recordCount" type="NUMBER"/>
             <xs:attribute name="defaultChild" type="xs:string"/>

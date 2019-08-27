@@ -40,17 +40,21 @@ def reconstruct(nyoka_pmml_obj):
         th_count = 0
 
         def get_gain_missing_type_and_node_info(Node = None):
-            ExtensionList = Node.get_Extension()
-            intermediate_node = False
-            if ExtensionList:
-                intermediate_node = True
-                for extension in ExtensionList:
-                    if extension.get_name() == 'gain':
-                        gain = np.float64(extension.get_value())
-                    elif extension.get_name() == 'missing_type':
-                        missing_type = extension.get_value()
-                return gain, missing_type, intermediate_node
-            return None, None, intermediate_node
+            gain_ = Node.get_gain()
+            missing_type_ = Node.get_missingType()
+            intermediate_node_ = True if gain_ else False
+            return gain_, missing_type_, intermediate_node_
+            # ExtensionList = Node.get_Extension()
+            # intermediate_node = False
+            # if ExtensionList:
+            #     intermediate_node = True
+            #     for extension in ExtensionList:
+            #         if extension.get_name() == 'gain':
+            #             gain = np.float64(extension.get_value())
+            #         elif extension.get_name() == 'missing_type':
+            #             missing_type = extension.get_value()
+            #     return gain, missing_type, intermediate_node
+            # return None, None, intermediate_node
 
         def get_child_node_data(node = None, side = None):
             global global_threshold_count
@@ -119,7 +123,8 @@ def reconstruct(nyoka_pmml_obj):
         else:
             leaf_value[0] = 0
         
-        shrinkage = tree_model.get_Extension()[0].get_value() if tree_model.get_Extension()[0].get_name() == 'shrinkage' else None
+        # shrinkage = tree_model.get_Extension()[0].get_value() if tree_model.get_Extension()[0].get_name() == 'shrinkage' else None
+        shrinkage = str(tree_model.get_shrinkage())
         file.write("Tree="+str(int(segment.get_id())-1)+"\n")
         file.write("num_leaves="+str(len(leaf_value))+"\n")
         file.write("num_cat="+str(global_threshold_count)+"\n")
@@ -141,15 +146,20 @@ def reconstruct(nyoka_pmml_obj):
         
     # nyoka_pmml = parse(pmml_file_name, silence=True)
     mining_model_obj = nyoka_pmml_obj.MiningModel[0]
-    mining_model_extension_list = mining_model_obj.get_Extension()
-    num_class, pandas_categorical = '1' , '[]'
-    for ext in mining_model_extension_list:
-        if ext.get_name() == 'objective':
-            objective = ext.get_value()
-        elif ext.get_name() == 'num_class':
-            num_class = ext.get_value()
-        elif ext.get_name() == 'pandas_categorical':
-            pandas_categorical = ext.get_value()
+    num_class_, pandas_categorical_ = '1' , '[]'
+    objective_ = mining_model_obj.get_objective()
+    num_class_ = mining_model_obj.get_numberOfClass()
+    num_class_ = str(num_class_) if num_class_ else "1"
+    pandas_categorical_ = mining_model_obj.get_Extension()[0].get_value()   #Change This
+    # mining_model_extension_list = mining_model_obj.get_Extension()
+    # num_class, pandas_categorical = '1' , '[]'
+    # for ext in mining_model_extension_list:
+    #     if ext.get_name() == 'objective':
+    #         objective = ext.get_value()
+    #     elif ext.get_name() == 'num_class':
+    #         num_class = ext.get_value()
+    #     elif ext.get_name() == 'pandas_categorical':
+    #         pandas_categorical = ext.get_value()
     mf = mining_model_obj.get_MiningSchema().get_MiningField()
     features = list()
     feature_infos = list()
@@ -161,17 +171,17 @@ def reconstruct(nyoka_pmml_obj):
     f = open(filename, "w+")
     f.write("tree\n"+
             "version=v2\n"+
-            "num_class="+num_class+"\n"+
-            "num_tree_per_iteration="+num_class+"\n"+
+            "num_class="+num_class_+"\n"+
+            "num_tree_per_iteration="+num_class_+"\n"+
             "label_index=0\n"+
             "max_feature_idx="+str(len(features)-1)+"\n"+
-            "objective="+objective+"\n"+
+            "objective="+objective_+"\n"+
             "feature_names="+" ".join(features)+"\n"+
             "feature_infos="+" ".join(feature_infos)+"\n"+  #feature_infos is minimum value to maximum value ratio of every features
             #tree_sizes=??????????
             "\n")
     get_tree_string(segmentation=segmentation_obj, temp_file = f)
-    f.write("pandas_categorical:"+pandas_categorical+"\n")
+    f.write("pandas_categorical:"+pandas_categorical_+"\n")
     f.close()
     newgbm = lgb.basic.Booster(params = {'model_str' : open(filename, "r").read()})
     f.close()

@@ -158,7 +158,7 @@ def reconstruct(pmml,*args):
     #extension_value=pmml.get_MiningBuildTask().get_Extension()[0].get_value()
     # Vinay's logic
     for ext in range(len(pmml.get_MiningBuildTask().get_Extension())):
-        if pmml.get_MiningBuildTask().get_Extension()[ext].get_name() == 'modelObject':
+        if ('Sequential' not in pmml.get_MiningBuildTask().get_Extension()[ext].get_value()) and (pmml.get_MiningBuildTask().get_Extension()[ext].name == 'modelObject') :
             extension_value=pmml.get_MiningBuildTask().get_Extension()[ext].get_value()
     # Vinay's logic ends
     if 'XGBRegressor' in extension_value:

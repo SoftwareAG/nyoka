@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Thu Jun 27 11:02:43 2019 by generateDS.py version 2.28a.
+# Generated Tue Aug 27 12:50:08 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -25917,6 +25917,208 @@ class script(GeneratedsSuper):
 # end class script
 
 
+class Data(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, filePath=None, for_=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
+        self.original_tagname_ = None
+        self.filePath = _cast(None, filePath)
+        self.for_ = _cast(None, for_)
+        if Extension is None:
+            self.Extension = []
+        else:
+            self.Extension = Extension
+        self.valueOf_ = valueOf_
+        self.anyAttributes_ = {}
+        if mixedclass_ is None:
+            self.mixedclass_ = MixedContainer
+        else:
+            self.mixedclass_ = mixedclass_
+        if content_ is None:
+            self.content_ = []
+        else:
+            self.content_ = content_
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, Data)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if Data.subclass:
+            return Data.subclass(*args_, **kwargs_)
+        else:
+            return Data(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
+    def add_Extension(self, value): self.Extension.append(value)
+    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
+    def replace_Extension_at(self, index, value): self.Extension[index] = value
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
+    def get_for(self): return self.for_
+    def set_for(self, for_): self.for_ = for_
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def get_anyAttributes_(self): return self.anyAttributes_
+    def set_anyAttributes_(self, anyAttributes_): self.anyAttributes_ = anyAttributes_
+    def hasContent_(self):
+        if (
+            self.Extension or
+            1 if type(self.valueOf_) in [int,float] else self.valueOf_
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='', name_='Data', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('Data')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Data')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='Data', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='Data'):
+        unique_counter = 0
+        for name, value in self.anyAttributes_.items():
+            xsinamespaceprefix = 'xsi'
+            xsinamespace1 = 'http://www.w3.org/2001/XMLSchema-instance'
+            xsinamespace2 = '{%s}' % (xsinamespace1, )
+            if name.startswith(xsinamespace2):
+                name1 = name[len(xsinamespace2):]
+                name2 = '%s:%s' % (xsinamespaceprefix, name1, )
+                if name2 not in already_processed:
+                    already_processed.add(name2)
+                    outfile.write(' %s=%s' % (name2, quote_attrib(value), ))
+            else:
+                mo = re_.match(Namespace_extract_pat_, name)
+                if mo is not None:
+                    namespace, name = mo.group(1, 2)
+                    if name not in already_processed:
+                        already_processed.add(name)
+                        if namespace == 'http://www.w3.org/XML/1998/namespace':
+                            outfile.write(' %s=%s' % (
+                                name, quote_attrib(value), ))
+                        else:
+                            unique_counter += 1
+                            outfile.write(' xmlns:%d="%s"' % (
+                                unique_counter, namespace, ))
+                            outfile.write(' %d:%s=%s' % (
+                                unique_counter, name, quote_attrib(value), ))
+                else:
+                    if name not in already_processed:
+                        already_processed.add(name)
+                        outfile.write(' %s=%s' % (
+                            name, quote_attrib(value), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
+        if self.for_ is not None and 'for_' not in already_processed:
+            already_processed.add('for_')
+            outfile.write(' for=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.for_), input_name='for')), ))
+    def exportChildren(self, outfile, level, namespace_='', name_='Data', fromsubclass_=False, pretty_print=True):
+        if not fromsubclass_:
+            for item_ in self.content_:
+                item_.export(outfile, level, item_.name, namespace_, pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='Data', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{http://www.dmg.org/PMML-4_3}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_3}' + name_)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
+        if self.for_ is not None:
+            element.set('for', self.gds_format_string(self.for_))
+        for item_ in self.content_:
+            item_.to_etree(element)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='Data'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+        showIndent(outfile, level)
+        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
+        if self.for_ is not None and 'for_' not in already_processed:
+            already_processed.add('for_')
+            showIndent(outfile, level)
+            outfile.write('for_="%s",\n' % (self.for_,))
+        for name, value in self.anyAttributes_.items():
+            showIndent(outfile, level)
+            outfile.write('%s="%s",\n' % (name, value,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('content_ = [\n')
+        for item_ in self.content_:
+            item_.exportLiteral(outfile, level, name_)
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        if node.text is not None:
+            obj_ = self.mixedclass_(MixedContainer.CategoryText,
+                MixedContainer.TypeNone, '', node.text)
+            self.content_.append(obj_)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
+        value = find_attr_value_('for', node)
+        if value is not None and 'for' not in already_processed:
+            already_processed.add('for')
+            self.for_ = value
+        self.anyAttributes_ = {}
+        for name, value in attrs.items():
+            if name not in already_processed:
+                self.anyAttributes_[name] = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            obj_ = self.mixedclass_(MixedContainer.CategoryComplex,
+                MixedContainer.TypeNone, 'Extension', obj_)
+            self.content_.append(obj_)
+            if hasattr(self, 'add_Extension'):
+              self.add_Extension(obj_.value)
+            elif hasattr(self, 'set_Extension'):
+              self.set_Extension(obj_.value)
+        if not fromsubclass_ and child_.tail is not None:
+            obj_ = self.mixedclass_(MixedContainer.CategoryText,
+                MixedContainer.TypeNone, '', child_.tail)
+            self.content_.append(obj_)
+# end class Data
+
+
 class Application(GeneratedsSuper):
     subclass = None
     superclass = None
@@ -32137,13 +32339,15 @@ class VerificationField(GeneratedsSuper):
 class MiningModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Regression=None, DecisionTree=None, Segmentation=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, isScorable=True, taskType=None, objective=None, numberOfClass=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Regression=None, DecisionTree=None, Segmentation=None, ModelVerification=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
         self.algorithmName = _cast(None, algorithmName)
         self.isScorable = _cast(bool, isScorable)
         self.taskType = _cast(None, taskType)
+        self.objective = _cast(None, objective)
+        self.numberOfClass = _cast(None, numberOfClass)
         self.MiningSchema = MiningSchema
         self.Output = Output
         self.ModelStats = ModelStats
@@ -32216,6 +32420,10 @@ class MiningModel(GeneratedsSuper):
     def set_isScorable(self, isScorable): self.isScorable = isScorable
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_objective(self): return self.objective
+    def set_objective(self, objective): self.objective = objective
+    def get_numberOfClass(self): return self.numberOfClass
+    def set_numberOfClass(self, numberOfClass): self.numberOfClass = numberOfClass
     def validate_MINING_FUNCTION(self, value):
         # Validate type MINING-FUNCTION, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -32240,6 +32448,10 @@ class MiningModel(GeneratedsSuper):
                     break
             if not enumeration_respectee:
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on TRAINORSCORE' % {"value" : value.encode("utf-8")} )
+    def validate_INT_NUMBER(self, value):
+        # Validate type INT-NUMBER, a restriction on xs:integer.
+        if value is not None and Validate_simpletypes_:
+            pass
     def hasContent_(self):
         if (
             self.MiningSchema is not None or
@@ -32294,6 +32506,12 @@ class MiningModel(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.objective is not None and 'objective' not in already_processed:
+            already_processed.add('objective')
+            outfile.write(' objective=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.objective), input_name='objective')), ))
+        if self.numberOfClass is not None and 'numberOfClass' not in already_processed:
+            already_processed.add('numberOfClass')
+            outfile.write(' numberOfClass=%s' % (quote_attrib(self.numberOfClass), ))
     def exportChildren(self, outfile, level, namespace_='', name_='MiningModel', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -32336,6 +32554,10 @@ class MiningModel(GeneratedsSuper):
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.objective is not None:
+            element.set('objective', self.gds_format_string(self.objective))
+        if self.numberOfClass is not None:
+            element.set('numberOfClass', self.numberOfClass)
         if self.MiningSchema is not None:
             MiningSchema_ = self.MiningSchema
             MiningSchema_.to_etree(element, name_='MiningSchema', mapping_=mapping_)
@@ -32396,6 +32618,14 @@ class MiningModel(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.objective is not None and 'objective' not in already_processed:
+            already_processed.add('objective')
+            showIndent(outfile, level)
+            outfile.write('objective="%s",\n' % (self.objective,))
+        if self.numberOfClass is not None and 'numberOfClass' not in already_processed:
+            already_processed.add('numberOfClass')
+            showIndent(outfile, level)
+            outfile.write('numberOfClass=%d,\n' % (self.numberOfClass,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.MiningSchema is not None:
             showIndent(outfile, level)
@@ -32516,6 +32746,18 @@ class MiningModel(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('objective', node)
+        if value is not None and 'objective' not in already_processed:
+            already_processed.add('objective')
+            self.objective = value
+        value = find_attr_value_('numberOfClass', node)
+        if value is not None and 'numberOfClass' not in already_processed:
+            already_processed.add('numberOfClass')
+            try:
+                self.numberOfClass = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            self.validate_INT_NUMBER(self.numberOfClass)    # validate type INT-NUMBER
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'MiningSchema':
             obj_ = MiningSchema.factory()
@@ -66443,11 +66685,12 @@ class BlockIndicator(GeneratedsSuper):
 class TreeModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, missingValueStrategy='none', missingValuePenalty='1.0', noTrueChildStrategy='returnNullPrediction', taskType=None, splitCharacteristic='multiSplit', isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Node=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, shrinkage=None, missingValueStrategy='none', missingValuePenalty='1.0', noTrueChildStrategy='returnNullPrediction', taskType=None, splitCharacteristic='multiSplit', isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Node=None, ModelVerification=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
         self.algorithmName = _cast(None, algorithmName)
+        self.shrinkage = _cast(None, shrinkage)
         self.missingValueStrategy = _cast(None, missingValueStrategy)
         self.missingValuePenalty = _cast(None, missingValuePenalty)
         self.noTrueChildStrategy = _cast(None, noTrueChildStrategy)
@@ -66504,6 +66747,8 @@ class TreeModel(GeneratedsSuper):
     def set_functionName(self, functionName): self.functionName = functionName
     def get_algorithmName(self): return self.algorithmName
     def set_algorithmName(self, algorithmName): self.algorithmName = algorithmName
+    def get_shrinkage(self): return self.shrinkage
+    def set_shrinkage(self, shrinkage): self.shrinkage = shrinkage
     def get_missingValueStrategy(self): return self.missingValueStrategy
     def set_missingValueStrategy(self, missingValueStrategy): self.missingValueStrategy = missingValueStrategy
     def get_missingValuePenalty(self): return self.missingValuePenalty
@@ -66528,6 +66773,10 @@ class TreeModel(GeneratedsSuper):
                     break
             if not enumeration_respectee:
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on MINING-FUNCTION' % {"value" : value.encode("utf-8")} )
+    def validate_PROB_NUMBER(self, value):
+        # Validate type PROB-NUMBER, a restriction on xs:double.
+        if value is not None and Validate_simpletypes_:
+            pass
     def validate_MISSING_VALUE_STRATEGY(self, value):
         # Validate type MISSING-VALUE-STRATEGY, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -66540,10 +66789,6 @@ class TreeModel(GeneratedsSuper):
                     break
             if not enumeration_respectee:
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on MISSING-VALUE-STRATEGY' % {"value" : value.encode("utf-8")} )
-    def validate_PROB_NUMBER(self, value):
-        # Validate type PROB-NUMBER, a restriction on xs:double.
-        if value is not None and Validate_simpletypes_:
-            pass
     def validate_NO_TRUE_CHILD_STRATEGY(self, value):
         # Validate type NO-TRUE-CHILD-STRATEGY, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -66614,6 +66859,9 @@ class TreeModel(GeneratedsSuper):
         if self.algorithmName is not None and 'algorithmName' not in already_processed:
             already_processed.add('algorithmName')
             outfile.write(' algorithmName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.algorithmName), input_name='algorithmName')), ))
+        if self.shrinkage is not None and 'shrinkage' not in already_processed:
+            already_processed.add('shrinkage')
+            outfile.write(' shrinkage=%s' % (quote_attrib(self.shrinkage), ))
         if self.missingValueStrategy != "none" and 'missingValueStrategy' not in already_processed:
             already_processed.add('missingValueStrategy')
             outfile.write(' missingValueStrategy=%s' % (quote_attrib(self.missingValueStrategy), ))
@@ -66666,6 +66914,8 @@ class TreeModel(GeneratedsSuper):
             element.set('functionName', self.functionName)
         if self.algorithmName is not None:
             element.set('algorithmName', self.gds_format_string(self.algorithmName))
+        if self.shrinkage is not None:
+            element.set('shrinkage', self.shrinkage)
         if self.missingValueStrategy is not None:
             element.set('missingValueStrategy', self.missingValueStrategy)
         if self.missingValuePenalty is not None:
@@ -66726,6 +66976,10 @@ class TreeModel(GeneratedsSuper):
             already_processed.add('algorithmName')
             showIndent(outfile, level)
             outfile.write('algorithmName="%s",\n' % (self.algorithmName,))
+        if self.shrinkage is not None and 'shrinkage' not in already_processed:
+            already_processed.add('shrinkage')
+            showIndent(outfile, level)
+            outfile.write('shrinkage=%e,\n' % (self.shrinkage,))
         if self.missingValueStrategy is not None and 'missingValueStrategy' not in already_processed:
             already_processed.add('missingValueStrategy')
             showIndent(outfile, level)
@@ -66832,6 +67086,14 @@ class TreeModel(GeneratedsSuper):
         if value is not None and 'algorithmName' not in already_processed:
             already_processed.add('algorithmName')
             self.algorithmName = value
+        value = find_attr_value_('shrinkage', node)
+        if value is not None and 'shrinkage' not in already_processed:
+            already_processed.add('shrinkage')
+            try:
+                self.shrinkage = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (shrinkage): %s' % exp)
+            self.validate_PROB_NUMBER(self.shrinkage)    # validate type PROB-NUMBER
         value = find_attr_value_('missingValueStrategy', node)
         if value is not None and 'missingValueStrategy' not in already_processed:
             already_processed.add('missingValueStrategy')
@@ -66920,9 +67182,11 @@ class TreeModel(GeneratedsSuper):
 class Node(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, id=None, score=None, recordCount=None, defaultChild=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, Partition=None, ScoreDistribution=None, Node_member=None, Extension=None, Regression=None, DecisionTree=None):
+    def __init__(self, id=None, gain=None, missingType=None, score=None, recordCount=None, defaultChild=None, SimplePredicate=None, CompoundPredicate=None, SimpleSetPredicate=None, True_=None, False_=None, Partition=None, ScoreDistribution=None, Node_member=None, Extension=None, Regression=None, DecisionTree=None):
         self.original_tagname_ = None
         self.id = _cast(None, id)
+        self.gain = _cast(None, gain)
+        self.missingType = _cast(None, missingType)
         self.score = _cast(None, score)
         self.recordCount = _cast(None, recordCount)
         self.defaultChild = _cast(None, defaultChild)
@@ -66990,6 +67254,10 @@ class Node(GeneratedsSuper):
     def set_DecisionTree(self, DecisionTree): self.DecisionTree = DecisionTree
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
+    def get_gain(self): return self.gain
+    def set_gain(self, gain): self.gain = gain
+    def get_missingType(self): return self.missingType
+    def set_missingType(self, missingType): self.missingType = missingType
     def get_score(self): return self.score
     def set_score(self, score): self.score = score
     def get_recordCount(self): return self.recordCount
@@ -67042,6 +67310,12 @@ class Node(GeneratedsSuper):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
             outfile.write(' id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.id), input_name='id')), ))
+        if self.gain is not None and 'gain' not in already_processed:
+            already_processed.add('gain')
+            outfile.write(' gain=%s' % (quote_attrib(self.gain), ))
+        if self.missingType is not None and 'missingType' not in already_processed:
+            already_processed.add('missingType')
+            outfile.write(' missingType=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.missingType), input_name='missingType')), ))
         if self.score is not None and 'score' not in already_processed:
             already_processed.add('score')
             outfile.write(' score=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.score), input_name='score')), ))
@@ -67085,6 +67359,10 @@ class Node(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_3}' + name_)
         if self.id is not None:
             element.set('id', self.gds_format_string(self.id))
+        if self.gain is not None:
+            element.set('gain', self.gain)
+        if self.missingType is not None:
+            element.set('missingType', self.gds_format_string(self.missingType))
         if self.score is not None:
             element.set('score', self.gds_format_string(self.score))
         if self.recordCount is not None:
@@ -67135,6 +67413,14 @@ class Node(GeneratedsSuper):
             already_processed.add('id')
             showIndent(outfile, level)
             outfile.write('id="%s",\n' % (self.id,))
+        if self.gain is not None and 'gain' not in already_processed:
+            already_processed.add('gain')
+            showIndent(outfile, level)
+            outfile.write('gain=%e,\n' % (self.gain,))
+        if self.missingType is not None and 'missingType' not in already_processed:
+            already_processed.add('missingType')
+            showIndent(outfile, level)
+            outfile.write('missingType="%s",\n' % (self.missingType,))
         if self.score is not None and 'score' not in already_processed:
             already_processed.add('score')
             showIndent(outfile, level)
@@ -67244,6 +67530,18 @@ class Node(GeneratedsSuper):
         if value is not None and 'id' not in already_processed:
             already_processed.add('id')
             self.id = value
+        value = find_attr_value_('gain', node)
+        if value is not None and 'gain' not in already_processed:
+            already_processed.add('gain')
+            try:
+                self.gain = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (gain): %s' % exp)
+            self.validate_NUMBER(self.gain)    # validate type NUMBER
+        value = find_attr_value_('missingType', node)
+        if value is not None and 'missingType' not in already_processed:
+            already_processed.add('missingType')
+            self.missingType = value
         value = find_attr_value_('score', node)
         if value is not None and 'score' not in already_processed:
             already_processed.add('score')
@@ -68538,6 +68836,7 @@ __all__ = [
     "Counts",
     "Covariances",
     "CovariateList",
+    "Data",
     "DataDictionary",
     "DataField",
     "Decision",

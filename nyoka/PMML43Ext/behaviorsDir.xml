@@ -102,6 +102,31 @@
             <xb:impl-url>Header_exportAttributes.py</xb:impl-url>
         </xb:behavior>
         <xb:behavior>
+            <xb:class>Data</xb:class>
+            <xb:name>export</xb:name>
+            <xb:args>
+                <xb:arg>
+                    <xb:name>outfile</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>level</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>namespace_=''</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>name_='Data'</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>namespacedef_=''</xb:name>
+                </xb:arg>
+                <xb:arg>
+                    <xb:name>pretty_print=True</xb:name>
+                </xb:arg>
+            </xb:args>
+            <xb:impl-url>Data_export.py</xb:impl-url>
+        </xb:behavior>
+        <xb:behavior>
             <xb:class>Timestamp</xb:class>
             <xb:name>export</xb:name>
             <xb:args>

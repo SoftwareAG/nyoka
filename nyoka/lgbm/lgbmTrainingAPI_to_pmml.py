@@ -32,8 +32,9 @@ def ExportToPMML(model,tasktype,target_name):
         mf = [MiningField(name = feature, optype="continuous") for feature in features]
         mf.append(MiningField(name = target_name, usageType = "target", optype="continuous"))
         seg = get_Segmentation(tree_information=tree_information, features = features)
-        mm = MiningModel(modelName="LightGBModel", algorithmName="LightGBM", functionName = functionName, MiningSchema= MiningSchema(MiningField=mf), Segmentation= seg,taskType=tasktype)
-        mm.set_Extension([Extension(name='objective', value=objective),Extension(name='pandas_categorical', value=pandas_categorical),Extension(name='num_class', value=num_class)])
+        mm = MiningModel(modelName="LightGBModel", algorithmName="LightGBM", functionName = functionName, objective = objective, numberOfClass = num_class, MiningSchema= MiningSchema(MiningField=mf), Segmentation= seg,taskType=tasktype)
+        # mm.set_Extension([Extension(name='objective', value=objective),Extension(name='pandas_categorical', value=pandas_categorical),Extension(name='num_class', value=num_class)])
+        mm.set_Extension([Extension(name='pandas_categorical', value=pandas_categorical)])
         return mm
     
     def get_Segmentation(tree_information=None, features = None):
@@ -49,8 +50,8 @@ def ExportToPMML(model,tasktype,target_name):
         #ms = MiningSchema(MiningField=[MiningField(name = feature, lowValue = data[feature].min(), highValue = data[feature].max() ) for feature in features])
         ms = MiningSchema(MiningField=[MiningField(name = feature, optype="continuous") for feature in features])
         node = get_Tree(treeData=treeData['tree_structure'],features = features)
-        tree = TreeModel(modelName="DecisionTreeModel", functionName=functionName, MiningSchema=ms, Node=node)
-        tree.set_Extension([Extension(name='shrinkage', value=treeData['shrinkage'])])
+        tree = TreeModel(modelName="DecisionTreeModel", functionName=functionName, shrinkage=treeData['shrinkage'], MiningSchema=ms, Node=node)
+        # tree.set_Extension([Extension(name='shrinkage', value=treeData['shrinkage'])])
         return tree
 
     def get_Tree(treeData = None, features = None):
@@ -83,7 +84,9 @@ def ExportToPMML(model,tasktype,target_name):
             main_node.set_recordCount(obj['internal_count'])
             main_node.set_id(obj['split_index'])
             main_node.set_defaultChild(defaultChild[str(obj['default_left'])])
-            main_node.set_Extension([Extension(name='gain', value=obj['split_gain']), Extension(name='missing_type', value=obj['missing_type'])])
+            # main_node.set_Extension([Extension(name='gain', value=obj['split_gain']), Extension(name='missing_type', value=obj['missing_type'])])
+            main_node.set_gain(obj['split_gain'])
+            main_node.set_missingType(obj['missing_type'])
             main_node.add_Node(create_left_node(obj,derived_col_names))
             main_node.add_Node(create_right_node(obj,derived_col_names))
 

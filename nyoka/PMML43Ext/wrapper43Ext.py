@@ -252,7 +252,7 @@ def orig_init():
             self.content_ = content_
         self.valueOf_ = valueOf_
         
-    def LayerRecurrentWeights_init(self, recurrentWeightsShape=None, recurrentWeightsFlattenAxis=None, content=None, floatType="float32", floatsPerLine=12, src=None, Extension=None, mixedclass_=None):
+    def LayerRecurrentWeights_init(self, recurrentWeightsShape=None, recurrentWeightsFlattenAxis=None, src=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
         self.original_tagname_ = None
         self.recurrentWeightsShape = supermod._cast(None, recurrentWeightsShape)
         self.recurrentWeightsFlattenAxis = supermod._cast(None, recurrentWeightsFlattenAxis)
@@ -265,14 +265,11 @@ def orig_init():
             self.mixedclass_ = supermod.MixedContainer
         else:
             self.mixedclass_ = mixedclass_
-        validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
-        if floatType not in validFloatTypes:
-            floatType = "float32"
-        from nyoka.Base64 import FloatBase64
-        base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
-        base64string = base64string.replace("\n", "\n\t\t\t\t")
-        self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]
-        self.valueOf_ = base64string
+        if content_ is None:
+            self.content_ = []
+        else:
+            self.content_ = content_
+        self.valueOf_ = valueOf_
 
     def LayerBias_init(self, biasShape=None, biasFlattenAxis=None, src=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
         self.original_tagname_ = None

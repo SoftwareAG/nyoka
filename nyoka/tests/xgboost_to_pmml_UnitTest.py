@@ -8,10 +8,11 @@ from sklearn.preprocessing import StandardScaler, Imputer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor,XGBClassifier
-from nyoka import model_to_pmml
+from nyoka import xgboost_to_pmml
 
 
 class TestMethods(unittest.TestCase):
+
     
     def test_xgboost_01(self):
 
@@ -22,25 +23,15 @@ class TestMethods(unittest.TestCase):
         features = irisd.columns.drop('Species')
         target = 'Species'
 
-        xgb = XGBClassifier()
-        xgb.fit(irisd[features],irisd[target])
+        pipeline_obj = Pipeline([
+            ('lgbmc',XGBClassifier())
+        ])
 
-        pmml_file_name = "xgbc_pmml.pmml"
-        toExportDict={
-            'model1':{
-                'hyperparameters':None,
-                'preProcessingScript':None,
-                'pipelineObj':None,
-                'modelObj':xgb,
-                'featuresUsed':features,
-                'targetName':target,
-                'postProcessingScript':None,
-                'taskType': 'score'
-            }
-        }
-        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
+        pipeline_obj.fit(irisd[features],irisd[target])
 
-        self.assertEqual(os.path.isfile(pmml_file_name),True)
+        xgboost_to_pmml(pipeline_obj,features,target,"xgbc_pmml.pmml")
+
+        self.assertEqual(os.path.isfile("xgbc_pmml.pmml"),True)
 
 
     def test_xgboost_02(self):
@@ -52,25 +43,15 @@ class TestMethods(unittest.TestCase):
         feature_names = [name for name in auto.columns if name not in ('mpg','car name')]
         target_name='mpg'
 
-        xgbr = XGBRegressor()
-        xgbr.fit(auto[feature_names],auto[target_name])
+        pipeline_obj = Pipeline([
+            ('lgbmr',XGBRegressor())
+        ])
 
-        pmml_file_name = "xgbr_pmml.pmml"
-        toExportDict={
-            'model1':{
-                'hyperparameters':None,
-                'preProcessingScript':None,
-                'pipelineObj':None,
-                'modelObj':xgbr,
-                'featuresUsed':feature_names,
-                'targetName':target_name,
-                'postProcessingScript':None,
-                'taskType': 'score'
-            }
-        }
-        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
+        pipeline_obj.fit(auto[feature_names],auto[target_name])
 
-        self.assertEqual(os.path.isfile(pmml_file_name),True)
+        xgboost_to_pmml(pipeline_obj,feature_names,target_name,"xgbr_pmml.pmml")
+
+        self.assertEqual(os.path.isfile("xgbr_pmml.pmml"),True)
 
 
     def test_xgboost_03(self):
@@ -83,31 +64,15 @@ class TestMethods(unittest.TestCase):
         target = 'Species'
 
         pipeline_obj = Pipeline([
-            ('scaling',StandardScaler())
+            ('scaling',StandardScaler()), 
+            ('LGBMC_preprocess',XGBClassifier(n_estimators=5))
         ])
 
-        X = pipeline_obj.fit_transform(irisd[features])
+        pipeline_obj.fit(irisd[features],irisd[target])
 
-        xgbc = XGBClassifier(n_estimators=5)
-        xgbc.fit(X,irisd[target])
+        xgboost_to_pmml(pipeline_obj,features,target,"xgbc_pmml_preprocess.pmml")
 
-        pmml_file_name = "xgbc_pmml_preprocess.pmml"
-        toExportDict={
-            'model1':{
-                'hyperparameters':None,
-                'preProcessingScript':None,
-                'pipelineObj':pipeline_obj,
-                'modelObj':xgbc,
-                'featuresUsed':features,
-                'targetName':target,
-                'postProcessingScript':None,
-                'taskType': 'score'
-            }
-        }
-        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
-
-        self.assertEqual(os.path.isfile(pmml_file_name),True)
-
+        self.assertEqual(os.path.isfile("xgbc_pmml_preprocess.pmml"),True)
 
     def test_xgboost_04(self):
         
@@ -123,30 +88,14 @@ class TestMethods(unittest.TestCase):
             ('mapper', DataFrameMapper([
                 ('car name', CountVectorizer()),
                 (['displacement'],[StandardScaler()]) 
-            ]))
+            ])),
+            ('lgbmr',XGBRegressor())
         ])
+        pipeline_obj.fit(x_train,y_train)
+        
+        xgboost_to_pmml(pipeline_obj,feature_names,target_name,"xgbr_pmml_preprocess.pmml")
 
-        X = pipeline_obj.fit_transform(x_train)
-
-        xgbr = XGBRegressor()
-        xgbr.fit(X,y_train)
-
-        pmml_file_name = "xgbr_pmml_preprocess.pmml"
-        toExportDict={
-            'model1':{
-                'hyperparameters':None,
-                'preProcessingScript':None,
-                'pipelineObj':pipeline_obj,
-                'modelObj':xgbr,
-                'featuresUsed':feature_names,
-                'targetName':target_name,
-                'postProcessingScript':None,
-                'taskType': 'score'
-            }
-        }
-        model_to_pmml(toExportDict, pmml_f_name=pmml_file_name)
-
-        self.assertEqual(os.path.isfile(pmml_file_name),True)
+        self.assertEqual(os.path.isfile("xgbr_pmml_preprocess.pmml"),True)
 
 if __name__=='__main__':
     unittest.main(warnings='ignore')
