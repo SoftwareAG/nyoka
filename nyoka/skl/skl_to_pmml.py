@@ -8,6 +8,7 @@ import PMML43Ext as pml
 from skl import pre_process as pp
 from datetime import datetime
 import math
+import copy
 import metadata
 import inspect
 from nyoka.keras.keras_model_to_pmml import KerasToPmml
@@ -140,6 +141,21 @@ def model_to_pmml(toExportDict, pmml_f_name='from_sklearn.pmml'):
     )
     pmml.export(outfile=open(pmml_f_name, "w"), level=0)
 
+def scikitLearnPipelineToPMML(pipeline, features, target, outFileName='from_sklearn.pmml'):
+    tempPipe = copy.deepcopy(pipeline)
+    model = tempPipe.steps.pop(-1)[1]
+    toExportDict={
+    model.__class__.__name__:{
+        'hyperparameters':None,
+        'preProcessingScript':None,
+        'pipelineObj':tempPipe,
+        'modelObj':model,
+        'featuresUsed':features,
+        'targetName':target,
+        'postProcessingScript':None,
+        'taskType': 'score'
+    }}
+    model_to_pmml(toExportDict,outFileName)
 
 def get_trfm_dict_kwargs(col_names,pipelineOnly,trfm_dict_kwargs,model,model_name):
     if isinstance(col_names, np.ndarray):
