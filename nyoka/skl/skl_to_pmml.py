@@ -16,7 +16,7 @@ from nyoka.xgboost.xgboost_to_pmml import xgboost_to_pmml
 from nyoka.lgbm.lgb_to_pmml import lgb_to_pmml
 from nyoka.lgbm.lgbmTrainingAPI_to_pmml import ExportToPMML as ext
 
-def model_to_pmml(toExportDict, pmml_f_name='from_sklearn.pmml'):
+def model_to_pmml(toExportDict, outFileName='from_sklearn.pmml'):
 
     """
     Exports scikit-learn pipeline object into pmml
@@ -72,10 +72,10 @@ def model_to_pmml(toExportDict, pmml_f_name='from_sklearn.pmml'):
                 with model_graph.as_default():
                     tf_session = KModelObj['tf_session']
                     with tf_session.as_default():
-                        KerasPMML = KerasToPmml(model,model_name=pmml_f_name,targetVarName=target_name)
+                        KerasPMML = KerasToPmml(model,model_name=outFileName,targetVarName=target_name)
                             
             else:
-                KerasPMML = KerasToPmml(model,model_name=pmml_f_name,targetVarName=target_name)
+                KerasPMML = KerasToPmml(model,model_name=outFileName,targetVarName=target_name)
 
             model_obj = KerasPMML.DeepNetwork[0]
             model_obj.modelName = model_name
@@ -139,7 +139,7 @@ def model_to_pmml(toExportDict, pmml_f_name='from_sklearn.pmml'):
         **trfm_dict_kwargs,
         **models_dict
     )
-    pmml.export(outfile=open(pmml_f_name, "w"), level=0)
+    pmml.export(outfile=open(outFileName, "w"), level=0)
 
 def scikitLearnPipelineToPMML(pipeline, features, target, outFileName='from_sklearn.pmml'):
     tempPipe = copy.deepcopy(pipeline)
