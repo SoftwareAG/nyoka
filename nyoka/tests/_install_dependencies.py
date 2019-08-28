@@ -19,7 +19,8 @@ packages = [
     "pytest-cov",
     "pytest",
     "codecov",
-    "pillow"
+    "pillow",
+    "keras-retinanet"
 ]
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])

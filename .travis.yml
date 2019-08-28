@@ -11,6 +11,7 @@ script:
   - python nyoka/tests/test_lgbm_to_pmml_UnitTest.py
   - python nyoka/tests/test_keras_to_pmml_UnitTest.py
   - python nyoka/tests/test_statsmodels_to_pmml_UnitTest.py
+  - python nyoka/tests/test_retinanet_to_pmml_UnitTest.py
   - python nyoka/tests/testScoreWithAdapaKeras.py
   - python nyoka/tests/testScoreWithAdapaLgbm.py
   - python nyoka/tests/testScoreWithAdapaSklearn.py
