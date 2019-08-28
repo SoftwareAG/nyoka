@@ -225,13 +225,17 @@ class KerasNetworkLayer(ny.NetworkLayer):
                     try:
                         shape = getattr(layer, val)
                     except:
-                        shape = layer.get_input_shape_at(0)  
+                        shape = layer.get_input_shape_at(0) 
+                    layer_params_dict[key] = self._get_enumerated_input_shape(shape)
                 elif val == "output_shape":
                     try:
                         shape = getattr(layer, val)
                     except:
                         shape = layer.get_output_shape_at(0) 
                     layer_params_dict[key] = self._get_enumerated_input_shape(shape)
+                else:
+                    layer_params_dict[key] = str(tuple(getattr(layer,val)))\
+                         if getattr(layer,val).__class__.__name__ == 'list' else str(getattr(layer,val))
             else:
                 layer_params_dict[key] = None
             if layer_params_dict[key] and layer_params_dict[key] != "None":
