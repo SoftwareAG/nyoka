@@ -16,7 +16,7 @@ from nyoka.xgboost.xgboost_to_pmml import xgboost_to_pmml
 from nyoka.lgbm.lgb_to_pmml import lgb_to_pmml
 from nyoka.lgbm.lgbmTrainingAPI_to_pmml import ExportToPMML as ext
 
-def model_to_pmml(toExportDict, outFileName='from_sklearn.pmml'):
+def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml'):
 
     """
     Exports scikit-learn pipeline object into pmml
@@ -72,10 +72,10 @@ def model_to_pmml(toExportDict, outFileName='from_sklearn.pmml'):
                 with model_graph.as_default():
                     tf_session = KModelObj['tf_session']
                     with tf_session.as_default():
-                        KerasPMML = KerasToPmml(model,model_name=outFileName,targetVarName=target_name)
+                        KerasPMML = KerasToPmml(model,model_name=PMMLFileName,targetVarName=target_name)
                             
             else:
-                KerasPMML = KerasToPmml(model,model_name=outFileName,targetVarName=target_name)
+                KerasPMML = KerasToPmml(model,model_name=PMMLFileName,targetVarName=target_name)
 
             model_obj = KerasPMML.DeepNetwork[0]
             model_obj.modelName = model_name
@@ -139,9 +139,9 @@ def model_to_pmml(toExportDict, outFileName='from_sklearn.pmml'):
         **trfm_dict_kwargs,
         **models_dict
     )
-    pmml.export(outfile=open(outFileName, "w"), level=0)
+    pmml.export(outfile=open(PMMLFileName, "w"), level=0)
 
-def scikitLearnPipelineToPMML(pipeline, features, target, outFileName='from_sklearn.pmml'):
+def scikitLearnPipelineToPMML(pipeline, features, target, PMMLFileName='from_sklearn.pmml'):
     tempPipe = copy.deepcopy(pipeline)
     model = tempPipe.steps.pop(-1)[1]
     toExportDict={
@@ -155,7 +155,7 @@ def scikitLearnPipelineToPMML(pipeline, features, target, outFileName='from_skle
         'postProcessingScript':None,
         'taskType': 'score'
     }}
-    model_to_pmml(toExportDict,outFileName)
+    model_to_pmml(toExportDict,PMMLFileName)
 
 def get_trfm_dict_kwargs(col_names,pipelineOnly,trfm_dict_kwargs,model,model_name):
     if isinstance(col_names, np.ndarray):
