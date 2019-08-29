@@ -1606,6 +1606,7 @@
             <xs:sequence>
                 <xs:element ref="Header"/>
                 <xs:element ref="script" minOccurs="0" maxOccurs="unbounded"/>
+                 <xs:element ref="Data" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="MiningBuildTask" minOccurs="0"/>
                 <xs:element ref="DataDictionary"/>
                 <xs:element ref="TransformationDictionary" minOccurs="0" maxOccurs="unbounded"/>

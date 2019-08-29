@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Aug 27 12:50:08 2019 by generateDS.py version 2.28a.
+# Generated Thu Aug 29 12:44:52 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -18,7 +18,7 @@
 #   ..\pmml43Ext.xsd
 #
 # Command line:
-#   C:\Users\swsh\Desktop\nyokaDurr\nyoka_deurr\nyoka-43Ext\nyoka\PMML43Ext\gds_local.py --no-warnings --export="write literal etree" --super="pmml43ExtSuper" --subclass-suffix -o "pmml43ExtSuper.py" -s "pmml43Ext.py" -b "behaviorsDir.xml" -f ..\pmml43Ext.xsd
+#   C:\Users\swsh\Desktop\ZMODGit\nyoka\nyoka\PMML43Ext\gds_local.py --no-warnings --export="write literal etree" --super="pmml43ExtSuper" --subclass-suffix -o "pmml43ExtSuper.py" -s "pmml43Ext.py" -b "behaviorsDir.xml" -f ..\pmml43Ext.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML43Ext
@@ -23151,7 +23151,7 @@ class EventValues(GeneratedsSuper):
 class PMML(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def __init__(self, version=None, Header=None, script=None, Data=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = _cast(None, version)
         self.Header = Header
@@ -23159,6 +23159,10 @@ class PMML(GeneratedsSuper):
             self.script = []
         else:
             self.script = script
+        if Data is None:
+            self.Data = []
+        else:
+            self.Data = Data
         self.MiningBuildTask = MiningBuildTask
         self.DataDictionary = DataDictionary
         if TransformationDictionary is None:
@@ -23267,6 +23271,11 @@ class PMML(GeneratedsSuper):
     def add_script(self, value): self.script.append(value)
     def insert_script_at(self, index, value): self.script.insert(index, value)
     def replace_script_at(self, index, value): self.script[index] = value
+    def get_Data(self): return self.Data
+    def set_Data(self, Data): self.Data = Data
+    def add_Data(self, value): self.Data.append(value)
+    def insert_Data_at(self, index, value): self.Data.insert(index, value)
+    def replace_Data_at(self, index, value): self.Data[index] = value
     def get_MiningBuildTask(self): return self.MiningBuildTask
     def set_MiningBuildTask(self, MiningBuildTask): self.MiningBuildTask = MiningBuildTask
     def get_DataDictionary(self): return self.DataDictionary
@@ -23387,6 +23396,7 @@ class PMML(GeneratedsSuper):
         if (
             self.Header is not None or
             self.script or
+            self.Data or
             self.MiningBuildTask is not None or
             self.DataDictionary is not None or
             self.TransformationDictionary or
@@ -23449,6 +23459,8 @@ class PMML(GeneratedsSuper):
             self.Header.export(outfile, level, namespace_, name_='Header', pretty_print=pretty_print)
         for script_ in self.script:
             script_.export(outfile, level, namespace_, name_='script', pretty_print=pretty_print)
+        for Data_ in self.Data:
+            Data_.export(outfile, level, namespace_, name_='Data', pretty_print=pretty_print)
         if self.MiningBuildTask is not None:
             self.MiningBuildTask.export(outfile, level, namespace_, name_='MiningBuildTask', pretty_print=pretty_print)
         if self.DataDictionary is not None:
@@ -23509,6 +23521,8 @@ class PMML(GeneratedsSuper):
             Header_.to_etree(element, name_='Header', mapping_=mapping_)
         for script_ in self.script:
             script_.to_etree(element, name_='script', mapping_=mapping_)
+        for Data_ in self.Data:
+            Data_.to_etree(element, name_='Data', mapping_=mapping_)
         if self.MiningBuildTask is not None:
             MiningBuildTask_ = self.MiningBuildTask
             MiningBuildTask_.to_etree(element, name_='MiningBuildTask', mapping_=mapping_)
@@ -23587,6 +23601,18 @@ class PMML(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('model_.script(\n')
             script_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        showIndent(outfile, level)
+        outfile.write('Data=[\n')
+        level += 1
+        for Data_ in self.Data:
+            showIndent(outfile, level)
+            outfile.write('model_.Data(\n')
+            Data_.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -23891,6 +23917,11 @@ class PMML(GeneratedsSuper):
             obj_.build(child_)
             self.script.append(obj_)
             obj_.original_tagname_ = 'script'
+        elif nodeName_ == 'Data':
+            obj_ = Data.factory()
+            obj_.build(child_)
+            self.Data.append(obj_)
+            obj_.original_tagname_ = 'Data'
         elif nodeName_ == 'MiningBuildTask':
             obj_ = MiningBuildTask.factory()
             obj_.build(child_)
