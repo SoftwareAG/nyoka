@@ -9,8 +9,8 @@ class Lag(TransformerMixin):
     """
     The Lag class takes `value` number of previous record of the fields where it is applied and applies `aggregation` to those values.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     aggregation : String
         aggregation type. The valid types are ["min", "max", "sum", "avg", "median", "product", "stddev"]
     value : Integer (default = 1)
@@ -36,11 +36,32 @@ class Lag(TransformerMixin):
         self.value = value
         self.copy = copy
         
-    def fit(self, X, y=None):        
+    def fit(self, X, y=None):
+        """
+        Does nothing.
+
+        Returns
+        -------
+        The same object
+        """   
         return self
             
         
     def transform(self, X, y=None):
+        """
+        Trasforms the given X by taking `value` number of previous records and applying `aggregation` method
+
+        Parameters
+        ----------
+        X : Pandas DataFrame or numpy array
+            The input data
+        y : 
+            It is ignored.
+
+        Returns
+        -------
+        Transformed X as numpy array  
+        """
         self._transformed_X = list()
         X = check_array(X, copy=self.copy, warn_on_dtype=True, estimator=self)       
         q_list = [queue.Queue() for i in range(len(X[0]))]

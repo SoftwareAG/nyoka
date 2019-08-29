@@ -10,6 +10,7 @@ from PMML44 import *
 from datetime import datetime
 import metadata
 import warnings
+warnings.formatwarning = lambda msg, *args, **kwargs: str(msg)+'\n'
 import math
 
 class ArimaToPMML:
@@ -19,13 +20,17 @@ class ArimaToPMML:
 
         Parameters:
         -----------
-        time_series_data: (Optional)
+        time_series_data: (deprecated in 3.3.0)
             Pandas Series object
-        model_obj: (Optional)
+        model_obj: (deprecated in 3.3.0)
             Instance of ARIMA/SARIMAX from statsmodels
         results_obj: 
             Instance of ARIMAResultsWrapper/SARIMAXResultsWrapper from statsmodels
         pmml_file_name: string
+
+        Returns
+        -------
+        Generates PMML object and exports it to `pmml_file_name`
         """
 
         def ExportToPMML(model_name = None, arima_obj = None):
@@ -217,26 +222,23 @@ class ArimaToPMML:
             data_field_objs.append(DataField(name='h', dataType='integer', optype='continuous'))
             return data_field_objs
 
-        def get_sarimax_extension_list(results):
-            extensions = list()
-            extensions.append(Extension(name="sigmaSquare", value = results._params_variance[0]))
-            extensions.append(Extension(name="cov_type", value = results.cov_type))
-            return extensions
+        if hasattr(time_series_data,"__len__"):
+            warnings.warn("`time_series_data` is deprecated in version 3.2.0. It is not used in the exporter")
+        if hasattr(model_obj,"__len__"):
+            warnings.warn("`model_obj` is deprecated in version 3.2.0. It is not used in the exporter")
 
         if 'int' in str(results_obj.model.endog.dtype):
             results_obj.model.endog=results_obj.model.endog.astype('float64')
             results_obj.model.data.endog=results_obj.model.data.endog.astype('float64')
         if results_obj.model.__class__.__name__ == 'SARIMAX':
-            #Get SArimaX Object and Export
             sarimax_obj = get_sarimax_obj(results_obj)
             model_name = 'SARIMAX'
             ExportToPMML(model_name = model_name, arima_obj = sarimax_obj)
 
         elif results_obj.model.__class__.__name__ in ['ARIMA', 'ARMA']:
-            #Get Arima Object and Export
             arima_obj = get_arima_obj(results_obj)
             model_name = 'ARIMA'
             ExportToPMML(model_name = model_name, arima_obj = arima_obj)
 
         else:
-            raise NotImplementedError("Not Implemented. Currently we support only ARIMA and SARIMAX.")
+            raise NotImplementedError("Not Implemented. Currently we support only ARMA, ARIMA and SARIMAX.")

@@ -12,13 +12,10 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 
-# python imports
-
 import datetime
 import json
 import numpy as np
 
-# nyoka imports
 import PMML44 as ny
 import metadata
 import warnings
@@ -55,10 +52,10 @@ class KerasHeader(ny.Header):
 
     Parameters
     ----------
-    copyright : String
-        Adds the information about the copyright.
     description : String
         Description of the PMML file provided as a default
+    copyright : String
+        Adds the information about the copyright.
 
     Returns
     -------
@@ -88,6 +85,8 @@ class KerasNetworkLayer(ny.NetworkLayer):
         Name of the dataset
     layer_type : String
         Class name of the layer
+    script_args : Dictionary or None
+        Parameters for the script if any preprocessing script is provided
     connection_layer_id : boolean
         Whether to generate connection layer IDs or not
 
@@ -173,15 +172,12 @@ class KerasNetworkLayer(ny.NetworkLayer):
         layer_config = layer.get_config()
         if 'activation' in layer_config:
             activation_function = layer_config.get('activation')
-            # if activation_function == "sigmoid":
-            #     activation_function = "logistic"
             if activation_function == "relu":
                 activation_function = "rectifier"
             elif activation_function == "relu6":
                 activation_function = "reLU6"
             elif activation_function == "tanh":
                 activation_function = "tanch"
-
         else:
             activation_function = None
         return activation_function
@@ -415,9 +411,11 @@ class KerasDataDictionary(ny.DataDictionary):
         Name of the dataset
     predictedClasses : List
         List of class names or values to be predicted.
+    script_args : Dictionary or None
+        Parameters for the script if any preprocessing script is provided
     Returns
     -------
-    Nyoka's Dictionary Object
+    Nyoka's DataDictionary Object
     """ 
     def __init__(self, dataSet, predictedClasses, script_args):
         ny.DataDictionary.__init__(self)
@@ -464,10 +462,12 @@ class KerasMiningSchema(ny.MiningSchema):
     ----------
     dataSet : String
         Name of the dataset
+    predictedClasses : List
+        List of class names or values to be predicted.
 
     Returns
     -------
-    Nyoka's Mining Schema Object
+    Nyoka's MiningSchema Object
     """ 
     def __init__(self, dataSet, predictedClasses):
         ny.MiningSchema.__init__(self)
@@ -487,8 +487,8 @@ class KerasOutput(ny.Output):
     
     Parameters
     ----------
-    predictedClasses : List
-        List of Classes for which model has been trained
+    predictedClasses : List or None
+        List of Classes for which model has been trained. If not provided, considered as Regression
 
     Returns
     -------
@@ -522,10 +522,12 @@ class KerasLocalTransformations(ny.LocalTransformations):
         Keras model object
     dataSet : String
         Name of the dataset
+    script_args : Dictionary
+        Parameters for the script if any preprocessing script is provided
 
     Returns
     -------
-    Nyoka's Transformations Object
+    Nyoka's LocalTransformations Object
     """ 
     def __init__(self, keras_model, dataSet, script_args):
         ny.LocalTransformations.__init__(self)
@@ -554,7 +556,7 @@ class KerasTransformationDictionary(ny.TransformationDictionary):
     dataSet : string
         name of the input
     script_args : Dictionary
-        Arguments for the script
+        Parameters for the script if any preprocessing script is provided
 
     Returns
     -------
@@ -594,7 +596,6 @@ class KerasTransformationDictionary(ny.TransformationDictionary):
 
 
 
-
 class KerasNetwork(ny.DeepNetwork):
     """
     KerasNetwork creates the DeepNetwork object which stores the NetworkLayer in sequence to define the architecture.
@@ -607,8 +608,10 @@ class KerasNetwork(ny.DeepNetwork):
         Name of the model
     dataSet : String
         Name of the dataset
-    predictedClasses : List
+    predictedClasses : List or None
         List of class names
+    script_args : Dictionary or None
+        Parameters for the script if any preprocessing script is provided
 
     Returns
     -------
@@ -715,15 +718,15 @@ class KerasToPmml(ny.PMML):
     ----------
     keras_model : Keras model object
         Keras model object 
-    model_name : String
+    model_name : String or None
         Name to be given to the model in PMML.
-    description : Sting (Optional)
+    description : Sting or None
         Description to be shown in PMML
-    dataSet : String (Optional)
-        Name of the dataset. Value is 'image' for Image Classifier, 'None' or any other value is for the rest. 
-    predictedClasses : List
+    dataSet : String or None
+        Name of the dataset. Value is 'image' for Image Classifier, 'None' or any other value is for tabular or base64 encoded data. 
+    predictedClasses : List or None
         List of the class names for which model has been trained. If not provided, assumed to be regression model.
-    script_args : Dictionary
+    script_args : Dictionary or None
         Contains information of the script to be used to convert `image` data into base64 string. Required when dataSet=`image`.
         Required attributes - 
             content : string or function
@@ -738,7 +741,7 @@ class KerasToPmml(ny.PMML):
 
     Returns
     -------
-    Creates PMML object, this can be saved in file using export function
+    Creates Nyoka's PMML object, this can be saved in file using export function
     """
 
     @property

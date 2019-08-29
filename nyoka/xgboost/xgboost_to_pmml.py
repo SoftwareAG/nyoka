@@ -13,7 +13,7 @@ from datetime import datetime
 
 def xgboost_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_xgboost.pmml'):
     """
-    Exports xgboost pipeline object into pmml
+    Exports xgboost model object into pmml
 
     Parameters
     ----------
@@ -28,7 +28,7 @@ def xgboost_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_xgboost.
 
     Returns
     -------
-    Returns a pmml file
+    Generates the PMML object and exports it to `pmml_f_name`
 
     """
     try:
@@ -68,7 +68,7 @@ def xgboost_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_xgboost.
 
 def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
     """
-     It returns all the pmml elements.
+    It returns all the pmml elements.
 
     Parameters
     ----------
@@ -120,7 +120,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     Returns
     -------
     mining_models :
-        Returns the MiningModel of the respective Xgboost model
+        Returns Nyoka's MiningModel object
     """
     model_kwargs = sklToPmml.get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
     if 'XGBRegressor' in str(model.__class__):
@@ -157,7 +157,7 @@ def get_outer_segmentation(model, derived_col_names, col_names, target_name, min
     Returns
     -------
     segmentation :
-        Get the outer most Segmentation of an xgboost model
+        Returns Nyoka's Segmentation object
 
     """
 
@@ -174,25 +174,25 @@ def get_segments(model, derived_col_names, col_names, target_name, mining_imp_va
     """
     It returns the Segment element of the model.
 
-   Parameters
-   ----------
-   model :
-       Contains Xgboost model object.
-   derived_col_names : List
-       Contains column names after preprocessing.
-   col_names : List
-       Contains list of feature/column names.
-   target_name : String
-       Name of the Target column.
-   mining_imp_val : tuple
-        Contains the mining_attributes,mining_strategy, mining_impute_value
-    categoric_values : tuple
-        Contains Categorical attribute names and its values
+    Parameters
+    ----------
+    model :
+        Contains Xgboost model object.
+    derived_col_names : List
+        Contains column names after preprocessing.
+    col_names : List
+        Contains list of feature/column names.
+    target_name : String
+        Name of the Target column.
+    mining_imp_val : tuple
+            Contains the mining_attributes,mining_strategy, mining_impute_value
+        categoric_values : tuple
+            Contains Categorical attribute names and its values
 
-   Returns
-   -------
-   segment :
-       Get the Segments for the Segmentation element.
+    Returns
+    -------
+    segment :
+        Nyoka's Segment object
 
    """
     segments = None
@@ -204,29 +204,29 @@ def get_segments(model, derived_col_names, col_names, target_name, mining_imp_va
 
 def get_segments_for_xgbr(model, derived_col_names, feature_names, target_name, mining_imp_val,categorical_values):
     """
-        It returns all the Segments element of the model
+    It returns all the Segments element of the model
 
-       Parameters
-       ----------
-       model :
-           Contains Xgboost model object.
-       derived_col_names : List
-           Contains column names after preprocessing.
-       feature_names : List
-           Contains list of feature/column names.
-       target_name : List
-           Name of the Target column.
-       mining_imp_val : tuple
-            Contains the mining_attributes,mining_strategy, mining_impute_value
-        categoric_values : tuple
-            Contains Categorical attribute names and its values
+    Parameters
+    ----------
+    model :
+        Contains Xgboost model object.
+    derived_col_names : List
+        Contains column names after preprocessing.
+    feature_names : List
+        Contains list of feature/column names.
+    target_name : List
+        Name of the Target column.
+    mining_imp_val : tuple
+        Contains the mining_attributes,mining_strategy, mining_impute_value
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
 
-       Returns
-       -------
-       segment :
-           Get the Segmentation element which contains inner segments.
+    Returns
+    -------
+    segment :
+        Nyoka's Segment object
 
-       """
+    """
     segments = list()
     get_nodes_in_json_format = []
     for i in range(model.n_estimators):
@@ -239,17 +239,18 @@ def get_segments_for_xgbr(model, derived_col_names, feature_names, target_name, 
 
 def mining_Field_For_First_Segment(feature_names):
     """
-        It returns the Mining Schema of the First Segment.
+    It returns the Mining Schema of the First Segment.
 
-      Parameters
-      ----------
-      feature_names: List
-          Contains list of feature/column names.
-      Returns:
-      -------
-      mining_schema_for_1st_segment:
-           Returns the MiningSchema for the main segment.
-      """
+    Parameters
+    ----------
+    feature_names : List
+        Contains list of feature/column names.
+    
+    Returns
+    -------
+    mining_schema_for_1st_segment :
+        Nyoka's MiningSchema object
+    """
     mining_fields_1st_segment = []
     for name in feature_names:
         mining_fields_1st_segment.append(pml.MiningField(name=name))
@@ -260,17 +261,18 @@ def replace_name_with_derivedColumnNames(original_name, derived_col_names):
     """
     It replace the default names with the names of the attributes.
 
-     Parameters
-     ----------
-     original_name: List
-         The name of the node retrieve from model
-     derived_col_names: List
-        The name of the derived attributes.
-     Returns:
-     -------
-     col_name:
-          Returns the derived column name/original column name.
-     """
+    Parameters
+    ----------
+    original_name : List
+        The name of the node retrieve from model
+    derived_col_names : List
+    The name of the derived attributes.
+    
+    Returns
+    -------
+    col_name :
+        Returns the derived column name/original column name.
+    """
     new = str.replace(original_name, 'f', '')
     if new.isdigit():
         col_name = derived_col_names[int(new)]
@@ -285,11 +287,11 @@ def create_node(obj, main_node,derived_col_names):
 
     Parameters
     ----------
-    obj: Json
+    obj : Json
         Contains nodes in json format.
-    main_node:
+    main_node :
         Contains node build with Nyoka class.
-    derived_col_names: List
+    derived_col_names : List
         Contains column names after preprocessing.
     """
     def create_left_node(obj,derived_col_names):
@@ -322,16 +324,17 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
 
     Parameters
     ----------
-    val: List
+    val : List
         Contains a list of well structured node for binary classification/inner segments for multi-class classification
-    derived_col_names: List
+    derived_col_names : List
         Contains column names after preprocessing.
-    col_names: List
+    col_names : List
         Contains list of feature/column names.
-    Returns:
+    
+    Returns
     -------
     segments_equal_to_estimators:
-         Returns list of segments equal to number of estimator of the model
+        Nyoka's Segment object
     """
     segments_equal_to_estimators = []
     for i in range(len(val)):
@@ -357,26 +360,25 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
 
 def add_segmentation(model,segments_equal_to_estimators,mining_schema_for_1st_segment,out,id):
     """
-    It returns the First Segments for a binary classifier and returns number of Segments equls to number of values
-    target class for multiclass classifier
+    It returns segmentation for a mining model
 
     Parameters
     ----------
-    model:
+    model :
        Contains Xgboost model object.
-    segments_equal_to_estimators: List
+    segments_equal_to_estimators : List
         Contains List Segements equals to the number of the estimators of the model.
-    mining_schema_for_1st_segment:
+    mining_schema_for_1st_segment :
         Contains Mining Schema for the First Segment
-    out:
+    out :
         Contains the Output element
-    id: Integer
+    id : Integer
         Index of the Segements
 
-    Returns:
+    Returns
     -------
     segments_equal_to_estimators:
-         Returns list of segments equal to number of estimator of the model
+         Returns Nyoka's Segment object
     """
 
     segmentation = pml.Segmentation(multipleModelMethod="sum", Segment=segments_equal_to_estimators)
@@ -414,8 +416,8 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
     Returns
     -------
     regrs_models :
-        Returns all the segments of the xgboost model.
-        """
+        Returns Nyoka's Segment object
+    """
     segments = list()
 
     if model.n_classes_ == 2:
@@ -470,7 +472,7 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
 
 def get_multiple_model_method(model):
     """
-    It returns the name of the Multiple Model Chain element of the model.
+    It returns the type of multiple model method for MiningModels.
 
     Parameters
     ----------
@@ -478,8 +480,7 @@ def get_multiple_model_method(model):
         Contains Xgboost model object
     Returns
     -------
-    modelChain for XGBoost Classifier,
-    sum for XGboost Regressor,
+    The multiple model method for a MiningModel.
 
     """
     if 'XGBClassifier' in str(model.__class__):

@@ -28,7 +28,7 @@ def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_skl
 
     Returns
     -------
-    Returns a pmml file 
+    Generates a PMML object and exports it to `pmml_f_name` 
     
     """
     try:
@@ -69,6 +69,18 @@ def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_skl
         pmml.export(outfile=open(pmml_f_name, "w"), level=0)
 
 def get_entire_string(pipe0):
+    """
+    Creates a String containing the whole Pipeline's information
+
+    Parameters
+    ----------
+    pipe0 : 
+        The Pipeline object
+
+    Returns
+    -------
+    Returns the string
+    """
     pipe_steps = pipe0.steps
     pipe_memory = 'memory=' + str(pipe0.memory)
     df_container = ''
@@ -112,6 +124,18 @@ def get_entire_string(pipe0):
     return pipe_container
 
 def get_mining_buildtask(pipeline):
+    """
+    Create MiningBuildTask for the given pipeline
+
+    Parameters
+    ----------
+    pipeline :
+        Pipeline object
+    
+    Returns
+    -------
+    Nyoka's MiningBuildTask object
+    """
     pipeline = get_entire_string(pipeline)
     extension = [pml.Extension(value=pipeline)]
     mining_bld_task = pml.MiningBuildTask(Extension = extension)
@@ -121,6 +145,22 @@ def get_mining_buildtask(pipeline):
 
 
 def any_in(seq_a, seq_b):
+    """
+    Checks for common elements in two given sequence elements
+
+    Parameters
+    ----------
+    seq_a : list
+        A list of items
+
+    seq_b : list
+        A list of items
+
+    Returns
+    -------
+    Returns a boolean value if any item of seq_a belongs to seq_b or visa versa
+
+    """
     return any(elem in seq_b for elem in seq_a)
 
 
@@ -266,6 +306,8 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_va
         Name of the Target column.
     mining_imp_val : tuple
         Contains the mining_attributes,mining_strategy, mining_impute_value
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
 
     Returns
     -------
@@ -281,6 +323,30 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_va
 
 
 def get_reg_mining_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+    """
+    Creates xml elements for multi-class linear models
+
+    Parameters
+    ----------
+    model :
+        An instance of Scikit-learn model.
+    derived_col_names : List
+        Contains column names after preprocessing
+    col_names : List
+        Contains list of feature/column names.
+    target_name : String
+        Name of the Target column.
+    mining_imp_val : tuple
+        Contains the mining_attributes,mining_strategy, mining_impute_value
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
+
+    Returns
+    -------
+    mining_model : List
+        Returns a Nyoka's MiningModel object
+
+    """
     num_classes = len(model.classes_)
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
 
@@ -339,6 +405,23 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
 
 
 def get_reg_tab_for_reg_mining_model(model, col_names, index, categorical_values):
+    """
+    Generates Regression Table for multi-class linear models
+
+    Parameters
+    ----------
+    model :
+        An instance of Scikit-learn model.
+    col_names : List
+        Contains list of feature/column names.
+    index : int
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
+
+    Returns
+    -------
+    Returns Nyoka's RegressionTable object
+    """
     reg_tab = pml.RegressionTable(intercept="{:.16f}".format(model.intercept_[index]))
     for idx, coef in enumerate(model.coef_[index]):
         reg_tab.add_NumericPredictor(pml.NumericPredictor(name=col_names[idx],coefficient="{:.16f}".format(coef)))
@@ -347,7 +430,7 @@ def get_reg_tab_for_reg_mining_model(model, col_names, index, categorical_values
 
 def get_anomalydetection_model(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     """
-    It returns the KMean Clustering model element.
+    Creates xml elements for anomaly detction models
 
     Parameters
     ----------
@@ -367,8 +450,8 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
 
     Returns
     -------
-    anomaly_detection_model :List
-        Returns an anomaly detection model within a list
+    anomaly_detection_model : List
+        Returns Nyoka's AnomalyDetectionModel object
 
     """
     anomaly_detection_model = list()
@@ -414,14 +497,17 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
 
 def get_anomaly_detection_output(model):
     """
+    Generates output for anomaly detection models
 
     Parameters
     ----------
+    model :
+        Scikit-learn's model object
 
     Returns
     -------
     output_fields :
-        Returns  an Output instance of anomaly detection model
+        Returns Nyoka's Output object
     """
     output_fields = list()
     output_fields.append(pml.OutputField(name="anomalyScore", 
@@ -456,7 +542,7 @@ def get_anomaly_detection_output(model):
 
 def get_clustering_model(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
     """
-    It returns the KMean Clustering model element.
+    Generates PMML elements for clustering models
 
     Parameters
     ----------
@@ -468,12 +554,15 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
         Contains list of feature/column names.
     target_name : String
         Name of the Target column.
-
+    mining_imp_val : tuple
+        Contains the mining_attributes,mining_strategy, mining_impute_value
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
 
     Returns
     -------
-    clustering_models :List
-        Returns a KMean Clustering model within a list
+    clustering_models : List
+        Returns Nyoka's ClusteringModel object
 
     """
 
@@ -499,6 +588,7 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
 
 def get_output_for_clustering(values):
     """
+    Generates output for clustering models
 
     Parameters
     ----------
@@ -507,8 +597,8 @@ def get_output_for_clustering(values):
 
     Returns
     -------
-    output_fields :List
-        Returns a list of OutputField
+    output_fields : List
+        Returns Nyoka's Output object
     """
     output_fields = list()
     for idx, val in enumerate(values):
@@ -528,6 +618,7 @@ def get_output_for_clustering(values):
 
 def get_cluster_vals(model,counts):
     """
+    Generates cluster information for clustering models
 
     Parameters
     ----------
@@ -536,8 +627,8 @@ def get_cluster_vals(model,counts):
 
     Returns
     -------
-    cluster_flds :List
-        Returns a list of Cluster instances
+    cluster_flds : List
+        Returns Nyoka's Cluster object
 
     """
     centroids = model.cluster_centers_
@@ -554,6 +645,7 @@ def get_cluster_vals(model,counts):
 
 def get_cluster_num(model):
     """
+    Returns number of cluster for clustering models
 
     Parameters
     ----------
@@ -573,14 +665,14 @@ def get_cluster_num(model):
 
 def get_comp_measure():
     """
-
+    Generates comparison measure information for clustering models
+    
     Parameters
     ----------
 
     Returns
     -------
-
-        Returns an instance of comparision measure
+    Returns Nyoka's ComparisonMeasure object
 
     """
     comp_equation = pml.euclidean()
@@ -589,6 +681,7 @@ def get_comp_measure():
 
 def get_clustering_flds(col_names):
     """
+    Generates cluster fields for clustering models
 
     Parameters
     ----------
@@ -597,10 +690,8 @@ def get_clustering_flds(col_names):
 
     Returns
     -------
-
     clustering_flds: List
-
-        Returns the list containing clustering field instances
+        Returns Nyoka's ClusteringField object
 
     """
     clustering_flds = []
@@ -612,7 +703,7 @@ def get_clustering_flds(col_names):
 def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
     
     """
-    It returns the Nearest Neighbour model element.
+    Generates PMML elements for nearest neighbour model
 
     Parameters
     ----------
@@ -624,12 +715,16 @@ def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name,
         Contains list of feature/column names.
     target_name : String
         Name of the Target column.
+    mining_imp_val : tuple
+        Contains the mining_attributes,mining_strategy, mining_impute_value
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
     
 
     Returns
     -------
     nearest_neighbour_model :
-        Returns a nearest neighbour model instance
+        Returns Nyoka's NearestNeighborModel object
         
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
@@ -666,7 +761,7 @@ def get_training_instances(model, derived_col_names, target_name):
     Returns
     -------
     TrainingInstances :
-        Returns a TrainingInstances instance
+        Returns Nyoka's TrainingInstances object
         
     """
     return pml.TrainingInstances(
@@ -687,7 +782,7 @@ def get_inline_table(model):
     Returns
     -------
     InlineTable :
-        Returns a InlineTable instance.
+        Returns Nyoka's InlineTable object
         
     """
     rows = []
@@ -727,7 +822,7 @@ def get_instance_fields(derived_col_names, target_name):
     Returns
     -------
     InstanceFields :
-        Returns a InstanceFields instance
+        Returns Nyoka's InstanceFields object
         
     """
     instance_fields = list()
@@ -739,9 +834,8 @@ def get_instance_fields(derived_col_names, target_name):
 
 def get_comparison_measure(model):
 
-
     """
-    It return the Comparison measure element.
+    It return the Comparison measure element for nearest neighbour model.
 
     Parameters
     ----------
@@ -751,7 +845,7 @@ def get_comparison_measure(model):
     Returns
     -------
     comp_measure :
-        Returns a ComparisonMeasure instance.
+        Returns Nyoka's ComparisonMeasure object.
         
     """
     if model.effective_metric_ == 'euclidean':
@@ -787,7 +881,7 @@ def get_knn_inputs(col_names):
     Returns
     -------
     KNNInputs :
-        Returns a KNNInputs instance.
+        Returns Nyoka's KNNInputs object.
         
     """
     knnInput = list()
@@ -799,7 +893,7 @@ def get_knn_inputs(col_names):
 def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
 
     """
-    It returns the Naive Bayes Model element of the model.
+    Generates PMML elements for naive bayes models
 
     Parameters
     ----------
@@ -811,11 +905,15 @@ def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining
         Contains list of feature/column names.
     target_name : String
         Name of the Target column.
+    mining_imp_val : tuple
+        Contains the mining_attributes,mining_strategy, mining_impute_value
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
 
     Returns
     -------
     naive_bayes_model : List
-        Returns the NaiveBayesModel
+        Returns Nyoka's NaiveBayesModel
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
     naive_bayes_model = list()
@@ -831,7 +929,7 @@ def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining
 
 def get_threshold():
     """
-    It returns the Threshold value.
+    It returns the Threshold value for Naive Bayes models.
 
     Returns
     -------
@@ -856,7 +954,7 @@ def get_bayes_output(model, target_name):
     Returns
     -------
     BayesOutput :
-        Returns a BayesOutput instance
+        Returns Nyoka's BayesOutput object
         
     """
     class_counts = model.class_count_
@@ -874,7 +972,7 @@ def get_bayes_output(model, target_name):
 def get_bayes_inputs(model, derived_col_names):
 
     """
-    It returns the Bayes Input element of the model .
+    It returns the Bayes Input element of the naive bayes model .
     
     Parameters
     ----------
@@ -886,7 +984,7 @@ def get_bayes_inputs(model, derived_col_names):
     Returns
     -------
     bayes_inputs :
-        Returns a BayesInput instance.
+        Returns Nyoka's BayesInput object.
 
     """
     bayes_inputs = pml.BayesInputs()
@@ -909,7 +1007,7 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
  									mining_imp_val, categoric_values):
     
     """
-    It returns the Support Vector Machine Model element.
+    Generates PMML elements for support vector machine models
     
     Parameters
     ----------
@@ -929,8 +1027,7 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
     Returns
     -------
     supportVector_models : List
-        Returns SupportVectorMachineModel elements which contains classificationMethod,
-        VectorDictionary, SupportVectorMachine, kernelType
+        Returns Nyoka's SupportVectorMachineModel object
         
     """
     model_kwargs = get_model_kwargs(model, col_names, target_names, mining_imp_val,categoric_values)
@@ -951,7 +1048,7 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
 def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     
     """
-    It returns the Mining Model element of the model
+    Generates PMML elemenets for ensemble models
 
     Parameters
     ----------
@@ -971,7 +1068,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     Returns
     -------
     mining_models : List
-        Returns the MiningModel of the respective ensemble model
+        Returns Nyoka's MiningModel object
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
     if model.__class__.__name__ == 'GradientBoostingRegressor':
@@ -1002,7 +1099,7 @@ def get_targets(model, target_name):
     Returns
     -------
     targets :
-        Returns a Target instance.
+        Returns Nyoka's Target object
     """
     if model.__class__.__name__ == 'GradientBoostingRegressor':
         targets = pml.Targets(
@@ -1029,7 +1126,7 @@ def get_targets(model, target_name):
 def get_multiple_model_method(model):
 
     """
-    It returns the name of the Multiple Model Chain element of the model.
+    It returns the type of multiple model method for MiningModels.
 
     Parameters
     ----------
@@ -1038,7 +1135,7 @@ def get_multiple_model_method(model):
 
     Returns
     -------
-    The multiple model method for a mining model.
+    The multiple model method for a MiningModel.
         
     """
     if model.__class__.__name__ == 'GradientBoostingClassifier':
@@ -1054,7 +1151,7 @@ def get_multiple_model_method(model):
 def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     
     """
-    It returns the Segmentation element of the model.
+    It returns the Segmentation element of a MiningModel.
 
     Parameters
     ----------
@@ -1074,7 +1171,7 @@ def get_outer_segmentation(model, derived_col_names, col_names, target_name, min
     Returns
     -------
     segmentation :
-        A segmentation instance.
+        Nyoka's Segmentation object
         
     """
     segmentation = pml.Segmentation(
@@ -1087,7 +1184,7 @@ def get_outer_segmentation(model, derived_col_names, col_names, target_name, min
 def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
 
     """
-    It returns the Segment element of the model.
+    It returns the Segment element of a Segmentation.
 
     Parameters
     ----------
@@ -1107,7 +1204,7 @@ def get_segments(model, derived_col_names, col_names, target_name, mining_imp_va
     Returns
     -------
     segments :
-        A list of segment instances.
+        Nyoka's Segment object
         
     """
     segments = None
@@ -1122,7 +1219,7 @@ def get_segments(model, derived_col_names, col_names, target_name, mining_imp_va
 def get_segments_for_gbc(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
     
     """
-    It returns list of Segments element of the model.
+    It returns list of Segments element of a Segmentation.
 
     Parameters
     ----------
@@ -1142,7 +1239,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
     Returns
     -------
     segments : List
-        Get the Segments for the Segmentation element.
+        Nyoka's Segment object
         
     """
     segments = list()
@@ -1252,7 +1349,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
 def get_inner_segments(model, derived_col_names, col_names, index):
     
     """
-    It returns the Inner segments of the model.
+    It returns the segments of a Segmentation.
     
     Parameters
     ----------
@@ -1268,7 +1365,7 @@ def get_inner_segments(model, derived_col_names, col_names, index):
     Returns
     -------
     segments : List
-        Get the Segments for the Segmentation element.
+        Nyoka's Segment object
         
     """
     segments = list()
@@ -1305,7 +1402,7 @@ def get_inner_segments(model, derived_col_names, col_names, index):
 def get_classificationMethod(model):
     
     """
-    It returns the Classification Model name of the model.
+    It returns the Classification method name for SVM models.
     
     Parameters
     ----------
@@ -1340,7 +1437,7 @@ def get_vectorDictionary(model, derived_col_names, categoric_values):
     Returns
     -------
     VectorDictionary :
-        A Vector Dictionary instance.
+        Nyoka's VectorDictionary object
         
     """
     fieldref_element = list()
@@ -1414,7 +1511,7 @@ def get_kernel_type(model):
 def get_supportVectorMachine(model):
 
     """
-    It return the Support Vector Machine element.
+    Generates PMML elements for support vector machine models
     
     Parameters
     ----------
@@ -1424,8 +1521,7 @@ def get_supportVectorMachine(model):
     Returns
     -------
     support_vector_machines : List
-        Get the Support Vector Machine element which conatains targetCategory,
-        alternateTargetCategory, SupportVectors, Coefficients
+        Nyoka's SupportVectorMachineModel object
 
     """
     support_vector_machines = list()
@@ -1492,7 +1588,7 @@ def get_supportVectorMachine(model):
 def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
 
     """
-    It return Tree Model element of the model
+    Generates PMML elements for tree models
 
     Parameters
     ----------
@@ -1506,11 +1602,13 @@ def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp
         Name of the Target column.    
     mining_imp_val : tuple
         Contains the mining_attributes,mining_strategy, mining_impute_value
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
 
     Returns
     -------
     tree_models : List
-        Get the TreeModel element.
+        Nyoka's TreeModel object
         
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
@@ -1526,7 +1624,7 @@ def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp
 def get_neural_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
 
     """
-    It returns Neural Network element of the model.
+    Generates PMML elements for neural network models
 
     Parameters
     ----------
@@ -1540,11 +1638,13 @@ def get_neural_models(model, derived_col_names, col_names, target_name, mining_i
         Name of the Target column.    
     mining_imp_val : tuple
         Contains the mining_attributes,mining_strategy, mining_impute_value.
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
 
     Returns
     -------
     neural_model : List
-        Model attributes for PMML file.
+        Nyoka's NeuralNetwork object
         
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
@@ -1566,7 +1666,7 @@ def get_neural_models(model, derived_col_names, col_names, target_name, mining_i
 def get_funct(sk_model):
 
     """
-    It returns the activation fucntion of the model.
+    It returns the activation fucntion for a neural network model.
     
     Parameters
     ----------
@@ -1588,7 +1688,7 @@ def get_funct(sk_model):
 def get_regrs_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
 
     """
-    It returns the Regression Model element of the model
+    Generates PMML elements for linear models
     
     Parameters
     ----------
@@ -1608,7 +1708,7 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
     Returns
     -------
     regrs_models : List
-        Returns a regression model of the respective model
+        Nyoka's RegressionModel object
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
     if model.__class__.__name__ not in ['LinearRegression','LinearSVR']: 
@@ -1641,7 +1741,7 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
     Returns
     -------
     merge : List
-        Returns a list of Regression Table.
+        Nyoka's RegressionTable object
         
     """
     merge = list()
@@ -1722,8 +1822,7 @@ def get_node(model, features_names, main_model=None):
 
     Returns
     -------
-    _getNode :
-        Get all the underlying Nodes.
+    Get all the underlying Nodes.
         
     """
     tree = model.tree_
@@ -1788,6 +1887,18 @@ def get_node(model, features_names, main_model=None):
         return _getNode(0)
 
 def avgPathLength(n):
+    """
+    Generates average path length for Isolation forest models
+
+    Parameters
+    ----------
+    n : int
+        Number of samples
+
+    Returns
+    -------
+    The average path length
+    """
     if n<=1.0:
         return 1.0
     return 2.0*(math.log(n-1.0)+0.57721566) - 2.0*((n-1.0)/n)
@@ -1808,7 +1919,7 @@ def get_output(model, target_name):
     Returns
     -------
     Output :
-        Get the Output element.
+        Nyoka's Output object
         
     """
 
@@ -1892,11 +2003,13 @@ def get_mining_schema(model, feature_names, target_name, mining_imp_val, categor
         Name of the Target column.
     mining_imp_val : tuple
         Contains the mining_attributes,mining_strategy, mining_impute_value.
+    categoric_values : tuple
+        Contains Categorical attribute names and its values
 
     Returns
     -------
     MiningSchema :
-        Get the MiningSchema element
+        Nyoka's MiningSchema object
         
     """
     if mining_imp_val:
@@ -1962,7 +2075,7 @@ def get_neuron_input(feature_names):
     Returns
     -------
     neural_input_element :
-        Returns the NeuralInputs element
+        Returns Nyoka's NeuralInput object
         
     """
     neural_input = list()
@@ -1992,10 +2105,10 @@ def get_neural_layer(model, feature_names, target_name):
     Returns
     -------
     all_neuron_layer : List
-        Return the list of NeuralLayer elelemt.
+        Nyoka's NeuralLayer object
 
     neural_output_element :
-        Return the NeuralOutput element instance
+        Nyoka's NeuralOutput object
         
     """
     weight = model.coefs_
@@ -2069,9 +2182,9 @@ def get_super_cls_names(model_inst):
     """
     It returns the set of Super class of the model.
 
-    Parameters:
+    Parameters
     -------
-    model_inst:
+    model_inst :
         Instance of the scikit-learn model
 
     Returns
@@ -2115,7 +2228,7 @@ def get_header():
      Returns
      -------
      header :
-         Returns the header of the pmml.
+         Returns Nyoka's Header object.
 
      """
     copyryt = "Copyright (c) 2018 Software AG"
@@ -2167,7 +2280,7 @@ def get_data_dictionary(model, feature_names, target_name, categoric_values):
     Returns
     -------
     data_dict :
-        Return the dataDictionary instance
+        Returns Nyoka's DataDictionary object
         
     """
     categoric_feature_name = list()
@@ -2215,6 +2328,18 @@ def get_data_dictionary(model, feature_names, target_name, categoric_values):
 
 
 def has_target(model):
+    """
+    Checks whether a given model has target or not
+
+    Parameters
+    ----------
+    model :
+        Scikit-learn's model object
+
+    Returns
+    -------
+    Boolean value
+    """
     target_less_models = ['OneClassSVM','IsolationForest', ]
     if model.__class__.__name__  in target_less_models:
         return False
