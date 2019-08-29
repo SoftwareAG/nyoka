@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Aug 27 12:09:15 2019 by generateDS.py version 2.28a.
+# Generated Thu Aug 29 10:54:56 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -22474,7 +22474,7 @@ class Output(GeneratedsSuper):
 class OutputField(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None, Value=None):
         self.original_tagname_ = None
         self.name = _cast(None, name)
         self.displayName = _cast(None, displayName)
@@ -22507,6 +22507,10 @@ class OutputField(GeneratedsSuper):
         self.TextIndex = TextIndex
         self.Aggregate = Aggregate
         self.Lag = Lag
+        if Value is None:
+            self.Value = []
+        else:
+            self.Value = Value
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -22545,6 +22549,11 @@ class OutputField(GeneratedsSuper):
     def set_Aggregate(self, Aggregate): self.Aggregate = Aggregate
     def get_Lag(self): return self.Lag
     def set_Lag(self, Lag): self.Lag = Lag
+    def get_Value(self): return self.Value
+    def set_Value(self, Value): self.Value = Value
+    def add_Value(self, value): self.Value.append(value)
+    def insert_Value_at(self, index, value): self.Value.insert(index, value)
+    def replace_Value_at(self, index, value): self.Value[index] = value
     def get_name(self): return self.name
     def set_name(self, name): self.name = name
     def get_displayName(self): return self.displayName
@@ -22646,7 +22655,8 @@ class OutputField(GeneratedsSuper):
             self.MapValues is not None or
             self.TextIndex is not None or
             self.Aggregate is not None or
-            self.Lag is not None
+            self.Lag is not None or
+            self.Value
         ):
             return True
         else:
@@ -22750,6 +22760,8 @@ class OutputField(GeneratedsSuper):
             self.Aggregate.export(outfile, level, namespace_, name_='Aggregate', pretty_print=pretty_print)
         if self.Lag is not None:
             self.Lag.export(outfile, level, namespace_, name_='Lag', pretty_print=pretty_print)
+        for Value_ in self.Value:
+            Value_.export(outfile, level, namespace_, name_='Value', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='OutputField', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
@@ -22822,6 +22834,8 @@ class OutputField(GeneratedsSuper):
         if self.Lag is not None:
             Lag_ = self.Lag
             Lag_.to_etree(element, name_='Lag', mapping_=mapping_)
+        for Value_ in self.Value:
+            Value_.to_etree(element, name_='Value', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[self] = element
         return element
@@ -22975,6 +22989,18 @@ class OutputField(GeneratedsSuper):
             self.Lag.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
+        showIndent(outfile, level)
+        outfile.write('Value=[\n')
+        level += 1
+        for Value_ in self.Value:
+            showIndent(outfile, level)
+            outfile.write('model_.Value(\n')
+            Value_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -23127,6 +23153,11 @@ class OutputField(GeneratedsSuper):
             obj_.build(child_)
             self.Lag = obj_
             obj_.original_tagname_ = 'Lag'
+        elif nodeName_ == 'Value':
+            obj_ = Value.factory()
+            obj_.build(child_)
+            self.Value.append(obj_)
+            obj_.original_tagname_ = 'Value'
 # end class OutputField
 
 

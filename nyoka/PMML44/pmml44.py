@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Aug 27 12:09:16 2019 by generateDS.py version 2.28a.
+# Generated Thu Aug 29 10:54:57 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -1532,8 +1532,8 @@ supermod.Output.subclass = Output
 
 
 class OutputField(supermod.OutputField):
-    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None):
-        super(OutputField, self).__init__(name, displayName, optype, dataType, targetField, feature, value, numTopCategories, ruleFeature, algorithm, rank, rankBasis, rankOrder, isMultiValued, segmentId, isFinalResult, Extension, Decisions, FieldRef, Apply, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Aggregate, Lag, )
+    def __init__(self, name=None, displayName=None, optype=None, dataType=None, targetField=None, feature='predictedValue', value=None, numTopCategories=None, ruleFeature='consequent', algorithm='exclusiveRecommendation', rank='1', rankBasis='confidence', rankOrder='descending', isMultiValued='0', segmentId=None, isFinalResult=True, Extension=None, Decisions=None, FieldRef=None, Apply=None, Constant=None, NormContinuous=None, NormDiscrete=None, Discretize=None, MapValues=None, TextIndex=None, Aggregate=None, Lag=None, Value=None):
+        super(OutputField, self).__init__(name, displayName, optype, dataType, targetField, feature, value, numTopCategories, ruleFeature, algorithm, rank, rankBasis, rankOrder, isMultiValued, segmentId, isFinalResult, Extension, Decisions, FieldRef, Apply, Constant, NormContinuous, NormDiscrete, Discretize, MapValues, TextIndex, Aggregate, Lag, Value, )
 
     #
     # XMLBehaviors
