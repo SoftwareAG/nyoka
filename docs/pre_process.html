@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pre-Processing Module &mdash; Nyoka documentation</title>
+  <title>Pre-Processing Exporter Module &mdash; Nyoka documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'3.2',
+              VERSION:'4.0.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="skl_to_pmml module" href="skl_to_pmml.html" />
+    <link rel="next" title="retinanet module" href="retinanet.html" />
     <link rel="prev" title="metadata module" href="metadata.html" /> 
 </head>
 
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                3.2
+                4.0
               </div>
             
           
@@ -94,15 +94,17 @@
             
             
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-                  <li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-Processing Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="retinanet.html">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="current toctree-l1"><a class="current reference internal" href="#">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
 </ul>
 
             
@@ -148,16 +150,16 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Pre-Processing Module</li>
+      <li>Pre-Processing Exporter Module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-          <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github"> Edit on GitHub</a>
-          
+        <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github"> Edit on GitHub</a>
         
-      </li>
+      
+    </li>
     
   </ul>
 
@@ -168,26 +170,25 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-pre_process">
-<span id="pre-process-module"></span><h1>Pre-Processing Module<a class="headerlink" href="#module-pre_process" title="Permalink to this headline">¶</a></h1>
+<span id="pre-process-module"></span><h1>Pre-Processing Exporter Module<a class="headerlink" href="#module-pre_process" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="pre_process.any_in">
 <code class="descclassname">pre_process.</code><code class="descname">any_in</code><span class="sig-paren">(</span><em>seq_a</em>, <em>seq_b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#any_in"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.any_in" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Checks for common elements in two given sequence elements</p>
+<dl class="docutils">
 <dt>seq_a <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
 <dd>A list of items</dd>
 <dt>seq_b <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
 <dd>A list of items</dd>
 </dl>
-<dl class="docutils">
-<dt>seq_a: bool</dt>
-<dd>Returns a boolean value if any item of seq_a belongs to seq_b or visa versa</dd>
-</dl>
+<p>Returns a boolean value if any item of seq_a belongs to seq_b or visa versa</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.binarizer">
 <code class="descclassname">pre_process.</code><code class="descname">binarizer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#binarizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.binarizer" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s Binarizer</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s Binarizer preprocessing instance.</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -203,7 +204,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.cat_imputer">
 <code class="descclassname">pre_process.</code><code class="descname">cat_imputer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#cat_imputer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.cat_imputer" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for sklearn-pandas’ CategoricalImputer</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s Imputer preprocessing instance</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -219,7 +221,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.count_vectorizer">
 <code class="descclassname">pre_process.</code><code class="descname">count_vectorizer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#count_vectorizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.count_vectorizer" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s CountVectorizer</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s CountVectorizer preprocessing instance.</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -235,20 +238,20 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.get_class_name">
 <code class="descclassname">pre_process.</code><code class="descname">get_class_name</code><span class="sig-paren">(</span><em>cls</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_class_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_class_name" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Provides the class name for the given instance</p>
+<dl class="docutils">
 <dt>cls :</dt>
 <dd>Contains the Sklearn’s preprocessing instance</dd>
 </dl>
-<dl class="docutils">
-<dt>cls.__class__.__name__: String</dt>
-<dd>Returns the class name of the pre-processed object.</dd>
-</dl>
+<blockquote>
+<div>Returns the class name of the pre-processed object.</div></blockquote>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.get_derived_colnames">
 <code class="descclassname">pre_process.</code><code class="descname">get_derived_colnames</code><span class="sig-paren">(</span><em>trfm_name</em>, <em>col_names</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_derived_colnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_derived_colnames" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates derived column names for a given transformer</p>
+<dl class="docutils">
 <dt>trfm_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
 <dd>Name of the derived field to be assigned after preprocessing</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -264,7 +267,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.get_pml_derived_flds">
 <code class="descclassname">pre_process.</code><code class="descname">get_pml_derived_flds</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_pml_derived_flds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_pml_derived_flds" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates elements related to pre-processing for a given transformer object</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s preprocessing instance</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -280,7 +284,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.get_preprocess_val">
 <code class="descclassname">pre_process.</code><code class="descname">get_preprocess_val</code><span class="sig-paren">(</span><em>ppln_sans_predictor</em>, <em>initial_colnames</em>, <em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#get_preprocess_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.get_preprocess_val" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates elements related to pre-processing</p>
+<dl class="docutils">
 <dt>model :</dt>
 <dd>Contains an instance of Sklearn model</dd>
 <dt>ppln_sans_predictor :</dt>
@@ -288,14 +293,17 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dt>initial_colnames <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
 <dd>Contains list of feature/column names.</dd>
 </dl>
-<p>pml_pp: dictionary
-Returns a dictionary that contains data related to pre-processing</p>
+<dl class="docutils">
+<dt>pml_pp: dictionary</dt>
+<dd>Returns a dictionary that contains data related to pre-processing</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pre_process.imputer">
 <code class="descclassname">pre_process.</code><code class="descname">imputer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#imputer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.imputer" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s Imputer</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s Imputer preprocessing instance</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -309,14 +317,27 @@ The column names may represent the names of preprocessed attributes.</dd>
 </dd></dl>
 
 <dl class="function">
-<dt id="pre_process.is_present">
-<code class="descclassname">pre_process.</code><code class="descname">is_present</code><span class="sig-paren">(</span><em>string1</em>, <em>iterator</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#is_present"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.is_present" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="pre_process.lag">
+<code class="descclassname">pre_process.</code><code class="descname">lag</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#lag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.lag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates pre-processing elements for Nyoka’s Lag</p>
+<dl class="docutils">
+<dt>trfm :</dt>
+<dd>Contains the Nyoka’s Lag instance.</dd>
+<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Contains list of feature/column names.
+The column names may represent the names of preprocessed attributes.</dd>
+</dl>
+<dl class="docutils">
+<dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>Returns a dictionary that contains attributes related to Lag preprocessing.</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="pre_process.lbl_binarizer">
 <code class="descclassname">pre_process.</code><code class="descname">lbl_binarizer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#lbl_binarizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.lbl_binarizer" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s LabelBinarizer</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s Label Binarizer preprocessing instance.</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -332,7 +353,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.lbl_encoder">
 <code class="descclassname">pre_process.</code><code class="descname">lbl_encoder</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#lbl_encoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.lbl_encoder" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s LabelEncoder</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s LabelEncoder preprocessing instance</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -348,7 +370,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.max_abs_scaler">
 <code class="descclassname">pre_process.</code><code class="descname">max_abs_scaler</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#max_abs_scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.max_abs_scaler" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s MaxAbsScaler</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s MaxabsScaler preprocessing instance</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -364,7 +387,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.min_max_scaler">
 <code class="descclassname">pre_process.</code><code class="descname">min_max_scaler</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#min_max_scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.min_max_scaler" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s MinMaxScaler</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s MinMaxScaler preprocessing instance</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -380,7 +404,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.one_hot_encoder">
 <code class="descclassname">pre_process.</code><code class="descname">one_hot_encoder</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#one_hot_encoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.one_hot_encoder" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s OneHotEncoder</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s One hot encoder preprocessing instance.</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -396,7 +421,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.pca">
 <code class="descclassname">pre_process.</code><code class="descname">pca</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#pca"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.pca" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s PCA</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s PCA preprocessing instance</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -412,7 +438,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.polynomial_features">
 <code class="descclassname">pre_process.</code><code class="descname">polynomial_features</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#polynomial_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.polynomial_features" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s PolynomialFeatures</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s PolynomialFeatures preprocessing instance.</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -428,7 +455,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.rbst_scaler">
 <code class="descclassname">pre_process.</code><code class="descname">rbst_scaler</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#rbst_scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.rbst_scaler" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s RobustScaler</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s RobustScaler preprocessing instance</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -442,14 +470,10 @@ The column names may represent the names of preprocessed attributes.</dd>
 </dd></dl>
 
 <dl class="function">
-<dt id="pre_process.remove_punctuation">
-<code class="descclassname">pre_process.</code><code class="descname">remove_punctuation</code><span class="sig-paren">(</span><em>word</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#remove_punctuation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.remove_punctuation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="pre_process.std_scaler">
 <code class="descclassname">pre_process.</code><code class="descname">std_scaler</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#std_scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.std_scaler" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s StandardScaler</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s Standard Scaler preprocessing instance</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -465,7 +489,8 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="function">
 <dt id="pre_process.tfidf_vectorizer">
 <code class="descclassname">pre_process.</code><code class="descname">tfidf_vectorizer</code><span class="sig-paren">(</span><em>trfm</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#tfidf_vectorizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.tfidf_vectorizer" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
+<dd><p>Generates pre-processing elements for Scikit-Learn’s TfIdfVectorizer</p>
+<dl class="docutils">
 <dt>trfm :</dt>
 <dd>Contains the Sklearn’s TfIdfVectorizer preprocessing instance</dd>
 <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
@@ -475,19 +500,6 @@ The column names may represent the names of preprocessed attributes.</dd>
 <dl class="docutils">
 <dt>pp_dict <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
 <dd>Returns a dictionary that contains attributes related to TfIdfVectorizer preprocessing.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pre_process.unround_scalers">
-<code class="descclassname">pre_process.</code><code class="descname">unround_scalers</code><span class="sig-paren">(</span><em>scalar_val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#unround_scalers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pre_process.unround_scalers" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>scalar_val <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>A numpy float value</dd>
-</dl>
-<dl class="docutils">
-<dt>unround_val: float</dt>
-<dd>Returns a numpy floating point number with a precision of 16 digits after decimal.</dd>
 </dl>
 </dd></dl>
 
@@ -504,7 +516,7 @@ The column names may represent the names of preprocessed attributes.</dd>
         <a href="skl_to_pmml.html" class="btn btn-neutral float-right" title="skl_to_pmml module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="lgb_to_pmml.html" class="btn btn-neutral float-left" title="metadata module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="lgb_to_pmml.html" class="btn btn-neutral float-left" title="lgb_to_pmml module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -513,7 +525,7 @@ The column names may represent the names of preprocessed attributes.</dd>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, maintainer@nyoka.org
+        &copy; Copyright 2019, maintainer@nyoka.org
 
     </p>
   </div>

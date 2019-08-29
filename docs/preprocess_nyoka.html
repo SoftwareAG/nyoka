@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Nyoka's Pre-Process Module &mdash; Nyoka documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'4.0.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="lgb_to_pmml module" href="lgb_to_pmml.html" />
+    <link rel="prev" title="keras_model_to_pmml module" href="keras_model_to_pmml.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nyoka
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+                <li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="retinanet.html">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="current toctree-l1"><a class="current reference internal" href="#">Nyoka's Pre-Processing Module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nyoka</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Nyoka's Pre-Process Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-lag">
+<span id="lag-module"></span><h1>Nyoka's Pre-Process Module<a class="headerlink" href="#module-lag" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="lag.Lag">
+<em class="property">class </em><code class="descclassname">lag.</code><code class="descname">Lag</code><span class="sig-paren">(</span><em>aggregation</em>, <em>value=1</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess_nyoka.html#Lag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<p>The Lag class takes <cite>value</cite> number of previous record of the fields where it is applied and applies <cite>aggregation</cite> to those values.</p>
+<dl class="docutils">
+<dt>aggregation <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+<dd>aggregation type. The valid types are [“min”, “max”, “sum”, “avg”, “median”, “product”, “stddev”]</dd>
+<dt>value <span class="classifier-delimiter">:</span> <span class="classifier">Integer (default = 1)</span></dt>
+<dd>The number of previous record to aggregate</dd>
+</dl>
+<dl class="method">
+<dt id="lag.Lag.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess_nyoka.html#Lag.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does nothing.</p>
+<p>The same object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lag.Lag.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess_nyoka.html#Lag.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trasforms the given X by taking <cite>value</cite> number of previous records and applying <cite>aggregation</cite> method</p>
+<dl class="docutils">
+<dt>X <span class="classifier-delimiter">:</span> <span class="classifier">Pandas DataFrame or numpy array</span></dt>
+<dd>The input data</dd>
+<dt>y <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+<dd>It is ignored.</dd>
+</dl>
+<p>Transformed X as numpy array</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+           
+      
+        <a href="xgboost_to_pmml.html" class="btn btn-neutral float-left" title="keras_model_to_pmml module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, maintainer@nyoka.org
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

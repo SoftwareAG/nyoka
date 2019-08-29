@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'3.2',
+              VERSION:'4.0.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                3.2
+                4.0
               </div>
             
           
@@ -94,16 +94,17 @@
             
             
               <ul class="current">
-  <li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
-  <li class="toctree-l1 current"><a class="current reference internal" href="#">ExponentialSmoothing Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
-</ul>
+                <li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
+                <li class="current toctree-l1"><a class="current reference internal" href="#">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="retinanet.html">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li></ul>
 
             
           
@@ -171,77 +172,18 @@
 <span id="exponential-smoothing-module"></span><h1>ExponentialSmoothing Exporter Module<a class="headerlink" href="#module-exponential_smoothing" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="exponential_smoothing.ExponentialSmoothingToPMML">
-<em class="property">class </em><code class="descclassname">exponential_smoothing.</code><code class="descname">ExponentialSmoothingToPMML</code><span class="sig-paren">(</span><em>time_series_data</em>, <em>model_obj</em>, <em>results_obj</em>, <em>pmml_file_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exponential_smoothing.html#ExponentialSmoothingToPMML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exponential_smoothing.ExponentialSmoothingToPMML" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">exponential_smoothing.</code><code class="descname">ExponentialSmoothingToPMML</code><span class="sig-paren">(</span><em>time_series_data=None</em>, <em>model_obj=None</em>, <em>results_obj=None</em>, <em>pmml_file_name='from_ExponentialSmoothing.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exponential_smoothing.html#ExponentialSmoothingToPMML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exponential_smoothing.ExponentialSmoothingToPMML" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.</p>
 <dl class="docutils">
-<dt>time_series_data: Pandas Series object</dt>
-<dd>The input data</dd>
-<dt>model_obj: statsmodels model object</dt>
+<dt>time_series_data: (Optional)</dt>
+<dd>Pandas Series object</dd>
+<dt>model_obj: (Optional)</dt>
 <dd>Instance of ExponentialSmoothing from statsmodels</dd>
-<dt>results_obj: statsmodels trained model object</dt>
+<dt>results_obj: </dt>
 <dd>Instance of HoltWintersResults from statsmodels</dd>
-<dt>pmml_file_name: string</dt>
-<dd>PMML file name</dd>
 </dl>
-<dl class="method">
-<dt id="exponential_smoothing.ExponentialSmoothingToPMML.get_data_field_objs">
-<code class="descname">get_data_field_objs</code><span class="sig-paren">(</span><em>ts_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exponential_smoothing.html#ExponentialSmoothingToPMML.get_data_field_objs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exponential_smoothing.ExponentialSmoothingToPMML.get_data_field_objs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a list with instances of DataField</p>
-<dl class="docutils">
-<dt>ts_data: pandas Series</dt>
-<dd>The input data</dd>
-</dl>
-<dl class="docutils">
-<dt>data_field_objs: list</dt>
-<dd>A list of DataField object</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="exponential_smoothing.ExponentialSmoothingToPMML.get_mining_field_objs">
-<code class="descname">get_mining_field_objs</code><span class="sig-paren">(</span><em>ts_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exponential_smoothing.html#ExponentialSmoothingToPMML.get_mining_field_objs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exponential_smoothing.ExponentialSmoothingToPMML.get_mining_field_objs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a list with instances of MiningField</p>
-<dl class="docutils">
-<dt>ts_data <span class="classifier-delimiter">:</span> <span class="classifier">pandas Series</span></dt>
-<dd>The input data</dd>
-</dl>
-<dl class="docutils">
-<dt>mining_field_obj <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd>A list of MiningField object</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="exponential_smoothing.ExponentialSmoothingToPMML.get_pmml_datatype_optype">
-<code class="descname">get_pmml_datatype_optype</code><span class="sig-paren">(</span><em>series_obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exponential_smoothing.html#ExponentialSmoothingToPMML.get_pmml_datatype_optype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exponential_smoothing.ExponentialSmoothingToPMML.get_pmml_datatype_optype" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create dataType and opType for the model object</p>
-<dl class="docutils">
-<dt>series_obj: statsmodels model object</dt>
-<dd>Statsmodels model object</dd>
-</dl>
-<dl class="docutils">
-<dt>pmml_data_type: string</dt>
-<dd>Data type</dd>
-<dt>pmml_op_type: string</dt>
-<dd>Optype</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="exponential_smoothing.ExponentialSmoothingToPMML.get_time_value_objs">
-<code class="descname">get_time_value_objs</code><span class="sig-paren">(</span><em>ts_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exponential_smoothing.html#ExponentialSmoothingToPMML.get_time_value_objs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exponential_smoothing.ExponentialSmoothingToPMML.get_time_value_objs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create TimeValue objects for the input data</p>
-<dl class="docutils">
-<dt>ts_data: pandas Series</dt>
-<dd>The input data</dd>
-</dl>
-<dl class="docutils">
-<dt>time_value_objs: list</dt>
-<dd>Instances of TimeValue</dd>
-</dl>
-</dd></dl>
-
+<p>pmml_file_name: string</p>
 </dd></dl>
 
 </div>
@@ -266,7 +208,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, maintainer@nyoka.org
+        &copy; Copyright 2019, maintainer@nyoka.org
 
     </p>
   </div>

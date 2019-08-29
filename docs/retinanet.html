@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>RetinaNet Exporter Module &mdash; Nyoka documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'4.0.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="skl_to_pmml module" href="skl_to_pmml.html" />
+    <link rel="prev" title="pre_process module" href="pre_process.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nyoka
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+                <li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="current toctree-l1"><a class="current reference internal" href="#">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nyoka</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>RetinaNet Exporter Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-retinanet">
+<span id="retinanet-module"></span><h1>RetinaNet Exporter Module<a class="headerlink" href="#module-retinanet" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="retinanet.RetinanetToPmml">
+<em class="property">class </em><code class="descclassname">retinanet.</code><code class="descname">RetinanetToPmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>backbone_name</em>, <em>input_data='image'</em>, <em>trained_classes=None</em>, <em>pmml_file_name='from_retinanet.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Write a PMML file for RetinaNet model.</p>
+<dl class="docutils">
+<dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+<dd>RetinaNet model object</dd>
+<dt>input_shape <span class="classifier-delimiter">:</span> <span class="classifier">tuple </span></dt>
+<dd>Shape of each training image</dd>
+<dt>backbone_name <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd>Name of backbone used to train the model. Valid values are <cite>[‘resnet’, ‘mobilenet’, ‘densenet’, ‘vgg’]</cite></dd>
+<dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string (optional. default=’image’)</span></dt>
+<dd><dl class="first last docutils">
+<dt>Input format to be used during inference with the PMML. Valid values are - </dt>
+<dd>“image” : Original image in png format
+“encoded” : Base64 encoded string of the image</dd>
+</dl>
+</dd>
+<dt>trained_classes <span class="classifier-delimiter">:</span> <span class="classifier">list or tuple</span></dt>
+<dd>List of the classes on which the model was trained. If not provided, default(1 to 80) classes will be used</dd>
+<dt>pmml_file_name <span class="classifier-delimiter">:</span> <span class="classifier">string (default=’from_retinanet.pmml’)</span></dt>
+<dd>Name of the PMML file</dd>
+</dl>
+<p>Creates Nyoka’s PMML object and exports it to <cite>pmml_file_name</cite></p>
+<dl class="method">
+<dt id="retinanet.RetinanetToPmml.assign_shapes">
+<code class="descname">assign_shapes</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>pmml_without_shape</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.assign_shapes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.assign_shapes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns the shape information to each NetworkLayer of the PMML</p>
+<dl class="docutils">
+<dt>model :</dt>
+<dd>RetinaNet model object</dd>
+<dt>input_shape <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+<dd>Input shape of each image used during training</dd>
+<dt>pmml_without_shape :</dt>
+<dd>Generated PMML object without shape information</dd>
+</dl>
+<p>Nyoka’s PMML object</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="retinanet.RetinanetToPmml.backbone_name_error">
+<code class="descname">backbone_name_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.backbone_name_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="retinanet.RetinanetToPmml.description">
+<code class="descname">description</code><a class="headerlink" href="#retinanet.RetinanetToPmml.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="retinanet.RetinanetToPmml.generate_beckbone_anchors">
+<code class="descname">generate_beckbone_anchors</code><span class="sig-paren">(</span><em>model</em>, <em>input_data</em>, <em>trained_classes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_beckbone_anchors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_beckbone_anchors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates PMML object for the backbone + anchors</p>
+<dl class="docutils">
+<dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+<dd>RetinaNet model object</dd>
+<dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><dl class="first last docutils">
+<dt>Input format to be used during inference with the PMML. Valid values are - </dt>
+<dd>“image” : Original image in png format
+“encoded” : Base64 encoded string of the image</dd>
+</dl>
+</dd>
+<dt>trained_classes <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd>List of class names for which the model was trained</dd>
+</dl>
+<p>Nyoka’s PMML object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="retinanet.RetinanetToPmml.generate_inference_layers">
+<code class="descname">generate_inference_layers</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_inference_layers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_inference_layers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates PMML object for the inference layers of RetinaNet</p>
+<dl class="docutils">
+<dt>model :</dt>
+<dd>RetinaNet model object</dd>
+</dl>
+<p>List of Nyoka’s NetworkLayer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="retinanet.RetinanetToPmml.generate_pmml">
+<code class="descname">generate_pmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>input_data</em>, <em>trained_classes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_pmml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates PMML object for RetinaNet by combining all different part’s PMML object</p>
+<dl class="docutils">
+<dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+<dd>RetinaNet model object</dd>
+<dt>input_shape <span class="classifier-delimiter">:</span> <span class="classifier">tuple </span></dt>
+<dd>Shape of each training image</dd>
+<dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string (optional. default=’image’)</span></dt>
+<dd><dl class="first last docutils">
+<dt>Input format to be used during inference with the PMML. Valid values are - </dt>
+<dd>“image” : Original image in png format
+“encoded” : Base64 encoded string of the image</dd>
+</dl>
+</dd>
+<dt>trained_classes <span class="classifier-delimiter">:</span> <span class="classifier">list or tuple</span></dt>
+<dd>List of the classes on which the model was trained. If not provided, default(1 to 80) classes will be used</dd>
+</dl>
+<p>Generated nyoka’s PMML object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="retinanet.RetinanetToPmml.generate_submodel">
+<code class="descname">generate_submodel</code><span class="sig-paren">(</span><em>submodel</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_submodel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_submodel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates multiple PMML object for the regression and classification submodel of RetinaNet for each connected pyramid layers</p>
+<dl class="docutils">
+<dt>submodel :</dt>
+<dd>The Regression or the Classification submodel</dd>
+</dl>
+<p>List of Nyoka’s NetworkLayer object for all the submodels</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="retinanet.RetinanetToPmml.get_local_transformation">
+<code class="descname">get_local_transformation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.get_local_transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.get_local_transformation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates Trasformation information for RetinaNet</p>
+<p>Nyoka’s LocalTransformations object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="retinanet.RetinanetToPmml.get_output">
+<code class="descname">get_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.get_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.get_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates Output for RetinaNet</p>
+<p>Nyoka’s Output object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="retinanet.RetinanetToPmml.get_training_parameter">
+<code class="descname">get_training_parameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.get_training_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.get_training_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates TrainingParameters for RetinaNet</p>
+<p>Nyoka’s TrainingParameters object</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="retinanet.RetinanetToPmml.inference_error">
+<code class="descname">inference_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.inference_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="retinanet.RetinanetToPmml.input_data_error">
+<code class="descname">input_data_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.input_data_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="lgb_to_pmml.html" class="btn btn-neutral float-right" title="lgb_to_pmml module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="keras_model_to_pmml.html" class="btn btn-neutral float-left" title="keras_model_to_pmml module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, maintainer@nyoka.org
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'3.2',
+              VERSION:'4.0.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                3.2
+                4.0
               </div>
             
           
@@ -92,15 +92,17 @@
             
             
               <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../PMML44.html">PMML44 Module (core library)</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../PMML44Super.html">PMML44Super Module (core library)</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../arima.html">ARIMA Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">Keras Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../PMML44.html">PMML44 Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../PMML44Super.html">PMML44Super Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../arima.html">ARIMA Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../retinanet.html">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
 </ul>
 
             
@@ -148,7 +150,7 @@
         
           <li><a href="index.html">Module code</a> &raquo;</li>
         
-      <li>Scikit-Learn Exporter Module</li>
+      <li>Scikit-Learn Exporter</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -176,11 +178,6 @@
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">metadata</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Functions used in skl_to_pmml.py</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="skl_to_pmml"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.skl_to_pmml">[docs]</a><span class="k">def</span> <span class="nf">skl_to_pmml</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="n">pmml_f_name</span><span class="o">=</span><span class="s1">&#39;from_sklearn.pmml&#39;</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
@@ -199,7 +196,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Returns a pmml file </span>
+<span class="sd">    Generates a PMML object and exports it to `pmml_f_name` </span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
@@ -221,6 +218,7 @@
             <span class="n">col_names</span> <span class="o">=</span> <span class="n">pml_pp</span><span class="p">[</span><span class="s1">&#39;preprocessed_col_names&#39;</span><span class="p">]</span>
             <span class="n">categoric_values</span> <span class="o">=</span> <span class="n">pml_pp</span><span class="p">[</span><span class="s1">&#39;categorical_feat_values&#39;</span><span class="p">]</span>
             <span class="n">mining_imp_val</span> <span class="o">=</span> <span class="n">pml_pp</span><span class="p">[</span><span class="s1">&#39;mining_imp_values&#39;</span><span class="p">]</span>
+            
         <span class="n">PMML_kwargs</span> <span class="o">=</span> <span class="n">get_PMML_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
                                       <span class="n">derived_col_names</span><span class="p">,</span>
                                       <span class="n">col_names</span><span class="p">,</span>
@@ -240,17 +238,16 @@
 
 <div class="viewcode-block" id="get_entire_string"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_entire_string">[docs]</a><span class="k">def</span> <span class="nf">get_entire_string</span><span class="p">(</span><span class="n">pipe0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create string of the Pipeline object</span>
+<span class="sd">    Creates a String containing the whole Pipeline&#39;s information</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    pipe0 : sklearn&#39;s pipeline object</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pipe0 : </span>
+<span class="sd">        The Pipeline object</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">    --------</span>
-<span class="sd">    pipe_container : string</span>
-<span class="sd">        Pipeline object in string format</span>
-
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Returns the string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pipe_steps</span> <span class="o">=</span> <span class="n">pipe0</span><span class="o">.</span><span class="n">steps</span>
     <span class="n">pipe_memory</span> <span class="o">=</span> <span class="s1">&#39;memory=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pipe0</span><span class="o">.</span><span class="n">memory</span><span class="p">)</span>
@@ -296,14 +293,16 @@
 
 <div class="viewcode-block" id="get_mining_buildtask"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_mining_buildtask">[docs]</a><span class="k">def</span> <span class="nf">get_mining_buildtask</span><span class="p">(</span><span class="n">pipeline</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create MiningBuildTask object</span>
+<span class="sd">    Create MiningBuildTask for the given pipeline</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    pipeline : sklearn&#39;s pipeline object</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">    mining_bld_task : MiningBuildTask object</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pipeline :</span>
+<span class="sd">        Pipeline object</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Nyoka&#39;s MiningBuildTask object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">get_entire_string</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
     <span class="n">extension</span> <span class="o">=</span> <span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Extension</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">pipeline</span><span class="p">)]</span>
@@ -315,17 +314,20 @@
 
 <div class="viewcode-block" id="any_in"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.any_in">[docs]</a><span class="k">def</span> <span class="nf">any_in</span><span class="p">(</span><span class="n">seq_a</span><span class="p">,</span> <span class="n">seq_b</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Utility function to check the common items in two python sequence</span>
+<span class="sd">    Checks for common elements in two given sequence elements</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    seq_a : python sequence</span>
-<span class="sd">        First sequence</span>
-<span class="sd">    seq_b : python sequence</span>
-<span class="sd">        Second sequence</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    seq_a : list</span>
+<span class="sd">        A list of items</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        boolean</span>
+<span class="sd">    seq_b : list</span>
+<span class="sd">        A list of items</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Returns a boolean value if any item of seq_a belongs to seq_b or visa versa</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">elem</span> <span class="ow">in</span> <span class="n">seq_b</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">seq_a</span><span class="p">)</span></div>
 
@@ -352,7 +354,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    algo_kwargs : python&#39;s dictionary object</span>
+<span class="sd">    algo_kwargs : Dictionary</span>
 <span class="sd">        Get the PMML model argument based on scikit learn model object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">skl_mdl_super_cls_names</span> <span class="o">=</span> <span class="n">get_super_cls_names</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
@@ -361,10 +363,10 @@
                                         <span class="s1">&#39;SGDClassifier&#39;</span><span class="p">,</span><span class="s1">&#39;LinearSVC&#39;</span><span class="p">,)</span>
     <span class="n">tree_model_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;BaseDecisionTree&#39;</span><span class="p">,)</span>
     <span class="n">support_vector_model_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;SVC&#39;</span><span class="p">,</span> <span class="s1">&#39;SVR&#39;</span><span class="p">)</span>
-    <span class="n">anomaly_model_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;OneClassSVM&#39;</span><span class="p">,)</span>
+    <span class="n">anomaly_model_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;OneClassSVM&#39;</span><span class="p">,</span><span class="s1">&#39;IsolationForest&#39;</span><span class="p">)</span>
     <span class="n">naive_bayes_model_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;GaussianNB&#39;</span><span class="p">,)</span>
     <span class="n">mining_model_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;RandomForestRegressor&#39;</span><span class="p">,</span> <span class="s1">&#39;RandomForestClassifier&#39;</span><span class="p">,</span> <span class="s1">&#39;GradientBoostingClassifier&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;GradientBoostingRegressor&#39;</span><span class="p">,</span><span class="s1">&#39;IsolationForest&#39;</span><span class="p">)</span>
+                            <span class="s1">&#39;GradientBoostingRegressor&#39;</span><span class="p">)</span>
     <span class="n">neurl_netwk_model_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;MLPClassifier&#39;</span><span class="p">,</span> <span class="s1">&#39;MLPRegressor&#39;</span><span class="p">)</span>
     <span class="n">nearest_neighbour_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;NeighborsBase&#39;</span><span class="p">,)</span>
     <span class="n">clustering_model_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;KMeans&#39;</span><span class="p">,)</span>
@@ -472,26 +474,25 @@
 <span class="sd">        Name of the Target column.</span>
 <span class="sd">    mining_imp_val : tuple</span>
 <span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
+<span class="sd">    categoric_values : tuple</span>
+<span class="sd">        Contains Categorical attribute names and its values</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    model_kwargs : python&#39;s dictionary object</span>
+<span class="sd">    model_kwargs : Dictionary</span>
 <span class="sd">        Returns  function name, MiningSchema and Output of the sk_model object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;functionName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_mining_func</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
     <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;MiningSchema&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_mining_schema</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;IsolationForest&#39;</span><span class="p">:</span>
-        <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;Output&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">get_anomaly_detection_output</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;Output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span>
+    <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;Output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">model_kwargs</span></div>
 
 
 <div class="viewcode-block" id="get_reg_mining_models"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_reg_mining_models">[docs]</a><span class="k">def</span> <span class="nf">get_reg_mining_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Mining Model element for linear models.</span>
+<span class="sd">    Creates xml elements for multi-class linear models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -508,11 +509,10 @@
 <span class="sd">    categoric_values : tuple</span>
 <span class="sd">        Contains Categorical attribute names and its values</span>
 
-
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    mining_model : List</span>
-<span class="sd">        Returns an mining model within a list</span>
+<span class="sd">        Returns a Nyoka&#39;s MiningModel object</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
@@ -537,7 +537,7 @@
                         <span class="p">)</span>
                     <span class="p">]</span>
                 <span class="p">),</span>
-            <span class="n">RegressionTable</span><span class="o">=</span><span class="n">get_reg_tab_for_reg_mining_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">derived_col_names</span><span class="p">,</span><span class="n">idx</span><span class="p">)</span>
+            <span class="n">RegressionTable</span><span class="o">=</span><span class="n">get_reg_tab_for_reg_mining_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">derived_col_names</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="s1">&#39;LinearSVC&#39;</span><span class="p">:</span>
             <span class="n">segment</span><span class="o">.</span><span class="n">RegressionModel</span><span class="o">.</span><span class="n">normalizationMethod</span> <span class="o">=</span> <span class="s2">&quot;logit&quot;</span>
@@ -572,22 +572,23 @@
     <span class="k">return</span> <span class="p">[</span><span class="n">mining_model</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="get_reg_tab_for_reg_mining_model"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_reg_tab_for_reg_mining_model">[docs]</a><span class="k">def</span> <span class="nf">get_reg_tab_for_reg_mining_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<div class="viewcode-block" id="get_reg_tab_for_reg_mining_model"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_reg_tab_for_reg_mining_model">[docs]</a><span class="k">def</span> <span class="nf">get_reg_tab_for_reg_mining_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">categorical_values</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create regression table for linear models</span>
+<span class="sd">    Generates Regression Table for multi-class linear models</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    model : sklearn&#39;s model object</span>
-<span class="sd">    col_names : list</span>
-<span class="sd">        list of column names</span>
-<span class="sd">    index : integer</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model :</span>
+<span class="sd">        An instance of Scikit-learn model.</span>
+<span class="sd">    col_names : List</span>
+<span class="sd">        Contains list of feature/column names.</span>
+<span class="sd">    index : int</span>
+<span class="sd">    categoric_values : tuple</span>
+<span class="sd">        Contains Categorical attribute names and its values</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">    --------</span>
-<span class="sd">    reg_table : list</span>
-<span class="sd">        Returns RegressionTable object within a list</span>
-
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Returns Nyoka&#39;s RegressionTable object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">reg_tab</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">RegressionTable</span><span class="p">(</span><span class="n">intercept</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">coef</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="n">index</span><span class="p">]):</span>
@@ -597,7 +598,7 @@
 
 <div class="viewcode-block" id="get_anomalydetection_model"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_anomalydetection_model">[docs]</a><span class="k">def</span> <span class="nf">get_anomalydetection_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the KMean Clustering model element.</span>
+<span class="sd">    Creates xml elements for anomaly detction models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -617,12 +618,19 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    anomaly_detection_model :List</span>
-<span class="sd">        Returns an anomaly detection model within a list</span>
+<span class="sd">    anomaly_detection_model : List</span>
+<span class="sd">        Returns Nyoka&#39;s AnomalyDetectionModel object</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">anomaly_detection_model</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">if</span> <span class="s1">&#39;OneClassSVM&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+        <span class="n">svm_model</span> <span class="o">=</span> <span class="n">get_supportVectorMachine_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+                                                            <span class="n">derived_col_names</span><span class="p">,</span>
+                                                            <span class="n">col_names</span><span class="p">,</span>
+                                                            <span class="n">target_name</span><span class="p">,</span>
+                                                            <span class="n">mining_imp_val</span><span class="p">,</span>
+                                                            <span class="n">categoric_values</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">svm_model</span><span class="o">.</span><span class="n">MiningSchema</span><span class="o">.</span><span class="n">MiningField</span> <span class="o">=</span> <span class="n">svm_model</span><span class="o">.</span><span class="n">MiningSchema</span><span class="o">.</span><span class="n">MiningField</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">anomaly_detection_model</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">pml</span><span class="o">.</span><span class="n">AnomalyDetectionModel</span><span class="p">(</span>
                 <span class="n">modelName</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
@@ -630,128 +638,79 @@
                 <span class="n">functionName</span><span class="o">=</span><span class="s2">&quot;regression&quot;</span><span class="p">,</span>
                 <span class="n">MiningSchema</span><span class="o">=</span><span class="n">get_mining_schema</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">),</span>
                 <span class="n">Output</span><span class="o">=</span><span class="n">get_anomaly_detection_output</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
-                <span class="n">SupportVectorMachineModel</span><span class="o">=</span><span class="n">get_supportVectorMachine_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
-                                                            <span class="n">derived_col_names</span><span class="p">,</span>
-                                                            <span class="n">col_names</span><span class="p">,</span>
-                                                            <span class="n">target_name</span><span class="p">,</span>
-                                                            <span class="n">mining_imp_val</span><span class="p">,</span>
-                                                            <span class="n">categoric_values</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">SupportVectorMachineModel</span><span class="o">=</span><span class="n">svm_model</span>
             <span class="p">)</span>
         <span class="p">)</span>
-    <span class="c1"># else:</span>
-    <span class="c1">#     anomaly_detection_model.append(</span>
-    <span class="c1">#         pml.AnomalyDetectionModel(</span>
-    <span class="c1">#             modelName=&quot;IsolationForests&quot;,</span>
-    <span class="c1">#             algorithmType=&quot;iforest&quot;,</span>
-    <span class="c1">#             functionName=&quot;regression&quot;,</span>
-    <span class="c1">#             MiningSchema=get_mining_schema(model, col_names, target_name, mining_imp_val),</span>
-    <span class="c1">#             Output=get_anomaly_detection_output(model),</span>
-    <span class="c1">#             ParameterList=pml.ParameterList(Parameter=[pml.Parameter(</span>
-    <span class="c1">#                                         name=&quot;training_data_count&quot;,</span>
-    <span class="c1">#                                         value=model.max_samples_)]),</span>
-    <span class="c1">#             MiningModel=get_ensemble_models(model,</span>
-    <span class="c1">#                                         derived_col_names,</span>
-    <span class="c1">#                                         col_names,</span>
-    <span class="c1">#                                         target_name,</span>
-    <span class="c1">#                                         mining_imp_val,</span>
-    <span class="c1">#                                         categoric_values)[0]</span>
-    <span class="c1">#         )</span>
-    <span class="c1"># )</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mining_schema</span> <span class="o">=</span> <span class="n">get_mining_schema</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
+        <span class="n">ensemble_model</span> <span class="o">=</span> <span class="n">get_ensemble_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+                                            <span class="n">derived_col_names</span><span class="p">,</span>
+                                            <span class="n">col_names</span><span class="p">,</span>
+                                            <span class="s1">&#39;avg_path_length&#39;</span><span class="p">,</span>
+                                            <span class="n">mining_imp_val</span><span class="p">,</span>
+                                            <span class="n">categoric_values</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">anomaly_detection_model</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">pml</span><span class="o">.</span><span class="n">AnomalyDetectionModel</span><span class="p">(</span>
+                <span class="n">modelName</span><span class="o">=</span><span class="s2">&quot;IsolationForests&quot;</span><span class="p">,</span>
+                <span class="n">algorithmType</span><span class="o">=</span><span class="s2">&quot;iforest&quot;</span><span class="p">,</span>
+                <span class="n">functionName</span><span class="o">=</span><span class="s2">&quot;regression&quot;</span><span class="p">,</span>
+                <span class="n">MiningSchema</span><span class="o">=</span><span class="n">mining_schema</span><span class="p">,</span>
+                <span class="n">Output</span><span class="o">=</span><span class="n">get_anomaly_detection_output</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
+                <span class="n">sampleDataSize</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">max_samples_</span><span class="p">),</span>
+                <span class="n">MiningModel</span><span class="o">=</span><span class="n">ensemble_model</span>
+            <span class="p">)</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">anomaly_detection_model</span></div>
 
 
 <div class="viewcode-block" id="get_anomaly_detection_output"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_anomaly_detection_output">[docs]</a><span class="k">def</span> <span class="nf">get_anomaly_detection_output</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates output for anomaly detection models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+<span class="sd">    model :</span>
+<span class="sd">        Scikit-learn&#39;s model object</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    output_fields :</span>
-<span class="sd">        Returns  an Output instance of anomaly detection model</span>
+<span class="sd">        Returns Nyoka&#39;s Output object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="s1">&#39;OneClassSVM&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;anomalyScore&quot;</span><span class="p">,</span>
-            <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;predictedValue&quot;</span><span class="p">,</span>
-            <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;continuous&quot;</span><span class="p">,</span>
-            <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">))</span>
-        <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;anomaly&quot;</span><span class="p">,</span>
-            <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;anomaly&quot;</span><span class="p">,</span>
-            <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">,</span>
-            <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
-            <span class="n">threshold</span><span class="o">=</span><span class="s2">&quot;0&quot;</span>
-        <span class="p">))</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">max_samples_</span>
-        <span class="n">eulers_gamma</span> <span class="o">=</span> <span class="mf">0.577215664901532860606512090082402431</span>
-
-        <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;rawAnomalyScore&quot;</span><span class="p">,</span> 
+    <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;anomalyScore&quot;</span><span class="p">,</span> 
                                             <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;continuous&quot;</span><span class="p">,</span> 
                                             <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span>
                                             <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;predictedValue&quot;</span><span class="p">,</span>
                                             <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="p">))</span>
+    <span class="n">thresh</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">thresh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">threshold_</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">thresh</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;IsolationForest&quot;</span><span class="p">:</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">offset_</span>
+    <span class="n">thresh</span> <span class="o">=</span> <span class="n">thresh</span> <span class="o">+</span> <span class="n">offset</span>
 
-        <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;normalizedAnomalyScore&quot;</span><span class="p">,</span>
-                                            <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;continuous&quot;</span><span class="p">,</span>
-                                            <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span>
-                                            <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;transformedValue&quot;</span><span class="p">,</span>
-                                            <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="p">,</span> 
-                                            <span class="n">Apply</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> 
-                                                            <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s2">&quot;rawAnomalyScore&quot;</span><span class="p">)],</span> 
-                                                            <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span>
-                                                                                   <span class="n">valueOf_</span><span class="o">=</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">+</span><span class="n">eulers_gamma</span><span class="p">))</span><span class="o">-</span>
-                                                                                            <span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">)))])))</span>
-
-        <span class="n">appl_inner_inner</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
-        <span class="n">cnst</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span> <span class="n">valueOf_</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">)</span>
-        <span class="n">fldref</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s2">&quot;normalizedAnomalyScore&quot;</span><span class="p">)</span>
-        <span class="n">cnst</span><span class="o">.</span><span class="n">original_tagname_</span> <span class="o">=</span> <span class="s1">&#39;Constant&#39;</span>
-        <span class="n">appl_inner_inner</span><span class="o">.</span><span class="n">add_FieldRef</span><span class="p">(</span><span class="n">cnst</span><span class="p">)</span>
-        <span class="n">appl_inner_inner</span><span class="o">.</span><span class="n">add_FieldRef</span><span class="p">(</span><span class="n">fldref</span><span class="p">)</span>
-
-        <span class="n">appl_inner</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s1">&#39;pow&#39;</span><span class="p">)</span>
-        <span class="n">cnst</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span> <span class="n">valueOf_</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
-        <span class="n">cnst</span><span class="o">.</span><span class="n">original_tagname_</span> <span class="o">=</span> <span class="s1">&#39;Constant&#39;</span>
-        <span class="n">appl_inner</span><span class="o">.</span><span class="n">add_FieldRef</span><span class="p">(</span><span class="n">cnst</span><span class="p">)</span>
-        <span class="n">appl_inner_inner</span><span class="o">.</span><span class="n">original_tagname_</span><span class="o">=</span><span class="s1">&#39;Apply&#39;</span>
-        <span class="n">appl_inner</span><span class="o">.</span><span class="n">add_FieldRef</span><span class="p">(</span><span class="n">appl_inner_inner</span><span class="p">)</span>
-
-        <span class="n">appl_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
-        <span class="n">cnst</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span> <span class="n">valueOf_</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-        <span class="n">cnst</span><span class="o">.</span><span class="n">original_tagname_</span> <span class="o">=</span> <span class="s1">&#39;Constant&#39;</span>
-        <span class="n">appl_outer</span><span class="o">.</span><span class="n">add_FieldRef</span><span class="p">(</span><span class="n">cnst</span><span class="p">)</span>
-        <span class="n">appl_inner</span><span class="o">.</span><span class="n">original_tagname_</span><span class="o">=</span><span class="s1">&#39;Apply&#39;</span>
-        <span class="n">appl_outer</span><span class="o">.</span><span class="n">add_FieldRef</span><span class="p">(</span><span class="n">appl_inner</span><span class="p">)</span>
-
-        <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;decisionFunction&quot;</span><span class="p">,</span>
-                                            <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;continuous&quot;</span><span class="p">,</span>
-                                            <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span>
-                                            <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;transformedValue&quot;</span><span class="p">,</span>
-                                            <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="p">,</span> 
-                                            <span class="n">Apply</span><span class="o">=</span><span class="n">appl_outer</span><span class="p">))</span>
-
-        <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;outlier&quot;</span><span class="p">,</span>
-                                            <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">,</span>
-                                            <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
-                                            <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;transformedValue&quot;</span><span class="p">,</span>
-                                            <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> 
-                                            <span class="n">Apply</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span> 
-                                                            <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s2">&quot;decisionFunction&quot;</span><span class="p">)],</span>
-                                                            <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span> 
-                                                                                    <span class="n">valueOf_</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">threshold_</span><span class="p">))])))</span>
-
+    <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;outlier&quot;</span><span class="p">,</span>
+                        <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">,</span>
+                        <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+                        <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;decision&quot;</span><span class="p">,</span>
+                        <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> 
+                        <span class="n">Apply</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="s2">&quot;lessThan&quot;</span><span class="p">,</span> 
+                                        <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s2">&quot;anomalyScore&quot;</span><span class="p">)],</span>
+                                        <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span> 
+                                        <span class="n">valueOf_</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="k">if</span> <span class="n">thresh</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thresh</span><span class="p">))]))</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">pml</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="n">OutputField</span><span class="o">=</span><span class="n">output_fields</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_clustering_model"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_clustering_model">[docs]</a><span class="k">def</span> <span class="nf">get_clustering_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the KMean Clustering model element.</span>
+<span class="sd">    Generates PMML elements for clustering models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -763,12 +722,15 @@
 <span class="sd">        Contains list of feature/column names.</span>
 <span class="sd">    target_name : String</span>
 <span class="sd">        Name of the Target column.</span>
-
+<span class="sd">    mining_imp_val : tuple</span>
+<span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
+<span class="sd">    categoric_values : tuple</span>
+<span class="sd">        Contains Categorical attribute names and its values</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    clustering_models :List</span>
-<span class="sd">        Returns a KMean Clustering model within a list</span>
+<span class="sd">    clustering_models : List</span>
+<span class="sd">        Returns Nyoka&#39;s ClusteringModel object</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -794,6 +756,7 @@
 
 <div class="viewcode-block" id="get_output_for_clustering"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_output_for_clustering">[docs]</a><span class="k">def</span> <span class="nf">get_output_for_clustering</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates output for clustering models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -802,11 +765,10 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    output_fields :List</span>
-<span class="sd">        Returns a list of OutputField</span>
+<span class="sd">    output_fields : List</span>
+<span class="sd">        Returns Nyoka&#39;s Output object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;cluster&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">,</span><span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="n">feature</span><span class="o">=</span><span class="s2">&quot;predictedValue&quot;</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
         <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
@@ -817,12 +779,14 @@
                 <span class="n">value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span>
+    <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;cluster&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">,</span><span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="n">feature</span><span class="o">=</span><span class="s2">&quot;predictedValue&quot;</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">pml</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="n">OutputField</span><span class="o">=</span><span class="n">output_fields</span><span class="p">)</span></div>
         
 
 
 <div class="viewcode-block" id="get_cluster_vals"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_cluster_vals">[docs]</a><span class="k">def</span> <span class="nf">get_cluster_vals</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">counts</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates cluster information for clustering models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -831,8 +795,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    cluster_flds :List</span>
-<span class="sd">        Returns a list of Cluster instances</span>
+<span class="sd">    cluster_flds : List</span>
+<span class="sd">        Returns Nyoka&#39;s Cluster object</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">centroids</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cluster_centers_</span>
@@ -849,6 +813,7 @@
 
 <div class="viewcode-block" id="get_cluster_num"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_cluster_num">[docs]</a><span class="k">def</span> <span class="nf">get_cluster_num</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns number of cluster for clustering models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -868,14 +833,14 @@
 
 <div class="viewcode-block" id="get_comp_measure"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_comp_measure">[docs]</a><span class="k">def</span> <span class="nf">get_comp_measure</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-
+<span class="sd">    Generates comparison measure information for clustering models</span>
+<span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-
-<span class="sd">        Returns an instance of comparision measure</span>
+<span class="sd">    Returns Nyoka&#39;s ComparisonMeasure object</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">comp_equation</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">euclidean</span><span class="p">()</span>
@@ -884,6 +849,7 @@
 
 <div class="viewcode-block" id="get_clustering_flds"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_clustering_flds">[docs]</a><span class="k">def</span> <span class="nf">get_clustering_flds</span><span class="p">(</span><span class="n">col_names</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates cluster fields for clustering models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -892,10 +858,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-
 <span class="sd">    clustering_flds: List</span>
-
-<span class="sd">        Returns the list containing clustering field instances</span>
+<span class="sd">        Returns Nyoka&#39;s ClusteringField object</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">clustering_flds</span> <span class="o">=</span> <span class="p">[]</span>
@@ -907,7 +871,7 @@
 <div class="viewcode-block" id="get_nearestNeighbour_model"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_nearestNeighbour_model">[docs]</a><span class="k">def</span> <span class="nf">get_nearestNeighbour_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Nearest Neighbour model element.</span>
+<span class="sd">    Generates PMML elements for nearest neighbour model</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -919,12 +883,16 @@
 <span class="sd">        Contains list of feature/column names.</span>
 <span class="sd">    target_name : String</span>
 <span class="sd">        Name of the Target column.</span>
+<span class="sd">    mining_imp_val : tuple</span>
+<span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
+<span class="sd">    categoric_values : tuple</span>
+<span class="sd">        Contains Categorical attribute names and its values</span>
 <span class="sd">    </span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    nearest_neighbour_model :</span>
-<span class="sd">        Returns a nearest neighbour model instance</span>
+<span class="sd">        Returns Nyoka&#39;s NearestNeighborModel object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
@@ -961,7 +929,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    TrainingInstances :</span>
-<span class="sd">        Returns a TrainingInstances instance</span>
+<span class="sd">        Returns Nyoka&#39;s TrainingInstances object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">pml</span><span class="o">.</span><span class="n">TrainingInstances</span><span class="p">(</span>
@@ -982,7 +950,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    InlineTable :</span>
-<span class="sd">        Returns a InlineTable instance.</span>
+<span class="sd">        Returns Nyoka&#39;s InlineTable object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1022,7 +990,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    InstanceFields :</span>
-<span class="sd">        Returns a InstanceFields instance</span>
+<span class="sd">        Returns Nyoka&#39;s InstanceFields object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">instance_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -1034,9 +1002,8 @@
 
 <div class="viewcode-block" id="get_comparison_measure"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_comparison_measure">[docs]</a><span class="k">def</span> <span class="nf">get_comparison_measure</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
 
-
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It return the Comparison measure element.</span>
+<span class="sd">    It return the Comparison measure element for nearest neighbour model.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1046,7 +1013,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    comp_measure :</span>
-<span class="sd">        Returns a ComparisonMeasure instance.</span>
+<span class="sd">        Returns Nyoka&#39;s ComparisonMeasure object.</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">effective_metric_</span> <span class="o">==</span> <span class="s1">&#39;euclidean&#39;</span><span class="p">:</span>
@@ -1082,7 +1049,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    KNNInputs :</span>
-<span class="sd">        Returns a KNNInputs instance.</span>
+<span class="sd">        Returns Nyoka&#39;s KNNInputs object.</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">knnInput</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -1094,7 +1061,7 @@
 <div class="viewcode-block" id="get_naiveBayesModel"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_naiveBayesModel">[docs]</a><span class="k">def</span> <span class="nf">get_naiveBayesModel</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Naive Bayes Model element of the model.</span>
+<span class="sd">    Generates PMML elements for naive bayes models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1106,11 +1073,15 @@
 <span class="sd">        Contains list of feature/column names.</span>
 <span class="sd">    target_name : String</span>
 <span class="sd">        Name of the Target column.</span>
+<span class="sd">    mining_imp_val : tuple</span>
+<span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
+<span class="sd">    categoric_values : tuple</span>
+<span class="sd">        Contains Categorical attribute names and its values</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    naive_bayes_model : List</span>
-<span class="sd">        Returns the NaiveBayesModel</span>
+<span class="sd">        Returns Nyoka&#39;s NaiveBayesModel</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
     <span class="n">naive_bayes_model</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -1126,7 +1097,7 @@
 
 <div class="viewcode-block" id="get_threshold"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_threshold">[docs]</a><span class="k">def</span> <span class="nf">get_threshold</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Threshold value.</span>
+<span class="sd">    It returns the Threshold value for Naive Bayes models.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1151,7 +1122,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    BayesOutput :</span>
-<span class="sd">        Returns a BayesOutput instance</span>
+<span class="sd">        Returns Nyoka&#39;s BayesOutput object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">class_counts</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">class_count_</span>
@@ -1169,7 +1140,7 @@
 <div class="viewcode-block" id="get_bayes_inputs"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_bayes_inputs">[docs]</a><span class="k">def</span> <span class="nf">get_bayes_inputs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Bayes Input element of the model .</span>
+<span class="sd">    It returns the Bayes Input element of the naive bayes model .</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1181,7 +1152,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    bayes_inputs :</span>
-<span class="sd">        Returns a BayesInput instance.</span>
+<span class="sd">        Returns Nyoka&#39;s BayesInput object.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">bayes_inputs</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">BayesInputs</span><span class="p">()</span>
@@ -1204,7 +1175,7 @@
  									<span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Support Vector Machine Model element.</span>
+<span class="sd">    Generates PMML elements for support vector machine models</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1224,8 +1195,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    supportVector_models : List</span>
-<span class="sd">        Returns SupportVectorMachineModel elements which contains classificationMethod,</span>
-<span class="sd">        VectorDictionary, SupportVectorMachine, kernelType</span>
+<span class="sd">        Returns Nyoka&#39;s SupportVectorMachineModel object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_names</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
@@ -1239,28 +1209,14 @@
         <span class="o">**</span><span class="n">kernel_type</span><span class="p">,</span>
         <span class="o">**</span><span class="n">model_kwargs</span>
     <span class="p">))</span>
-    <span class="c1"># supportVector_models[0].export(sys.stdout,0,&quot; &quot;)</span>
 
     <span class="k">return</span> <span class="n">supportVector_models</span></div>
 
-<div class="viewcode-block" id="get_model_name"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_model_name">[docs]</a><span class="k">def</span> <span class="nf">get_model_name</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">&#39;OneClassSVM&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;ocsvm&#39;</span>
-    <span class="k">elif</span> <span class="s1">&#39;IsolationForest&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;iforest&#39;</span>
-    <span class="k">elif</span> <span class="s1">&#39;XGB&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;XGBoostModel&#39;</span>
-    <span class="k">elif</span> <span class="s1">&#39;LGB&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;LightGBModel&#39;</span>
-    <span class="k">elif</span> <span class="s1">&#39;GradientBoosting&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;GradientBoostingModel&#39;</span>
-    <span class="k">elif</span> <span class="s1">&#39;RandomForest&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;RandomForestModel&#39;</span></div>
 
 <div class="viewcode-block" id="get_ensemble_models"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_ensemble_models">[docs]</a><span class="k">def</span> <span class="nf">get_ensemble_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Mining Model element of the model</span>
+<span class="sd">    Generates PMML elemenets for ensemble models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1280,22 +1236,11 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    mining_models : List</span>
-<span class="sd">        Returns the MiningModel of the respective ensemble model</span>
+<span class="sd">        Returns Nyoka&#39;s MiningModel object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;GradientBoostingRegressor&#39;</span><span class="p">:</span>
         <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;Targets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_targets</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span>
-
-    <span class="n">mining_fields</span> <span class="o">=</span> <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;MiningSchema&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">MiningField</span>
-    <span class="n">new_mining_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">imp_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">imp_</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">new_mining_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mining_fields</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="n">mining_fields</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">usageType</span> <span class="o">==</span> <span class="s1">&#39;target&#39;</span><span class="p">:</span>
-            <span class="n">new_mining_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
-    <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;MiningSchema&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">MiningField</span> <span class="o">=</span> <span class="n">new_mining_fields</span>
-
         
     <span class="n">mining_models</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">mining_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningModel</span><span class="p">(</span>
@@ -1322,7 +1267,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    targets :</span>
-<span class="sd">        Returns a Target instance.</span>
+<span class="sd">        Returns Nyoka&#39;s Target object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;GradientBoostingRegressor&#39;</span><span class="p">:</span>
         <span class="n">targets</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Targets</span><span class="p">(</span>
@@ -1349,7 +1294,7 @@
 <div class="viewcode-block" id="get_multiple_model_method"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_multiple_model_method">[docs]</a><span class="k">def</span> <span class="nf">get_multiple_model_method</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the name of the Multiple Model Chain element of the model.</span>
+<span class="sd">    It returns the type of multiple model method for MiningModels.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1358,7 +1303,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    The multiple model method for a mining model.</span>
+<span class="sd">    The multiple model method for a MiningModel.</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;GradientBoostingClassifier&#39;</span><span class="p">:</span>
@@ -1374,7 +1319,7 @@
 <div class="viewcode-block" id="get_outer_segmentation"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_outer_segmentation">[docs]</a><span class="k">def</span> <span class="nf">get_outer_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Segmentation element of the model.</span>
+<span class="sd">    It returns the Segmentation element of a MiningModel.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1394,7 +1339,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    segmentation :</span>
-<span class="sd">        A segmentation instance.</span>
+<span class="sd">        Nyoka&#39;s Segmentation object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">segmentation</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segmentation</span><span class="p">(</span>
@@ -1407,7 +1352,7 @@
 <div class="viewcode-block" id="get_segments"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_segments">[docs]</a><span class="k">def</span> <span class="nf">get_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Segment element of the model.</span>
+<span class="sd">    It returns the Segment element of a Segmentation.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1427,7 +1372,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    segments :</span>
-<span class="sd">        A list of segment instances.</span>
+<span class="sd">        Nyoka&#39;s Segment object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">segments</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1442,7 +1387,7 @@
 <div class="viewcode-block" id="get_segments_for_gbc"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_segments_for_gbc">[docs]</a><span class="k">def</span> <span class="nf">get_segments_for_gbc</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns list of Segments element of the model.</span>
+<span class="sd">    It returns list of Segments element of a Segmentation.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1462,18 +1407,15 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    segments : List</span>
-<span class="sd">        Get the Segments for the Segmentation element.</span>
+<span class="sd">        Nyoka&#39;s Segment object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">segments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">out_field_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">estm_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">estimators_</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
         <span class="n">mining_fields_for_first</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="c1"># for name in col_names:</span>
-        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">imp_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">):</span>
-            <span class="c1"># mining_fields_for_first.append(pml.MiningField(name=name))</span>
-            <span class="k">if</span> <span class="n">imp_</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">mining_fields_for_first</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">col_names</span><span class="p">:</span>
+            <span class="n">mining_fields_for_first</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
 
         <span class="n">miningschema_for_first</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">MiningSchema</span><span class="p">(</span><span class="n">MiningField</span><span class="o">=</span><span class="n">mining_fields_for_first</span><span class="p">)</span>
         <span class="n">output_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -1575,7 +1517,7 @@
 <div class="viewcode-block" id="get_inner_segments"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_inner_segments">[docs]</a><span class="k">def</span> <span class="nf">get_inner_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Inner segments of the model.</span>
+<span class="sd">    It returns the segments of a Segmentation.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1591,7 +1533,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    segments : List</span>
-<span class="sd">        Get the Segments for the Segmentation element.</span>
+<span class="sd">        Nyoka&#39;s Segment object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">segments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -1607,12 +1549,8 @@
                 <span class="n">features_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">features_</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">mining_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="c1"># for feat in col_names:</span>
-            <span class="n">feature_importances</span> <span class="o">=</span> <span class="n">estm</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">compute_feature_importances</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">imp_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">feature_importances</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">imp_</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="c1"># mining_fields.append(pml.MiningField(name=feat))</span>
-                    <span class="n">mining_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+            <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">col_names</span><span class="p">:</span>
+                <span class="n">mining_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">feat</span><span class="p">))</span>
             <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">pml</span><span class="o">.</span><span class="n">Segment</span><span class="p">(</span>
                     <span class="n">True_</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">True_</span><span class="p">(),</span>
@@ -1632,7 +1570,7 @@
 <div class="viewcode-block" id="get_classificationMethod"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_classificationMethod">[docs]</a><span class="k">def</span> <span class="nf">get_classificationMethod</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
     
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Classification Model name of the model.</span>
+<span class="sd">    It returns the Classification method name for SVM models.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1667,11 +1605,13 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    VectorDictionary :</span>
-<span class="sd">        A Vector Dictionary instance.</span>
+<span class="sd">        Nyoka&#39;s VectorDictionary object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">model_coef</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">C</span>
-    <span class="n">fieldref_element</span> <span class="o">=</span> <span class="n">get_vectorfields</span><span class="p">(</span><span class="n">model_coef</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)</span>
+    <span class="n">fieldref_element</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">derived_col_names</span><span class="p">:</span>
+        <span class="n">fieldref_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
+    
     <span class="n">vectorfields_element</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">VectorFields</span><span class="p">(</span><span class="n">FieldRef</span><span class="o">=</span><span class="n">fieldref_element</span><span class="p">)</span>
     <span class="n">vec_id</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">support_</span><span class="p">)</span>
     <span class="n">vecinsts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -1698,94 +1638,6 @@
             <span class="p">))</span>
     <span class="n">vd</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">VectorDictionary</span><span class="p">(</span><span class="n">VectorFields</span><span class="o">=</span><span class="n">vectorfields_element</span><span class="p">,</span> <span class="n">VectorInstance</span><span class="o">=</span><span class="n">vecinsts</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">vd</span></div>
-
-
-
-
-<div class="viewcode-block" id="get_vectorfields"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_vectorfields">[docs]</a><span class="k">def</span> <span class="nf">get_vectorfields</span><span class="p">(</span><span class="n">model_coef</span><span class="p">,</span> <span class="n">feat_names</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
-
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">     It return the Vector Fields .</span>
-
-<span class="sd">     Parameters</span>
-<span class="sd">     ----------</span>
-<span class="sd">     model :</span>
-<span class="sd">         A Scikit-learn model instance.</span>
-<span class="sd">     derived_col_names : List</span>
-<span class="sd">         Contains column names after preprocessing.</span>
-<span class="sd">     categoric_values : tuple</span>
-<span class="sd">        Contains Categorical attribute names and its values</span>
-
-<span class="sd">     Returns</span>
-<span class="sd">     -------</span>
-<span class="sd">     Returns the Vector Dictionary instance for Support Vector model.</span>
-
-<span class="sd">     &quot;&quot;&quot;</span>
-    <span class="n">der_fld_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">feat_names</span><span class="p">)</span>
-    <span class="n">der_fld_idx</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">row_idx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="n">predictors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">categoric_values</span><span class="p">:</span>
-        <span class="n">class_lbls</span> <span class="o">=</span> <span class="n">categoric_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">class_attribute</span> <span class="o">=</span> <span class="n">categoric_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">while</span> <span class="n">der_fld_idx</span> <span class="o">&lt;</span> <span class="n">der_fld_len</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">is_labelbinarizer</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">]):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_stdscaler</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">]):</span>
-                <span class="n">class_id</span> <span class="o">=</span> <span class="n">get_classid</span><span class="p">(</span><span class="n">class_attribute</span><span class="p">,</span> <span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">])</span>
-                <span class="n">cat_predictors</span> <span class="o">=</span> <span class="n">get_categoric_pred</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">],</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">der_fld_idx</span><span class="p">,</span> <span class="n">model_coef</span><span class="p">,</span> <span class="n">class_lbls</span><span class="p">[</span><span class="n">class_id</span><span class="p">],</span>
-                                                    <span class="n">class_attribute</span><span class="p">[</span><span class="n">class_id</span><span class="p">])</span>
-                <span class="k">for</span> <span class="n">predictor</span> <span class="ow">in</span> <span class="n">cat_predictors</span><span class="p">:</span>
-                    <span class="n">predictors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predictor</span><span class="p">)</span>
-
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">[</span><span class="n">class_id</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">incrementor</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">incrementor</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">[</span><span class="n">class_id</span><span class="p">])</span>
-                <span class="n">der_fld_idx</span> <span class="o">=</span> <span class="n">der_fld_idx</span> <span class="o">+</span> <span class="n">incrementor</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">vectorfields_element</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">])</span>
-                <span class="n">predictors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vectorfields_element</span><span class="p">)</span>
-                <span class="n">der_fld_idx</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="k">elif</span> <span class="n">is_onehotencoder</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">]):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_stdscaler</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">]):</span>
-                <span class="n">class_id</span> <span class="o">=</span> <span class="n">get_classid</span><span class="p">(</span><span class="n">class_attribute</span><span class="p">,</span> <span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">])</span>
-                <span class="n">cat_predictors</span> <span class="o">=</span> <span class="n">get_categoric_pred</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">],</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">der_fld_idx</span><span class="p">,</span> <span class="n">model_coef</span><span class="p">,</span> <span class="n">class_lbls</span><span class="p">[</span><span class="n">class_id</span><span class="p">],</span>
-                                                    <span class="n">class_attribute</span><span class="p">[</span><span class="n">class_id</span><span class="p">])</span>
-                <span class="k">for</span> <span class="n">predictor</span> <span class="ow">in</span> <span class="n">cat_predictors</span><span class="p">:</span>
-                    <span class="n">predictors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predictor</span><span class="p">)</span>
-
-                <span class="n">incrementor</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">[</span><span class="n">class_id</span><span class="p">])</span>
-                <span class="n">der_fld_idx</span> <span class="o">=</span> <span class="n">der_fld_idx</span> <span class="o">+</span> <span class="n">incrementor</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">vectorfields_element</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">])</span>
-                <span class="n">predictors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vectorfields_element</span><span class="p">)</span>
-                <span class="n">der_fld_idx</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">vectorfields_element</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">])</span>
-            <span class="n">predictors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vectorfields_element</span><span class="p">)</span>
-            <span class="n">der_fld_idx</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="k">return</span> <span class="n">predictors</span></div>
-
-<div class="viewcode-block" id="is_onehotencoder"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.is_onehotencoder">[docs]</a><span class="k">def</span> <span class="nf">is_onehotencoder</span><span class="p">(</span><span class="n">feat_name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    feat_name : string</span>
-<span class="sd">        Contains the name of the attribute</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">        Returns a boolean value that states whether OneHotEncoder has been applied or not</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;oneHotEncoder&quot;</span> <span class="ow">in</span> <span class="n">feat_name</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="get_kernel_type"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_kernel_type">[docs]</a><span class="k">def</span> <span class="nf">get_kernel_type</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
@@ -1827,7 +1679,7 @@
 <div class="viewcode-block" id="get_supportVectorMachine"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_supportVectorMachine">[docs]</a><span class="k">def</span> <span class="nf">get_supportVectorMachine</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It return the Support Vector Machine element.</span>
+<span class="sd">    Generates PMML elements for support vector machine models</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1837,8 +1689,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    support_vector_machines : List</span>
-<span class="sd">        Get the Support Vector Machine element which conatains targetCategory,</span>
-<span class="sd">        alternateTargetCategory, SupportVectors, Coefficients</span>
+<span class="sd">        Nyoka&#39;s SupportVectorMachineModel object</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">support_vector_machines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -1905,7 +1756,7 @@
 <div class="viewcode-block" id="get_tree_models"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_tree_models">[docs]</a><span class="k">def</span> <span class="nf">get_tree_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It return Tree Model element of the model</span>
+<span class="sd">    Generates PMML elements for tree models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1919,11 +1770,13 @@
 <span class="sd">        Name of the Target column.    </span>
 <span class="sd">    mining_imp_val : tuple</span>
 <span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
+<span class="sd">    categoric_values : tuple</span>
+<span class="sd">        Contains Categorical attribute names and its values</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    tree_models : List</span>
-<span class="sd">        Get the TreeModel element.</span>
+<span class="sd">        Nyoka&#39;s TreeModel object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
@@ -1939,7 +1792,7 @@
 <div class="viewcode-block" id="get_neural_models"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_neural_models">[docs]</a><span class="k">def</span> <span class="nf">get_neural_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns Neural Network element of the model.</span>
+<span class="sd">    Generates PMML elements for neural network models</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1953,23 +1806,26 @@
 <span class="sd">        Name of the Target column.    </span>
 <span class="sd">    mining_imp_val : tuple</span>
 <span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value.</span>
+<span class="sd">    categoric_values : tuple</span>
+<span class="sd">        Contains Categorical attribute names and its values</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    neural_model : List</span>
-<span class="sd">        Model attributes for PMML file.</span>
+<span class="sd">        Nyoka&#39;s NeuralNetwork object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
     <span class="n">neural_model</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">neural_layers</span><span class="p">,</span> <span class="n">neural_outs</span> <span class="o">=</span> <span class="n">get_neural_layer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span>
     <span class="n">neural_model</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">NeuralNetwork</span><span class="p">(</span>
         <span class="n">modelName</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
         <span class="n">threshold</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span>
         <span class="n">altitude</span><span class="o">=</span><span class="s1">&#39;1.0&#39;</span><span class="p">,</span>
         <span class="n">activationFunction</span><span class="o">=</span><span class="n">get_funct</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
         <span class="n">NeuralInputs</span> <span class="o">=</span> <span class="n">get_neuron_input</span><span class="p">(</span><span class="n">derived_col_names</span><span class="p">),</span>
-        <span class="n">NeuralLayer</span> <span class="o">=</span> <span class="n">get_neural_layer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="n">NeuralOutputs</span> <span class="o">=</span> <span class="n">get_neural_layer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">NeuralLayer</span> <span class="o">=</span> <span class="n">neural_layers</span><span class="p">,</span>
+        <span class="n">NeuralOutputs</span> <span class="o">=</span> <span class="n">neural_outs</span><span class="p">,</span>
         <span class="o">**</span><span class="n">model_kwargs</span>
     <span class="p">))</span>
     <span class="k">return</span> <span class="n">neural_model</span></div>
@@ -1978,7 +1834,7 @@
 <div class="viewcode-block" id="get_funct"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_funct">[docs]</a><span class="k">def</span> <span class="nf">get_funct</span><span class="p">(</span><span class="n">sk_model</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the activation fucntion of the model.</span>
+<span class="sd">    It returns the activation fucntion for a neural network model.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -2000,7 +1856,7 @@
 <div class="viewcode-block" id="get_regrs_models"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_regrs_models">[docs]</a><span class="k">def</span> <span class="nf">get_regrs_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Regression Model element of the model</span>
+<span class="sd">    Generates PMML elements for linear models</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -2020,10 +1876,10 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    regrs_models : List</span>
-<span class="sd">        Returns a regression model of the respective model</span>
+<span class="sd">        Nyoka&#39;s RegressionModel object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;LinearRegression&#39;</span><span class="p">,</span><span class="s1">&#39;LinearSVR&#39;</span><span class="p">,</span><span class="s1">&#39;LinearSVC&#39;</span><span class="p">]:</span> 
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;LinearRegression&#39;</span><span class="p">,</span><span class="s1">&#39;LinearSVR&#39;</span><span class="p">]:</span> 
         <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;normalizationMethod&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;logit&#39;</span>
     <span class="n">regrs_models</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">regrs_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">RegressionModel</span><span class="p">(</span>
@@ -2053,7 +1909,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    merge : List</span>
-<span class="sd">        Returns a list of Regression Table.</span>
+<span class="sd">        Nyoka&#39;s RegressionTable object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">merge</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -2061,9 +1917,7 @@
         <span class="n">func_name</span> <span class="o">=</span> <span class="n">get_mining_func</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
         <span class="n">inter</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">intercept_</span>
         <span class="n">model_coef</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span>
-        <span class="n">merge</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">target_classes</span> <span class="o">=</span> <span class="n">target_name</span>
-        <span class="n">row_idx</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">inter</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;LinearRegression&#39;</span><span class="p">,</span><span class="s1">&#39;LinearSVR&#39;</span><span class="p">]:</span>
             <span class="n">inter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">inter</span><span class="p">])</span>
             <span class="n">target_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">target_classes</span><span class="p">]</span>
@@ -2075,33 +1929,26 @@
             <span class="n">max_target_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_classes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
             <span class="n">target_cat</span> <span class="o">=</span> <span class="n">target_classes</span><span class="p">[</span><span class="n">max_target_index</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inter</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">regr_predictor</span> <span class="o">=</span> <span class="n">get_regr_predictors</span><span class="p">(</span><span class="n">model_coef</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="s2">&quot;__len__&quot;</span><span class="p">):</span>
+            <span class="n">model_coef</span> <span class="o">=</span> <span class="n">model_coef</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">reg_preds</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">feat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">feature_names</span><span class="p">):</span>
+            <span class="n">reg_preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">NumericPredictor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">feat</span><span class="p">,</span> <span class="n">coefficient</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_coef</span><span class="p">[</span><span class="n">idx</span><span class="p">])))</span>
+        <span class="n">merge</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">pml</span><span class="o">.</span><span class="n">RegressionTable</span><span class="p">(</span>
+                <span class="n">intercept</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inter</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span>
+                <span class="n">targetCategory</span><span class="o">=</span><span class="n">target_cat</span><span class="p">,</span>
+                <span class="n">NumericPredictor</span><span class="o">=</span><span class="n">reg_preds</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">func_name</span> <span class="o">!=</span> <span class="s1">&#39;regression&#39;</span><span class="p">:</span>
             <span class="n">merge</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">pml</span><span class="o">.</span><span class="n">RegressionTable</span><span class="p">(</span>
-                    <span class="n">intercept</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inter</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span>
-                    <span class="n">targetCategory</span><span class="o">=</span><span class="n">target_cat</span><span class="p">,</span>
-                    <span class="n">NumericPredictor</span><span class="o">=</span><span class="n">regr_predictor</span>
+                    <span class="n">intercept</span><span class="o">=</span><span class="s2">&quot;0.0&quot;</span><span class="p">,</span>
+                    <span class="n">targetCategory</span><span class="o">=</span><span class="n">target_classes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="p">)</span>
             <span class="p">)</span>
-            <span class="k">if</span> <span class="n">func_name</span> <span class="o">!=</span> <span class="s1">&#39;regression&#39;</span><span class="p">:</span>
-                <span class="n">merge</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="n">pml</span><span class="o">.</span><span class="n">RegressionTable</span><span class="p">(</span>
-                        <span class="n">intercept</span><span class="o">=</span><span class="s2">&quot;0.0&quot;</span><span class="p">,</span>
-                        <span class="n">targetCategory</span><span class="o">=</span><span class="n">target_classes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="p">)</span>
-                <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">tgname</span><span class="p">,</span> <span class="n">tg_idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">target_classes</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">target_classes</span><span class="p">)))):</span>
-                <span class="n">row_idx</span> <span class="o">=</span> <span class="n">tg_idx</span>
-                <span class="n">regr_predictors</span> <span class="o">=</span> <span class="n">get_regr_predictors</span><span class="p">(</span><span class="n">model_coef</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)</span>
-                <span class="n">merge</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="n">pml</span><span class="o">.</span><span class="n">RegressionTable</span><span class="p">(</span>
-                        <span class="n">intercept</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inter</span><span class="p">[</span><span class="n">tg_idx</span><span class="p">]),</span>
-                        <span class="n">targetCategory</span><span class="o">=</span><span class="n">tgname</span><span class="p">,</span>
-                        <span class="n">NumericPredictor</span><span class="o">=</span><span class="n">regr_predictors</span>
-                    <span class="p">)</span>
-                <span class="p">)</span>
+
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">merge</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -2143,8 +1990,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    _getNode :</span>
-<span class="sd">        Get all the underlying Nodes.</span>
+<span class="sd">    Get all the underlying Nodes.</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tree</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">tree_</span>
@@ -2171,11 +2017,17 @@
             <span class="n">prnt</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;ExtraTreeRegressor&quot;</span><span class="p">:</span>
                 <span class="n">prnt</span> <span class="o">=</span> <span class="n">parent</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">simplePredicate</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">SimplePredicate</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">fieldName</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;lessOrEqual&quot;</span><span class="p">,</span>
-                                                  <span class="n">value</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">threshold</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+            <span class="n">thresh</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">rnd_</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">threshold</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">thresh</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">threshold</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="nb">min</span><span class="p">(</span><span class="n">rnd_</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">thresh</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">threshold</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">simplePredicate</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">SimplePredicate</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">fieldName</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;lessOrEqual&quot;</span><span class="p">,</span><span class="n">value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">thresh</span><span class="p">))</span>
+                                                <span class="c1">#   value=&quot;{:.16f}&quot;.format(tree.threshold[idx]))</span>
             <span class="n">left_child</span> <span class="o">=</span> <span class="n">_getNode</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">children_left</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span><span class="n">prnt</span><span class="p">,</span> <span class="n">simplePredicate</span><span class="p">)</span>
-            <span class="n">simplePredicate</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">SimplePredicate</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">fieldName</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span>
-                                                  <span class="n">value</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">threshold</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+            <span class="n">simplePredicate</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">SimplePredicate</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">fieldName</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="s2">&quot;greaterThan&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">thresh</span><span class="p">))</span>
+                                                <span class="c1">#   value=&quot;{:.16f}&quot;.format(tree.threshold[idx]))</span>
             <span class="n">right_child</span> <span class="o">=</span> <span class="n">_getNode</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">children_right</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span><span class="n">prnt</span><span class="p">,</span> <span class="n">simplePredicate</span><span class="p">)</span>
             <span class="n">node</span><span class="o">.</span><span class="n">add_Node</span><span class="p">(</span><span class="n">left_child</span><span class="p">)</span>
             <span class="n">node</span><span class="o">.</span><span class="n">add_Node</span><span class="p">(</span><span class="n">right_child</span><span class="p">)</span>
@@ -2203,6 +2055,18 @@
         <span class="k">return</span> <span class="n">_getNode</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="avgPathLength"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.avgPathLength">[docs]</a><span class="k">def</span> <span class="nf">avgPathLength</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates average path length for Isolation forest models</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Number of samples</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    The average path length</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">n</span><span class="o">&lt;=</span><span class="mf">1.0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">1.0</span>
     <span class="k">return</span> <span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">+</span><span class="mf">0.57721566</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span><span class="o">*</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">)</span></div>
@@ -2223,7 +2087,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Output :</span>
-<span class="sd">        Get the Output element.</span>
+<span class="sd">        Nyoka&#39;s Output object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -2233,7 +2097,7 @@
         <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;predicted&#39;</span><span class="p">,</span>
                 <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;predictedValue&quot;</span><span class="p">,</span>
-                <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">,</span>
+                <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;continuous&quot;</span><span class="p">,</span>
                 <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span>
             <span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
@@ -2251,7 +2115,7 @@
                 <span class="n">name</span><span class="o">=</span><span class="n">alt_target_name</span><span class="p">,</span>
                 <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;predictedValue&quot;</span><span class="p">,</span>
                 <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;categorical&quot;</span><span class="p">,</span>
-                <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">))</span>
+                <span class="n">dataType</span><span class="o">=</span><span class="n">get_dtype</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">alt_target_name</span><span class="p">,</span>
@@ -2307,11 +2171,13 @@
 <span class="sd">        Name of the Target column.</span>
 <span class="sd">    mining_imp_val : tuple</span>
 <span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value.</span>
+<span class="sd">    categoric_values : tuple</span>
+<span class="sd">        Contains Categorical attribute names and its values</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    MiningSchema :</span>
-<span class="sd">        Get the MiningSchema element</span>
+<span class="sd">        Nyoka&#39;s MiningSchema object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">mining_imp_val</span><span class="p">:</span>
@@ -2357,7 +2223,7 @@
             <span class="n">mining_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">feat_name</span><span class="p">),</span>
                                                <span class="n">optype</span><span class="o">=</span><span class="n">features_pmml_optype</span><span class="p">[</span><span class="n">feat_idx</span><span class="p">],</span>
                                                <span class="n">usageType</span><span class="o">=</span><span class="n">features_pmml_utype</span><span class="p">[</span><span class="n">feat_idx</span><span class="p">]))</span>
-    <span class="k">if</span> <span class="n">has_target</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;KMeans&#39;</span><span class="p">,</span> <span class="s1">&#39;IsolationForest&#39;</span><span class="p">,</span> <span class="s1">&#39;OneClassSVM&#39;</span><span class="p">]:</span>
         <span class="n">mining_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">target_name</span><span class="p">,</span>
                                         <span class="n">optype</span><span class="o">=</span><span class="n">target_pmml_optype</span><span class="p">,</span>
                                             <span class="n">usageType</span><span class="o">=</span><span class="n">target_pmml_utype</span><span class="p">))</span>
@@ -2377,7 +2243,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    neural_input_element :</span>
-<span class="sd">        Returns the NeuralInputs element</span>
+<span class="sd">        Returns Nyoka&#39;s NeuralInput object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">neural_input</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -2407,10 +2273,10 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    all_neuron_layer : List</span>
-<span class="sd">        Return the list of NeuralLayer elelemt.</span>
+<span class="sd">        Nyoka&#39;s NeuralLayer object</span>
 
 <span class="sd">    neural_output_element :</span>
-<span class="sd">        Return the NeuralOutput element instance</span>
+<span class="sd">        Nyoka&#39;s NeuralOutput object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">weight</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coefs_</span>
@@ -2434,42 +2300,49 @@
         <span class="n">input_features</span> <span class="o">=</span> <span class="n">neuron_id</span>
         <span class="n">neuron_id</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">neuron</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">hidden_layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span> <span class="ow">and</span> <span class="s1">&#39;MLPClassifier&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="n">bias1</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]</span>
-        <span class="n">weight1</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span>
-        <span class="n">con</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="n">linear</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;linear/1&#39;</span><span class="p">]</span>
-        <span class="n">i_d</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">]</span>
-        <span class="n">con</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Con</span><span class="p">(</span><span class="n">from_</span> <span class="o">=</span> <span class="n">input_features</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">))</span>
-        <span class="n">neuron</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Neuron</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">linear</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bias</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">),</span> <span class="n">Con</span> <span class="o">=</span> <span class="n">con</span><span class="p">))</span>
-        <span class="n">all_neuron_layer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">NeuralLayer</span><span class="p">(</span><span class="n">activationFunction</span> <span class="o">=</span> <span class="s2">&quot;logistic&quot;</span><span class="p">,</span> <span class="n">Neuron</span> <span class="o">=</span> <span class="n">neuron</span><span class="p">))</span>
-        <span class="n">neuron</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="n">con</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
-            <span class="n">con</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Con</span><span class="p">(</span><span class="n">from_</span> <span class="o">=</span> <span class="n">linear</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">weight</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">weight1</span><span class="p">[</span><span class="n">num</span><span class="p">])))</span>
-            <span class="n">neuron</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Neuron</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">i_d</span><span class="p">[</span><span class="n">num</span><span class="p">],</span> <span class="n">bias</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">bias1</span><span class="p">[</span><span class="n">num</span><span class="p">]),</span> <span class="n">Con</span> <span class="o">=</span> <span class="n">con</span><span class="p">))</span>
+    <span class="n">all_neuron_layer</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">activationFunction</span> <span class="o">=</span> <span class="s2">&quot;identity&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;classes_&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">bias1</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]</span>
+            <span class="n">weight1</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span>
             <span class="n">con</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="n">all_neuron_layer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">NeuralLayer</span><span class="p">(</span><span class="n">activationFunction</span> <span class="o">=</span> <span class="s2">&quot;identity&quot;</span><span class="p">,</span> <span class="n">Neuron</span> <span class="o">=</span> <span class="n">neuron</span><span class="p">))</span>
-    <span class="k">if</span> <span class="s1">&#39;MLPClassifier&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="n">linear</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;logistic/1&#39;</span><span class="p">]</span>
+            <span class="n">i_d</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">]</span>
+            <span class="n">con</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Con</span><span class="p">(</span><span class="n">from_</span> <span class="o">=</span> <span class="n">input_features</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">))</span>
+            <span class="n">neuron</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Neuron</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">linear</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bias</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">),</span> <span class="n">Con</span> <span class="o">=</span> <span class="n">con</span><span class="p">))</span>
+            <span class="n">all_neuron_layer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">NeuralLayer</span><span class="p">(</span><span class="n">activationFunction</span> <span class="o">=</span> <span class="s2">&quot;logistic&quot;</span><span class="p">,</span> <span class="n">Neuron</span> <span class="o">=</span> <span class="n">neuron</span><span class="p">))</span>
+            <span class="n">neuron</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">con</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Con</span><span class="p">(</span><span class="n">from_</span> <span class="o">=</span> <span class="n">linear</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">weight</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">weight1</span><span class="p">[</span><span class="n">num</span><span class="p">])))</span>
+                <span class="n">neuron</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Neuron</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">i_d</span><span class="p">[</span><span class="n">num</span><span class="p">],</span> <span class="n">bias</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">bias1</span><span class="p">[</span><span class="n">num</span><span class="p">]),</span> <span class="n">Con</span> <span class="o">=</span> <span class="n">con</span><span class="p">))</span>
+                <span class="n">con</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">all_neuron_layer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">NeuralLayer</span><span class="p">(</span><span class="n">activationFunction</span> <span class="o">=</span> <span class="s2">&quot;identity&quot;</span><span class="p">,</span> <span class="n">Neuron</span> <span class="o">=</span> <span class="n">neuron</span><span class="p">))</span>
+            <span class="n">input_features</span> <span class="o">=</span> <span class="n">i_d</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_neuron_layer</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">normalizationMethod</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">out_activation_</span>
+        
+        
         <span class="n">neural_output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">values</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">))):</span>
             <span class="n">norm_discrete</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NormDiscrete</span><span class="p">(</span><span class="n">field</span> <span class="o">=</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
             <span class="n">derived_flds</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">optype</span> <span class="o">=</span> <span class="s2">&quot;categorical&quot;</span><span class="p">,</span> <span class="n">dataType</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span><span class="p">,</span>
                                     <span class="n">NormDiscrete</span> <span class="o">=</span> <span class="n">norm_discrete</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_features</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">class_node</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NeuralOutput</span><span class="p">(</span><span class="n">outputNeuron</span> <span class="o">=</span> <span class="n">input_features</span><span class="p">,</span> <span class="n">DerivedField</span> <span class="o">=</span> <span class="n">derived_flds</span><span class="p">)</span>
+                <span class="n">class_node</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NeuralOutput</span><span class="p">(</span><span class="n">outputNeuron</span> <span class="o">=</span> <span class="n">input_features</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">DerivedField</span> <span class="o">=</span> <span class="n">derived_flds</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">class_node</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NeuralOutput</span><span class="p">(</span><span class="n">outputNeuron</span> <span class="o">=</span> <span class="n">input_features</span><span class="p">[</span><span class="n">count</span><span class="p">],</span><span class="n">DerivedField</span> <span class="o">=</span> <span class="n">derived_flds</span><span class="p">)</span>
             <span class="n">neural_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">class_node</span><span class="p">)</span>
         <span class="n">neural_output_element</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NeuralOutputs</span><span class="p">(</span><span class="n">numberOfOutputs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Extension</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                                                  <span class="n">NeuralOutput</span> <span class="o">=</span> <span class="n">neural_output</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s1">&#39;MLPRegressor&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+                                                    <span class="n">NeuralOutput</span> <span class="o">=</span> <span class="n">neural_output</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
         <span class="n">neural_output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">fieldRef</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span> <span class="o">=</span> <span class="n">target_name</span><span class="p">)</span>
         <span class="n">derived_flds</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">optype</span> <span class="o">=</span> <span class="s2">&quot;continuous&quot;</span><span class="p">,</span> <span class="n">dataType</span> <span class="o">=</span> <span class="s2">&quot;double&quot;</span><span class="p">,</span> <span class="n">FieldRef</span> <span class="o">=</span> <span class="n">fieldRef</span><span class="p">)</span>
-        <span class="n">class_node</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NeuralOutput</span><span class="p">(</span><span class="n">outputNeuron</span> <span class="o">=</span> <span class="n">input_features</span><span class="p">,</span> <span class="n">DerivedField</span> <span class="o">=</span> <span class="n">derived_flds</span><span class="p">)</span>
+        <span class="n">class_node</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NeuralOutput</span><span class="p">(</span><span class="n">outputNeuron</span> <span class="o">=</span> <span class="n">input_features</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">DerivedField</span> <span class="o">=</span> <span class="n">derived_flds</span><span class="p">)</span>
         <span class="n">neural_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">class_node</span><span class="p">)</span>
-    <span class="n">neural_output_element</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NeuralOutputs</span><span class="p">(</span><span class="n">numberOfOutputs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Extension</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">NeuralOutput</span> <span class="o">=</span> <span class="n">neural_output</span><span class="p">)</span>
+        <span class="n">neural_output_element</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NeuralOutputs</span><span class="p">(</span><span class="n">numberOfOutputs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Extension</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">NeuralOutput</span> <span class="o">=</span> <span class="n">neural_output</span><span class="p">)</span>
+   
     <span class="k">return</span> <span class="n">all_neuron_layer</span><span class="p">,</span> <span class="n">neural_output_element</span></div>
 
 
@@ -2477,9 +2350,9 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the set of Super class of the model.</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Parameters</span>
 <span class="sd">    -------</span>
-<span class="sd">    model_inst:</span>
+<span class="sd">    model_inst :</span>
 <span class="sd">        Instance of the scikit-learn model</span>
 
 <span class="sd">    Returns</span>
@@ -2512,7 +2385,8 @@
 
     <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;4.4&#39;</span>
     <span class="k">return</span> <span class="n">version</span></div>
-    
+
+<span class="kn">from</span> <span class="nn">nyoka</span> <span class="k">import</span> <span class="n">metadata</span>
 
 <div class="viewcode-block" id="get_header"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_header">[docs]</a><span class="k">def</span> <span class="nf">get_header</span><span class="p">():</span>
 
@@ -2522,7 +2396,7 @@
 <span class="sd">     Returns</span>
 <span class="sd">     -------</span>
 <span class="sd">     header :</span>
-<span class="sd">         Returns the header of the pmml.</span>
+<span class="sd">         Returns Nyoka&#39;s Header object.</span>
 
 <span class="sd">     &quot;&quot;&quot;</span>
     <span class="n">copyryt</span> <span class="o">=</span> <span class="s2">&quot;Copyright (c) 2018 Software AG&quot;</span>
@@ -2547,15 +2421,11 @@
 <span class="sd">        Returns the respective data type of that value.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">data_type</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">feat_value</span><span class="p">))</span>
+    <span class="n">data_type</span><span class="o">=</span><span class="n">feat_value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
     <span class="k">if</span> <span class="s1">&#39;float&#39;</span> <span class="ow">in</span> <span class="n">data_type</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;float&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;double&#39;</span>
     <span class="k">if</span> <span class="s1">&#39;int&#39;</span> <span class="ow">in</span> <span class="n">data_type</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;integer&#39;</span>
-    <span class="k">if</span> <span class="s1">&#39;long&#39;</span> <span class="ow">in</span> <span class="n">data_type</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;long&#39;</span>
-    <span class="k">if</span> <span class="s1">&#39;complex&#39;</span> <span class="ow">in</span> <span class="n">data_type</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;complex&#39;</span>
     <span class="k">if</span> <span class="s1">&#39;str&#39;</span> <span class="ow">in</span> <span class="n">data_type</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;string&#39;</span></div>
 
@@ -2578,7 +2448,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    data_dict :</span>
-<span class="sd">        Return the dataDictionary instance</span>
+<span class="sd">        Returns Nyoka&#39;s DataDictionary object</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">categoric_feature_name</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -2614,7 +2484,7 @@
         <span class="n">data_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DataField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">feat_name</span><span class="p">),</span>
                                          <span class="n">optype</span><span class="o">=</span><span class="n">features_pmml_optype</span><span class="p">[</span><span class="n">feature_idx</span><span class="p">],</span>
                                          <span class="n">dataType</span><span class="o">=</span><span class="n">features_pmml_dtype</span><span class="p">[</span><span class="n">feature_idx</span><span class="p">]))</span>
-    <span class="k">if</span> <span class="n">has_target</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;KMeans&#39;</span><span class="p">,</span> <span class="s1">&#39;IsolationForest&#39;</span><span class="p">,</span> <span class="s1">&#39;OneClassSVM&#39;</span><span class="p">]:</span>
         <span class="n">class_node</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">DataField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">target_name</span><span class="p">),</span> <span class="n">optype</span><span class="o">=</span><span class="n">target_pmml_optype</span><span class="p">,</span>
                                 <span class="n">dataType</span><span class="o">=</span><span class="n">target_pmml_dtype</span><span class="p">)</span>
 
@@ -2627,248 +2497,22 @@
 
 <div class="viewcode-block" id="has_target"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.has_target">[docs]</a><span class="k">def</span> <span class="nf">has_target</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check whether the model has target</span>
+<span class="sd">    Checks whether a given model has target or not</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    model : sklearn&#39;s model object</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model :</span>
+<span class="sd">        Scikit-learn&#39;s model object</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        boolean</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Boolean value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">target_less_models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;KMeans&#39;</span><span class="p">,</span><span class="s1">&#39;OneClassSVM&#39;</span><span class="p">,</span><span class="s1">&#39;IsolationForest&#39;</span><span class="p">]</span>
+    <span class="n">target_less_models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;OneClassSVM&#39;</span><span class="p">,</span><span class="s1">&#39;IsolationForest&#39;</span><span class="p">,</span> <span class="p">]</span>
     <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>  <span class="ow">in</span> <span class="n">target_less_models</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span></div>
-
-
-<div class="viewcode-block" id="get_regr_predictors"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_regr_predictors">[docs]</a><span class="k">def</span> <span class="nf">get_regr_predictors</span><span class="p">(</span><span class="n">model_coef</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">feat_names</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model_coef : array</span>
-<span class="sd">        Contains the estimators coefficient values</span>
-<span class="sd">    row_idx : int</span>
-<span class="sd">        Contains an integer value to differentiate between linear and svm models</span>
-<span class="sd">    feat_names : list</span>
-<span class="sd">        Contains the list of feature/column names</span>
-<span class="sd">    categoric_values : tuple</span>
-<span class="sd">        Contains Categorical attribute names and its values</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    predictors : list</span>
-<span class="sd">        Returns a list with instances of nyoka numeric/categorical predictor class</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">der_fld_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">feat_names</span><span class="p">)</span>
-    <span class="n">der_fld_idx</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">predictors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">categoric_values</span><span class="p">:</span>
-        <span class="n">class_lbls</span> <span class="o">=</span> <span class="n">categoric_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">class_attribute</span> <span class="o">=</span> <span class="n">categoric_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">while</span> <span class="n">der_fld_idx</span> <span class="o">&lt;</span> <span class="n">der_fld_len</span><span class="p">:</span>
-
-        <span class="k">if</span> <span class="n">is_labelbinarizer</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">]):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_stdscaler</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">]):</span>
-                <span class="n">class_id</span> <span class="o">=</span> <span class="n">get_classid</span><span class="p">(</span><span class="n">class_attribute</span><span class="p">,</span> <span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">])</span>
-                <span class="n">cat_predictors</span> <span class="o">=</span> <span class="n">get_categoric_pred</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">],</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">der_fld_idx</span><span class="p">,</span> <span class="n">model_coef</span><span class="p">,</span>
-                                                    <span class="n">class_lbls</span><span class="p">[</span><span class="n">class_id</span><span class="p">],</span> <span class="n">class_attribute</span><span class="p">[</span><span class="n">class_id</span><span class="p">])</span>
-                <span class="k">for</span> <span class="n">predictor</span> <span class="ow">in</span> <span class="n">cat_predictors</span><span class="p">:</span>
-                    <span class="n">predictors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predictor</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">[</span><span class="n">class_id</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">incrementor</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">incrementor</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">[</span><span class="n">class_id</span><span class="p">])</span>
-                <span class="n">der_fld_idx</span> <span class="o">=</span> <span class="n">der_fld_idx</span> <span class="o">+</span> <span class="n">incrementor</span>
-
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">num_predictors</span> <span class="o">=</span> <span class="n">get_numeric_pred</span><span class="p">(</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">der_fld_idx</span><span class="p">,</span> <span class="n">model_coef</span><span class="p">,</span> <span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">])</span>
-                <span class="n">predictors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_predictors</span><span class="p">)</span>
-                <span class="n">der_fld_idx</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">elif</span> <span class="n">is_onehotencoder</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">]):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_stdscaler</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">]):</span>
-                <span class="n">class_id</span> <span class="o">=</span> <span class="n">get_classid</span><span class="p">(</span><span class="n">class_attribute</span><span class="p">,</span> <span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">])</span>
-                <span class="n">cat_predictors</span> <span class="o">=</span> <span class="n">get_categoric_pred</span><span class="p">(</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">],</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">der_fld_idx</span><span class="p">,</span> <span class="n">model_coef</span><span class="p">,</span>
-                                                    <span class="n">class_lbls</span><span class="p">[</span><span class="n">class_id</span><span class="p">],</span> <span class="n">class_attribute</span><span class="p">[</span><span class="n">class_id</span><span class="p">])</span>
-                <span class="k">for</span> <span class="n">predictor</span> <span class="ow">in</span> <span class="n">cat_predictors</span><span class="p">:</span>
-                    <span class="n">predictors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predictor</span><span class="p">)</span>
-
-                <span class="n">incrementor</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">[</span><span class="n">class_id</span><span class="p">])</span>
-                <span class="n">der_fld_idx</span> <span class="o">=</span> <span class="n">der_fld_idx</span> <span class="o">+</span> <span class="n">incrementor</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">vectorfields_element</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">])</span>
-                <span class="n">predictors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vectorfields_element</span><span class="p">)</span>
-                <span class="n">der_fld_idx</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">num_predictors</span> <span class="o">=</span> <span class="n">get_numeric_pred</span><span class="p">(</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">der_fld_idx</span><span class="p">,</span> <span class="n">model_coef</span><span class="p">,</span> <span class="n">feat_names</span><span class="p">[</span><span class="n">der_fld_idx</span><span class="p">])</span>
-            <span class="n">predictors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_predictors</span><span class="p">)</span>
-            <span class="n">der_fld_idx</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">predictors</span></div>
-
-<div class="viewcode-block" id="get_classid"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_classid">[docs]</a><span class="k">def</span> <span class="nf">get_classid</span><span class="p">(</span><span class="n">class_attribute</span><span class="p">,</span> <span class="n">feat_name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    class_attribute:</span>
-<span class="sd">        Contains the name of the attribute/column that contains categorical values</span>
-
-<span class="sd">    feat_name : string</span>
-<span class="sd">        Contains the name of the attribute/column</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    class_idx:int</span>
-<span class="sd">        Returns an integer value that will represent each categorical value</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">class_idx</span><span class="p">,</span><span class="n">class_attr</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">class_attribute</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">class_attr</span> <span class="ow">in</span> <span class="n">feat_name</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">class_idx</span></div>
-
-
-
-<div class="viewcode-block" id="is_labelbinarizer"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.is_labelbinarizer">[docs]</a><span class="k">def</span> <span class="nf">is_labelbinarizer</span><span class="p">(</span><span class="n">feat_name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    feat_name : string</span>
-<span class="sd">        Contains the name of the attribute</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">        Returns a boolean value that states whether label binarizer has been applied or not</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;labelBinarizer&quot;</span> <span class="ow">in</span> <span class="n">feat_name</span> <span class="ow">or</span> <span class="s2">&quot;one_hot_encoder&quot;</span> <span class="ow">in</span> <span class="n">feat_name</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
-
-
-<div class="viewcode-block" id="is_stdscaler"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.is_stdscaler">[docs]</a><span class="k">def</span> <span class="nf">is_stdscaler</span><span class="p">(</span><span class="n">feat_name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    feat_name : string</span>
-<span class="sd">        Contains the name of the attribute</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">        Returns a boolean value that states whether standard scaler has been applied or not</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;standardScaler&quot;</span> <span class="ow">in</span> <span class="n">feat_name</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
-
-
-<div class="viewcode-block" id="get_categoric_pred"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_categoric_pred">[docs]</a><span class="k">def</span> <span class="nf">get_categoric_pred</span><span class="p">(</span><span class="n">feat_names</span><span class="p">,</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">der_fld_idx</span><span class="p">,</span> <span class="n">model_coef</span><span class="p">,</span> <span class="n">class_lbls</span><span class="p">,</span> <span class="n">class_attribute</span><span class="p">):</span>
-
-    <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    feat_names : str</span>
-<span class="sd">        Contains the name of the field</span>
-<span class="sd">    row_idx : int</span>
-<span class="sd">        Contains an integer value to index attribute/column names</span>
-<span class="sd">    der_fld_idx : int</span>
-<span class="sd">        Contains an integer value to differentiate between linear and svm models</span>
-<span class="sd">    model_coef : array</span>
-<span class="sd">        Contains the estimators coefficient values</span>
-<span class="sd">    class_lbls : list</span>
-<span class="sd">        Contains the list of categorical values</span>
-<span class="sd">    class_attribute : tuple</span>
-<span class="sd">        Contains Categorical attribute name</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    categoric_predictor : list</span>
-<span class="sd">        Returns a list with instances of nyoka categorical predictor class</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">categoric_predictor</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="n">classes_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_onehotencoder</span><span class="p">(</span><span class="n">feat_names</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">classes_len</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-
-            <span class="k">if</span> <span class="n">row_idx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">coef</span> <span class="o">=</span> <span class="n">model_coef</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">coef</span> <span class="o">=</span> <span class="n">model_coef</span><span class="p">[</span><span class="n">row_idx</span><span class="p">][</span><span class="n">der_fld_idx</span> <span class="p">]</span>
-
-            <span class="n">cat_pred</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">CategoricalPredictor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">class_attribute</span><span class="p">,</span>
-                                                <span class="n">value</span><span class="o">=</span><span class="n">class_lbls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                                                <span class="n">coefficient</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coef</span><span class="p">))</span>
-            <span class="n">cat_pred</span><span class="o">.</span><span class="n">original_tagname_</span> <span class="o">=</span> <span class="s2">&quot;CategoricalPredictor&quot;</span>
-            <span class="n">categoric_predictor</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat_pred</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">cname</span><span class="p">,</span> <span class="n">class_idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">))):</span>
-
-                <span class="k">if</span> <span class="n">row_idx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                    <span class="n">coef</span> <span class="o">=</span> <span class="n">model_coef</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">coef</span> <span class="o">=</span> <span class="n">model_coef</span><span class="p">[</span><span class="n">row_idx</span><span class="p">][</span><span class="n">der_fld_idx</span><span class="o">+</span><span class="n">class_idx</span><span class="p">]</span>
-
-                <span class="n">cat_pred</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">CategoricalPredictor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">class_attribute</span><span class="p">,</span>
-                                                    <span class="n">value</span><span class="o">=</span><span class="n">cname</span><span class="p">,</span>
-                                                    <span class="n">coefficient</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coef</span><span class="p">))</span>
-                <span class="n">cat_pred</span><span class="o">.</span><span class="n">original_tagname_</span> <span class="o">=</span> <span class="s2">&quot;CategoricalPredictor&quot;</span>
-                <span class="n">categoric_predictor</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat_pred</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">cname</span><span class="p">,</span> <span class="n">class_idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">class_lbls</span><span class="p">))):</span>
-
-            <span class="k">if</span> <span class="n">row_idx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">coef</span> <span class="o">=</span> <span class="n">model_coef</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">coef</span> <span class="o">=</span> <span class="n">model_coef</span><span class="p">[</span><span class="n">row_idx</span><span class="p">][</span><span class="n">der_fld_idx</span> <span class="o">+</span> <span class="n">class_idx</span><span class="p">]</span>
-
-            <span class="n">cat_pred</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">CategoricalPredictor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">class_attribute</span><span class="p">,</span>
-                                                <span class="n">value</span><span class="o">=</span><span class="n">cname</span><span class="p">,</span>
-                                                <span class="n">coefficient</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coef</span><span class="p">))</span>
-            <span class="n">cat_pred</span><span class="o">.</span><span class="n">original_tagname_</span> <span class="o">=</span> <span class="s2">&quot;CategoricalPredictor&quot;</span>
-            <span class="n">categoric_predictor</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat_pred</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">categoric_predictor</span></div>
-
-
-
-
-<div class="viewcode-block" id="get_numeric_pred"><a class="viewcode-back" href="../skl_to_pmml.html#skl_to_pmml.get_numeric_pred">[docs]</a><span class="k">def</span> <span class="nf">get_numeric_pred</span><span class="p">(</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">der_fld_idx</span><span class="p">,</span> <span class="n">model_coef</span><span class="p">,</span> <span class="n">der_fld_name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    row_idx : int</span>
-<span class="sd">        Contains an integer value to index attribute/column names</span>
-<span class="sd">    der_fld_idx : int</span>
-<span class="sd">        Contains an integer value to differentiate between linear and svm models</span>
-<span class="sd">    model_coef : array</span>
-<span class="sd">        Contains the estimators coefficient values</span>
-<span class="sd">    der_fld_name : string</span>
-<span class="sd">        Contains the name of the attribute</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    num_pred :</span>
-<span class="sd">        Returns an instances of nyoka numeric predictor class</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">num_pred</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NumericPredictor</span><span class="p">(</span>
-                        <span class="n">name</span><span class="o">=</span><span class="n">der_fld_name</span><span class="p">,</span>
-                        <span class="n">exponent</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="p">,</span>
-                        <span class="n">coefficient</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_coef</span><span class="p">[</span><span class="n">row_idx</span><span class="p">][</span><span class="n">der_fld_idx</span><span class="p">]))</span>
-    <span class="n">num_pred</span><span class="o">.</span><span class="n">original_tagname_</span> <span class="o">=</span> <span class="s2">&quot;NumericPredictor&quot;</span>
-    <span class="k">return</span> <span class="n">num_pred</span></div>
-
 
 </pre></div>
 

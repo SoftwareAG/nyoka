@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'3.2',
+              VERSION:'4.0.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                3.2
+                4.0
               </div>
             
           
@@ -92,15 +92,17 @@
             
             
               <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../PMML44.html">PMML44 Module (core library)</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../PMML44Super.html">PMML44Super Module (core library)</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../arima.html">ARIMA Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">Keras Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../PMML44.html">PMML44 Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../PMML44Super.html">PMML44Super Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../arima.html">ARIMA Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../retinanet.html">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
 </ul>
 
             
@@ -148,7 +150,7 @@
         
           <li><a href="index.html">Module code</a> &raquo;</li>
         
-      <li>ExponentialSmoothing Exporter Module</li>
+      <li>ExponentialSmoothing Exporter</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -176,11 +178,6 @@
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">metadata</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Classes used in exponential_smoothing.py</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-
 
 <div class="viewcode-block" id="ExponentialSmoothingToPMML"><a class="viewcode-back" href="../exponential_smoothing.html#exponential_smoothing.ExponentialSmoothingToPMML">[docs]</a><span class="k">class</span> <span class="nc">ExponentialSmoothingToPMML</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -188,117 +185,90 @@
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    -----------</span>
-<span class="sd">    time_series_data: Pandas Series object</span>
-<span class="sd">        The input data</span>
-<span class="sd">    model_obj: statsmodels model object</span>
+<span class="sd">    time_series_data: (Optional)</span>
+<span class="sd">        Pandas Series object</span>
+<span class="sd">    model_obj: (Optional)</span>
 <span class="sd">        Instance of ExponentialSmoothing from statsmodels</span>
-<span class="sd">    results_obj: statsmodels trained model object</span>
+<span class="sd">    results_obj: </span>
 <span class="sd">        Instance of HoltWintersResults from statsmodels</span>
 <span class="sd">    pmml_file_name: string</span>
-<span class="sd">        PMML file name</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_series_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pmml_file_name</span><span class="o">=</span><span class="s2">&quot;from_ExponentialSmoothing.pmml&quot;</span><span class="p">):</span>
 
-<div class="viewcode-block" id="ExponentialSmoothingToPMML.get_time_value_objs"><a class="viewcode-back" href="../exponential_smoothing.html#exponential_smoothing.ExponentialSmoothingToPMML.get_time_value_objs">[docs]</a>    <span class="k">def</span> <span class="nf">get_time_value_objs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ts_data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create TimeValue objects for the input data</span>
+        <span class="k">def</span> <span class="nf">get_time_value_objs</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Does not have time attribute</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">        -----------</span>
-<span class="sd">        ts_data: pandas Series</span>
-<span class="sd">            The input data</span>
+<span class="sd">            Parameters:</span>
+<span class="sd">            -----------</span>
+<span class="sd">            ts_data: pandas Series</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">        --------</span>
-<span class="sd">        time_value_objs: list</span>
-<span class="sd">            Instances of TimeValue</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ts_int_index</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ts_data</span><span class="p">))</span>
-        <span class="n">time_value_objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">int_idx</span> <span class="ow">in</span> <span class="n">ts_int_index</span><span class="p">:</span>
-            <span class="n">time_value_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeValue</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">int_idx</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">ts_data</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="n">int_idx</span><span class="p">]))</span>
-        <span class="k">return</span> <span class="n">time_value_objs</span></div>
+<span class="sd">            Returns:</span>
+<span class="sd">            --------</span>
+<span class="sd">            time_value_objs: list</span>
+<span class="sd">                Instances of TimeValue</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">ts_int_index</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="p">))</span>
+            <span class="n">time_value_objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">int_idx</span> <span class="ow">in</span> <span class="n">ts_int_index</span><span class="p">:</span>
+                <span class="n">time_value_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeValue</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">int_idx</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="p">[</span><span class="n">int_idx</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">time_value_objs</span>
 
-<div class="viewcode-block" id="ExponentialSmoothingToPMML.get_pmml_datatype_optype"><a class="viewcode-back" href="../exponential_smoothing.html#exponential_smoothing.ExponentialSmoothingToPMML.get_pmml_datatype_optype">[docs]</a>    <span class="k">def</span> <span class="nf">get_pmml_datatype_optype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">series_obj</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create dataType and opType for the model object</span>
+        <span class="k">def</span> <span class="nf">get_pmml_datatype_optype</span><span class="p">(</span><span class="n">series_obj</span><span class="p">):</span>
+            <span class="n">pmml_data_type</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">pmml_op_type</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">series_obj</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime64[ns, tz]&#39;</span><span class="p">,</span> <span class="s1">&#39;timedelta[ns]&#39;</span><span class="p">}:</span>
+                <span class="n">pmml_data_type</span> <span class="o">=</span> <span class="s1">&#39;dateTime&#39;</span>
+                <span class="n">pmml_op_type</span> <span class="o">=</span> <span class="s1">&#39;continuous&#39;</span>
+            <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">series_obj</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;float32&#39;</span><span class="p">:</span>
+                <span class="n">pmml_data_type</span> <span class="o">=</span> <span class="s1">&#39;float&#39;</span>
+                <span class="n">pmml_op_type</span> <span class="o">=</span> <span class="s1">&#39;continuous&#39;</span>
+            <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">series_obj</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;float64&#39;</span><span class="p">:</span>
+                <span class="n">pmml_data_type</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span>
+                <span class="n">pmml_op_type</span> <span class="o">=</span> <span class="s1">&#39;continuous&#39;</span>
+            <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">series_obj</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;int64&#39;</span><span class="p">,</span> <span class="s1">&#39;int32&#39;</span><span class="p">}:</span>
+                <span class="n">pmml_data_type</span> <span class="o">=</span> <span class="s1">&#39;integer&#39;</span>
+                <span class="n">pmml_op_type</span> <span class="o">=</span> <span class="s1">&#39;continuous&#39;</span>
+            <span class="k">return</span> <span class="n">pmml_data_type</span><span class="p">,</span> <span class="n">pmml_op_type</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">        -----------</span>
-<span class="sd">        series_obj: statsmodels model object</span>
-<span class="sd">            Statsmodels model object</span>
+        <span class="k">def</span> <span class="nf">get_data_field_objs</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Create a list with instances of DataField</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">data_field_objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">index_name</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orig_endog</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">idx_data_type</span><span class="p">,</span> <span class="n">idx_op_type</span> <span class="o">=</span> <span class="n">get_pmml_datatype_optype</span><span class="p">(</span><span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_index</span><span class="p">)</span>
+            <span class="n">data_field_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DataField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">idx_data_type</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">idx_op_type</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orig_endog</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;DataFrame&#39;</span><span class="p">:</span>
+                <span class="n">ts_name</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orig_endog</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orig_endog</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Series&#39;</span><span class="p">:</span>
+                <span class="n">ts_name</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orig_endog</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ts_name</span> <span class="o">=</span> <span class="s1">&#39;input&#39;</span>
+            <span class="n">ts_data_type</span><span class="p">,</span> <span class="n">ts_op_type</span> <span class="o">=</span> <span class="n">get_pmml_datatype_optype</span><span class="p">(</span><span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="p">)</span>
+            <span class="n">data_field_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DataField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ts_name</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">ts_data_type</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">ts_op_type</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">data_field_objs</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">        --------</span>
-<span class="sd">        pmml_data_type: string</span>
-<span class="sd">            Data type</span>
-<span class="sd">        pmml_op_type: string</span>
-<span class="sd">            Optype</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pmml_data_type</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">pmml_op_type</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">series_obj</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime64[ns, tz]&#39;</span><span class="p">,</span> <span class="s1">&#39;timedelta[ns]&#39;</span><span class="p">}:</span>
-            <span class="n">pmml_data_type</span> <span class="o">=</span> <span class="s1">&#39;dateTime&#39;</span>
-            <span class="n">pmml_op_type</span> <span class="o">=</span> <span class="s1">&#39;continuous&#39;</span>
-        <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">series_obj</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;float32&#39;</span><span class="p">:</span>
-            <span class="n">pmml_data_type</span> <span class="o">=</span> <span class="s1">&#39;float&#39;</span>
-            <span class="n">pmml_op_type</span> <span class="o">=</span> <span class="s1">&#39;continuous&#39;</span>
-        <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">series_obj</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;float64&#39;</span><span class="p">:</span>
-            <span class="n">pmml_data_type</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span>
-            <span class="n">pmml_op_type</span> <span class="o">=</span> <span class="s1">&#39;continuous&#39;</span>
-        <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">series_obj</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;int64&#39;</span><span class="p">,</span> <span class="s1">&#39;int32&#39;</span><span class="p">}:</span>
-            <span class="n">pmml_data_type</span> <span class="o">=</span> <span class="s1">&#39;integer&#39;</span>
-            <span class="n">pmml_op_type</span> <span class="o">=</span> <span class="s1">&#39;continuous&#39;</span>
-        <span class="k">return</span> <span class="n">pmml_data_type</span><span class="p">,</span> <span class="n">pmml_op_type</span></div>
+        <span class="k">def</span> <span class="nf">get_mining_field_objs</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Create a list with instances of MiningField</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">mining_field_objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orig_endog</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;DataFrame&#39;</span><span class="p">:</span>
+                <span class="n">ts_name</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orig_endog</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orig_endog</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Series&#39;</span><span class="p">:</span>
+                <span class="n">ts_name</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orig_endog</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ts_name</span> <span class="o">=</span> <span class="s1">&#39;input&#39;</span>
+            <span class="n">idx_name</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">orig_endog</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">idx_usage_type</span> <span class="o">=</span> <span class="s1">&#39;order&#39;</span>
+            <span class="n">idx_usage_type</span> <span class="o">=</span> <span class="s1">&#39;order&#39;</span>
+            <span class="n">mining_field_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">idx_name</span><span class="p">,</span> <span class="n">usageType</span><span class="o">=</span><span class="n">idx_usage_type</span><span class="p">))</span>
+            <span class="n">ts_usage_type</span> <span class="o">=</span> <span class="s1">&#39;target&#39;</span>
+            <span class="n">mining_field_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ts_name</span><span class="p">,</span> <span class="n">usageType</span><span class="o">=</span><span class="n">ts_usage_type</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">mining_field_objs</span>
 
-<div class="viewcode-block" id="ExponentialSmoothingToPMML.get_data_field_objs"><a class="viewcode-back" href="../exponential_smoothing.html#exponential_smoothing.ExponentialSmoothingToPMML.get_data_field_objs">[docs]</a>    <span class="k">def</span> <span class="nf">get_data_field_objs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ts_data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a list with instances of DataField</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        -----------</span>
-<span class="sd">        ts_data: pandas Series</span>
-<span class="sd">            The input data</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        --------</span>
-<span class="sd">        data_field_objs: list</span>
-<span class="sd">            A list of DataField object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">data_field_objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="n">index_name</span> <span class="o">=</span> <span class="n">ts_data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">idx_data_type</span><span class="p">,</span> <span class="n">idx_op_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pmml_datatype_optype</span><span class="p">(</span><span class="n">ts_data</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-        <span class="n">data_field_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DataField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">idx_data_type</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">idx_op_type</span><span class="p">))</span>
-        <span class="n">ts_name</span> <span class="o">=</span> <span class="n">ts_data</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">ts_data_type</span><span class="p">,</span> <span class="n">ts_op_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pmml_datatype_optype</span><span class="p">(</span><span class="n">ts_data</span><span class="p">)</span>
-        <span class="n">data_field_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DataField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ts_name</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">ts_data_type</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">ts_op_type</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">data_field_objs</span></div>
-
-<div class="viewcode-block" id="ExponentialSmoothingToPMML.get_mining_field_objs"><a class="viewcode-back" href="../exponential_smoothing.html#exponential_smoothing.ExponentialSmoothingToPMML.get_mining_field_objs">[docs]</a>    <span class="k">def</span> <span class="nf">get_mining_field_objs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ts_data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a list with instances of MiningField</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        -----------</span>
-<span class="sd">        ts_data : pandas Series</span>
-<span class="sd">            The input data</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        --------</span>
-<span class="sd">        mining_field_obj : list</span>
-<span class="sd">            A list of MiningField object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">mining_field_objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="n">idx_name</span> <span class="o">=</span> <span class="n">ts_data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">idx_usage_type</span> <span class="o">=</span> <span class="s1">&#39;order&#39;</span>
-        <span class="n">mining_field_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">idx_name</span><span class="p">,</span> <span class="n">usageType</span><span class="o">=</span><span class="n">idx_usage_type</span><span class="p">))</span>
-        <span class="n">ts_name</span> <span class="o">=</span> <span class="n">ts_data</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">ts_usage_type</span> <span class="o">=</span> <span class="s1">&#39;target&#39;</span>
-        <span class="n">mining_field_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ts_name</span><span class="p">,</span> <span class="n">usageType</span><span class="o">=</span><span class="n">ts_usage_type</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">mining_field_objs</span></div>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_series_data</span><span class="p">,</span> <span class="n">model_obj</span><span class="p">,</span> <span class="n">results_obj</span><span class="p">,</span> <span class="n">pmml_file_name</span><span class="p">):</span>
-
-        <span class="n">n_samples</span> <span class="o">=</span> <span class="n">time_series_data</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">nobs</span>
         <span class="n">n_columns</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># because we are dealing with Series object</span>
         <span class="n">function_name</span> <span class="o">=</span> <span class="s1">&#39;timeSeries&#39;</span>
         <span class="n">best_fit</span> <span class="o">=</span> <span class="s1">&#39;ExponentialSmoothing&#39;</span>
@@ -319,16 +289,16 @@
             <span class="n">phi</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">phi</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;damping_slope&#39;</span><span class="p">]</span>  <span class="c1"># damping parameter; which is applied on trend/slope</span>
-        <span class="k">if</span> <span class="n">model_obj</span><span class="o">.</span><span class="n">trend</span><span class="p">:</span>  <span class="c1"># model_obj.trend can take values in {&#39;add&#39;, &#39;mul&#39;, None}</span>
+        <span class="k">if</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">trend</span><span class="p">:</span>  <span class="c1"># model_obj.trend can take values in {&#39;add&#39;, &#39;mul&#39;, None}</span>
             <span class="n">trend_smooth_val</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">slope</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">initial_trend</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;initial_slope&#39;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">model_obj</span><span class="o">.</span><span class="n">trend</span> <span class="o">==</span> <span class="s1">&#39;add&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">model_obj</span><span class="o">.</span><span class="n">damped</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">trend</span> <span class="o">==</span> <span class="s1">&#39;add&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">damped</span><span class="p">:</span>
                     <span class="n">trend_type</span> <span class="o">=</span> <span class="s1">&#39;damped_additive&#39;</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">trend_type</span> <span class="o">=</span> <span class="s1">&#39;additive&#39;</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># model_obj.trend == &#39;mul&#39;:</span>
-                <span class="k">if</span> <span class="n">model_obj</span><span class="o">.</span><span class="n">damped</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">damped</span><span class="p">:</span>
                     <span class="n">trend_type</span> <span class="o">=</span> <span class="s1">&#39;damped_multiplicative&#39;</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">trend_type</span> <span class="o">=</span> <span class="s1">&#39;multiplicative&#39;</span>
@@ -336,12 +306,12 @@
             <span class="c1"># extension_objs.append(Extension(name=&#39;initialTrend&#39;, value=initial_trend))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">trend_obj</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">model_obj</span><span class="o">.</span><span class="n">seasonal</span><span class="p">:</span>  <span class="c1"># model_obj.seasonal can take values in {&#39;add&#39;, &#39;mul&#39;, None}</span>
-            <span class="n">period</span> <span class="o">=</span> <span class="n">model_obj</span><span class="o">.</span><span class="n">seasonal_periods</span>
+        <span class="k">if</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">seasonal</span><span class="p">:</span>  <span class="c1"># model_obj.seasonal can take values in {&#39;add&#39;, &#39;mul&#39;, None}</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">seasonal_periods</span>
             <span class="n">initial_seasons</span> <span class="o">=</span> <span class="n">ArrayType</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">period</span><span class="p">,</span> <span class="n">type_</span> <span class="o">=</span> <span class="s1">&#39;real&#39;</span><span class="p">)</span>
             <span class="n">content_value</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;initial_seasons&#39;</span><span class="p">]])</span>
             <span class="n">initial_seasons</span><span class="o">.</span><span class="n">content_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">content_value</span>
-            <span class="k">if</span> <span class="n">model_obj</span><span class="o">.</span><span class="n">seasonal</span> <span class="o">==</span> <span class="s1">&#39;add&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">seasonal</span> <span class="o">==</span> <span class="s1">&#39;add&#39;</span><span class="p">:</span>
                 <span class="n">seasonal_type</span> <span class="o">=</span> <span class="s1">&#39;additive&#39;</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># model_obj.seasonal == &#39;mul&#39;:</span>
                 <span class="n">seasonal_type</span> <span class="o">=</span> <span class="s1">&#39;multiplicative&#39;</span>
@@ -356,14 +326,14 @@
                 <span class="n">Timestamp</span><span class="o">=</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()),</span>
                 <span class="n">Application</span><span class="o">=</span><span class="n">Application</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Nyoka&quot;</span><span class="p">,</span><span class="n">version</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
             <span class="p">),</span>
-            <span class="n">DataDictionary</span><span class="o">=</span><span class="n">DataDictionary</span><span class="p">(</span><span class="n">numberOfFields</span><span class="o">=</span><span class="n">n_columns</span><span class="p">,</span> <span class="n">DataField</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_data_field_objs</span><span class="p">(</span><span class="n">time_series_data</span><span class="p">)),</span>
+            <span class="n">DataDictionary</span><span class="o">=</span><span class="n">DataDictionary</span><span class="p">(</span><span class="n">numberOfFields</span><span class="o">=</span><span class="n">n_columns</span><span class="p">,</span> <span class="n">DataField</span><span class="o">=</span><span class="n">get_data_field_objs</span><span class="p">()),</span>
             <span class="n">TimeSeriesModel</span><span class="o">=</span><span class="p">[</span><span class="n">TimeSeriesModel</span><span class="p">(</span>
                 <span class="n">modelName</span><span class="o">=</span><span class="s1">&#39;simple exponential smoothing&#39;</span><span class="p">,</span>
                 <span class="n">functionName</span><span class="o">=</span><span class="n">function_name</span><span class="p">,</span> <span class="n">bestFit</span><span class="o">=</span><span class="n">best_fit</span><span class="p">,</span> <span class="n">isScorable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">MiningSchema</span><span class="o">=</span><span class="n">MiningSchema</span><span class="p">(</span><span class="n">MiningField</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_mining_field_objs</span><span class="p">(</span><span class="n">time_series_data</span><span class="p">)),</span>
+                <span class="n">MiningSchema</span><span class="o">=</span><span class="n">MiningSchema</span><span class="p">(</span><span class="n">MiningField</span><span class="o">=</span><span class="n">get_mining_field_objs</span><span class="p">()),</span>
                 <span class="n">TimeSeries</span><span class="o">=</span><span class="p">[</span><span class="n">TimeSeries</span><span class="p">(</span>
                     <span class="n">usage</span><span class="o">=</span><span class="s1">&#39;original&#39;</span><span class="p">,</span> <span class="n">startTime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endTime</span><span class="o">=</span><span class="n">n_samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">interpolationMethod</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
-                    <span class="n">TimeValue</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_time_value_objs</span><span class="p">(</span><span class="n">time_series_data</span><span class="p">)</span>
+                    <span class="n">TimeValue</span><span class="o">=</span><span class="n">get_time_value_objs</span><span class="p">()</span>
                 <span class="p">)],</span>
                 <span class="n">ExponentialSmoothing</span><span class="o">=</span><span class="n">ExponentialSmoothing</span><span class="p">(</span>
                     <span class="n">Level</span><span class="o">=</span><span class="n">Level</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">smoothedValue</span><span class="o">=</span><span class="n">level_smooth_val</span><span class="p">),</span>

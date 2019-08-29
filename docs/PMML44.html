@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'3.2',
+              VERSION:'4.0.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -45,7 +45,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="PMML44Super module" href="PMML44Super.html" />
-    <link rel="prev" title="scripts" href="index.html" /> 
+    <link rel="prev" title="script" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                3.2
+                4.0
               </div>
             
           
@@ -94,15 +94,17 @@
             
             
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="current reference internal" href="#">PMML44 Module (core library)</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-                  <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="current toctree-l1"><a class="current reference internal" href="#">PMML44 Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="retinanet.html">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
 </ul>
 
             
@@ -154,10 +156,10 @@
       <li class="wy-breadcrumbs-aside">
         
             
-          <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github"> Edit on GitHub</a>
-          
+        <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github"> Edit on GitHub</a>
         
-      </li>
+      
+    </li>
     
   </ul>
 
@@ -168,7 +170,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-PMML44">
-<span id="pmml44-module"></span><h1>PMML44 Module<a class="headerlink" href="#module-PMML44" title="Permalink to this headline">¶</a></h1>
+<span id="pmml44-module"></span><h1>PMML44 module<a class="headerlink" href="#module-PMML44" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="PMML44.AR">
 <em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">AR</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>Array=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#AR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.AR" title="Permalink to this definition">¶</a></dt>
@@ -243,7 +245,7 @@
 
 <dl class="class">
 <dt id="PMML44.AnomalyDetectionModel">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">AnomalyDetectionModel</code><span class="sig-paren">(</span><em>modelName=None</em>, <em>functionName=None</em>, <em>algorithmName=None</em>, <em>algorithmType=None</em>, <em>MiningSchema=None</em>, <em>Output=None</em>, <em>LocalTransformations=None</em>, <em>ParameterList=None</em>, <em>ModelVerification=None</em>, <em>AssociationModel=None</em>, <em>BayesianNetworkModel=None</em>, <em>BaselineModel=None</em>, <em>ClusteringModel=None</em>, <em>DeepNetwork=None</em>, <em>AnomalyDetectionModel_member=None</em>, <em>GaussianProcessModel=None</em>, <em>GeneralRegressionModel=None</em>, <em>MiningModel=None</em>, <em>NaiveBayesModel=None</em>, <em>NearestNeighborModel=None</em>, <em>NeuralNetwork=None</em>, <em>RegressionModel=None</em>, <em>RuleSetModel=None</em>, <em>SequenceModel=None</em>, <em>Scorecard=None</em>, <em>SupportVectorMachineModel=None</em>, <em>TextModel=None</em>, <em>TimeSeriesModel=None</em>, <em>TreeModel=None</em>, <em>Extension=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#AnomalyDetectionModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.AnomalyDetectionModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">AnomalyDetectionModel</code><span class="sig-paren">(</span><em>modelName=None</em>, <em>algorithmName=None</em>, <em>functionName=None</em>, <em>algorithmType=None</em>, <em>sampleDataSize=None</em>, <em>isScorable=True</em>, <em>MiningSchema=None</em>, <em>Output=None</em>, <em>LocalTransformations=None</em>, <em>ModelVerification=None</em>, <em>AnomalyDetectionModel_member=None</em>, <em>AssociationModel=None</em>, <em>BayesianNetworkModel=None</em>, <em>BaselineModel=None</em>, <em>ClusteringModel=None</em>, <em>DeepNetwork=None</em>, <em>GaussianProcessModel=None</em>, <em>GeneralRegressionModel=None</em>, <em>MiningModel=None</em>, <em>NaiveBayesModel=None</em>, <em>NearestNeighborModel=None</em>, <em>NeuralNetwork=None</em>, <em>RegressionModel=None</em>, <em>RuleSetModel=None</em>, <em>SequenceModel=None</em>, <em>Scorecard=None</em>, <em>SupportVectorMachineModel=None</em>, <em>TextModel=None</em>, <em>TimeSeriesModel=None</em>, <em>TreeModel=None</em>, <em>MeanClusterDistances=None</em>, <em>Extension=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#AnomalyDetectionModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.AnomalyDetectionModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.AnomalyDetectionModel" title="PMML44Super.AnomalyDetectionModel"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.AnomalyDetectionModel</span></code></a></p>
 </dd></dl>
 
@@ -279,7 +281,7 @@
 
 <dl class="class">
 <dt id="PMML44.Apply">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Apply</code><span class="sig-paren">(</span><em>function=None</em>, <em>mapMissingTo=None</em>, <em>defaultValue=None</em>, <em>invalidValueTreatment='returnInvalid'</em>, <em>Extension=None</em>, <em>FieldRef=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Apply_member=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Apply" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Apply</code><span class="sig-paren">(</span><em>function=None</em>, <em>mapMissingTo=None</em>, <em>defaultValue=None</em>, <em>invalidValueTreatment='returnInvalid'</em>, <em>Extension=None</em>, <em>FieldRef=None</em>, <em>Apply_member=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Apply" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.Apply" title="PMML44Super.Apply"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.Apply</span></code></a></p>
 </dd></dl>
 
@@ -653,7 +655,7 @@
 
 <dl class="class">
 <dt id="PMML44.ComplexPartialScore">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">ComplexPartialScore</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>FieldRef=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Apply=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#ComplexPartialScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.ComplexPartialScore" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">ComplexPartialScore</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>FieldRef=None</em>, <em>Apply=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#ComplexPartialScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.ComplexPartialScore" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.ComplexPartialScore" title="PMML44Super.ComplexPartialScore"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.ComplexPartialScore</span></code></a></p>
 </dd></dl>
 
@@ -689,13 +691,13 @@
 
 <dl class="class">
 <dt id="PMML44.Constant">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Constant</code><span class="sig-paren">(</span><em>dataType=None</em>, <em>valueOf_=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Constant" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Constant</code><span class="sig-paren">(</span><em>dataType=None</em>, <em>missing=False</em>, <em>valueOf_=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Constant" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.Constant" title="PMML44Super.Constant"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.Constant</span></code></a></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="PMML44.Constraints">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Constraints</code><span class="sig-paren">(</span><em>minimumNumberOfItems='1'</em>, <em>maximumNumberOfItems=None</em>, <em>minimumNumberOfAntecedentItems='1'</em>, <em>maximumNumberOfAntecedentItems=None</em>, <em>minimumNumberOfConsequentItems='1'</em>, <em>maximumNumberOfConsequentItems=None</em>, <em>minimumSupport='0'</em>, <em>minimumConfidence='0'</em>, <em>minimumLift='0'</em>, <em>minimumTotalSequenceTime='0'</em>, <em>maximumTotalSequenceTime=None</em>, <em>minimumItemsetSeparationTime='0'</em>, <em>maximumItemsetSeparationTime=None</em>, <em>minimumAntConsSeparationTime='0'</em>, <em>maximumAntConsSeparationTime=None</em>, <em>Extension=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Constraints" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Constraints</code><span class="sig-paren">(</span><em>minimumNumberOfItems=1</em>, <em>maximumNumberOfItems=None</em>, <em>minimumNumberOfAntecedentItems=1</em>, <em>maximumNumberOfAntecedentItems=None</em>, <em>minimumNumberOfConsequentItems=1</em>, <em>maximumNumberOfConsequentItems=None</em>, <em>minimumSupport='0'</em>, <em>minimumConfidence='0'</em>, <em>minimumLift='0'</em>, <em>minimumTotalSequenceTime='0'</em>, <em>maximumTotalSequenceTime=None</em>, <em>minimumItemsetSeparationTime='0'</em>, <em>maximumItemsetSeparationTime=None</em>, <em>minimumAntConsSeparationTime='0'</em>, <em>maximumAntConsSeparationTime=None</em>, <em>Extension=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Constraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Constraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.Constraints" title="PMML44Super.Constraints"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.Constraints</span></code></a></p>
 </dd></dl>
 
@@ -863,7 +865,7 @@
 
 <dl class="class">
 <dt id="PMML44.DefineFunction">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">DefineFunction</code><span class="sig-paren">(</span><em>name=None</em>, <em>optype=None</em>, <em>dataType=None</em>, <em>Extension=None</em>, <em>ParameterField=None</em>, <em>FieldRef=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Apply=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#DefineFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.DefineFunction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">DefineFunction</code><span class="sig-paren">(</span><em>name=None</em>, <em>optype=None</em>, <em>dataType=None</em>, <em>Extension=None</em>, <em>ParameterField=None</em>, <em>FieldRef=None</em>, <em>Apply=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#DefineFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.DefineFunction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.DefineFunction" title="PMML44Super.DefineFunction"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.DefineFunction</span></code></a></p>
 </dd></dl>
 
@@ -881,7 +883,7 @@
 
 <dl class="class">
 <dt id="PMML44.DerivedField">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">DerivedField</code><span class="sig-paren">(</span><em>name=None</em>, <em>displayName=None</em>, <em>optype=None</em>, <em>dataType=None</em>, <em>datasetName=None</em>, <em>trainingBackend=None</em>, <em>architectureName=None</em>, <em>Extension=None</em>, <em>FieldRef=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Apply=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em>, <em>Value=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#DerivedField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.DerivedField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">DerivedField</code><span class="sig-paren">(</span><em>name=None</em>, <em>displayName=None</em>, <em>optype=None</em>, <em>dataType=None</em>, <em>datasetName=None</em>, <em>trainingBackend=None</em>, <em>architectureName=None</em>, <em>Extension=None</em>, <em>FieldRef=None</em>, <em>Apply=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em>, <em>Value=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#DerivedField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.DerivedField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.DerivedField" title="PMML44Super.DerivedField"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.DerivedField</span></code></a></p>
 </dd></dl>
 
@@ -951,6 +953,16 @@
 <dl class="method">
 <dt id="PMML44.Extension.build_wrapper">
 <code class="descname">build_wrapper</code><span class="sig-paren">(</span><em>node</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Extension.build_wrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Extension.build_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PMML44.Extension.exportChildren">
+<code class="descname">exportChildren</code><span class="sig-paren">(</span><em>outfile</em>, <em>level</em>, <em>namespace_=''</em>, <em>name_='Extension'</em>, <em>fromsubclass_=False</em>, <em>pretty_print=True</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Extension.exportChildren"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Extension.exportChildren" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PMML44.Extension.exportChildren_wrapper">
+<code class="descname">exportChildren_wrapper</code><span class="sig-paren">(</span><em>outfile</em>, <em>level</em>, <em>namespace_=''</em>, <em>name_='Extension'</em>, <em>fromsubclass_=False</em>, <em>pretty_print=True</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Extension.exportChildren_wrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Extension.exportChildren_wrapper" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1227,7 +1239,7 @@
 
 <dl class="class">
 <dt id="PMML44.LayerParameters">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">LayerParameters</code><span class="sig-paren">(</span><em>activationFunction=None</em>, <em>inputDimension=None</em>, <em>outputDimension=None</em>, <em>featureMaps=None</em>, <em>kernel=None</em>, <em>pad=None</em>, <em>stride=None</em>, <em>dilationRate=None</em>, <em>poolSize=None</em>, <em>depthMultiplier=None</em>, <em>paddingDims=None</em>, <em>croppingDims=None</em>, <em>upsamplingSize=None</em>, <em>batchNormalizationEpsilon=None</em>, <em>flattenAxis=None</em>, <em>batchNormalizationAxis=None</em>, <em>batchNormalizationMomentum=None</em>, <em>batchNormalizationCenter=None</em>, <em>batchNormalizationScale=None</em>, <em>gaussianNoiseStdev=None</em>, <em>gaussianDropoutRate=None</em>, <em>alphaDropoutRate=None</em>, <em>alphaDropoutSeed=None</em>, <em>betaInitializer=None</em>, <em>gammaInitializer=None</em>, <em>movingMeanInitializer=None</em>, <em>movingVarianceInitializer=None</em>, <em>betaRegularizer=None</em>, <em>gammaRegularizer=None</em>, <em>betaConstraint=None</em>, <em>gammaConstraint=None</em>, <em>kernelInitializer=None</em>, <em>biasInitializer=None</em>, <em>kernelRegularizer=None</em>, <em>biasRegularizer=None</em>, <em>kernelConstraint=None</em>, <em>biasConstraint=None</em>, <em>depthwiseConstraint=None</em>, <em>pointwiseConstraint=None</em>, <em>batchSize=None</em>, <em>dropoutRate=None</em>, <em>dropoutNoiseShape=None</em>, <em>dropoutSeed=None</em>, <em>generalLUAlpha=None</em>, <em>reshapeTarget=None</em>, <em>permuteDims=None</em>, <em>repeatVectorTimes=None</em>, <em>activityRegularizerL1=None</em>, <em>activityRegularizerL2=None</em>, <em>maskValue=None</em>, <em>mergeLayerOp=None</em>, <em>mergeLayerDotOperationAxis=None</em>, <em>mergeLayerDotNormalize=None</em>, <em>mergeLayerConcatOperationAxes=None</em>, <em>slicingAxis=None</em>, <em>Extension=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#LayerParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.LayerParameters" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">LayerParameters</code><span class="sig-paren">(</span><em>activationFunction=None</em>, <em>inputDimension=None</em>, <em>outputDimension=None</em>, <em>featureMaps=None</em>, <em>kernel=None</em>, <em>pad=None</em>, <em>stride=None</em>, <em>dilationRate=None</em>, <em>poolSize=None</em>, <em>depthMultiplier=None</em>, <em>paddingDims=None</em>, <em>croppingDims=None</em>, <em>upsamplingSize=None</em>, <em>batchNormalizationEpsilon=None</em>, <em>flattenAxis=None</em>, <em>batchNormalizationAxis=None</em>, <em>batchNormalizationMomentum=None</em>, <em>batchNormalizationCenter=None</em>, <em>batchNormalizationScale=None</em>, <em>gaussianNoiseStdev=None</em>, <em>gaussianDropoutRate=None</em>, <em>alphaDropoutRate=None</em>, <em>alphaDropoutSeed=None</em>, <em>betaInitializer=None</em>, <em>gammaInitializer=None</em>, <em>movingMeanInitializer=None</em>, <em>movingVarianceInitializer=None</em>, <em>betaRegularizer=None</em>, <em>gammaRegularizer=None</em>, <em>betaConstraint=None</em>, <em>gammaConstraint=None</em>, <em>kernelInitializer=None</em>, <em>biasInitializer=None</em>, <em>kernelRegularizer=None</em>, <em>biasRegularizer=None</em>, <em>kernelConstraint=None</em>, <em>biasConstraint=None</em>, <em>depthwiseConstraint=None</em>, <em>pointwiseConstraint=None</em>, <em>batchSize=None</em>, <em>dropoutRate=None</em>, <em>dropoutNoiseShape=None</em>, <em>dropoutSeed=None</em>, <em>generalLUAlpha=None</em>, <em>reshapeTarget=None</em>, <em>permuteDims=None</em>, <em>repeatVectorTimes=None</em>, <em>activityRegularizerL1=None</em>, <em>activityRegularizerL2=None</em>, <em>maskValue=None</em>, <em>mergeLayerOp=None</em>, <em>mergeLayerDotOperationAxis=None</em>, <em>mergeLayerDotNormalize=None</em>, <em>mergeLayerConcatOperationAxes=None</em>, <em>slicingAxis=None</em>, <em>anchorSize=None</em>, <em>anchorStride=None</em>, <em>anchorScales=None</em>, <em>anchorRatios=None</em>, <em>regressBoxesMean=None</em>, <em>regressBoxesStd=None</em>, <em>scoreThreshold=None</em>, <em>nms=None</em>, <em>nmsThreshold=None</em>, <em>classSpecificFilter=None</em>, <em>Extension=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#LayerParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.LayerParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.LayerParameters" title="PMML44Super.LayerParameters"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.LayerParameters</span></code></a></p>
 </dd></dl>
 
@@ -1307,7 +1319,7 @@
 
 <dl class="class">
 <dt id="PMML44.Lower">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Lower</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>FieldRef=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Apply=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Lower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Lower" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Lower</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>FieldRef=None</em>, <em>Apply=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Lower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Lower" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.Lower" title="PMML44Super.Lower"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.Lower</span></code></a></p>
 </dd></dl>
 
@@ -1349,8 +1361,14 @@
 
 <dl class="class">
 <dt id="PMML44.Mean">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Mean</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>FieldRef=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Apply=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Mean" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Mean</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>FieldRef=None</em>, <em>Apply=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.Mean" title="PMML44Super.Mean"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.Mean</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="PMML44.MeanClusterDistances">
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">MeanClusterDistances</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>Array=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#MeanClusterDistances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.MeanClusterDistances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.MeanClusterDistances" title="PMML44Super.MeanClusterDistances"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.MeanClusterDistances</span></code></a></p>
 </dd></dl>
 
 <dl class="class">
@@ -1635,7 +1653,7 @@
 
 <dl class="class">
 <dt id="PMML44.NonseasonalComponent">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">NonseasonalComponent</code><span class="sig-paren">(</span><em>p=None</em>, <em>d=None</em>, <em>q=None</em>, <em>Extension=None</em>, <em>AR=None</em>, <em>MA=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#NonseasonalComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.NonseasonalComponent" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">NonseasonalComponent</code><span class="sig-paren">(</span><em>p=0</em>, <em>d=0</em>, <em>q=0</em>, <em>Extension=None</em>, <em>AR=None</em>, <em>MA=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#NonseasonalComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.NonseasonalComponent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.NonseasonalComponent" title="PMML44Super.NonseasonalComponent"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.NonseasonalComponent</span></code></a></p>
 </dd></dl>
 
@@ -1707,7 +1725,7 @@
 
 <dl class="class">
 <dt id="PMML44.OutputField">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">OutputField</code><span class="sig-paren">(</span><em>name=None</em>, <em>displayName=None</em>, <em>optype=None</em>, <em>dataType=None</em>, <em>targetField=None</em>, <em>feature='predictedValue'</em>, <em>value=None</em>, <em>numTopCategories=None</em>, <em>threshold=None</em>, <em>ruleFeature='consequent'</em>, <em>algorithm='exclusiveRecommendation'</em>, <em>rank='1'</em>, <em>rankBasis='confidence'</em>, <em>rankOrder='descending'</em>, <em>isMultiValued='0'</em>, <em>segmentId=None</em>, <em>isFinalResult=True</em>, <em>Extension=None</em>, <em>Decisions=None</em>, <em>FieldRef=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Apply=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#OutputField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.OutputField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">OutputField</code><span class="sig-paren">(</span><em>name=None</em>, <em>displayName=None</em>, <em>optype=None</em>, <em>dataType=None</em>, <em>targetField=None</em>, <em>feature='predictedValue'</em>, <em>value=None</em>, <em>numTopCategories=None</em>, <em>ruleFeature='consequent'</em>, <em>algorithm='exclusiveRecommendation'</em>, <em>rank='1'</em>, <em>rankBasis='confidence'</em>, <em>rankOrder='descending'</em>, <em>isMultiValued='0'</em>, <em>segmentId=None</em>, <em>isFinalResult=True</em>, <em>Extension=None</em>, <em>Decisions=None</em>, <em>FieldRef=None</em>, <em>Apply=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em>, <em>Value=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#OutputField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.OutputField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.OutputField" title="PMML44Super.OutputField"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.OutputField</span></code></a></p>
 <dl class="method">
 <dt id="PMML44.OutputField.exportAttributes">
@@ -1781,7 +1799,7 @@
 
 <dl class="class">
 <dt id="PMML44.Parameter">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Parameter</code><span class="sig-paren">(</span><em>name=None</em>, <em>value=None</em>, <em>label=None</em>, <em>referencePoint='0'</em>, <em>Extension=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Parameter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Parameter</code><span class="sig-paren">(</span><em>name=None</em>, <em>label=None</em>, <em>referencePoint='0'</em>, <em>Extension=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Parameter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.Parameter" title="PMML44Super.Parameter"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.Parameter</span></code></a></p>
 </dd></dl>
 
@@ -1985,7 +2003,7 @@
 
 <dl class="class">
 <dt id="PMML44.SeasonalComponent">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">SeasonalComponent</code><span class="sig-paren">(</span><em>P=None</em>, <em>D=None</em>, <em>Q=None</em>, <em>period=None</em>, <em>Extension=None</em>, <em>AR=None</em>, <em>MA=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#SeasonalComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.SeasonalComponent" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">SeasonalComponent</code><span class="sig-paren">(</span><em>P=0</em>, <em>D=0</em>, <em>Q=0</em>, <em>period=None</em>, <em>Extension=None</em>, <em>AR=None</em>, <em>MA=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#SeasonalComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.SeasonalComponent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.SeasonalComponent" title="PMML44Super.SeasonalComponent"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.SeasonalComponent</span></code></a></p>
 </dd></dl>
 
@@ -2009,13 +2027,13 @@
 
 <dl class="class">
 <dt id="PMML44.Segment">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Segment</code><span class="sig-paren">(</span><em>id=None</em>, <em>weight='1'</em>, <em>Extension=None</em>, <em>SimplePredicate=None</em>, <em>CompoundPredicate=None</em>, <em>SimpleSetPredicate=None</em>, <em>True_=None</em>, <em>False_=None</em>, <em>AssociationModel=None</em>, <em>BayesianNetworkModel=None</em>, <em>BaselineModel=None</em>, <em>ClusteringModel=None</em>, <em>DeepNetwork=None</em>, <em>AnomalyDetectionModel=None</em>, <em>GaussianProcessModel=None</em>, <em>GeneralRegressionModel=None</em>, <em>MiningModel=None</em>, <em>NaiveBayesModel=None</em>, <em>NearestNeighborModel=None</em>, <em>NeuralNetwork=None</em>, <em>RegressionModel=None</em>, <em>RuleSetModel=None</em>, <em>SequenceModel=None</em>, <em>Scorecard=None</em>, <em>SupportVectorMachineModel=None</em>, <em>TextModel=None</em>, <em>TimeSeriesModel=None</em>, <em>TreeModel=None</em>, <em>VariableWeight=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Segment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Segment" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Segment</code><span class="sig-paren">(</span><em>id=None</em>, <em>weight='1'</em>, <em>Extension=None</em>, <em>SimplePredicate=None</em>, <em>CompoundPredicate=None</em>, <em>SimpleSetPredicate=None</em>, <em>True_=None</em>, <em>False_=None</em>, <em>AnomalyDetectionModel=None</em>, <em>AssociationModel=None</em>, <em>BayesianNetworkModel=None</em>, <em>BaselineModel=None</em>, <em>ClusteringModel=None</em>, <em>DeepNetwork=None</em>, <em>GaussianProcessModel=None</em>, <em>GeneralRegressionModel=None</em>, <em>MiningModel=None</em>, <em>NaiveBayesModel=None</em>, <em>NearestNeighborModel=None</em>, <em>NeuralNetwork=None</em>, <em>RegressionModel=None</em>, <em>RuleSetModel=None</em>, <em>SequenceModel=None</em>, <em>Scorecard=None</em>, <em>SupportVectorMachineModel=None</em>, <em>TextModel=None</em>, <em>TimeSeriesModel=None</em>, <em>TreeModel=None</em>, <em>VariableWeight=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Segment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Segment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.Segment" title="PMML44Super.Segment"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.Segment</span></code></a></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="PMML44.Segmentation">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Segmentation</code><span class="sig-paren">(</span><em>multipleModelMethod=None</em>, <em>missingThreshold='1'</em>, <em>Extension=None</em>, <em>Segment=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Segmentation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Segmentation</code><span class="sig-paren">(</span><em>multipleModelMethod=None</em>, <em>missingPredictionTreatment='continue'</em>, <em>missingThreshold='1'</em>, <em>Extension=None</em>, <em>Segment=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Segmentation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.Segmentation" title="PMML44Super.Segmentation"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.Segmentation</span></code></a></p>
 </dd></dl>
 
@@ -2231,7 +2249,7 @@
 
 <dl class="class">
 <dt id="PMML44.TextIndex">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">TextIndex</code><span class="sig-paren">(</span><em>textField=None</em>, <em>localTermWeights='termFrequency'</em>, <em>isCaseSensitive=False</em>, <em>maxLevenshteinDistance=0</em>, <em>countHits='allHits'</em>, <em>wordSeparatorCharacterRE='\s+'</em>, <em>tokenize=True</em>, <em>Extension=None</em>, <em>TextIndexNormalization=None</em>, <em>FieldRef=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex_member=None</em>, <em>Apply=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#TextIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.TextIndex" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">TextIndex</code><span class="sig-paren">(</span><em>textField=None</em>, <em>localTermWeights='termFrequency'</em>, <em>isCaseSensitive=False</em>, <em>maxLevenshteinDistance=0</em>, <em>countHits='allHits'</em>, <em>wordSeparatorCharacterRE='\s+'</em>, <em>tokenize=True</em>, <em>Extension=None</em>, <em>TextIndexNormalization=None</em>, <em>FieldRef=None</em>, <em>Apply=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex_member=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#TextIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.TextIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.TextIndex" title="PMML44Super.TextIndex"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.TextIndex</span></code></a></p>
 </dd></dl>
 
@@ -2409,7 +2427,7 @@
 
 <dl class="class">
 <dt id="PMML44.Upper">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Upper</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>FieldRef=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Apply=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Upper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Upper" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Upper</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>FieldRef=None</em>, <em>Apply=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Upper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Upper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.Upper" title="PMML44Super.Upper"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.Upper</span></code></a></p>
 </dd></dl>
 
@@ -2433,7 +2451,7 @@
 
 <dl class="class">
 <dt id="PMML44.Variance">
-<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Variance</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>FieldRef=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Apply=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Variance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Variance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">PMML44.</code><code class="descname">Variance</code><span class="sig-paren">(</span><em>Extension=None</em>, <em>FieldRef=None</em>, <em>Apply=None</em>, <em>Constant=None</em>, <em>NormContinuous=None</em>, <em>NormDiscrete=None</em>, <em>Discretize=None</em>, <em>MapValues=None</em>, <em>TextIndex=None</em>, <em>Aggregate=None</em>, <em>Lag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PMML44.html#Variance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PMML44.Variance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="PMML44Super.html#PMML44Super.Variance" title="PMML44Super.Variance"><code class="xref py py-class docutils literal"><span class="pre">PMML44Super.Variance</span></code></a></p>
 </dd></dl>
 
@@ -2658,7 +2676,7 @@
         <a href="PMML44Super.html" class="btn btn-neutral float-right" title="PMML44Super module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="scripts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="script" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -2667,7 +2685,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, maintainer@nyoka.org
+        &copy; Copyright 2019, maintainer@nyoka.org
 
     </p>
   </div>

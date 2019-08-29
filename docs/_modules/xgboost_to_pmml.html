@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'3.2',
+              VERSION:'4.0.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                3.2
+                4.0
               </div>
             
           
@@ -92,15 +92,17 @@
             
             
               <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../PMML44.html">PMML44 Module (core library)</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../PMML44Super.html">PMML44Super Module (core library)</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../arima.html">ARIMA Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">Keras Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../PMML44.html">PMML44 Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../PMML44Super.html">PMML44Super Module (core library)</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../arima.html">ARIMA Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../retinanet.html">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
 </ul>
 
             
@@ -148,7 +150,7 @@
         
           <li><a href="index.html">Module code</a> &raquo;</li>
         
-      <li>XGBoost Exporter Module</li>
+      <li>XGBoost Exporter</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -176,15 +178,10 @@
 <span class="kn">import</span> <span class="nn">pre_process</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Functions used in xgboost_to_pmml.py</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-
 
 <div class="viewcode-block" id="xgboost_to_pmml"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.xgboost_to_pmml">[docs]</a><span class="k">def</span> <span class="nf">xgboost_to_pmml</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">pmml_f_name</span><span class="o">=</span><span class="s1">&#39;from_xgboost.pmml&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exports xgboost pipeline object into pmml</span>
+<span class="sd">    Exports xgboost model object into pmml</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -199,7 +196,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Returns a pmml file</span>
+<span class="sd">    Generates the PMML object and exports it to `pmml_f_name`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
@@ -239,7 +236,7 @@
 
 <div class="viewcode-block" id="get_PMML_kwargs"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_PMML_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_PMML_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">     It returns all the pmml elements.</span>
+<span class="sd">    It returns all the pmml elements.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -291,7 +288,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    mining_models :</span>
-<span class="sd">        Returns the MiningModel of the respective Xgboost model</span>
+<span class="sd">        Returns Nyoka&#39;s MiningModel object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)</span>
     <span class="k">if</span> <span class="s1">&#39;XGBRegressor&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
@@ -328,7 +325,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    segmentation :</span>
-<span class="sd">        Get the outer most Segmentation of an xgboost model</span>
+<span class="sd">        Returns Nyoka&#39;s Segmentation object</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -345,25 +342,25 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the Segment element of the model.</span>
 
-<span class="sd">   Parameters</span>
-<span class="sd">   ----------</span>
-<span class="sd">   model :</span>
-<span class="sd">       Contains Xgboost model object.</span>
-<span class="sd">   derived_col_names : List</span>
-<span class="sd">       Contains column names after preprocessing.</span>
-<span class="sd">   col_names : List</span>
-<span class="sd">       Contains list of feature/column names.</span>
-<span class="sd">   target_name : String</span>
-<span class="sd">       Name of the Target column.</span>
-<span class="sd">   mining_imp_val : tuple</span>
-<span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
-<span class="sd">    categoric_values : tuple</span>
-<span class="sd">        Contains Categorical attribute names and its values</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model :</span>
+<span class="sd">        Contains Xgboost model object.</span>
+<span class="sd">    derived_col_names : List</span>
+<span class="sd">        Contains column names after preprocessing.</span>
+<span class="sd">    col_names : List</span>
+<span class="sd">        Contains list of feature/column names.</span>
+<span class="sd">    target_name : String</span>
+<span class="sd">        Name of the Target column.</span>
+<span class="sd">    mining_imp_val : tuple</span>
+<span class="sd">            Contains the mining_attributes,mining_strategy, mining_impute_value</span>
+<span class="sd">        categoric_values : tuple</span>
+<span class="sd">            Contains Categorical attribute names and its values</span>
 
-<span class="sd">   Returns</span>
-<span class="sd">   -------</span>
-<span class="sd">   segment :</span>
-<span class="sd">       Get the Segments for the Segmentation element.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    segment :</span>
+<span class="sd">        Nyoka&#39;s Segment object</span>
 
 <span class="sd">   &quot;&quot;&quot;</span>
     <span class="n">segments</span> <span class="o">=</span> <span class="kc">None</span>
@@ -375,29 +372,29 @@
 
 <div class="viewcode-block" id="get_segments_for_xgbr"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_segments_for_xgbr">[docs]</a><span class="k">def</span> <span class="nf">get_segments_for_xgbr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categorical_values</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        It returns all the Segments element of the model</span>
+<span class="sd">    It returns all the Segments element of the model</span>
 
-<span class="sd">       Parameters</span>
-<span class="sd">       ----------</span>
-<span class="sd">       model :</span>
-<span class="sd">           Contains Xgboost model object.</span>
-<span class="sd">       derived_col_names : List</span>
-<span class="sd">           Contains column names after preprocessing.</span>
-<span class="sd">       feature_names : List</span>
-<span class="sd">           Contains list of feature/column names.</span>
-<span class="sd">       target_name : List</span>
-<span class="sd">           Name of the Target column.</span>
-<span class="sd">       mining_imp_val : tuple</span>
-<span class="sd">            Contains the mining_attributes,mining_strategy, mining_impute_value</span>
-<span class="sd">        categoric_values : tuple</span>
-<span class="sd">            Contains Categorical attribute names and its values</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model :</span>
+<span class="sd">        Contains Xgboost model object.</span>
+<span class="sd">    derived_col_names : List</span>
+<span class="sd">        Contains column names after preprocessing.</span>
+<span class="sd">    feature_names : List</span>
+<span class="sd">        Contains list of feature/column names.</span>
+<span class="sd">    target_name : List</span>
+<span class="sd">        Name of the Target column.</span>
+<span class="sd">    mining_imp_val : tuple</span>
+<span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
+<span class="sd">    categoric_values : tuple</span>
+<span class="sd">        Contains Categorical attribute names and its values</span>
 
-<span class="sd">       Returns</span>
-<span class="sd">       -------</span>
-<span class="sd">       segment :</span>
-<span class="sd">           Get the Segmentation element which contains inner segments.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    segment :</span>
+<span class="sd">        Nyoka&#39;s Segment object</span>
 
-<span class="sd">       &quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">segments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">get_nodes_in_json_format</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n_estimators</span><span class="p">):</span>
@@ -410,17 +407,18 @@
 
 <div class="viewcode-block" id="mining_Field_For_First_Segment"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.mining_Field_For_First_Segment">[docs]</a><span class="k">def</span> <span class="nf">mining_Field_For_First_Segment</span><span class="p">(</span><span class="n">feature_names</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        It returns the Mining Schema of the First Segment.</span>
+<span class="sd">    It returns the Mining Schema of the First Segment.</span>
 
-<span class="sd">      Parameters</span>
-<span class="sd">      ----------</span>
-<span class="sd">      feature_names: List</span>
-<span class="sd">          Contains list of feature/column names.</span>
-<span class="sd">      Returns:</span>
-<span class="sd">      -------</span>
-<span class="sd">      mining_schema_for_1st_segment:</span>
-<span class="sd">           Returns the MiningSchema for the main segment.</span>
-<span class="sd">      &quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    feature_names : List</span>
+<span class="sd">        Contains list of feature/column names.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mining_schema_for_1st_segment :</span>
+<span class="sd">        Nyoka&#39;s MiningSchema object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mining_fields_1st_segment</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">feature_names</span><span class="p">:</span>
         <span class="n">mining_fields_1st_segment</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
@@ -431,17 +429,18 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It replace the default names with the names of the attributes.</span>
 
-<span class="sd">     Parameters</span>
-<span class="sd">     ----------</span>
-<span class="sd">     original_name: List</span>
-<span class="sd">         The name of the node retrieve from model</span>
-<span class="sd">     derived_col_names: List</span>
-<span class="sd">        The name of the derived attributes.</span>
-<span class="sd">     Returns:</span>
-<span class="sd">     -------</span>
-<span class="sd">     col_name:</span>
-<span class="sd">          Returns the derived column name/original column name.</span>
-<span class="sd">     &quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    original_name : List</span>
+<span class="sd">        The name of the node retrieve from model</span>
+<span class="sd">    derived_col_names : List</span>
+<span class="sd">    The name of the derived attributes.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    col_name :</span>
+<span class="sd">        Returns the derived column name/original column name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">new</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">original_name</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">new</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
         <span class="n">col_name</span> <span class="o">=</span> <span class="n">derived_col_names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">new</span><span class="p">)]</span>
@@ -456,11 +455,11 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    obj: Json</span>
+<span class="sd">    obj : Json</span>
 <span class="sd">        Contains nodes in json format.</span>
-<span class="sd">    main_node:</span>
+<span class="sd">    main_node :</span>
 <span class="sd">        Contains node build with Nyoka class.</span>
-<span class="sd">    derived_col_names: List</span>
+<span class="sd">    derived_col_names : List</span>
 <span class="sd">        Contains column names after preprocessing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">create_left_node</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">derived_col_names</span><span class="p">):</span>
@@ -493,16 +492,17 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    val: List</span>
+<span class="sd">    val : List</span>
 <span class="sd">        Contains a list of well structured node for binary classification/inner segments for multi-class classification</span>
-<span class="sd">    derived_col_names: List</span>
+<span class="sd">    derived_col_names : List</span>
 <span class="sd">        Contains column names after preprocessing.</span>
-<span class="sd">    col_names: List</span>
+<span class="sd">    col_names : List</span>
 <span class="sd">        Contains list of feature/column names.</span>
-<span class="sd">    Returns:</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    segments_equal_to_estimators:</span>
-<span class="sd">         Returns list of segments equal to number of estimator of the model</span>
+<span class="sd">        Nyoka&#39;s Segment object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">segments_equal_to_estimators</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)):</span>
@@ -528,26 +528,25 @@
 
 <div class="viewcode-block" id="add_segmentation"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.add_segmentation">[docs]</a><span class="k">def</span> <span class="nf">add_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">segments_equal_to_estimators</span><span class="p">,</span><span class="n">mining_schema_for_1st_segment</span><span class="p">,</span><span class="n">out</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the First Segments for a binary classifier and returns number of Segments equls to number of values</span>
-<span class="sd">    target class for multiclass classifier</span>
+<span class="sd">    It returns segmentation for a mining model</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model:</span>
+<span class="sd">    model :</span>
 <span class="sd">       Contains Xgboost model object.</span>
-<span class="sd">    segments_equal_to_estimators: List</span>
+<span class="sd">    segments_equal_to_estimators : List</span>
 <span class="sd">        Contains List Segements equals to the number of the estimators of the model.</span>
-<span class="sd">    mining_schema_for_1st_segment:</span>
+<span class="sd">    mining_schema_for_1st_segment :</span>
 <span class="sd">        Contains Mining Schema for the First Segment</span>
-<span class="sd">    out:</span>
+<span class="sd">    out :</span>
 <span class="sd">        Contains the Output element</span>
-<span class="sd">    id: Integer</span>
+<span class="sd">    id : Integer</span>
 <span class="sd">        Index of the Segements</span>
 
-<span class="sd">    Returns:</span>
+<span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    segments_equal_to_estimators:</span>
-<span class="sd">         Returns list of segments equal to number of estimator of the model</span>
+<span class="sd">         Returns Nyoka&#39;s Segment object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">segmentation</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segmentation</span><span class="p">(</span><span class="n">multipleModelMethod</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">Segment</span><span class="o">=</span><span class="n">segments_equal_to_estimators</span><span class="p">)</span>
@@ -585,8 +584,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    regrs_models :</span>
-<span class="sd">        Returns all the segments of the xgboost model.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Returns Nyoka&#39;s Segment object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">segments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">n_classes_</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -641,7 +640,7 @@
 
 <div class="viewcode-block" id="get_multiple_model_method"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_multiple_model_method">[docs]</a><span class="k">def</span> <span class="nf">get_multiple_model_method</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the name of the Multiple Model Chain element of the model.</span>
+<span class="sd">    It returns the type of multiple model method for MiningModels.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -649,8 +648,7 @@
 <span class="sd">        Contains Xgboost model object</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    modelChain for XGBoost Classifier,</span>
-<span class="sd">    sum for XGboost Regressor,</span>
+<span class="sd">    The multiple model method for a MiningModel.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="s1">&#39;XGBClassifier&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
