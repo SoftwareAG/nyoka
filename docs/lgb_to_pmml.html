@@ -169,221 +169,193 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-lgb_to_pmml">
-<span id="lgb-to-pmml-module"></span><h1>LightGBM Exporter Module<a class="headerlink" href="#module-lgb_to_pmml" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="lgb_to_pmml.create_node">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">create_node</code><span class="sig-paren">(</span><em>obj</em>, <em>main_node</em>, <em>derived_col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#create_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.create_node" title="Permalink to this definition">¶</a></dt>
-<dd><p>It creates nodes for the internal Decision Trees.</p>
-<dl class="docutils">
-<dt>obj <span class="classifier-delimiter">:</span> <span class="classifier">Json</span></dt>
-<dd>Contains nodes in json format.</dd>
-<dt>main_node :</dt>
-<dd>Contains node build with Nyoka class.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="lgb_to_pmml.generate_Segments_Equal_To_Estimators">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">generate_Segments_Equal_To_Estimators</code><span class="sig-paren">(</span><em>val</em>, <em>derived_col_names</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#generate_Segments_Equal_To_Estimators"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.generate_Segments_Equal_To_Estimators" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns number of Segments equal to the estimator of the model.</p>
-<dl class="docutils">
-<dt>val <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains nodes in json format.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-</dl>
-<dl class="docutils">
-<dt>segments_equal_to_estimators :</dt>
-<dd>Returns list of segments equal to number of estimator of the model</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="lgb_to_pmml.get_PMML_kwargs">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_PMML_kwargs</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_PMML_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_PMML_kwargs" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div>It returns all the pmml elements.</div></blockquote>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>Contains LGB model object.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the target column .</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>algo_kwargs <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary</span></dt>
-<dd>Get the PMML model argument based on LGB model object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="lgb_to_pmml.get_ensemble_models">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_ensemble_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_ensemble_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_ensemble_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Mining Model element of the model</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>Contains LGB model object.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value.</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<p>Returns the MiningModel for the given LGB model</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="lgb_to_pmml.get_multiple_model_method">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_multiple_model_method</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_multiple_model_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_multiple_model_method" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the type of multiple model method for MiningModels.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>Contains LGB model object</dd>
-</dl>
-<p>The multiple model method for a MiningModel.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="lgb_to_pmml.get_outer_segmentation">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_outer_segmentation</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_outer_segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_outer_segmentation" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Segmentation element of the model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>Contains LGB model object.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>segmentation :</dt>
-<dd>Get the outer most Segmentation of an LGB model</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="lgb_to_pmml.get_segments">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div>It returns the Segment element of the model.</div></blockquote>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>Contains LGB model object.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd><blockquote class="first">
-<div>Contains the mining_attributes,mining_strategy, mining_impute_value</div></blockquote>
-<dl class="last docutils">
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-</dd>
-</dl>
-<dl class="docutils">
-<dt>segment :</dt>
-<dd>Get the Segments for the Segmentation element.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="lgb_to_pmml.get_segments_for_lgbc">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments_for_lgbc</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments_for_lgbc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments_for_lgbc" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns all the segments of the LGB classifier.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>Contains LGB model object.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>feature_names: List</dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>regrs_models :</dt>
-<dd>Returns all the segments of the LGB model.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="lgb_to_pmml.get_segments_for_lgbr">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments_for_lgbr</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categorical_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments_for_lgbr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments_for_lgbr" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div>It returns all the Segments element of the model</div></blockquote>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>Contains LGB model object.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>feature_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd><blockquote class="first">
-<div>Contains the mining_attributes,mining_strategy, mining_impute_value</div></blockquote>
-<dl class="last docutils">
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-</dd>
-</dl>
-<dl class="docutils">
-<dt>segment :</dt>
-<dd>Get the Segmentation element which contains inner segments.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="lgb_to_pmml.lgb_to_pmml">
-<code class="descclassname">lgb_to_pmml.</code><code class="descname">lgb_to_pmml</code><span class="sig-paren">(</span><em>pipeline</em>, <em>col_names</em>, <em>target_name</em>, <em>pmml_f_name='from_lgbm.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#lgb_to_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.lgb_to_pmml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exports LGBM pipeline object into pmml</p>
-<dl class="docutils">
-<dt>pipeline :</dt>
-<dd>Contains an instance of Pipeline with preprocessing and final estimator</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the target column.</dd>
-<dt>pmml_f_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the pmml file. (Default=’from_lgbm.pmml’)</dd>
-</dl>
-<p>Exports the generated PMML object to <cite>pmml_f_name</cite></p>
-</dd></dl>
-
-</div>
+            <div class="section" id="module-lgb_to_pmml">
+              <span id="lgb-to-pmml-module"></span><h1>lgb_to_pmml module<a class="headerlink" href="#module-lgb_to_pmml" title="Permalink to this headline">¶</a></h1>
+              <dl class="function">
+              <dt id="lgb_to_pmml.create_node">
+              <code class="descclassname">lgb_to_pmml.</code><code class="descname">create_node</code><span class="sig-paren">(</span><em>obj</em>, <em>main_node</em>, <em>derived_col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#create_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.create_node" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It creates nodes for the internal Decision Trees.</p>
+              <dl class="docutils">
+              <dt>obj <span class="classifier-delimiter">:</span> <span class="classifier">Json</span></dt>
+              <dd>Contains nodes in json format.</dd>
+              <dt>main_node :</dt>
+              <dd>Contains node build with Nyoka class.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="lgb_to_pmml.generate_Segments_Equal_To_Estimators">
+              <code class="descclassname">lgb_to_pmml.</code><code class="descname">generate_Segments_Equal_To_Estimators</code><span class="sig-paren">(</span><em>val</em>, <em>derived_col_names</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#generate_Segments_Equal_To_Estimators"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.generate_Segments_Equal_To_Estimators" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns number of Segments equal to the estimator of the model.</p>
+              <dl class="docutils">
+              <dt>val <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains nodes in json format.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="lgb_to_pmml.get_PMML_kwargs">
+              <code class="descclassname">lgb_to_pmml.</code><code class="descname">get_PMML_kwargs</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_PMML_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_PMML_kwargs" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns all the pmml elements.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>Contains LGB model object.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the target column .</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="lgb_to_pmml.get_ensemble_models">
+              <code class="descclassname">lgb_to_pmml.</code><code class="descname">get_ensemble_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_ensemble_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_ensemble_models" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Mining Model element of the model</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>Contains LGB model object.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value.</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="lgb_to_pmml.get_multiple_model_method">
+              <code class="descclassname">lgb_to_pmml.</code><code class="descname">get_multiple_model_method</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_multiple_model_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_multiple_model_method" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the type of multiple model method for MiningModels.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>Contains LGB model object</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="lgb_to_pmml.get_outer_segmentation">
+              <code class="descclassname">lgb_to_pmml.</code><code class="descname">get_outer_segmentation</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_outer_segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_outer_segmentation" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Segmentation element of the model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>Contains LGB model object.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="lgb_to_pmml.get_segments">
+              <code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments" title="Permalink to this definition">¶</a></dt>
+              <dd><blockquote>
+              <div>It returns the Segment element of the model.</div></blockquote>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>Contains LGB model object.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd><blockquote class="first">
+              <div>Contains the mining_attributes,mining_strategy, mining_impute_value</div></blockquote>
+              <dl class="last docutils">
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="lgb_to_pmml.get_segments_for_lgbc">
+              <code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments_for_lgbc</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments_for_lgbc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments_for_lgbc" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns all the segments of the LGB classifier.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>Contains LGB model object.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>feature_names: List</dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="lgb_to_pmml.get_segments_for_lgbr">
+              <code class="descclassname">lgb_to_pmml.</code><code class="descname">get_segments_for_lgbr</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categorical_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#get_segments_for_lgbr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.get_segments_for_lgbr" title="Permalink to this definition">¶</a></dt>
+              <dd><blockquote>
+              <div>It returns all the Segments element of the model</div></blockquote>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>Contains LGB model object.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>feature_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd><blockquote class="first">
+              <div>Contains the mining_attributes,mining_strategy, mining_impute_value</div></blockquote>
+              <dl class="last docutils">
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="lgb_to_pmml.lgb_to_pmml">
+              <code class="descclassname">lgb_to_pmml.</code><code class="descname">lgb_to_pmml</code><span class="sig-paren">(</span><em>pipeline</em>, <em>col_names</em>, <em>target_name</em>, <em>pmml_f_name='from_lgbm.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#lgb_to_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lgb_to_pmml.lgb_to_pmml" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Exports LGBM pipeline object into pmml</p>
+              <dl class="docutils">
+              <dt>pipeline :</dt>
+              <dd>Contains an instance of Pipeline with preprocessing and final estimator</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the target column.</dd>
+              <dt>pmml_f_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the pmml file. (Default=’from_lgbm.pmml’)</dd>
+              </dl>
+              </dd></dl>
+              
+              </div>
 
 
            </div>

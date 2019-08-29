@@ -168,157 +168,152 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="module-retinanet">
-<span id="retinanet-module"></span><h1>RetinaNet Exporter Module<a class="headerlink" href="#module-retinanet" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="retinanet.RetinanetToPmml">
-<em class="property">class </em><code class="descclassname">retinanet.</code><code class="descname">RetinanetToPmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>backbone_name</em>, <em>input_data='image'</em>, <em>trained_classes=None</em>, <em>pmml_file_name='from_retinanet.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Write a PMML file for RetinaNet model.</p>
-<dl class="docutils">
-<dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
-<dd>RetinaNet model object</dd>
-<dt>input_shape <span class="classifier-delimiter">:</span> <span class="classifier">tuple </span></dt>
-<dd>Shape of each training image</dd>
-<dt>backbone_name <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>Name of backbone used to train the model. Valid values are <cite>[‘resnet’, ‘mobilenet’, ‘densenet’, ‘vgg’]</cite></dd>
-<dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string (optional. default=’image’)</span></dt>
-<dd><dl class="first last docutils">
-<dt>Input format to be used during inference with the PMML. Valid values are - </dt>
-<dd>“image” : Original image in png format
-“encoded” : Base64 encoded string of the image</dd>
-</dl>
-</dd>
-<dt>trained_classes <span class="classifier-delimiter">:</span> <span class="classifier">list or tuple</span></dt>
-<dd>List of the classes on which the model was trained. If not provided, default(1 to 80) classes will be used</dd>
-<dt>pmml_file_name <span class="classifier-delimiter">:</span> <span class="classifier">string (default=’from_retinanet.pmml’)</span></dt>
-<dd>Name of the PMML file</dd>
-</dl>
-<p>Creates Nyoka’s PMML object and exports it to <cite>pmml_file_name</cite></p>
-<dl class="method">
-<dt id="retinanet.RetinanetToPmml.assign_shapes">
-<code class="descname">assign_shapes</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>pmml_without_shape</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.assign_shapes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.assign_shapes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assigns the shape information to each NetworkLayer of the PMML</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>RetinaNet model object</dd>
-<dt>input_shape <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Input shape of each image used during training</dd>
-<dt>pmml_without_shape :</dt>
-<dd>Generated PMML object without shape information</dd>
-</dl>
-<p>Nyoka’s PMML object</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="retinanet.RetinanetToPmml.backbone_name_error">
-<code class="descname">backbone_name_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.backbone_name_error" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="retinanet.RetinanetToPmml.description">
-<code class="descname">description</code><a class="headerlink" href="#retinanet.RetinanetToPmml.description" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="retinanet.RetinanetToPmml.generate_beckbone_anchors">
-<code class="descname">generate_beckbone_anchors</code><span class="sig-paren">(</span><em>model</em>, <em>input_data</em>, <em>trained_classes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_beckbone_anchors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_beckbone_anchors" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML object for the backbone + anchors</p>
-<dl class="docutils">
-<dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
-<dd>RetinaNet model object</dd>
-<dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd><dl class="first last docutils">
-<dt>Input format to be used during inference with the PMML. Valid values are - </dt>
-<dd>“image” : Original image in png format
-“encoded” : Base64 encoded string of the image</dd>
-</dl>
-</dd>
-<dt>trained_classes <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>List of class names for which the model was trained</dd>
-</dl>
-<p>Nyoka’s PMML object</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="retinanet.RetinanetToPmml.generate_inference_layers">
-<code class="descname">generate_inference_layers</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_inference_layers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_inference_layers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML object for the inference layers of RetinaNet</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>RetinaNet model object</dd>
-</dl>
-<p>List of Nyoka’s NetworkLayer</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="retinanet.RetinanetToPmml.generate_pmml">
-<code class="descname">generate_pmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>input_data</em>, <em>trained_classes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_pmml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML object for RetinaNet by combining all different part’s PMML object</p>
-<dl class="docutils">
-<dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
-<dd>RetinaNet model object</dd>
-<dt>input_shape <span class="classifier-delimiter">:</span> <span class="classifier">tuple </span></dt>
-<dd>Shape of each training image</dd>
-<dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string (optional. default=’image’)</span></dt>
-<dd><dl class="first last docutils">
-<dt>Input format to be used during inference with the PMML. Valid values are - </dt>
-<dd>“image” : Original image in png format
-“encoded” : Base64 encoded string of the image</dd>
-</dl>
-</dd>
-<dt>trained_classes <span class="classifier-delimiter">:</span> <span class="classifier">list or tuple</span></dt>
-<dd>List of the classes on which the model was trained. If not provided, default(1 to 80) classes will be used</dd>
-</dl>
-<p>Generated nyoka’s PMML object</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="retinanet.RetinanetToPmml.generate_submodel">
-<code class="descname">generate_submodel</code><span class="sig-paren">(</span><em>submodel</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_submodel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_submodel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates multiple PMML object for the regression and classification submodel of RetinaNet for each connected pyramid layers</p>
-<dl class="docutils">
-<dt>submodel :</dt>
-<dd>The Regression or the Classification submodel</dd>
-</dl>
-<p>List of Nyoka’s NetworkLayer object for all the submodels</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="retinanet.RetinanetToPmml.get_local_transformation">
-<code class="descname">get_local_transformation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.get_local_transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.get_local_transformation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates Trasformation information for RetinaNet</p>
-<p>Nyoka’s LocalTransformations object</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="retinanet.RetinanetToPmml.get_output">
-<code class="descname">get_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.get_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.get_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates Output for RetinaNet</p>
-<p>Nyoka’s Output object</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="retinanet.RetinanetToPmml.get_training_parameter">
-<code class="descname">get_training_parameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.get_training_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.get_training_parameter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates TrainingParameters for RetinaNet</p>
-<p>Nyoka’s TrainingParameters object</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="retinanet.RetinanetToPmml.inference_error">
-<code class="descname">inference_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.inference_error" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="retinanet.RetinanetToPmml.input_data_error">
-<code class="descname">input_data_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.input_data_error" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
+            <div class="section" id="module-retinanet">
+              <span id="retinanet-module"></span><h1>retinanet module<a class="headerlink" href="#module-retinanet" title="Permalink to this headline">¶</a></h1>
+              <dl class="class">
+              <dt id="retinanet.RetinanetToPmml">
+              <em class="property">class </em><code class="descclassname">retinanet.</code><code class="descname">RetinanetToPmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>backbone_name</em>, <em>input_data='image'</em>, <em>trained_classes=None</em>, <em>pmml_file_name='from_retinanet.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+              <p>Write a PMML file for RetinaNet model.</p>
+              <dl class="docutils">
+              <dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+              <dd>RetinaNet model object</dd>
+              <dt>input_shape <span class="classifier-delimiter">:</span> <span class="classifier">tuple </span></dt>
+              <dd>Shape of each training image</dd>
+              <dt>backbone_name <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+              <dd>Name of backbone used to train the model. Valid values are <cite>[‘resnet’, ‘mobilenet’, ‘densenet’, ‘vgg’]</cite></dd>
+              <dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string (optional. default=’image’)</span></dt>
+              <dd><dl class="first last docutils">
+              <dt>Input format to be used during inference with the PMML. Valid values are - </dt>
+              <dd>“image” : Original image in png format
+              “encoded” : Base64 encoded string of the image</dd>
+              </dl>
+              </dd>
+              <dt>trained_classes <span class="classifier-delimiter">:</span> <span class="classifier">list or tuple</span></dt>
+              <dd>List of the classes on which the model was trained. If not provided, default(1 to 80) classes will be used</dd>
+              <dt>pmml_file_name <span class="classifier-delimiter">:</span> <span class="classifier">string (default=’from_retinanet.pmml’)</span></dt>
+              <dd>Name of the PMML file</dd>
+              </dl>
+              <dl class="method">
+              <dt id="retinanet.RetinanetToPmml.assign_shapes">
+              <code class="descname">assign_shapes</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>pmml_without_shape</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.assign_shapes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.assign_shapes" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Assigns the shape information to each NetworkLayer of the PMML</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>RetinaNet model object</dd>
+              <dt>input_shape <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Input shape of each image used during training</dd>
+              <dt>pmml_without_shape :</dt>
+              <dd>Generated PMML object without shape information</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="attribute">
+              <dt id="retinanet.RetinanetToPmml.backbone_name_error">
+              <code class="descname">backbone_name_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.backbone_name_error" title="Permalink to this definition">¶</a></dt>
+              <dd><p>&#64;property. Returns error message if <cite>backbone_name</cite> has invalid value</p>
+              </dd></dl>
+              
+              <dl class="attribute">
+              <dt id="retinanet.RetinanetToPmml.description">
+              <code class="descname">description</code><a class="headerlink" href="#retinanet.RetinanetToPmml.description" title="Permalink to this definition">¶</a></dt>
+              <dd><p>&#64;property. Returns <cite>description</cite> for RetinaNet</p>
+              </dd></dl>
+              
+              <dl class="method">
+              <dt id="retinanet.RetinanetToPmml.generate_beckbone_anchors">
+              <code class="descname">generate_beckbone_anchors</code><span class="sig-paren">(</span><em>model</em>, <em>input_data</em>, <em>trained_classes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_beckbone_anchors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_beckbone_anchors" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML object for the backbone + anchors</p>
+              <dl class="docutils">
+              <dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+              <dd>RetinaNet model object</dd>
+              <dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+              <dd><dl class="first last docutils">
+              <dt>Input format to be used during inference with the PMML. Valid values are - </dt>
+              <dd>“image” : Original image in png format
+              “encoded” : Base64 encoded string of the image</dd>
+              </dl>
+              </dd>
+              <dt>trained_classes <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>List of class names for which the model was trained</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="method">
+              <dt id="retinanet.RetinanetToPmml.generate_inference_layers">
+              <code class="descname">generate_inference_layers</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_inference_layers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_inference_layers" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML object for the inference layers of RetinaNet</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>RetinaNet model object</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="method">
+              <dt id="retinanet.RetinanetToPmml.generate_pmml">
+              <code class="descname">generate_pmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>input_data</em>, <em>trained_classes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_pmml" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML object for RetinaNet by combining all different part’s PMML object</p>
+              <dl class="docutils">
+              <dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+              <dd>RetinaNet model object</dd>
+              <dt>input_shape <span class="classifier-delimiter">:</span> <span class="classifier">tuple </span></dt>
+              <dd>Shape of each training image</dd>
+              <dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string (optional. default=’image’)</span></dt>
+              <dd><dl class="first last docutils">
+              <dt>Input format to be used during inference with the PMML. Valid values are - </dt>
+              <dd>“image” : Original image in png format
+              “encoded” : Base64 encoded string of the image</dd>
+              </dl>
+              </dd>
+              <dt>trained_classes <span class="classifier-delimiter">:</span> <span class="classifier">list or tuple</span></dt>
+              <dd>List of the classes on which the model was trained. If not provided, default(1 to 80) classes will be used</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="method">
+              <dt id="retinanet.RetinanetToPmml.generate_submodel">
+              <code class="descname">generate_submodel</code><span class="sig-paren">(</span><em>submodel</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_submodel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_submodel" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates multiple PMML object for the regression and classification submodel of RetinaNet for each connected pyramid layers</p>
+              <dl class="docutils">
+              <dt>submodel :</dt>
+              <dd>The Regression or the Classification submodel</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="method">
+              <dt id="retinanet.RetinanetToPmml.get_local_transformation">
+              <code class="descname">get_local_transformation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.get_local_transformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.get_local_transformation" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates Trasformation information for RetinaNet</p>
+              </dd></dl>
+              
+              <dl class="method">
+              <dt id="retinanet.RetinanetToPmml.get_output">
+              <code class="descname">get_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.get_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.get_output" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates Output for RetinaNet</p>
+              </dd></dl>
+              
+              <dl class="method">
+              <dt id="retinanet.RetinanetToPmml.get_training_parameter">
+              <code class="descname">get_training_parameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.get_training_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.get_training_parameter" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates TrainingParameters for RetinaNet</p>
+              </dd></dl>
+              
+              <dl class="attribute">
+              <dt id="retinanet.RetinanetToPmml.inference_error">
+              <code class="descname">inference_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.inference_error" title="Permalink to this definition">¶</a></dt>
+              <dd><p>&#64;property. Returns error message if user provide invalid model</p>
+              </dd></dl>
+              
+              <dl class="attribute">
+              <dt id="retinanet.RetinanetToPmml.input_data_error">
+              <code class="descname">input_data_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.input_data_error" title="Permalink to this definition">¶</a></dt>
+              <dd><p>&#64;property. Returns error message if <cite>input_data</cite> has invalid value</p>
+              </dd></dl>
+              
+              </dd></dl>
+              
+              </div>
+              
 
 
            </div>

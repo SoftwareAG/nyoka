@@ -169,957 +169,767 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-skl_to_pmml">
-<span id="skl-to-pmml-module"></span><h1>Scikit-Learn Exporter Module<a class="headerlink" href="#module-skl_to_pmml" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="skl_to_pmml.any_in">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">any_in</code><span class="sig-paren">(</span><em>seq_a</em>, <em>seq_b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#any_in"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.any_in" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks for common elements in two given sequence elements</p>
-<dl class="docutils">
-<dt>seq_a <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd>A list of items</dd>
-<dt>seq_b <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd>A list of items</dd>
-</dl>
-<p>Returns a boolean value if any item of seq_a belongs to seq_b or visa versa</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.avgPathLength">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">avgPathLength</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#avgPathLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.avgPathLength" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates average path length for Isolation forest models</p>
-<dl class="docutils">
-<dt>n <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Number of samples</dd>
-</dl>
-<p>The average path length</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_PMML_kwargs">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_PMML_kwargs</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_PMML_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_PMML_kwargs" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns all the pmml elements.</p>
-<dl class="docutils">
-<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">Scikit-learn model object</span></dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List </span></dt>
-<dd>Contains column names after preprocessing</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the target column .</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>algo_kwargs <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary</span></dt>
-<dd>Get the PMML model argument based on scikit learn model object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_anomaly_detection_output">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_anomaly_detection_output</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_anomaly_detection_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_anomaly_detection_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates output for anomaly detection models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>Scikit-learn’s model object</dd>
-</dl>
-<dl class="docutils">
-<dt>output_fields :</dt>
-<dd>Returns Nyoka’s Output object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_anomalydetection_model">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_anomalydetection_model</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_anomalydetection_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_anomalydetection_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates xml elements for anomaly detction models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>anomaly_detection_model <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Returns Nyoka’s AnomalyDetectionModel object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_bayes_inputs">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_bayes_inputs</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_bayes_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_bayes_inputs" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Bayes Input element of the naive bayes model .</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-</dl>
-<dl class="docutils">
-<dt>bayes_inputs :</dt>
-<dd>Returns Nyoka’s BayesInput object.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_bayes_output">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_bayes_output</code><span class="sig-paren">(</span><em>model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_bayes_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_bayes_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Bayes Output element of the model</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-</dl>
-<dl class="docutils">
-<dt>BayesOutput :</dt>
-<dd>Returns Nyoka’s BayesOutput object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_classificationMethod">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_classificationMethod</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_classificationMethod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_classificationMethod" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Classification method name for SVM models.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-</dl>
-<p>Returns the classification method of the SVM model</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_cluster_num">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_cluster_num</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_cluster_num"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_cluster_num" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns number of cluster for clustering models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-</dl>
-<p>model.n_clusters: Integer</p>
-<blockquote>
-<div>Returns the number of clusters</div></blockquote>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_cluster_vals">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_cluster_vals</code><span class="sig-paren">(</span><em>model</em>, <em>counts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_cluster_vals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_cluster_vals" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates cluster information for clustering models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-</dl>
-<dl class="docutils">
-<dt>cluster_flds <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Returns Nyoka’s Cluster object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_clustering_flds">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_clustering_flds</code><span class="sig-paren">(</span><em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_clustering_flds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_clustering_flds" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates cluster fields for clustering models</p>
-<dl class="docutils">
-<dt>col_names :</dt>
-<dd>Contains list of feature/column names.</dd>
-</dl>
-<dl class="docutils">
-<dt>clustering_flds: List</dt>
-<dd>Returns Nyoka’s ClusteringField object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_clustering_model">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_clustering_model</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_clustering_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_clustering_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML elements for clustering models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>clustering_models <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Returns Nyoka’s ClusteringModel object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_comp_measure">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_comp_measure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_comp_measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_comp_measure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates comparison measure information for clustering models</p>
-<p>Returns Nyoka’s ComparisonMeasure object</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_comparison_measure">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_comparison_measure</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_comparison_measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_comparison_measure" title="Permalink to this definition">¶</a></dt>
-<dd><p>It return the Comparison measure element for nearest neighbour model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-</dl>
-<dl class="docutils">
-<dt>comp_measure :</dt>
-<dd>Returns Nyoka’s ComparisonMeasure object.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_data_dictionary">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_data_dictionary</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_data_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_data_dictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Data Dictionary element.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>feature_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains the list of feature/column name.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>data_dict :</dt>
-<dd>Returns Nyoka’s DataDictionary object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_dtype">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_dtype</code><span class="sig-paren">(</span><em>feat_value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_dtype" title="Permalink to this definition">¶</a></dt>
-<dd><p>It return the data type of the value.</p>
-<dl class="docutils">
-<dt>feat_value :</dt>
-<dd>Contains a value for finding the its data type.</dd>
-</dl>
-<blockquote>
-<div>Returns the respective data type of that value.</div></blockquote>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_ensemble_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_ensemble_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_ensemble_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_ensemble_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML elemenets for ensemble models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value.</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>mining_models <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Returns Nyoka’s MiningModel object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_entire_string">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_entire_string</code><span class="sig-paren">(</span><em>pipe0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_entire_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_entire_string" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a String containing the whole Pipeline’s information</p>
-<dl class="docutils">
-<dt>pipe0 <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
-<dd>The Pipeline object</dd>
-</dl>
-<p>Returns the string</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_funct">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_funct</code><span class="sig-paren">(</span><em>sk_model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_funct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_funct" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the activation fucntion for a neural network model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-</dl>
-<dl class="docutils">
-<dt>a_fn <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Returns the activation function.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_header">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_header" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Header element of the pmml.</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>header :</dt>
-<dd>Returns Nyoka’s Header object.</dd>
-</dl>
-</div></blockquote>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_inline_table">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_inline_table</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_inline_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_inline_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>It Returns the Inline Table element of the model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-</dl>
-<dl class="docutils">
-<dt>InlineTable :</dt>
-<dd>Returns Nyoka’s InlineTable object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_inner_segments">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_inner_segments</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_inner_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_inner_segments" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the segments of a Segmentation.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>index <span class="classifier-delimiter">:</span> <span class="classifier">Integer</span></dt>
-<dd>The index of the estimator for the model</dd>
-</dl>
-<dl class="docutils">
-<dt>segments <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Nyoka’s Segment object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_instance_fields">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_instance_fields</code><span class="sig-paren">(</span><em>derived_col_names</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_instance_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_instance_fields" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Instance field element.</p>
-<dl class="docutils">
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-</dl>
-<dl class="docutils">
-<dt>InstanceFields :</dt>
-<dd>Returns Nyoka’s InstanceFields object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_kernel_type">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_kernel_type</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_kernel_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_kernel_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the kernel type element.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-</dl>
-<dl class="docutils">
-<dt>kernel_kwargs <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary</span></dt>
-<dd>Get the respective kernel type of the SVM model.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_knn_inputs">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_knn_inputs</code><span class="sig-paren">(</span><em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_knn_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_knn_inputs" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the KNN Inputs element.</p>
-<dl class="docutils">
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-</dl>
-<dl class="docutils">
-<dt>KNNInputs :</dt>
-<dd>Returns Nyoka’s KNNInputs object.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_mining_buildtask">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_mining_buildtask</code><span class="sig-paren">(</span><em>pipeline</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_mining_buildtask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_mining_buildtask" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create MiningBuildTask for the given pipeline</p>
-<dl class="docutils">
-<dt>pipeline :</dt>
-<dd>Pipeline object</dd>
-</dl>
-<p>Nyoka’s MiningBuildTask object</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_mining_func">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_mining_func</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_mining_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_mining_func" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the name of the mining function of the model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-</dl>
-<dl class="docutils">
-<dt>func_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Returns the function name of the model</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_mining_schema">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_mining_schema</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_mining_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_mining_schema" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Mining Schema of the model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>feature_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains the list of feature/column name.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value.</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>MiningSchema :</dt>
-<dd>Nyoka’s MiningSchema object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_model_kwargs">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_model_kwargs</code><span class="sig-paren">(</span><em>model</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_model_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_model_kwargs" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns all the model element for a specific model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>model_kwargs <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary</span></dt>
-<dd>Returns  function name, MiningSchema and Output of the sk_model object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_multiple_model_method">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_multiple_model_method</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_multiple_model_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_multiple_model_method" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the type of multiple model method for MiningModels.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance</dd>
-</dl>
-<p>The multiple model method for a MiningModel.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_naiveBayesModel">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_naiveBayesModel</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_naiveBayesModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_naiveBayesModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML elements for naive bayes models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>naive_bayes_model <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Returns Nyoka’s NaiveBayesModel</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_nearestNeighbour_model">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_nearestNeighbour_model</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_nearestNeighbour_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_nearestNeighbour_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML elements for nearest neighbour model</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>nearest_neighbour_model :</dt>
-<dd>Returns Nyoka’s NearestNeighborModel object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_neural_layer">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_neural_layer</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_neural_layer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_neural_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Neural Layer and Neural Ouptput element.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>feature_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains the list of feature/column name.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-</dl>
-<dl class="docutils">
-<dt>all_neuron_layer <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Nyoka’s NeuralLayer object</dd>
-<dt>neural_output_element :</dt>
-<dd>Nyoka’s NeuralOutput object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_neural_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_neural_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_neural_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_neural_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML elements for neural network models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value.</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>neural_model <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Nyoka’s NeuralNetwork object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_neuron_input">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_neuron_input</code><span class="sig-paren">(</span><em>feature_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_neuron_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_neuron_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Neural Input element.</p>
-<dl class="docutils">
-<dt>feature_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains the list of feature/column name.</dd>
-</dl>
-<dl class="docutils">
-<dt>neural_input_element :</dt>
-<dd>Returns Nyoka’s NeuralInput object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_node">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_node</code><span class="sig-paren">(</span><em>model</em>, <em>features_names</em>, <em>main_model=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_node" title="Permalink to this definition">¶</a></dt>
-<dd><p>It return the Node element of the model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of the estimator of the tree object.</dd>
-<dt>features_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains the list of feature/column name.</dd>
-<dt>main_model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-</dl>
-<p>Get all the underlying Nodes.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_outer_segmentation">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_outer_segmentation</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_outer_segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_outer_segmentation" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Segmentation element of a MiningModel.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>segmentation :</dt>
-<dd>Nyoka’s Segmentation object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_output">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_output</code><span class="sig-paren">(</span><em>model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the output element of the model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-</dl>
-<dl class="docutils">
-<dt>Output :</dt>
-<dd>Nyoka’s Output object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_output_for_clustering">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_output_for_clustering</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_output_for_clustering"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_output_for_clustering" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates output for clustering models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-</dl>
-<dl class="docutils">
-<dt>output_fields <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Returns Nyoka’s Output object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_reg_mining_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_reg_mining_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_reg_mining_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_reg_mining_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates xml elements for multi-class linear models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>mining_model <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Returns a Nyoka’s MiningModel object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_reg_tab_for_reg_mining_model">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_reg_tab_for_reg_mining_model</code><span class="sig-paren">(</span><em>model</em>, <em>col_names</em>, <em>index</em>, <em>categorical_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_reg_tab_for_reg_mining_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_reg_tab_for_reg_mining_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates Regression Table for multi-class linear models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-</dl>
-<p>index : int
-categoric_values : tuple</p>
-<blockquote>
-<div>Contains Categorical attribute names and its values</div></blockquote>
-<p>Returns Nyoka’s RegressionTable object</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_regrs_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_regrs_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_regrs_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_regrs_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML elements for linear models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>regrs_models <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Nyoka’s RegressionModel object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_regrs_tabl">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_regrs_tabl</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_regrs_tabl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_regrs_tabl" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Regression Table element of the model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>merge <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Nyoka’s RegressionTable object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_segments">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_segments</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_segments" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Segment element of a Segmentation.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>segments :</dt>
-<dd>Nyoka’s Segment object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_segments_for_gbc">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_segments_for_gbc</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_segments_for_gbc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_segments_for_gbc" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns list of Segments element of a Segmentation.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>segments <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Nyoka’s Segment object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_super_cls_names">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_super_cls_names</code><span class="sig-paren">(</span><em>model_inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_super_cls_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_super_cls_names" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the set of Super class of the model.</p>
-<dl class="docutils">
-<dt>model_inst :</dt>
-<dd>Instance of the scikit-learn model</dd>
-</dl>
-<dl class="docutils">
-<dt>parents <span class="classifier-delimiter">:</span> <span class="classifier">Set</span></dt>
-<dd>Returns all the parent class of the model instance.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_supportVectorMachine">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_supportVectorMachine</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_supportVectorMachine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_supportVectorMachine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML elements for support vector machine models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-</dl>
-<dl class="docutils">
-<dt>support_vector_machines <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Nyoka’s SupportVectorMachineModel object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_supportVectorMachine_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_supportVectorMachine_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_names</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_supportVectorMachine_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_supportVectorMachine_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML elements for support vector machine models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_names <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>supportVector_models <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Returns Nyoka’s SupportVectorMachineModel object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_targets">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_targets</code><span class="sig-paren">(</span><em>model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_targets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_targets" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Target element of the model.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-</dl>
-<dl class="docutils">
-<dt>targets :</dt>
-<dd>Returns Nyoka’s Target object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_threshold">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_threshold</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_threshold" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Threshold value for Naive Bayes models.</p>
-<p>Returns the Threshold value</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_training_instances">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_training_instances</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_training_instances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_training_instances" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the Training Instance element.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>An instance of Scikit-learn model.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-</dl>
-<dl class="docutils">
-<dt>TrainingInstances :</dt>
-<dd>Returns Nyoka’s TrainingInstances object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_tree_models">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_tree_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_tree_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_tree_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates PMML elements for tree models</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the Target column.</dd>
-<dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>tree_models <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Nyoka’s TreeModel object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_vectorDictionary">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_vectorDictionary</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_vectorDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_vectorDictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>It return the Vector Dictionary element.</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>A Scikit-learn model instance.</dd>
-<dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains column names after preprocessing.</dd>
-<dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd>Contains Categorical attribute names and its values</dd>
-</dl>
-<dl class="docutils">
-<dt>VectorDictionary :</dt>
-<dd>Nyoka’s VectorDictionary object</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.get_version">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">get_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_version" title="Permalink to this definition">¶</a></dt>
-<dd><p>It returns the pmml version .</p>
-<dl class="docutils">
-<dt>version <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Returns the version of the pmml.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.has_target">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">has_target</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#has_target"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.has_target" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks whether a given model has target or not</p>
-<dl class="docutils">
-<dt>model :</dt>
-<dd>Scikit-learn’s model object</dd>
-</dl>
-<p>Boolean value</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skl_to_pmml.skl_to_pmml">
-<code class="descclassname">skl_to_pmml.</code><code class="descname">skl_to_pmml</code><span class="sig-paren">(</span><em>pipeline</em>, <em>col_names</em>, <em>target_name='target'</em>, <em>pmml_f_name='from_sklearn.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#skl_to_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.skl_to_pmml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exports scikit-learn pipeline object into pmml</p>
-<dl class="docutils">
-<dt>pipeline :</dt>
-<dd>Contains an instance of Pipeline with preprocessing and final estimator</dd>
-<dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>Contains list of feature/column names.</dd>
-<dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the target column. (Default=’target’)</dd>
-<dt>pmml_f_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the pmml file. (Default=’from_sklearn.pmml’)</dd>
-</dl>
-<p>Generates a PMML object and exports it to <cite>pmml_f_name</cite></p>
-</dd></dl>
-
-</div>
-
+            <div class="section" id="module-skl_to_pmml">
+              <span id="skl-to-pmml-module"></span><h1>skl_to_pmml module<a class="headerlink" href="#module-skl_to_pmml" title="Permalink to this headline">¶</a></h1>
+              <dl class="function">
+              <dt id="skl_to_pmml.any_in">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">any_in</code><span class="sig-paren">(</span><em>seq_a</em>, <em>seq_b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#any_in"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.any_in" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Checks for common elements in two given sequence elements</p>
+              <dl class="docutils">
+              <dt>seq_a <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+              <dd>A list of items</dd>
+              <dt>seq_b <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+              <dd>A list of items</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.avgPathLength">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">avgPathLength</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#avgPathLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.avgPathLength" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates average path length for Isolation forest models</p>
+              <dl class="docutils">
+              <dt>n <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+              <dd>Number of samples</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_PMML_kwargs">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_PMML_kwargs</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_PMML_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_PMML_kwargs" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns all the pmml elements.</p>
+              <dl class="docutils">
+              <dt>model <span class="classifier-delimiter">:</span> <span class="classifier">Scikit-learn model object</span></dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List </span></dt>
+              <dd>Contains column names after preprocessing</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the target column .</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_anomaly_detection_output">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_anomaly_detection_output</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_anomaly_detection_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_anomaly_detection_output" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates output for anomaly detection models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>Scikit-learn’s model object</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_anomalydetection_model">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_anomalydetection_model</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_anomalydetection_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_anomalydetection_model" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Creates xml elements for anomaly detction models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_bayes_inputs">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_bayes_inputs</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_bayes_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_bayes_inputs" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Bayes Input element of the naive bayes model .</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_bayes_output">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_bayes_output</code><span class="sig-paren">(</span><em>model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_bayes_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_bayes_output" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Bayes Output element of the model</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_classificationMethod">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_classificationMethod</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_classificationMethod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_classificationMethod" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Classification method name for SVM models.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_cluster_num">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_cluster_num</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_cluster_num"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_cluster_num" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Returns number of cluster for clustering models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_cluster_vals">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_cluster_vals</code><span class="sig-paren">(</span><em>model</em>, <em>counts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_cluster_vals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_cluster_vals" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates cluster information for clustering models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_clustering_flds">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_clustering_flds</code><span class="sig-paren">(</span><em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_clustering_flds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_clustering_flds" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates cluster fields for clustering models</p>
+              <dl class="docutils">
+              <dt>col_names :</dt>
+              <dd>Contains list of feature/column names.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_clustering_model">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_clustering_model</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_clustering_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_clustering_model" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML elements for clustering models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_comp_measure">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_comp_measure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_comp_measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_comp_measure" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates comparison measure information for clustering models</p>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_comparison_measure">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_comparison_measure</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_comparison_measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_comparison_measure" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It return the Comparison measure element for nearest neighbour model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_data_dictionary">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_data_dictionary</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_data_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_data_dictionary" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Data Dictionary element.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>feature_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains the list of feature/column name.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_dtype">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_dtype</code><span class="sig-paren">(</span><em>feat_value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_dtype" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It return the data type of the value.</p>
+              <dl class="docutils">
+              <dt>feat_value :</dt>
+              <dd>Contains a value for finding the its data type.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_ensemble_models">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_ensemble_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_ensemble_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_ensemble_models" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML elemenets for ensemble models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value.</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_entire_string">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_entire_string</code><span class="sig-paren">(</span><em>pipe0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_entire_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_entire_string" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Creates a String containing the whole Pipeline’s information</p>
+              <dl class="docutils">
+              <dt>pipe0 <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+              <dd>The Pipeline object</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_funct">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_funct</code><span class="sig-paren">(</span><em>sk_model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_funct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_funct" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the activation fucntion for a neural network model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_header">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_header" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Header element of the pmml</p>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_inline_table">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_inline_table</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_inline_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_inline_table" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It Returns the Inline Table element of the model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_inner_segments">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_inner_segments</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_inner_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_inner_segments" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the segments of a Segmentation.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>index <span class="classifier-delimiter">:</span> <span class="classifier">Integer</span></dt>
+              <dd>The index of the estimator for the model</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_instance_fields">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_instance_fields</code><span class="sig-paren">(</span><em>derived_col_names</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_instance_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_instance_fields" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Instance field element.</p>
+              <dl class="docutils">
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_kernel_type">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_kernel_type</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_kernel_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_kernel_type" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the kernel type element.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_knn_inputs">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_knn_inputs</code><span class="sig-paren">(</span><em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_knn_inputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_knn_inputs" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the KNN Inputs element.</p>
+              <dl class="docutils">
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_mining_buildtask">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_mining_buildtask</code><span class="sig-paren">(</span><em>pipeline</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_mining_buildtask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_mining_buildtask" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Create MiningBuildTask for the given pipeline</p>
+              <dl class="docutils">
+              <dt>pipeline :</dt>
+              <dd>Pipeline object</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_mining_func">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_mining_func</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_mining_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_mining_func" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the name of the mining function of the model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_mining_schema">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_mining_schema</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_mining_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_mining_schema" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Mining Schema of the model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>feature_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains the list of feature/column name.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value.</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_model_kwargs">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_model_kwargs</code><span class="sig-paren">(</span><em>model</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_model_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_model_kwargs" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns all the model element for a specific model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_multiple_model_method">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_multiple_model_method</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_multiple_model_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_multiple_model_method" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the type of multiple model method for MiningModels.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_naiveBayesModel">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_naiveBayesModel</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_naiveBayesModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_naiveBayesModel" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML elements for naive bayes models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_nearestNeighbour_model">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_nearestNeighbour_model</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_nearestNeighbour_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_nearestNeighbour_model" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML elements for nearest neighbour model</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_neural_layer">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_neural_layer</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_neural_layer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_neural_layer" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Neural Layer and Neural Ouptput element.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>feature_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains the list of feature/column name.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_neural_models">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_neural_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_neural_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_neural_models" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML elements for neural network models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value.</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_neuron_input">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_neuron_input</code><span class="sig-paren">(</span><em>feature_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_neuron_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_neuron_input" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Neural Input element.</p>
+              <dl class="docutils">
+              <dt>feature_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains the list of feature/column name.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_node">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_node</code><span class="sig-paren">(</span><em>model</em>, <em>features_names</em>, <em>main_model=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_node" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It return the Node element of the model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of the estimator of the tree object.</dd>
+              <dt>features_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains the list of feature/column name.</dd>
+              <dt>main_model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_outer_segmentation">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_outer_segmentation</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_outer_segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_outer_segmentation" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Segmentation element of a MiningModel.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_output">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_output</code><span class="sig-paren">(</span><em>model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_output" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the output element of the model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_output_for_clustering">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_output_for_clustering</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_output_for_clustering"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_output_for_clustering" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates output for clustering models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_reg_mining_models">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_reg_mining_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_reg_mining_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_reg_mining_models" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Creates xml elements for multi-class linear models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_reg_tab_for_reg_mining_model">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_reg_tab_for_reg_mining_model</code><span class="sig-paren">(</span><em>model</em>, <em>col_names</em>, <em>index</em>, <em>categorical_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_reg_tab_for_reg_mining_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_reg_tab_for_reg_mining_model" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates Regression Table for multi-class linear models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              </dl>
+              <p>index : int
+              categoric_values : tuple</p>
+              <blockquote>
+              <div>Contains Categorical attribute names and its values</div></blockquote>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_regrs_models">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_regrs_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_regrs_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_regrs_models" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML elements for linear models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_regrs_tabl">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_regrs_tabl</code><span class="sig-paren">(</span><em>model</em>, <em>feature_names</em>, <em>target_name</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_regrs_tabl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_regrs_tabl" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Regression Table element of the model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_segments">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_segments</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_segments" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Segment element of a Segmentation.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_segments_for_gbc">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_segments_for_gbc</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_segments_for_gbc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_segments_for_gbc" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns list of Segments element of a Segmentation.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_super_cls_names">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_super_cls_names</code><span class="sig-paren">(</span><em>model_inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_super_cls_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_super_cls_names" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the set of Super class of the model.</p>
+              <dl class="docutils">
+              <dt>model_inst :</dt>
+              <dd>Instance of the scikit-learn model</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_supportVectorMachine">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_supportVectorMachine</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_supportVectorMachine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_supportVectorMachine" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML elements for support vector machine models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_supportVectorMachine_models">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_supportVectorMachine_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_names</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_supportVectorMachine_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_supportVectorMachine_models" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML elements for support vector machine models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_names <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_targets">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_targets</code><span class="sig-paren">(</span><em>model</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_targets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_targets" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Target element of the model.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_threshold">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_threshold</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_threshold" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Threshold value for Naive Bayes models.</p>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_training_instances">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_training_instances</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>target_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_training_instances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_training_instances" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the Training Instance element.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>An instance of Scikit-learn model.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_tree_models">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_tree_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_tree_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_tree_models" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Generates PMML elements for tree models</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the Target column.</dd>
+              <dt>mining_imp_val <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains the mining_attributes,mining_strategy, mining_impute_value</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_vectorDictionary">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_vectorDictionary</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>categoric_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_vectorDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_vectorDictionary" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It return the Vector Dictionary element.</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>A Scikit-learn model instance.</dd>
+              <dt>derived_col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains column names after preprocessing.</dd>
+              <dt>categoric_values <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+              <dd>Contains Categorical attribute names and its values</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.get_version">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">get_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#get_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.get_version" title="Permalink to this definition">¶</a></dt>
+              <dd><p>It returns the pmml version .</p>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.has_target">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">has_target</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#has_target"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.has_target" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Checks whether a given model has target or not</p>
+              <dl class="docutils">
+              <dt>model :</dt>
+              <dd>Scikit-learn’s model object</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="function">
+              <dt id="skl_to_pmml.skl_to_pmml">
+              <code class="descclassname">skl_to_pmml.</code><code class="descname">skl_to_pmml</code><span class="sig-paren">(</span><em>pipeline</em>, <em>col_names</em>, <em>target_name='target'</em>, <em>pmml_f_name='from_sklearn.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#skl_to_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skl_to_pmml.skl_to_pmml" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Exports scikit-learn pipeline object into pmml</p>
+              <dl class="docutils">
+              <dt>pipeline :</dt>
+              <dd>Contains an instance of Pipeline with preprocessing and final estimator</dd>
+              <dt>col_names <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>Contains list of feature/column names.</dd>
+              <dt>target_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the target column. (Default=’target’)</dd>
+              <dt>pmml_f_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the pmml file. (Default=’from_sklearn.pmml’)</dd>
+              </dl>
+              </dd></dl>
+              
+              </div>
 
            </div>
            

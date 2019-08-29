@@ -169,205 +169,205 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-keras_model_to_pmml">
-<span id="keras-model-to-pmml-module"></span><h1>Keras Exporter Module<a class="headerlink" href="#module-keras_model_to_pmml" title="Permalink to this headline">¶</a></h1>
-<p>Classes used in keras_model_to_pmml.py</p>
-<dl class="class">
-<dt id="keras_model_to_pmml.KerasDataDictionary">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasDataDictionary</code><span class="sig-paren">(</span><em>dataSet</em>, <em>predictedClasses</em>, <em>script_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasDataDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasDataDictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.DataDictionary" title="PMML44.DataDictionary"><code class="xref py py-class docutils literal"><span class="pre">PMML44.DataDictionary</span></code></a></p>
-<p>KerasDataDictionary stores the class information to be predicted  in the PMML model.
-The current implementation takes care of the image class label by giving dataset name as dataSet parameter.</p>
-<dl class="docutils">
-<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the dataset</dd>
-<dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>List of class names or values to be predicted.</dd>
-<dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary or None</span></dt>
-<dd>Parameters for the script if any preprocessing script is provided</dd>
-</dl>
-<p>Nyoka’s DataDictionary Object</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="keras_model_to_pmml.KerasHeader">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasHeader</code><span class="sig-paren">(</span><em>description</em>, <em>copyright</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasHeader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.Header" title="PMML44.Header"><code class="xref py py-class docutils literal"><span class="pre">PMML44.Header</span></code></a></p>
-<p>Creates header for Keras PMML model file using Nyoka</p>
-<dl class="docutils">
-<dt>description <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Description of the PMML file provided as a default</dd>
-<dt>copyright <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Adds the information about the copyright.</dd>
-</dl>
-<p>Nyoka header object</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="keras_model_to_pmml.KerasLocalTransformations">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasLocalTransformations</code><span class="sig-paren">(</span><em>keras_model</em>, <em>dataSet</em>, <em>script_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasLocalTransformations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasLocalTransformations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.LocalTransformations" title="PMML44.LocalTransformations"><code class="xref py py-class docutils literal"><span class="pre">PMML44.LocalTransformations</span></code></a></p>
-<p>KerasLocalTransformations provides the information about the list of transformations applied to the data.</p>
-<dl class="docutils">
-<dt>keras_model <span class="classifier-delimiter">:</span> <span class="classifier">Keras model object</span></dt>
-<dd>Keras model object</dd>
-<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the dataset</dd>
-<dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary</span></dt>
-<dd>Parameters for the script if any preprocessing script is provided</dd>
-</dl>
-<p>Nyoka’s LocalTransformations Object</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="keras_model_to_pmml.KerasMiningSchema">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasMiningSchema</code><span class="sig-paren">(</span><em>dataSet</em>, <em>predictedClasses</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasMiningSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasMiningSchema" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.MiningSchema" title="PMML44.MiningSchema"><code class="xref py py-class docutils literal"><span class="pre">PMML44.MiningSchema</span></code></a></p>
-<p>KerasMiningSchema stores the attributes which are used to build the model.</p>
-<dl class="docutils">
-<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the dataset</dd>
-<dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd>List of class names or values to be predicted.</dd>
-</dl>
-<p>Nyoka’s MiningSchema Object</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="keras_model_to_pmml.KerasNetwork">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasNetwork</code><span class="sig-paren">(</span><em>keras_model</em>, <em>model_name</em>, <em>dataSet=None</em>, <em>predictedClasses=None</em>, <em>script_args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasNetwork" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.DeepNetwork" title="PMML44.DeepNetwork"><code class="xref py py-class docutils literal"><span class="pre">PMML44.DeepNetwork</span></code></a></p>
-<p>KerasNetwork creates the DeepNetwork object which stores the NetworkLayer in sequence to define the architecture.</p>
-<dl class="docutils">
-<dt>keras_model <span class="classifier-delimiter">:</span> <span class="classifier">Keras model object</span></dt>
-<dd>Keras model object</dd>
-<dt>model_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the model</dd>
-<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the dataset</dd>
-<dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List or None</span></dt>
-<dd>List of class names</dd>
-<dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary or None</span></dt>
-<dd>Parameters for the script if any preprocessing script is provided</dd>
-</dl>
-<p>Nyoka’s DeepNetwork Object</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="keras_model_to_pmml.KerasNetworkLayer">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasNetworkLayer</code><span class="sig-paren">(</span><em>layer</em>, <em>dataSet</em>, <em>layer_type</em>, <em>script_args</em>, <em>connection_layer_id=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasNetworkLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasNetworkLayer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.NetworkLayer" title="PMML44.NetworkLayer"><code class="xref py py-class docutils literal"><span class="pre">PMML44.NetworkLayer</span></code></a></p>
-<p>Creates Networklayer of PMML which has information about the layer type, weight matrix and bias matrix and their properties.</p>
-<dl class="docutils">
-<dt>layer <span class="classifier-delimiter">:</span> <span class="classifier">Keras layer object</span></dt>
-<dd>Keras layer object</dd>
-<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Name of the dataset</dd>
-<dt>layer_type <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-<dd>Class name of the layer</dd>
-<dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary or None</span></dt>
-<dd>Parameters for the script if any preprocessing script is provided</dd>
-<dt>connection_layer_id <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>Whether to generate connection layer IDs or not</dd>
-</dl>
-<p>Nyoka NetworkLayer object</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="keras_model_to_pmml.KerasOutput">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasOutput</code><span class="sig-paren">(</span><em>predictedClasses=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasOutput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.Output" title="PMML44.Output"><code class="xref py py-class docutils literal"><span class="pre">PMML44.Output</span></code></a></p>
-<p>KerasOutput provides the information about the output representation of the PMML. (e.g. Predicted classes, probabilities)</p>
-<dl class="docutils">
-<dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List or None</span></dt>
-<dd>List of Classes for which model has been trained. If not provided, considered as Regression</dd>
-</dl>
-<p>Nyoka’s Output Object</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="keras_model_to_pmml.KerasToPmml">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasToPmml</code><span class="sig-paren">(</span><em>keras_model</em>, <em>model_name=None</em>, <em>description=None</em>, <em>copyright=None</em>, <em>dataSet=None</em>, <em>predictedClasses=None</em>, <em>script_args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.PMML" title="PMML44.PMML"><code class="xref py py-class docutils literal"><span class="pre">PMML44.PMML</span></code></a></p>
-<p>KerasToPmml exports the Keras model object into PMML file using nyoka.</p>
-<dl class="docutils">
-<dt>keras_model <span class="classifier-delimiter">:</span> <span class="classifier">Keras model object</span></dt>
-<dd>Keras model object</dd>
-<dt>model_name <span class="classifier-delimiter">:</span> <span class="classifier">String or None</span></dt>
-<dd>Name to be given to the model in PMML.</dd>
-<dt>description <span class="classifier-delimiter">:</span> <span class="classifier">Sting or None</span></dt>
-<dd>Description to be shown in PMML</dd>
-<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String or None</span></dt>
-<dd>Name of the dataset. Value is ‘image’ for Image Classifier, ‘None’ or any other value is for tabular or base64 encoded data.</dd>
-<dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List or None</span></dt>
-<dd>List of the class names for which model has been trained. If not provided, assumed to be regression model.</dd>
-<dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary or None</span></dt>
-<dd><p class="first">Contains information of the script to be used to convert <cite>image</cite> data into base64 string. Required when dataSet=`image`.
-Required attributes -</p>
-<blockquote class="last">
-<div><dl class="docutils">
-<dt>content <span class="classifier-delimiter">:</span> <span class="classifier">string or function</span></dt>
-<dd>The content of the script</dd>
-<dt>def_name <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>name of the function to be used. Required when content is string</dd>
-<dt>return_type <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>The return type of the function. Valid values are (‘string’, ‘double’, ‘float’,’integer’)</dd>
-<dt>encode <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>The representation of the script in PMML. If True, the script will be represented as base64 encoded string, else as plain text.
-If not provided, default value <cite>True</cite> is considered.</dd>
-</dl>
-</div></blockquote>
-</dd>
-</dl>
-<p>Creates Nyoka’s PMML object, this can be saved in file using export function</p>
-<dl class="attribute">
-<dt id="keras_model_to_pmml.KerasToPmml.content_error">
-<code class="descname">content_error</code><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.content_error" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="keras_model_to_pmml.KerasToPmml.def_name_error">
-<code class="descname">def_name_error</code><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.def_name_error" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="keras_model_to_pmml.KerasToPmml.encode_error">
-<code class="descname">encode_error</code><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.encode_error" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="keras_model_to_pmml.KerasToPmml.ret_type_error">
-<code class="descname">ret_type_error</code><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.ret_type_error" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="keras_model_to_pmml.KerasToPmml.ret_type_value_error">
-<code class="descname">ret_type_value_error</code><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.ret_type_value_error" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="keras_model_to_pmml.KerasToPmml.validate_script_args">
-<code class="descname">validate_script_args</code><span class="sig-paren">(</span><em>script_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasToPmml.validate_script_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.validate_script_args" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="keras_model_to_pmml.KerasTransformationDictionary">
-<em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasTransformationDictionary</code><span class="sig-paren">(</span><em>dataSet</em>, <em>script_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasTransformationDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasTransformationDictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.TransformationDictionary" title="PMML44.TransformationDictionary"><code class="xref py py-class docutils literal"><span class="pre">PMML44.TransformationDictionary</span></code></a></p>
-<p>KerasTransformationDictionary provides the information about the list of transformations functions applied to the data.</p>
-<dl class="docutils">
-<dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>name of the input</dd>
-<dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary</span></dt>
-<dd>Parameters for the script if any preprocessing script is provided</dd>
-</dl>
-<p>Nyoka’s TransformationDictionary object</p>
-</dd></dl>
-
-</div>
-
+            <div class="section" id="module-keras_model_to_pmml">
+              <span id="keras-model-to-pmml-module"></span><h1>keras_model_to_pmml module<a class="headerlink" href="#module-keras_model_to_pmml" title="Permalink to this headline">¶</a></h1>
+              <p>Classes used in keras_model_to_pmml.py</p>
+              <dl class="class">
+              <dt id="keras_model_to_pmml.KerasDataDictionary">
+              <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasDataDictionary</code><span class="sig-paren">(</span><em>dataSet</em>, <em>predictedClasses</em>, <em>script_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasDataDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasDataDictionary" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.DataDictionary" title="PMML44.DataDictionary"><code class="xref py py-class docutils literal"><span class="pre">PMML44.DataDictionary</span></code></a></p>
+              <p>KerasDataDictionary stores the class information to be predicted  in the PMML model.
+              The current implementation takes care of the image class label by giving dataset name as dataSet parameter.</p>
+              <dl class="docutils">
+              <dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the dataset</dd>
+              <dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>List of class names or values to be predicted.</dd>
+              <dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary or None</span></dt>
+              <dd>Parameters for the script if any preprocessing script is provided</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="class">
+              <dt id="keras_model_to_pmml.KerasHeader">
+              <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasHeader</code><span class="sig-paren">(</span><em>description</em>, <em>copyright</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasHeader" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.Header" title="PMML44.Header"><code class="xref py py-class docutils literal"><span class="pre">PMML44.Header</span></code></a></p>
+              <p>Creates header for Keras PMML model file using Nyoka</p>
+              <dl class="docutils">
+              <dt>description <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Description of the PMML file provided as a default</dd>
+              <dt>copyright <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Adds the information about the copyright.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="class">
+              <dt id="keras_model_to_pmml.KerasLocalTransformations">
+              <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasLocalTransformations</code><span class="sig-paren">(</span><em>keras_model</em>, <em>dataSet</em>, <em>script_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasLocalTransformations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasLocalTransformations" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.LocalTransformations" title="PMML44.LocalTransformations"><code class="xref py py-class docutils literal"><span class="pre">PMML44.LocalTransformations</span></code></a></p>
+              <p>KerasLocalTransformations provides the information about the list of transformations applied to the data.</p>
+              <dl class="docutils">
+              <dt>keras_model <span class="classifier-delimiter">:</span> <span class="classifier">Keras model object</span></dt>
+              <dd>Keras model object</dd>
+              <dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the dataset</dd>
+              <dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary</span></dt>
+              <dd>Parameters for the script if any preprocessing script is provided</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="class">
+              <dt id="keras_model_to_pmml.KerasMiningSchema">
+              <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasMiningSchema</code><span class="sig-paren">(</span><em>dataSet</em>, <em>predictedClasses</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasMiningSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasMiningSchema" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.MiningSchema" title="PMML44.MiningSchema"><code class="xref py py-class docutils literal"><span class="pre">PMML44.MiningSchema</span></code></a></p>
+              <p>KerasMiningSchema stores the attributes which are used to build the model.</p>
+              <dl class="docutils">
+              <dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the dataset</dd>
+              <dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+              <dd>List of class names or values to be predicted.</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="class">
+              <dt id="keras_model_to_pmml.KerasNetwork">
+              <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasNetwork</code><span class="sig-paren">(</span><em>keras_model</em>, <em>model_name</em>, <em>dataSet=None</em>, <em>predictedClasses=None</em>, <em>script_args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasNetwork" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.DeepNetwork" title="PMML44.DeepNetwork"><code class="xref py py-class docutils literal"><span class="pre">PMML44.DeepNetwork</span></code></a></p>
+              <p>KerasNetwork creates the DeepNetwork object which stores the NetworkLayer in sequence to define the architecture.</p>
+              <dl class="docutils">
+              <dt>keras_model <span class="classifier-delimiter">:</span> <span class="classifier">Keras model object</span></dt>
+              <dd>Keras model object</dd>
+              <dt>model_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the model</dd>
+              <dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the dataset</dd>
+              <dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List or None</span></dt>
+              <dd>List of class names</dd>
+              <dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary or None</span></dt>
+              <dd>Parameters for the script if any preprocessing script is provided</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="class">
+              <dt id="keras_model_to_pmml.KerasNetworkLayer">
+              <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasNetworkLayer</code><span class="sig-paren">(</span><em>layer</em>, <em>dataSet</em>, <em>layer_type</em>, <em>script_args</em>, <em>connection_layer_id=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasNetworkLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasNetworkLayer" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.NetworkLayer" title="PMML44.NetworkLayer"><code class="xref py py-class docutils literal"><span class="pre">PMML44.NetworkLayer</span></code></a></p>
+              <p>Creates Networklayer of PMML which has information about the layer type, weight matrix and bias matrix and their properties.</p>
+              <dl class="docutils">
+              <dt>layer <span class="classifier-delimiter">:</span> <span class="classifier">Keras layer object</span></dt>
+              <dd>Keras layer object</dd>
+              <dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Name of the dataset</dd>
+              <dt>layer_type <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
+              <dd>Class name of the layer</dd>
+              <dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary or None</span></dt>
+              <dd>Parameters for the script if any preprocessing script is provided</dd>
+              <dt>connection_layer_id <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+              <dd>Whether to generate connection layer IDs or not</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="class">
+              <dt id="keras_model_to_pmml.KerasOutput">
+              <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasOutput</code><span class="sig-paren">(</span><em>predictedClasses=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasOutput" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.Output" title="PMML44.Output"><code class="xref py py-class docutils literal"><span class="pre">PMML44.Output</span></code></a></p>
+              <p>KerasOutput provides the information about the output representation of the PMML. (e.g. Predicted classes, probabilities)</p>
+              <dl class="docutils">
+              <dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List or None</span></dt>
+              <dd>List of Classes for which model has been trained. If not provided, considered as Regression</dd>
+              </dl>
+              </dd></dl>
+              
+              <dl class="class">
+              <dt id="keras_model_to_pmml.KerasToPmml">
+              <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasToPmml</code><span class="sig-paren">(</span><em>keras_model</em>, <em>model_name=None</em>, <em>description=None</em>, <em>copyright=None</em>, <em>dataSet=None</em>, <em>predictedClasses=None</em>, <em>script_args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.PMML" title="PMML44.PMML"><code class="xref py py-class docutils literal"><span class="pre">PMML44.PMML</span></code></a></p>
+              <p>KerasToPmml exports the Keras model object into PMML file using nyoka.</p>
+              <dl class="docutils">
+              <dt>keras_model <span class="classifier-delimiter">:</span> <span class="classifier">Keras model object</span></dt>
+              <dd>Keras model object</dd>
+              <dt>model_name <span class="classifier-delimiter">:</span> <span class="classifier">String or None</span></dt>
+              <dd>Name to be given to the model in PMML.</dd>
+              <dt>description <span class="classifier-delimiter">:</span> <span class="classifier">Sting or None</span></dt>
+              <dd>Description to be shown in PMML</dd>
+              <dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">String or None</span></dt>
+              <dd>Name of the dataset. Value is ‘image’ for Image Classifier, ‘None’ or any other value is for tabular or base64 encoded data.</dd>
+              <dt>predictedClasses <span class="classifier-delimiter">:</span> <span class="classifier">List or None</span></dt>
+              <dd>List of the class names for which model has been trained. If not provided, assumed to be regression model.</dd>
+              <dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary or None</span></dt>
+              <dd><p class="first">Contains information of the script to be used to convert <cite>image</cite> data into base64 string. Required when dataSet=`image`.
+              Required attributes -</p>
+              <blockquote class="last">
+              <div><dl class="docutils">
+              <dt>content <span class="classifier-delimiter">:</span> <span class="classifier">string or function</span></dt>
+              <dd>The content of the script</dd>
+              <dt>def_name <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+              <dd>name of the function to be used. Required when content is string</dd>
+              <dt>return_type <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+              <dd>The return type of the function. Valid values are (‘string’, ‘double’, ‘float’,’integer’)</dd>
+              <dt>encode <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+              <dd>The representation of the script in PMML. If True, the script will be represented as base64 encoded string, else as plain text.
+              If not provided, default value <cite>True</cite> is considered.</dd>
+              </dl>
+              </div></blockquote>
+              </dd>
+              </dl>
+              <dl class="attribute">
+              <dt id="keras_model_to_pmml.KerasToPmml.content_error">
+              <code class="descname">content_error</code><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.content_error" title="Permalink to this definition">¶</a></dt>
+              <dd><p>&#64;property. Returns error message if content is not present in script_args</p>
+              </dd></dl>
+              
+              <dl class="attribute">
+              <dt id="keras_model_to_pmml.KerasToPmml.def_name_error">
+              <code class="descname">def_name_error</code><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.def_name_error" title="Permalink to this definition">¶</a></dt>
+              <dd><p>&#64;property. Returns error message if <cite>def_name</cite> is not present in script_args</p>
+              </dd></dl>
+              
+              <dl class="attribute">
+              <dt id="keras_model_to_pmml.KerasToPmml.encode_error">
+              <code class="descname">encode_error</code><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.encode_error" title="Permalink to this definition">¶</a></dt>
+              <dd><p>&#64;property. Returns error message if <cite>encode</cite> has invalid value</p>
+              </dd></dl>
+              
+              <dl class="attribute">
+              <dt id="keras_model_to_pmml.KerasToPmml.ret_type_error">
+              <code class="descname">ret_type_error</code><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.ret_type_error" title="Permalink to this definition">¶</a></dt>
+              <dd><p>&#64;property. Returns error message if <cite>ret_type</cite> is not present in script_args</p>
+              </dd></dl>
+              
+              <dl class="attribute">
+              <dt id="keras_model_to_pmml.KerasToPmml.ret_type_value_error">
+              <code class="descname">ret_type_value_error</code><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.ret_type_value_error" title="Permalink to this definition">¶</a></dt>
+              <dd><p>&#64;property. Returns error message if <cite>ret_type</cite> has invalid value</p>
+              </dd></dl>
+              
+              <dl class="method">
+              <dt id="keras_model_to_pmml.KerasToPmml.validate_script_args">
+              <code class="descname">validate_script_args</code><span class="sig-paren">(</span><em>script_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasToPmml.validate_script_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasToPmml.validate_script_args" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Validates all the arguments present in script_args</p>
+              <dl class="docutils">
+              <dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+              <dd>Contains arguments for the script</dd>
+              </dl>
+              </dd></dl>
+              
+              </dd></dl>
+              
+              <dl class="class">
+              <dt id="keras_model_to_pmml.KerasTransformationDictionary">
+              <em class="property">class </em><code class="descclassname">keras_model_to_pmml.</code><code class="descname">KerasTransformationDictionary</code><span class="sig-paren">(</span><em>dataSet</em>, <em>script_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/keras_model_to_pmml.html#KerasTransformationDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#keras_model_to_pmml.KerasTransformationDictionary" title="Permalink to this definition">¶</a></dt>
+              <dd><p>Bases: <a class="reference internal" href="PMML44.html#PMML44.TransformationDictionary" title="PMML44.TransformationDictionary"><code class="xref py py-class docutils literal"><span class="pre">PMML44.TransformationDictionary</span></code></a></p>
+              <p>KerasTransformationDictionary provides the information about the list of transformations functions applied to the data.</p>
+              <dl class="docutils">
+              <dt>dataSet <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+              <dd>name of the input</dd>
+              <dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary</span></dt>
+              <dd>Parameters for the script if any preprocessing script is provided</dd>
+              </dl>
+              </dd></dl>
+              
+              </div>
 
            </div>
            
