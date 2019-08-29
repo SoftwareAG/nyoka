@@ -52,6 +52,9 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml'):
         target_name = toExportDict[model_name]['targetName']
         tasktype = toExportDict[model_name]['taskType']
 
+        if toExportDict[model_name]['data'] is not None:
+            dataObj = pml.Data(for_=model_name,filePath=toExportDict[model_name]['data'])
+
         model = toExportDict[model_name]['modelObj']
 
         pipelineOnly = toExportDict[model_name]['pipelineObj']
@@ -133,6 +136,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml'):
     pmml = pml.PMML(
         version=get_version(),
         Header=get_header(),
+        Data=[dataObj],
         MiningBuildTask=get_mining_buildtask(toExportDict),
         DataDictionary=get_data_dictionary_values(data_dicts),
         script = get_script_execution(toExportDict),
