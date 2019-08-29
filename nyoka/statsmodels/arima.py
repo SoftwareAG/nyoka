@@ -228,9 +228,9 @@ class ArimaToPMML:
             extensions.append(Extension(name="cov_type", value = results.cov_type))
             return extensions
 
-        if time_series_data:
+        if time_series_data != None:
             warnings.warn("`time_series_data` is deprecated in version 3.2.0. It is not used in the exporter")
-        if model_obj:
+        if model_obj != None:
             warnings.warn("`model_obj` is deprecated in version 3.2.0. It is not used in the exporter")
 
         if 'int' in str(results_obj.model.endog.dtype):
