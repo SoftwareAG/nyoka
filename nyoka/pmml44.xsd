@@ -1587,6 +1587,7 @@
       <xs:sequence minOccurs="0" maxOccurs="1">
         <xs:element ref="Decisions" minOccurs="0" maxOccurs="1"/>
         <xs:group ref="EXPRESSION" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="Value" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:sequence>
     <xs:attribute name="name" type="FIELD-NAME" use="required"/>
