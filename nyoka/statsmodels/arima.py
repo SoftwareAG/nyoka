@@ -222,15 +222,9 @@ class ArimaToPMML:
             data_field_objs.append(DataField(name='h', dataType='integer', optype='continuous'))
             return data_field_objs
 
-        def get_sarimax_extension_list(results):
-            extensions = list()
-            extensions.append(Extension(name="sigmaSquare", value = results._params_variance[0]))
-            extensions.append(Extension(name="cov_type", value = results.cov_type))
-            return extensions
-
-        if time_series_data != None:
+        if hasattr(time_series_data,"__len__"):
             warnings.warn("`time_series_data` is deprecated in version 3.2.0. It is not used in the exporter")
-        if model_obj != None:
+        if hasattr(model_obj,"__len__"):
             warnings.warn("`model_obj` is deprecated in version 3.2.0. It is not used in the exporter")
 
         if 'int' in str(results_obj.model.endog.dtype):
