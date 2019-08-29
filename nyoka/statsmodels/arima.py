@@ -229,9 +229,9 @@ class ArimaToPMML:
             return extensions
 
         if time_series_data:
-            warnings.warn("`time_series_data` is deprecated in version 3.3.0. It is not used in the exporter")
+            warnings.warn("`time_series_data` is deprecated in version 3.2.0. It is not used in the exporter")
         if model_obj:
-            warnings.warn("`model_obj` is deprecated in version 3.3.0. It is not used in the exporter")
+            warnings.warn("`model_obj` is deprecated in version 3.2.0. It is not used in the exporter")
 
         if 'int' in str(results_obj.model.endog.dtype):
             results_obj.model.endog=results_obj.model.endog.astype('float64')
