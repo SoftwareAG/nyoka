@@ -30,7 +30,7 @@ def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml'):
 
     Returns
     -------
-    Returns a pmml file
+    Exports the generated PMML object to `pmml_f_name`
 
     """
     try:
@@ -90,7 +90,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
 
     Returns
     -------
-    algo_kwargs : { dictionary element}
+    algo_kwargs : Dictionary
         Get the PMML model argument based on LGB model object
     """
     algo_kwargs = {'MiningModel': get_ensemble_models(model,
@@ -122,8 +122,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
 
     Returns
     -------
-    mining_models :
-        Returns the MiningModel of the respective LGB model
+    Returns the MiningModel for the given LGB model
     """
     model_kwargs = sklToPmml.get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
     mining_models = list()
@@ -209,15 +208,15 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
 
     Parameters
     ----------
-    val: List
+    val : List
         Contains nodes in json format.
-    derived_col_names: List
+    derived_col_names : List
         Contains column names after preprocessing.
-    col_names: List
+    col_names : List
         Contains list of feature/column names.
-    Returns:
+    Returns
     -------
-    segments_equal_to_estimators:
+    segments_equal_to_estimators :
          Returns list of segments equal to number of estimator of the model
     """
     segments_equal_to_estimators = []
@@ -282,15 +281,15 @@ def get_segments_for_lgbr(model, derived_col_names, feature_names, target_name, 
 
 def create_node(obj, main_node,derived_col_names):
     """
-    It creates nodes.
+    It creates nodes for the internal Decision Trees.
 
     Parameters
     ----------
-    obj: Json
+    obj : Json
         Contains nodes in json format.
-    main_node:
+    main_node :
         Contains node build with Nyoka class.
-    derived_col_names: List
+    derived_col_names : List
         Contains column names after preprocessing.
     """
 
@@ -399,7 +398,7 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
 
 def get_multiple_model_method(model):
     """
-    It returns the name of the Multiple Model Chain element of the model.
+    It returns the type of multiple model method for MiningModels.
 
     Parameters
     ----------
@@ -407,8 +406,7 @@ def get_multiple_model_method(model):
         Contains LGB model object
     Returns
     -------
-    modelChain for LGB Classifier,
-    sum for LGB Regressor,
+    The multiple model method for a MiningModel.
 
     """
     if 'LGBMClassifier' in str(model.__class__):

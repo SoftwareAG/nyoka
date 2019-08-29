@@ -8,6 +8,7 @@ exception_cols = list()
 
 def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
     """
+    Generates elements related to pre-processing
 
     Parameters
     ----------
@@ -21,7 +22,7 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
     Returns
     -------
     pml_pp: dictionary
-    Returns a dictionary that contains data related to pre-processing
+        Returns a dictionary that contains data related to pre-processing
 
     """
     pml_pp = dict()
@@ -119,6 +120,8 @@ def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
 
 def get_class_name(cls):
     """
+    Provides the class name for the given instance
+
     Parameters
     ----------
     cls :
@@ -126,7 +129,6 @@ def get_class_name(cls):
 
     Returns
     -------
-    cls.__class__.__name__: String
         Returns the class name of the pre-processed object.
 
     """
@@ -135,6 +137,7 @@ def get_class_name(cls):
 
 def get_pml_derived_flds(trfm, col_names, **kwargs):
     """
+    Generates elements related to pre-processing for a given transformer object
 
     Parameters
     ----------
@@ -187,6 +190,7 @@ def get_pml_derived_flds(trfm, col_names, **kwargs):
 
 def get_derived_colnames(trfm_name, col_names, *args):
     """
+    Generates derived column names for a given transformer
 
     Parameters
     ----------
@@ -214,6 +218,7 @@ def get_derived_colnames(trfm_name, col_names, *args):
 
 def any_in(seq_a, seq_b):
     """
+    Checks for common elements in two given sequence elements
 
     Parameters
     ----------
@@ -225,8 +230,7 @@ def any_in(seq_a, seq_b):
 
     Returns
     -------
-    seq_a: bool
-        Returns a boolean value if any item of seq_a belongs to seq_b or visa versa
+    Returns a boolean value if any item of seq_a belongs to seq_b or visa versa
 
     """
     return any(elem in seq_b for elem in seq_a)
@@ -237,6 +241,7 @@ def any_in(seq_a, seq_b):
 
 def imputer(trfm, col_names, **kwargs):
     """
+    Generates pre-processing elements for Scikit-Learn's Imputer
 
     Parameters
     ----------
@@ -276,7 +281,7 @@ def imputer(trfm, col_names, **kwargs):
                 apply_inner = list()
                 apply_inner.append(pml.Apply(function='isMissing', FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]))
                 const_obj = pml.Constant(
-                    dataType="double",  # <---------------------
+                    dataType="double",
                     valueOf_=mining_replacement_val[col_name_idx]
                 ),
                 fieldref_obj = pml.FieldRef(field=col_names[col_name_idx])
@@ -307,6 +312,7 @@ def imputer(trfm, col_names, **kwargs):
 
 def cat_imputer(trfm, col_names):
     """
+    Generates pre-processing elements for sklearn-pandas' CategoricalImputer
 
     Parameters
     ----------
@@ -340,6 +346,7 @@ def cat_imputer(trfm, col_names):
 
 def pca(trfm, col_names):
     """
+    Generates pre-processing elements for Scikit-Learn's PCA
 
     Parameters
     ----------
@@ -390,6 +397,7 @@ def pca(trfm, col_names):
 
 def tfidf_vectorizer(trfm, col_names):
     """
+    Generates pre-processing elements for Scikit-Learn's TfIdfVectorizer
 
     Parameters
     ----------
@@ -439,6 +447,7 @@ Extension=[pml.Extension(value=extra_features[feat_idx])])],
 
 def count_vectorizer(trfm, col_names):
     """
+    Generates pre-processing elements for Scikit-Learn's CountVectorizer
 
     Parameters
     ----------
@@ -487,6 +496,7 @@ def count_vectorizer(trfm, col_names):
 
 def lag(trfm, col_names):
     """
+    Generates pre-processing elements for Nyoka's Lag
 
     Parameters
     ----------
@@ -518,6 +528,7 @@ def lag(trfm, col_names):
 
 def std_scaler(trfm, col_names, **kwargs):
     """
+    Generates pre-processing elements for Scikit-Learn's StandardScaler
 
     Parameters
     ----------
@@ -542,7 +553,7 @@ def std_scaler(trfm, col_names, **kwargs):
         apply_inner.append(pml.Apply(
             function='-',
             Constant=[pml.Constant(
-                dataType="double",  # <---------------------
+                dataType="double",  
                 valueOf_="{:.16f}".format(trfm.mean_[col_name_idx])
             )],
             FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
@@ -551,7 +562,7 @@ def std_scaler(trfm, col_names, **kwargs):
             Apply_member=apply_inner,
             function='/',
             Constant=[pml.Constant(
-                dataType="double",  # <----------------------------
+                dataType="double",
                 valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
             )]
         )
@@ -570,6 +581,7 @@ def std_scaler(trfm, col_names, **kwargs):
 
 def min_max_scaler(trfm, col_names):
     """
+    Generates pre-processing elements for Scikit-Learn's MinMaxScaler
 
     Parameters
     ----------
@@ -587,7 +599,6 @@ def min_max_scaler(trfm, col_names):
     """
     pp_dict = dict()
     derived_flds = list()
-    # col_names = list(filter(lambda x: x not in exception_cols, col_names))
     derived_colnames = get_derived_colnames("minMaxScaler", col_names)
     for col_name_idx in range(len(col_names)):
         if(col_names[col_name_idx] not in exception_cols):
@@ -621,6 +632,7 @@ def min_max_scaler(trfm, col_names):
 
 def rbst_scaler(trfm, col_names):
     """
+    Generates pre-processing elements for Scikit-Learn's RobustScaler
 
     Parameters
     ----------
@@ -645,7 +657,7 @@ def rbst_scaler(trfm, col_names):
             apply_inner.append(pml.Apply(
                 function='-',
                 Constant=[pml.Constant(
-                    dataType="double",  # <---------------------
+                    dataType="double", 
                     valueOf_="{:.16f}".format(trfm.center_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
@@ -654,7 +666,7 @@ def rbst_scaler(trfm, col_names):
                 Apply_member=apply_inner,
                 function='/',
                 Constant=[pml.Constant(
-                    dataType="double",  # <----------------------------
+                    dataType="double", 
                     valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
                 )]
             )
@@ -671,6 +683,7 @@ def rbst_scaler(trfm, col_names):
 
 def max_abs_scaler(trfm, col_names):
     """
+    Generates pre-processing elements for Scikit-Learn's MaxAbsScaler
 
     Parameters
     ----------
@@ -694,7 +707,7 @@ def max_abs_scaler(trfm, col_names):
             apply_outer = pml.Apply(
                 function='/',
                 Constant=[pml.Constant(
-                    dataType="double",  # <---------------------
+                    dataType="double", 
                     valueOf_="{:.16f}".format(trfm.max_abs_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
@@ -713,6 +726,7 @@ def max_abs_scaler(trfm, col_names):
 
 def lbl_encoder(trfm, col_names):
     """
+    Generates pre-processing elements for Scikit-Learn's LabelEncoder
 
     Parameters
     ----------
@@ -757,6 +771,7 @@ def lbl_encoder(trfm, col_names):
 
 def binarizer(trfm, col_names):
     """
+    Generates pre-processing elements for Scikit-Learn's Binarizer
 
     Parameters
     ----------
@@ -798,6 +813,7 @@ def binarizer(trfm, col_names):
 
 def polynomial_features(trfm, col_names):
     """
+    Generates pre-processing elements for Scikit-Learn's PolynomialFeatures
 
     Parameters
     ----------
@@ -848,6 +864,7 @@ def polynomial_features(trfm, col_names):
 
 def lbl_binarizer(trfm, col_names, **kwargs):
     """
+    Generates pre-processing elements for Scikit-Learn's LabelBinarizer
 
     Parameters
     ----------
@@ -899,6 +916,7 @@ def lbl_binarizer(trfm, col_names, **kwargs):
 
 def one_hot_encoder(trfm, col_names, **kwargs):
     """
+    Generates pre-processing elements for Scikit-Learn's OneHotEncoder
 
     Parameters
     ----------
