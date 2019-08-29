@@ -20,9 +20,9 @@ class ArimaToPMML:
 
         Parameters:
         -----------
-        time_series_data: (deprecated in 3.3.0)
+        time_series_data: (deprecated in 3.2.0)
             Pandas Series object
-        model_obj: (deprecated in 3.3.0)
+        model_obj: (deprecated in 3.2.0)
             Instance of ARIMA/SARIMAX from statsmodels
         results_obj: 
             Instance of ARIMAResultsWrapper/SARIMAXResultsWrapper from statsmodels
