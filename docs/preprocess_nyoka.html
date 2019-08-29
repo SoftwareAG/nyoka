@@ -173,7 +173,7 @@
               <span id="lag-module"></span><h1>lag module<a class="headerlink" href="#module-lag" title="Permalink to this headline">¶</a></h1>
               <dl class="class">
               <dt id="lag.Lag">
-              <em class="property">class </em><code class="descclassname">lag.</code><code class="descname">Lag</code><span class="sig-paren">(</span><em>aggregation</em>, <em>value=1</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lag.html#Lag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag" title="Permalink to this definition">¶</a></dt>
+              <em class="property">class </em><code class="descclassname">lag.</code><code class="descname">Lag</code><span class="sig-paren">(</span><em>aggregation</em>, <em>value=1</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess_nyoka.html#Lag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag" title="Permalink to this definition">¶</a></dt>
               <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
               <p>The Lag class takes <cite>value</cite> number of previous record of the fields where it is applied and applies <cite>aggregation</cite> to those values.</p>
               <dl class="docutils">
@@ -184,13 +184,13 @@
               </dl>
               <dl class="method">
               <dt id="lag.Lag.fit">
-              <code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lag.html#Lag.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag.fit" title="Permalink to this definition">¶</a></dt>
+              <code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess_nyoka.html#Lag.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag.fit" title="Permalink to this definition">¶</a></dt>
               <dd><p>This method does nothing. Returns <cite>self</cite></p>
               </dd></dl>
               
               <dl class="method">
               <dt id="lag.Lag.transform">
-              <code class="descname">transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lag.html#Lag.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag.transform" title="Permalink to this definition">¶</a></dt>
+              <code class="descname">transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess_nyoka.html#Lag.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag.transform" title="Permalink to this definition">¶</a></dt>
               <dd><p>Trasforms the given X by taking <cite>value</cite> number of previous records and applying <cite>aggregation</cite> method</p>
               <dl class="docutils">
               <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">Pandas DataFrame or numpy array</span></dt>
