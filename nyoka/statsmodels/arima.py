@@ -14,24 +14,20 @@ warnings.formatwarning = lambda msg, *args, **kwargs: str(msg)+'\n'
 import math
 
 class ArimaToPMML:
-    def __init__(self, time_series_data=None, model_obj=None, results_obj=None, pmml_file_name="from_arima.pmml"):
-        """
-        Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.
+    """
+    Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.
 
-        Parameters:
-        -----------
-        time_series_data: (deprecated in 3.2.0)
-            Pandas Series object
-        model_obj: (deprecated in 3.2.0)
-            Instance of ARIMA/SARIMAX from statsmodels
-        results_obj: 
-            Instance of ARIMAResultsWrapper/SARIMAXResultsWrapper from statsmodels
-        pmml_file_name: string
-
-        Returns
-        -------
-        Generates PMML object and exports it to `pmml_file_name`
-        """
+    Parameters:
+    -----------
+    results_obj: 
+        Instance of ARIMAResultsWrapper/SARIMAXResultsWrapper from statsmodels
+    pmml_file_name: string
+        Name of the PMML
+    Returns
+    -------
+    Generates PMML object and exports it to `pmml_file_name`
+    """
+    def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml"):
 
         def ExportToPMML(model_name = None, arima_obj = None):
             n_columns = 2  # because we are dealing with Series object plus h (horizon)
@@ -221,11 +217,6 @@ class ArimaToPMML:
             data_field_objs.append(DataField(name=ts_name, dataType=tar_data_type, optype=ts_op_type))
             data_field_objs.append(DataField(name='h', dataType='integer', optype='continuous'))
             return data_field_objs
-
-        if hasattr(time_series_data,"__len__"):
-            warnings.warn("`time_series_data` is deprecated in version 3.2.0. It is not used in the exporter")
-        if hasattr(model_obj,"__len__"):
-            warnings.warn("`model_obj` is deprecated in version 3.2.0. It is not used in the exporter")
 
         if 'int' in str(results_obj.model.endog.dtype):
             results_obj.model.endog=results_obj.model.endog.astype('float64')

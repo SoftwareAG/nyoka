@@ -25,7 +25,7 @@ class ExponentialSmoothingToPMML:
         Instance of HoltWintersResults from statsmodels
     pmml_file_name: string
     """
-    def __init__(self, time_series_data=None, model_obj=None, results_obj=None, pmml_file_name="from_ExponentialSmoothing.pmml"):
+    def __init__(self, results_obj=None, pmml_file_name="from_ExponentialSmoothing.pmml"):
 
         def get_time_value_objs():
             """
