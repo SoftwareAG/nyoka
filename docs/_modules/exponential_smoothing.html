@@ -185,15 +185,11 @@
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    -----------</span>
-<span class="sd">    time_series_data: (Optional)</span>
-<span class="sd">        Pandas Series object</span>
-<span class="sd">    model_obj: (Optional)</span>
-<span class="sd">        Instance of ExponentialSmoothing from statsmodels</span>
 <span class="sd">    results_obj: </span>
 <span class="sd">        Instance of HoltWintersResults from statsmodels</span>
 <span class="sd">    pmml_file_name: string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_series_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pmml_file_name</span><span class="o">=</span><span class="s2">&quot;from_ExponentialSmoothing.pmml&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pmml_file_name</span><span class="o">=</span><span class="s2">&quot;from_ExponentialSmoothing.pmml&quot;</span><span class="p">):</span>
 
         <span class="k">def</span> <span class="nf">get_time_value_objs</span><span class="p">():</span>
             <span class="sd">&quot;&quot;&quot;</span>

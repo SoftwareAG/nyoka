@@ -173,14 +173,10 @@
               <span id="arima-module"></span><h1>ARIMA Exporter Module<a class="headerlink" href="#module-arima" title="Permalink to this headline">¶</a></h1>
               <dl class="class">
               <dt id="arima.ArimaToPMML">
-              <em class="property">class </em><code class="descclassname">arima.</code><code class="descname">ArimaToPMML</code><span class="sig-paren">(</span><em>time_series_data=None</em>, <em>model_obj=None</em>, <em>results_obj=None</em>, <em>pmml_file_name='from_arima.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML" title="Permalink to this definition">¶</a></dt>
+              <em class="property">class </em><code class="descclassname">arima.</code><code class="descname">ArimaToPMML</code><span class="sig-paren">(</span><em>results_obj=None</em>, <em>pmml_file_name='from_arima.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arima.html#ArimaToPMML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arima.ArimaToPMML" title="Permalink to this definition">¶</a></dt>
               <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
               <p>Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.</p>
               <dl class="docutils">
-              <dt>time_series_data: (deprecated in 3.3.0)</dt>
-              <dd>Pandas Series object</dd>
-              <dt>model_obj: (deprecated in 3.3.0)</dt>
-              <dd>Instance of ARIMA/SARIMAX from statsmodels</dd>
               <dt>results_obj: </dt>
               <dd>Instance of ARIMAResultsWrapper/SARIMAXResultsWrapper from statsmodels</dd>
               <dt>pmml_file_name: String</dt>

@@ -182,16 +182,12 @@
 <span class="kn">import</span> <span class="nn">math</span>
 
 <div class="viewcode-block" id="ArimaToPMML"><a class="viewcode-back" href="../arima.html#arima.ArimaToPMML">[docs]</a><span class="k">class</span> <span class="nc">ArimaToPMML</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_series_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pmml_file_name</span><span class="o">=</span><span class="s2">&quot;from_arima.pmml&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pmml_file_name</span><span class="o">=</span><span class="s2">&quot;from_arima.pmml&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.</span>
 
 <span class="sd">        Parameters:</span>
 <span class="sd">        -----------</span>
-<span class="sd">        time_series_data: (deprecated in 3.2.0)</span>
-<span class="sd">            Pandas Series object</span>
-<span class="sd">        model_obj: (deprecated in 3.2.0)</span>
-<span class="sd">            Instance of ARIMA/SARIMAX from statsmodels</span>
 <span class="sd">        results_obj: </span>
 <span class="sd">            Instance of ARIMAResultsWrapper/SARIMAXResultsWrapper from statsmodels</span>
 <span class="sd">        pmml_file_name: string</span>
@@ -389,11 +385,6 @@
             <span class="n">data_field_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DataField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">ts_name</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">tar_data_type</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">ts_op_type</span><span class="p">))</span>
             <span class="n">data_field_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DataField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="s1">&#39;integer&#39;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="s1">&#39;continuous&#39;</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">data_field_objs</span>
-
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">time_series_data</span><span class="p">,</span><span class="s2">&quot;__len__&quot;</span><span class="p">):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;`time_series_data` is deprecated in version 3.2.0. It is not used in the exporter&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model_obj</span><span class="p">,</span><span class="s2">&quot;__len__&quot;</span><span class="p">):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;`model_obj` is deprecated in version 3.2.0. It is not used in the exporter&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="s1">&#39;int&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
             <span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">=</span><span class="n">results_obj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">endog</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
