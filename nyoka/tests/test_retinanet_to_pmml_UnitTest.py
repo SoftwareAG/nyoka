@@ -72,7 +72,7 @@ class TestMethods(unittest.TestCase):
             model,
             input_shape=(224,224,3),
             backbone_name='resnet50',
-            input_data='my_data',
+            input_format='my_data',
             pmml_file_name="retinanet_with_coco_2.pmml"
         )
 
