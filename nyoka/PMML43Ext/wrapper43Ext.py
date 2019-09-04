@@ -121,6 +121,7 @@ def new_init():
         if Data is None:
             self.Data=[]
         else:
+            print ('print',Data)
             self.Data=Data
         self.MiningBuildTask = MiningBuildTask
         self.DataDictionary = DataDictionary
@@ -345,7 +346,7 @@ def orig_init():
             self.content_ = content_
         self.valueOf_ = valueOf_
 
-    def PMML_init(self, version=None, Header=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version=None, Header=None,Data=None, script=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -353,6 +354,10 @@ def orig_init():
             self.script = []
         else:
             self.script = script
+        if Data is None:
+            self.Data = []
+        else:
+            self.Data = Data
         self.MiningBuildTask = MiningBuildTask
         self.DataDictionary = DataDictionary
         self.TransformationDictionary = TransformationDictionary
