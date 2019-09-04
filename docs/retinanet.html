@@ -172,7 +172,7 @@
               <span id="retinanet-module"></span><h1>RetinaNet Exporter Module<a class="headerlink" href="#module-retinanet" title="Permalink to this headline">¶</a></h1>
               <dl class="class">
               <dt id="retinanet.RetinanetToPmml">
-              <em class="property">class </em><code class="descclassname">retinanet.</code><code class="descname">RetinanetToPmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>backbone_name</em>, <em>input_data='image'</em>, <em>trained_classes=None</em>, <em>pmml_file_name='from_retinanet.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml" title="Permalink to this definition">¶</a></dt>
+              <em class="property">class </em><code class="descclassname">retinanet.</code><code class="descname">RetinanetToPmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>backbone_name</em>, <em>input_format='image'</em>, <em>trained_classes=None</em>, <em>pmml_file_name='from_retinanet.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml" title="Permalink to this definition">¶</a></dt>
               <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
               <p>Write a PMML file for RetinaNet model.</p>
               <dl class="docutils">
@@ -182,7 +182,7 @@
               <dd>Shape of each training image</dd>
               <dt>backbone_name <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
               <dd>Name of backbone used to train the model. Valid values are <cite>[‘resnet’, ‘mobilenet’, ‘densenet’, ‘vgg’]</cite></dd>
-              <dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string (optional. default=’image’)</span></dt>
+              <dt>input_format <span class="classifier-delimiter">:</span> <span class="classifier">string (optional. default=’image’)</span></dt>
               <dd><dl class="first last docutils">
               <dt>Input format to be used during inference with the PMML. Valid values are - </dt>
               <dd>“image” : Original image in png format
@@ -222,12 +222,12 @@
               
               <dl class="method">
               <dt id="retinanet.RetinanetToPmml.generate_beckbone_anchors">
-              <code class="descname">generate_beckbone_anchors</code><span class="sig-paren">(</span><em>model</em>, <em>input_data</em>, <em>trained_classes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_beckbone_anchors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_beckbone_anchors" title="Permalink to this definition">¶</a></dt>
+              <code class="descname">generate_beckbone_anchors</code><span class="sig-paren">(</span><em>model</em>, <em>input_format</em>, <em>trained_classes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_beckbone_anchors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_beckbone_anchors" title="Permalink to this definition">¶</a></dt>
               <dd><p>Generates PMML object for the backbone + anchors</p>
               <dl class="docutils">
               <dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
               <dd>RetinaNet model object</dd>
-              <dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+              <dt>input_format <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
               <dd><dl class="first last docutils">
               <dt>Input format to be used during inference with the PMML. Valid values are - </dt>
               <dd>“image” : Original image in png format
@@ -251,14 +251,14 @@
               
               <dl class="method">
               <dt id="retinanet.RetinanetToPmml.generate_pmml">
-              <code class="descname">generate_pmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>input_data</em>, <em>trained_classes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_pmml" title="Permalink to this definition">¶</a></dt>
+              <code class="descname">generate_pmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>input_format</em>, <em>trained_classes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml.generate_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml.generate_pmml" title="Permalink to this definition">¶</a></dt>
               <dd><p>Generates PMML object for RetinaNet by combining all different part’s PMML object</p>
               <dl class="docutils">
               <dt>model <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
               <dd>RetinaNet model object</dd>
               <dt>input_shape <span class="classifier-delimiter">:</span> <span class="classifier">tuple </span></dt>
               <dd>Shape of each training image</dd>
-              <dt>input_data <span class="classifier-delimiter">:</span> <span class="classifier">string (optional. default=’image’)</span></dt>
+              <dt>input_format <span class="classifier-delimiter">:</span> <span class="classifier">string (optional. default=’image’)</span></dt>
               <dd><dl class="first last docutils">
               <dt>Input format to be used during inference with the PMML. Valid values are - </dt>
               <dd>“image” : Original image in png format
@@ -305,9 +305,9 @@
               </dd></dl>
               
               <dl class="attribute">
-              <dt id="retinanet.RetinanetToPmml.input_data_error">
-              <code class="descname">input_data_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.input_data_error" title="Permalink to this definition">¶</a></dt>
-              <dd><p>&#64;property. Returns error message if <cite>input_data</cite> has invalid value</p>
+              <dt id="retinanet.RetinanetToPmml.input_format_error">
+              <code class="descname">input_format_error</code><a class="headerlink" href="#retinanet.RetinanetToPmml.input_format_error" title="Permalink to this definition">¶</a></dt>
+              <dd><p>&#64;property. Returns error message if <cite>input_format</cite> has invalid value</p>
               </dd></dl>
               
               </dd></dl>

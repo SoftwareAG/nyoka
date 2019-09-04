@@ -193,7 +193,7 @@
 <span class="sd">        Shape of each training image</span>
 <span class="sd">    backbone_name : string</span>
 <span class="sd">        Name of backbone used to train the model. Valid values are `[&#39;resnet&#39;, &#39;mobilenet&#39;, &#39;densenet&#39;, &#39;vgg&#39;]`</span>
-<span class="sd">    input_data : string (optional. default=&#39;image&#39;)</span>
+<span class="sd">    input_format : string (optional. default=&#39;image&#39;)</span>
 <span class="sd">        Input format to be used during inference with the PMML. Valid values are - </span>
 <span class="sd">            &quot;image&quot; : Original image in png format</span>
 <span class="sd">            &quot;encoded&quot; : Base64 encoded string of the image</span>
@@ -213,32 +213,32 @@
         <span class="k">return</span> <span class="s2">&quot;Given model is not an inference model!&quot;</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">input_data_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;Invalid input_data type. Valid values are `[&#39;image&#39;, &#39;encoded&#39;]`&quot;</span>
+    <span class="k">def</span> <span class="nf">input_format_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Invalid input_format type. Valid values are `[&#39;image&#39;, &#39;encoded&#39;]`&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">backbone_name_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;Invalid backbone_name. Valid values are `[&#39;resnet&#39;, &#39;mobilenet&#39;, &#39;densenet&#39;, &#39;vgg&#39;]`&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">backbone_name</span><span class="p">,</span> <span class="n">input_data</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">,</span> <span class="n">trained_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pmml_file_name</span><span class="o">=</span><span class="s2">&quot;from_retinanet.pmml&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">backbone_name</span><span class="p">,</span> <span class="n">input_format</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">,</span> <span class="n">trained_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pmml_file_name</span><span class="o">=</span><span class="s2">&quot;from_retinanet.pmml&quot;</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">model</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;FilterDetections&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_error</span>
-        <span class="k">assert</span> <span class="n">input_data</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">,</span><span class="s1">&#39;encoded&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_data_error</span>
+        <span class="k">assert</span> <span class="n">input_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">,</span><span class="s1">&#39;encoded&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_format_error</span>
         <span class="k">assert</span> <span class="n">backbone_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;resnet&#39;</span><span class="p">,</span> <span class="s1">&#39;mobilenet&#39;</span><span class="p">,</span> <span class="s1">&#39;densenet&#39;</span><span class="p">,</span> <span class="s1">&#39;vgg&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">backbone_name_error</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">backbone_name</span> <span class="o">=</span> <span class="n">backbone_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span> <span class="o">=</span> <span class="n">input_shape</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_data</span> <span class="o">=</span> <span class="n">input_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_format</span> <span class="o">=</span> <span class="n">input_format</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">pmml_obj</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_pyramid_layers</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;P3&quot;</span><span class="p">,</span> <span class="s2">&quot;P4&quot;</span><span class="p">,</span> <span class="s2">&quot;P5&quot;</span><span class="p">,</span> <span class="s2">&quot;P6&quot;</span><span class="p">,</span> <span class="s2">&quot;P7&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_layer_outputs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">generate_pmml</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span><span class="n">input_data</span><span class="p">,</span><span class="n">trained_classes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_pmml</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span><span class="n">input_format</span><span class="p">,</span><span class="n">trained_classes</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pmml_obj</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">pmml_file_name</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">),</span><span class="mi">0</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="RetinanetToPmml.generate_beckbone_anchors"><a class="viewcode-back" href="../retinanet.html#retinanet.RetinanetToPmml.generate_beckbone_anchors">[docs]</a>    <span class="k">def</span> <span class="nf">generate_beckbone_anchors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">input_data</span><span class="p">,</span> <span class="n">trained_classes</span><span class="p">):</span>
+<div class="viewcode-block" id="RetinanetToPmml.generate_beckbone_anchors"><a class="viewcode-back" href="../retinanet.html#retinanet.RetinanetToPmml.generate_beckbone_anchors">[docs]</a>    <span class="k">def</span> <span class="nf">generate_beckbone_anchors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">input_format</span><span class="p">,</span> <span class="n">trained_classes</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates PMML object for the backbone + anchors</span>
 
@@ -246,7 +246,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        model : </span>
 <span class="sd">            RetinaNet model object</span>
-<span class="sd">        input_data : string</span>
+<span class="sd">        input_format : string</span>
 <span class="sd">            Input format to be used during inference with the PMML. Valid values are - </span>
 <span class="sd">                &quot;image&quot; : Original image in png format</span>
 <span class="sd">                &quot;encoded&quot; : Base64 encoded string of the image</span>
@@ -267,7 +267,7 @@
         <span class="k">if</span> <span class="n">trained_classes</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;trained_classes are not provided. Maximum 80 classes will be considered.&quot;</span><span class="p">)</span>
             <span class="n">trained_classes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Category_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">80</span><span class="p">)]</span>
-        <span class="n">group1_pmml</span> <span class="o">=</span> <span class="n">kerasAPI</span><span class="o">.</span><span class="n">KerasToPmml</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;KerasRetinanNet&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span><span class="n">dataSet</span><span class="o">=</span><span class="n">input_data</span><span class="p">,</span> <span class="n">predictedClasses</span><span class="o">=</span><span class="n">trained_classes</span><span class="p">)</span>
+        <span class="n">group1_pmml</span> <span class="o">=</span> <span class="n">kerasAPI</span><span class="o">.</span><span class="n">KerasToPmml</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;KerasRetinanNet&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">input_format</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span><span class="n">dataSet</span><span class="o">=</span><span class="n">input_format</span><span class="p">,</span> <span class="n">predictedClasses</span><span class="o">=</span><span class="n">trained_classes</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">group1_pmml</span></div>
 
     
@@ -473,7 +473,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">apply</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
             <span class="n">function</span><span class="o">=</span><span class="s1">&#39;KerasRetinaNet:getBase64StringFromBufferedInput&#39;</span><span class="p">,</span>
-            <span class="n">FieldRef</span> <span class="o">=</span> <span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_data</span><span class="p">)],</span>
+            <span class="n">FieldRef</span> <span class="o">=</span> <span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_format</span><span class="p">)],</span>
             <span class="n">Constant</span> <span class="o">=</span> <span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">valueOf_</span><span class="o">=</span><span class="s1">&#39;tf&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backbone_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mobilenet&#39;</span><span class="p">,</span> <span class="s1">&#39;densenet&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;caffe&#39;</span><span class="p">)]</span>
         <span class="p">)</span>
         <span class="n">der_fld</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span>
@@ -489,7 +489,7 @@
         <span class="k">return</span> <span class="s1">&#39;RetinaNet model in PMML&#39;</span>
 
     
-<div class="viewcode-block" id="RetinanetToPmml.generate_pmml"><a class="viewcode-back" href="../retinanet.html#retinanet.RetinanetToPmml.generate_pmml">[docs]</a>    <span class="k">def</span> <span class="nf">generate_pmml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">model</span><span class="p">,</span><span class="n">input_shape</span><span class="p">,</span><span class="n">input_data</span><span class="p">,</span><span class="n">trained_classes</span><span class="p">):</span>
+<div class="viewcode-block" id="RetinanetToPmml.generate_pmml"><a class="viewcode-back" href="../retinanet.html#retinanet.RetinanetToPmml.generate_pmml">[docs]</a>    <span class="k">def</span> <span class="nf">generate_pmml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">model</span><span class="p">,</span><span class="n">input_shape</span><span class="p">,</span><span class="n">input_format</span><span class="p">,</span><span class="n">trained_classes</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates PMML object for RetinaNet by combining all different part&#39;s PMML object</span>
 
@@ -499,7 +499,7 @@
 <span class="sd">            RetinaNet model object</span>
 <span class="sd">        input_shape : tuple </span>
 <span class="sd">            Shape of each training image</span>
-<span class="sd">        input_data : string (optional. default=&#39;image&#39;)</span>
+<span class="sd">        input_format : string (optional. default=&#39;image&#39;)</span>
 <span class="sd">            Input format to be used during inference with the PMML. Valid values are - </span>
 <span class="sd">                &quot;image&quot; : Original image in png format</span>
 <span class="sd">                &quot;encoded&quot; : Base64 encoded string of the image</span>
@@ -511,7 +511,7 @@
 <span class="sd">        Generated nyoka&#39;s PMML object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">backbone_and_anchor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_beckbone_anchors</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_data</span><span class="p">,</span> <span class="n">trained_classes</span><span class="p">)</span>
+        <span class="n">backbone_and_anchor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_beckbone_anchors</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_format</span><span class="p">,</span> <span class="n">trained_classes</span><span class="p">)</span>
         <span class="n">regression_submodel_layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_submodel</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">])</span>
         <span class="n">classification_submodel_layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_submodel</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span>
         <span class="n">inference_layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_inference_layers</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
@@ -522,7 +522,7 @@
         <span class="n">model_with_shape_info</span><span class="o">.</span><span class="n">DeepNetwork</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numberOfLayers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_with_shape_info</span><span class="o">.</span><span class="n">DeepNetwork</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">NetworkLayer</span><span class="p">)</span>
         <span class="n">model_with_shape_info</span><span class="o">.</span><span class="n">DeepNetwork</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_output</span><span class="p">()</span>
         <span class="n">model_with_shape_info</span><span class="o">.</span><span class="n">DeepNetwork</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">TrainingParameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_training_parameter</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_data</span> <span class="o">==</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_format</span> <span class="o">==</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span>
            <span class="n">model_with_shape_info</span><span class="o">.</span><span class="n">DeepNetwork</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">LocalTransformations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_local_transformation</span><span class="p">()</span> 
         <span class="n">model_with_shape_info</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pmml_obj</span> <span class="o">=</span> <span class="n">model_with_shape_info</span></div></div>
