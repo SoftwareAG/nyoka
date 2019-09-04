@@ -4546,7 +4546,6 @@ def new_init():
         if Data is None:
             self.Data=[]
         else:
-            print ('print',Data)
             self.Data=Data
         self.MiningBuildTask = MiningBuildTask
         self.DataDictionary = DataDictionary
