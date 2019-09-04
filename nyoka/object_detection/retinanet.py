@@ -22,10 +22,10 @@ class RetinanetToPmml:
     model : 
         RetinaNet model object
     input_shape : tuple 
-        Shape of each training image
+        Expected shape of the images to be scored
     backbone_name : string
         Name of backbone used to train the model. Valid values are `['resnet', 'mobilenet', 'densenet', 'vgg']`
-    input_data : string (optional. default='image')
+    input_format : string (optional. default='image')
         Input format to be used during inference with the PMML. Valid values are - 
             "image" : Original image in png format
             "encoded" : Base64 encoded string of the image
@@ -45,32 +45,32 @@ class RetinanetToPmml:
         return "Given model is not an inference model!"
 
     @property
-    def input_data_error(self):
-        return "Invalid input_data type. Valid values are `['image', 'encoded']`"
+    def input_format_error(self):
+        return "Invalid input_format type. Valid values are `['image', 'encoded']`"
 
     @property
     def backbone_name_error(self):
         return "Invalid backbone_name. Valid values are `['resnet', 'mobilenet', 'densenet', 'vgg']`"
 
-    def __init__(self, model, input_shape, backbone_name, input_data="image", trained_classes=None, pmml_file_name="from_retinanet.pmml"):
+    def __init__(self, model, input_shape, backbone_name, input_format="image", trained_classes=None, pmml_file_name="from_retinanet.pmml"):
         assert model.layers[-1].__class__.__name__ == 'FilterDetections', self.inference_error
-        assert input_data in ['image','encoded'], self.input_data_error
+        assert input_format in ['image','encoded'], self.input_format_error
         assert backbone_name in ['resnet', 'mobilenet', 'densenet', 'vgg'], self.backbone_name_error
 
         self.backbone_name = backbone_name
         self.model = model
         self.input_shape = input_shape
-        self.input_data = input_data
+        self.input_format = input_format
 
         self.pmml_obj = None
         self._pyramid_layers = ("P3", "P4", "P5", "P6", "P7")
         self._layer_outputs = dict()
 
-        self.generate_pmml(model, input_shape,input_data,trained_classes)
+        self.generate_pmml(model, input_shape,input_format,trained_classes)
         self.pmml_obj.export(open(pmml_file_name,'w'),0)
 
 
-    def generate_beckbone_anchors(self, model, input_data, trained_classes):
+    def generate_beckbone_anchors(self, model, input_format, trained_classes):
         """
         Generates PMML object for the backbone + anchors
 
@@ -78,7 +78,7 @@ class RetinanetToPmml:
         ----------
         model : 
             RetinaNet model object
-        input_data : string
+        input_format : string
             Input format to be used during inference with the PMML. Valid values are - 
                 "image" : Original image in png format
                 "encoded" : Base64 encoded string of the image
@@ -99,7 +99,7 @@ class RetinanetToPmml:
         if trained_classes == None:
             warnings.warn(f"trained_classes are not provided. Maximum 80 classes will be considered.")
             trained_classes = ["Category_"+str(i+1).zfill(2) for i in range(80)]
-        group1_pmml = kerasAPI.KerasToPmml(mod,model_name="KerasRetinanNet"+self.input_data.title(),dataSet=input_data, predictedClasses=trained_classes)
+        group1_pmml = kerasAPI.KerasToPmml(mod,model_name="KerasRetinanNet"+self.input_format.title(),dataSet=input_format, predictedClasses=trained_classes)
         return group1_pmml
 
     
@@ -305,7 +305,7 @@ class RetinanetToPmml:
         """
         apply = pml.Apply(
             function='KerasRetinaNet:getBase64StringFromBufferedInput',
-            FieldRef = [pml.FieldRef(field=self.input_data)],
+            FieldRef = [pml.FieldRef(field=self.input_format)],
             Constant = [pml.Constant(valueOf_='tf' if self.backbone_name in ['mobilenet', 'densenet'] else 'caffe')]
         )
         der_fld = pml.DerivedField(
@@ -321,7 +321,7 @@ class RetinanetToPmml:
         return 'RetinaNet model in PMML'
 
     
-    def generate_pmml(self,model,input_shape,input_data,trained_classes):
+    def generate_pmml(self,model,input_shape,input_format,trained_classes):
         """
         Generates PMML object for RetinaNet by combining all different part's PMML object
 
@@ -331,7 +331,7 @@ class RetinanetToPmml:
             RetinaNet model object
         input_shape : tuple 
             Shape of each training image
-        input_data : string (optional. default='image')
+        input_format : string (optional. default='image')
             Input format to be used during inference with the PMML. Valid values are - 
                 "image" : Original image in png format
                 "encoded" : Base64 encoded string of the image
@@ -343,7 +343,7 @@ class RetinanetToPmml:
         Generated nyoka's PMML object
         """
 
-        backbone_and_anchor = self.generate_beckbone_anchors(model, input_data, trained_classes)
+        backbone_and_anchor = self.generate_beckbone_anchors(model, input_format, trained_classes)
         regression_submodel_layers = self.generate_submodel(model.layers[-8])
         classification_submodel_layers = self.generate_submodel(model.layers[-4])
         inference_layers = self.generate_inference_layers(model)
@@ -354,7 +354,7 @@ class RetinanetToPmml:
         model_with_shape_info.DeepNetwork[0].numberOfLayers = len(model_with_shape_info.DeepNetwork[0].NetworkLayer)
         model_with_shape_info.DeepNetwork[0].Output = self.get_output()
         model_with_shape_info.DeepNetwork[0].TrainingParameters = self.get_training_parameter()
-        if self.input_data == 'image':
+        if self.input_format == 'image':
            model_with_shape_info.DeepNetwork[0].LocalTransformations = self.get_local_transformation() 
         model_with_shape_info.Header.description=self.description
         self.pmml_obj = model_with_shape_info
