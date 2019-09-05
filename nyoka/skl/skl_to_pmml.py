@@ -45,6 +45,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml'):
     categoric_values = None
     derived_col_names = None
     mining_imp_val = None
+    dataObj = []
 
 
     for model_name in toExportDict.keys():
@@ -53,7 +54,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml'):
         tasktype = toExportDict[model_name]['taskType']
 
         if toExportDict[model_name]['data'] is not None:
-            dataObj = pml.Data(for_=model_name,filePath=toExportDict[model_name]['data'])
+            dataObj.append(pml.Data(for_=model_name,filePath=toExportDict[model_name]['data']))
 
         model = toExportDict[model_name]['modelObj']
 
@@ -136,7 +137,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml'):
     pmml = pml.PMML(
         version=get_version(),
         Header=get_header(),
-        Data=[dataObj],
+        Data=dataObj,
         MiningBuildTask=get_mining_buildtask(toExportDict),
         DataDictionary=get_data_dictionary_values(data_dicts),
         script = get_script_execution(toExportDict),
