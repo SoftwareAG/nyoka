@@ -172,7 +172,7 @@
               <span id="retinanet-module"></span><h1>RetinaNet Exporter Module<a class="headerlink" href="#module-retinanet" title="Permalink to this headline">¶</a></h1>
               <dl class="class">
               <dt id="retinanet.RetinanetToPmml">
-              <em class="property">class </em><code class="descclassname">retinanet.</code><code class="descname">RetinanetToPmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>backbone_name</em>, <em>input_format='image'</em>, <em>trained_classes=None</em>, <em>pmml_file_name='from_retinanet.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml" title="Permalink to this definition">¶</a></dt>
+              <em class="property">class </em><code class="descclassname">retinanet.</code><code class="descname">RetinanetToPmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>backbone_name</em>, <em>input_format='image'</em>, <em>trained_classes=None</em>, <em>pmml_file_name='from_retinanet.pmml'</em>, <em>script_args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml" title="Permalink to this definition">¶</a></dt>
               <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
               <p>Write a PMML file for RetinaNet model.</p>
               <dl class="docutils">
@@ -193,6 +193,20 @@
               <dd>List of the classes on which the model was trained. If not provided, default(1 to 80) classes will be used</dd>
               <dt>pmml_file_name <span class="classifier-delimiter">:</span> <span class="classifier">string (default=’from_retinanet.pmml’)</span></dt>
               <dd>Name of the PMML file</dd>
+              <dt>script_args <span class="classifier-delimiter">:</span> <span class="classifier">Dictionary or None</span></dt>
+              <dd><p class="first">Contains information of the script to be used to convert <cite>image</cite> data into base64 string. Required when dataSet=`image`.
+              Required attributes -</p>
+              <blockquote class="last">
+              <div><dl class="docutils">
+              <dt>content <span class="classifier-delimiter">:</span> <span class="classifier">string or function</span></dt>
+              <dd>The content of the script</dd>
+              <dt>def_name <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+              <dd>name of the function to be used. Required when content is string</dd>
+              <dt>return_type <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+              <dd>The return type of the function. Valid values are (‘string’, ‘double’, ‘float’,’integer’)</dd>
+              <dt>encode <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+              <dd>The representation of the script in PMML. If True, the script will be represented as base64 encoded string, else as plain text.
+              If not provided, default value <cite>True</cite> is considered.</dd>
               </dl>
               <dl class="method">
               <dt id="retinanet.RetinanetToPmml.assign_shapes">
