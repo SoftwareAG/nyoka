@@ -2,6 +2,7 @@
 import sys,os
 import requests
 import unittest
+import base64
 from keras_retinanet.models import load_model
 from nyoka import RetinanetToPmml
 from nyoka import PMML44 as pml
@@ -75,6 +76,27 @@ class TestMethods(unittest.TestCase):
             input_format='my_data',
             pmml_file_name="retinanet_with_coco_2.pmml"
         )
+
+    def test_05(self):
+        model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
+        backbone = 'resnet'
+        script_content = open("nyoka/tests/preprocess.py",'r').read()
+        RetinanetToPmml(
+            model,
+            input_shape=(224,224,3),
+            backbone_name=backbone,
+            pmml_file_name="retinanet_with_coco_2.pmml",
+            script_args = {
+                        "content" : script_content,
+                        "def_name" : "getBase64EncodedString",
+                        "return_type" : "string",
+                        "encode":True
+                    }
+        )
+        recon_pmml_obj = pml.parse("retinanet_with_coco_2.pmml",True)
+        content=recon_pmml_obj.TransformationDictionary.DefineFunction[0].Apply.Extension[0].anytypeobjs_[0]
+        content = base64.b64decode(content).decode()
+        self.assertEqual(script_content, content)
 
 
 if __name__=='__main__':

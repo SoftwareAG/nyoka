@@ -33,6 +33,18 @@ class RetinanetToPmml:
         List of the classes on which the model was trained. If not provided, default(1 to 80) classes will be used
     pmml_file_name : string (default='from_retinanet.pmml')
         Name of the PMML file
+    script_args : Dictionary or None
+        Contains information of the script to be used to convert `image` data into base64 string. Required when dataSet=`image`.
+        Required attributes - 
+            content : string or function
+                The content of the script
+            def_name : string
+                name of the function to be used. Required when content is string
+            return_type : string
+                The return type of the function. Valid values are ('string', 'double', 'float','integer')
+            encode : boolean
+                The representation of the script in PMML. If True, the script will be represented as base64 encoded string, else as plain text.
+                If not provided, default value `True` is considered.
 
     Returns
     -------
@@ -52,7 +64,8 @@ class RetinanetToPmml:
     def backbone_name_error(self):
         return "Invalid backbone_name. Valid values are `['resnet', 'mobilenet', 'densenet', 'vgg']`"
 
-    def __init__(self, model, input_shape, backbone_name, input_format="image", trained_classes=None, pmml_file_name="from_retinanet.pmml"):
+    def __init__(self, model, input_shape, backbone_name, input_format="image", trained_classes=None,
+     pmml_file_name="from_retinanet.pmml", script_args=None):
         assert model.layers[-1].__class__.__name__ == 'FilterDetections', self.inference_error
         assert input_format in ['image','encoded'], self.input_format_error
         assert backbone_name in ['resnet', 'mobilenet', 'densenet', 'vgg'], self.backbone_name_error
@@ -61,6 +74,7 @@ class RetinanetToPmml:
         self.model = model
         self.input_shape = input_shape
         self.input_format = input_format
+        self.script_args = script_args
 
         self.pmml_obj = None
         self._pyramid_layers = ("P3", "P4", "P5", "P6", "P7")
@@ -99,7 +113,9 @@ class RetinanetToPmml:
         if trained_classes == None:
             warnings.warn(f"trained_classes are not provided. Maximum 80 classes will be considered.")
             trained_classes = ["Category_"+str(i+1).zfill(2) for i in range(80)]
-        group1_pmml = kerasAPI.KerasToPmml(mod,model_name="KerasRetinaNet"+self.input_format.title(),dataSet=input_format, predictedClasses=trained_classes)
+
+        group1_pmml = kerasAPI.KerasToPmml(mod,model_name="KerasRetinaNet"+self.input_format.title(),dataSet=input_format,
+         predictedClasses=trained_classes, script_args=self.script_args)
         return group1_pmml
 
     
@@ -354,7 +370,7 @@ class RetinanetToPmml:
         model_with_shape_info.DeepNetwork[0].numberOfLayers = len(model_with_shape_info.DeepNetwork[0].NetworkLayer)
         model_with_shape_info.DeepNetwork[0].Output = self.get_output()
         model_with_shape_info.DeepNetwork[0].TrainingParameters = self.get_training_parameter()
-        if self.input_format == 'image':
-           model_with_shape_info.DeepNetwork[0].LocalTransformations = self.get_local_transformation() 
+        if self.input_format == 'image' and not self.script_args:
+            model_with_shape_info.DeepNetwork[0].LocalTransformations = self.get_local_transformation() 
         model_with_shape_info.Header.description=self.description
         self.pmml_obj = model_with_shape_info
