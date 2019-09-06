@@ -172,7 +172,9 @@ def get_trfm_dict_kwargs(col_names,pipelineOnly,trfm_dict_kwargs,model,model_nam
     mining_imp_val = tuple()
     if ppln_sans_predictor:
         pml_pp = pp.get_preprocess_val(ppln_sans_predictor, col_names, model, model_name)
-        trfm_dict_kwargs['TransformationDictionary'].append(pml_pp['trfm_dict'])
+        if (pml_pp['trfm_dict']):
+            trfm_dict_kwargs['TransformationDictionary'].append(pml_pp['trfm_dict'])
+        # trfm_dict_kwargs['TransformationDictionary'].append(pml_pp['trfm_dict'])
         derived_col_names = pml_pp['derived_col_names']
         col_names = pml_pp['preprocessed_col_names']
         categoric_values = pml_pp['categorical_feat_values']
