@@ -189,6 +189,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
+    @unittest.skip("")
     def test_09_sgd_classifier(self):
         print("\ntest 09 (SGD Classifier with preprocessing) [multi-class]\n")
         X, X_test, y, features, target, test_file = self.data_utility.get_data_for_multi_class_classification()
