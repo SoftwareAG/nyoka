@@ -24,7 +24,7 @@ class RetinanetToPmml:
     input_shape : tuple 
         Expected shape of the images to be scored
     backbone_name : string
-        Name of backbone used to train the model. Valid values are `['resnet', 'mobilenet', 'densenet', 'vgg']`
+        Name of backbone used to build the model. Valid values are `['resnet', 'mobilenet', 'densenet', 'vgg']`
     input_format : string (optional. default='image')
         Input format to be used during inference with the PMML. Valid values are - 
             "image" : Original image in png format
