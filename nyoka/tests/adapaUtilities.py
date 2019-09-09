@@ -32,21 +32,34 @@ class AdapaUtility:
         res = requests.delete(self.endpoint+"model/"+model_name, auth=HTTPBasicAuth(self.username,self.password))
         return res.status_code
 
-    def score_in_zserver(self, model_name, test_file, deep_network=False):
+    def score_in_zserver(self, model_name, test_file, model_type=None):
         mode = 'r' if test_file.endswith(".csv") else 'rb'
         files = {'file': open(test_file,mode)}
         res = requests.post(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password),files=files)
-        if deep_network:
-            if test_file.endswith(".csv"):
-                info=res.text.split("\n")[1]
-                info = info.replace('"','')
-                predictions = info.split(",")[0]
-                probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in info.split(",")[2:]}
+        if model_type:
+            if model_type=='DN':
+                if test_file.endswith(".csv"):
+                    info=res.text.split("\n")[1]
+                    info = info.replace('"','')
+                    predictions = info.split(",")[0]
+                    probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in info.split(",")[2:]}
+                else:
+                    resp=json.loads(res.text)
+                    outs = resp["outputs"][0]
+                    predictions = outs["predictedValue_predictions"]
+                    probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in outs["top5_prob"].split(",")}
             else:
-                resp=json.loads(res.text)
-                outs = resp["outputs"][0]
-                predictions = outs["predictedValue_predictions"]
-                probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in outs["top5_prob"].split(",")}
+                results = res.json()['outputs'][0]['predicted_LabelBoxScore']
+                results = json.loads(results)
+                boxes = []
+                scores = []
+                labels = []
+                for res_ in results:
+                    labels.append(res_[0])
+                    scores.append(res_[1])
+                    boxes.append(res_[2:])
+                return boxes, scores, labels
+
         else:
             all_rows = res.text.split('\n')
             predictions = []

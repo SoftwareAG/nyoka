@@ -54,7 +54,7 @@ class TestCases(unittest.TestCase):
 
         model_name  = self.adapa_utility.upload_to_zserver('2classMBNet.pmml')
 
-        predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, 'nyoka/tests/resizedCat.png',True)
+        predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, 'nyoka/tests/resizedCat.png','DN')
   
         self.assertEqual(abs(probabilities['cats'] - model_preds['cats']) < 0.00001, True)
         self.assertEqual(abs(probabilities['dogs'] - model_preds['dogs']) < 0.00001, True)
@@ -90,39 +90,10 @@ class TestCases(unittest.TestCase):
 
         model_name  = self.adapa_utility.upload_to_zserver('2classMBNetBase64.pmml')
 
-        predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, 'input.csv',True)
+        predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, 'input.csv','DN')
   
         self.assertEqual(abs(probabilities['cats'] - model_preds['cats']) < 0.00001, True)
         self.assertEqual(abs(probabilities['dogs'] - model_preds['dogs']) < 0.00001, True)
-
-
-    # def test_03_SimpleDNN(self):
-    #     X_train, X_test, y_train, columns, target_name, test_file = self.data_utility.get_data_for_regression()
-    #     model = Sequential()
-    #     model.add(Dense(13, input_dim=3, kernel_initializer='normal', activation='relu'))
-    #     model.add(Dense(23))
-    #     model.add(Dense(1, kernel_initializer='normal'))
-    #     model.compile(loss='mean_squared_error', optimizer='adam')
-    #     model.fit(X_train, y_train, epochs=1000, verbose=0)
-    #     pmmlObj=KerasToPmml(model, model_name='Sequential', description="Demo", copyright="Internal User",\
-    #         dataSet="inputBase64")
-    #     pmmlObj.export(open('sequentialModel.pmml','w'),0)
-
-    #     base64string = "data:float32;base64," + FloatBase64.from_floatArray(np.array(X_test).flatten(),12)
-    #     base64string = base64string.replace("\n", "")
-    #     csvContent = "inputBase64\n\"" + base64string + "\""
-    #     text_file = open(test_file, "w")
-    #     text_file.write(csvContent)
-    #     text_file.close()
-
-    #     model_pred = model.predict(X_test)
-    #     model_name  = self.adapa_utility.upload_to_zserver('sequentialModel.pmml')
-
-    #     predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file,True)
-
-    #     print(model_pred)
-    #     print(predictions)
-    #     print(probabilities)
 
 
 
