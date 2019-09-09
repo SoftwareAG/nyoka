@@ -46,7 +46,7 @@ class AdapaUtility:
                 else:
                     resp=json.loads(res.text)
                     outs = resp["outputs"][0]
-                    predictions = outs["predictedValue_predictions"]
+                    predictions = outs["predicted_predictions"]
                     probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in outs["top5_prob"].split(",")}
             else:
                 results = res.json()['outputs'][0]['predicted_LabelBoxScore']
