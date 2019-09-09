@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Sep  4 12:12:00 2019 by generateDS.py version 2.28a.
+# Generated Mon Sep  9 13:28:05 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -25707,11 +25707,12 @@ class Header(GeneratedsSuper):
 class script(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, for_=None, class_=None, scriptPurpose=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
+    def __init__(self, for_=None, class_=None, scriptPurpose=None, filePath=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
         self.original_tagname_ = None
         self.for_ = _cast(None, for_)
         self.class_ = _cast(None, class_)
         self.scriptPurpose = _cast(None, scriptPurpose)
+        self.filePath = _cast(None, filePath)
         if Extension is None:
             self.Extension = []
         else:
@@ -25749,6 +25750,8 @@ class script(GeneratedsSuper):
     def set_class(self, class_): self.class_ = class_
     def get_scriptPurpose(self): return self.scriptPurpose
     def set_scriptPurpose(self, scriptPurpose): self.scriptPurpose = scriptPurpose
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def get_anyAttributes_(self): return self.anyAttributes_
@@ -25847,6 +25850,9 @@ class script(GeneratedsSuper):
         if self.scriptPurpose is not None and 'scriptPurpose' not in already_processed:
             already_processed.add('scriptPurpose')
             outfile.write(' scriptPurpose=%s' % (quote_attrib(self.scriptPurpose), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
     def exportChildren(self, outfile, level, namespace_='', name_='script', fromsubclass_=False, pretty_print=True):
         if not fromsubclass_:
             for item_ in self.content_:
@@ -25862,6 +25868,8 @@ class script(GeneratedsSuper):
             element.set('class', self.class_)
         if self.scriptPurpose is not None:
             element.set('scriptPurpose', self.scriptPurpose)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         for item_ in self.content_:
             item_.to_etree(element)
         if mapping_ is not None:
@@ -25888,6 +25896,10 @@ class script(GeneratedsSuper):
             already_processed.add('scriptPurpose')
             showIndent(outfile, level)
             outfile.write('scriptPurpose="%s",\n' % (self.scriptPurpose,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
         for name, value in self.anyAttributes_.items():
             showIndent(outfile, level)
             outfile.write('%s="%s",\n' % (name, value,))
@@ -25926,6 +25938,10 @@ class script(GeneratedsSuper):
             already_processed.add('scriptPurpose')
             self.scriptPurpose = value
             self.validate_SCRIPTTASK(self.scriptPurpose)    # validate type SCRIPTTASK
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
         self.anyAttributes_ = {}
         for name, value in attrs.items():
             if name not in already_processed:

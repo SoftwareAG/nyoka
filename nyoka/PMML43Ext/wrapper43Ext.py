@@ -214,10 +214,11 @@ def new_init():
         else:
             self.Extension = Extension
 
-    def script_init(self, content=None, for_=None, class_=None,scriptPurpose=None, Extension=None):
+    def script_init(self,filePath=None, content=None, for_=None, class_=None,scriptPurpose=None, Extension=None):
         self.original_tagname_ = None
         self.for_ = supermod._cast(None, for_)
         self.class_ = supermod._cast(None, class_)
+        self.filePath = supermod._cast(None, filePath)
         self.scriptPurpose = supermod._cast(None, scriptPurpose)
         if Extension is None:
             self.Extension = []
@@ -450,10 +451,11 @@ def orig_init():
         else:
             self.Extension = Extension
 
-    def script_init(self, for_=None, class_=None,scriptPurpose=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
+    def script_init(self, for_=None,filePath=None, class_=None,scriptPurpose=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
         self.original_tagname_ = None
         self.for_ = supermod._cast(None, for_)
         self.class_ = supermod._cast(None, class_)
+        self.filePath = supermod._cast(None, filePath)
         self.scriptPurpose = supermod._cast(None, scriptPurpose)
         if Extension is None:
             self.Extension = []

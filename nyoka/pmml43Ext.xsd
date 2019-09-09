@@ -1866,6 +1866,7 @@
             <xs:attribute name="for" type="xs:string" use="required"/>
             <xs:attribute name="class" type="PROCESSING" use="required"/>
 			<xs:attribute name="scriptPurpose" type="SCRIPTTASK" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
             <!-- <xs:attribute name="type" type="LANGUAGES"/> -->
             <xs:anyAttribute/>
         </xs:complexType>
