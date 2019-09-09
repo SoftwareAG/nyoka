@@ -694,5 +694,5 @@ class TestCases(unittest.TestCase):
     def tearDownClass(self):
         print("\n******* Finished *******\n")
             
-# if __name__ == '__main__':
-#     unittest.main(warnings='ignore')
+if __name__ == '__main__':
+    unittest.main(warnings='ignore')

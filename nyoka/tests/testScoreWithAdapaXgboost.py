@@ -95,5 +95,5 @@ class TestCases(unittest.TestCase):
                 pass
         print("\n******* Finished *******\n")
      
-# if __name__ == '__main__':
-#     unittest.main(warnings='ignore')
+if __name__ == '__main__':
+    unittest.main(warnings='ignore')
