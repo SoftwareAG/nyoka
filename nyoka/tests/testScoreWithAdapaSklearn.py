@@ -16,7 +16,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn_pandas import DataFrameMapper
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, \
-    RandomForestClassifier, RandomForestRegressor
+    RandomForestClassifier, RandomForestRegressor, IsolationForest
 from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClassifier, SGDClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.neural_network import MLPClassifier, MLPRegressor
@@ -689,6 +689,42 @@ class TestCases(unittest.TestCase):
         model_prob = pipeline_obj.transform(X_test)
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
+
+    @unittest.skip("")
+    def test_35_isolation_forest(self):
+        print("\ntest 34 (Isolation Forest\n")
+        detection_map = {
+            'true': -1,
+            'false': 1
+        }
+        X = numpy.array([
+            [1,2,3,4],
+            [2,1,3,4],
+            [3,2,1,4],
+            [3,2,4,1],
+            [4,3,2,1],
+            [2,4,3,1]
+        ], dtype=numpy.float32)
+        test_data = numpy.array([[0,4,0,7],[4,0,4,7]])
+        features = ['a','b','c','d']
+        model = IsolationForest(n_estimators=40,contamination=0)
+        pipeline_obj = Pipeline([
+            ("model", model)
+        ])
+        pipeline_obj.fit(X)
+        file_name = 'test35sklearn.pmml'
+        skl_to_pmml(pipeline_obj, features, '', file_name)
+        model_pred = pipeline_obj.predict(test_data)
+        model_scores = model.score_samples(test_data)
+        model_name  = self.adapa_utility.upload_to_zserver(file_name)
+        z_predictions = self.adapa_utility.score_in_zserver(model_name,'nyoka/tests/test_forest.csv','ANOMALY')
+        cnt = 0
+        for idx, value in enumerate(z_predictions):
+            score, is_anomaly = value.split(",")
+            score = -1 * float(score)
+            if "{:.6f}".format(score) != "{:.6f}".format(model_scores[idx]) or model_pred[idx] != detection_map[is_anomaly]:
+                cnt += 1
+        self.assertEqual(cnt,0)
 
 
     @classmethod

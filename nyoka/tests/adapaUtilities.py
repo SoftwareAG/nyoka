@@ -63,8 +63,11 @@ class AdapaUtility:
                     scores.append(res_[1])
                     boxes.append(res_[2:])
                 return boxes, scores, labels
-            else:
+            elif model_type=='TS':
                 result = float(res.text.split('\n')[1])
+                return result
+            elif model_type=='ANOMALY':
+                result = res.text.strip().split("\n")[1:]
                 return result
         else:
             all_rows = res.text.split('\n')
