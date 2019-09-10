@@ -30,8 +30,9 @@ class Lag(TransformerMixin):
         "stddev" : np.std
     }
     
-    def __init__(self, aggregation, value=1, copy=True):
+    def __init__(self, aggregation, value=2, copy=True):
         assert aggregation in self._VALID_AGGS, f"Invalid `aggregation` type. Valid types are {self._VALID_AGGS}"
+        assert value > 1, "`value` should be greater than 1"
         self.aggregation = aggregation
         self.value = value
         self.copy = copy
