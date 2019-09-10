@@ -13,8 +13,8 @@ class Lag(TransformerMixin):
     ----------
     aggregation : String
         aggregation type. The valid types are ["min", "max", "sum", "avg", "median", "product", "stddev"]
-    value : Integer (default = 1)
-        The number of previous record to aggregate
+    value : Integer (default = 2)
+        The number of previous record to aggregate. Should be greater than 1.
 
     
     """
