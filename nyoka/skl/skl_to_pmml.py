@@ -524,7 +524,7 @@ def get_anomaly_detection_output(model):
     offset = 0
     if model.__class__.__name__ == "IsolationForest":
         offset = model.offset_
-    thresh = thresh + offset
+    thresh = -1 * (thresh + offset)
 
     output_fields.append(
         pml.OutputField(name="outlier",
@@ -532,7 +532,7 @@ def get_anomaly_detection_output(model):
                         dataType="boolean",
                         feature="decision",
                         isFinalResult="true", 
-                        Apply=pml.Apply(function="lessThan", 
+                        Apply=pml.Apply(function="greaterThan", 
                                         FieldRef=[pml.FieldRef(field="anomalyScore")],
                                         Constant=[pml.Constant(dataType="double", 
                                         valueOf_="0" if thresh==0 else "{:.16f}".format(thresh))]))
