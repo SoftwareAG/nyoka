@@ -11,6 +11,7 @@ from nyoka import KerasToPmml
 from nyoka import PMML44 as pml
 from nyoka.Base64 import FloatBase64
 import unittest
+import base64
 import requests
 import json
 from requests.auth import HTTPBasicAuth
@@ -94,6 +95,61 @@ class TestCases(unittest.TestCase):
   
         self.assertEqual(abs(probabilities['cats'] - model_preds['cats']) < 0.00001, True)
         self.assertEqual(abs(probabilities['dogs'] - model_preds['dogs']) < 0.00001, True)
+
+    @unittest.skip("")
+    def test_03_encoded_script(self):
+        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
+        x = model.output
+        x = Flatten()(x)
+        x = Dense(1024, activation="relu")(x)
+        predictions = Dense(2, activation='sigmoid')(x)
+        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+        script_content = open("nyoka/tests/preprocess.py",'r').read()
+        pmml_obj=KerasToPmml(model_final,
+                    dataSet='image',
+                    predictedClasses=['cat','dog'],
+                    script_args = {
+                        "content" : script_content,
+                        "def_name" : "getBase64EncodedString",
+                        "return_type" : "string",
+                        "encode":True
+                    }
+                )
+        pmml_obj.export(open("script_with_keras.pmml",'w'),0)
+        self.assertEqual(os.path.isfile("script_with_keras.pmml"),True)
+        reconPmmlObj = pml.parse("script_with_keras.pmml",True)
+        content=reconPmmlObj.TransformationDictionary.DefineFunction[0].Apply.Extension[0].anytypeobjs_[0]
+        content = base64.b64decode(content).decode()
+        self.assertEqual(script_content, content)
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
+
+    @unittest.skip("")
+    def test_04_plain_text_script(self):
+        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
+        x = model.output
+        x = Flatten()(x)
+        x = Dense(1024, activation="relu")(x)
+        predictions = Dense(2, activation='sigmoid')(x)
+        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+        script_content = open("nyoka/tests/preprocess.py",'r').read()
+        pmml_obj=KerasToPmml(model_final,
+                    dataSet='image',
+                    predictedClasses=['cat','dog'],
+                    script_args = {
+                        "content" : script_content,
+                        "def_name" : "getBase64EncodedString",
+                        "return_type" : "string",
+                        "encode":False
+                    }
+                )
+        pmml_obj.export(open("script_with_keras.pmml",'w'),0)
+        self.assertEqual(os.path.isfile("script_with_keras.pmml"),True)
+        reconPmmlObj = pml.parse("script_with_keras.pmml",True)
+        content=reconPmmlObj.TransformationDictionary.DefineFunction[0].Apply.Extension[0].anytypeobjs_
+        content[0] = content[0].replace("\t","")
+        content="\n".join(content)
+        self.assertEqual(script_content, content)
+        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
 
 
