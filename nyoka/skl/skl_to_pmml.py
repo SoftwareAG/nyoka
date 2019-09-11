@@ -457,12 +457,11 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
     anomaly_detection_model = list()
     if 'OneClassSVM' in str(model.__class__):
         svm_model = get_supportVectorMachine_models(model,
-                                                            derived_col_names,
-                                                            col_names,
-                                                            target_name,
-                                                            mining_imp_val,
-                                                            categoric_values)[0]
-        svm_model.MiningSchema.MiningField = svm_model.MiningSchema.MiningField[:-1]
+                                                    derived_col_names,
+                                                    col_names,
+                                                    target_name,
+                                                    mining_imp_val,
+                                                    categoric_values)[0]
         anomaly_detection_model.append(
             pml.AnomalyDetectionModel(
                 modelName=model.__class__.__name__,
@@ -522,7 +521,9 @@ def get_anomaly_detection_output(model):
         thresh = 0
     
     offset = 0
+    operator = "lessThan"
     if model.__class__.__name__ == "IsolationForest":
+        operator = "greaterThan"
         offset = model.offset_
     thresh = -1 * (thresh + offset)
 
@@ -532,7 +533,7 @@ def get_anomaly_detection_output(model):
                         dataType="boolean",
                         feature="decision",
                         isFinalResult="true", 
-                        Apply=pml.Apply(function="greaterThan", 
+                        Apply=pml.Apply(function=operator, 
                                         FieldRef=[pml.FieldRef(field="anomalyScore")],
                                         Constant=[pml.Constant(dataType="double", 
                                         valueOf_="0" if thresh==0 else "{:.16f}".format(thresh))]))
