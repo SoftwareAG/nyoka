@@ -744,7 +744,7 @@ class TestCases(unittest.TestCase):
         file_name = 'test36sklearn.pmml'
         skl_to_pmml(pipeline_obj, features, '', file_name)
         model_pred = pipeline_obj.predict(df_test)
-        model_scores = model.score_samples(df_test)
+        model_scores = pipeline_obj.decision_function(df_test)
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
         z_predictions = self.adapa_utility.score_in_zserver(model_name,'nyoka/tests/test_ocsvm.csv','ANOMALY')
         cnt = 0
