@@ -726,6 +726,35 @@ class TestCases(unittest.TestCase):
                 cnt += 1
         self.assertEqual(cnt,0)
 
+    @unittest.skip("")
+    def test_36_one_class_svm(self):
+        print("\ntest 36 (One Class SVM\n")
+        detection_map = {
+            'true': -1,
+            'false': 1
+        }
+        df = pd.read_csv("nyoka/tests/train_ocsvm.csv")
+        df_test = pd.read_csv("nyoka/tests/test_ocsvm.csv")
+        features = df.columns
+        model = OneClassSVM(nu=0.1)
+        pipeline_obj = Pipeline([
+            ("model", model)
+        ])
+        pipeline_obj.fit(df)
+        file_name = 'test36sklearn.pmml'
+        skl_to_pmml(pipeline_obj, features, '', file_name)
+        model_pred = pipeline_obj.predict(df_test)
+        model_scores = model.score_samples(df_test)
+        model_name  = self.adapa_utility.upload_to_zserver(file_name)
+        z_predictions = self.adapa_utility.score_in_zserver(model_name,'nyoka/tests/test_ocsvm.csv','ANOMALY')
+        cnt = 0
+        for idx, value in enumerate(z_predictions):
+            score, is_anomaly = value.split(",")
+            score = float(score)
+            if "{:.6f}".format(score) != "{:.6f}".format(model_scores[idx]) or model_pred[idx] != detection_map[is_anomaly]:
+                cnt += 1
+        self.assertEqual(cnt,0)
+
 
     @classmethod
     def tearDownClass(self):
