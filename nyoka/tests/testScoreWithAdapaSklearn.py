@@ -773,7 +773,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
     def test_38_mlp_classifier(self):
-        print("\ntest 38 (mlp classifier without preprocessing)\n")
+        print("\ntest 38 (mlp classifier without preprocessing)[multi-class]\n")
         X, X_test, y, features, target, test_file = self.data_utility.get_data_for_multi_class_classification()
 
         model = MLPClassifier()
@@ -785,9 +785,30 @@ class TestCases(unittest.TestCase):
         
         skl_to_pmml(pipeline_obj, features, target, file_name)
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
-        predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
+        predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
         model_pred = pipeline_obj.predict(X_test)
+        model_prob = pipeline_obj.predict_proba(X_test)
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
+
+    def test_39_mlp_classifier(self):
+        print("\ntest 39 (mlp classifier without preprocessing)[binary-class]\n")
+        X, X_test, y, features, target, test_file = self.data_utility.get_data_for_binary_classification()
+
+        model = MLPClassifier()
+        pipeline_obj = Pipeline([
+            ("model", model)
+        ])
+        pipeline_obj.fit(X,y)
+        file_name = 'test39sklearn.pmml'
+        
+        skl_to_pmml(pipeline_obj, features, target, file_name)
+        model_name  = self.adapa_utility.upload_to_zserver(file_name)
+        predictions, probabilities = self.adapa_utility.score_in_zserver(model_name, test_file)
+        model_pred = pipeline_obj.predict(X_test)
+        model_prob = pipeline_obj.predict_proba(X_test)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+        self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
 
     @classmethod
