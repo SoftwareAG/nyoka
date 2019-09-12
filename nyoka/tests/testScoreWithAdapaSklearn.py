@@ -755,6 +755,40 @@ class TestCases(unittest.TestCase):
                 cnt += 1
         self.assertEqual(cnt,0)
 
+    def test_37_mlp_regressor(self):
+        print("\ntest 37 (mlp regressor without preprocessing)\n")
+        X, X_test, y, features, target, test_file = self.data_utility.get_data_for_regression()
+
+        model = MLPRegressor()
+        pipeline_obj = Pipeline([
+            ("model", model)
+        ])
+        pipeline_obj.fit(X,y)
+        file_name = 'test37sklearn.pmml'
+        
+        skl_to_pmml(pipeline_obj, features, target, file_name)
+        model_name  = self.adapa_utility.upload_to_zserver(file_name)
+        predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
+        model_pred = pipeline_obj.predict(X_test)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+
+    def test_38_mlp_classifier(self):
+        print("\ntest 38 (mlp classifier without preprocessing)\n")
+        X, X_test, y, features, target, test_file = self.data_utility.get_data_for_multi_class_classification()
+
+        model = MLPClassifier()
+        pipeline_obj = Pipeline([
+            ("model", model)
+        ])
+        pipeline_obj.fit(X,y)
+        file_name = 'test38sklearn.pmml'
+        
+        skl_to_pmml(pipeline_obj, features, target, file_name)
+        model_name  = self.adapa_utility.upload_to_zserver(file_name)
+        predictions, _ = self.adapa_utility.score_in_zserver(model_name, test_file)
+        model_pred = pipeline_obj.predict(X_test)
+        self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
+
 
     @classmethod
     def tearDownClass(self):

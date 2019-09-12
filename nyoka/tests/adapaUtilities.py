@@ -70,7 +70,7 @@ class AdapaUtility:
                 result = res.text.strip().split("\n")[1:]
                 return result
         else:
-            all_rows = res.text.split('\n')
+            all_rows = res.text.strip().split('\n')
             predictions = []
             probabilities = []
             if all_rows[0].split(",").__len__() == 1:
