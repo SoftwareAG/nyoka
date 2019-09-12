@@ -297,7 +297,7 @@ RetinanetToPmml(
 ```
 
 ### Nyoka to export statsmodels model
->Exporting ARIMA to PMML
+>Exporting Non Seasonal ARIMA to PMML
 ```python
 import pandas as pd
 import numpy as np
@@ -313,6 +313,21 @@ result = model.fit()
 
 pmml_f_name = 'non_seasonal_car_sales.pmml'
 ArimaToPMML(results_obj = result,pmml_file_name = pmml_f_name)
+```
+
+>Exporting Seasonal ARIMA to PMML
+```python
+import pandas as pd
+from nyoka import ArimaToPMML
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+data=pd.read_csv("JohnsonJohnsonWithDate.csv")
+data['index']=pd.to_datetime(data['index'], format='%Y-%m-%d')
+data.set_index(['index'], inplace=True)
+
+mod = SARIMAX(data,order=(1,0,0),seasonal_order=(1,0,0, 4))
+result = mod.fit()
+
+ArimaToPMML(results, 'jnj_seasonal_arima.pmml')
 ```
 
 ## More in Nyoka
