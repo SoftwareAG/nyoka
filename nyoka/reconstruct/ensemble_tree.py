@@ -354,19 +354,19 @@ class EnsembleModel:
                             else:
                                 classes.append(vv.get_value())
         
-        # Vinays logic
-        dfNames = []
-        fieldRefs = []
-        td = pmml.get_TransformationDictionary()
-        if(td):
-            for df in td[0].DerivedField:
-                dfNames.append(df.name)
-                if hasattr(df.Apply, "Apply"):
-                    fieldRefs.append(df.Apply.Apply[0].FieldRef[0].field)
-                else:
-                    fieldRefs.append(df.Apply[0].FieldRef[0].field)
-        fields.extend(dfNames)
-        fields = list(set(fields)-set(fieldRefs))
+        # # Vinays logic
+        # dfNames = []
+        # fieldRefs = []
+        # td = pmml.get_TransformationDictionary()
+        # if(td):
+        #     for df in td[0].DerivedField:
+        #         dfNames.append(df.name)
+        #         if hasattr(df.Apply, "Apply"):
+        #             fieldRefs.append(df.Apply.Apply[0].FieldRef[0].field)
+        #         else:
+        #             fieldRefs.append(df.Apply[0].FieldRef[0].field)
+        # fields.extend(dfNames)
+        # fields = list(set(fields)-set(fieldRefs))
         return fields, classes
 
 

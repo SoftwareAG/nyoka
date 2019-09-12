@@ -263,7 +263,9 @@ def get_neural_net_model(nyoka_pmml):
         sk_model.intercepts_ = bias
         sk_model.coefs_ = coef
         sk_model.noOfLayer = hidden_layers
-        sk_model.n_layers_ = len(hidden_layers) + 2
+        # sk_model.n_layers_ = len(hidden_layers) + 2
+        sk_model.n_layers_ = hidden_layers + 2
+        sk_model.n_outputs_ = 1         
 
 
     elif function_names == "classification":

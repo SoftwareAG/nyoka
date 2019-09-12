@@ -892,6 +892,44 @@ def getPMMLAttributes(miningSchema):
     miningField = miningSchema.get_MiningField()
     return [field.get_name() for field in miningField if field.get_usageType() != 'target']
 
+# by CS
+#Temporary Logic
+def lowerfirst(x):
+    return x[:1].lower()+x[1:]
+
+def getMiningFieldVal(miningField):
+    outDict=dict(dict())
+    for field in miningField:
+        replacementValue = field.get_missingValueReplacement()
+        if replacementValue:
+            outDict[field.get_name()] = [replacementValue]
+    return outDict
+
+def getDerivedFieldVal(derivedField):
+    outDict = dict()
+    for field in derivedField:
+        name = field.get_name()
+        firstApply = field.get_Apply()
+        outDict[name] = [[firstApply.get_Constant()[0].get_valueOf_()]]
+        secondApply = firstApply.get_Apply()
+        if secondApply:
+            outDict[name].append([secondApply[0].get_Constant()[0].get_valueOf_()])
+    return outDict
+
+def getPipelineStoreValues(piplineObjects,featureNames,miningField,derivedField):
+    impDict = getMiningFieldVal(miningField)
+    ppDict = getDerivedFieldVal(derivedField)
+    outList = []
+    for item, name in zip(piplineObjects,featureNames):
+        for stepObject in item:
+            if stepObject.__class__.__name__ == "Imputer":
+                outList.append([impDict[name]])
+            else:
+                outList.append(ppDict[lowerfirst(stepObject.__class__.__name__)+'('+name+')'])
+    return outList
+
+#!By CS
+
 def getPipelineObject(scikitLearnModel, derivedField, preProcessingPipeline, pmmlModel, parsedPMML):
     constantOutput = list()
     constantInput = list()
@@ -951,17 +989,18 @@ def getPipelineObject(scikitLearnModel, derivedField, preProcessingPipeline, pmm
                 pipelineConstantMerged = constantMerged
     arranged_data = arrangePipelineComponents(scikitLearnModel, constantMerged, fields, attributesOfEntirePipeline, models,
                                               originalAttributesOfEntirePipeline, original_df_models)                         
-    constantMerged = arranged_data[0]
-    if not originalPipelineModels:
-        fields = arranged_data[1]
-    else:
-        # sub_len = len(originalPipelineModels)-1
-        fields = fields[-1]
+    # constantMerged = arranged_data[0]
+    # if not originalPipelineModels:
+    #     fields = arranged_data[1]
+    # else:
+    #     # sub_len = len(originalPipelineModels)-1
+    #     fields = fields[-1]
     if not originalAttributesOfEntirePipeline:
         originalAttributesOfEntirePipeline = getPMMLAttributes(miningSchema)
     attr_list = combineAttributes(originalAttributesOfEntirePipeline)
     fields = combineAttributes(fields)
 
+    constantMerged = getPipelineStoreValues(original_df_models, attr_list, miningField, derivedField)
     pipe = filterPipe(preProcessingPipeline)
     if pipe:
         data_dict = getDataFrameDataTypes(attr_list, dataDictionary)

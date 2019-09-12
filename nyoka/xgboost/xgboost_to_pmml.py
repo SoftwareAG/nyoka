@@ -102,7 +102,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     mining_models = list()
     mining_models.append(pml.MiningModel(
         modelName="XGBoostModel",
-        Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,tasktype),
+        Segmentation=get_outer_segmentation(model, col_names, col_names, target_name, mining_imp_val,categoric_values,tasktype),
         **model_kwargs
     ))
     return mining_models
