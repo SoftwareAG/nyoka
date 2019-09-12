@@ -137,7 +137,7 @@ Nyoka contains seperate exporters for each library, e.g., scikit-learn, keras, x
 | **lightgbm** | _lgbm_to_pmml_ |
 | **keras** | _KerasToPmml_ |
 | **statsmodels** | _ArimaToPmml & ExponentialSmoothingToPmml_ |
-| **retinanet** | _RetinaNetToPmml_ |
+| **retinanet** | _RetinanetToPmml_ |
 
 The main module of __Nyoka__ is `nyoka`. To use it for your model, you need to import the specific exporter from nyoka as -
 
@@ -291,6 +291,7 @@ backbone = 'resnet'
 RetinanetToPmml(
     model,
     input_shape=(224,224,3),
+    input_format="image",
     backbone_name=backbone,
     pmml_file_name="retinanet_with_coco_.pmml"
 )
