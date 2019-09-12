@@ -79,6 +79,9 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * Xception
 </details>
 
+### Object Detection Model:
+* Keras-RetinaNet
+
 ### LightGBM:
 <details><summary>Click to expand!</summary>
 
@@ -133,7 +136,8 @@ Nyoka contains seperate exporters for each library, e.g., scikit-learn, keras, x
 | **xgboost** | _xgboost_to_pmml_ |
 | **lightgbm** | _lgbm_to_pmml_ |
 | **keras** | _KerasToPmml_ |
-| **statsmodels** | _ArimaToPmml & ExponentialSmoothingToPmml_
+| **statsmodels** | _ArimaToPmml & ExponentialSmoothingToPmml_ |
+| **retinanet** | _RetinaNetToPmml_ |
 
 The main module of __Nyoka__ is `nyoka`. To use it for your model, you need to import the specific exporter from nyoka as -
 
@@ -249,6 +253,49 @@ from nyoka import KerasToPmml
 cnn_pmml = KerasToPmml(model_final,dataSet='image',predictedClasses=['cats','dogs'])
 cnn_pmml.export(open('2classMBNet.pmml', "w"), 0)
 ```
+
+>Exporting user given python script with keras model
+
+```python
+from keras import applications
+from keras.layers import Flatten, Dense
+from keras.models import Model
+model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
+x = model.output
+x = Flatten()(x)
+x = Dense(1024, activation="relu")(x)
+predictions = Dense(2, activation='sigmoid')(x)
+model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+script_content = open("preprocess.py",'r').read()
+pmml_obj=KerasToPmml(model_final,
+            dataSet='image',
+            predictedClasses=['cat','dog'],
+            script_args = {
+                "content" : script_content,
+                "def_name" : "getBase64EncodedString",
+                "return_type" : "string",
+                "encode":True
+            }
+        )
+pmml_obj.export(open("script_with_keras_encoded.pmml",'w'),0)
+```
+
+### Nyoka to export object detection model
+
+>Exporting RetinaNet to PMML
+```python
+from keras_retinanet.models import load_model
+from nyoka import RetinanetToPmml
+model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
+backbone = 'resnet'
+RetinanetToPmml(
+    model,
+    input_shape=(224,224,3),
+    backbone_name=backbone,
+    pmml_file_name="retinanet_with_coco_.pmml"
+)
+```
+
 ### Nyoka to export statsmodels model
 >Exporting ARIMA to PMML
 ```python
