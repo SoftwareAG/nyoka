@@ -43,6 +43,7 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * RandomForestClassifier
 * GradientBoostingRegressor
 * GradientBoostingClassifier
+* IsolationForest
 * MLPClassifier
 * MLPRegressor
 * KNNClassifier
