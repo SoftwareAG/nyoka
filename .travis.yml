@@ -9,6 +9,7 @@ services:
   - docker
 
 before_install:
+  - echo "$DOCKER_PW" | docker login -u "$DOCKER_UN" --password-stdin
   - docker run -d -p 8080:8080 store/softwareag/zementis-server:10.4.0.1
   - openssl aes-256-cbc -K $encrypted_7bf883d4fa3b_key -iv $encrypted_7bf883d4fa3b_iv -in CNN.jar.enc -out CNN.jar -d
   - openssl aes-256-cbc -K $encrypted_7bf883d4fa3b_key -iv $encrypted_7bf883d4fa3b_iv -in KerasRetinaNet.jar.enc -out KerasRetinaNet.jar -d
