@@ -9,7 +9,6 @@ install: "pip install -e ."
 
 script:
   - python nyoka/tests/test_import.py
-  - python nyoka/tests/_random.py
   - python nyoka/tests/_install_dependencies.py
   - python nyoka/tests/test_skl_to_pmml_UnitTest.py
   - python nyoka/tests/test_xgboost_to_pmml_UnitTest.py
