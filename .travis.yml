@@ -5,7 +5,7 @@ python:
 
 cache: pip
 
-before-install:
+before_install:
   - openssl aes-256-cbc -K $encrypted_7bf883d4fa3b_key -iv $encrypted_7bf883d4fa3b_iv -in nn.tar.enc -out nn.tar -d
   - tar xvf nn.tar
   - ls
