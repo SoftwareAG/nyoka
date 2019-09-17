@@ -5,15 +5,9 @@ python:
 
 cache: pip
 
-before_install:
-  - openssl aes-256-cbc -K $encrypted_7bf883d4fa3b_key -iv $encrypted_7bf883d4fa3b_iv -in tt.zip.enc -out tt.zip -d
-  - unzip tt.zip
-  - ls
-
 install: "pip install -e ."
 
 script:
-  - python nyoka/tests/random.py
   - python nyoka/tests/test_import.py
   - python nyoka/tests/_install_dependencies.py
   - python nyoka/tests/test_skl_to_pmml_UnitTest.py
