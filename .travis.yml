@@ -6,8 +6,8 @@ python:
 cache: pip
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_7bf883d4fa3b_key -iv $encrypted_7bf883d4fa3b_iv -in nn.tar.enc -out nn.tar -d
-  - tar xvf nn.tar
+  - openssl aes-256-cbc -K $encrypted_7bf883d4fa3b_key -iv $encrypted_7bf883d4fa3b_iv -in test.tar.gz.enc -out test.tar.gz -d
+  - tar -zxvf test.tar.gz
   - ls
 
 install: "pip install -e ."
