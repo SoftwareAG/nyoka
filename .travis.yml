@@ -2,6 +2,8 @@ language: python
 python:
 - '3.6'
 cache: pip
+services:
+- docker
 install: pip install -e .
 script:
 - python nyoka/tests/test_import.py
