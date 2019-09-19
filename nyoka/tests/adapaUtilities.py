@@ -18,6 +18,7 @@ class AdapaUtility:
     def upload_to_zserver(self, file_name):
         files = {'file': open(file_name,'r')}
         res = requests.post(self.endpoint+"model", auth = HTTPBasicAuth(self.username, self.password),files=files)
+        print(res.text)
         if res.status_code == 409:
             model_name = res.json()['errors'][0].split("\'")[1]
             status_code = self.delete_model(model_name)
@@ -26,6 +27,7 @@ class AdapaUtility:
                 return
             files = {'file': open(file_name,'r')}
             res = requests.post(self.endpoint+"model", auth = HTTPBasicAuth(self.username, self.password),files=files)
+        print(res.text)
         return res.json()['modelName']
 
     def delete_model(self, model_name):
