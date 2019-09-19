@@ -10,7 +10,6 @@ packages = [
     "xgboost",
     "glibc",
     "lxml",
-    "jupyter",
     "sklearn-pandas",
     "lightgbm",
     "h5py",
