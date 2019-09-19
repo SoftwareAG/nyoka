@@ -4,7 +4,8 @@ python:
 cache: pip
 services:
 - docker
-install: pip install -e .
+install:
+- pip install -e .
 script:
 - python nyoka/tests/test_import.py
 - python nyoka/tests/_install_dependencies.py
@@ -14,6 +15,7 @@ script:
 - python nyoka/tests/test_keras_to_pmml_UnitTest.py
 - python nyoka/tests/test_statsmodels_to_pmml_UnitTest.py
 - python nyoka/tests/test_retinanet_to_pmml_UnitTest.py
+- python nyoka/tests/setup_server.py
 - python nyoka/tests/testScoreWithAdapaKeras.py
 - python nyoka/tests/testScoreWithAdapaLgbm.py
 - python nyoka/tests/testScoreWithAdapaSklearn.py
@@ -32,3 +34,6 @@ before_install:
   -in secrets.zip.enc -out secrets.zip -d
 - unzip secrets.zip
 - ls
+- echo "$DOCKER_PW" | docker login -u "$DOCKER_UN" --password-stdin
+- docker run -d -p 8080:8080 store/softwareag/zementis-server:10.4.0.1
+- docker ps
