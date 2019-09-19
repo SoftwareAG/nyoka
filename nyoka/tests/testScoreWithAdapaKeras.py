@@ -50,7 +50,7 @@ class TestCases(unittest.TestCase):
         img = img_to_array(img)
         img = preprocess_input(img)
         imgtf = np.expand_dims(img, axis=0)
-        model_pred=model_final.predict(imgtf)
+        model_pred=self.model_final.predict(imgtf)
         model_preds = {'dogs':model_pred[0][0],'cats':model_pred[0][1]}
 
         model_name  = self.adapa_utility.upload_to_zserver('2classMBNet.pmml')
@@ -79,7 +79,7 @@ class TestCases(unittest.TestCase):
         text_file.write(csvContent)
         text_file.close()
 
-        model_pred=model_final.predict(imgtf)
+        model_pred=self.model_final.predict(imgtf)
         model_preds = {'dogs':model_pred[0][0],'cats':model_pred[0][1]}
 
         model_name  = self.adapa_utility.upload_to_zserver('2classMBNetBase64.pmml')
@@ -108,7 +108,7 @@ class TestCases(unittest.TestCase):
         content=reconPmmlObj.TransformationDictionary.DefineFunction[0].Apply.Extension[0].anytypeobjs_[0]
         content = base64.b64decode(content).decode()
         self.assertEqual(script_content, content)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
+        self.assertEqual(len(self.model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
     @unittest.skip("")
     def test_04_plain_text_script(self):
@@ -131,7 +131,7 @@ class TestCases(unittest.TestCase):
         content[0] = content[0].replace("\t","")
         content="\n".join(content)
         self.assertEqual(script_content, content)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
+        self.assertEqual(len(self.model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
 
 
