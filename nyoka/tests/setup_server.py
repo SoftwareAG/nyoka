@@ -8,9 +8,6 @@ class SetupServer:
         self.endpoint = os.environ['DOCKER_ADAPA_URL']
         self.username = os.environ['DOCKER_ADAPA_UN']
         self.password = os.environ['DOCKER_ADAPA_PW']
-        self.lc_file = os.environ['LC_FILE']
-        self.cnn = os.environ['CNN']
-        self.retinanet = os.environ['RETINANET']
 
     def upload_license(self, file_name):
         files = {'file': open(file_name,'r')}
@@ -24,6 +21,6 @@ class SetupServer:
 
 if __name__ == "__main__":
     setup = SetupServer()
-    setup.upload_license(setup.lc_file)
-    setup.upload_resource(setup.cnn)
-    setup.upload_resource(setup.retinanet)
+    setup.upload_license("zementis.license")
+    setup.upload_resource("CNN.jar")
+    setup.upload_resource("KerasRetinaNet.jar")
