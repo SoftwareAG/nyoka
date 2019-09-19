@@ -2,6 +2,8 @@ language: python
 python:
 - '3.6'
 cache: pip
+services:
+- docker
 install: pip install -e .
 script:
 - python nyoka/tests/test_import.py
@@ -30,3 +32,6 @@ before_install:
   -in secrets.zip.enc -out secrets.zip -d
 - unzip secrets.zip
 - ls
+- echo "$DOCKER_PW" | docker login -u "$DOCKER_UN" --password-stdin
+- docker run -d -p 8080:8080 store/softwareag/zementis-server:10.4.0.1
+- docker ps
