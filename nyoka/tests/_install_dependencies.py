@@ -8,6 +8,7 @@ packages = [
     "tensorflow==1.9.0",
     "statsmodels==0.9.0",
     "xgboost==0.82",
+    "numpy==1.16.1",
     "glibc",
     "lxml",
     "sklearn-pandas",
