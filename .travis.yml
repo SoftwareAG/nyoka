@@ -6,13 +6,6 @@ services:
 - docker
 install:
 - pip install -e .
-- git clone --recursive https://github.com/dmlc/xgboost
-- cd xgboost
-- mkdir build
-- cd build
-- cmake ..
-- make -j4
-- cd ..
 script:
 - python nyoka/tests/test_import.py
 - python nyoka/tests/_install_dependencies.py
