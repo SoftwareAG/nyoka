@@ -31,18 +31,18 @@ class TestCases(unittest.TestCase):
         print("******* Unit Test for Keras *******")
         self.adapa_utility = AdapaUtility()
         self.data_utility = DataUtility()
-
-
-    def test_01_image_classifier_with_image_as_input(self):
         model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
         activType='sigmoid'
         x = model.output
         x = Flatten()(x)
         x = Dense(1024, activation="relu")(x)
         predictions = Dense(2, activation=activType)(x)
-        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+        self.model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+
+
+    def test_01_image_classifier_with_image_as_input(self):
         
-        cnn_pmml = KerasToPmml(model_final,model_name="MobileNetImage",description="Demo",\
+        cnn_pmml = KerasToPmml(self.model_final,model_name="MobileNetImage",description="Demo",\
             copyright="Internal User",dataSet='image',predictedClasses=['dogs','cats'])
         cnn_pmml.export(open('2classMBNet.pmml', "w"), 0)
 
@@ -62,15 +62,8 @@ class TestCases(unittest.TestCase):
 
 
     def test_02_image_classifier_with_base64string_as_input(self):
-        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
-        activType='sigmoid'
-        x = model.output
-        x = Flatten()(x)
-        x = Dense(1024, activation="relu")(x)
-        predictions = Dense(2, activation=activType)(x)
-        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
         
-        cnn_pmml = KerasToPmml(model_final,model_name="MobileNetBase64",description="Demo",\
+        cnn_pmml = KerasToPmml(self.model_final,model_name="MobileNetBase64",description="Demo",\
             copyright="Internal User",dataSet='imageBase64',predictedClasses=['dogs','cats'])
         cnn_pmml.export(open('2classMBNetBase64.pmml', "w"), 0)
 
@@ -98,14 +91,8 @@ class TestCases(unittest.TestCase):
 
     @unittest.skip("")
     def test_03_encoded_script(self):
-        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
-        x = model.output
-        x = Flatten()(x)
-        x = Dense(1024, activation="relu")(x)
-        predictions = Dense(2, activation='sigmoid')(x)
-        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
         script_content = open("nyoka/tests/preprocess.py",'r').read()
-        pmml_obj=KerasToPmml(model_final,
+        pmml_obj=KerasToPmml(self.model_final,
                     dataSet='image',
                     predictedClasses=['cat','dog'],
                     script_args = {
@@ -125,14 +112,9 @@ class TestCases(unittest.TestCase):
 
     @unittest.skip("")
     def test_04_plain_text_script(self):
-        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
-        x = model.output
-        x = Flatten()(x)
-        x = Dense(1024, activation="relu")(x)
-        predictions = Dense(2, activation='sigmoid')(x)
-        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+        
         script_content = open("nyoka/tests/preprocess.py",'r').read()
-        pmml_obj=KerasToPmml(model_final,
+        pmml_obj=KerasToPmml(self.model_final,
                     dataSet='image',
                     predictedClasses=['cat','dog'],
                     script_args = {
