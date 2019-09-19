@@ -20,8 +20,8 @@ script:
 - python nyoka/tests/testScoreWithAdapaLgbm.py
 - python nyoka/tests/testScoreWithAdapaSklearn.py
 - python nyoka/tests/testScoreWithAdapaXgboost.py
-- py.test  --cov-report term --cov=nyoka/
 after_success:
+- py.test  --cov-report term --cov=nyoka/
 - codecov
 notifications:
   email:
@@ -37,3 +37,4 @@ before_install:
 - echo "$DOCKER_PW" | docker login -u "$DOCKER_UN" --password-stdin
 - docker run -d -p 8080:8080 --memory="3g" store/softwareag/zementis-server:10.4.0.1
 - docker ps
+- docker status
