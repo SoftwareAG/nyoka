@@ -7,7 +7,7 @@ packages = [
     "keras==2.2.4",
     "tensorflow==1.9.0",
     "statsmodels==0.9.0",
-    "xgboost",
+    "xgboost==0.82",
     "glibc",
     "lxml",
     "sklearn-pandas",
