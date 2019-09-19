@@ -335,7 +335,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
     anomaly_model_names = ('OneClassSVM',)
     naive_bayes_model_names = ('GaussianNB',)
     mining_model_names = ('RandomForestRegressor', 'RandomForestClassifier', 'GradientBoostingClassifier',
-                            'GradientBoostingRegressor','IsolationForest')
+                            'GradientBoostingRegressor','IsolationForest','ExtraTreesClassifier')
     neurl_netwk_model_names = ('MLPClassifier', 'MLPRegressor')
     nearest_neighbour_names = ('NeighborsBase',)
     clustering_model_names = ('KMeans',)
@@ -1317,7 +1317,7 @@ def get_multiple_model_method(model):
         return 'modelChain'
     elif model.__class__.__name__ == 'GradientBoostingRegressor':
         return 'sum'
-    elif model.__class__.__name__ == 'RandomForestClassifier':
+    elif model.__class__.__name__ in ['RandomForestClassifier','ExtraTreesClassifier']:
         return 'majorityVote'
     elif model.__class__.__name__ in ['RandomForestRegressor','IsolationForest']:
         return 'average'
@@ -2103,7 +2103,7 @@ def get_node(model, features_names, main_model=None):
     """
     tree = model.tree_
     node_samples = tree.n_node_samples
-    if main_model and main_model.__class__.__name__ == 'RandomForestClassifier':
+    if main_model and main_model.__class__.__name__ in ['RandomForestClassifier','ExtraTreesClassifier']:
         classes = main_model.classes_
     elif hasattr(model,'classes_'):
         classes = model.classes_
@@ -2136,7 +2136,7 @@ def get_node(model, features_names, main_model=None):
         else:
             nodeValue = list(tree.value[idx][0])
             lSum = float(sum(nodeValue))
-            if model.__class__.__name__ == 'DecisionTreeClassifier':
+            if model.__class__.__name__ in ['DecisionTreeClassifier','ExtraTreeClassifier']:
                 probs = [x / lSum for x in nodeValue]
                 score_dst = []
                 for i in range(len(probs)):

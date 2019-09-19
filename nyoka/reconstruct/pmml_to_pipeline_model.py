@@ -14,7 +14,7 @@ from sklearn_pandas import CategoricalImputer
 from sklearn import linear_model
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.cluster import KMeans
-from sklearn.svm import SVR,SVC, LinearSVC, LinearSVR
+from sklearn.svm import SVR,SVC, LinearSVC, LinearSVR, OneClassSVM
 from sklearn.neural_network import MLPClassifier,MLPRegressor
 from nyoka.reconstruct.ensemble_tree import reconstruct,Tree
 from sklearn.naive_bayes import GaussianNB
@@ -62,6 +62,9 @@ def generate_skl_model(pmml, output = "preProcessingPipelineWithModel"):
         elif pmml.SupportVectorMachineModel:
             pmml_modelobj = pmml.SupportVectorMachineModel[0]
             sk_model_obj = get_svm_model(pmml_modelobj,pmml)
+        elif pmml.AnomalyDetectionModel:
+            pmml_modelobj = pmml.AnomalyDetectionModel[0]
+            sk_model_obj = getAnomalyDetectionModel(pmml_modelobj,pmml)
         elif pmml.ClusteringModel:
             pmml_modelobj = pmml.ClusteringModel[0]
             sk_model_obj = get_kmean_model(pmml_modelobj)
@@ -302,8 +305,10 @@ def get_kmean_model(pmml_modelobj):
         raise Exception("Pmml model function name is not : regression")
     return sk_model_obj
 
+def getAnomalyDetectionModel(AnomalyDetectionModel,PMML):
+    return get_svm_model(AnomalyDetectionModel.SupportVectorMachineModel,PMML,True)
 
-def get_svm_model(svm, pmml):
+def get_svm_model(svm, pmml, AnomalyDetectionModel=False):
     funct_name = svm.functionName
     svm_model = svm
     data_dict = pmml.get_DataDictionary()
@@ -492,26 +497,34 @@ def get_svm_model(svm, pmml):
         linear = svm.get_LinearKernelType()
         poly = svm.get_PolynomialKernelType()
         rbf = svm.get_RadialBasisKernelType()
+        sigmoid = svm.get_SigmoidKernelType()
 
     if linear:
         if funct_name == "regression":
-            model_obj = SVR(kernel='linear')
+            model_obj = OneClassSVM(kernel='linear') if AnomalyDetectionModel else SVR(kernel='linear')
         elif funct_name == "classification":
-            model_obj = SVC(kernel='linear')
+            model_obj = OneClassSVM(kernel='linear') if AnomalyDetectionModel else SVC(kernel='linear')
         model_obj._gamma = 0.0
-    if poly:
+    elif poly:
         if funct_name == "regression":
-            model_obj = SVR(kernel='poly', degree=int(poly.get_degree()))
+            model_obj = OneClassSVM(kernel='poly', degree=int(poly.get_degree())) if AnomalyDetectionModel else SVR(kernel='poly', degree=int(poly.get_degree()))
         elif funct_name == "classification":
-            model_obj = SVC(kernel='poly', degree=int(poly.get_degree()))
+            model_obj = OneClassSVM(kernel='poly', degree=int(poly.get_degree())) if AnomalyDetectionModel else SVC(kernel='poly', degree=int(poly.get_degree()))
         model_obj._gamma = poly.get_gamma()
 
-    if rbf:
+    elif rbf:
         if funct_name == "regression":
-            model_obj = SVR(kernel='rbf')
+            model_obj = OneClassSVM(kernel='rbf') if AnomalyDetectionModel else SVR(kernel='rbf')
         elif funct_name == "classification":
-            model_obj = SVC(kernel='rbf')
+            model_obj = OneClassSVM(kernel='rbf') if AnomalyDetectionModel else SVC(kernel='rbf')
         model_obj._gamma = rbf.get_gamma()
+
+    elif sigmoid:
+        if funct_name == "regression":
+            model_obj = OneClassSVM(kernel='sigmoid') if AnomalyDetectionModel else SVR(kernel='sigmoid')
+        elif funct_name == "classification":
+            model_obj = OneClassSVM(kernel='sigmoid') if AnomalyDetectionModel else SVC(kernel='sigmoid')
+        model_obj._gamma = sigmoid.get_gamma()
 
     if funct_name == "regression":
         model_obj.support_vectors_ = np_sup_vec

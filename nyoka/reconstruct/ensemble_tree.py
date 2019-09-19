@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.ensemble import GradientBoostingClassifier,GradientBoostingRegressor,RandomForestClassifier,RandomForestRegressor, IsolationForest
+from sklearn.ensemble import GradientBoostingClassifier,GradientBoostingRegressor,RandomForestClassifier,RandomForestRegressor, IsolationForest,ExtraTreesClassifier
 from sklearn.ensemble.gradient_boosting import PriorProbabilityEstimator
 from xgboost import XGBClassifier,XGBRegressor
 from lightgbm import LGBMClassifier,LGBMRegressor
@@ -172,6 +172,8 @@ def reconstruct(pmml,*args):
         mod=RandomForestClassifier()
     elif 'RandomForestRegressor' in extension_value:
         mod=RandomForestRegressor()
+    elif 'ExtraTreesClassifier' in extension_value:
+        mod=ExtraTreesClassifier()
     elif 'LGBMRegressor' in extension_value:
         mod=LGBMRegressor()
         model.isRescaleRequired(val=False)
