@@ -35,5 +35,5 @@ before_install:
 - unzip secrets.zip
 - ls
 - echo "$DOCKER_PW" | docker login -u "$DOCKER_UN" --password-stdin
-- docker run -d -p 8080:8080 --memory="4g" store/softwareag/zementis-server:10.4.0.1
+- docker run -d -p 8080:8080 --memory="6g" store/softwareag/zementis-server:10.4.0.1
 - docker ps
