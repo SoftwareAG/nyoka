@@ -15,18 +15,23 @@ class AdapaUtility:
         self.username = os.environ['DOCKER_ADAPA_UN']
         self.password = os.environ['DOCKER_ADAPA_PW']
 
+    def delete_all_models(self):
+        res = requests.delete(self.endpoint+"models", auth=HTTPBasicAuth(self.username,self.password))
+        print(res.text)
+
     def upload_to_zserver(self, file_name):
+        self.delete_all_models()
         files = {'file': open(file_name,'r')}
         res = requests.post(self.endpoint+"model", auth = HTTPBasicAuth(self.username, self.password),files=files)
         print(res.text)
-        if res.status_code == 409:
-            model_name = res.json()['errors'][0].split("\'")[1]
-            status_code = self.delete_model(model_name)
-            if status_code != 200:
-                print("Something went wrong! Staus code ",status_code)
-                return
-            files = {'file': open(file_name,'r')}
-            res = requests.post(self.endpoint+"model", auth = HTTPBasicAuth(self.username, self.password),files=files)
+        # if res.status_code == 409:
+        #     model_name = res.json()['errors'][0].split("\'")[1]
+        #     status_code = self.delete_model(model_name)
+        #     if status_code != 200:
+        #         print("Something went wrong! Staus code ",status_code)
+        #         return
+        #     files = {'file': open(file_name,'r')}
+        #     res = requests.post(self.endpoint+"model", auth = HTTPBasicAuth(self.username, self.password),files=files)
         return res.json()['modelName']
 
     def delete_model(self, model_name):
@@ -35,6 +40,7 @@ class AdapaUtility:
         return res.status_code
 
     def score_single_record(self, model_name):
+        self.delete_all_models()
         res = requests.get(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password))
         return res.json()['outputs'][0]
 
