@@ -16,12 +16,10 @@ script:
 - python nyoka/tests/test_statsmodels_to_pmml_UnitTest.py
 - python nyoka/tests/test_retinanet_to_pmml_UnitTest.py
 - python nyoka/tests/setup_server.py
-- free -m
 - python nyoka/tests/testScoreWithAdapaLgbm.py
 - python nyoka/tests/testScoreWithAdapaSklearn.py
 - python nyoka/tests/testScoreWithAdapaXgboost.py
 - python nyoka/tests/testScoreWithAdapaKeras.py
-- free -m
 after_success:
 - py.test  --cov-report term --cov=nyoka/
 - codecov
@@ -37,5 +35,5 @@ before_install:
 - unzip secrets.zip
 - ls
 - echo "$DOCKER_PW" | docker login -u "$DOCKER_UN" --password-stdin
-- docker run -d -p 8080:8080 --memory="2.5g" store/softwareag/zementis-server:10.4.0.1
+- docker run -d -p 8080:8080 --memory="5g" store/softwareag/zementis-server:10.4.0.1
 - docker ps

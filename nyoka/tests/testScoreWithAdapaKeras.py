@@ -61,8 +61,15 @@ class TestCases(unittest.TestCase):
         self.assertEqual(abs(probabilities['dogs'] - model_preds['dogs']) < 0.00001, True)
 
     def test_02_image_classifier_with_base64string_as_input(self):
+        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (80, 80,3))
+        activType='sigmoid'
+        x = model.output
+        x = Flatten()(x)
+        x = Dense(1024, activation="relu")(x)
+        predictions = Dense(2, activation=activType)(x)
+        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
         
-        cnn_pmml = KerasToPmml(self.model_final,model_name="MobileNetBase64",description="Demo",\
+        cnn_pmml = KerasToPmml(model_final,model_name="MobileNetBase64",description="Demo",\
             copyright="Internal User",dataSet='imageBase64',predictedClasses=['dogs','cats'])
         cnn_pmml.export(open('2classMBNetBase64.pmml', "w"), 0)
 
@@ -78,7 +85,7 @@ class TestCases(unittest.TestCase):
         text_file.write(csvContent)
         text_file.close()
 
-        model_pred=self.model_final.predict(imgtf)
+        model_pred=model_final.predict(imgtf)
         model_preds = {'dogs':model_pred[0][0],'cats':model_pred[0][1]}
 
         model_name  = self.adapa_utility.upload_to_zserver('2classMBNetBase64.pmml')
