@@ -473,7 +473,7 @@ class TestMethods(unittest.TestCase):
                                         enforce_invertibility = False, 
                                         hamilton_representation = True, 
                                         concentrate_scale = False)
-        result = model.fit()
+        result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
@@ -493,7 +493,7 @@ class TestMethods(unittest.TestCase):
                                         enforce_invertibility = False, 
                                         hamilton_representation = False, 
                                         concentrate_scale = False)
-        result = model.fit()
+        result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
@@ -513,7 +513,7 @@ class TestMethods(unittest.TestCase):
                                         enforce_invertibility = False, 
                                         hamilton_representation = True, 
                                         concentrate_scale = False)
-        result = model.fit()
+        result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
@@ -533,7 +533,7 @@ class TestMethods(unittest.TestCase):
                                         enforce_invertibility = False, 
                                         hamilton_representation = False, 
                                         concentrate_scale = False)
-        result = model.fit()
+        result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
@@ -553,7 +553,7 @@ class TestMethods(unittest.TestCase):
                                         enforce_invertibility = False, 
                                         hamilton_representation = True, 
                                         concentrate_scale = False)
-        result = model.fit()
+        result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
@@ -573,7 +573,7 @@ class TestMethods(unittest.TestCase):
                                         enforce_invertibility = False, 
                                         hamilton_representation = False, 
                                         concentrate_scale = False)
-        result = model.fit()
+        result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
@@ -593,7 +593,7 @@ class TestMethods(unittest.TestCase):
                                         enforce_invertibility = False, 
                                         hamilton_representation = True, 
                                         concentrate_scale = False)
-        result = model.fit()
+        result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
@@ -613,7 +613,7 @@ class TestMethods(unittest.TestCase):
                                         enforce_invertibility = False, 
                                         hamilton_representation = False, 
                                         concentrate_scale = False)
-        result = model.fit()
+        result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 

@@ -17,13 +17,14 @@ class TestMethods(unittest.TestCase):
 
         with open('resnet50_coco_best_v2.1.0.h5', 'wb') as f:
             f.write(r.content)
+        self.model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
+        
     
     def test_01(self):
         
-        model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
         backbone = 'resnet'
         RetinanetToPmml(
-            model,
+            self.model,
             input_shape=(224,224,3),
             backbone_name=backbone,
             pmml_file_name="retinanet_with_coco_1.pmml"
@@ -38,10 +39,9 @@ class TestMethods(unittest.TestCase):
 
     def test_02(self):
         
-        model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
         backbone = 'mobilenet'
         RetinanetToPmml(
-            model,
+            self.model,
             input_shape=(224,224,3),
             backbone_name=backbone,
             pmml_file_name="retinanet_with_coco_2.pmml"
@@ -56,21 +56,19 @@ class TestMethods(unittest.TestCase):
 
     def test_03(self):
         
-        model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
         with self.assertRaises(AssertionError):
             RetinanetToPmml(
-            model,
+            self.model,
             input_shape=(224,224,3),
             backbone_name='resnet50',
             pmml_file_name="retinanet_with_coco_2.pmml"
         )
 
     def test_04(self):
-        
-        model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
+
         with self.assertRaises(AssertionError):
             RetinanetToPmml(
-            model,
+            self.model,
             input_shape=(224,224,3),
             backbone_name='resnet50',
             input_format='my_data',
@@ -78,11 +76,10 @@ class TestMethods(unittest.TestCase):
         )
 
     def test_05(self):
-        model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
         backbone = 'resnet'
         script_content = open("nyoka/tests/preprocess.py",'r').read()
         RetinanetToPmml(
-            model,
+            self.model,
             input_shape=(224,224,3),
             backbone_name=backbone,
             pmml_file_name="retinanet_with_coco_2.pmml",
