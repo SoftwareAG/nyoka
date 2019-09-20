@@ -27,11 +27,11 @@ class AdapaUtility:
                 return
             files = {'file': open(file_name,'r')}
             res = requests.post(self.endpoint+"model", auth = HTTPBasicAuth(self.username, self.password),files=files)
-        print(res.text)
         return res.json()['modelName']
 
     def delete_model(self, model_name):
         res = requests.delete(self.endpoint+"model/"+model_name, auth=HTTPBasicAuth(self.username,self.password))
+        print(res.text)
         return res.status_code
 
     def score_single_record(self, model_name):
