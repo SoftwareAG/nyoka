@@ -67,7 +67,7 @@ class TestCases(unittest.TestCase):
             copyright="Internal User",dataSet='imageBase64',predictedClasses=['dogs','cats'])
         cnn_pmml.export(open('2classMBNetBase64.pmml', "w"), 0)
 
-        img = image.load_img('nyoka/tests/resizedCat.png')
+        img = image.load_img('nyoka/tests/resizedTiger.png')
         img = img_to_array(img)
         img = preprocess_input(img)
         imgtf = np.expand_dims(img, axis=0)
