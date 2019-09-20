@@ -60,7 +60,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(abs(probabilities['cats'] - model_preds['cats']) < 0.00001, True)
         self.assertEqual(abs(probabilities['dogs'] - model_preds['dogs']) < 0.00001, True)
 
-
+    @unittest.skip("")
     def test_02_image_classifier_with_base64string_as_input(self):
         
         cnn_pmml = KerasToPmml(self.model_final,model_name="MobileNetBase64",description="Demo",\
