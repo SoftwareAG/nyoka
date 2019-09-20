@@ -57,7 +57,7 @@ class TestCases(unittest.TestCase):
         mod = SARIMAX(data,order=(1,0,0),seasonal_order=(1,0,0, 4))
         result = mod.fit()
 
-        ArimaToPMML(results, 'jnj_seasonal_arima.pmml')
+        ArimaToPMML(result, 'jnj_seasonal_arima.pmml')
         model_name = self.adapaUtilities.upload_to_zserver('jnj_seasonal_arima.pmml')
         z_pred = self.adapaUtilities.score_single_record(model_name)
         model_pred = result.forecast()[0]

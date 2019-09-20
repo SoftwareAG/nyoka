@@ -21,7 +21,7 @@ script:
 - python nyoka/tests/testScoreWithAdapaXgboost.py
 - python nyoka/tests/testScoreWithAdapaKeras.py
 after_success:
-- py.test  --cov-report term --cov=nyoka/
+- travis_wait 30 py.test  --cov-report term --cov=nyoka/
 - codecov
 notifications:
   email:
