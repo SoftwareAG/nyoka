@@ -596,7 +596,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
-
+    @unittest.skip("")
     def test_30_gradient_boosting_regressor(self):
         print("\ntest 30 (gradient boosting regressor without preprocessing)\n")
         X, X_test, y, features, target, test_file = self.data_utility.get_data_for_regression()
