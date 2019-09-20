@@ -55,7 +55,7 @@ class TestCases(unittest.TestCase):
         data.set_index(['index'], inplace=True)
         
         mod = SARIMAX(data,order=(1,0,0),seasonal_order=(1,0,0, 4))
-        result = mod.fit()
+        result = mod.fit(disp=False)
 
         ArimaToPMML(result, 'jnj_seasonal_arima.pmml')
         model_name = self.adapaUtilities.upload_to_zserver('jnj_seasonal_arima.pmml')
