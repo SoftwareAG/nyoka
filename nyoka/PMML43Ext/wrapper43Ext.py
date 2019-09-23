@@ -220,6 +220,7 @@ def new_init():
         self.class_ = supermod._cast(None, class_)
         self.filePath = supermod._cast(None, filePath)
         self.scriptPurpose = supermod._cast(None, scriptPurpose)
+        self.scriptOutput = supermod._cast(None, scriptOutput)
         if Extension is None:
             self.Extension = []
         else:
@@ -457,6 +458,7 @@ def orig_init():
         self.class_ = supermod._cast(None, class_)
         self.filePath = supermod._cast(None, filePath)
         self.scriptPurpose = supermod._cast(None, scriptPurpose)
+        self.scriptOutput = supermod._cast(None, scriptOutput)
         if Extension is None:
             self.Extension = []
         else:

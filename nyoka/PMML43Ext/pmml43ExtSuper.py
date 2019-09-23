@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Sep  9 13:28:05 2019 by generateDS.py version 2.28a.
+# Generated Mon Sep 23 12:04:12 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -25707,11 +25707,12 @@ class Header(GeneratedsSuper):
 class script(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, for_=None, class_=None, scriptPurpose=None, filePath=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
+    def __init__(self, for_=None, class_=None, scriptPurpose=None, scriptOutput=None, filePath=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
         self.original_tagname_ = None
         self.for_ = _cast(None, for_)
         self.class_ = _cast(None, class_)
         self.scriptPurpose = _cast(None, scriptPurpose)
+        self.scriptOutput = _cast(None, scriptOutput)
         self.filePath = _cast(None, filePath)
         if Extension is None:
             self.Extension = []
@@ -25750,6 +25751,8 @@ class script(GeneratedsSuper):
     def set_class(self, class_): self.class_ = class_
     def get_scriptPurpose(self): return self.scriptPurpose
     def set_scriptPurpose(self, scriptPurpose): self.scriptPurpose = scriptPurpose
+    def get_scriptOutput(self): return self.scriptOutput
+    def set_scriptOutput(self, scriptOutput): self.scriptOutput = scriptOutput
     def get_filePath(self): return self.filePath
     def set_filePath(self, filePath): self.filePath = filePath
     def get_valueOf_(self): return self.valueOf_
@@ -25780,6 +25783,18 @@ class script(GeneratedsSuper):
                     break
             if not enumeration_respectee:
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on SCRIPTTASK' % {"value" : value.encode("utf-8")} )
+    def validate_SCRIPTOUTPUT(self, value):
+        # Validate type SCRIPTOUTPUT, a restriction on xs:string.
+        if value is not None and Validate_simpletypes_:
+            value = str(value)
+            enumerations = ['DATA', 'IMAGE', 'None']
+            enumeration_respectee = False
+            for enum in enumerations:
+                if value == enum:
+                    enumeration_respectee = True
+                    break
+            if not enumeration_respectee:
+                warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on SCRIPTOUTPUT' % {"value" : value.encode("utf-8")} )
     def hasContent_(self):
         if (
             self.Extension or
@@ -25850,6 +25865,9 @@ class script(GeneratedsSuper):
         if self.scriptPurpose is not None and 'scriptPurpose' not in already_processed:
             already_processed.add('scriptPurpose')
             outfile.write(' scriptPurpose=%s' % (quote_attrib(self.scriptPurpose), ))
+        if self.scriptOutput is not None and 'scriptOutput' not in already_processed:
+            already_processed.add('scriptOutput')
+            outfile.write(' scriptOutput=%s' % (quote_attrib(self.scriptOutput), ))
         if self.filePath is not None and 'filePath' not in already_processed:
             already_processed.add('filePath')
             outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
@@ -25868,6 +25886,8 @@ class script(GeneratedsSuper):
             element.set('class', self.class_)
         if self.scriptPurpose is not None:
             element.set('scriptPurpose', self.scriptPurpose)
+        if self.scriptOutput is not None:
+            element.set('scriptOutput', self.scriptOutput)
         if self.filePath is not None:
             element.set('filePath', self.gds_format_string(self.filePath))
         for item_ in self.content_:
@@ -25896,6 +25916,10 @@ class script(GeneratedsSuper):
             already_processed.add('scriptPurpose')
             showIndent(outfile, level)
             outfile.write('scriptPurpose="%s",\n' % (self.scriptPurpose,))
+        if self.scriptOutput is not None and 'scriptOutput' not in already_processed:
+            already_processed.add('scriptOutput')
+            showIndent(outfile, level)
+            outfile.write('scriptOutput="%s",\n' % (self.scriptOutput,))
         if self.filePath is not None and 'filePath' not in already_processed:
             already_processed.add('filePath')
             showIndent(outfile, level)
@@ -25938,6 +25962,11 @@ class script(GeneratedsSuper):
             already_processed.add('scriptPurpose')
             self.scriptPurpose = value
             self.validate_SCRIPTTASK(self.scriptPurpose)    # validate type SCRIPTTASK
+        value = find_attr_value_('scriptOutput', node)
+        if value is not None and 'scriptOutput' not in already_processed:
+            already_processed.add('scriptOutput')
+            self.scriptOutput = value
+            self.validate_SCRIPTOUTPUT(self.scriptOutput)    # validate type SCRIPTOUTPUT
         value = find_attr_value_('filePath', node)
         if value is not None and 'filePath' not in already_processed:
             already_processed.add('filePath')

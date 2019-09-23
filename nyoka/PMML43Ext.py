@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Sep  9 13:28:06 2019 by generateDS.py version 2.28a.
+# Generated Mon Sep 23 12:04:13 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -1696,8 +1696,8 @@ supermod.Header.subclass = Header
 
 
 class script(supermod.script):
-    def __init__(self, for_=None, class_=None, scriptPurpose=None, filePath=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
-        super(script, self).__init__(for_, class_, scriptPurpose, filePath, Extension, valueOf_, mixedclass_, content_, )
+    def __init__(self, for_=None, class_=None, scriptPurpose=None, scriptOutput=None, filePath=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
+        super(script, self).__init__(for_, class_, scriptPurpose, scriptOutput, filePath, Extension, valueOf_, mixedclass_, content_, )
 
     #
     # XMLBehaviors
@@ -4639,12 +4639,13 @@ def new_init():
         else:
             self.Extension = Extension
 
-    def script_init(self,filePath=None, content=None, for_=None, class_=None,scriptPurpose=None, Extension=None):
+    def script_init(self,filePath=None, content=None, for_=None, class_=None,scriptPurpose=None,scriptOutput=None, Extension=None):
         self.original_tagname_ = None
         self.for_ = supermod._cast(None, for_)
         self.class_ = supermod._cast(None, class_)
         self.filePath = supermod._cast(None, filePath)
         self.scriptPurpose = supermod._cast(None, scriptPurpose)
+        self.scriptOutput = supermod._cast(None, scriptOutput)
         if Extension is None:
             self.Extension = []
         else:
@@ -4876,12 +4877,13 @@ def orig_init():
         else:
             self.Extension = Extension
 
-    def script_init(self, for_=None,filePath=None, class_=None,scriptPurpose=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
+    def script_init(self, for_=None,filePath=None, class_=None,scriptPurpose=None,scriptOutput=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
         self.original_tagname_ = None
         self.for_ = supermod._cast(None, for_)
         self.class_ = supermod._cast(None, class_)
         self.filePath = supermod._cast(None, filePath)
         self.scriptPurpose = supermod._cast(None, scriptPurpose)
+        self.scriptOutput = supermod._cast(None, scriptOutput)
         if Extension is None:
             self.Extension = []
         else:

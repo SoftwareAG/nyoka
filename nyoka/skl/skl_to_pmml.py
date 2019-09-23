@@ -220,7 +220,8 @@ def get_script_execution(toExportDict):
                 scrps.append(pml.script(content=processScript(inspect.getsource(toExportDict[model_name]['preProcessingScript']['scripts'][leng])), 
                                         for_= model_name, 
                                         class_ = 'preprocessing',
-                                        scriptPurpose = toExportDict[model_name]['preProcessingScript']['scriptpurpose'][leng]
+                                        scriptPurpose = toExportDict[model_name]['preProcessingScript']['scriptpurpose'][leng],
+                                        scriptOutput = toExportDict[model_name]['preProcessingScript']['scriptOutput'][leng]
                                         ))
         if toExportDict[model_name]['postProcessingScript'] is not None:
             lstlen = len(toExportDict[model_name]['postProcessingScript']['scripts'])
@@ -228,7 +229,8 @@ def get_script_execution(toExportDict):
                 scrps.append(pml.script(content=processScript(inspect.getsource(toExportDict[model_name]['postProcessingScript']['scripts'][leng])), 
                                         for_= model_name, 
                                         class_ = 'postprocessing',
-                                        scriptPurpose = toExportDict[model_name]['postProcessingScript']['scriptpurpose'][leng]
+                                        scriptPurpose = toExportDict[model_name]['postProcessingScript']['scriptpurpose'][leng],
+                                        scriptOutput = toExportDict[model_name]['preProcessingScript']['scriptOutput'][leng]
                                     ))
 
     return scrps
