@@ -484,6 +484,7 @@ class KerasDataDictionary(ny.DataDictionary):
     """ 
     def __init__(self, dataSet, predictedClasses):
         ny.DataDictionary.__init__(self)
+        print ('dataSet',dataSet,'predictedClasses',predictedClasses)
 
         if dataSet:
             if predictedClasses:

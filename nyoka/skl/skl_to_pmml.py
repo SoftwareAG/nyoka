@@ -69,22 +69,34 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml'):
                                                                                                       trfm_dict_kwargs,model,model_name)
         if 'keras' in str(model):
 
+            print ('Came to keras')
+
             KModelObj=toExportDict[model_name]
+            try:
+                predictedClassesObj=KModelObj['predictedClasses']
+            except:
+                predictedClassesObj=None
+            try:
+                dataSetObj=KModelObj['dataSet']
+            except:
+                dataSetObj=None
+            print ('>>>', dataSetObj,predictedClassesObj)
 
             if 'model_graph' in KModelObj:
                 model_graph = KModelObj['model_graph']
                 with model_graph.as_default():
                     tf_session = KModelObj['tf_session']
                     with tf_session.as_default():
-                        KerasPMML = KerasToPmml(model,model_name=PMMLFileName,targetVarName=target_name)
+                        KerasPMML = KerasToPmml(model,model_name=PMMLFileName,targetVarName=target_name,predictedClasses=predictedClassesObj,dataSet=dataSetObj)
                             
             else:
-                KerasPMML = KerasToPmml(model,model_name=PMMLFileName,targetVarName=target_name)
+                KerasPMML = KerasToPmml(model,model_name=PMMLFileName,targetVarName=target_name,predictedClasses=predictedClassesObj,dataSet=dataSetObj)
 
             model_obj = KerasPMML.DeepNetwork[0]
             model_obj.modelName = model_name
             model_obj.taskType=tasktype
             models_dict['DeepNetwork'].append(model_obj)
+            data_dicts.append(KerasPMML.DataDictionary)
 
 
         else:    
