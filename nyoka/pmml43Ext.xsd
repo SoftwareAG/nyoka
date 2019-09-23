@@ -1849,6 +1849,14 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="SCRIPTOUTPUT">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="DATA"/>
+            <xs:enumeration value="IMAGE"/>
+			<xs:enumeration value="None"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <!-- <xs:simpleType name="LANGUAGES">
         <xs:restriction base="xs:string">
             <xs:enumeration value="application/javascript"/>
@@ -1866,6 +1874,7 @@
             <xs:attribute name="for" type="xs:string" use="required"/>
             <xs:attribute name="class" type="PROCESSING" use="required"/>
 			<xs:attribute name="scriptPurpose" type="SCRIPTTASK" use="required"/>
+            <xs:attribute name="scriptOutput" type="SCRIPTOUTPUT" use="required"/>
             <xs:attribute name="filePath" type="xs:string"/>
             <!-- <xs:attribute name="type" type="LANGUAGES"/> -->
             <xs:anyAttribute/>
