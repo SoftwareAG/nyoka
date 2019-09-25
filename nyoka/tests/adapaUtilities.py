@@ -15,40 +15,62 @@ class AdapaUtility:
         self.username = os.environ['DOCKER_ADAPA_UN']
         self.password = os.environ['DOCKER_ADAPA_PW']
 
+    def delete_all_models(self):
+        res = requests.delete(self.endpoint+"models", auth=HTTPBasicAuth(self.username,self.password))
+        print(res.text)
+
     def upload_to_zserver(self, file_name):
+        self.delete_all_models()
         files = {'file': open(file_name,'r')}
         res = requests.post(self.endpoint+"model", auth = HTTPBasicAuth(self.username, self.password),files=files)
-        if res.status_code == 409:
-            model_name = res.json()['errors'][0].split("\'")[1]
-            status_code = self.delete_model(model_name)
-            if status_code != 200:
-                print("Something went wrong! Staus code ",status_code)
-                return
-            files = {'file': open(file_name,'r')}
-            res = requests.post(self.endpoint+"model", auth = HTTPBasicAuth(self.username, self.password),files=files)
+        print(res.text)
         return res.json()['modelName']
 
     def delete_model(self, model_name):
         res = requests.delete(self.endpoint+"model/"+model_name, auth=HTTPBasicAuth(self.username,self.password))
+        print(res.text)
         return res.status_code
 
-    def score_in_zserver(self, model_name, test_file, deep_network=False):
+    def score_single_record(self, model_name):
+        self.delete_all_models()
+        res = requests.get(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password))
+        return res.json()['outputs'][0]
+
+    def score_in_zserver(self, model_name, test_file, model_type=None):
         mode = 'r' if test_file.endswith(".csv") else 'rb'
         files = {'file': open(test_file,mode)}
         res = requests.post(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password),files=files)
-        if deep_network:
-            if test_file.endswith(".csv"):
-                info=res.text.split("\n")[1]
-                info = info.replace('"','')
-                predictions = info.split(",")[0]
-                probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in info.split(",")[2:]}
-            else:
-                resp=json.loads(res.text)
-                outs = resp["outputs"][0]
-                predictions = outs["predictedValue_predictions"]
-                probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in outs["top5_prob"].split(",")}
+        if model_type:
+            if model_type=='DN':
+                if test_file.endswith(".csv"):
+                    info=res.text.split("\n")[1]
+                    info = info.replace('"','')
+                    predictions = info.split(",")[0]
+                    probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in info.split(",")[2:]}
+                else:
+                    resp=json.loads(res.text)
+                    outs = resp["outputs"][0]
+                    predictions = outs["predicted_label"]
+                    probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in outs["top5_prob"].split(",")}
+            elif model_type=='RN':
+                results = res.json()['outputs'][0]['predicted_LabelBoxScore']
+                results = json.loads(results)
+                boxes = []
+                scores = []
+                labels = []
+                for res_ in results:
+                    labels.append(res_[0])
+                    scores.append(res_[1])
+                    boxes.append(res_[2:])
+                return boxes, scores, labels
+            elif model_type=='TS':
+                result = float(res.text.split('\n')[1])
+                return result
+            elif model_type=='ANOMALY':
+                result = res.text.strip().split("\n")[1:]
+                return result
         else:
-            all_rows = res.text.split('\n')
+            all_rows = res.text.strip().split('\n')
             predictions = []
             probabilities = []
             if all_rows[0].split(",").__len__() == 1:
