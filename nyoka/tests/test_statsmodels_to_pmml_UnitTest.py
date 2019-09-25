@@ -24,6 +24,7 @@ class TestMethods(unittest.TestCase):
         ts_data = pd.Series(data, index)
         ts_data.index.name = 'datetime_index'
         ts_data.name = 'n_visitors'
+        ts_data = ts_data.to_frame()
         return ts_data
 		
     def getData2(self):
@@ -70,6 +71,7 @@ class TestMethods(unittest.TestCase):
         ts_data = pd.Series(data, index)
         ts_data.index.name = 'datetime_index'
         ts_data.name = 'n_passengers'
+        ts_data = ts_data.to_frame()
         return ts_data
     
     #Exponential Smoothing Test cases
