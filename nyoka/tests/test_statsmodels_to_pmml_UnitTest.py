@@ -75,6 +75,7 @@ class TestMethods(unittest.TestCase):
         return ts_data
     
     #Exponential Smoothing Test cases
+    @unittest.skip("")
     def test_exponentialSmoothing_01(self):
         ts_data = self.getData1()        
         f_name='exponential_smoothing1.pmml'
@@ -88,6 +89,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
         
+    @unittest.skip("")
     def test_exponentialSmoothing_02(self):
         ts_data = self.getData1()        
         f_name='exponential_smoothing2.pmml'        
@@ -101,6 +103,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_03(self):
         ts_data = self.getData1()        
         f_name='exponential_smoothing3.pmml'                
@@ -114,6 +117,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_04(self):
         ts_data = self.getData1()       
         f_name='exponential_smoothing4.pmml'
@@ -127,6 +131,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_05(self):
         ts_data = self.getData1()        
         f_name='exponential_smoothing5.pmml'        
@@ -140,6 +145,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_06(self):
         ts_data = self.getData1()        
         f_name='exponential_smoothing6.pmml'                
@@ -153,6 +159,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_07(self):
         ts_data = self.getData1()        
         f_name='exponential_smoothing7.pmml'                
@@ -167,6 +174,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(os.path.isfile(f_name),True)
         os.remove(f_name)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_08(self):
         ts_data = self.getData1()        
         f_name='exponential_smoothing8.pmml'
@@ -180,6 +188,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
         
+    @unittest.skip("")
     def test_exponentialSmoothing_09(self):
         ts_data = self.getData2()        
         f_name='exponential_smoothing9.pmml'        
@@ -193,6 +202,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_10(self):
         ts_data = self.getData2()       
         f_name='exponential_smoothing10.pmml'               
@@ -206,6 +216,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_11(self):
         ts_data = self.getData2()       
         f_name='exponential_smoothing11.pmml'                
@@ -219,6 +230,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_12(self):
         ts_data = self.getData2()
         f_name='exponential_smoothing12.pmml'
@@ -232,6 +244,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_13(self):
         ts_data = self.getData2()       
         f_name='exponential_smoothing13.pmml'                
@@ -245,6 +258,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_14(self):
         ts_data = self.getData2()        
         f_name='exponential_smoothing14.pmml'                
@@ -258,6 +272,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_15(self):
         ts_data = self.getData2()  
         f_name='exponential_smoothing15.pmml'        
@@ -271,6 +286,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_exponentialSmoothing_16(self):
         ts_data = self.getData2()
         f_name='exponential_smoothing16.pmml'
@@ -284,6 +300,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
         
+    @unittest.skip("")
     def test_exponentialSmoothing_17(self):
         ts_data = self.getData3()
         f_name='exponential_smoothing17.pmml'
@@ -297,6 +314,7 @@ class TestMethods(unittest.TestCase):
         ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
         
+    @unittest.skip("")
     def test_exponentialSmoothing_18(self):
         ts_data = self.getData3()
         f_name='exponential_smoothing18.pmml'
