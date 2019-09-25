@@ -19,8 +19,7 @@ script:
 - python nyoka/tests/testScoreWithAdapaLgbm.py
 - python nyoka/tests/testScoreWithAdapaSklearn.py
 - python nyoka/tests/testScoreWithAdapaXgboost.py
-- python nyoka/tests/testScoreWithAdapaKeras.py
-after_success: 
+after_success:
 - py.test  --cov-report term --cov=nyoka/
 - codecov
 notifications:

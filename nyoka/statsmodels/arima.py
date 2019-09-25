@@ -37,7 +37,7 @@ class ArimaToPMML:
 
             pmml = PMML(
                 version = '4.4',
-                Header = Header(copyright = "Copyright (c) 2018 Software AG", description = "ARIMA Model",  
+                Header = Header(copyright = "Copyright (c) 2018 Software AG", description = self.model_type+" ARIMA Model",  
                                 Timestamp = Timestamp(datetime.utcnow()),
                                 Application=Application(name="Nyoka",version=metadata.__version__)),
                 DataDictionary = DataDictionary(numberOfFields = n_columns, 
@@ -148,43 +148,28 @@ class ArimaToPMML:
             def get_time_value_objs():
                 time_value_objs = list()
                 if(usage == 'original' and timeRequired == True):
-                    if results_obj.model.__class__.__name__ in ["ARIMA", "ARMA"]:
-                        timestamp_index = results_obj.model.data.orig_endog
-                    else:
-                        timestamp_index = results_obj.model
+                    timestamp_indexes = results_obj.model.data.orig_endog.index
                     for int_idx in range(results_obj.data.endog.size):
                         time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx]),\
-                             Timestamp = Timestamp(str(timestamp_index._index[int_idx]))))
+                             Timestamp = Timestamp(str(timestamp_indexes[int_idx]))))
                 elif(usage == 'logical' and timeRequired == True):
                     #TODO: Implement This
                     raise NotImplementedError("Not Implemented")
                 return time_value_objs
 
-            obj = TimeSeries(usage = usage, startTime = 0, endTime = results_obj.data.endog.size - 1, interpolationMethod = 'none', TimeValue = get_time_value_objs())
+            obj = TimeSeries(usage = usage, startTime = 0, endTime = results_obj.data.orig_endog.size - 1, interpolationMethod = 'none', TimeValue = get_time_value_objs())
             get_time_series_obj_list.append(obj)
             return get_time_series_obj_list
 
         def get_output_field():
             out_flds = list()
-            if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
-                ts_name = results_obj.data.orig_endog.columns[0]
-            elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
-                ts_name = results_obj.data.orig_endog.name
-            else:
-                ts_name = 'value'
-            out_flds.append(OutputField(name="predicted_"+ts_name, optype="continuous", dataType="double", feature="predictedValue"))
+            out_flds.append(OutputField(name="predicted_"+self.ts_name, optype="continuous", dataType="double", feature="predictedValue"))
             return out_flds
 
         def get_mining_field_objs():
             mining_field_objs = list()
-            if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
-                ts_name = results_obj.data.orig_endog.columns[0]
-            elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
-                ts_name = results_obj.data.orig_endog.name
-            else:
-                ts_name = 'value'
             ts_usage_type = 'target'
-            mining_field_objs.append(MiningField(name = ts_name, usageType = ts_usage_type))
+            mining_field_objs.append(MiningField(name = self.ts_name, usageType = ts_usage_type))
             mining_field_objs.append(MiningField(name = 'h', usageType = 'supplementary'))
             return mining_field_objs
 
@@ -207,28 +192,32 @@ class ArimaToPMML:
 
         def get_data_field_objs():
             data_field_objs = list()
-            if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
-                ts_name = results_obj.data.orig_endog.columns[0]
-            elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
-                ts_name = results_obj.data.orig_endog.name
-            else:
-                ts_name = 'value'
             tar_data_type, ts_op_type = get_pmml_datatype_optype(results_obj.model.endog)
-            data_field_objs.append(DataField(name=ts_name, dataType=tar_data_type, optype=ts_op_type))
+            data_field_objs.append(DataField(name=self.ts_name, dataType=tar_data_type, optype=ts_op_type))
             data_field_objs.append(DataField(name='h', dataType='integer', optype='continuous'))
             return data_field_objs
 
         if 'int' in str(results_obj.model.endog.dtype):
             results_obj.model.endog=results_obj.model.endog.astype('float64')
             results_obj.model.data.endog=results_obj.model.data.endog.astype('float64')
+
+        if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
+            self.ts_name = results_obj.data.orig_endog.columns[0]
+        elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
+            self.ts_name = results_obj.data.orig_endog.name
+        else:
+            self.ts_name = 'value'
+
         if results_obj.model.__class__.__name__ == 'SARIMAX':
+            self.model_type = "Seasonal"
             sarimax_obj = get_sarimax_obj(results_obj)
-            model_name = 'SARIMAX'
+            model_name = 'SARIMAX_'+self.ts_name
             ExportToPMML(model_name = model_name, arima_obj = sarimax_obj)
 
         elif results_obj.model.__class__.__name__ in ['ARIMA', 'ARMA']:
+            self.model_type = "Non-Seasonal"
             arima_obj = get_arima_obj(results_obj)
-            model_name = 'ARIMA'
+            model_name = 'ARIMA_'+self.ts_name
             ExportToPMML(model_name = model_name, arima_obj = arima_obj)
 
         else:
