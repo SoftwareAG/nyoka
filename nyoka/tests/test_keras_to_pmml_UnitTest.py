@@ -18,22 +18,26 @@ import base64
 
 class TestMethods(unittest.TestCase):
 
-    
-    def test_keras_01(self):
-
+    @classmethod
+    def setUpClass(self):
+        print("******* Unit Test for Keras *******")
         model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
         activType='sigmoid'
         x = model.output
         x = Flatten()(x)
         x = Dense(1024, activation="relu")(x)
         predictions = Dense(2, activation=activType)(x)
-        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
-        cnn_pmml = KerasToPmml(model_final,model_name="MobileNet",description="Demo",\
+        self.model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+
+    
+    def test_keras_01(self):
+
+        cnn_pmml = KerasToPmml(self.model_final,model_name="MobileNet",description="Demo",\
             copyright="Internal User",dataSet='image',predictedClasses=['cats','dogs'])
         cnn_pmml.export(open('2classMBNet.pmml', "w"), 0)
         reconPmmlObj=ny.parse('2classMBNet.pmml',True)
         self.assertEqual(os.path.isfile("2classMBNet.pmml"),True)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
+        self.assertEqual(len(self.model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
 
     def test_keras_02(self):
@@ -58,14 +62,8 @@ class TestMethods(unittest.TestCase):
 
     def test_encoded_script(self):
 
-        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
-        x = model.output
-        x = Flatten()(x)
-        x = Dense(1024, activation="relu")(x)
-        predictions = Dense(2, activation='sigmoid')(x)
-        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
         script_content = open("nyoka/tests/preprocess.py",'r').read()
-        pmml_obj=KerasToPmml(model_final,
+        pmml_obj=KerasToPmml(self.model_final,
                     dataSet='image',
                     predictedClasses=['cat','dog'],
                     script_args = {
@@ -81,18 +79,12 @@ class TestMethods(unittest.TestCase):
         content=reconPmmlObj.TransformationDictionary.DefineFunction[0].Apply.Extension[0].anytypeobjs_[0]
         content = base64.b64decode(content).decode()
         self.assertEqual(script_content, content)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
+        self.assertEqual(len(self.model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
     def test_plain_text_script(self):
 
-        model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
-        x = model.output
-        x = Flatten()(x)
-        x = Dense(1024, activation="relu")(x)
-        predictions = Dense(2, activation='sigmoid')(x)
-        model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
         script_content = open("nyoka/tests/preprocess.py",'r').read()
-        pmml_obj=KerasToPmml(model_final,
+        pmml_obj=KerasToPmml(self.model_final,
                     dataSet='image',
                     predictedClasses=['cat','dog'],
                     script_args = {
@@ -109,7 +101,7 @@ class TestMethods(unittest.TestCase):
         content[0] = content[0].replace("\t","")
         content="\n".join(content)
         self.assertEqual(script_content, content)
-        self.assertEqual(len(model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
+        self.assertEqual(len(self.model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
 
 if __name__=='__main__':
