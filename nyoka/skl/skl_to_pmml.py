@@ -229,7 +229,13 @@ def get_script_execution(toExportDict):
         if toExportDict[model_name]['preProcessingScript'] is not None:
             lstlen = len(toExportDict[model_name]['preProcessingScript']['scripts'])
             for leng in range(lstlen):
-                scrps.append(pml.script(content=processScript(inspect.getsource(toExportDict[model_name]['preProcessingScript']['scripts'][leng])), 
+                # print (toExportDict[model_name]['preProcessingScript'])
+                try:
+                    ct=processScript(inspect.getsource(toExportDict[model_name]['preProcessingScript']['scripts'][leng]))
+                except:
+                    ct=processScript(toExportDict[model_name]['preProcessingScript']['scripts'][leng])
+                    
+                scrps.append(pml.script(content=ct, 
                                         for_= model_name, 
                                         class_ = 'preprocessing',
                                         scriptPurpose = toExportDict[model_name]['preProcessingScript']['scriptpurpose'][leng],
@@ -238,7 +244,11 @@ def get_script_execution(toExportDict):
         if toExportDict[model_name]['postProcessingScript'] is not None:
             lstlen = len(toExportDict[model_name]['postProcessingScript']['scripts'])
             for leng in range(0,lstlen):
-                scrps.append(pml.script(content=processScript(inspect.getsource(toExportDict[model_name]['postProcessingScript']['scripts'][leng])), 
+                try:
+                    ct=processScript(inspect.getsource(toExportDict[model_name]['postProcessingScript']['scripts'][leng]))
+                except:
+                    ct2=processScript(toExportDict[model_name]['postProcessingScript']['scripts'][leng])
+                scrps.append(pml.script(content=ct2, 
                                         for_= model_name, 
                                         class_ = 'postprocessing',
                                         scriptPurpose = toExportDict[model_name]['postProcessingScript']['scriptpurpose'][leng],
