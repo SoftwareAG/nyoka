@@ -65,7 +65,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml'):
         mining_imp_val = tuple()
 
         if (pipelineOnly is not None) and (pipelineOnly not in visited):
-            derived_col_names,categoric_values,mining_imp_val,trfm_dict_kwargs = get_trfm_dict_kwargs(col_names,pipelineOnly,
+            derived_col_names,col_names,categoric_values,mining_imp_val,trfm_dict_kwargs = get_trfm_dict_kwargs(col_names,pipelineOnly,
                                                                                                       trfm_dict_kwargs,model,model_name)
         if 'keras' in str(model):
 
@@ -192,7 +192,7 @@ def get_trfm_dict_kwargs(col_names,pipelineOnly,trfm_dict_kwargs,model,model_nam
         categoric_values = pml_pp['categorical_feat_values']
         mining_imp_val = pml_pp['mining_imp_values']
 
-    return derived_col_names,categoric_values,mining_imp_val,trfm_dict_kwargs
+    return derived_col_names,col_names,categoric_values,mining_imp_val,trfm_dict_kwargs
 
 def processScript(scr):
 

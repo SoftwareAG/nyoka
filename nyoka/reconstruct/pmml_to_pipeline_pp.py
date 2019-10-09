@@ -910,10 +910,46 @@ def getDerivedFieldVal(derivedField):
     for field in derivedField:
         name = field.get_name()
         firstApply = field.get_Apply()
-        outDict[name] = [[firstApply.get_Constant()[0].get_valueOf_()]]
-        secondApply = firstApply.get_Apply()
-        if secondApply:
-            outDict[name].append([secondApply[0].get_Constant()[0].get_valueOf_()])
+        MapValues = field.get_MapValues()
+        NormDiscrete = field.get_NormDiscrete()
+        TextIndex = field.get_TextIndex()
+        outputList = []
+        inputList = []
+        if firstApply:
+            if firstApply.get_Constant():
+                outDict[name] = [[firstApply.get_Constant()[0].get_valueOf_()]]
+                secondApply = firstApply.get_Apply()
+                if secondApply:
+                    outDict[name].append([secondApply[0].get_Constant()[0].get_valueOf_()])
+            else:
+                for apply_element in firstApply.get_Apply():
+                    if name.startswith("PCA"):
+                        apply_inner = apply_element.get_Apply()
+                        name = 'pCA('+apply_inner[0].FieldRef[0].get_field()+')'
+                        outputList.append(apply_element.get_Constant()[0].get_valueOf_())
+                        inputList.append(apply_inner[0].get_Constant()[0].get_valueOf_())
+                        outDict[name] = [[outputList],inputList]
+                    elif name.startswith('poly'):
+                        name = 'polynomialFeatures('+apply_element.FieldRef[0].get_field()+')'
+                        if name in outDict.keys():
+                            outDict[name][0].append([apply_element.get_Constant()[0].get_valueOf_()])
+                        else:
+                            outDict[name] = [[[apply_element.get_Constant()[0].get_valueOf_()]]]
+        elif MapValues:
+            for row in MapValues.InlineTable.get_row():
+                a = []
+                for obj_ in row.elementobjs_:
+                    a.append(eval("row." + obj_))
+                outputList.append(a[0])
+                inputList.append(a[1])
+            outDict[name] = [outputList,inputList]
+        elif NormDiscrete:
+            value = NormDiscrete.get_value()
+            name = name.replace('('+value+')',"")
+            if name in outDict.keys():
+                outDict[name][0].append(value)
+            else:
+                outDict[name] = [[value]]
     return outDict
 
 def getPipelineStoreValues(piplineObjects,featureNames,miningField,derivedField):

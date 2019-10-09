@@ -81,8 +81,7 @@ def generate_skl_model(pmml, output = "preProcessingPipelineWithModel"):
             pmml_modelobj = pmml.NearestNeighborModel[0]
             sk_model_obj = get_knn_model(pmml)
         elif pmml.DeepNetwork:
-            pmml_modelobj = pmml.DeepNetwork[0]
-            sk_model_obj = GenerateKerasModel(pmml)
+            return GenerateKerasModel(pmml)
         else:
             raise NotImplementedError("Not Implemented")
         if output == "modelOnly":
