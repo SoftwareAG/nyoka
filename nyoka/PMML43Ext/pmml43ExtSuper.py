@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Sep 23 12:04:12 2019 by generateDS.py version 2.28a.
+# Generated Mon Oct 14 13:45:54 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -23151,9 +23151,10 @@ class EventValues(GeneratedsSuper):
 class PMML(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, version=None, Header=None, script=None, Data=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def __init__(self, version=None, type_=None, Header=None, script=None, Data=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = _cast(None, version)
+        self.type_ = _cast(None, type_)
         self.Header = Header
         if script is None:
             self.script = []
@@ -23392,6 +23393,8 @@ class PMML(GeneratedsSuper):
     def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_version(self): return self.version
     def set_version(self, version): self.version = version
+    def get_type(self): return self.type_
+    def set_type(self, type_): self.type_ = type_
     def hasContent_(self):
         if (
             self.Header is not None or
@@ -23450,6 +23453,9 @@ class PMML(GeneratedsSuper):
         if self.version is not None and 'version' not in already_processed:
             already_processed.add('version')
             outfile.write(' version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.version), input_name='version')), ))
+        if self.type_ is not None and 'type_' not in already_processed:
+            already_processed.add('type_')
+            outfile.write(' type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.type_), input_name='type')), ))
     def exportChildren(self, outfile, level, namespace_='', name_='PMML', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -23516,6 +23522,8 @@ class PMML(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_3}' + name_)
         if self.version is not None:
             element.set('version', self.gds_format_string(self.version))
+        if self.type_ is not None:
+            element.set('type', self.gds_format_string(self.type_))
         if self.Header is not None:
             Header_ = self.Header
             Header_.to_etree(element, name_='Header', mapping_=mapping_)
@@ -23587,6 +23595,10 @@ class PMML(GeneratedsSuper):
             already_processed.add('version')
             showIndent(outfile, level)
             outfile.write('version="%s",\n' % (self.version,))
+        if self.type_ is not None and 'type_' not in already_processed:
+            already_processed.add('type_')
+            showIndent(outfile, level)
+            outfile.write('type_="%s",\n' % (self.type_,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.Header is not None:
             showIndent(outfile, level)
@@ -23906,6 +23918,10 @@ class PMML(GeneratedsSuper):
         if value is not None and 'version' not in already_processed:
             already_processed.add('version')
             self.version = value
+        value = find_attr_value_('type', node)
+        if value is not None and 'type' not in already_processed:
+            already_processed.add('type')
+            self.type_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Header':
             obj_ = Header.factory()

@@ -1616,6 +1616,7 @@
                 <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="version" type="xs:string" use="required"/>
+            <xs:attribute name="type" type="xs:string" />
         </xs:complexType>
     </xs:element>
 
