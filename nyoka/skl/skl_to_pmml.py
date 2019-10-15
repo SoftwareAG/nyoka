@@ -359,7 +359,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
     anomaly_model_names = ('OneClassSVM',)
     naive_bayes_model_names = ('GaussianNB',)
     mining_model_names = ('RandomForestRegressor', 'RandomForestClassifier', 'GradientBoostingClassifier',
-                            'GradientBoostingRegressor','IsolationForest','ExtraTreesClassifier')
+                            'GradientBoostingRegressor','IsolationForest','ExtraTreesClassifier','ExtraTreesRegressor')
     neurl_netwk_model_names = ('MLPClassifier', 'MLPRegressor')
     nearest_neighbour_names = ('NeighborsBase',)
     clustering_model_names = ('KMeans',)
@@ -1343,7 +1343,7 @@ def get_multiple_model_method(model):
         return 'sum'
     elif model.__class__.__name__ in ['RandomForestClassifier','ExtraTreesClassifier']:
         return 'majorityVote'
-    elif model.__class__.__name__ in ['RandomForestRegressor','IsolationForest']:
+    elif model.__class__.__name__ in ['RandomForestRegressor','IsolationForest','ExtraTreesRegressor']:
         return 'average'
 
 
