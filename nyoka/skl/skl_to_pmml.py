@@ -58,6 +58,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml'):
 
         model = toExportDict[model_name]['modelObj']
 
+
         pipelineOnly = toExportDict[model_name]['pipelineObj']
 
         categoric_values = tuple()
@@ -98,8 +99,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml'):
             models_dict['DeepNetwork'].append(model_obj)
             data_dicts.append(KerasPMML.DataDictionary)
 
-
-        else:    
+        elif model != None:    
             #model = pipeline.steps[-1][1]
             #ppln_sans_predictor = pipeline.steps[:-1]
             #derived_col_names,categoric_values,mining_imp_val,trfm_dict_kwargs = get_trfm_dict_kwargs(col_names,pipelineOnly,
