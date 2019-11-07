@@ -54,7 +54,7 @@ class TestCases(unittest.TestCase):
         data['index']=pd.to_datetime(data['index'], format='%Y-%m-%d')
         data.set_index(['index'], inplace=True)
         
-        mod = SARIMAX(data,order=(1,1,1),seasonal_order=(1,0,0, 4))
+        mod = SARIMAX(data,order=(1,1,0),seasonal_order=(0,1,1, 4))
         result = mod.fit(disp=False)
 
         ArimaToPMML(result, 'jnj_seasonal_arima.pmml')
