@@ -61,7 +61,7 @@ class TestCases(unittest.TestCase):
         model_name = self.adapa_utility.upload_to_zserver('jnj_seasonal_arima.pmml')
         z_pred = self.adapa_utility.score_single_record(model_name)
         model_pred = result.forecast()[0]
-        self.assertEqual(model_pred, z_pred['predicted_value'])
+        self.assertEqual("{:.9f}".format(model_pred), "{:.9f}".format(z_pred['predicted_value']))
 
         z_pred = self.adapa_utility.score_in_zserver(model_name, 'nyoka/tests/test_jnj.csv','TS')
         model_pred = result.forecast(5)[-1]
