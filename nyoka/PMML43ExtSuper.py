@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Oct 14 13:45:54 2019 by generateDS.py version 2.28a.
+# Generated Thu Nov  7 06:58:03 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -8081,12 +8081,13 @@ class Variance(GeneratedsSuper):
 class ClusteringModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, taskType=None, modelClass=None, numberOfClusters=None, isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, LocalTransformations=None, ComparisonMeasure=None, ClusteringField=None, MissingValueWeights=None, Cluster=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, taskType=None, filePath=None, modelClass=None, numberOfClusters=None, isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, LocalTransformations=None, ComparisonMeasure=None, ClusteringField=None, MissingValueWeights=None, Cluster=None, ModelVerification=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
         self.algorithmName = _cast(None, algorithmName)
         self.taskType = _cast(None, taskType)
+        self.filePath = _cast(None, filePath)
         self.modelClass = _cast(None, modelClass)
         self.numberOfClusters = _cast(None, numberOfClusters)
         self.isScorable = _cast(bool, isScorable)
@@ -8160,6 +8161,8 @@ class ClusteringModel(GeneratedsSuper):
     def set_algorithmName(self, algorithmName): self.algorithmName = algorithmName
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def get_modelClass(self): return self.modelClass
     def set_modelClass(self, modelClass): self.modelClass = modelClass
     def get_numberOfClusters(self): return self.numberOfClusters
@@ -8245,6 +8248,9 @@ class ClusteringModel(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
         if self.modelClass is not None and 'modelClass' not in already_processed:
             already_processed.add('modelClass')
             outfile.write(' modelClass=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.modelClass), input_name='modelClass')), ))
@@ -8294,6 +8300,8 @@ class ClusteringModel(GeneratedsSuper):
             element.set('algorithmName', self.gds_format_string(self.algorithmName))
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         if self.modelClass is not None:
             element.set('modelClass', self.gds_format_string(self.modelClass))
         if self.numberOfClusters is not None:
@@ -8356,6 +8364,10 @@ class ClusteringModel(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
         if self.modelClass is not None and 'modelClass' not in already_processed:
             already_processed.add('modelClass')
             showIndent(outfile, level)
@@ -8479,6 +8491,10 @@ class ClusteringModel(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
         value = find_attr_value_('modelClass', node)
         if value is not None and 'modelClass' not in already_processed:
             already_processed.add('modelClass')
@@ -13059,7 +13075,7 @@ class Apply(GeneratedsSuper):
 class DeepNetwork(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, normalizationMethod='none', numberOfLayers=None, isScorable=True, taskType=None, Extension=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingParameters=None, NetworkLayer=None, NeuralOutputs=None, ModelVerification=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, normalizationMethod='none', numberOfLayers=None, isScorable=True, taskType=None, filePath=None, Extension=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingParameters=None, NetworkLayer=None, NeuralOutputs=None, ModelVerification=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
@@ -13068,6 +13084,7 @@ class DeepNetwork(GeneratedsSuper):
         self.numberOfLayers = _cast(int, numberOfLayers)
         self.isScorable = _cast(bool, isScorable)
         self.taskType = _cast(None, taskType)
+        self.filePath = _cast(None, filePath)
         if Extension is None:
             self.Extension = []
         else:
@@ -13138,6 +13155,8 @@ class DeepNetwork(GeneratedsSuper):
     def set_isScorable(self, isScorable): self.isScorable = isScorable
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def validate_MINING_FUNCTION(self, value):
         # Validate type MINING-FUNCTION, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -13234,6 +13253,9 @@ class DeepNetwork(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
     def exportChildren(self, outfile, level, namespace_='', name_='DeepNetwork', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -13280,6 +13302,8 @@ class DeepNetwork(GeneratedsSuper):
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.MiningSchema is not None:
@@ -13349,6 +13373,10 @@ class DeepNetwork(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
         outfile.write('Extension=[\n')
@@ -13477,6 +13505,10 @@ class DeepNetwork(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -26618,7 +26650,7 @@ class Timestamp(GeneratedsSuper):
 class NearestNeighborModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, numberOfNeighbors=None, continuousScoringMethod='average', categoricalScoringMethod='majorityVote', instanceIdVariable=None, threshold='0.001', isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingInstances=None, ComparisonMeasure=None, KNNInputs=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, numberOfNeighbors=None, continuousScoringMethod='average', categoricalScoringMethod='majorityVote', instanceIdVariable=None, threshold='0.001', isScorable=True, taskType=None, filePath=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingInstances=None, ComparisonMeasure=None, KNNInputs=None, ModelVerification=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
@@ -26630,6 +26662,7 @@ class NearestNeighborModel(GeneratedsSuper):
         self.threshold = _cast(None, threshold)
         self.isScorable = _cast(bool, isScorable)
         self.taskType = _cast(None, taskType)
+        self.filePath = _cast(None, filePath)
         self.MiningSchema = MiningSchema
         self.Output = Output
         self.ModelStats = ModelStats
@@ -26700,6 +26733,8 @@ class NearestNeighborModel(GeneratedsSuper):
     def set_isScorable(self, isScorable): self.isScorable = isScorable
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def validate_MINING_FUNCTION(self, value):
         # Validate type MINING-FUNCTION, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -26825,6 +26860,9 @@ class NearestNeighborModel(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
     def exportChildren(self, outfile, level, namespace_='', name_='NearestNeighborModel', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -26877,6 +26915,8 @@ class NearestNeighborModel(GeneratedsSuper):
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         if self.MiningSchema is not None:
             MiningSchema_ = self.MiningSchema
             MiningSchema_.to_etree(element, name_='MiningSchema', mapping_=mapping_)
@@ -26959,6 +26999,10 @@ class NearestNeighborModel(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.MiningSchema is not None:
             showIndent(outfile, level)
@@ -27097,6 +27141,10 @@ class NearestNeighborModel(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'MiningSchema':
             obj_ = MiningSchema.factory()
@@ -32431,13 +32479,14 @@ class VerificationField(GeneratedsSuper):
 class MiningModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, isScorable=True, taskType=None, objective=None, numberOfClass=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Regression=None, DecisionTree=None, Segmentation=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, isScorable=True, taskType=None, filePath=None, objective=None, numberOfClass=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Regression=None, DecisionTree=None, Segmentation=None, ModelVerification=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
         self.algorithmName = _cast(None, algorithmName)
         self.isScorable = _cast(bool, isScorable)
         self.taskType = _cast(None, taskType)
+        self.filePath = _cast(None, filePath)
         self.objective = _cast(None, objective)
         self.numberOfClass = _cast(None, numberOfClass)
         self.MiningSchema = MiningSchema
@@ -32512,6 +32561,8 @@ class MiningModel(GeneratedsSuper):
     def set_isScorable(self, isScorable): self.isScorable = isScorable
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def get_objective(self): return self.objective
     def set_objective(self, objective): self.objective = objective
     def get_numberOfClass(self): return self.numberOfClass
@@ -32598,6 +32649,9 @@ class MiningModel(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
         if self.objective is not None and 'objective' not in already_processed:
             already_processed.add('objective')
             outfile.write(' objective=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.objective), input_name='objective')), ))
@@ -32646,6 +32700,8 @@ class MiningModel(GeneratedsSuper):
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         if self.objective is not None:
             element.set('objective', self.gds_format_string(self.objective))
         if self.numberOfClass is not None:
@@ -32710,6 +32766,10 @@ class MiningModel(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
         if self.objective is not None and 'objective' not in already_processed:
             already_processed.add('objective')
             showIndent(outfile, level)
@@ -32838,6 +32898,10 @@ class MiningModel(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
         value = find_attr_value_('objective', node)
         if value is not None and 'objective' not in already_processed:
             already_processed.add('objective')
@@ -34714,7 +34778,7 @@ class DecisionTree(GeneratedsSuper):
 class NaiveBayesModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, threshold=None, functionName=None, algorithmName=None, isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, BayesInputs=None, BayesOutput=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, threshold=None, functionName=None, algorithmName=None, isScorable=True, taskType=None, filePath=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, BayesInputs=None, BayesOutput=None, ModelVerification=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.threshold = _cast(None, threshold)
@@ -34722,6 +34786,7 @@ class NaiveBayesModel(GeneratedsSuper):
         self.algorithmName = _cast(None, algorithmName)
         self.isScorable = _cast(bool, isScorable)
         self.taskType = _cast(None, taskType)
+        self.filePath = _cast(None, filePath)
         self.MiningSchema = MiningSchema
         self.Output = Output
         self.ModelStats = ModelStats
@@ -34781,6 +34846,8 @@ class NaiveBayesModel(GeneratedsSuper):
     def set_isScorable(self, isScorable): self.isScorable = isScorable
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def validate_REAL_NUMBER(self, value):
         # Validate type REAL-NUMBER, a restriction on xs:double.
         if value is not None and Validate_simpletypes_:
@@ -34865,6 +34932,9 @@ class NaiveBayesModel(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
     def exportChildren(self, outfile, level, namespace_='', name_='NaiveBayesModel', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -34907,6 +34977,8 @@ class NaiveBayesModel(GeneratedsSuper):
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         if self.MiningSchema is not None:
             MiningSchema_ = self.MiningSchema
             MiningSchema_.to_etree(element, name_='MiningSchema', mapping_=mapping_)
@@ -34970,6 +35042,10 @@ class NaiveBayesModel(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.MiningSchema is not None:
             showIndent(outfile, level)
@@ -35080,6 +35156,10 @@ class NaiveBayesModel(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'MiningSchema':
             obj_ = MiningSchema.factory()
@@ -36398,7 +36478,7 @@ class TargetValueCount(GeneratedsSuper):
 class NeuralNetwork(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, activationFunction=None, normalizationMethod='none', threshold='0', width=None, altitude='1.0', numberOfLayers=None, isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, NeuralInputs=None, NeuralLayer=None, NeuralOutputs=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, activationFunction=None, normalizationMethod='none', threshold='0', width=None, altitude='1.0', numberOfLayers=None, isScorable=True, taskType=None, filePath=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, NeuralInputs=None, NeuralLayer=None, NeuralOutputs=None, ModelVerification=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
@@ -36411,6 +36491,7 @@ class NeuralNetwork(GeneratedsSuper):
         self.numberOfLayers = _cast(int, numberOfLayers)
         self.isScorable = _cast(bool, isScorable)
         self.taskType = _cast(None, taskType)
+        self.filePath = _cast(None, filePath)
         self.MiningSchema = MiningSchema
         self.Output = Output
         self.ModelStats = ModelStats
@@ -36489,6 +36570,8 @@ class NeuralNetwork(GeneratedsSuper):
     def set_isScorable(self, isScorable): self.isScorable = isScorable
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def validate_MINING_FUNCTION(self, value):
         # Validate type MINING-FUNCTION, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -36613,6 +36696,9 @@ class NeuralNetwork(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
     def exportChildren(self, outfile, level, namespace_='', name_='NeuralNetwork', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -36667,6 +36753,8 @@ class NeuralNetwork(GeneratedsSuper):
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         if self.MiningSchema is not None:
             MiningSchema_ = self.MiningSchema
             MiningSchema_.to_etree(element, name_='MiningSchema', mapping_=mapping_)
@@ -36752,6 +36840,10 @@ class NeuralNetwork(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.MiningSchema is not None:
             showIndent(outfile, level)
@@ -36909,6 +37001,10 @@ class NeuralNetwork(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'MiningSchema':
             obj_ = MiningSchema.factory()
@@ -39431,13 +39527,14 @@ class Decision(GeneratedsSuper):
 class AnomalyDetectionModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, sampleDataSize=None, functionName=None, algorithmType=None, taskType=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, AnomalyDetectionModel_member=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def __init__(self, modelName=None, sampleDataSize=None, functionName=None, algorithmType=None, taskType=None, filePath=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, AnomalyDetectionModel_member=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.sampleDataSize = _cast(None, sampleDataSize)
         self.functionName = _cast(None, functionName)
         self.algorithmType = _cast(None, algorithmType)
         self.taskType = _cast(None, taskType)
+        self.filePath = _cast(None, filePath)
         self.MiningSchema = MiningSchema
         self.Output = Output
         self.LocalTransformations = LocalTransformations
@@ -39543,6 +39640,8 @@ class AnomalyDetectionModel(GeneratedsSuper):
     def set_algorithmType(self, algorithmType): self.algorithmType = algorithmType
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def validate_MINING_FUNCTION(self, value):
         # Validate type MINING-FUNCTION, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -39648,6 +39747,9 @@ class AnomalyDetectionModel(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
     def exportChildren(self, outfile, level, namespace_='', name_='AnomalyDetectionModel', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -39720,6 +39822,8 @@ class AnomalyDetectionModel(GeneratedsSuper):
             element.set('algorithmType', self.algorithmType)
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         if self.MiningSchema is not None:
             MiningSchema_ = self.MiningSchema
             MiningSchema_.to_etree(element, name_='MiningSchema', mapping_=mapping_)
@@ -39827,6 +39931,10 @@ class AnomalyDetectionModel(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.MiningSchema is not None:
             showIndent(outfile, level)
@@ -40021,6 +40129,10 @@ class AnomalyDetectionModel(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'MiningSchema':
             obj_ = MiningSchema.factory()
@@ -40158,7 +40270,7 @@ class AnomalyDetectionModel(GeneratedsSuper):
 class RegressionModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, modelType=None, targetFieldName=None, normalizationMethod='none', isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, RegressionTable=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, modelType=None, targetFieldName=None, normalizationMethod='none', isScorable=True, taskType=None, filePath=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, RegressionTable=None, ModelVerification=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
@@ -40168,6 +40280,7 @@ class RegressionModel(GeneratedsSuper):
         self.normalizationMethod = _cast(None, normalizationMethod)
         self.isScorable = _cast(bool, isScorable)
         self.taskType = _cast(None, taskType)
+        self.filePath = _cast(None, filePath)
         self.MiningSchema = MiningSchema
         self.Output = Output
         self.ModelStats = ModelStats
@@ -40234,6 +40347,8 @@ class RegressionModel(GeneratedsSuper):
     def set_isScorable(self, isScorable): self.isScorable = isScorable
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def validate_MINING_FUNCTION(self, value):
         # Validate type MINING-FUNCTION, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -40335,6 +40450,9 @@ class RegressionModel(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
     def exportChildren(self, outfile, level, namespace_='', name_='RegressionModel', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -40379,6 +40497,8 @@ class RegressionModel(GeneratedsSuper):
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         if self.MiningSchema is not None:
             MiningSchema_ = self.MiningSchema
             MiningSchema_.to_etree(element, name_='MiningSchema', mapping_=mapping_)
@@ -40446,6 +40566,10 @@ class RegressionModel(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.MiningSchema is not None:
             showIndent(outfile, level)
@@ -40562,6 +40686,10 @@ class RegressionModel(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'MiningSchema':
             obj_ = MiningSchema.factory()
@@ -49607,7 +49735,7 @@ class PartitionFieldStats(GeneratedsSuper):
 class SupportVectorMachineModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, threshold='0', svmRepresentation='SupportVectors', classificationMethod='OneAgainstAll', maxWins=False, isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, LinearKernelType=None, PolynomialKernelType=None, RadialBasisKernelType=None, SigmoidKernelType=None, VectorDictionary=None, SupportVectorMachine=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, threshold='0', svmRepresentation='SupportVectors', classificationMethod='OneAgainstAll', maxWins=False, isScorable=True, taskType=None, filePath=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, LinearKernelType=None, PolynomialKernelType=None, RadialBasisKernelType=None, SigmoidKernelType=None, VectorDictionary=None, SupportVectorMachine=None, ModelVerification=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
@@ -49618,6 +49746,7 @@ class SupportVectorMachineModel(GeneratedsSuper):
         self.maxWins = _cast(bool, maxWins)
         self.isScorable = _cast(bool, isScorable)
         self.taskType = _cast(None, taskType)
+        self.filePath = _cast(None, filePath)
         self.MiningSchema = MiningSchema
         self.Output = Output
         self.ModelStats = ModelStats
@@ -49701,6 +49830,8 @@ class SupportVectorMachineModel(GeneratedsSuper):
     def set_isScorable(self, isScorable): self.isScorable = isScorable
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def validate_MINING_FUNCTION(self, value):
         # Validate type MINING-FUNCTION, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -49822,6 +49953,9 @@ class SupportVectorMachineModel(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
     def exportChildren(self, outfile, level, namespace_='', name_='SupportVectorMachineModel', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -49878,6 +50012,8 @@ class SupportVectorMachineModel(GeneratedsSuper):
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         if self.MiningSchema is not None:
             MiningSchema_ = self.MiningSchema
             MiningSchema_.to_etree(element, name_='MiningSchema', mapping_=mapping_)
@@ -49964,6 +50100,10 @@ class SupportVectorMachineModel(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.MiningSchema is not None:
             showIndent(outfile, level)
@@ -50123,6 +50263,10 @@ class SupportVectorMachineModel(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'MiningSchema':
             obj_ = MiningSchema.factory()
@@ -66777,7 +66921,7 @@ class BlockIndicator(GeneratedsSuper):
 class TreeModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, shrinkage=None, missingValueStrategy='none', missingValuePenalty='1.0', noTrueChildStrategy='returnNullPrediction', taskType=None, splitCharacteristic='multiSplit', isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Node=None, ModelVerification=None, Extension=None):
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, shrinkage=None, missingValueStrategy='none', missingValuePenalty='1.0', noTrueChildStrategy='returnNullPrediction', taskType=None, filePath=None, splitCharacteristic='multiSplit', isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Node=None, ModelVerification=None, Extension=None):
         self.original_tagname_ = None
         self.modelName = _cast(None, modelName)
         self.functionName = _cast(None, functionName)
@@ -66787,6 +66931,7 @@ class TreeModel(GeneratedsSuper):
         self.missingValuePenalty = _cast(None, missingValuePenalty)
         self.noTrueChildStrategy = _cast(None, noTrueChildStrategy)
         self.taskType = _cast(None, taskType)
+        self.filePath = _cast(None, filePath)
         self.splitCharacteristic = _cast(None, splitCharacteristic)
         self.isScorable = _cast(bool, isScorable)
         self.MiningSchema = MiningSchema
@@ -66849,6 +66994,8 @@ class TreeModel(GeneratedsSuper):
     def set_noTrueChildStrategy(self, noTrueChildStrategy): self.noTrueChildStrategy = noTrueChildStrategy
     def get_taskType(self): return self.taskType
     def set_taskType(self, taskType): self.taskType = taskType
+    def get_filePath(self): return self.filePath
+    def set_filePath(self, filePath): self.filePath = filePath
     def get_splitCharacteristic(self): return self.splitCharacteristic
     def set_splitCharacteristic(self, splitCharacteristic): self.splitCharacteristic = splitCharacteristic
     def get_isScorable(self): return self.isScorable
@@ -66966,6 +67113,9 @@ class TreeModel(GeneratedsSuper):
         if self.taskType is not None and 'taskType' not in already_processed:
             already_processed.add('taskType')
             outfile.write(' taskType=%s' % (quote_attrib(self.taskType), ))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            outfile.write(' filePath=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.filePath), input_name='filePath')), ))
         if self.splitCharacteristic != "multiSplit" and 'splitCharacteristic' not in already_processed:
             already_processed.add('splitCharacteristic')
             outfile.write(' splitCharacteristic=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.splitCharacteristic), input_name='splitCharacteristic')), ))
@@ -67016,6 +67166,8 @@ class TreeModel(GeneratedsSuper):
             element.set('noTrueChildStrategy', self.noTrueChildStrategy)
         if self.taskType is not None:
             element.set('taskType', self.taskType)
+        if self.filePath is not None:
+            element.set('filePath', self.gds_format_string(self.filePath))
         if self.splitCharacteristic is not None:
             element.set('splitCharacteristic', self.gds_format_string(self.splitCharacteristic))
         if self.isScorable is not None:
@@ -67088,6 +67240,10 @@ class TreeModel(GeneratedsSuper):
             already_processed.add('taskType')
             showIndent(outfile, level)
             outfile.write('taskType="%s",\n' % (self.taskType,))
+        if self.filePath is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            showIndent(outfile, level)
+            outfile.write('filePath="%s",\n' % (self.filePath,))
         if self.splitCharacteristic is not None and 'splitCharacteristic' not in already_processed:
             already_processed.add('splitCharacteristic')
             showIndent(outfile, level)
@@ -67209,6 +67365,10 @@ class TreeModel(GeneratedsSuper):
             already_processed.add('taskType')
             self.taskType = value
             self.validate_TRAINORSCORE(self.taskType)    # validate type TRAINORSCORE
+        value = find_attr_value_('filePath', node)
+        if value is not None and 'filePath' not in already_processed:
+            already_processed.add('filePath')
+            self.filePath = value
         value = find_attr_value_('splitCharacteristic', node)
         if value is not None and 'splitCharacteristic' not in already_processed:
             already_processed.add('splitCharacteristic')

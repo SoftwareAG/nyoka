@@ -447,6 +447,7 @@
             <xs:attribute name="functionName" type="MINING-FUNCTION" use="required"/>
             <xs:attribute name="algorithmName" type="xs:string" use="optional"/>
             <xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
             <xs:attribute name="modelClass" use="required">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
@@ -809,6 +810,7 @@
             <xs:attribute name="numberOfLayers" type="xs:nonNegativeInteger"/>
             <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
 			<xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="NetworkLayer">
@@ -1945,6 +1947,7 @@
             <xs:attribute name="threshold" type="REAL-NUMBER" default="0.001"/>
             <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
             <xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="TrainingInstances">
@@ -2352,6 +2355,7 @@
             <xs:attribute name="algorithmName" type="xs:string" use="optional"/>
             <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
             <xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
             <xs:attribute name="objective" type="xs:string" use="optional"/>
             <xs:attribute name="numberOfClass" type="INT-NUMBER" use="optional"/>
         </xs:complexType>
@@ -2478,6 +2482,7 @@
             <xs:attribute name="algorithmName" type="xs:string"/>
             <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
             <xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="BayesInputs">
@@ -2584,6 +2589,7 @@
             <xs:attribute name="numberOfLayers" type="xs:nonNegativeInteger"/>
             <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
             <xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
         </xs:complexType>
     </xs:element>
 
@@ -2851,6 +2857,7 @@
             <xs:attribute name="functionName" type="MINING-FUNCTION" use="required" />
             <xs:attribute name="algorithmType" type="ALGORITHM-TYPE" use="required" />
             <xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
         </xs:complexType>
     </xs:element>
 
@@ -2892,6 +2899,7 @@
             <xs:attribute name="normalizationMethod" type="REGRESSIONNORMALIZATIONMETHOD" default="none"/>
             <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
 			<xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
         </xs:complexType>
     </xs:element>
 
@@ -3514,6 +3522,7 @@
             <xs:attribute name="maxWins" type="xs:boolean" default="false"/>
             <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
             <xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="SVM-CLASSIFICATION-METHOD">
@@ -4824,6 +4833,7 @@
             <xs:attribute name="missingValuePenalty" type="PROB-NUMBER" default="1.0"/>
             <xs:attribute name="noTrueChildStrategy" type="NO-TRUE-CHILD-STRATEGY" default="returnNullPrediction"/>
             <xs:attribute name="taskType" type="TRAINORSCORE" use="required"/>
+            <xs:attribute name="filePath" type="xs:string"/>
             <xs:attribute name="splitCharacteristic" default="multiSplit">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">

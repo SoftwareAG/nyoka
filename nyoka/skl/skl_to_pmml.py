@@ -16,7 +16,7 @@ from nyoka.xgboost.xgboost_to_pmml import xgboost_to_pmml
 from nyoka.lgbm.lgb_to_pmml import lgb_to_pmml
 from nyoka.lgbm.lgbmTrainingAPI_to_pmml import ExportToPMML as ext
 
-def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None)):
+def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None):
 
     """
     Exports scikit-learn pipeline object into pmml

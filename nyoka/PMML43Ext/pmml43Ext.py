@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Oct 14 13:45:55 2019 by generateDS.py version 2.28a.
+# Generated Thu Nov  7 06:58:03 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -495,8 +495,8 @@ supermod.Variance.subclass = Variance
 
 
 class ClusteringModel(supermod.ClusteringModel):
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, taskType=None, modelClass=None, numberOfClusters=None, isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, LocalTransformations=None, ComparisonMeasure=None, ClusteringField=None, MissingValueWeights=None, Cluster=None, ModelVerification=None, Extension=None):
-        super(ClusteringModel, self).__init__(modelName, functionName, algorithmName, taskType, modelClass, numberOfClusters, isScorable, MiningSchema, Output, ModelStats, ModelExplanation, LocalTransformations, ComparisonMeasure, ClusteringField, MissingValueWeights, Cluster, ModelVerification, Extension, )
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, taskType=None, filePath=None, modelClass=None, numberOfClusters=None, isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, LocalTransformations=None, ComparisonMeasure=None, ClusteringField=None, MissingValueWeights=None, Cluster=None, ModelVerification=None, Extension=None):
+        super(ClusteringModel, self).__init__(modelName, functionName, algorithmName, taskType, filePath, modelClass, numberOfClusters, isScorable, MiningSchema, Output, ModelStats, ModelExplanation, LocalTransformations, ComparisonMeasure, ClusteringField, MissingValueWeights, Cluster, ModelVerification, Extension, )
 
     #
     # XMLBehaviors
@@ -801,8 +801,8 @@ supermod.Apply.subclass = Apply
 
 
 class DeepNetwork(supermod.DeepNetwork):
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, normalizationMethod='none', numberOfLayers=None, isScorable=True, taskType=None, Extension=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingParameters=None, NetworkLayer=None, NeuralOutputs=None, ModelVerification=None):
-        super(DeepNetwork, self).__init__(modelName, functionName, algorithmName, normalizationMethod, numberOfLayers, isScorable, taskType, Extension, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, TrainingParameters, NetworkLayer, NeuralOutputs, ModelVerification, )
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, normalizationMethod='none', numberOfLayers=None, isScorable=True, taskType=None, filePath=None, Extension=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingParameters=None, NetworkLayer=None, NeuralOutputs=None, ModelVerification=None):
+        super(DeepNetwork, self).__init__(modelName, functionName, algorithmName, normalizationMethod, numberOfLayers, isScorable, taskType, filePath, Extension, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, TrainingParameters, NetworkLayer, NeuralOutputs, ModelVerification, )
 
     #
     # XMLBehaviors
@@ -1840,8 +1840,8 @@ supermod.Timestamp.subclass = Timestamp
 
 
 class NearestNeighborModel(supermod.NearestNeighborModel):
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, numberOfNeighbors=None, continuousScoringMethod='average', categoricalScoringMethod='majorityVote', instanceIdVariable=None, threshold='0.001', isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingInstances=None, ComparisonMeasure=None, KNNInputs=None, ModelVerification=None, Extension=None):
-        super(NearestNeighborModel, self).__init__(modelName, functionName, algorithmName, numberOfNeighbors, continuousScoringMethod, categoricalScoringMethod, instanceIdVariable, threshold, isScorable, taskType, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, TrainingInstances, ComparisonMeasure, KNNInputs, ModelVerification, Extension, )
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, numberOfNeighbors=None, continuousScoringMethod='average', categoricalScoringMethod='majorityVote', instanceIdVariable=None, threshold='0.001', isScorable=True, taskType=None, filePath=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, TrainingInstances=None, ComparisonMeasure=None, KNNInputs=None, ModelVerification=None, Extension=None):
+        super(NearestNeighborModel, self).__init__(modelName, functionName, algorithmName, numberOfNeighbors, continuousScoringMethod, categoricalScoringMethod, instanceIdVariable, threshold, isScorable, taskType, filePath, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, TrainingInstances, ComparisonMeasure, KNNInputs, ModelVerification, Extension, )
 
     #
     # XMLBehaviors
@@ -2216,8 +2216,8 @@ supermod.VerificationField.subclass = VerificationField
 
 
 class MiningModel(supermod.MiningModel):
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, isScorable=True, taskType=None, objective=None, numberOfClass=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Regression=None, DecisionTree=None, Segmentation=None, ModelVerification=None, Extension=None):
-        super(MiningModel, self).__init__(modelName, functionName, algorithmName, isScorable, taskType, objective, numberOfClass, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, Regression, DecisionTree, Segmentation, ModelVerification, Extension, )
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, isScorable=True, taskType=None, filePath=None, objective=None, numberOfClass=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Regression=None, DecisionTree=None, Segmentation=None, ModelVerification=None, Extension=None):
+        super(MiningModel, self).__init__(modelName, functionName, algorithmName, isScorable, taskType, filePath, objective, numberOfClass, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, Regression, DecisionTree, Segmentation, ModelVerification, Extension, )
 
     #
     # XMLBehaviors
@@ -2282,8 +2282,8 @@ supermod.DecisionTree.subclass = DecisionTree
 
 
 class NaiveBayesModel(supermod.NaiveBayesModel):
-    def __init__(self, modelName=None, threshold=None, functionName=None, algorithmName=None, isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, BayesInputs=None, BayesOutput=None, ModelVerification=None, Extension=None):
-        super(NaiveBayesModel, self).__init__(modelName, threshold, functionName, algorithmName, isScorable, taskType, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, BayesInputs, BayesOutput, ModelVerification, Extension, )
+    def __init__(self, modelName=None, threshold=None, functionName=None, algorithmName=None, isScorable=True, taskType=None, filePath=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, BayesInputs=None, BayesOutput=None, ModelVerification=None, Extension=None):
+        super(NaiveBayesModel, self).__init__(modelName, threshold, functionName, algorithmName, isScorable, taskType, filePath, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, BayesInputs, BayesOutput, ModelVerification, Extension, )
 
     #
     # XMLBehaviors
@@ -2381,8 +2381,8 @@ supermod.TargetValueCount.subclass = TargetValueCount
 
 
 class NeuralNetwork(supermod.NeuralNetwork):
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, activationFunction=None, normalizationMethod='none', threshold='0', width=None, altitude='1.0', numberOfLayers=None, isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, NeuralInputs=None, NeuralLayer=None, NeuralOutputs=None, ModelVerification=None, Extension=None):
-        super(NeuralNetwork, self).__init__(modelName, functionName, algorithmName, activationFunction, normalizationMethod, threshold, width, altitude, numberOfLayers, isScorable, taskType, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, NeuralInputs, NeuralLayer, NeuralOutputs, ModelVerification, Extension, )
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, activationFunction=None, normalizationMethod='none', threshold='0', width=None, altitude='1.0', numberOfLayers=None, isScorable=True, taskType=None, filePath=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, NeuralInputs=None, NeuralLayer=None, NeuralOutputs=None, ModelVerification=None, Extension=None):
+        super(NeuralNetwork, self).__init__(modelName, functionName, algorithmName, activationFunction, normalizationMethod, threshold, width, altitude, numberOfLayers, isScorable, taskType, filePath, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, NeuralInputs, NeuralLayer, NeuralOutputs, ModelVerification, Extension, )
 
     #
     # XMLBehaviors
@@ -2654,8 +2654,8 @@ supermod.Decision.subclass = Decision
 
 
 class AnomalyDetectionModel(supermod.AnomalyDetectionModel):
-    def __init__(self, modelName=None, sampleDataSize=None, functionName=None, algorithmType=None, taskType=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, AnomalyDetectionModel_member=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
-        super(AnomalyDetectionModel, self).__init__(modelName, sampleDataSize, functionName, algorithmType, taskType, MiningSchema, Output, LocalTransformations, ParameterList, ModelVerification, AssociationModel, AnomalyDetectionModel_member, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
+    def __init__(self, modelName=None, sampleDataSize=None, functionName=None, algorithmType=None, taskType=None, filePath=None, MiningSchema=None, Output=None, LocalTransformations=None, ParameterList=None, ModelVerification=None, AssociationModel=None, AnomalyDetectionModel_member=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+        super(AnomalyDetectionModel, self).__init__(modelName, sampleDataSize, functionName, algorithmType, taskType, filePath, MiningSchema, Output, LocalTransformations, ParameterList, ModelVerification, AssociationModel, AnomalyDetectionModel_member, BayesianNetworkModel, BaselineModel, ClusteringModel, DeepNetwork, GaussianProcessModel, GeneralRegressionModel, MiningModel, NaiveBayesModel, NearestNeighborModel, NeuralNetwork, RegressionModel, RuleSetModel, SequenceModel, Scorecard, SupportVectorMachineModel, TextModel, TimeSeriesModel, TreeModel, Extension, )
 
     #
     # XMLBehaviors
@@ -2665,8 +2665,8 @@ supermod.AnomalyDetectionModel.subclass = AnomalyDetectionModel
 
 
 class RegressionModel(supermod.RegressionModel):
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, modelType=None, targetFieldName=None, normalizationMethod='none', isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, RegressionTable=None, ModelVerification=None, Extension=None):
-        super(RegressionModel, self).__init__(modelName, functionName, algorithmName, modelType, targetFieldName, normalizationMethod, isScorable, taskType, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, RegressionTable, ModelVerification, Extension, )
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, modelType=None, targetFieldName=None, normalizationMethod='none', isScorable=True, taskType=None, filePath=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, RegressionTable=None, ModelVerification=None, Extension=None):
+        super(RegressionModel, self).__init__(modelName, functionName, algorithmName, modelType, targetFieldName, normalizationMethod, isScorable, taskType, filePath, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, RegressionTable, ModelVerification, Extension, )
 
     #
     # XMLBehaviors
@@ -3094,8 +3094,8 @@ supermod.PartitionFieldStats.subclass = PartitionFieldStats
 
 
 class SupportVectorMachineModel(supermod.SupportVectorMachineModel):
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, threshold='0', svmRepresentation='SupportVectors', classificationMethod='OneAgainstAll', maxWins=False, isScorable=True, taskType=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, LinearKernelType=None, PolynomialKernelType=None, RadialBasisKernelType=None, SigmoidKernelType=None, VectorDictionary=None, SupportVectorMachine=None, ModelVerification=None, Extension=None):
-        super(SupportVectorMachineModel, self).__init__(modelName, functionName, algorithmName, threshold, svmRepresentation, classificationMethod, maxWins, isScorable, taskType, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, LinearKernelType, PolynomialKernelType, RadialBasisKernelType, SigmoidKernelType, VectorDictionary, SupportVectorMachine, ModelVerification, Extension, )
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, threshold='0', svmRepresentation='SupportVectors', classificationMethod='OneAgainstAll', maxWins=False, isScorable=True, taskType=None, filePath=None, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, LinearKernelType=None, PolynomialKernelType=None, RadialBasisKernelType=None, SigmoidKernelType=None, VectorDictionary=None, SupportVectorMachine=None, ModelVerification=None, Extension=None):
+        super(SupportVectorMachineModel, self).__init__(modelName, functionName, algorithmName, threshold, svmRepresentation, classificationMethod, maxWins, isScorable, taskType, filePath, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, LinearKernelType, PolynomialKernelType, RadialBasisKernelType, SigmoidKernelType, VectorDictionary, SupportVectorMachine, ModelVerification, Extension, )
 
     #
     # XMLBehaviors
@@ -4219,8 +4219,8 @@ supermod.BlockIndicator.subclass = BlockIndicator
 
 
 class TreeModel(supermod.TreeModel):
-    def __init__(self, modelName=None, functionName=None, algorithmName=None, shrinkage=None, missingValueStrategy='none', missingValuePenalty='1.0', noTrueChildStrategy='returnNullPrediction', taskType=None, splitCharacteristic='multiSplit', isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Node=None, ModelVerification=None, Extension=None):
-        super(TreeModel, self).__init__(modelName, functionName, algorithmName, shrinkage, missingValueStrategy, missingValuePenalty, noTrueChildStrategy, taskType, splitCharacteristic, isScorable, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, Node, ModelVerification, Extension, )
+    def __init__(self, modelName=None, functionName=None, algorithmName=None, shrinkage=None, missingValueStrategy='none', missingValuePenalty='1.0', noTrueChildStrategy='returnNullPrediction', taskType=None, filePath=None, splitCharacteristic='multiSplit', isScorable=True, MiningSchema=None, Output=None, ModelStats=None, ModelExplanation=None, Targets=None, LocalTransformations=None, Node=None, ModelVerification=None, Extension=None):
+        super(TreeModel, self).__init__(modelName, functionName, algorithmName, shrinkage, missingValueStrategy, missingValuePenalty, noTrueChildStrategy, taskType, filePath, splitCharacteristic, isScorable, MiningSchema, Output, ModelStats, ModelExplanation, Targets, LocalTransformations, Node, ModelVerification, Extension, )
 
     #
     # XMLBehaviors
