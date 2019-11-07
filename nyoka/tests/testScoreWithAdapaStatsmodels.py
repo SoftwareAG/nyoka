@@ -40,8 +40,8 @@ class TestCases(unittest.TestCase):
         result = model.fit(trend = 'c', method = 'css')
         ArimaToPMML(result, f_name)
 
-        model_name = self.adapaUtilities.upload_to_zserver(f_name)
-        z_pred = self.adapaUtilities.score_single_record(model_name)
+        model_name = self.adapa_utility.upload_to_zserver(f_name)
+        z_pred = self.adapa_utility.score_single_record(model_name)
         model_pred = result.forecast()[0][0]
         self.assertEqual(model_pred, z_pred['predicted_cars_sold'])
 
@@ -58,8 +58,8 @@ class TestCases(unittest.TestCase):
         result = mod.fit(disp=False)
 
         ArimaToPMML(result, 'jnj_seasonal_arima.pmml')
-        model_name = self.adapaUtilities.upload_to_zserver('jnj_seasonal_arima.pmml')
-        z_pred = self.adapaUtilities.score_single_record(model_name)
+        model_name = self.adapa_utility.upload_to_zserver('jnj_seasonal_arima.pmml')
+        z_pred = self.adapa_utility.score_single_record(model_name)
         model_pred = result.forecast()[0]
         self.assertEqual(model_pred, z_pred['predicted_value'])
 
