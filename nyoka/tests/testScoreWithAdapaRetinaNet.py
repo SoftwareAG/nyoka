@@ -46,7 +46,7 @@ class TestCases(unittest.TestCase):
             input_shape=(224,224,3),
             input_format='image',
             backbone_name='resnet',
-            trained_classes=classes,
+            trained_classes=self.classes,
             pmml_file_name="RetinaNet.pmml"
         )
         model_name  = self.adapa_utility.upload_to_zserver('RetinaNet.pmml')

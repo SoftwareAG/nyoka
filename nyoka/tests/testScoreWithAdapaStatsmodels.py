@@ -34,7 +34,7 @@ class TestCases(unittest.TestCase):
         return ts_data
 
     def test_01(self):
-        ts_data = getData()
+        ts_data = self.getData()
         f_name='arima201_c_car_sold.pmml'
         model = ARIMA(ts_data,order=(2,0,1))
         result = model.fit(trend = 'c', method = 'css')
