@@ -65,8 +65,8 @@ class TestCases(unittest.TestCase):
 
         z_pred = self.adapa_utility.score_in_zserver(model_name, 'nyoka/tests/test_jnj.csv','TS')
         model_pred = result.forecast(5)[-1]
-        for z,m in zip(z_pred, model_pred):
-            self.assertEqual("{:.9f}".format(z), "{:.9f}".format(m))
+        print(z_pred, model_pred)
+        self.assertEqual("{:.9f}".format(z_pred), "{:.9f}".format(model_pred))
 
 
     @classmethod
