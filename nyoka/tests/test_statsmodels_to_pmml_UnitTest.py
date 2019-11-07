@@ -76,7 +76,7 @@ class TestMethods(unittest.TestCase):
         return ts_data
     
     #Exponential Smoothing Test cases
-    @unittest.skip("")
+    
     def test_exponentialSmoothing_01(self):
         ts_data = self.getData1()        
         f_name='exponential_smoothing1.pmml'
