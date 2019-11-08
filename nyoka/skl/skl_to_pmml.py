@@ -52,6 +52,10 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None):
         col_names = toExportDict[model_name]['featuresUsed']
         target_name = toExportDict[model_name]['targetName']
         tasktype = toExportDict[model_name]['taskType']
+        if 'modelPath' in toExportDict[model_name]:
+            modelPath = toExportDict[model_name]['modelPath']
+        else:
+            modelPath = None
 
         if toExportDict[model_name]['data'] is not None:
             dataObj.append(pml.Data(for_=model_name,filePath=toExportDict[model_name]['data']))
@@ -88,10 +92,10 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None):
                 with model_graph.as_default():
                     tf_session = KModelObj['tf_session']
                     with tf_session.as_default():
-                        KerasPMML = KerasToPmml(model,model_name=PMMLFileName,targetVarName=target_name,predictedClasses=predictedClassesObj,dataSet=dataSetObj)
+                        KerasPMML = KerasToPmml(model,model_name=PMMLFileName,filePath=modelPath,targetVarName=target_name,predictedClasses=predictedClassesObj,dataSet=dataSetObj)
                             
             else:
-                KerasPMML = KerasToPmml(model,model_name=PMMLFileName,targetVarName=target_name,predictedClasses=predictedClassesObj,dataSet=dataSetObj)
+                KerasPMML = KerasToPmml(model,model_name=PMMLFileName,filePath=modelPath,targetVarName=target_name,predictedClasses=predictedClassesObj,dataSet=dataSetObj)
 
             model_obj = KerasPMML.DeepNetwork[0]
             model_obj.modelName = model_name
@@ -133,7 +137,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None):
                                                 target_name,
                                                 mining_imp_val,
                                                 categoric_values,
-                                                tasktype)
+                                                tasktype,modelPath)
             model_obj = list(PMML_kwargs.values())[0][0]
             model_obj.modelName = model_name
             key = list(PMML_kwargs.keys())[0]
@@ -324,7 +328,7 @@ def any_in(seq_a, seq_b):
     return any(elem in seq_b for elem in seq_a)
 
 
-def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, tasktype):
+def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, tasktype,modelPath):
 
     """
     It returns all the pmml elements.
@@ -397,7 +401,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                            target_name,
                                                            mining_imp_val,
                                                            categoric_values,
-                                                           tasktype)}
+                                                           tasktype,modelPath)}
     elif any_in(support_vector_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'SupportVectorMachineModel':
                            get_supportVectorMachine_models(model,
@@ -1975,7 +1979,7 @@ def get_funct(sk_model):
     return a_fn
 
 
-def get_regrs_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, tasktype):
+def get_regrs_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, tasktype,modelPath):
 
     """
     It returns the Regression Model element of the model
@@ -2007,7 +2011,7 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
     regrs_models.append(pml.RegressionModel(
         modelName=model.__class__.__name__,
         RegressionTable=get_regrs_tabl(model, derived_col_names, target_name, categoric_values),
-        taskType=tasktype,
+        taskType=tasktype,filePath=modelPath,
         **model_kwargs
     ))
     return regrs_models

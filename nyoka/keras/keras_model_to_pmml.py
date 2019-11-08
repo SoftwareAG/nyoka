@@ -739,14 +739,14 @@ class KerasNetwork(ny.DeepNetwork):
                 network_layers.append(net_layer)
         return network_layers
 
-    def __init__(self, keras_model, model_name, dataSet=None, predictedClasses=None,targetVarName=None):
+    def __init__(self, keras_model, model_name,filePath=None, dataSet=None, predictedClasses=None,targetVarName=None):
         network_layers = self._create_layers(keras_model, dataSet)
         local_trans = None
         mining_schema = KerasMiningSchema(dataSet,targetVarName)
         if dataSet == 'image':
             local_trans = KerasLocalTransformations(model_name, dataSet)
         function_Name = "classification" if predictedClasses else "regression"
-        ny.DeepNetwork.__init__(self, modelName=model_name,
+        ny.DeepNetwork.__init__(self, modelName=model_name,filePath=filePath,
                                 functionName=function_Name, algorithmName=None,
                                 normalizationMethod="none", numberOfLayers=len(network_layers),
                                 isScorable=True, Extension=None, MiningSchema=mining_schema,
@@ -777,10 +777,10 @@ class KerasToPmml(ny.PMML):
     Creates PMML object, this can be saved in file using export function
     """ 
     def __init__(self, keras_model, model_name="Keras Model",
-                 description="Keras Models in PMML",dataSet=None, predictedClasses=None,targetVarName=None):
+                 description="Keras Models in PMML",filePath=None,dataSet=None, predictedClasses=None,targetVarName=None):
         data_dict = KerasDataDictionary(dataSet, predictedClasses)
         super(KerasToPmml, self).__init__(
             version="4.3Ext", Header=KerasHeader(description, copyright="Internal User"),
             DataDictionary=data_dict, DeepNetwork=[
-            KerasNetwork(keras_model=keras_model, model_name=model_name,
+            KerasNetwork(keras_model=keras_model, model_name=model_name,filePath=filePath,
                              dataSet=dataSet, predictedClasses=predictedClasses,targetVarName=targetVarName)])

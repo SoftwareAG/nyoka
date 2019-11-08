@@ -104,3 +104,45 @@ venv.bak/
 .mypy_cache/
 
 Untitled.ipynb
+
+27th June Demo Use case 1 complex.ipynb
+
+6_IsolationForest_model_to_PMML.ipynb
+
+checkMadi.pmml
+
+checkMadi2.pmml
+
+checkMadi2Classification.pmml
+
+checkMadi2Complicated.pmml
+
+checkMadi2Regresion.pmml
+
+checkMadi2RegresionScript.pmml
+
+checkMadi2ScriptWithoutData.pmml
+
+dr.pmml
+
+model.h5
+
+UseCase23RandomForest.pmml
+
+UseCase23LR.pmml
+
+UseCase23DT.pmml
+
+Train Simple NN model.ipynb
+
+Train Simple NN model with script.ipynb
+
+Train Simple NN model Classification.ipynb
+
+Train CNN model.ipynb
+
+Some test.ipynb
+
+NIFTY.txt
+
+pmmlReg.pmml
