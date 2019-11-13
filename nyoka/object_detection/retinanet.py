@@ -76,7 +76,7 @@ class RetinanetToPmml:
         self.input_shape = input_shape
         self.input_format = input_format
         self.script_args = script_args
-        self.model_name = model_name
+        self.model_name = model_name if model_name else "KerasRetinaNet"+input_format.title()
         self.description = description if description else "RetinaNet model in PMML"
 
         self.pmml_obj = None
@@ -117,8 +117,7 @@ class RetinanetToPmml:
             warnings.warn(f"trained_classes are not provided. Maximum 80 classes will be considered.")
             trained_classes = ["Category_"+str(i+1).zfill(2) for i in range(80)]
 
-        group1_pmml = kerasAPI.KerasToPmml(mod,model_name=self.model_name if self.model_name else\
-             "KerasRetinaNet"+self.input_format.title(),dataSet=input_format, description=self.description,
+        group1_pmml = kerasAPI.KerasToPmml(mod,model_name=self.model_name,dataSet=input_format, description=self.description,
          predictedClasses=trained_classes, script_args=self.script_args)
         return group1_pmml
 
