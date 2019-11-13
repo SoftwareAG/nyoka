@@ -77,11 +77,11 @@ class TestCases(unittest.TestCase):
         model_name = self.adapa_utility.upload_to_zserver(f_name)
         z_pred = self.adapa_utility.score_single_record(model_name)
         model_pred = result.forecast()[0][0]
-        self.assertEqual(model_pred, z_pred['predicted_cars_sold'])
+        self.assertEqual("{:.9f}".format(model_pred), "{:.9f}".format(z_pred['predicted_cars_sold']))
 
         z_pred = self.adapa_utility.score_in_zserver(model_name, 'nyoka/tests/test_car_sold.csv','TS')
         model_pred = result.forecast(5)[0][-1]
-        self.assertEqual(model_pred, z_pred)
+        self.assertEqual("{:.9f}".format(z_pred), "{:.9f}".format(model_pred))
 
 
     @classmethod
