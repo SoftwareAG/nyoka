@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'4.0.0',
+              VERSION:'4.0.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -172,7 +172,7 @@
               <span id="exponential-smoothing-module"></span><h1>ExponentialSmoothing Exporter Module<a class="headerlink" href="#module-exponential_smoothing" title="Permalink to this headline">¶</a></h1>
               <dl class="class">
               <dt id="exponential_smoothing.ExponentialSmoothingToPMML">
-              <em class="property">class </em><code class="descclassname">exponential_smoothing.</code><code class="descname">ExponentialSmoothingToPMML</code><span class="sig-paren">(</span><em>results_obj=None</em>, <em>pmml_file_name='from_ExponentialSmoothing.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exponential_smoothing.html#ExponentialSmoothingToPMML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exponential_smoothing.ExponentialSmoothingToPMML" title="Permalink to this definition">¶</a></dt>
+              <em class="property">class </em><code class="descclassname">exponential_smoothing.</code><code class="descname">ExponentialSmoothingToPMML</code><span class="sig-paren">(</span><em>results_obj=None</em>, <em>pmml_file_name='from_ExponentialSmoothing.pmml'</em>,<em>model_name=None</em>,<em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exponential_smoothing.html#ExponentialSmoothingToPMML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exponential_smoothing.ExponentialSmoothingToPMML" title="Permalink to this definition">¶</a></dt>
               <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
               <p>Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.</p>
               <dl class="docutils">
@@ -180,6 +180,10 @@
               <dd>Instance of HoltWintersResults from statsmodels</dd>
               <dt>pmml_file_name : string</dt>
               <dd>Name of the PMML file</dd>
+              <dt>model_name: String (optional)</dt>
+              <dd>Name of the model</dd>
+              <dt>description : string (optional)</dt>
+              <dd>Description of the model</dd>
               </dl>
               </dd></dl>
               
@@ -205,7 +209,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, maintainer@nyoka.org
+        &copy; Copyright 2018, maintainer@nyoka.org
 
     </p>
   </div>

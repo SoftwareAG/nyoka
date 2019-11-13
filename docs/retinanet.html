@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'4.0.0',
+              VERSION:'4.0.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -172,7 +172,7 @@
               <span id="retinanet-module"></span><h1>RetinaNet Exporter Module<a class="headerlink" href="#module-retinanet" title="Permalink to this headline">¶</a></h1>
               <dl class="class">
               <dt id="retinanet.RetinanetToPmml">
-              <em class="property">class </em><code class="descclassname">retinanet.</code><code class="descname">RetinanetToPmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>backbone_name</em>, <em>input_format='image'</em>, <em>trained_classes=None</em>, <em>pmml_file_name='from_retinanet.pmml'</em>, <em>script_args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml" title="Permalink to this definition">¶</a></dt>
+              <em class="property">class </em><code class="descclassname">retinanet.</code><code class="descname">RetinanetToPmml</code><span class="sig-paren">(</span><em>model</em>, <em>input_shape</em>, <em>backbone_name</em>, <em>input_format='image'</em>, <em>trained_classes=None</em>, <em>pmml_file_name='from_retinanet.pmml'</em>, <em>script_args=None</em>,<em>model_name=None</em>,<em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/retinanet.html#RetinanetToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#retinanet.RetinanetToPmml" title="Permalink to this definition">¶</a></dt>
               <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
               <p>Write a PMML file for RetinaNet model.</p>
               <dl class="docutils">
@@ -207,6 +207,10 @@
               <dt>encode <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
               <dd>The representation of the script in PMML. If True, the script will be represented as base64 encoded string, else as plain text.
               If not provided, default value <cite>True</cite> is considered.</dd>
+              <dt>model_name: String (optional)</dt>
+              <dd>Name of the model</dd>
+              <dt>description : string (optional)</dt>
+              <dd>Description of the model</dd>
               </dl>
               <dl class="method">
               <dt id="retinanet.RetinanetToPmml.assign_shapes">
@@ -349,7 +353,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, maintainer@nyoka.org
+        &copy; Copyright 2018, maintainer@nyoka.org
 
     </p>
   </div>

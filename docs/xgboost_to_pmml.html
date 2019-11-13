@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'4.0.0',
+              VERSION:'4.0.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -374,7 +374,7 @@
               
               <dl class="function">
               <dt id="xgboost_to_pmml.xgboost_to_pmml">
-              <code class="descclassname">xgboost_to_pmml.</code><code class="descname">xgboost_to_pmml</code><span class="sig-paren">(</span><em>pipeline</em>, <em>col_names</em>, <em>target_name</em>, <em>pmml_f_name='from_xgboost.pmml'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#xgboost_to_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.xgboost_to_pmml" title="Permalink to this definition">¶</a></dt>
+              <code class="descclassname">xgboost_to_pmml.</code><code class="descname">xgboost_to_pmml</code><span class="sig-paren">(</span><em>pipeline</em>, <em>col_names</em>, <em>target_name</em>, <em>pmml_f_name='from_xgboost.pmml'</em>,<em>model_name=None</em>,<em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#xgboost_to_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.xgboost_to_pmml" title="Permalink to this definition">¶</a></dt>
               <dd><p>Exports xgboost model object into pmml</p>
               <dl class="docutils">
               <dt>pipeline :</dt>
@@ -385,6 +385,10 @@
               <dd>Name of the target column.</dd>
               <dt>pmml_f_name <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
               <dd>Name of the pmml file. (Default=’from_xgboost.pmml’)</dd>
+              <dt>model_name: String (optional)</dt>
+              <dd>Name of the model</dd>
+              <dt>description : string (optional)</dt>
+              <dd>Description of the model</dd>
               </dl>
               </dd></dl>
               
