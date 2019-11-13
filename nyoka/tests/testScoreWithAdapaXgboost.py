@@ -23,19 +23,19 @@ from adapaUtilities import AdapaUtility
 class TestCases(unittest.TestCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         print("******* Unit Test for xgboost *******")
         iris = datasets.load_iris()
         df = pd.DataFrame(iris.data, columns=iris.feature_names)
         df["Species"] = iris.target
         df["Binary"] = numpy.array([i%2 for i in range(df.shape[0])])
-        self.X = df[iris.feature_names]
-        self.Y = df["Species"]
-        self.Y_bin = df["Binary"]
-        self.features = iris.feature_names
-        self.test_file = 'nyoka/tests/test.csv'
-        self.X.to_csv(self.test_file,index=False)
-        self.adapa_utility = AdapaUtility()
+        cls.X = df[iris.feature_names]
+        cls.Y = df["Species"]
+        cls.Y_bin = df["Binary"]
+        cls.features = iris.feature_names
+        cls.test_file = 'nyoka/tests/test.csv'
+        cls.X.to_csv(cls.test_file,index=False)
+        cls.adapa_utility = AdapaUtility()
 
     def test_01_xgb_classifier(self):
         print("\ntest 01 (xgb classifier with preprocessing) [multi-class]\n")
@@ -86,7 +86,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         for i in range(1,4):
             f_name = "test"+str(i).zfill(2)+"xgboost.pmml"
             try:

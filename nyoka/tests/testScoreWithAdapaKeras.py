@@ -95,7 +95,6 @@ class TestCases(unittest.TestCase):
         self.assertEqual(abs(probabilities['cats'] - model_preds['cats']) < 0.00001, True)
         self.assertEqual(abs(probabilities['dogs'] - model_preds['dogs']) < 0.00001, True)
 
-    @unittest.skip("")
     def test_03_encoded_script(self):
         script_content = open("nyoka/tests/preprocess.py",'r').read()
         pmml_obj=KerasToPmml(self.model_final,
@@ -116,7 +115,6 @@ class TestCases(unittest.TestCase):
         self.assertEqual(script_content, content)
         self.assertEqual(len(self.model_final.layers), len(reconPmmlObj.DeepNetwork[0].NetworkLayer))
 
-    @unittest.skip("")
     def test_04_plain_text_script(self):
         
         script_content = open("nyoka/tests/preprocess.py",'r').read()
@@ -143,6 +141,11 @@ class TestCases(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        for f_name in ['2classMBNet.pmml','2classMBNetBase64.pmml',"script_with_keras.pmml"]:
+            try:
+                os.unlink(f_name)
+            except:
+                pass
         print("\n******* Finished *******\n")
      
 if __name__ == '__main__':

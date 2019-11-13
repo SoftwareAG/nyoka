@@ -34,7 +34,7 @@ class TestCases(unittest.TestCase):
         cls.Y = df["Species"]
         cls.Y_bin = df["Binary"]
         cls.features = iris.feature_names
-        self.test_file = 'nyoka/tests/test.csv'
+        cls.test_file = 'nyoka/tests/test.csv'
         cls.X.to_csv(cls.test_file,index=False)
         cls.adapa_utility = AdapaUtility()
 

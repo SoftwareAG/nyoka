@@ -87,6 +87,10 @@ class TestCases(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        try:
+            os.unlink('RetinaNet.pmml')
+        except:
+            pass
         print("\n******* Finished *******\n")
      
 if __name__ == '__main__':
