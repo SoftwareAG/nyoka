@@ -178,7 +178,7 @@ def get_outer_segmentation(model, derived_col_names, col_names, target_name, min
     else:
         segmentation = pml.Segmentation(
             multipleModelMethod=get_multiple_model_method(model),
-            Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
+            Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name)
         )
     return segmentation
 
