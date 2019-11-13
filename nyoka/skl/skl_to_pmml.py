@@ -300,6 +300,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                     col_names,
                                                     target_name,
                                                     mining_imp_val,
+                                                    categoric_values,
                                                     model_name
                                                  )}
     else:
@@ -482,7 +483,7 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
                                                     col_names,
                                                     target_name,
                                                     mining_imp_val,
-                                                    categoric_values)[0]
+                                                    categoric_values, model_name)[0]
         anomaly_detection_model.append(
             pml.AnomalyDetectionModel(
                 modelName=model_name if model_name else model.__class__.__name__,
@@ -500,7 +501,7 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
                                             col_names,
                                             'avg_path_length',
                                             mining_imp_val,
-                                            categoric_values)[0]
+                                            categoric_values, model_name)[0]
         anomaly_detection_model.append(
             pml.AnomalyDetectionModel(
                 modelName=model_name if model_name else "IsolationForest",
@@ -1110,7 +1111,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     mining_models.append(pml.MiningModel(
         modelName=model_name if model_name else model.__class__.__name__,
         Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name,
-                                            mining_imp_val, categoric_values),
+                                            mining_imp_val, categoric_values, model_name),
         **model_kwargs
     ))
     return mining_models
@@ -1180,7 +1181,7 @@ def get_multiple_model_method(model):
         return 'average'
 
 
-def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,model_name):
     
     """
     It returns the Segmentation element of a MiningModel.
@@ -1208,12 +1209,12 @@ def get_outer_segmentation(model, derived_col_names, col_names, target_name, min
     """
     segmentation = pml.Segmentation(
         multipleModelMethod=get_multiple_model_method(model),
-        Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values)
+        Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,model_name)
     )
     return segmentation
 
 
-def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,model_name):
 
     """
     It returns the Segment element of a Segmentation.
@@ -1242,13 +1243,13 @@ def get_segments(model, derived_col_names, col_names, target_name, mining_imp_va
     segments = None
     if 'GradientBoostingClassifier' in str(model.__class__):
         segments = get_segments_for_gbc(model, derived_col_names, col_names, target_name,
-                                        mining_imp_val, categoric_values)
+                                        mining_imp_val, categoric_values, model_name)
     else:
         segments = get_inner_segments(model, derived_col_names, col_names, 0)
     return segments
 
 
-def get_segments_for_gbc(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_segments_for_gbc(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, model_name):
     
     """
     It returns list of Segments element of a Segmentation.
@@ -1362,7 +1363,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                 )
             )
         )
-    reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values)[0]
+    reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values, model_name)[0]
     reg_model.Output = None
     if len(model.classes_) == 2:
         reg_model.normalizationMethod="logit"

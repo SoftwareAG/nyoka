@@ -56,23 +56,20 @@ class RetinanetToPmml:
     
     """
 
-    @property
     def inference_error(self):
         return "Given model is not an inference model!"
 
-    @property
     def input_format_error(self):
         return "Invalid input_format type. Valid values are `['image', 'encoded']`"
 
-    @property
     def backbone_name_error(self):
         return "Invalid backbone_name. Valid values are `['resnet', 'mobilenet', 'densenet', 'vgg']`"
 
     def __init__(self, model, input_shape, backbone_name, input_format="image", trained_classes=None,
      pmml_file_name="from_retinanet.pmml", script_args=None, model_name=None, description=None):
-        assert model.layers[-1].__class__.__name__ == 'FilterDetections', self.inference_error
-        assert input_format in ['image','encoded'], self.input_format_error
-        assert backbone_name in ['resnet', 'mobilenet', 'densenet', 'vgg'], self.backbone_name_error
+        assert model.layers[-1].__class__.__name__ == 'FilterDetections', self.inference_error()
+        assert input_format in ['image','encoded'], self.input_format_error()
+        assert backbone_name in ['resnet', 'mobilenet', 'densenet', 'vgg'], self.backbone_name_error()
 
         self.backbone_name = backbone_name
         self.model = model
