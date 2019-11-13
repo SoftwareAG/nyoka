@@ -31,10 +31,10 @@ from dataUtilities import DataUtility
 class TestCases(unittest.TestCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         print("******* Unit Test for sklearn *******")
-        self.data_utility = DataUtility()
-        self.adapa_utility = AdapaUtility()
+        cls.data_utility = DataUtility()
+        cls.adapa_utility = AdapaUtility()
 
     def test_01_linear_regression(self):
         print("\ntest 01 (linear regression without preprocessing)\n")
@@ -812,7 +812,7 @@ class TestCases(unittest.TestCase):
 
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         print("\n******* Finished *******\n")
             
 if __name__ == '__main__':

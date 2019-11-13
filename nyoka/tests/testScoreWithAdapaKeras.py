@@ -27,17 +27,17 @@ import pandas as pd
 class TestCases(unittest.TestCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         print("******* Unit Test for Keras *******")
-        self.adapa_utility = AdapaUtility()
-        self.data_utility = DataUtility()
+        cls.adapa_utility = AdapaUtility()
+        cls.data_utility = DataUtility()
         model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
         activType='sigmoid'
         x = model.output
         x = Flatten()(x)
         x = Dense(1024, activation="relu")(x)
         predictions = Dense(2, activation=activType)(x)
-        self.model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
+        cls.model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
 
 
     def test_01_image_classifier_with_image_as_input(self):
@@ -142,7 +142,7 @@ class TestCases(unittest.TestCase):
 
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         print("\n******* Finished *******\n")
      
 if __name__ == '__main__':

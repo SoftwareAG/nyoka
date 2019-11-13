@@ -13,7 +13,7 @@ from datetime import datetime
 
 
 
-def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml'):
+def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml',model_name=None, description=None):
     """
     Exports LGBM pipeline object into pmml
 
@@ -27,6 +27,10 @@ def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml'):
         Name of the target column.
     pmml_f_name : String
         Name of the pmml file. (Default='from_lgbm.pmml')
+    model_name : string (optional)
+        Name of the model
+    description : string (optional)
+        Description of the model
 
     Returns
     -------
@@ -57,10 +61,11 @@ def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml'):
                                       col_names,
                                       target_name,
                                       mining_imp_val,
-                                      categoric_values)
+                                      categoric_values,
+                                      model_name)
         pmml = pml.PMML(
             version=sklToPmml.get_version(),
-            Header=sklToPmml.get_header(),
+            Header=sklToPmml.get_header(description),
             MiningBuildTask=sklToPmml.get_mining_buildtask(pipeline),
             DataDictionary=sklToPmml.get_data_dictionary(model, col_names, target_name, categoric_values),
             **trfm_dict_kwargs,
@@ -69,7 +74,7 @@ def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml'):
         pmml.export(outfile=open(pmml_f_name, "w"), level=0)
         
 
-def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name):
     """
      It returns all the pmml elements.
 
@@ -87,6 +92,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -98,10 +105,11 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                       col_names,
                                                       target_name,
                                                       mining_imp_val,
-                                                      categoric_values)}
+                                                      categoric_values,
+                                                      model_name)}
     return algo_kwargs
 
-def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name):
     """
     It returns the Mining Model element of the model
 
@@ -119,6 +127,8 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
         Contains the mining_attributes,mining_strategy, mining_impute_value.
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -127,15 +137,15 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     model_kwargs = sklToPmml.get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
     mining_models = list()
     mining_models.append(pml.MiningModel(
-        modelName="LightGBModel",
-        Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values),
+        modelName=model_name if model_name else "LightGBModel",
+        Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name),
         **model_kwargs
     ))
     return mining_models
 
 
 
-def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name):
     """
     It returns the Segmentation element of the model.
 
@@ -153,6 +163,8 @@ def get_outer_segmentation(model, derived_col_names, col_names, target_name, min
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -162,15 +174,15 @@ def get_outer_segmentation(model, derived_col_names, col_names, target_name, min
     """
 
     if 'LGBMRegressor' in str(model.__class__):
-        segmentation=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
+        segmentation=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name)
     else:
         segmentation = pml.Segmentation(
             multipleModelMethod=get_multiple_model_method(model),
-            Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
+            Segment=get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name)
         )
     return segmentation
 
-def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_segments(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name):
     """
     It returns the Segment element of the model.
 
@@ -188,6 +200,8 @@ def get_segments(model, derived_col_names, col_names, target_name, mining_imp_va
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
    Returns
    -------
@@ -197,7 +211,7 @@ def get_segments(model, derived_col_names, col_names, target_name, mining_imp_va
    """
     segments = None
     if 'LGBMClassifier' in str(model.__class__):
-        segments=get_segments_for_lgbc(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
+        segments=get_segments_for_lgbc(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name)
     elif 'LGBMRegressor' in str(model.__class__):
         segments=get_segments_for_lgbr(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values)
     return segments
@@ -317,7 +331,7 @@ def create_node(obj, main_node,derived_col_names):
         main_node.add_Node(create_right_node(obj,derived_col_names))
 
 
-def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, mining_imp_val,categoric_values):
+def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, mining_imp_val,categoric_values,model_name):
     """
     It returns all the segments of the LGB classifier.
 
@@ -335,6 +349,8 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -359,7 +375,7 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
         segments_equal_to_estimators = generate_Segments_Equal_To_Estimators(main_key_value, derived_col_names,
                                                                              feature_names)
         First_segment = xgboostToPmml.add_segmentation(model,segments_equal_to_estimators, mining_schema_for_1st_segment, out, 1)
-        reg_model = sklToPmml.get_regrs_models(model, oField, oField, target_name, mining_imp_val, categoric_values)[0]
+        reg_model = sklToPmml.get_regrs_models(model, oField, oField, target_name, mining_imp_val, categoric_values,model_name)[0]
         reg_model.normalizationMethod = 'logit'
         last_segment = pml.Segment(True_=pml.True_(), id=2,
                                    RegressionModel=reg_model)
@@ -389,7 +405,7 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
             segments_equal_to_class = xgboostToPmml.add_segmentation(model,segments_equal_to_estimators,
                                                        mining_schema_for_1st_segment, out, index)
             segments.append(segments_equal_to_class)
-        reg_model = sklToPmml.get_regrs_models(model,oField,oField,target_name,mining_imp_val,categoric_values)[0]
+        reg_model = sklToPmml.get_regrs_models(model,oField,oField,target_name,mining_imp_val,categoric_values,model_name)[0]
         reg_model.normalizationMethod = 'softmax'
         last_segment = pml.Segment(True_=pml.True_(), id=model.n_classes_ + 1,
                                    RegressionModel=reg_model)

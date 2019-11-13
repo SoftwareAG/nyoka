@@ -31,7 +31,7 @@ class TestMethods(unittest.TestCase):
 
         pipeline_obj.fit(irisd[features],irisd[target])
 
-        xgboost_to_pmml(pipeline_obj,features,target,"xgbc_pmml.pmml")
+        xgboost_to_pmml(pipeline_obj,features,target,"xgbc_pmml.pmml",model_name="testModel")
 
         self.assertEqual(os.path.isfile("xgbc_pmml.pmml"),True)
 
@@ -51,7 +51,7 @@ class TestMethods(unittest.TestCase):
 
         pipeline_obj.fit(auto[feature_names],auto[target_name])
 
-        xgboost_to_pmml(pipeline_obj,feature_names,target_name,"xgbr_pmml.pmml")
+        xgboost_to_pmml(pipeline_obj,feature_names,target_name,"xgbr_pmml.pmml", description="A test model")
 
         self.assertEqual(os.path.isfile("xgbr_pmml.pmml"),True)
 

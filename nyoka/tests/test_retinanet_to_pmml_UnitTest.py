@@ -11,13 +11,13 @@ from nyoka import PMML44 as pml
 class TestMethods(unittest.TestCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         url = 'https://github.com/fizyr/keras-retinanet/releases/download/0.5.1/resnet50_coco_best_v2.1.0.h5'
         r = requests.get(url)
 
         with open('resnet50_coco_best_v2.1.0.h5', 'wb') as f:
             f.write(r.content)
-        self.model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
+        cls.model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
         
     
     def test_01(self):
@@ -27,7 +27,9 @@ class TestMethods(unittest.TestCase):
             self.model,
             input_shape=(224,224,3),
             backbone_name=backbone,
-            pmml_file_name="retinanet_with_coco_1.pmml"
+            pmml_file_name="retinanet_with_coco_1.pmml",
+            model_name="RetinaNet model",
+            description="A Retinanet model with resnet as backbone"
         )
         recon_pmml_obj = pml.parse("retinanet_with_coco_1.pmml",True)
         binary_buffered = recon_pmml_obj.DataDictionary.DataField[0].Extension[0].value

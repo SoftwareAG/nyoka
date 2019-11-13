@@ -18,9 +18,9 @@ from adapaUtilities import AdapaUtility
 class TestCases(unittest.TestCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         print("******* Unit Test for Statsmodels *******")
-        self.adapa_utility = AdapaUtility()
+        cls.adapa_utility = AdapaUtility()
 
     def getData(self):
         # Non Seasonal Data
@@ -67,9 +67,25 @@ class TestCases(unittest.TestCase):
         model_pred = result.forecast(5)[-1]
         self.assertEqual("{:.9f}".format(z_pred), "{:.9f}".format(model_pred))
 
+    def test_03(self):
+        ts_data = self.getData()
+        f_name='arima212_c_car_sold.pmml'
+        model = ARIMA(ts_data,order=(2,1,2))
+        result = model.fit(trend = 'c', method = 'mle')
+        ArimaToPMML(result, f_name)
+
+        model_name = self.adapa_utility.upload_to_zserver(f_name)
+        z_pred = self.adapa_utility.score_single_record(model_name)
+        model_pred = result.forecast()[0][0]
+        self.assertEqual(model_pred, z_pred['predicted_cars_sold'])
+
+        z_pred = self.adapa_utility.score_in_zserver(model_name, 'nyoka/tests/test_car_sold.csv','TS')
+        model_pred = result.forecast(5)[0][-1]
+        self.assertEqual(model_pred, z_pred)
+
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         print("\n******* Finished *******\n")
      
 if __name__ == '__main__':

@@ -26,7 +26,7 @@ import pandas as pd
 class TestCases(unittest.TestCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         print("******* Unit Test for RetinaNet *******")
         url = 'https://github.com/fizyr/keras-retinanet/releases/download/0.5.1/resnet50_coco_best_v2.1.0.h5'
         r = requests.get(url)
@@ -35,9 +35,9 @@ class TestCases(unittest.TestCase):
             f.write(r.content)
 
         classes = json.load(open("nyoka/tests/categories_coco.json",'r'))
-        self.classes = list(classes.values())
-        self.adapa_utility = AdapaUtility()
-        self.model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
+        cls.classes = list(classes.values())
+        cls.adapa_utility = AdapaUtility()
+        cls.model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
 
 
     def test_01(self):
@@ -86,7 +86,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(boxes_cnt, 0)
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         print("\n******* Finished *******\n")
      
 if __name__ == '__main__':

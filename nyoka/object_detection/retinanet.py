@@ -45,6 +45,10 @@ class RetinanetToPmml:
             encode : boolean
                 The representation of the script in PMML. If True, the script will be represented as base64 encoded string, else as plain text.
                 If not provided, default value `True` is considered.
+    model_name : string (optional)
+        Name of the model
+    description : string (optional)
+        Description of the model
 
     Returns
     -------
@@ -52,29 +56,28 @@ class RetinanetToPmml:
     
     """
 
-    @property
     def inference_error(self):
         return "Given model is not an inference model!"
 
-    @property
     def input_format_error(self):
         return "Invalid input_format type. Valid values are `['image', 'encoded']`"
 
-    @property
     def backbone_name_error(self):
         return "Invalid backbone_name. Valid values are `['resnet', 'mobilenet', 'densenet', 'vgg']`"
 
     def __init__(self, model, input_shape, backbone_name, input_format="image", trained_classes=None,
-     pmml_file_name="from_retinanet.pmml", script_args=None):
-        assert model.layers[-1].__class__.__name__ == 'FilterDetections', self.inference_error
-        assert input_format in ['image','encoded'], self.input_format_error
-        assert backbone_name in ['resnet', 'mobilenet', 'densenet', 'vgg'], self.backbone_name_error
+     pmml_file_name="from_retinanet.pmml", script_args=None, model_name=None, description=None):
+        assert model.layers[-1].__class__.__name__ == 'FilterDetections', self.inference_error()
+        assert input_format in ['image','encoded'], self.input_format_error()
+        assert backbone_name in ['resnet', 'mobilenet', 'densenet', 'vgg'], self.backbone_name_error()
 
         self.backbone_name = backbone_name
         self.model = model
         self.input_shape = input_shape
         self.input_format = input_format
         self.script_args = script_args
+        self.model_name = model_name if model_name else "KerasRetinaNet"+input_format.title()
+        self.description = description if description else "RetinaNet model in PMML"
 
         self.pmml_obj = None
         self._pyramid_layers = ("P3", "P4", "P5", "P6", "P7")
@@ -114,7 +117,7 @@ class RetinanetToPmml:
             warnings.warn(f"trained_classes are not provided. Maximum 80 classes will be considered.")
             trained_classes = ["Category_"+str(i+1).zfill(2) for i in range(80)]
 
-        group1_pmml = kerasAPI.KerasToPmml(mod,model_name="KerasRetinaNet"+self.input_format.title(),dataSet=input_format,
+        group1_pmml = kerasAPI.KerasToPmml(mod,model_name=self.model_name,dataSet=input_format, description=self.description,
          predictedClasses=trained_classes, script_args=self.script_args)
         return group1_pmml
 
@@ -331,10 +334,6 @@ class RetinanetToPmml:
             Apply = apply
         )
         return pml.LocalTransformations(DerivedField = [der_fld])
-    
-    @property
-    def description(self):
-        return 'RetinaNet model in PMML'
 
     
     def generate_pmml(self,model,input_shape,input_format,trained_classes):
