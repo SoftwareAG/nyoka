@@ -77,7 +77,7 @@ class RetinanetToPmml:
         self.input_format = input_format
         self.script_args = script_args
         self.model_name = model_name
-        self.description = description
+        self.description = description if description else "RetinaNet model in PMML"
 
         self.pmml_obj = None
         self._pyramid_layers = ("P3", "P4", "P5", "P6", "P7")
@@ -335,10 +335,6 @@ class RetinanetToPmml:
             Apply = apply
         )
         return pml.LocalTransformations(DerivedField = [der_fld])
-    
-    @property
-    def description(self):
-        return 'RetinaNet model in PMML'
 
     
     def generate_pmml(self,model,input_shape,input_format,trained_classes):
