@@ -10,7 +10,7 @@ from datetime import datetime
 import math
 import metadata
 
-def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_sklearn.pmml'):
+def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_sklearn.pmml', model_name=None, description=None):
 
     """
     Exports scikit-learn pipeline object into pmml
@@ -25,6 +25,10 @@ def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_skl
         Name of the target column. (Default='target')
     pmml_f_name : String
         Name of the pmml file. (Default='from_sklearn.pmml')
+    model_name : string (optional)
+        Name of the model
+    description : string (optional)
+        Description of the model
 
     Returns
     -------
@@ -56,12 +60,13 @@ def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_skl
                                       col_names,
                                       target_name,
                                       mining_imp_val,
-                                      categoric_values)
+                                      categoric_values,
+                                      model_name)
              
         pmml = pml.PMML(
             version=get_version(),
-            Header=get_header(),
-            MiningBuildTask=get_mining_buildtask(pipeline),
+            Header=get_header(description),
+            # MiningBuildTask=get_mining_buildtask(pipeline),
             DataDictionary=get_data_dictionary(model, col_names, target_name, categoric_values),
             **trfm_dict_kwargs,
             **PMML_kwargs
@@ -164,7 +169,7 @@ def any_in(seq_a, seq_b):
     return any(elem in seq_b for elem in seq_a)
 
 
-def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, model_name):
 
     """
     It returns all the pmml elements.
@@ -183,6 +188,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -208,7 +215,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                     col_names,
                                                     target_name,
                                                     mining_imp_val,
-                                                    categoric_values)}
+                                                    categoric_values,
+                                                    model_name)}
     elif any_in(regression_mining_model_names, skl_mdl_super_cls_names):
         if len(model.classes_) == 2:
             algo_kwargs = {'RegressionModel': get_regrs_models(model,
@@ -216,21 +224,24 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                            col_names,
                                                            target_name,
                                                            mining_imp_val,
-                                                           categoric_values)}
+                                                           categoric_values,
+                                                           model_name)}
         else:
             algo_kwargs = {'MiningModel': get_reg_mining_models(model,
                                                                 derived_col_names,
                                                                 col_names,
                                                                 target_name,
                                                                 mining_imp_val,
-                                                                categoric_values)}
+                                                                categoric_values,
+                                                                model_name)}
     elif any_in(regression_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'RegressionModel': get_regrs_models(model,
                                                            derived_col_names,
                                                            col_names,
                                                            target_name,
                                                            mining_imp_val,
-                                                           categoric_values)}
+                                                           categoric_values,
+                                                           model_name)}
     elif any_in(support_vector_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'SupportVectorMachineModel':
                            get_supportVectorMachine_models(model,
@@ -238,28 +249,32 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                            col_names,
                                                            target_name,
                                                            mining_imp_val,
-                                                           categoric_values)}
+                                                           categoric_values,
+                                                           model_name)}
     elif any_in(mining_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'MiningModel': get_ensemble_models(model,
                                                           derived_col_names,
                                                           col_names,
                                                           target_name,
                                                           mining_imp_val,
-                                                          categoric_values)}
+                                                          categoric_values,
+                                                          model_name)}
     elif any_in(neurl_netwk_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'NeuralNetwork': get_neural_models(model,
                                                           derived_col_names,
                                                           col_names,
                                                           target_name,
                                                           mining_imp_val,
-                                                          categoric_values)}
+                                                          categoric_values,
+                                                          model_name)}
     elif any_in(naive_bayes_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'NaiveBayesModel': get_naiveBayesModel(model,
                                                               derived_col_names,
                                                               col_names,
                                                               target_name,
                                                               mining_imp_val,
-                                                              categoric_values)}
+                                                              categoric_values,
+                                                              model_name)}
     elif any_in(nearest_neighbour_names, skl_mdl_super_cls_names):
         algo_kwargs = {'NearestNeighborModel':
                            get_nearestNeighbour_model(model,
@@ -267,7 +282,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                       col_names,
                                                       target_name,
                                                       mining_imp_val,
-                                                      categoric_values)}
+                                                      categoric_values,
+                                                      model_name)}
     elif any_in(anomaly_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'AnomalyDetectionModel':
                             get_anomalydetection_model(model,
@@ -275,7 +291,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                         col_names,
                                                         target_name,
                                                         mining_imp_val,
-                                                        categoric_values)}
+                                                        categoric_values,
+                                                        model_name)}
     elif any_in(clustering_model_names, skl_mdl_super_cls_names):
         algo_kwargs = {'ClusteringModel':
                             get_clustering_model(model,
@@ -283,7 +300,7 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                     col_names,
                                                     target_name,
                                                     mining_imp_val,
-                                                    categoric_values
+                                                    model_name
                                                  )}
     else:
         raise NotImplementedError("{} is not Implemented!".format(model.__class__.__name__))
@@ -322,7 +339,7 @@ def get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_va
     return model_kwargs
 
 
-def get_reg_mining_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_reg_mining_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, model_name):
     """
     Creates xml elements for multi-class linear models
 
@@ -340,6 +357,8 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -350,7 +369,7 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
     num_classes = len(model.classes_)
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
 
-    mining_model = pml.MiningModel(modelName=model.__class__.__name__,**model_kwargs)
+    mining_model = pml.MiningModel(modelName=model_name if model_name else model.__class__.__name__,**model_kwargs)
     inner_mining_schema = [mfield for mfield in model_kwargs['MiningSchema'].MiningField if mfield.usageType != 'target']
     segmentation = pml.Segmentation(multipleModelMethod="modelChain")
     for idx in range(num_classes):
@@ -428,7 +447,7 @@ def get_reg_tab_for_reg_mining_model(model, col_names, index, categorical_values
     return [reg_tab]
 
 
-def get_anomalydetection_model(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_anomalydetection_model(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values, model_name):
     """
     Creates xml elements for anomaly detction models
 
@@ -446,6 +465,8 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
 
     Returns
@@ -464,7 +485,7 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
                                                     categoric_values)[0]
         anomaly_detection_model.append(
             pml.AnomalyDetectionModel(
-                modelName=model.__class__.__name__,
+                modelName=model_name if model_name else model.__class__.__name__,
                 algorithmType="ocsvm",
                 functionName="regression",
                 MiningSchema=get_mining_schema(model, col_names, target_name, mining_imp_val,categoric_values),
@@ -482,7 +503,7 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
                                             categoric_values)[0]
         anomaly_detection_model.append(
             pml.AnomalyDetectionModel(
-                modelName="IsolationForests",
+                modelName=model_name if model_name else "IsolationForest",
                 algorithmType="iforest",
                 functionName="regression",
                 MiningSchema=mining_schema,
@@ -541,7 +562,7 @@ def get_anomaly_detection_output(model):
     return pml.Output(OutputField=output_fields)
 
 
-def get_clustering_model(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_clustering_model(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name):
     """
     Generates PMML elements for clustering models
 
@@ -559,6 +580,8 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -574,7 +597,7 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
     clustering_models.append(
         pml.ClusteringModel(
             modelClass="centerBased",
-            modelName=model.__class__.__name__,
+            modelName=model_name if model_name else model.__class__.__name__,
             numberOfClusters=get_cluster_num(model),
             ComparisonMeasure=get_comp_measure(),
             ClusteringField=get_clustering_flds(derived_col_names),
@@ -701,7 +724,7 @@ def get_clustering_flds(col_names):
     return clustering_flds
 
 
-def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name):
     
     """
     Generates PMML elements for nearest neighbour model
@@ -720,6 +743,8 @@ def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name,
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
     
 
     Returns
@@ -732,7 +757,7 @@ def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name,
     nearest_neighbour_model = list()
     nearest_neighbour_model.append(
         pml.NearestNeighborModel(
-            modelName=model.__class__.__name__,
+            modelName=model_name if model_name else model.__class__.__name__,
             continuousScoringMethod='average',
             algorithmName="KNN",
             numberOfNeighbors=model.n_neighbors,
@@ -891,7 +916,7 @@ def get_knn_inputs(col_names):
     return pml.KNNInputs(KNNInput=knnInput)
 
 
-def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name):
 
     """
     Generates PMML elements for naive bayes models
@@ -910,6 +935,8 @@ def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -919,7 +946,7 @@ def get_naiveBayesModel(model, derived_col_names, col_names, target_name, mining
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
     naive_bayes_model = list()
     naive_bayes_model.append(pml.NaiveBayesModel(
-        modelName=model.__class__.__name__,
+        modelName=model_name if model_name else model.__class__.__name__,
         BayesInputs=get_bayes_inputs(model, derived_col_names),
         BayesOutput=get_bayes_output(model, target_name),
         threshold=get_threshold(),
@@ -1005,7 +1032,7 @@ def get_bayes_inputs(model, derived_col_names):
 
 
 def get_supportVectorMachine_models(model, derived_col_names, col_names, target_names,
- 									mining_imp_val, categoric_values):
+ 									mining_imp_val, categoric_values,model_name):
     
     """
     Generates PMML elements for support vector machine models
@@ -1024,6 +1051,8 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -1035,7 +1064,7 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
     supportVector_models = list()
     kernel_type = get_kernel_type(model)
     supportVector_models.append(pml.SupportVectorMachineModel(
-        modelName=model.__class__.__name__,
+        modelName=model_name if model_name else model.__class__.__name__,
         classificationMethod=get_classificationMethod(model),
         VectorDictionary=get_vectorDictionary(model, derived_col_names, categoric_values),
         SupportVectorMachine=get_supportVectorMachine(model),
@@ -1046,7 +1075,7 @@ def get_supportVectorMachine_models(model, derived_col_names, col_names, target_
     return supportVector_models
 
 
-def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,model_name):
     
     """
     Generates PMML elemenets for ensemble models
@@ -1065,6 +1094,8 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
         Contains the mining_attributes,mining_strategy, mining_impute_value.
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -1077,7 +1108,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
         
     mining_models = list()
     mining_models.append(pml.MiningModel(
-        modelName=model.__class__.__name__,
+        modelName=model_name if model_name else model.__class__.__name__,
         Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name,
                                             mining_imp_val, categoric_values),
         **model_kwargs
@@ -1586,7 +1617,7 @@ def get_supportVectorMachine(model):
     return support_vector_machines
 
 
-def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name):
 
     """
     Generates PMML elements for tree models
@@ -1605,6 +1636,8 @@ def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -1615,14 +1648,14 @@ def get_tree_models(model, derived_col_names, col_names, target_name, mining_imp
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
     tree_models = list()
     tree_models.append(pml.TreeModel(
-        modelName=model.__class__.__name__,
+        modelName=model_name if model_name else model.__class__.__name__,
         Node=get_node(model, derived_col_names),
         **model_kwargs
     ))
     return tree_models
 
 
-def get_neural_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_neural_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,model_name):
 
     """
     Generates PMML elements for neural network models
@@ -1641,6 +1674,8 @@ def get_neural_models(model, derived_col_names, col_names, target_name, mining_i
         Contains the mining_attributes,mining_strategy, mining_impute_value.
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -1652,7 +1687,7 @@ def get_neural_models(model, derived_col_names, col_names, target_name, mining_i
     neural_model = list()
     neural_layers, neural_outs = get_neural_layer(model, derived_col_names, target_name)
     neural_model.append(pml.NeuralNetwork(
-        modelName=model.__class__.__name__,
+        modelName=model_name if model_name else model.__class__.__name__,
         threshold='0',
         altitude='1.0',
         activationFunction=get_funct(model),
@@ -1686,7 +1721,7 @@ def get_funct(sk_model):
     return a_fn
 
 
-def get_regrs_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values):
+def get_regrs_models(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,model_name):
 
     """
     Generates PMML elements for linear models
@@ -1705,6 +1740,8 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -1716,7 +1753,7 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
         model_kwargs['normalizationMethod'] = 'logit'
     regrs_models = list()
     regrs_models.append(pml.RegressionModel(
-        modelName=model.__class__.__name__,
+        modelName=model_name if model_name else model.__class__.__name__,
         RegressionTable=get_regrs_tabl(model, derived_col_names, target_name, categoric_values),
         **model_kwargs
     ))
@@ -2221,7 +2258,7 @@ def get_version():
 
 from nyoka import metadata
 
-def get_header():
+def get_header(description):
 
     """
     It returns the Header element of the pmml.
@@ -2233,7 +2270,7 @@ def get_header():
 
      """
     copyryt = "Copyright (c) 2018 Software AG"
-    description = "Default Description"
+    description = description if description else "Default Description"
     timestamp = pml.Timestamp(datetime.now())
     application=pml.Application(name="Nyoka",version=metadata.__version__)
     header = pml.Header(copyright=copyryt, description=description, Timestamp=timestamp, Application=application)

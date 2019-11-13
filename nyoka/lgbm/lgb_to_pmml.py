@@ -13,7 +13,7 @@ from datetime import datetime
 
 
 
-def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml'):
+def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml',model_name=None, description=None):
     """
     Exports LGBM pipeline object into pmml
 
@@ -27,6 +27,10 @@ def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml'):
         Name of the target column.
     pmml_f_name : String
         Name of the pmml file. (Default='from_lgbm.pmml')
+    model_name : string (optional)
+        Name of the model
+    description : string (optional)
+        Description of the model
 
     Returns
     -------
@@ -57,10 +61,11 @@ def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml'):
                                       col_names,
                                       target_name,
                                       mining_imp_val,
-                                      categoric_values)
+                                      categoric_values,
+                                      model_name)
         pmml = pml.PMML(
             version=sklToPmml.get_version(),
-            Header=sklToPmml.get_header(),
+            Header=sklToPmml.get_header(description),
             MiningBuildTask=sklToPmml.get_mining_buildtask(pipeline),
             DataDictionary=sklToPmml.get_data_dictionary(model, col_names, target_name, categoric_values),
             **trfm_dict_kwargs,
@@ -69,7 +74,7 @@ def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml'):
         pmml.export(outfile=open(pmml_f_name, "w"), level=0)
         
 
-def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name):
     """
      It returns all the pmml elements.
 
@@ -87,6 +92,8 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
         Contains the mining_attributes,mining_strategy, mining_impute_value
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -98,10 +105,11 @@ def get_PMML_kwargs(model, derived_col_names, col_names, target_name, mining_imp
                                                       col_names,
                                                       target_name,
                                                       mining_imp_val,
-                                                      categoric_values)}
+                                                      categoric_values,
+                                                      model_name)}
     return algo_kwargs
 
-def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values):
+def get_ensemble_models(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values,model_name):
     """
     It returns the Mining Model element of the model
 
@@ -119,6 +127,8 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
         Contains the mining_attributes,mining_strategy, mining_impute_value.
     categoric_values : tuple
         Contains Categorical attribute names and its values
+    model_name : string
+        Name of the model
 
     Returns
     -------
@@ -127,7 +137,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     model_kwargs = sklToPmml.get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
     mining_models = list()
     mining_models.append(pml.MiningModel(
-        modelName="LightGBModel",
+        modelName=model_name if model_name else "LightGBModel",
         Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val,categoric_values),
         **model_kwargs
     ))

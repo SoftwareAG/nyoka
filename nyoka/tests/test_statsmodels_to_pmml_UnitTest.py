@@ -86,7 +86,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        ExponentialSmoothingToPMML(results_obj, f_name)
+        ExponentialSmoothingToPMML(results_obj, f_name, model_name="Test2", description="test model")
         self.assertEqual(os.path.isfile(f_name),True)
         
     @unittest.skip("")
@@ -336,7 +336,7 @@ class TestMethods(unittest.TestCase):
         f_name='non_seasonal_arima1.pmml'
         model = ARIMA(ts_data,order=(9, 2, 0))
         result = model.fit(trend = 'c', method = 'css-mle', solver = 'lbfgs')
-        ArimaToPMML(result, f_name)
+        ArimaToPMML(result, f_name, model_name="arima_920")
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_non_seasonal_arima2(self):
@@ -344,7 +344,7 @@ class TestMethods(unittest.TestCase):
         f_name='non_seasonal_arima2.pmml'
         model = ARIMA(ts_data,order=(9, 2, 0))
         result = model.fit(trend = 'c', method = 'css-mle', solver = 'nm')
-        ArimaToPMML(result, f_name)
+        ArimaToPMML(result, f_name, description="A test model")
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_non_seasonal_arima3(self):

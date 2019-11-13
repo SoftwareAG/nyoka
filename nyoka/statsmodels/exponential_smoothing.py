@@ -9,7 +9,7 @@ from PMML44 import *
 import numpy as np
 from datetime import datetime
 import metadata
-
+import warnings
 
 class ExponentialSmoothingToPMML:
     """
@@ -17,15 +17,16 @@ class ExponentialSmoothingToPMML:
 
     Parameters:
     -----------
-    time_series_data: (Optional)
-        Pandas Series object
-    model_obj: (Optional)
-        Instance of ExponentialSmoothing from statsmodels
     results_obj: 
         Instance of HoltWintersResults from statsmodels
     pmml_file_name: string
+        Name of the PMML
+    model_name : string (optional)
+        Name of the model
+    description : string (optional)
+        Description of the model
     """
-    def __init__(self, results_obj=None, pmml_file_name="from_ExponentialSmoothing.pmml"):
+    def __init__(self, results_obj=None, pmml_file_name="from_ExponentialSmoothing.pmml", model_name=None, description=None):
 
         def get_time_value_objs():
             """
@@ -49,7 +50,7 @@ class ExponentialSmoothingToPMML:
         def get_pmml_datatype_optype(series_obj):
             pmml_data_type = None
             pmml_op_type = None
-            if str(series_obj.dtype) in {'datetime64[ns]', 'datetime64[ns, tz]', 'timedelta[ns]'}:
+            if str(series_obj.dtype) in ['datetime64[ns]', 'datetime64[ns, tz]', 'timedelta[ns]']:
                 pmml_data_type = 'dateTime'
                 pmml_op_type = 'continuous'
             elif str(series_obj.dtype) == 'float32':
@@ -58,7 +59,7 @@ class ExponentialSmoothingToPMML:
             elif str(series_obj.dtype) == 'float64':
                 pmml_data_type = 'double'
                 pmml_op_type = 'continuous'
-            elif str(series_obj.dtype) in {'int64', 'int32'}:
+            elif str(series_obj.dtype) in ['int64', 'int32']:
                 pmml_data_type = 'integer'
                 pmml_op_type = 'continuous'
             return pmml_data_type, pmml_op_type
@@ -154,13 +155,13 @@ class ExponentialSmoothingToPMML:
         pmml = PMML(
             version='4.4',
             Header=Header(
-                copyright="Copyright (c) 2018 Software AG", description="Exponential Smoothing Model",
+                copyright="Copyright (c) 2018 Software AG", description=description if description else "Exponential Smoothing Model",
                 Timestamp=Timestamp(datetime.utcnow()),
                 Application=Application(name="Nyoka",version=metadata.__version__)
             ),
             DataDictionary=DataDictionary(numberOfFields=n_columns, DataField=get_data_field_objs()),
             TimeSeriesModel=[TimeSeriesModel(
-                modelName='simple exponential smoothing',
+                modelName= model_name if model_name else 'simple exponential smoothing',
                 functionName=function_name, bestFit=best_fit, isScorable=True,
                 MiningSchema=MiningSchema(MiningField=get_mining_field_objs()),
                 TimeSeries=[TimeSeries(

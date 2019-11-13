@@ -47,7 +47,7 @@ class TestMethods(unittest.TestCase):
         ])
 
         pipeline_obj.fit(irisd[features],irisd[target])
-        skl_to_pmml(pipeline_obj,features,target,f_name)
+        skl_to_pmml(pipeline_obj,features,target,f_name, model_name="testModel")
         pmml_obj = pml.parse(f_name,True)
         ## 1
         svms = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
@@ -75,7 +75,7 @@ class TestMethods(unittest.TestCase):
 
         pipeline_obj.fit(irisd[features],irisd[target])
 
-        skl_to_pmml(pipeline_obj,features,target,f_name)
+        skl_to_pmml(pipeline_obj,features,target,f_name, description="A test model")
 
         pmml_obj = pml.parse(f_name,True)
         ##1

@@ -30,7 +30,7 @@ class TestMethods(unittest.TestCase):
 
         pipeline_obj.fit(irisd[features],irisd[target])
 
-        lgb_to_pmml(pipeline_obj,features,target,"lgbmc_pmml.pmml")
+        lgb_to_pmml(pipeline_obj,features,target,"lgbmc_pmml.pmml", model_name="MyLGBM", description="A Model for test")
 
         self.assertEqual(os.path.isfile("lgbmc_pmml.pmml"),True)
 

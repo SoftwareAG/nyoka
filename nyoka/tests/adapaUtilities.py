@@ -32,7 +32,6 @@ class AdapaUtility:
         return res.status_code
 
     def score_single_record(self, model_name):
-        self.delete_all_models()
         res = requests.get(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password))
         return res.json()['outputs'][0]
 

@@ -10,7 +10,6 @@ from PMML44 import *
 from datetime import datetime
 import metadata
 import warnings
-warnings.formatwarning = lambda msg, *args, **kwargs: str(msg)+'\n'
 import math
 
 class ArimaToPMML:
@@ -23,13 +22,17 @@ class ArimaToPMML:
         Instance of ARIMAResultsWrapper/SARIMAXResultsWrapper from statsmodels
     pmml_file_name: string
         Name of the PMML
+    model_name : string (optional)
+        Name of the model
+    description : string (optional)
+        Description of the model
     Returns
     -------
     Generates PMML object and exports it to `pmml_file_name`
     """
-    def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml"):
+    def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml", model_name=None, description=None):
 
-        def ExportToPMML(model_name = None, arima_obj = None):
+        def ExportToPMML(model_name, arima_obj, description):
             n_columns = 2  # because we are dealing with Series object plus h (horizon)
             n_samples = results_obj.model.nobs
             function_name = 'timeSeries'
@@ -37,7 +40,7 @@ class ArimaToPMML:
 
             pmml = PMML(
                 version = '4.4',
-                Header = Header(copyright = "Copyright (c) 2018 Software AG", description = self.model_type+" ARIMA Model",  
+                Header = Header(copyright = "Copyright (c) 2018 Software AG", description = description,  
                                 Timestamp = Timestamp(datetime.utcnow()),
                                 Application=Application(name="Nyoka",version=metadata.__version__)),
                 DataDictionary = DataDictionary(numberOfFields = n_columns, 
@@ -113,10 +116,7 @@ class ArimaToPMML:
             else:
                 d = 0
             q = sm_results._results.k_ma
-            if sm_results.model.method == 'css':
-                pred_method = "conditionalLeastSquares"
-            elif sm_results.model.method in ['mle', 'css-mle']:
-                pred_method = "exactLeastSquares"
+            pred_method = "conditionalLeastSquares"
 
             ar_content = ' '.join([str(i) for i in sm_results._results.arparams] if int(p) > 0 else [])
             ar_params_array = ArrayType(content = ar_content, n = p, type_ = 'real')
@@ -209,16 +209,16 @@ class ArimaToPMML:
             self.ts_name = 'value'
 
         if results_obj.model.__class__.__name__ == 'SARIMAX':
-            self.model_type = "Seasonal"
+            description = description if description else "Seasonal Arima Model"
             sarimax_obj = get_sarimax_obj(results_obj)
-            model_name = 'SARIMAX_'+self.ts_name
-            ExportToPMML(model_name = model_name, arima_obj = sarimax_obj)
+            model_name = model_name if model_name else 'SARIMAX_'+self.ts_name
+            ExportToPMML(model_name=model_name, arima_obj=sarimax_obj, description=description)
 
         elif results_obj.model.__class__.__name__ in ['ARIMA', 'ARMA']:
-            self.model_type = "Non-Seasonal"
+            description = description if description else "Non-Seasonal Arima Model"
             arima_obj = get_arima_obj(results_obj)
-            model_name = 'ARIMA_'+self.ts_name
-            ExportToPMML(model_name = model_name, arima_obj = arima_obj)
+            model_name = model_name if model_name else 'ARIMA_'+self.ts_name
+            ExportToPMML(model_name=model_name, arima_obj=arima_obj, description=description)
 
         else:
             raise NotImplementedError("Not Implemented. Currently we support only ARMA, ARIMA and SARIMAX.")
