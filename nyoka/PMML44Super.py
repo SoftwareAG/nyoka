@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Thu Aug 29 10:54:56 2019 by generateDS.py version 2.28a.
+# Generated Tue Nov 19 10:42:32 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -47129,8 +47129,9 @@ class MaximumLikelihoodStat(GeneratedsSuper):
 class KalmanState(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, FinalOmega=None, FinalStateVector=None, HVector=None):
+    def __init__(self, Extension=None, FinalOmega=None, FinalStateVector=None, HVector=None):
         self.original_tagname_ = None
+        self.Extension = Extension
         self.FinalOmega = FinalOmega
         self.FinalStateVector = FinalStateVector
         self.HVector = HVector
@@ -47145,6 +47146,8 @@ class KalmanState(GeneratedsSuper):
         else:
             return KalmanState(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
     def get_FinalOmega(self): return self.FinalOmega
     def set_FinalOmega(self, FinalOmega): self.FinalOmega = FinalOmega
     def get_FinalStateVector(self): return self.FinalStateVector
@@ -47153,6 +47156,7 @@ class KalmanState(GeneratedsSuper):
     def set_HVector(self, HVector): self.HVector = HVector
     def hasContent_(self):
         if (
+            self.Extension is not None or
             self.FinalOmega is not None or
             self.FinalStateVector is not None or
             self.HVector is not None
@@ -47188,6 +47192,8 @@ class KalmanState(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
+        if self.Extension is not None:
+            self.Extension.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         if self.FinalOmega is not None:
             self.FinalOmega.export(outfile, level, namespace_, name_='FinalOmega', pretty_print=pretty_print)
         if self.FinalStateVector is not None:
@@ -47199,6 +47205,9 @@ class KalmanState(GeneratedsSuper):
             element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
+        if self.Extension is not None:
+            Extension_ = self.Extension
+            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.FinalOmega is not None:
             FinalOmega_ = self.FinalOmega
             FinalOmega_.to_etree(element, name_='FinalOmega', mapping_=mapping_)
@@ -47220,6 +47229,12 @@ class KalmanState(GeneratedsSuper):
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
         pass
     def exportLiteralChildren(self, outfile, level, name_):
+        if self.Extension is not None:
+            showIndent(outfile, level)
+            outfile.write('Extension=model_.Extension(\n')
+            self.Extension.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
         if self.FinalOmega is not None:
             showIndent(outfile, level)
             outfile.write('FinalOmega=model_.FinalOmega(\n')
@@ -47248,7 +47263,12 @@ class KalmanState(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'FinalOmega':
+        if nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            self.Extension = obj_
+            obj_.original_tagname_ = 'Extension'
+        elif nodeName_ == 'FinalOmega':
             obj_ = FinalOmega.factory()
             obj_.build(child_)
             self.FinalOmega = obj_
