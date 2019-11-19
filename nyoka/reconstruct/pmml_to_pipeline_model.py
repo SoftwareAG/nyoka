@@ -528,6 +528,7 @@ def get_svm_model(svm, pmml, AnomalyDetectionModel=False):
     if funct_name == "regression":
         model_obj.support_vectors_ = np_sup_vec
         model_obj._intercept_ = np_intercept.reshape(1, )
+        model_obj.intercept_=model_obj._intercept_
         model_obj.support_ = np_support_.reshape(-1, )
         model_obj._dual_coef_ = np_duals.reshape(1, -1)
         model_obj.dual_coef_ = model_obj._dual_coef_
@@ -547,6 +548,7 @@ def get_svm_model(svm, pmml, AnomalyDetectionModel=False):
             classes.reverse()
             model_obj.classes_ = np.asarray(classes)
         model_obj._intercept_ = np.asarray(intercept)
+        model_obj.intercept_=model_obj._intercept_
         model_obj.support_ = np.asarray(support)
         model_obj._dual_coef_ = np.asarray(dual_coef).reshape(-1, len(support))
         model_obj.dual_coef_ = model_obj._dual_coef_
