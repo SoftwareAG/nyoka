@@ -3432,6 +3432,7 @@
 <xs:element name="KalmanState">
   <xs:complexType>
     <xs:sequence>
+      <xs:element ref="Extension"/>
       <xs:element ref="FinalOmega"/>
       <xs:element ref="FinalStateVector"/>
       <xs:element ref="HVector" minOccurs="0" maxOccurs="1"/>

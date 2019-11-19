@@ -37,12 +37,12 @@ def insert(data, index, filename):
 
 quotes = '"""'
 curdir = os.path.abspath(os.curdir)
-pmml43Extdoc = os.path.join(curdir, 'doc', 'resources', 'PMML43Ext')
-pmml43ExtSuperdoc = os.path.join(curdir, 'doc', 'resources', 'PMML43ExtSuper')
+pmml43Extdoc = os.path.join(curdir, 'doc', 'resources', 'PMML44')
+pmml43ExtSuperdoc = os.path.join(curdir, 'doc', 'resources', 'PMML44Super')
 directories = [pmml43Extdoc, pmml43ExtSuperdoc]
 
-pmml43ExtPy = os.path.join(curdir, '..', 'PMML43Ext.py')
-pmml43ExtSuperPy = os.path.join(curdir, '..', 'PMML43ExtSuper.py')
+pmml43ExtPy = os.path.join(curdir, '..', 'PMML44.py')
+pmml43ExtSuperPy = os.path.join(curdir, '..', 'PMML44Super.py')
 pyfiles = [pmml43ExtPy, pmml43ExtSuperPy]
 
 for (index, directory) in enumerate(directories):
