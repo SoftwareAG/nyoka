@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Nov 19 10:42:32 2019 by generateDS.py version 2.28a.
+# Generated Wed Nov 20 10:06:05 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -47129,12 +47129,13 @@ class MaximumLikelihoodStat(GeneratedsSuper):
 class KalmanState(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, FinalOmega=None, FinalStateVector=None, HVector=None):
+    def __init__(self, FinalOmega=None, FinalStateVector=None, HVector=None, TransitionMatrix=None, MeasurementMatrix=None):
         self.original_tagname_ = None
-        self.Extension = Extension
         self.FinalOmega = FinalOmega
         self.FinalStateVector = FinalStateVector
         self.HVector = HVector
+        self.TransitionMatrix = TransitionMatrix
+        self.MeasurementMatrix = MeasurementMatrix
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -47146,20 +47147,23 @@ class KalmanState(GeneratedsSuper):
         else:
             return KalmanState(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Extension(self): return self.Extension
-    def set_Extension(self, Extension): self.Extension = Extension
     def get_FinalOmega(self): return self.FinalOmega
     def set_FinalOmega(self, FinalOmega): self.FinalOmega = FinalOmega
     def get_FinalStateVector(self): return self.FinalStateVector
     def set_FinalStateVector(self, FinalStateVector): self.FinalStateVector = FinalStateVector
     def get_HVector(self): return self.HVector
     def set_HVector(self, HVector): self.HVector = HVector
+    def get_TransitionMatrix(self): return self.TransitionMatrix
+    def set_TransitionMatrix(self, TransitionMatrix): self.TransitionMatrix = TransitionMatrix
+    def get_MeasurementMatrix(self): return self.MeasurementMatrix
+    def set_MeasurementMatrix(self, MeasurementMatrix): self.MeasurementMatrix = MeasurementMatrix
     def hasContent_(self):
         if (
-            self.Extension is not None or
             self.FinalOmega is not None or
             self.FinalStateVector is not None or
-            self.HVector is not None
+            self.HVector is not None or
+            self.TransitionMatrix is not None or
+            self.MeasurementMatrix is not None
         ):
             return True
         else:
@@ -47192,22 +47196,21 @@ class KalmanState(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.Extension is not None:
-            self.Extension.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
         if self.FinalOmega is not None:
             self.FinalOmega.export(outfile, level, namespace_, name_='FinalOmega', pretty_print=pretty_print)
         if self.FinalStateVector is not None:
             self.FinalStateVector.export(outfile, level, namespace_, name_='FinalStateVector', pretty_print=pretty_print)
         if self.HVector is not None:
             self.HVector.export(outfile, level, namespace_, name_='HVector', pretty_print=pretty_print)
+        if self.TransitionMatrix is not None:
+            self.TransitionMatrix.export(outfile, level, namespace_, name_='TransitionMatrix', pretty_print=pretty_print)
+        if self.MeasurementMatrix is not None:
+            self.MeasurementMatrix.export(outfile, level, namespace_, name_='MeasurementMatrix', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='KalmanState', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
-        if self.Extension is not None:
-            Extension_ = self.Extension
-            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.FinalOmega is not None:
             FinalOmega_ = self.FinalOmega
             FinalOmega_.to_etree(element, name_='FinalOmega', mapping_=mapping_)
@@ -47217,6 +47220,12 @@ class KalmanState(GeneratedsSuper):
         if self.HVector is not None:
             HVector_ = self.HVector
             HVector_.to_etree(element, name_='HVector', mapping_=mapping_)
+        if self.TransitionMatrix is not None:
+            TransitionMatrix_ = self.TransitionMatrix
+            TransitionMatrix_.to_etree(element, name_='TransitionMatrix', mapping_=mapping_)
+        if self.MeasurementMatrix is not None:
+            MeasurementMatrix_ = self.MeasurementMatrix
+            MeasurementMatrix_.to_etree(element, name_='MeasurementMatrix', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[self] = element
         return element
@@ -47229,12 +47238,6 @@ class KalmanState(GeneratedsSuper):
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
         pass
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.Extension is not None:
-            showIndent(outfile, level)
-            outfile.write('Extension=model_.Extension(\n')
-            self.Extension.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.FinalOmega is not None:
             showIndent(outfile, level)
             outfile.write('FinalOmega=model_.FinalOmega(\n')
@@ -47253,6 +47256,18 @@ class KalmanState(GeneratedsSuper):
             self.HVector.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
+        if self.TransitionMatrix is not None:
+            showIndent(outfile, level)
+            outfile.write('TransitionMatrix=model_.TransitionMatrix(\n')
+            self.TransitionMatrix.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.MeasurementMatrix is not None:
+            showIndent(outfile, level)
+            outfile.write('MeasurementMatrix=model_.MeasurementMatrix(\n')
+            self.MeasurementMatrix.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -47263,12 +47278,7 @@ class KalmanState(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Extension':
-            obj_ = Extension.factory()
-            obj_.build(child_)
-            self.Extension = obj_
-            obj_.original_tagname_ = 'Extension'
-        elif nodeName_ == 'FinalOmega':
+        if nodeName_ == 'FinalOmega':
             obj_ = FinalOmega.factory()
             obj_.build(child_)
             self.FinalOmega = obj_
@@ -47283,6 +47293,16 @@ class KalmanState(GeneratedsSuper):
             obj_.build(child_)
             self.HVector = obj_
             obj_.original_tagname_ = 'HVector'
+        elif nodeName_ == 'TransitionMatrix':
+            obj_ = TransitionMatrix.factory()
+            obj_.build(child_)
+            self.TransitionMatrix = obj_
+            obj_.original_tagname_ = 'TransitionMatrix'
+        elif nodeName_ == 'MeasurementMatrix':
+            obj_ = MeasurementMatrix.factory()
+            obj_.build(child_)
+            self.MeasurementMatrix = obj_
+            obj_.original_tagname_ = 'MeasurementMatrix'
 # end class KalmanState
 
 

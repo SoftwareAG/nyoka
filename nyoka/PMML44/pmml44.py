@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Nov 19 10:42:33 2019 by generateDS.py version 2.28a.
+# Generated Wed Nov 20 10:06:07 2019 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -2818,8 +2818,8 @@ supermod.MaximumLikelihoodStat.subclass = MaximumLikelihoodStat
 
 
 class KalmanState(supermod.KalmanState):
-    def __init__(self, Extension=None, FinalOmega=None, FinalStateVector=None, HVector=None):
-        super(KalmanState, self).__init__(Extension, FinalOmega, FinalStateVector, HVector, )
+    def __init__(self, FinalOmega=None, FinalStateVector=None, HVector=None, TransitionMatrix=None, MeasurementMatrix=None):
+        super(KalmanState, self).__init__(FinalOmega, FinalStateVector, HVector, TransitionMatrix, MeasurementMatrix, )
 
     #
     # XMLBehaviors
