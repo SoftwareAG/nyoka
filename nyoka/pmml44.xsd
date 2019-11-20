@@ -3432,10 +3432,11 @@
 <xs:element name="KalmanState">
   <xs:complexType>
     <xs:sequence>
-      <xs:element ref="Extension"/>
       <xs:element ref="FinalOmega"/>
       <xs:element ref="FinalStateVector"/>
       <xs:element ref="HVector" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="TransitionMatrix"/> 
+      <xs:element ref="MeasurementMatrix"/>
     </xs:sequence>
   </xs:complexType>
 </xs:element>
