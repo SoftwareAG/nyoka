@@ -190,8 +190,13 @@ class ArimaToPMML:
             finalStateVector = FinalStateVector(Array=arr)
 
 
-            kalman_state = KalmanState(FinalStateVector=finalStateVector, TransitionMatrix=transition_matrix,\
-                MeasurementMatrix=measurement_matrix)
+            fomega_mat = Matrix(kind="symmetric", nbRows=1, nbCols=1)
+            fomega_mat.add_Array(ArrayType(content="0", type_='real'))
+            finalOmega = FinalOmega(Matrix=fomega_mat)
+
+
+            kalman_state = KalmanState(FinalOmega=finalOmega,FinalStateVector=finalStateVector,\
+                 TransitionMatrix=transition_matrix,MeasurementMatrix=measurement_matrix)
             max_lik_stat = MaximumLikelihoodStat(method='kalman',KalmanState=kalman_state)
 
             nyoka_sarimax_obj = ARIMA(RMSE=rmse, constantTerm = constant_term,
