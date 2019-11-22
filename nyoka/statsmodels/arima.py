@@ -41,7 +41,7 @@ class ArimaToPMML:
             pmml = PMML(
                 version = '4.4',
                 Header = Header(copyright = "Copyright (c) 2018 Software AG", description = description,  
-                                Timestamp = Timestamp(datetime.utcnow()),
+                                Timestamp = Timestamp(datetime.now()),
                                 Application=Application(name="Nyoka",version=metadata.__version__)),
                 DataDictionary = DataDictionary(numberOfFields = n_columns, 
                                                 DataField = get_data_field_objs()),
