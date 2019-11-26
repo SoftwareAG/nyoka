@@ -251,7 +251,7 @@ def get_script_execution(toExportDict):
             lstlen = len(toExportDict[model_name]['postProcessingScript']['scripts'])
             for leng in range(0,lstlen):
                 try:
-                    ct=processScript(inspect.getsource(toExportDict[model_name]['postProcessingScript']['scripts'][leng]))
+                    ct2=processScript(inspect.getsource(toExportDict[model_name]['postProcessingScript']['scripts'][leng]))
                 except:
                     ct2=processScript(toExportDict[model_name]['postProcessingScript']['scripts'][leng])
                 scrps.append(pml.script(content=ct2, 
