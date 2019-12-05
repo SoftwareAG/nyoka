@@ -266,7 +266,20 @@ class ArimaToPMML:
 
         def get_output_field():
             out_flds = list()
-            out_flds.append(OutputField(name="predicted_"+self.ts_name, optype="continuous", dataType="double", feature="predictedValue"))
+            out_flds.append(OutputField(
+                name="predicted_"+self.ts_name, 
+                optype="continuous", dataType="double", 
+                feature="predictedValue"))
+            if results_obj.model.__class__.__name__ in ['ARIMA','ARMA']:
+                names = ['cpi_80_lower','cpi_80_upper','cpi_95_lower','cpi_95_upper']
+                values = ['LOWER80','UPPER80','LOWER95','UPPER95']
+                for name, value in zip(names, values):
+                    out_flds.append(OutputField(
+                        name=name, 
+                        optype='continuous', 
+                        dataType='double',
+                        feature='transformedValue',
+                        Extension=[Extension(extender='ADAPA',name='cpi', value=value)]))
             return out_flds
 
         def get_mining_field_objs():
