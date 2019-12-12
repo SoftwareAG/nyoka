@@ -54,60 +54,6 @@ class ArimaToPMML:
 
             pmml.export(outfile=open(pmml_file_name, "w"), level=0)
 
-        # def get_sarimax_obj(sm_results):
-        #     #NonSeasonal
-        #     p = sm_results._results.specification.k_ar
-        #     if 'k_diff' in sm_results._results.specification.__dict__.keys():
-        #         d = sm_results._results.specification.k_diff
-        #     else:
-        #         d = 0
-        #     q = sm_results._results.specification.k_ma
-            
-        #     ns_ar_content = ' '.join([str(i) for i in sm_results._results._params_ar] if int(p) > 0 else [])
-        #     ns_ar_params_array = ArrayType(content = ns_ar_content, n = p, type_ = 'real')
-
-        #     ns_ma_content = ' '.join([str(coeff) for coeff in sm_results._results._params_ma] if int(q) > 0 else [])
-        #     ns_ma_coeff_array = ArrayType(content = ns_ma_content, n = q, type_ = 'real')
-        #     ny_ns_maCoef_obj = MACoefficients(Array = ns_ma_coeff_array)
-
-        #     #Seasonal
-        #     P = sm_results._results.specification.seasonal_order[0]
-        #     D = sm_results._results.specification.seasonal_order[1]
-        #     Q = sm_results._results.specification.seasonal_order[2]
-        #     S = sm_results._results.specification.seasonal_periods
-
-        #     seasonal_ar_content = ' '.join([str(i) for i in sm_results._results._params_seasonal_ar] if int(P) > 0 else [])
-        #     seasonal_ar_params_array = ArrayType(content = seasonal_ar_content, n = P, type_ = 'real')
-
-        #     seasonal_ma_content = ' '.join([str(coeff) for coeff in sm_results._results._params_seasonal_ma] if int(Q) > 0 else [])
-        #     seasonal_ma_coeff_array = ArrayType(content = seasonal_ma_content, n = Q, type_ = 'real')
-        #     ny_seasonal_maCoef_obj = MACoefficients(Array = seasonal_ma_coeff_array)
-            
-        #     resid_len = 0
-        #     if Q>0:
-        #         resid_len = len(sm_results.resid.values)
-
-        #     residuals_ = ' '.join([str(val) for val in sm_results.resid.values] if Q>0  else [])
-        #     residual_array_seasonal = ArrayType(content = residuals_, n = resid_len, type_ = 'real')
-        #     residual_obj_seasonal = Residuals(Array=residual_array_seasonal)
-
-        #     resid_content = ' '.join([str(val) for val in sm_results.forecasts_error[0][-q:]] if q>0  else [])
-        #     resid_array = ArrayType(content = resid_content, n = q, type_ = 'real')
-        #     residual_obj_ns = Residuals(Array = resid_array)
-
-        #     constant_term = 0
-        #     if sm_results.specification.k_trend >0:
-        #         constant_term = sm_results._params_trend[0]
-
-
-        #     nyoka_sarimax_obj = ARIMA(RMSE=math.sqrt(sm_results._params_variance[0]), constantTerm = constant_term,
-        #                         NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ns_ar_params_array),\
-        #                              MA = MA(MACoefficients = ny_ns_maCoef_obj, Residuals = residual_obj_ns)),
-        #                         SeasonalComponent = SeasonalComponent(P = P, D = D, Q = Q, period = S, 
-        #                         AR = AR(Array = seasonal_ar_params_array), 
-        #                         MA = MA(MACoefficients = ny_seasonal_maCoef_obj,
-        #                         Residuals = residual_obj_seasonal)))
-        #     return nyoka_sarimax_obj
 
         def get_sarimax_obj(results_obj):
             import numpy as np
