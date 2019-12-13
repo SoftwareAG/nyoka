@@ -224,7 +224,7 @@ class ArimaToPMML:
                         name=name, 
                         optype='continuous', 
                         dataType='double',
-                        feature='transformedValue',
+                        feature='standardError',
                         Extension=[Extension(extender='ADAPA',name='cpi', value=value)]))
             return out_flds
 
