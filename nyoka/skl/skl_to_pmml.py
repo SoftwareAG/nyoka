@@ -116,7 +116,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None):
                                             target_name,
                                             mining_imp_val,
                                             categoric_values,
-                                            tasktype)
+                                            tasktype,modelPath)
             
             elif ('LGBMRegressor' in str(model)) or ('LGBMClassifier' in str(model)):
                 PMML_kwargs = lgb_to_pmml(model,
@@ -125,7 +125,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None):
                                             target_name,
                                             mining_imp_val,
                                             categoric_values,
-                                            tasktype)                                
+                                            tasktype,modelPath)                                
             
             elif ('Booster' in str(model)):
                 PMML_kwargs = ext(model,tasktype,target_name)
