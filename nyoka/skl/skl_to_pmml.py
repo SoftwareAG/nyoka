@@ -1539,7 +1539,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                 )
             )
         )
-    reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values,tasktype)[0]
+    reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values,tasktype,modelPath)[0]
     reg_model.Output = None
     if len(model.classes_) == 2:
         reg_model.normalizationMethod="logit"
