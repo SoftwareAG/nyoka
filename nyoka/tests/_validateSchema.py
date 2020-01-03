@@ -65,28 +65,7 @@ class StatsmodelsDataHelper:
         ts_data.index.name = 'datetime_index'
         ts_data.name = 'n_visitors'
         return ts_data
-		
-    def getData2(self):
-		# data with trend but no seasonality
-        # no. of annual passengers of air carriers registered in Australia
-        data = [17.5534, 21.86, 23.8866, 26.9293, 26.8885, 28.8314, 30.0751, 30.9535, 30.1857, 31.5797, 32.5776,
-                33.4774, 39.0216, 41.3864, 41.5966]
-        index = pd.DatetimeIndex(start='1990', end='2005', freq='A')
-        ts_data = pd.Series(data, index)
-        ts_data.index.name = 'datetime_index'
-        ts_data.name = 'n_passengers'
-        return ts_data
 
-    def getData3(self):
-		# data with no trend and no seasonality
-        # Oil production in Saudi Arabia
-        data = [446.6565, 454.4733, 455.663, 423.6322, 456.2713, 440.5881, 425.3325, 485.1494, 506.0482, 526.792,
-                514.2689, 494.211]
-        index = pd.DatetimeIndex(start='1996', end='2008', freq='A')
-        ts_data = pd.Series(data, index)
-        ts_data.index.name = 'datetime_index'
-        ts_data.name = 'oil_production'
-        return ts_data
 
     def getData4(self):
 		# Non Seasonal Data
@@ -116,19 +95,19 @@ class StatsmodelsDataHelper:
 class PmmlValidation(unittest.TestCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         print("Starting pmml validation tests.")
         data = datasets.load_iris()
-        self.X = data.data
-        self.y = data.target
-        self.y_bin = [i%2 for i in range(self.X.shape[0])]
-        self.features = data.feature_names
+        cls.X = data.data
+        cls.y = data.target
+        cls.y_bin = [i%2 for i in range(cls.X.shape[0])]
+        cls.features = data.feature_names
         data = datasets.load_boston()
-        self.X_reg = data.data
-        self.y_reg = data.target
-        self.features_reg =  data.feature_names
-        self.schema = xmlschema.XMLSchema("nyoka/pmml44.xsd")
-        self.statsmodels_data_helper = StatsmodelsDataHelper()
+        cls.X_reg = data.data
+        cls.y_reg = data.target
+        cls.features_reg =  data.feature_names
+        cls.schema = xmlschema.XMLSchema("nyoka/pmml44.xsd")
+        cls.statsmodels_data_helper = StatsmodelsDataHelper()
 
     
     def test_validate_sklearn_linear_models_binary_class(self):
@@ -219,6 +198,26 @@ class PmmlValidation(unittest.TestCase):
         ])
         pipe.fit(self.X, self.y)
         file_name = 'svm_model_numlti_class_classification.pmml'
+        skl_to_pmml(pipe, self.features, 'species',file_name)
+        self.assertEqual(self.schema.is_valid(file_name), True)
+
+    def test_validate_sklearn_lda_models_binary_class(self):
+        model = LinearDiscriminantAnalysis()
+        pipe = Pipeline([
+            ('model',model)
+        ])
+        pipe.fit(self.X, self.y_bin)
+        file_name = 'lda_model_binary_classification.pmml'
+        skl_to_pmml(pipe, self.features, 'binary',file_name)
+        self.assertEqual(self.schema.is_valid(file_name), True)
+
+    def test_validate_sklearn_lda_models_multiclass(self):
+        model = LinearDiscriminantAnalysis()
+        pipe = Pipeline([
+            ('model',model)
+        ])
+        pipe.fit(self.X, self.y)
+        file_name = 'lda_model_numlti_class_classification.pmml'
         skl_to_pmml(pipe, self.features, 'species',file_name)
         self.assertEqual(self.schema.is_valid(file_name), True)
 
@@ -317,6 +316,16 @@ class PmmlValidation(unittest.TestCase):
         skl_to_pmml(pipe, self.features_reg, 'target',file_name)
         self.assertEqual(self.schema.is_valid(file_name), True)
 
+    def test_validate_sklearn_linarsvr_models_regression(self):
+        model = LinearSVR()
+        pipe = Pipeline([
+            ('model',model)
+        ])
+        pipe.fit(self.X_reg, self.y_reg)
+        file_name = 'linearsvr_model_regression.pmml'
+        skl_to_pmml(pipe, self.features_reg, 'target',file_name)
+        self.assertEqual(self.schema.is_valid(file_name), True)
+
     def test_validate_sklearn_gnb_models_binary_class(self):
         model = GaussianNB()
         pipe = Pipeline([
@@ -345,6 +354,16 @@ class PmmlValidation(unittest.TestCase):
         pipe.fit(self.X, self.y_bin)
         file_name = 'knn_model_binary_classification.pmml'
         skl_to_pmml(pipe, self.features, 'binary',file_name)
+        self.assertEqual(self.schema.is_valid(file_name), True)
+
+    def test_validate_sklearn_linearSVC_models_multiclass(self):
+        model = LinearSVC()
+        pipe = Pipeline([
+            ('model',model)
+        ])
+        pipe.fit(self.X, self.y)
+        file_name = 'linearsvc_model_numlti_class_classification.pmml'
+        skl_to_pmml(pipe, self.features, 'species',file_name)
         self.assertEqual(self.schema.is_valid(file_name), True)
 
     def test_validate_sklearn_knn_models_multiclass(self):
@@ -388,6 +407,23 @@ class PmmlValidation(unittest.TestCase):
         file_name = model.__class__.__name__ + '_TfIdfVec_.pmml'
         pipeline = Pipeline([
             ('vect', TfidfVectorizer()),
+            ('clf', model)
+        ])
+        pipeline.fit(X, Y)
+        skl_to_pmml(pipeline, features , target, file_name)
+        self.assertEqual(self.schema.is_valid(file_name), True)
+
+    def test_validate_sklearn_sgd_with_text_cv(self):
+        categories = ['alt.atheism','talk.religion.misc']
+        data = fetch_20newsgroups(subset='train', categories=categories)
+        X = data.data[:4]
+        Y = data.target[:4]
+        features = ['input']
+        target = 'output'
+        model = SGDClassifier(loss="log")
+        file_name = model.__class__.__name__ + '_CountVec_.pmml'
+        pipeline = Pipeline([
+            ('vect', CountVectorizer()),
             ('clf', model)
         ])
         pipeline.fit(X, Y)
@@ -500,229 +536,7 @@ class PmmlValidation(unittest.TestCase):
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
         
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-        
-    def test_exponentialSmoothing_02(self):
-        ts_data = self.statsmodels_data_helper.getData1()        
-        f_name='exponential_smoothing2.pmml'        
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='add', 
-                                        damped=False, 
-                                        seasonal='add', 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_03(self):
-        ts_data = self.statsmodels_data_helper.getData1()        
-        f_name='exponential_smoothing3.pmml'                
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='add', 
-                                        damped=True, 
-                                        seasonal='mul', 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_04(self):
-        ts_data = self.statsmodels_data_helper.getData1()       
-        f_name='exponential_smoothing4.pmml'
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='add', 
-                                        damped=False, 
-                                        seasonal='mul', 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_05(self):
-        ts_data = self.statsmodels_data_helper.getData1()        
-        f_name='exponential_smoothing5.pmml'        
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='mul', 
-                                        damped=True, 
-                                        seasonal='add', 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_06(self):
-        ts_data = self.statsmodels_data_helper.getData1()        
-        f_name='exponential_smoothing6.pmml'                
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='mul', 
-                                        damped=False, 
-                                        seasonal='add', 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_07(self):
-        ts_data = self.statsmodels_data_helper.getData1()        
-        f_name='exponential_smoothing7.pmml'                
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='mul', 
-                                        damped=True, 
-                                        seasonal='mul', 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_08(self):
-        ts_data = self.statsmodels_data_helper.getData1()        
-        f_name='exponential_smoothing8.pmml'
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='mul', 
-                                        damped=False, 
-                                        seasonal='mul', 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-        
-    def test_exponentialSmoothing_09(self):
-        ts_data = self.statsmodels_data_helper.getData2()        
-        f_name='exponential_smoothing9.pmml'        
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='add', 
-                                        damped=True, 
-                                        seasonal=None, 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_10(self):
-        ts_data = self.statsmodels_data_helper.getData2()       
-        f_name='exponential_smoothing10.pmml'               
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='add', 
-                                        damped=True, 
-                                        seasonal=None, 
-                                        seasonal_periods=None)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_11(self):
-        ts_data = self.statsmodels_data_helper.getData2()       
-        f_name='exponential_smoothing11.pmml'                
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='add', 
-                                        damped=False, 
-                                        seasonal=None, 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_12(self):
-        ts_data = self.statsmodels_data_helper.getData2()
-        f_name='exponential_smoothing12.pmml'
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='add', 
-                                        damped=False, 
-                                        seasonal=None, 
-                                        seasonal_periods=None)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_13(self):
-        ts_data = self.statsmodels_data_helper.getData2()       
-        f_name='exponential_smoothing13.pmml'                
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='mul', 
-                                        damped=True, 
-                                        seasonal=None, 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_14(self):
-        ts_data = self.statsmodels_data_helper.getData2()        
-        f_name='exponential_smoothing14.pmml'                
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='mul', 
-                                        damped=True, 
-                                        seasonal=None, 
-                                        seasonal_periods=None)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_15(self):
-        ts_data = self.statsmodels_data_helper.getData2()  
-        f_name='exponential_smoothing15.pmml'        
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='mul', 
-                                        damped=False, 
-                                        seasonal=None, 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_exponentialSmoothing_16(self):
-        ts_data = self.statsmodels_data_helper.getData2()
-        f_name='exponential_smoothing16.pmml'
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend='mul', 
-                                        damped=False, 
-                                        seasonal=None, 
-                                        seasonal_periods=None)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-        
-    def test_exponentialSmoothing_17(self):
-        ts_data = self.statsmodels_data_helper.getData3()
-        f_name='exponential_smoothing17.pmml'
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend=None, 
-                                        damped=False, 
-                                        seasonal=None, 
-                                        seasonal_periods=None)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-        
-    def test_exponentialSmoothing_18(self):
-        ts_data = self.statsmodels_data_helper.getData3()
-        f_name='exponential_smoothing18.pmml'
-        
-        model_obj = ExponentialSmoothing(ts_data, 
-                                        trend=None, 
-                                        damped=False, 
-                                        seasonal=None, 
-                                        seasonal_periods=2)
-        results_obj = model_obj.fit(optimized=True)
-        
-        ExponentialSmoothingToPMML(ts_data, model_obj,results_obj, f_name)
+        ExponentialSmoothingToPMML(results_obj, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
 
@@ -732,143 +546,24 @@ class PmmlValidation(unittest.TestCase):
         f_name='non_seasonal_arima1.pmml'
         model = ARIMA(ts_data,order=(9, 2, 0))
         result = model.fit(trend = 'c', method = 'css-mle', solver = 'lbfgs')
-        ArimaToPMML(ts_data, model, result, f_name)
+        ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
     def test_non_seasonal_arima2(self):
         ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima2.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'nm')
-        ArimaToPMML(ts_data, model, result, f_name)
+        f_name='non_seasonal_arima1.pmml'
+        model = ARIMA(ts_data,order=(3, 1, 2))
+        result = model.fit(trend = 'c', method = 'css', solver = 'lbfgs')
+        ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
-    def test_non_seasonal_arima3(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima3.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'bfgs')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima4(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima4.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'powell')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima5(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima5.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'cg')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima6(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima6.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'ncg')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
 
     def test_non_seasonal_arima7(self):
         ts_data = self.statsmodels_data_helper.getData4()
         f_name='non_seasonal_arima7.pmml'
         model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'lbfgs')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima8(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima8.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'nm')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima9(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima9.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'bfgs')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima10(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima10.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'powell')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima11(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima11.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'cg')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima12(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima12.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'ncg')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima13(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima13.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'lbfgs')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima14(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima14.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'nm')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima15(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima15.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'bfgs')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima16(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima16.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'powell')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima17(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima17.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'cg')
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_non_seasonal_arima18(self):
-        ts_data = self.statsmodels_data_helper.getData4()
-        f_name='non_seasonal_arima18.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'ncg')
-        ArimaToPMML(ts_data, model, result, f_name)
+        result = model.fit(trend = 'nc', method = 'mle', solver = 'lbfgs')
+        ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
 
@@ -890,148 +585,9 @@ class PmmlValidation(unittest.TestCase):
                                         hamilton_representation = True, 
                                         concentrate_scale = False)
         result = model.fit()
-        ArimaToPMML(ts_data, model, result, f_name)
+        ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
-    def test_seasonal_arima2(self):
-        ts_data = self.statsmodels_data_helper.getData5()
-        f_name='seasonal_arima2.pmml'
-        model = SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = True, 
-                                        time_varying_regression = True, 
-                                        mle_regression = False, 
-                                        simple_differencing = False, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = False, 
-                                        concentrate_scale = False)
-        result = model.fit()
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_seasonal_arima3(self):
-        ts_data = self.statsmodels_data_helper.getData5()
-        f_name='seasonal_arima3.pmml'
-        model = SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = True, 
-                                        time_varying_regression = False, 
-                                        mle_regression = True, 
-                                        simple_differencing = True, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = True, 
-                                        concentrate_scale = False)
-        result = model.fit()
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_seasonal_arima4(self):
-        ts_data = self.statsmodels_data_helper.getData5()
-        f_name='seasonal_arima4.pmml'
-        model = SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = True, 
-                                        time_varying_regression = False, 
-                                        mle_regression = True, 
-                                        simple_differencing = False, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = False, 
-                                        concentrate_scale = False)
-        result = model.fit()
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_seasonal_arima5(self):
-        ts_data = self.statsmodels_data_helper.getData5()
-        f_name='seasonal_arima5.pmml'
-        model = SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = False, 
-                                        time_varying_regression = True, 
-                                        mle_regression = False, 
-                                        simple_differencing = True, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = True, 
-                                        concentrate_scale = False)
-        result = model.fit()
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_seasonal_arima6(self):
-        ts_data = self.statsmodels_data_helper.getData5()
-        f_name='seasonal_arima6.pmml'
-        model = SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = False, 
-                                        time_varying_regression = True, 
-                                        mle_regression = False, 
-                                        simple_differencing = False, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = False, 
-                                        concentrate_scale = False)
-        result = model.fit()
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_seasonal_arima7(self):
-        ts_data = self.statsmodels_data_helper.getData5()
-        f_name='seasonal_arima7.pmml'
-        model = SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = False, 
-                                        time_varying_regression = False, 
-                                        mle_regression = True, 
-                                        simple_differencing = True, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = True, 
-                                        concentrate_scale = False)
-        result = model.fit()
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
-
-    def test_seasonal_arima8(self):
-        ts_data = self.statsmodels_data_helper.getData5()
-        f_name='seasonal_arima8.pmml'
-        model = SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = False, 
-                                        time_varying_regression = False, 
-                                        mle_regression = True, 
-                                        simple_differencing = False, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = False, 
-                                        concentrate_scale = False)
-        result = model.fit()
-        ArimaToPMML(ts_data, model, result, f_name)
-        self.assertEqual(self.schema.is_valid(f_name),True)
 
 if __name__ == "__main__":
     unittest.main(warnings='ignore')
