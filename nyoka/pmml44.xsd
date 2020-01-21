@@ -3435,8 +3435,8 @@
       <xs:element ref="FinalOmega"/>
       <xs:element ref="FinalStateVector"/>
       <xs:element ref="HVector" minOccurs="0" maxOccurs="1"/>
-      <xs:element ref="TransitionMatrix"/> 
-      <xs:element ref="MeasurementMatrix"/>
+                <xs:element ref="TransitionMatrix"/>
+                <xs:element ref="MeasurementMatrix"/>
     </xs:sequence>
   </xs:complexType>
 </xs:element>
@@ -3594,6 +3594,8 @@
       <xs:element ref="StateVector" minOccurs="0"/>
       <xs:element ref="TransitionMatrix" minOccurs="0"/>
       <xs:element ref="MeasurementMatrix" minOccurs="0"/>
+                <xs:element ref="InterceptVector" minOccurs="0"/>
+                <xs:element ref="VarianceVector" minOccurs="0"/>
       <xs:element ref="PsiVector" minOccurs="0"/>
       <xs:element ref="DynamicRegressor" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
@@ -3626,6 +3628,22 @@
     </xs:sequence>
   </xs:complexType>
 </xs:element>
+    <xs:element name="InterceptVector">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:group ref="REAL-ARRAY"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="VarianceVector">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:group ref="REAL-ARRAY"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 <xs:element name="PsiVector">
   <xs:complexType>
     <xs:sequence>

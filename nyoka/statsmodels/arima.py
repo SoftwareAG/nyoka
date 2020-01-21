@@ -31,192 +31,332 @@ class ArimaToPMML:
     Generates PMML object and exports it to `pmml_file_name`
     """
     def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml", model_name=None, description=None):
+        self.results_obj = results_obj
+        self.pmml_file_name = pmml_file_name
+        self.model_name = model_name
+        self.description = description
+        self.construct_pmml()
+        self.export_pmml()
 
-        def ExportToPMML(model_name, arima_obj, description):
-            n_columns = 2  # because we are dealing with Series object plus h (horizon)
-            n_samples = results_obj.model.nobs
-            function_name = 'timeSeries'
-            best_fit = 'ARIMA'
+    def export_pmml(self):
+        pmml = PMML(
+            version="4.4",
+            Header=Header(
+                copyright = "Copyright (c) 2018 Software AG",
+                description = self.description,
+                Timestamp = Timestamp(datetime.now()),
+                Application=Application(name="Nyoka",version=metadata.__version__)
+            ),
+            DataDictionary=self.data_dictionary,
+            TimeSeriesModel=[self.ts_model]
+        )
+        pmml.export(open(self.pmml_file_name,'w'),0)
 
-            pmml = PMML(
-                version = '4.4',
-                Header = Header(copyright = "Copyright (c) 2018 Software AG", description = description,  
-                                Timestamp = Timestamp(datetime.now()),
-                                Application=Application(name="Nyoka",version=metadata.__version__)),
-                DataDictionary = DataDictionary(numberOfFields = n_columns, 
-                                                DataField = get_data_field_objs()),
-                TimeSeriesModel = [ TimeSeriesModel(modelName = model_name,
-                                                    functionName = function_name, bestFit = best_fit, isScorable = True,
-                                                    MiningSchema = MiningSchema(MiningField = get_mining_field_objs()),
-                                                    Output = Output(OutputField = get_output_field()),
-                                                    TimeSeries = get_time_series_obj_list(usage = 'original'),
-                                                    ARIMA = arima_obj) ])
+    def generate_data_dictionary(self):
+        data_fields = []
+        for val in self.y:
+            data_fields.append(
+                DataField(
+                    name=val,
+                    optype="continuous",
+                    dataType="double"
+                )
+            )
+        data_fields.append(
+            DataField(name="h", optype="continous", dataType="integer")
+        )
+        self.data_dictionary = DataDictionary(
+            numberOfFields=len(self.y)+1,
+            DataField=data_fields
+        )
 
-            pmml.export(outfile=open(pmml_file_name, "w"), level=0)
+    def construct_pmml(self):
+
+        if 'int' in str(self.results_obj.model.endog.dtype):
+            self.results_obj.model.endog=self.results_obj.model.endog.astype('float64')
+            self.results_obj.model.data.endog=self.results_obj.model.data.endog.astype('float64')
+
+        self.data_obj = self.results_obj.data
+        self.model = self.results_obj.model
+        self.y = self.results_obj.data.ynames
+        if self.y.__class__.__name__ == "str":
+            self.y = [self.y]
+        self.generate_data_dictionary()
+
+        output = self.generate_output()
+        mining_schema = self.generate_mining_schema()
+        time_series_list = self.generate_time_series()
+        arima_model = None
+        state_space_model = None
+        best_fit = "ARIMA"
+
+        if self.model.__class__.__name__ in ['ARMA', 'ARIMA']:
+            self.model_name = self.model_name if self.model_name else "ArimaModel"
+            self.description = self.description if self.description else "Non-Seasonal Arima Model"
+            arima_model = self.generate_arima_model()
+        elif self.model.__class__.__name__ == 'SARIMAX':
+            self.model_name = self.model_name if self.model_name else "SarimaxModel"
+            self.description = self.description if self.description else "Seasonal Arima Model"
+            arima_model = self.generate_seasonal_arima_model()
+        elif self.model.__class__.__name__ == "VARMAX":
+            best_fit = "StateSpaceModel"
+            self.model_name = self.model_name if self.model_name else "VarmaxModel"
+            self.description = self.description if self.description else "Vector Arma Model"
+            state_space_model = self.generate_state_space_model()
+        else:
+            raise NotImplementedError("Not Implemented. Currently we support only ARMA, ARIMA, SARIMAX and VARMAX.")
+
+        self.ts_model = TimeSeriesModel(
+            modelName=self.model_name,
+            functionName="timeSeries",
+            bestFit=best_fit,
+            MiningSchema=mining_schema,
+            Output=output,
+            TimeSeries=time_series_list,
+            ARIMA=arima_model,
+            StateSpaceModel=state_space_model
+        )
 
 
-        def get_sarimax_obj(results_obj):
-            import numpy as np
-            #NonSeasonal
-            p = results_obj._results.specification.k_ar
-            if 'k_diff' in results_obj._results.specification.__dict__.keys():
-                d = results_obj._results.specification.k_diff
-            else:
-                d = 0
-            q = results_obj._results.specification.k_ma
-            
-            ns_ar_content = ' '.join([str(i) for i in results_obj._results._params_ar] if int(p) > 0 else [])
-            ns_ar_params_array = ArrayType(content = ns_ar_content, n = p, type_ = 'real')
+    def generate_state_space_model(self):
+        import numpy as np
+        smoother_results = self.results_obj.smoother_results
+        S_t0 = smoother_results.filtered_state[:,-1]
 
-            ns_ma_content = ' '.join([str(coeff) for coeff in results_obj._results._params_ma] if int(q) > 0 else [])
-            ns_ma_coeff_array = ArrayType(content = ns_ma_content, n = q, type_ = 'real')
-            ny_ns_maCoef_obj = MACoefficients(Array = ns_ma_coeff_array)
+        mu = None
+        intercept_vector = None
+        if self.model.k_trend:
+            mu=self.results_obj.params[self.model._params_trend]
+            if mu.__class__.__name__ == 'Series':
+                mu = mu.values
 
-            constant_term = 0
-            if results_obj.specification.k_trend >0:
-                constant_term = results_obj._params_trend[0]
+        F_matrix = smoother_results.transition
+        F_matrix = np.reshape(F_matrix, F_matrix.shape[:-1]) #transition_matrix
 
-            rmse = math.sqrt(results_obj._params_variance[0])
+        G = smoother_results.design
+        G = np.reshape(G, G.shape[:-1]) #measurement_matrix
 
-            non_seasonal_comp = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ns_ar_params_array),\
-                                     MA = MA(MACoefficients = ny_ns_maCoef_obj))
-            
-            #Seasonal
-            P = results_obj._results.specification.seasonal_order[0]
-            D = results_obj._results.specification.seasonal_order[1]
-            Q = results_obj._results.specification.seasonal_order[2]
-            S = results_obj._results.specification.seasonal_periods
+        S_t1 = np.dot(F_matrix, S_t0) #finalStateVector
 
-            seasonal_ar_content = ' '.join([str(i) for i in results_obj._results._params_seasonal_ar] if int(P) > 0 else [])
-            seasonal_ar_params_array = ArrayType(content = seasonal_ar_content, n = P, type_ = 'real')
+        t_mat = Matrix(nbRows=F_matrix.shape[0], nbCols=F_matrix.shape[1])
+        for row in F_matrix:
+            array_content = []
+            for col in row:
+                array_content.append(str(col))
+            array_content = " ".join(array_content)
+            t_mat.add_Array(ArrayType(content=array_content, type_='real'))
+        transition_matrix = TransitionMatrix(Matrix=t_mat)
 
-            seasonal_ma_content = ' '.join([str(coeff) for coeff in results_obj._results._params_seasonal_ma] if int(Q) > 0 else [])
-            seasonal_ma_coeff_array = ArrayType(content = seasonal_ma_content, n = Q, type_ = 'real')
-            ny_seasonal_maCoef_obj = MACoefficients(Array = seasonal_ma_coeff_array)
+        m_mat = Matrix(nbRows=G.shape[0], nbCols=G.shape[1])
+        for row in G:
+            array_content = []
+            for col in row:
+                array_content.append(str(col))
+            array_content = " ".join(array_content)
+            m_mat.add_Array(ArrayType(content=array_content, type_='real'))
+        measurement_matrix = MeasurementMatrix(Matrix=m_mat)
 
-            seasonal_comp = SeasonalComponent(P = P, D = D, Q = Q, period = S, 
-                                AR = AR(Array = seasonal_ar_params_array), 
-                                MA = MA(MACoefficients = ny_seasonal_maCoef_obj))
+        arr_content = []
+        for val in S_t1:
+            arr_content.append(str(val))
+        arr_content = " ".join(arr_content)
+        arr = ArrayType(type_='real',content=arr_content, n=len(S_t1))
+        final_state_vector = FinalStateVector(Array=arr)
 
-            #MaximumLikelihoodStat
-            simulatorSmoother = results_obj.model.ssm
-            S_t0=results_obj.filtered_state[:,-1]
-
-            F_matrix= simulatorSmoother.transition
-            F_matrix = np.reshape(F_matrix, F_matrix.shape[:-1]) #transition_matrix
-
-            G = simulatorSmoother.design
-            G = np.reshape(G, G.shape[:-1]) #measurement_matrix
-
-            S_t1 = np.dot(F_matrix, S_t0) #finalStateVector
-
-            t_mat = Matrix(nbRows=F_matrix.shape[0], nbCols=F_matrix.shape[1])
-            for row in F_matrix:
-                array_content = []
-                for col in row:
-                    array_content.append(str(col))
-                array_content = " ".join(array_content)
-                t_mat.add_Array(ArrayType(content=array_content, type_='real'))
-            transition_matrix = TransitionMatrix(Matrix=t_mat)
-
-            t_mat = Matrix(nbRows=G.shape[0], nbCols=G.shape[1])
-            for row in G:
-                array_content = []
-                for col in row:
-                    array_content.append(str(col))
-                array_content = " ".join(array_content)
-                t_mat.add_Array(ArrayType(content=array_content, type_='real'))
-            measurement_matrix = MeasurementMatrix(Matrix=t_mat)
-
+        if mu is not None:
             arr_content = []
-            for val in S_t1:
+            for val in mu:
                 arr_content.append(str(val))
             arr_content = " ".join(arr_content)
-            arr = ArrayType(type_='real',content=arr_content, n=len(S_t1))
-            finalStateVector = FinalStateVector(Array=arr)
+            arr = ArrayType(type_='real',content=arr_content, n=len(mu))
+            intercept_vector = InterceptVector(Array=arr)
+
+        state_space_model = StateSpaceModel(
+            StateVector=final_state_vector,
+            TransitionMatrix=transition_matrix,
+            MeasurementMatrix=measurement_matrix,
+            InterceptVector=intercept_vector
+        )
+        return state_space_model
 
 
-            fomega_mat = Matrix(kind="symmetric", nbRows=1, nbCols=1)
-            fomega_mat.add_Array(ArrayType(content="0", type_='real'))
-            finalOmega = FinalOmega(Matrix=fomega_mat)
+    def generate_arima_model(self):
+        p = self.results_obj.k_ar
+        q = self.results_obj.k_ma
+        d = getattr(self.results_obj,'k_diff',0)
+        
+        pred_method = "conditionalLeastSquares"
+        ar = None
+        ma = None
+        if p > 0:
+            ar_content = ' '.join([str(i) for i in self.results_obj.arparams])
+            ar_params_array = ArrayType(content = ar_content, n = p, type_ = 'real')
+            ar = AR(Array = ar_params_array)
+        if q > 0:
+            ma_content = ' '.join([str(coeff) for coeff in self.results_obj.maparams])
+            ma_coeff_array = ArrayType(content = ma_content, n = q, type_ = 'real')
+            ny_maCoef_obj = MACoefficients(Array = ma_coeff_array)
+
+            residuals = self.results_obj.resid[-q:] if q>0 else []
+            resid_content = ' '.join([str(res) for res in residuals])
+            resid_array = ArrayType(content = resid_content, n = len(residuals), type_ = 'real')
+            residual_obj = Residuals(Array = resid_array)
+            ma = MA(MACoefficients = ny_maCoef_obj, Residuals = residual_obj)
+
+        const_term = 0
+        if self.results_obj.k_trend:
+            const_term = self.results_obj.params[0]
+        non_seasonal_comp = NonseasonalComponent(p = p, d = d, q = q, AR = ar, MA = ma)
+
+        rmse = math.sqrt(self.model.sigma2)
+
+        arima_obj = ARIMA(constantTerm = const_term,
+                                predictionMethod = pred_method,
+                                RMSE=rmse,
+                                NonseasonalComponent = non_seasonal_comp
+                                )
+        return arima_obj
+
+    def generate_seasonal_arima_model(self):
+        import numpy as np
+        # Non-Seasonal part
+        p = self.results_obj.specification.k_ar
+        d = getattr(self.results_obj.specification,"k_diff",0)
+        q = self.results_obj.specification.k_ma
+        ar = None
+        ma = None
+        if p > 0:
+            ns_ar_content = ' '.join([str(i) for i in self.results_obj._params_ar])
+            ns_ar_params_array = ArrayType(content = ns_ar_content, n = p, type_ = 'real')
+            ar = AR(Array = ns_ar_params_array)
+        if q < 0:
+            ns_ma_content = ' '.join([str(coeff) for coeff in self.results_obj._params_ma])
+            ns_ma_coeff_array = ArrayType(content = ns_ma_content, n = q, type_ = 'real')
+            ny_ns_maCoef_obj = MACoefficients(Array = ns_ma_coeff_array)
+            ma = MA(MACoefficients = ny_ns_maCoef_obj)
+
+        non_seasonal_comp = NonseasonalComponent(p = p, d = d, q = q, AR = ar, MA = ma)
+
+        constant_term = 0
+        if self.results_obj.specification.k_trend >0:
+            constant_term = self.results_obj._params_trend[0]
+
+        rmse = math.sqrt(self.results_obj._params_variance[0])
+
+        #Seasonal part
+        P = self.results_obj.specification.seasonal_order[0]
+        D = self.results_obj.specification.seasonal_order[1]
+        Q = self.results_obj.specification.seasonal_order[2]
+        S = self.results_obj.specification.seasonal_periods
+
+        sar = None
+        sma = None
+        if P > 0:
+            seasonal_ar_content = ' '.join([str(i) for i in self.results_obj._params_seasonal_ar])
+            seasonal_ar_params_array = ArrayType(content = seasonal_ar_content, n = P, type_ = 'real')
+            sar = AR(Array = seasonal_ar_params_array)
+        if Q > 0:
+            seasonal_ma_content = ' '.join([str(coeff) for coeff in self.results_obj._params_seasonal_ma])
+            seasonal_ma_coeff_array = ArrayType(content = seasonal_ma_content, n = Q, type_ = 'real')
+            ny_seasonal_maCoef_obj = MACoefficients(Array = seasonal_ma_coeff_array)
+            sma = MA(MACoefficients = ny_seasonal_maCoef_obj)
+
+        seasonal_comp = SeasonalComponent(P = P, D = D, Q = Q, period = S, AR = sar, MA = sma)
+
+        #MaximumLikelihoodStat
+        smoother_results = self.results_obj.smoother_results
+        S_t0=smoother_results.filtered_state[:,-1]
+
+        F_matrix= smoother_results.transition
+        F_matrix = np.reshape(F_matrix, F_matrix.shape[:-1]) #transition_matrix
+
+        G = smoother_results.design
+        G = np.reshape(G, G.shape[:-1]) #measurement_matrix
+
+        S_t1 = np.dot(F_matrix, S_t0) #finalStateVector
+
+        t_mat = Matrix(nbRows=F_matrix.shape[0], nbCols=F_matrix.shape[1])
+        for row in F_matrix:
+            array_content = []
+            for col in row:
+                array_content.append(str(col))
+            array_content = " ".join(array_content)
+            t_mat.add_Array(ArrayType(content=array_content, type_='real'))
+        transition_matrix = TransitionMatrix(Matrix=t_mat)
+
+        m_mat = Matrix(nbRows=G.shape[0], nbCols=G.shape[1])
+        for row in G:
+            array_content = []
+            for col in row:
+                array_content.append(str(col))
+            array_content = " ".join(array_content)
+            m_mat.add_Array(ArrayType(content=array_content, type_='real'))
+        measurement_matrix = MeasurementMatrix(Matrix=m_mat)
+
+        arr_content = []
+        for val in S_t1:
+            arr_content.append(str(val))
+        arr_content = " ".join(arr_content)
+        arr = ArrayType(type_='real',content=arr_content, n=len(S_t1))
+        finalStateVector = FinalStateVector(Array=arr)
 
 
-            kalman_state = KalmanState(FinalOmega=finalOmega,FinalStateVector=finalStateVector,\
-                 TransitionMatrix=transition_matrix,MeasurementMatrix=measurement_matrix)
-            max_lik_stat = MaximumLikelihoodStat(method='kalman',KalmanState=kalman_state)
+        # fomega_mat = Matrix(kind="symmetric", nbRows=1, nbCols=1)
+        # fomega_mat.add_Array(ArrayType(content="0", type_='real'))
+        # finalOmega = FinalOmega(Matrix=fomega_mat)
 
-            nyoka_sarimax_obj = ARIMA(RMSE=rmse, constantTerm = constant_term,
+
+        kalman_state = KalmanState(
+            FinalStateVector=finalStateVector,
+            TransitionMatrix=transition_matrix,
+            MeasurementMatrix=measurement_matrix
+            )
+        max_lik_stat = MaximumLikelihoodStat(method='kalman',KalmanState=kalman_state)
+
+        arima_obj = ARIMA(RMSE=rmse, constantTerm = constant_term,
                                 predictionMethod = "exactLeastSquares",
                                 NonseasonalComponent = non_seasonal_comp,
                                 SeasonalComponent = seasonal_comp,
                                 MaximumLikelihoodStat = max_lik_stat 
                                 )
-            return nyoka_sarimax_obj
+        return arima_obj
+
+    
+    def generate_time_value_object(self, data):
+        time_values = []
+        indices = self.data_obj.dates
+        for data_idx in range(len(data)):
+            tv = TimeValue(index=data_idx,value=data[data_idx],\
+                Timestamp=Timestamp(str(indices[data_idx])) if indices is not None else None)
+            time_values.append(tv)
+        return time_values
+
+    def generate_time_series(self):
+        time_series_list = []
+        if self.data_obj.endog.ndim == 1:
+            ts = TimeSeries(usage = 'original', field=self.y[0], startTime = 0, endTime = len(self.data_obj.endog) - 1,\
+                 interpolationMethod = 'none', TimeValue = self.generate_time_value_object(self.data_obj.endog))
+            time_series_list.append(ts)
+        else:
+            for i in range(self.data_obj.endog.shape[-1]):
+                ts = TimeSeries(usage = 'original', field=self.y[i], startTime = 0, endTime = len(self.data_obj.endog) - 1,\
+                 interpolationMethod = 'none', TimeValue = self.generate_time_value_object(self.data_obj.endog[...,i]))
+                time_series_list.append(ts)
+        return time_series_list
 
 
-        def get_arima_obj(sm_results):
-            p = sm_results._results.k_ar
-            if 'k_diff' in sm_results._results.__dict__.keys():
-                d = sm_results._results.k_diff
-            else:
-                d = 0
-            q = sm_results._results.k_ma
-            pred_method = "conditionalLeastSquares"
-
-            ar_content = ' '.join([str(i) for i in sm_results._results.arparams] if int(p) > 0 else [])
-            ar_params_array = ArrayType(content = ar_content, n = p, type_ = 'real')
-            
-            ma_content = ' '.join([str(coeff) for coeff in sm_results._results.maparams] if int(q) > 0 else [])
-            ma_coeff_array = ArrayType(content = ma_content, n = q, type_ = 'real')
-            ny_maCoef_obj = MACoefficients(Array = ma_coeff_array)
-
-            residuals = sm_results._results.resid[-q:] if q>0 else []
-            resid_content = ' '.join([str(res) for res in residuals])
-            resid_array = ArrayType(content = resid_content, n = len(residuals), type_ = 'real')
-            residual_obj = Residuals(Array = resid_array)
-
-
-            const_term = 0
-            if sm_results.k_trend:
-                const_term = sm_results.params[0]
-
-            nyoka_arima_obj = ARIMA(constantTerm = const_term,
-                                predictionMethod = pred_method,
-                                RMSE=math.sqrt(sm_results.model.sigma2),
-                                NonseasonalComponent = NonseasonalComponent(p = p, d = d, q = q, AR = AR(Array = ar_params_array),\
-                                      MA = MA(MACoefficients = ny_maCoef_obj, Residuals = residual_obj))
-                                )
-            return nyoka_arima_obj
-
-        def get_time_series_obj_list(usage = 'original'):
-            get_time_series_obj_list = list()
-            def get_time_value_objs():
-                time_value_objs = list()
-                if(usage == 'original'):
-                    if results_obj.model.data.orig_endog.__class__.__name__ in ['Series','DataFrame']:
-                        timestamp_indexes = results_obj.model.data.orig_endog.index
-                        for int_idx in range(results_obj.data.endog.size):
-                            time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx]),\
-                                Timestamp = Timestamp(str(timestamp_indexes[int_idx]))))
-                    else:
-                        for int_idx in range(results_obj.data.endog.size):
-                            time_value_objs.append(TimeValue(index = int_idx, value = str(results_obj.data.endog[int_idx])))
-                elif(usage == 'logical'):
-                    #TODO: Implement This
-                    raise NotImplementedError("Not Implemented")
-                return time_value_objs
-
-            obj = TimeSeries(usage = usage, startTime = 0, endTime = results_obj.data.orig_endog.size - 1, interpolationMethod = 'none', TimeValue = get_time_value_objs())
-            get_time_series_obj_list.append(obj)
-            return get_time_series_obj_list
-
-        def get_output_field():
-            out_flds = list()
-            out_flds.append(OutputField(
-                name="predicted_"+self.ts_name, 
-                optype="continuous", dataType="double", 
-                feature="predictedValue"))
-            if results_obj.model.__class__.__name__ in ['ARIMA','ARMA']:
+    def generate_output(self):
+        out_flds = []
+        for y_ in self.y:
+            out_flds.append(
+                OutputField(
+                    name="predicted_"+y_, 
+                    optype="continuous",
+                    dataType="double", 
+                    feature="predictedValue"
+                    )
+            )
+        if self.model.__class__.__name__ in ['ARIMA','ARMA']:
                 names = ['cpi_80_lower','cpi_80_upper','cpi_95_lower','cpi_95_upper']
                 values = ['LOWER80','UPPER80','LOWER95','UPPER95']
                 for name, value in zip(names, values):
@@ -226,61 +366,11 @@ class ArimaToPMML:
                         dataType='double',
                         feature='standardError',
                         Extension=[Extension(extender='ADAPA',name='cpi', value=value)]))
-            return out_flds
-
-        def get_mining_field_objs():
-            mining_field_objs = list()
-            ts_usage_type = 'target'
-            mining_field_objs.append(MiningField(name = self.ts_name, usageType = ts_usage_type))
-            mining_field_objs.append(MiningField(name = 'h', usageType = 'supplementary'))
-            return mining_field_objs
-
-        def get_pmml_datatype_optype(series_obj):
-            pmml_data_type = None
-            pmml_op_type = None
-            if str(series_obj.dtype) in {'datetime64[ns]', 'datetime64[ns, tz]', 'timedelta[ns]'}:
-                pmml_data_type = 'dateTime'
-                pmml_op_type = 'continuous'
-            elif str(series_obj.dtype) == 'float32':
-                pmml_data_type = 'float'
-                pmml_op_type = 'continuous'
-            elif str(series_obj.dtype) == 'float64':
-                pmml_data_type = 'double'
-                pmml_op_type = 'continuous'
-            elif str(series_obj.dtype) in {'int64', 'int32'}:
-                pmml_data_type = 'integer'
-                pmml_op_type = 'continuous'
-            return pmml_data_type, pmml_op_type
-
-        def get_data_field_objs():
-            data_field_objs = list()
-            tar_data_type, ts_op_type = get_pmml_datatype_optype(results_obj.model.endog)
-            data_field_objs.append(DataField(name=self.ts_name, dataType=tar_data_type, optype=ts_op_type))
-            data_field_objs.append(DataField(name='h', dataType='integer', optype='continuous'))
-            return data_field_objs
-
-        if 'int' in str(results_obj.model.endog.dtype):
-            results_obj.model.endog=results_obj.model.endog.astype('float64')
-            results_obj.model.data.endog=results_obj.model.data.endog.astype('float64')
-
-        if results_obj.data.orig_endog.__class__.__name__ == 'DataFrame':
-            self.ts_name = results_obj.data.orig_endog.columns[0]
-        elif results_obj.data.orig_endog.__class__.__name__ == 'Series':
-            self.ts_name = results_obj.data.orig_endog.name
-        else:
-            self.ts_name = 'value'
-
-        if results_obj.model.__class__.__name__ == 'SARIMAX':
-            description = description if description else "Seasonal Arima Model"
-            arima_obj = get_sarimax_obj(results_obj)
-            model_name = model_name if model_name else 'ARIMA_'+self.ts_name
-            ExportToPMML(model_name=model_name, arima_obj=arima_obj, description=description)
-
-        elif results_obj.model.__class__.__name__ in ['ARIMA', 'ARMA']:
-            description = description if description else "Non-Seasonal Arima Model"
-            arima_obj = get_arima_obj(results_obj)
-            model_name = model_name if model_name else 'ARIMA_'+self.ts_name
-            ExportToPMML(model_name=model_name, arima_obj=arima_obj, description=description)
-
-        else:
-            raise NotImplementedError("Not Implemented. Currently we support only ARMA, ARIMA and SARIMAX.")
+        return Output(OutputField=out_flds)
+    
+    def generate_mining_schema(self):
+        mining_fields = []
+        for y_ in self.y:
+            mining_fields.append(MiningField(name = y_, usageType = 'target'))
+        mining_fields.append(MiningField(name = 'h', usageType = 'supplementary'))
+        return MiningSchema(MiningField=mining_fields)
