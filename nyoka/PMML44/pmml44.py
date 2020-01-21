@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Wed Nov 20 10:06:07 2019 by generateDS.py version 2.28a.
+# Generated Tue Jan 21 11:40:58 2020 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -3005,8 +3005,8 @@ supermod.PastVariances.subclass = PastVariances
 
 
 class StateSpaceModel(supermod.StateSpaceModel):
-    def __init__(self, variance=None, period='none', intercept='0', Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, PsiVector=None, DynamicRegressor=None):
-        super(StateSpaceModel, self).__init__(variance, period, intercept, Extension, StateVector, TransitionMatrix, MeasurementMatrix, PsiVector, DynamicRegressor, )
+    def __init__(self, variance=None, period='none', intercept='0', Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, InterceptVector=None, VarianceVector=None, PsiVector=None, DynamicRegressor=None):
+        super(StateSpaceModel, self).__init__(variance, period, intercept, Extension, StateVector, TransitionMatrix, MeasurementMatrix, InterceptVector, VarianceVector, PsiVector, DynamicRegressor, )
 
     #
     # XMLBehaviors
@@ -3046,6 +3046,28 @@ class MeasurementMatrix(supermod.MeasurementMatrix):
     #
 supermod.MeasurementMatrix.subclass = MeasurementMatrix
 # end class MeasurementMatrix
+
+
+class InterceptVector(supermod.InterceptVector):
+    def __init__(self, Extension=None, Array=None):
+        super(InterceptVector, self).__init__(Extension, Array, )
+
+    #
+    # XMLBehaviors
+    #
+supermod.InterceptVector.subclass = InterceptVector
+# end class InterceptVector
+
+
+class VarianceVector(supermod.VarianceVector):
+    def __init__(self, Extension=None, Array=None):
+        super(VarianceVector, self).__init__(Extension, Array, )
+
+    #
+    # XMLBehaviors
+    #
+supermod.VarianceVector.subclass = VarianceVector
+# end class VarianceVector
 
 
 class PsiVector(supermod.PsiVector):

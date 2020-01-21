@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Nov 20 10:06:05 2019 by generateDS.py version 2.28a.
+# Generated Tue Jan 21 11:40:56 2020 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -49523,7 +49523,7 @@ class PastVariances(GeneratedsSuper):
 class StateSpaceModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, variance=None, period='none', intercept='0', Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, PsiVector=None, DynamicRegressor=None):
+    def __init__(self, variance=None, period='none', intercept='0', Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, InterceptVector=None, VarianceVector=None, PsiVector=None, DynamicRegressor=None):
         self.original_tagname_ = None
         self.variance = _cast(None, variance)
         self.period = _cast(None, period)
@@ -49535,6 +49535,8 @@ class StateSpaceModel(GeneratedsSuper):
         self.StateVector = StateVector
         self.TransitionMatrix = TransitionMatrix
         self.MeasurementMatrix = MeasurementMatrix
+        self.InterceptVector = InterceptVector
+        self.VarianceVector = VarianceVector
         self.PsiVector = PsiVector
         if DynamicRegressor is None:
             self.DynamicRegressor = []
@@ -49562,6 +49564,10 @@ class StateSpaceModel(GeneratedsSuper):
     def set_TransitionMatrix(self, TransitionMatrix): self.TransitionMatrix = TransitionMatrix
     def get_MeasurementMatrix(self): return self.MeasurementMatrix
     def set_MeasurementMatrix(self, MeasurementMatrix): self.MeasurementMatrix = MeasurementMatrix
+    def get_InterceptVector(self): return self.InterceptVector
+    def set_InterceptVector(self, InterceptVector): self.InterceptVector = InterceptVector
+    def get_VarianceVector(self): return self.VarianceVector
+    def set_VarianceVector(self, VarianceVector): self.VarianceVector = VarianceVector
     def get_PsiVector(self): return self.PsiVector
     def set_PsiVector(self, PsiVector): self.PsiVector = PsiVector
     def get_DynamicRegressor(self): return self.DynamicRegressor
@@ -49585,6 +49591,8 @@ class StateSpaceModel(GeneratedsSuper):
             self.StateVector is not None or
             self.TransitionMatrix is not None or
             self.MeasurementMatrix is not None or
+            self.InterceptVector is not None or
+            self.VarianceVector is not None or
             self.PsiVector is not None or
             self.DynamicRegressor
         ):
@@ -49635,6 +49643,10 @@ class StateSpaceModel(GeneratedsSuper):
             self.TransitionMatrix.export(outfile, level, namespace_, name_='TransitionMatrix', pretty_print=pretty_print)
         if self.MeasurementMatrix is not None:
             self.MeasurementMatrix.export(outfile, level, namespace_, name_='MeasurementMatrix', pretty_print=pretty_print)
+        if self.InterceptVector is not None:
+            self.InterceptVector.export(outfile, level, namespace_, name_='InterceptVector', pretty_print=pretty_print)
+        if self.VarianceVector is not None:
+            self.VarianceVector.export(outfile, level, namespace_, name_='VarianceVector', pretty_print=pretty_print)
         if self.PsiVector is not None:
             self.PsiVector.export(outfile, level, namespace_, name_='PsiVector', pretty_print=pretty_print)
         for DynamicRegressor_ in self.DynamicRegressor:
@@ -49661,6 +49673,12 @@ class StateSpaceModel(GeneratedsSuper):
         if self.MeasurementMatrix is not None:
             MeasurementMatrix_ = self.MeasurementMatrix
             MeasurementMatrix_.to_etree(element, name_='MeasurementMatrix', mapping_=mapping_)
+        if self.InterceptVector is not None:
+            InterceptVector_ = self.InterceptVector
+            InterceptVector_.to_etree(element, name_='InterceptVector', mapping_=mapping_)
+        if self.VarianceVector is not None:
+            VarianceVector_ = self.VarianceVector
+            VarianceVector_.to_etree(element, name_='VarianceVector', mapping_=mapping_)
         if self.PsiVector is not None:
             PsiVector_ = self.PsiVector
             PsiVector_.to_etree(element, name_='PsiVector', mapping_=mapping_)
@@ -49717,6 +49735,18 @@ class StateSpaceModel(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('MeasurementMatrix=model_.MeasurementMatrix(\n')
             self.MeasurementMatrix.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.InterceptVector is not None:
+            showIndent(outfile, level)
+            outfile.write('InterceptVector=model_.InterceptVector(\n')
+            self.InterceptVector.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.VarianceVector is not None:
+            showIndent(outfile, level)
+            outfile.write('VarianceVector=model_.VarianceVector(\n')
+            self.VarianceVector.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.PsiVector is not None:
@@ -49786,6 +49816,16 @@ class StateSpaceModel(GeneratedsSuper):
             obj_.build(child_)
             self.MeasurementMatrix = obj_
             obj_.original_tagname_ = 'MeasurementMatrix'
+        elif nodeName_ == 'InterceptVector':
+            obj_ = InterceptVector.factory()
+            obj_.build(child_)
+            self.InterceptVector = obj_
+            obj_.original_tagname_ = 'InterceptVector'
+        elif nodeName_ == 'VarianceVector':
+            obj_ = VarianceVector.factory()
+            obj_.build(child_)
+            self.VarianceVector = obj_
+            obj_.original_tagname_ = 'VarianceVector'
         elif nodeName_ == 'PsiVector':
             obj_ = PsiVector.factory()
             obj_.build(child_)
@@ -50190,6 +50230,268 @@ class MeasurementMatrix(GeneratedsSuper):
             self.Matrix = obj_
             obj_.original_tagname_ = 'Matrix'
 # end class MeasurementMatrix
+
+
+class InterceptVector(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, Extension=None, Array=None):
+        self.original_tagname_ = None
+        if Extension is None:
+            self.Extension = []
+        else:
+            self.Extension = Extension
+        self.Array = Array
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, InterceptVector)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if InterceptVector.subclass:
+            return InterceptVector.subclass(*args_, **kwargs_)
+        else:
+            return InterceptVector(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
+    def add_Extension(self, value): self.Extension.append(value)
+    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
+    def replace_Extension_at(self, index, value): self.Extension[index] = value
+    def get_Array(self): return self.Array
+    def set_Array(self, Array): self.Array = Array
+    def hasContent_(self):
+        if (
+            self.Extension or
+            self.Array is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='', name_='InterceptVector', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('InterceptVector')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='InterceptVector')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='InterceptVector', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='InterceptVector'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='', name_='InterceptVector', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Extension_ in self.Extension:
+            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
+        if self.Array is not None:
+            self.Array.export(outfile, level, namespace_, name_='Array', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='InterceptVector', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
+        for Extension_ in self.Extension:
+            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
+        if self.Array is not None:
+            Array_ = self.Array
+            Array_.to_etree(element, name_='Array', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='InterceptVector'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Extension=[\n')
+        level += 1
+        for Extension_ in self.Extension:
+            showIndent(outfile, level)
+            outfile.write('model_.Extension(\n')
+            Extension_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        if self.Array is not None:
+            showIndent(outfile, level)
+            outfile.write('Array=model_.Array(\n')
+            self.Array.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            self.Extension.append(obj_)
+            obj_.original_tagname_ = 'Extension'
+        elif nodeName_ == 'Array':
+            obj_ = ArrayType.factory()
+            obj_.build(child_)
+            self.Array = obj_
+            obj_.original_tagname_ = 'Array'
+# end class InterceptVector
+
+
+class VarianceVector(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, Extension=None, Array=None):
+        self.original_tagname_ = None
+        if Extension is None:
+            self.Extension = []
+        else:
+            self.Extension = Extension
+        self.Array = Array
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, VarianceVector)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if VarianceVector.subclass:
+            return VarianceVector.subclass(*args_, **kwargs_)
+        else:
+            return VarianceVector(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
+    def add_Extension(self, value): self.Extension.append(value)
+    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
+    def replace_Extension_at(self, index, value): self.Extension[index] = value
+    def get_Array(self): return self.Array
+    def set_Array(self, Array): self.Array = Array
+    def hasContent_(self):
+        if (
+            self.Extension or
+            self.Array is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='', name_='VarianceVector', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('VarianceVector')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='VarianceVector')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='VarianceVector', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='VarianceVector'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='', name_='VarianceVector', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Extension_ in self.Extension:
+            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
+        if self.Array is not None:
+            self.Array.export(outfile, level, namespace_, name_='Array', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='VarianceVector', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
+        for Extension_ in self.Extension:
+            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
+        if self.Array is not None:
+            Array_ = self.Array
+            Array_.to_etree(element, name_='Array', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='VarianceVector'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Extension=[\n')
+        level += 1
+        for Extension_ in self.Extension:
+            showIndent(outfile, level)
+            outfile.write('model_.Extension(\n')
+            Extension_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        if self.Array is not None:
+            showIndent(outfile, level)
+            outfile.write('Array=model_.Array(\n')
+            self.Array.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            self.Extension.append(obj_)
+            obj_.original_tagname_ = 'Extension'
+        elif nodeName_ == 'Array':
+            obj_ = ArrayType.factory()
+            obj_.build(child_)
+            self.Array = obj_
+            obj_.original_tagname_ = 'Array'
+# end class VarianceVector
 
 
 class PsiVector(GeneratedsSuper):
@@ -68108,6 +68410,7 @@ __all__ = [
     "InlineTable",
     "InstanceField",
     "InstanceFields",
+    "InterceptVector",
     "Interval",
     "Item",
     "ItemRef",
@@ -68289,6 +68592,7 @@ __all__ = [
     "VariableWeight",
     "Variance",
     "VarianceCoefficients",
+    "VarianceVector",
     "VectorDictionary",
     "VectorFields",
     "VectorInstance",
