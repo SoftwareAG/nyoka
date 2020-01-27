@@ -52,6 +52,7 @@ class GenerateKerasModel:
     def _get_reshaped_layer_weights(self, layer_ws, out_shape, use_bs):
         """  takes flatten array of layer weights from nyokaBase pmml layer and reshaped it to
         out_shape to set as reconstructed model layer weights """
+        # print ( out_shape, use_bs)
         reshape_layer_ws = []
         if len(out_shape) == 1:
             # print ('Cmae here for recurrent weights',out_shape[0])
@@ -160,6 +161,18 @@ class GenerateKerasModel:
                 x= LSTM(int(kwargs["units"]), return_sequences =  kwargs["return_sequences"], name=layer_name)(layer_input)
             else:
                 x= LSTM(int(kwargs["units"]), name=layer_name)(layer_input)
+        elif layer_type == "GRU":
+            # print (kwargs)
+            if 'return_sequences' in kwargs:
+                x= GRU(int(kwargs["units"]), return_sequences =  kwargs["return_sequences"], name=layer_name)(layer_input)
+            else:
+                x= GRU(int(kwargs["units"]), name=layer_name)(layer_input)
+        elif layer_type == "SimpleRNN":
+            # print (kwargs)
+            if 'return_sequences' in kwargs:
+                x= SimpleRNN(int(kwargs["units"]), return_sequences =  kwargs["return_sequences"], name=layer_name)(layer_input)
+            else:
+                x= SimpleRNN(int(kwargs["units"]), name=layer_name)(layer_input)
         return x
 
     def _add_layer_weights(self):
@@ -196,6 +209,7 @@ class GenerateKerasModel:
         pmml_deep_net = self.nyoka_pmml.DeepNetwork[0]
         pmml_net_layers = pmml_deep_net.NetworkLayer
         for indx, pmml_layer in enumerate(pmml_net_layers):
+            # print (indx,pmml_layer)
             kwargs = {}
             layer_type = pmml_layer.get_layerType()
             layer_name = pmml_layer.get_layerId()

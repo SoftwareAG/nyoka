@@ -269,10 +269,11 @@ class KerasNetworkLayer(ny.NetworkLayer):
             Bias of the Keras layer in Base64String format
 
         """ 
+        # print (layer)
         layer_all_weights = layer.get_weights()
         layer_weights = layer_rec_weight = layer_biases = biases = None
         if layer_all_weights:
-            if hasattr(layer, 'use_bias') and layer.use_bias and (hasattr(layer, 'unit_forget_bias') == False):
+            if hasattr(layer, 'use_bias') and layer.use_bias and (hasattr(layer, 'recurrent_initializer') == False):
                 biases = layer_all_weights[-1]
                 weights, w_shape = self._get_flatten_weights(
                     layer_all_weights[0:-1])
@@ -282,7 +283,8 @@ class KerasNetworkLayer(ny.NetworkLayer):
                                                 weightsShape=w_shape,
                                                 weightsFlattenAxis="0")
                 # print ('Came here 1')
-            elif hasattr(layer, 'use_bias') and layer.use_bias and layer.unit_forget_bias:
+            elif hasattr(layer, 'use_bias') and layer.use_bias and layer.recurrent_initializer:
+                # print ('Came here GRU & LSTM')
                 biases = layer_all_weights[-1]
                 layer_recurrent_weights=layer_all_weights[-2]
                 weights, w_shape = self._get_flatten_weights(
@@ -369,6 +371,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
         layer_type = KERAS_LAYER_TYPES_MAP.get(layer_type, layer_type)
         layer_params = self._get_layer_params_dict(layer)
         layer_weights, layer_biases,rec_weights = self._get_layer_weights_n_biases(layer)
+        # print (type(layer_weights), type(layer_biases),type(rec_weights))
         if connection_layer_id:
             connection_layers = self._get_connection_layer_ids(layer)
         if layer_type == "MergeLayer":
@@ -442,6 +445,52 @@ class KerasNetworkLayer(ny.NetworkLayer):
             if hasattr(layer, 'batch_input_shape'):
                 layer_params['batch_input_shape'] = str(layer.batch_input_shape)
 
+        elif layer_type == 'GRU':
+            layer_params['return_sequences'] = layer.return_sequences
+            layer_params['return_state'] = layer.return_state
+            layer_params['go_backwards'] = layer.go_backwards
+            layer_params['unroll'] = str(layer.unroll)
+            layer_params['units'] = str(layer.units)
+            layer_params['recurrent_activation'] = layer.get_config().get('recurrent_activation')
+            layer_params['use_bias'] = layer.use_bias
+            # layer_params['unit_forget_bias'] = layer.unit_forget_bias
+            #layer_params['kernel_regularizer'] = layer.kernel_regularizer
+            #layer_params['recurrent_regularizer'] = layer.recurrent_regularizer
+            #layer_params['bias_regularizer'] = layer.bias_regularizer
+            #layer_params['activity_regularizer'] = layer.activity_regularizer
+            #layer_params['kernel_constraint'] = layer.kernel_constraint
+            #layer_params['recurrent_constraint'] = layer.recurrent_constraint
+            #layer_params['bias_constraint'] = layer.bias_constraint
+            layer_params['dropout'] = str(layer.recurrent_dropout)
+            layer_params['recurrent_dropout'] = str(layer.dropout)
+            #layer_params['implementation'] = str(layer.implementation)
+
+            if hasattr(layer, 'batch_input_shape'):
+                layer_params['batch_input_shape'] = str(layer.batch_input_shape)
+        
+        elif layer_type == 'SimpleRNN':
+            layer_params['return_sequences'] = layer.return_sequences
+            layer_params['return_state'] = layer.return_state
+            layer_params['go_backwards'] = layer.go_backwards
+            layer_params['unroll'] = str(layer.unroll)
+            layer_params['units'] = str(layer.units)
+            layer_params['recurrent_activation'] = layer.get_config().get('recurrent_activation')
+            layer_params['use_bias'] = layer.use_bias
+            # layer_params['unit_forget_bias'] = layer.unit_forget_bias
+            #layer_params['kernel_regularizer'] = layer.kernel_regularizer
+            #layer_params['recurrent_regularizer'] = layer.recurrent_regularizer
+            #layer_params['bias_regularizer'] = layer.bias_regularizer
+            #layer_params['activity_regularizer'] = layer.activity_regularizer
+            #layer_params['kernel_constraint'] = layer.kernel_constraint
+            #layer_params['recurrent_constraint'] = layer.recurrent_constraint
+            #layer_params['bias_constraint'] = layer.bias_constraint
+            layer_params['dropout'] = str(layer.recurrent_dropout)
+            layer_params['recurrent_dropout'] = str(layer.dropout)
+            #layer_params['implementation'] = str(layer.implementation)
+
+            if hasattr(layer, 'batch_input_shape'):
+                layer_params['batch_input_shape'] = str(layer.batch_input_shape)
+
 
         layer_params["trainable"] = str(layer.trainable)
         layer_params["mergeLayerOp"] = merge_layer_op_type
@@ -484,7 +533,7 @@ class KerasDataDictionary(ny.DataDictionary):
     """ 
     def __init__(self, dataSet, predictedClasses):
         ny.DataDictionary.__init__(self)
-        print ('dataSet',dataSet,'predictedClasses',predictedClasses)
+        # print ('dataSet',dataSet,'predictedClasses',predictedClasses)
 
         if dataSet:
             if predictedClasses:
