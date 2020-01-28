@@ -655,10 +655,10 @@ def get_anomaly_detection_output(model):
             dataType="float"))
         output_fields.append(pml.OutputField(
             name="anomaly",
-            feature="anomaly",
+            # feature="anomaly",
             optype="categorical",
-            dataType="boolean",
-            threshold="0"
+            dataType="double",
+            # threshold="0"
         ))
 
     else:
