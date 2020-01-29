@@ -95,10 +95,6 @@ class ArimaToPMML:
             self.model_name = self.model_name if self.model_name else "ArimaModel"
             self.description = self.description if self.description else "Non-Seasonal Arima Model"
             arima_model = self.generate_arima_model()
-        # elif self.model.__class__.__name__ == 'SARIMAX':
-        #     self.model_name = self.model_name if self.model_name else "SarimaxModel"
-        #     self.description = self.description if self.description else "Seasonal Arima Model"
-        #     arima_model = self.generate_seasonal_arima_model()
         elif self.model.__class__.__name__ in ['VARMAX','SARIMAX']:
             best_fit = TIMESERIES_ALGORITHM.STATE_SPACE_MODEL.value
             self.model_name = self.model_name if self.model_name else self.model.__class__.__name__
