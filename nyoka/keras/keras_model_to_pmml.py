@@ -20,6 +20,7 @@ import PMML44 as ny
 import metadata
 import warnings
 import base64
+
 warnings.formatwarning = warnings.formatwarning = lambda msg, *args, **kwargs: str(msg)+'\n'
 
 KERAS_LAYER_TYPES_MAP = {'InputLayer': 'Input',
