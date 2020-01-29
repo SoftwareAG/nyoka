@@ -251,7 +251,7 @@ class ArimaToPMML:
                         name=name, 
                         optype=OPTYPE.CONTINUOUS.value, 
                         dataType=DATATYPE.DOUBLE.value,
-                        feature=RESULT_FEATURE.STANDARD_ERROR,
+                        feature=RESULT_FEATURE.STANDARD_ERROR.value,
                         Extension=[Extension(extender='ADAPA',name='cpi', value=value)]))
         return Output(OutputField=out_flds)
     
