@@ -63,7 +63,7 @@ def xgboost_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_xgboost.
                                       categoric_values,
                                       model_name)
         pmml = pml.PMML(
-            version=sklToPmml.get_version(),
+            version=PMML_SCHEMA.VERSION.value,
             Header=sklToPmml.get_header(description),
             MiningBuildTask=sklToPmml.get_mining_buildtask(pipeline),
             DataDictionary=sklToPmml.get_data_dictionary(model, col_names, target_name, categoric_values),
