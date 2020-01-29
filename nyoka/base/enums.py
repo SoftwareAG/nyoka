@@ -22,7 +22,6 @@ class FUNCTION(Enum):
     SUBSTRACTTION = "-"
     MULTIPLICATION = "*"
     DIVISION = "/"
-    IS_MISSING = "isMissing"
     MIN = "min"
     MAX = "max"
     SUM = "sum"
