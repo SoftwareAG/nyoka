@@ -81,7 +81,7 @@ class ArimaToPMML:
         self.model = self.results_obj.model
         self.y = self.results_obj.data.ynames
         if self.y.__class__.__name__ == "str":
-            self.y = [self.y]
+            self.y = [self.y.split(".")[-1]]
         self.generate_data_dictionary()
 
         output = self.generate_output()
