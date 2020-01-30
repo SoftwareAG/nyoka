@@ -33,6 +33,7 @@ class AdapaUtility:
 
     def score_single_record(self, model_name):
         res = requests.get(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password))
+        print(res.text)
         return res.json()['outputs'][0]
 
     def score_in_zserver(self, model_name, test_file, model_type=None):

@@ -476,6 +476,7 @@ class PmmlValidation(unittest.TestCase):
         skl_to_pmml(pipeline, features , 'species',pmml_f_name= file_name)
         self.assertEqual(self.schema.is_valid(file_name), True)
 
+    #keras
     def test_validate_keras_mobilenet(self):
         input_tensor = Input(shape=(224, 224, 3))
         model = MobileNet(weights="imagenet", input_tensor=input_tensor)
@@ -545,7 +546,7 @@ class PmmlValidation(unittest.TestCase):
         ts_data = self.statsmodels_data_helper.getData4()
         f_name='non_seasonal_arima1.pmml'
         model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'lbfgs')
+        result = model.fit(trend = 'c', method = 'css-mle')
         ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
@@ -553,7 +554,7 @@ class PmmlValidation(unittest.TestCase):
         ts_data = self.statsmodels_data_helper.getData4()
         f_name='non_seasonal_arima1.pmml'
         model = ARIMA(ts_data,order=(3, 1, 2))
-        result = model.fit(trend = 'c', method = 'css', solver = 'lbfgs')
+        result = model.fit(trend = 'c', method = 'css')
         ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
@@ -562,7 +563,7 @@ class PmmlValidation(unittest.TestCase):
         ts_data = self.statsmodels_data_helper.getData4()
         f_name='non_seasonal_arima7.pmml'
         model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'nc', method = 'mle', solver = 'lbfgs')
+        result = model.fit(trend = 'nc', method = 'mle')
         ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
@@ -575,15 +576,18 @@ class PmmlValidation(unittest.TestCase):
                                         exog = None,
                                         order = (3, 1, 1),
                                         seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = True, 
-                                        time_varying_regression = True, 
-                                        mle_regression = False, 
-                                        simple_differencing = True, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = True, 
-                                        concentrate_scale = False)
+                                        trend = 'c')
+        result = model.fit()
+        ArimaToPMML(result, f_name)
+        self.assertEqual(self.schema.is_valid(f_name),True)
+
+    def test_seasonal_arima2(self):
+        ts_data = self.statsmodels_data_helper.getData5()
+        f_name='seasonal_arima2.pmml'
+        model = SARIMAX(endog = ts_data,
+                                        exog = None,
+                                        order = (3, 1, 1),
+                                        seasonal_order = (3, 1, 1, 12))
         result = model.fit()
         ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)

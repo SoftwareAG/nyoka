@@ -41,7 +41,7 @@ class ArimaToPMML:
 
     def export_pmml(self):
         pmml = PMML(
-            version="4.4",
+            version=PMML_SCHEMA.VERSION.value,
             Header=Header(
                 copyright = "Copyright (c) 2018 Software AG",
                 description = self.description,
@@ -67,7 +67,7 @@ class ArimaToPMML:
             DataField(name="h", optype=OPTYPE.CONTINUOUS.value, dataType=DATATYPE.INTEGER.value)
         )
         self.data_dictionary = DataDictionary(
-            numberOfFields=len(self.y)+1,
+            numberOfFields=len(data_fields),
             DataField=data_fields
         )
 
@@ -129,35 +129,23 @@ class ArimaToPMML:
 
         t_mat = Matrix(nbRows=F_matrix.shape[0], nbCols=F_matrix.shape[1])
         for row in F_matrix:
-            array_content = []
-            for col in row:
-                array_content.append(str(col))
-            array_content = " ".join(array_content)
+            array_content = " ".join([str(col) for col in row])
             t_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
         transition_matrix = TransitionMatrix(Matrix=t_mat)
 
         m_mat = Matrix(nbRows=G.shape[0], nbCols=G.shape[1])
         for row in G:
-            array_content = []
-            for col in row:
-                array_content.append(str(col))
-            array_content = " ".join(array_content)
+            array_content = " ".join([str(col) for col in row])
             m_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
         measurement_matrix = MeasurementMatrix(Matrix=m_mat)
 
-        arr_content = []
-        for val in S_t1:
-            arr_content.append(str(val))
-        arr_content = " ".join(arr_content)
+        arr_content = " ".join([str(val) for val in S_t1])
         arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(S_t1))
         final_state_vector = FinalStateVector(Array=arr)
 
         intercept_vector = None
         if self.model.k_trend:
-            arr_content = []
-            for val in mu:
-                arr_content.append(str(val))
-            arr_content = " ".join(arr_content)
+            arr_content = " ".join([str(val) for val in mu])
             arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(mu))
             intercept_vector = InterceptVector(Array=arr)
 
@@ -186,9 +174,9 @@ class ArimaToPMML:
             ma_coeff_array = ArrayType(content = ma_content, n = q, type_ = ARRAY_TYPE.REAL.value)
             ny_maCoef_obj = MACoefficients(Array = ma_coeff_array)
 
-            residuals = self.results_obj.resid[-q:] if q>0 else []
+            residuals = self.results_obj.resid[-q:]
             resid_content = ' '.join([str(res) for res in residuals])
-            resid_array = ArrayType(content = resid_content, n = len(residuals), type_ = ARRAY_TYPE.REAL.value)
+            resid_array = ArrayType(content = resid_content, n = q, type_ = ARRAY_TYPE.REAL.value)
             residual_obj = Residuals(Array = resid_array)
             ma = MA(MACoefficients = ny_maCoef_obj, Residuals = residual_obj)
 

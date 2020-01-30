@@ -3,7 +3,6 @@ from __future__ import absolute_import
 import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
-import numpy as np
 import PMML44 as pml
 import nyoka.skl.skl_to_pmml as sklToPmml
 import nyoka.xgboost.xgboost_to_pmml as xgboostToPmml
@@ -42,7 +41,7 @@ def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml',m
     except:
         raise TypeError("Exporter expects pipeleine_instance and not an estimator_instance")
     else:
-        if isinstance(col_names, np.ndarray):
+        if col_names.__class__.__name__ == "ndarray":
             col_names = col_names.tolist()
         ppln_sans_predictor = pipeline.steps[:-1]
         trfm_dict_kwargs = dict()

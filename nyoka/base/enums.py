@@ -1,7 +1,5 @@
 from enum import Enum
 
-
-
 class MISSING_VALUE_TREATMENT_METHOD(Enum):
     AS_IS = "asIs"
     AS_MEAN = "asMean"
