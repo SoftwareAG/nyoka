@@ -43,9 +43,7 @@ from keras.applications import MobileNet, ResNet50, VGG16, Xception, InceptionV3
 from keras.layers import Input
 
 # statsmodels models
-from statsmodels.tsa.arima_model import ARIMA
-from statsmodels.tsa.statespace.sarimax import SARIMAX
-from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from statsmodels.tsa.api import ARIMA, SARIMAX, VARMAX, ExponentialSmoothing
 
 import unittest
 from sklearn import datasets
@@ -54,7 +52,7 @@ import xmlschema
 import pandas as pd
 
 class StatsmodelsDataHelper:
-    def getData1(self):
+    def get_data_with_trend_and_seasonality(self):
         # data with trend and seasonality present
         # no of international visitors in Australia
         data = [41.7275, 24.0418, 32.3281, 37.3287, 46.2132, 29.3463, 36.4829, 42.9777, 48.9015, 31.1802, 37.7179,
@@ -67,7 +65,7 @@ class StatsmodelsDataHelper:
         return ts_data
 
 
-    def getData4(self):
+    def get_non_seasonal_data(self):
 		# Non Seasonal Data
         data = [266,146,183,119,180,169,232,225,193,123,337,186,194,150,210,273,191,287,
                 226,304,290,422,265,342,340,440,316,439,401,390,490,408,490,420,520,480]
@@ -77,7 +75,7 @@ class StatsmodelsDataHelper:
         ts_data.name = 'cars_sold'
         return ts_data
 
-    def getData5(self):
+    def get_seasonal_data(self):
 		# Seasonal Data
         data = [112, 118, 132, 129, 121, 135, 148, 148, 136, 119, 104, 118, 115, 126, 141, 135, 125, 149, 170, 170, 158, 133, 114, 140, 145, 150,
                 178, 163, 172, 178, 199, 199, 184, 162, 146, 166, 171, 180, 193, 181, 183, 218, 230, 242, 209, 191, 172, 194, 196, 196, 236, 235,
@@ -90,6 +88,10 @@ class StatsmodelsDataHelper:
         ts_data.index.name = 'datetime_index'
         ts_data.name = 'n_passengers'
         return ts_data
+
+    def get_data_for_varmax(self):
+        data = pd.read_csv("nyoka/tests/SanDiegoWeather.csv", parse_dates=True, index_col=0)
+        return data
     
 
 class PmmlValidation(unittest.TestCase):
@@ -528,7 +530,7 @@ class PmmlValidation(unittest.TestCase):
     
     #Exponential Smoothing Test cases
     def test_exponentialSmoothing_01(self):
-        ts_data = self.statsmodels_data_helper.getData1()        
+        ts_data = self.statsmodels_data_helper.get_data_with_trend_and_seasonality()        
         f_name='exponential_smoothing1.pmml'
         model_obj = ExponentialSmoothing(ts_data, 
                                         trend='add', 
@@ -543,7 +545,7 @@ class PmmlValidation(unittest.TestCase):
 
     #Non Seasonal Arima Test cases
     def test_non_seasonal_arima1(self):
-        ts_data = self.statsmodels_data_helper.getData4()
+        ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima1.pmml'
         model = ARIMA(ts_data,order=(9, 2, 0))
         result = model.fit(trend = 'c', method = 'css-mle')
@@ -551,7 +553,7 @@ class PmmlValidation(unittest.TestCase):
         self.assertEqual(self.schema.is_valid(f_name),True)
 
     def test_non_seasonal_arima2(self):
-        ts_data = self.statsmodels_data_helper.getData4()
+        ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima1.pmml'
         model = ARIMA(ts_data,order=(3, 1, 2))
         result = model.fit(trend = 'c', method = 'css')
@@ -560,7 +562,7 @@ class PmmlValidation(unittest.TestCase):
 
 
     def test_non_seasonal_arima7(self):
-        ts_data = self.statsmodels_data_helper.getData4()
+        ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima7.pmml'
         model = ARIMA(ts_data,order=(9, 2, 0))
         result = model.fit(trend = 'nc', method = 'mle')
@@ -570,7 +572,7 @@ class PmmlValidation(unittest.TestCase):
 
     #Seasonal Arima Test cases
     def test_seasonal_arima1(self):
-        ts_data = self.statsmodels_data_helper.getData5()
+        ts_data = self.statsmodels_data_helper.get_seasonal_data()
         f_name='seasonal_arima1.pmml'
         model = SARIMAX(endog = ts_data,
                                         exog = None,
@@ -582,12 +584,28 @@ class PmmlValidation(unittest.TestCase):
         self.assertEqual(self.schema.is_valid(f_name),True)
 
     def test_seasonal_arima2(self):
-        ts_data = self.statsmodels_data_helper.getData5()
+        ts_data = self.statsmodels_data_helper.get_seasonal_data()
         f_name='seasonal_arima2.pmml'
         model = SARIMAX(endog = ts_data,
                                         exog = None,
                                         order = (3, 1, 1),
                                         seasonal_order = (3, 1, 1, 12))
+        result = model.fit()
+        ArimaToPMML(result, f_name)
+        self.assertEqual(self.schema.is_valid(f_name),True)
+
+    def test_varmax_with_intercept(self):
+        ts_data = self.statsmodels_data_helper.get_data_for_varmax()
+        f_name='varmax_with_intercept.pmml'
+        model = VARMAX(ts_data, order=(1,1))
+        result = model.fit()
+        ArimaToPMML(result, f_name)
+        self.assertEqual(self.schema.is_valid(f_name),True)
+
+    def test_varmax_without_intercept(self):
+        ts_data = self.statsmodels_data_helper.get_data_for_varmax()
+        f_name='varmax_without_intercept.pmml'
+        model = VARMAX(ts_data, order=(1,1), trend='nc')
         result = model.fit()
         ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
