@@ -14,7 +14,7 @@ packages = [
     "sklearn-pandas",
     "lightgbm",
     "h5py",
-    "pandas",
+    "pandas==0.25.3",
     "numpy",
     "pytest-cov",
     "pytest",
