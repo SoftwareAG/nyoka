@@ -20,7 +20,7 @@ script:
 - python nyoka/tests/testScoreWithAdapaSklearn.py
 - python nyoka/tests/testScoreWithAdapaXgboost.py
 - python nyoka/tests/testScoreWithAdapaRetinaNet.py
-- python nyoka/tests/testScoreWithAdapaStatsmodels.py
+# - python nyoka/tests/testScoreWithAdapaStatsmodels.py
 after_success:
 - py.test  --cov-report term --cov=nyoka/
 - codecov
