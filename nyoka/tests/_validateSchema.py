@@ -58,7 +58,7 @@ class StatsmodelsDataHelper:
         data = [41.7275, 24.0418, 32.3281, 37.3287, 46.2132, 29.3463, 36.4829, 42.9777, 48.9015, 31.1802, 37.7179,
                 40.4202, 51.2069, 31.8872, 40.9783, 43.7725, 55.5586, 33.8509, 42.0764, 45.6423, 59.7668, 35.1919,
                 44.3197, 47.9137]
-        index = pd.DatetimeIndex(start='2005', end='2010-Q4', freq='QS')
+        index = pd.date_range(start='2005', end='2010-Q4', freq='QS')
         ts_data = pd.Series(data, index)
         ts_data.index.name = 'datetime_index'
         ts_data.name = 'n_visitors'
@@ -69,7 +69,7 @@ class StatsmodelsDataHelper:
 		# Non Seasonal Data
         data = [266,146,183,119,180,169,232,225,193,123,337,186,194,150,210,273,191,287,
                 226,304,290,422,265,342,340,440,316,439,401,390,490,408,490,420,520,480]
-        index = pd.DatetimeIndex(start='2016-01-01', end='2018-12-01', freq='MS')
+        index = pd.date_range(start='2016-01-01', end='2018-12-01', freq='MS')
         ts_data = pd.Series(data, index)
         ts_data.index.name = 'date_index'
         ts_data.name = 'cars_sold'
@@ -83,7 +83,7 @@ class StatsmodelsDataHelper:
                 364, 347, 312, 274, 237, 278, 284, 277, 317, 313, 318, 374, 413, 405, 355, 306, 271, 306, 315, 301, 356, 348, 355, 422, 465, 467,
                 404, 347, 305, 336, 340, 318, 362, 348, 363, 435, 491, 505, 404, 359, 310, 337, 360, 342, 406, 396, 420, 472, 548, 559, 463, 407,
                 362, 405, 417, 391, 419, 461, 472, 535, 622, 606, 508, 461, 390, 432]
-        index = pd.DatetimeIndex(start='1949-01-01', end='1960-12-01', freq='MS')
+        index = pd.date_range(start='1949-01-01', end='1960-12-01', freq='MS')
         ts_data = pd.Series(data, index)
         ts_data.index.name = 'datetime_index'
         ts_data.name = 'n_passengers'

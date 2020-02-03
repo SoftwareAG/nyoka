@@ -26,7 +26,7 @@ class TestCases(unittest.TestCase):
         # Non Seasonal Data
         data = [266,146,183,119,180,169,232,225,193,123,337,186,194,150,210,273,191,287,
                 226,304,290,422,265,342,340,440,316,439,401,390,490,408,490,420,520,480]
-        index = pd.DatetimeIndex(start='2016-01-01', end='2018-12-01', freq='MS')
+        index = pd.date_range(start='2016-01-01', end='2018-12-01', freq='MS')
         ts_data = pd.Series(data, index)
         ts_data.index.name = 'date_index'
         ts_data.name = 'cars_sold'
@@ -49,7 +49,7 @@ class TestCases(unittest.TestCase):
         model_pred = result.forecast(5)[0][-1]
         self.assertEqual(model_pred, z_pred)
 
-    @unittest.skip("")
+
     def test_02(self):
         data=pd.read_csv("nyoka/tests/JohnsonJohnsonWithDate.csv")
         data['index']=pd.to_datetime(data['index'], format='%Y-%m-%d')
