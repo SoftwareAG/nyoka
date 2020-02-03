@@ -293,6 +293,8 @@ class RESULT_FEATURE(Enum):
     SUPPORT = "support"
     LIFT = "lift"
     LEVERAGE = "leverage"
+    CONFIDENCE_INTERVAL_UPPER = "confidenceIntervalUpper"
+    CONFIDENCE_INTERVAL_LOWER = "confidenceIntervalLower"
 
 class OPTYPE(Enum):
     CATEGORICAL = "categorical"

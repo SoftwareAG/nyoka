@@ -11,6 +11,7 @@ from datetime import datetime
 import metadata
 import warnings
 import math
+import numpy as np
 from base.enums import * 
 
 class ArimaToPMML:
@@ -20,9 +21,12 @@ class ArimaToPMML:
     Parameters:
     -----------
     results_obj: 
-        Instance of ARIMAResultsWrapper/SARIMAXResultsWrapper from statsmodels
+        Instance of AR(I)MAResultsWrapper / (SARI/VAR)MAXResultsWrapper from statsmodels
     pmml_file_name: string
         Name of the PMML
+    cpi : list (optional)
+        Confidence of prediction intervel. A list of values mentioning the percentage of confidence.
+        e.g., cpi = [80.5,95] will create OutputField for lower bound and upper bound of confidence interval with 80.5% and 95%.
     model_name : string (optional)
         Name of the model
     description : string (optional)
@@ -31,9 +35,10 @@ class ArimaToPMML:
     -------
     Generates PMML object and exports it to `pmml_file_name`
     """
-    def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml", model_name=None, description=None):
+    def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml", cpi=None, model_name=None, description=None):
         self.results_obj = results_obj
         self.pmml_file_name = pmml_file_name
+        self.cpi = cpi
         self.model_name = model_name
         self.description = description
         self.construct_pmml()
@@ -116,16 +121,30 @@ class ArimaToPMML:
 
 
     def generate_state_space_model(self):
-        import numpy as np
         smoother_results = self.results_obj.smoother_results
-        S_t0 = smoother_results.filtered_state[...,-1]
-        mu = smoother_results.state_intercept[...,-1]
+        S_t0 = self.results_obj.filtered_state[...,-1]
+
+        #state_intercept might contain `nan` values. So here it is generated manually.
+        intercept = np.zeros(S_t0.shape)
+        if self.model.k_trend:
+            if self.model.__class__.__name__ == 'VARMAX':
+                mu = self.results_obj.params[self.model._params_trend]
+                if mu.__class__.__name__ == 'Series':
+                    mu = mu.values
+                intercept[:len(mu)] += mu
+            else:
+                mu=self.results_obj._params_trend[0]
+                if mu.__class__.__name__ == 'Series':
+                    mu = mu.values
+                spec = self.results_obj.specification
+                k_state = spec['k_diff']+spec['seasonal_periods']*spec['k_seasonal_diff']
+                intercept[k_state] += mu  
 
         F_matrix = smoother_results.transition[...,-1] #transition_matrix
 
         G = smoother_results.design[...,-1] #measurement_matrix
 
-        S_t1 = np.dot(F_matrix, S_t0) + mu #finalStateVector
+        S_t1 = np.dot(F_matrix, S_t0) + intercept #finalStateVector
 
         t_mat = Matrix(nbRows=F_matrix.shape[0], nbCols=F_matrix.shape[1])
         for row in F_matrix:
@@ -143,11 +162,10 @@ class ArimaToPMML:
         arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(S_t1))
         final_state_vector = FinalStateVector(Array=arr)
 
-        intercept_vector = None
-        if self.model.k_trend:
-            arr_content = " ".join([str(val) for val in mu])
-            arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(mu))
-            intercept_vector = InterceptVector(Array=arr)
+        #InterceptVector will always present
+        arr_content = " ".join([str(val) for val in intercept])
+        arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(intercept))
+        intercept_vector = InterceptVector(Array=arr)
 
         state_space_model = StateSpaceModel(
             StateVector=final_state_vector,
@@ -227,20 +245,29 @@ class ArimaToPMML:
                 OutputField(
                     name="predicted_"+y_, 
                     optype=OPTYPE.CONTINUOUS.value,
-                    dataType=DATATYPE.DOUBLE.value, 
-                    feature=RESULT_FEATURE.PREDICTED_VALUE.value
+                    dataType=DATATYPE.STRING.value, 
+                    feature=RESULT_FEATURE.PREDICTED_VALUE.value,
+                    Extension=[Extension(extender="ADAPA",name="dataType",value="json")]
                     )
             )
-        if self.model.__class__.__name__ in ['ARIMA','ARMA']:
-                names = ['cpi_80_lower','cpi_80_upper','cpi_95_lower','cpi_95_upper']
-                values = ['LOWER80','UPPER80','LOWER95','UPPER95']
-                for name, value in zip(names, values):
-                    out_flds.append(OutputField(
-                        name=name, 
-                        optype=OPTYPE.CONTINUOUS.value, 
+        if self.model.__class__.__name__ in ['ARIMA','ARMA'] and self.cpi is not None:
+            for percent in self.cpi:
+                out_flds.extend([
+                    OutputField(
+                        name=f"cpi_{percent}_lower",
+                        optype=OPTYPE.CONTINUOUS.value,
                         dataType=DATATYPE.DOUBLE.value,
-                        feature=RESULT_FEATURE.STANDARD_ERROR.value,
-                        Extension=[Extension(extender='ADAPA',name='cpi', value=value)]))
+                        feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
+                        value=percent
+                        ),
+                    OutputField(
+                        name=f"cpi_{percent}_upper",
+                        optype=OPTYPE.CONTINUOUS.value,
+                        dataType=DATATYPE.DOUBLE.value,
+                        feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
+                        value=percent
+                    )
+                ])
         return Output(OutputField=out_flds)
     
     def generate_mining_schema(self):
