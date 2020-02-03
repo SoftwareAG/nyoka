@@ -1212,6 +1212,7 @@
             <xs:enumeration value="rectifier"/>
             <xs:enumeration value="hinge"/>
             <xs:enumeration value="tanch"/>
+            <xs:enumeration value="tanh"/>
             <xs:enumeration value="sigmoid"/>
             <xs:enumeration value="hardSigmoid"/>
             <xs:enumeration value="linear"/>
