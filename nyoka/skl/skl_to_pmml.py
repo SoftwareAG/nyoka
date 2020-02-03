@@ -102,6 +102,14 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None):
             model_obj.taskType=tasktype
             models_dict['DeepNetwork'].append(model_obj)
             data_dicts.append(KerasPMML.DataDictionary)
+            
+        elif "MaskRCNN" in str(model):
+            MaskrcnnToPMMLObj = MaskrcnnToPMML(model = model, classes = target_name).pmml_obj
+            model_obj = MaskrcnnToPMMLObj.DeepNetwork[0]
+            model_obj.modelName = model_name
+            model_obj.taskType=tasktype
+            models_dict['DeepNetwork'].append(model_obj)
+            data_dicts.append(MaskrcnnToPMMLObj.DataDictionary)
 
         elif model != None:    
             #model = pipeline.steps[-1][1]
