@@ -104,7 +104,8 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None):
             data_dicts.append(KerasPMML.DataDictionary)
             
         elif "MaskRCNN" in str(model):
-            MaskrcnnToPMMLObj = MaskrcnnToPMML(model = model, classes = target_name).pmml_obj
+            from nyoka.mrcnn.maskrcnn_to_pmml import MaskrcnnToPMML
+            MaskrcnnToPMMLObj = MaskrcnnToPMML(model = model, classes = toExportDict[model_name]['predictedClasses']).pmml_obj
             model_obj = MaskrcnnToPMMLObj.DeepNetwork[0]
             model_obj.modelName = model_name
             model_obj.taskType=tasktype
