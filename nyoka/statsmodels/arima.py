@@ -26,7 +26,7 @@ class ArimaToPMML:
         Name of the PMML
     cpi : list (optional)
         Confidence of prediction intervel. A list of values mentioning the percentage of confidence.
-        e.g., cpi = [80.5,95] will create OutputField for lower bound and upper bound of confidence interval with 80.5% and 95%.
+        e.g., cpi = [80,95] will create OutputField for lower bound and upper bound of confidence interval with 80% and 95%.
     model_name : string (optional)
         Name of the model
     description : string (optional)
@@ -96,10 +96,15 @@ class ArimaToPMML:
         state_space_model = None
 
         if self.model.__class__.__name__ in ['ARMA', 'ARIMA']:
-            best_fit = TIMESERIES_ALGORITHM.ARIMA.value
             self.model_name = self.model_name if self.model_name else "ArimaModel"
             self.description = self.description if self.description else "Non-Seasonal Arima Model"
-            arima_model = self.generate_arima_model()
+            if hasattr(self.results_obj,"fit_details"):
+                best_fit = TIMESERIES_ALGORITHM.STATE_SPACE_MODEL.value
+                state_space_model = self.generate_state_space_model()
+                state_space_model.intercept = self.results_obj.smoother_results.obs_intercept[...,-1][0]
+            else:
+                best_fit = TIMESERIES_ALGORITHM.ARIMA.value
+                arima_model = self.generate_arima_model()
         elif self.model.__class__.__name__ in ['VARMAX','SARIMAX']:
             best_fit = TIMESERIES_ALGORITHM.STATE_SPACE_MODEL.value
             self.model_name = self.model_name if self.model_name else self.model.__class__.__name__
@@ -124,21 +129,24 @@ class ArimaToPMML:
         smoother_results = self.results_obj.smoother_results
         S_t0 = self.results_obj.filtered_state[...,-1]
 
-        #state_intercept might contain `nan` values. So here it is generated manually.
-        intercept = np.zeros(S_t0.shape)
-        if self.model.k_trend:
-            if self.model.__class__.__name__ == 'VARMAX':
-                mu = self.results_obj.params[self.model._params_trend]
-                if mu.__class__.__name__ == 'Series':
-                    mu = mu.values
-                intercept[:len(mu)] += mu
-            else:
-                mu=self.results_obj._params_trend[0]
-                if mu.__class__.__name__ == 'Series':
-                    mu = mu.values
-                spec = self.results_obj.specification
-                k_state = spec['k_diff']+spec['seasonal_periods']*spec['k_seasonal_diff']
-                intercept[k_state] += mu  
+        if self.model.__class__.__name__ in ["ARMA","ARIMA"]:
+            intercept = smoother_results.obs_intercept[...,-1]
+        else:
+            #state_intercept might contain `nan` values. So here it is generated manually.
+            intercept = np.zeros(S_t0.shape)
+            if self.model.k_trend:
+                if self.model.__class__.__name__ == 'VARMAX':
+                    mu = self.results_obj.params[self.model._params_trend]
+                    if mu.__class__.__name__ == 'Series':
+                        mu = mu.values
+                    intercept[:len(mu)] += mu
+                else:
+                    mu=self.results_obj._params_trend[0]
+                    if mu.__class__.__name__ == 'Series':
+                        mu = mu.values
+                    spec = self.results_obj.specification
+                    k_state = spec['k_diff']+spec['seasonal_periods']*spec['k_seasonal_diff']
+                    intercept[k_state] += mu  
 
         F_matrix = smoother_results.transition[...,-1] #transition_matrix
 
