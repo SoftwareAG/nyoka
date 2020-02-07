@@ -126,6 +126,17 @@ class ArimaToPMML:
 
 
     def generate_state_space_model(self):
+
+        def get_array_contents(array):
+            vals=[]
+            for val in array:
+                if round(val,12) in [0.0,-0.0,1.0,-1.0]:
+                    vals.append(str(round(val,12)))
+                else:
+                    vals.append("{:.12f}".format(val).rstrip("0"))
+            array_content = " ".join(vals)
+            return array_content
+
         smoother_results = self.results_obj.smoother_results
         S_t0 = self.results_obj.filtered_state[...,-1]
 
@@ -156,30 +167,50 @@ class ArimaToPMML:
 
         t_mat = Matrix(nbRows=F_matrix.shape[0], nbCols=F_matrix.shape[1])
         for row in F_matrix:
-            array_content = " ".join([str(col) for col in row])
+            array_content = get_array_contents(row)
             t_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
         transition_matrix = TransitionMatrix(Matrix=t_mat)
 
         m_mat = Matrix(nbRows=G.shape[0], nbCols=G.shape[1])
         for row in G:
-            array_content = " ".join([str(col) for col in row])
+            array_content = get_array_contents(row)
             m_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
         measurement_matrix = MeasurementMatrix(Matrix=m_mat)
 
-        arr_content = " ".join([str(val) for val in S_t1])
+        arr_content = get_array_contents(S_t1)
         arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(S_t1))
         final_state_vector = FinalStateVector(Array=arr)
 
-        #InterceptVector will always present
-        arr_content = " ".join([str(val) for val in intercept])
+        #InterceptVector will always be there
+        arr_content = get_array_contents(intercept)
         arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(intercept))
         intercept_vector = InterceptVector(Array=arr)
+
+        #For confidence interval
+        R = smoother_results.selection[...,-1] # selection matrix
+        Q = smoother_results.state_cov[...,-1] # state_covariance matrix
+        R_Q_R_prime = np.dot(R,np.dot(Q,R.T)) # selected_state_cov
+        P_t0 = smoother_results.predicted_state_cov[...,-1] # predicted_state_cov
+
+        RQR_mat = Matrix(nbRows=R_Q_R_prime.shape[0], nbCols=R_Q_R_prime.shape[1])
+        for row in R_Q_R_prime:
+            array_content = get_array_contents(row)
+            RQR_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
+        selected_state_cov_matrix = SelectedStateCovarianceMatrix(Matrix=RQR_mat)
+
+        p_mat = Matrix(nbRows=P_t0.shape[0], nbCols=P_t0.shape[1])
+        for row in P_t0:
+            array_content = get_array_contents(row)
+            p_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
+        predicted_state_cov_matrix = PredictedStateCovarianceMatrix(Matrix=p_mat)
 
         state_space_model = StateSpaceModel(
             StateVector=final_state_vector,
             TransitionMatrix=transition_matrix,
             MeasurementMatrix=measurement_matrix,
-            InterceptVector=intercept_vector
+            InterceptVector=intercept_vector,
+            SelectedStateCovarianceMatrix=selected_state_cov_matrix,
+            PredictedStateCovarianceMatrix=predicted_state_cov_matrix
         )
         return state_space_model
 
@@ -258,23 +289,44 @@ class ArimaToPMML:
                     Extension=[Extension(extender="ADAPA",name="dataType",value="json")]
                     )
             )
-        if self.model.__class__.__name__ in ['ARIMA','ARMA'] and self.cpi is not None:
+        if self.cpi is not None:
             for percent in self.cpi:
+                ###########################
+                ### With Updated schema ###
+                ###########################
+                # out_flds.extend([
+                #     OutputField(
+                #         name=f"cpi_{percent}_lower",
+                #         optype=OPTYPE.CONTINUOUS.value,
+                #         dataType=DATATYPE.DOUBLE.value,
+                #         feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
+                #         value=percent
+                #         ),
+                #     OutputField(
+                #         name=f"cpi_{percent}_upper",
+                #         optype=OPTYPE.CONTINUOUS.value,
+                #         dataType=DATATYPE.DOUBLE.value,
+                #         feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
+                #         value=percent
+                #     )
+                # ])
+
+                ######################
+                ### With extension ###
+                ######################
                 out_flds.extend([
                     OutputField(
-                        name=f"cpi_{percent}_lower",
-                        optype=OPTYPE.CONTINUOUS.value,
+                        name=f'cpi_{percent}_lower', 
+                        optype=OPTYPE.CONTINUOUS.value, 
                         dataType=DATATYPE.DOUBLE.value,
-                        feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
-                        value=percent
-                        ),
+                        feature=RESULT_FEATURE.STANDARD_ERROR.value,
+                        Extension=[Extension(extender='ADAPA',name='cpi', value=f'LOWER{percent}')]),
                     OutputField(
-                        name=f"cpi_{percent}_upper",
-                        optype=OPTYPE.CONTINUOUS.value,
+                        name=f'cpi_{percent}_upper', 
+                        optype=OPTYPE.CONTINUOUS.value, 
                         dataType=DATATYPE.DOUBLE.value,
-                        feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
-                        value=percent
-                    )
+                        feature=RESULT_FEATURE.STANDARD_ERROR.value,
+                        Extension=[Extension(extender='ADAPA',name='cpi', value=f'UPPER{percent}')])
                 ])
         return Output(OutputField=out_flds)
     
