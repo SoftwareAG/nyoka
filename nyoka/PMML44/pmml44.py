@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Tue Jan 21 11:40:58 2020 by generateDS.py version 2.28a.
+# Generated Fri Feb  7 12:46:00 2020 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -3005,8 +3005,8 @@ supermod.PastVariances.subclass = PastVariances
 
 
 class StateSpaceModel(supermod.StateSpaceModel):
-    def __init__(self, variance=None, period='none', intercept='0', Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, InterceptVector=None, VarianceVector=None, PsiVector=None, DynamicRegressor=None):
-        super(StateSpaceModel, self).__init__(variance, period, intercept, Extension, StateVector, TransitionMatrix, MeasurementMatrix, InterceptVector, VarianceVector, PsiVector, DynamicRegressor, )
+    def __init__(self, variance=None, period='none', intercept='0', observationVariance=None, Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, InterceptVector=None, PredictedStateCovarianceMatrix=None, SelectedStateCovarianceMatrix=None, PsiVector=None, DynamicRegressor=None):
+        super(StateSpaceModel, self).__init__(variance, period, intercept, observationVariance, Extension, StateVector, TransitionMatrix, MeasurementMatrix, InterceptVector, PredictedStateCovarianceMatrix, SelectedStateCovarianceMatrix, PsiVector, DynamicRegressor, )
 
     #
     # XMLBehaviors
@@ -3059,15 +3059,26 @@ supermod.InterceptVector.subclass = InterceptVector
 # end class InterceptVector
 
 
-class VarianceVector(supermod.VarianceVector):
-    def __init__(self, Extension=None, Array=None):
-        super(VarianceVector, self).__init__(Extension, Array, )
+class PredictedStateCovarianceMatrix(supermod.PredictedStateCovarianceMatrix):
+    def __init__(self, Extension=None, Matrix=None):
+        super(PredictedStateCovarianceMatrix, self).__init__(Extension, Matrix, )
 
     #
     # XMLBehaviors
     #
-supermod.VarianceVector.subclass = VarianceVector
-# end class VarianceVector
+supermod.PredictedStateCovarianceMatrix.subclass = PredictedStateCovarianceMatrix
+# end class PredictedStateCovarianceMatrix
+
+
+class SelectedStateCovarianceMatrix(supermod.SelectedStateCovarianceMatrix):
+    def __init__(self, Extension=None, Matrix=None):
+        super(SelectedStateCovarianceMatrix, self).__init__(Extension, Matrix, )
+
+    #
+    # XMLBehaviors
+    #
+supermod.SelectedStateCovarianceMatrix.subclass = SelectedStateCovarianceMatrix
+# end class SelectedStateCovarianceMatrix
 
 
 class PsiVector(supermod.PsiVector):

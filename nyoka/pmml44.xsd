@@ -3595,13 +3595,15 @@
       <xs:element ref="TransitionMatrix" minOccurs="0"/>
       <xs:element ref="MeasurementMatrix" minOccurs="0"/>
                 <xs:element ref="InterceptVector" minOccurs="0"/>
-                <xs:element ref="VarianceVector" minOccurs="0"/>
+                <xs:element ref="PredictedStateCovarianceMatrix" minOccurs="0"/>
+                <xs:element ref="SelectedStateCovarianceMatrix" minOccurs="0"/>
       <xs:element ref="PsiVector" minOccurs="0"/>
       <xs:element ref="DynamicRegressor" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="variance" type="REAL-NUMBER"/>
     <xs:attribute name="period" default="none"/>
     <xs:attribute name="intercept" type="REAL-NUMBER" default="0"/>
+            <xs:attribute name="observationVariance" type="REAL-NUMBER"/>
   </xs:complexType>
 </xs:element>
 <xs:element name="StateVector">
@@ -3636,11 +3638,19 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="VarianceVector">
+    <xs:element name="PredictedStateCovarianceMatrix">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:group ref="REAL-ARRAY"/>
+                <xs:element ref="Matrix"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="SelectedStateCovarianceMatrix">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="Matrix"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
