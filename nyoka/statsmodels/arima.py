@@ -291,6 +291,7 @@ class ArimaToPMML:
             )
         if self.cpi is not None:
             for percent in self.cpi:
+                for y_ in self.y:
                 ###########################
                 ### With Updated schema ###
                 ###########################
@@ -299,6 +300,7 @@ class ArimaToPMML:
                 #         name=f"cpi_{percent}_lower",
                 #         optype=OPTYPE.CONTINUOUS.value,
                 #         dataType=DATATYPE.DOUBLE.value,
+                #         targetField=y_,
                 #         feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
                 #         value=percent
                 #         ),
@@ -306,6 +308,7 @@ class ArimaToPMML:
                 #         name=f"cpi_{percent}_upper",
                 #         optype=OPTYPE.CONTINUOUS.value,
                 #         dataType=DATATYPE.DOUBLE.value,
+                #         targetField=y_,
                 #         feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
                 #         value=percent
                 #     )
@@ -314,20 +317,22 @@ class ArimaToPMML:
                 ######################
                 ### With extension ###
                 ######################
-                out_flds.extend([
-                    OutputField(
-                        name=f'cpi_{percent}_lower', 
-                        optype=OPTYPE.CONTINUOUS.value, 
-                        dataType=DATATYPE.DOUBLE.value,
-                        feature=RESULT_FEATURE.STANDARD_ERROR.value,
-                        Extension=[Extension(extender='ADAPA',name='cpi', value=f'LOWER{percent}')]),
-                    OutputField(
-                        name=f'cpi_{percent}_upper', 
-                        optype=OPTYPE.CONTINUOUS.value, 
-                        dataType=DATATYPE.DOUBLE.value,
-                        feature=RESULT_FEATURE.STANDARD_ERROR.value,
-                        Extension=[Extension(extender='ADAPA',name='cpi', value=f'UPPER{percent}')])
-                ])
+                    out_flds.extend([
+                        OutputField(
+                            name=f'cpi_{percent}_lower', 
+                            optype=OPTYPE.CONTINUOUS.value, 
+                            dataType=DATATYPE.DOUBLE.value,
+                            targetField=y_,
+                            feature=RESULT_FEATURE.STANDARD_ERROR.value,
+                            Extension=[Extension(extender='ADAPA',name='cpi', value=f'LOWER{percent}')]),
+                        OutputField(
+                            name=f'cpi_{percent}_upper', 
+                            optype=OPTYPE.CONTINUOUS.value, 
+                            dataType=DATATYPE.DOUBLE.value,
+                            targetField=y_,
+                            feature=RESULT_FEATURE.STANDARD_ERROR.value,
+                            Extension=[Extension(extender='ADAPA',name='cpi', value=f'UPPER{percent}')])
+                    ])
         return Output(OutputField=out_flds)
     
     def generate_mining_schema(self):
