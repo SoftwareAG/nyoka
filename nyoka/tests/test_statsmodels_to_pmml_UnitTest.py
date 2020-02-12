@@ -7,6 +7,7 @@ from statsmodels.tsa.base import tsa_model as tsa
 from statsmodels.tsa import holtwinters as hw
 from statsmodels.tsa.statespace import sarimax
 from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.tsa.arima.model import ARIMA as StateSpaceARIMA
 import unittest
 
 from nyoka import ArimaToPMML, ExponentialSmoothingToPMML
@@ -113,6 +114,22 @@ class TestMethods(unittest.TestCase):
         f_name='non_seasonal_arima3.pmml'
         model = ARIMA(ts_data,order=(1, 0, 1))
         result = model.fit(trend = 'c', method = 'css-mle')
+        ArimaToPMML(result, f_name, description="A test model")
+        self.assertEqual(os.path.isfile(f_name),True)
+
+    def test_non_seasonal_arima4(self):
+        ts_data = self.getData4()
+        f_name='non_seasonal_arima4.pmml'
+        model = StateSpaceARIMA(ts_data,order=(1, 0, 1),trend = 'c')
+        result = model.fit()
+        ArimaToPMML(result, f_name, description="A test model")
+        self.assertEqual(os.path.isfile(f_name),True)
+
+    def test_non_seasonal_arima5(self):
+        ts_data = self.getData4()
+        f_name='non_seasonal_arima5.pmml'
+        model = StateSpaceARIMA(ts_data,order=(1, 1, 1))
+        result = model.fit()
         ArimaToPMML(result, f_name, description="A test model")
         self.assertEqual(os.path.isfile(f_name),True)
     
