@@ -96,145 +96,26 @@ class TestMethods(unittest.TestCase):
         ts_data = self.getData4()
         f_name='non_seasonal_arima1.pmml'
         model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'lbfgs')
+        result = model.fit(trend = 'c', method = 'css-mle')
         ArimaToPMML(result, f_name, model_name="arima_920")
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_non_seasonal_arima2(self):
         ts_data = self.getData4()
         f_name='non_seasonal_arima2.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'nm')
+        model = ARIMA(ts_data,order=(9, 2, 3))
+        result = model.fit(trend = 'nc', method = 'css-mle')
         ArimaToPMML(result, f_name, description="A test model")
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_non_seasonal_arima3(self):
         ts_data = self.getData4()
         f_name='non_seasonal_arima3.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'bfgs')
-        ArimaToPMML(result, f_name)
+        model = ARIMA(ts_data,order=(1, 0, 1))
+        result = model.fit(trend = 'c', method = 'css-mle')
+        ArimaToPMML(result, f_name, description="A test model")
         self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima4(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima4.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'powell')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima5(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima5.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'cg')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima6(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima6.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle', solver = 'ncg')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima7(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima7.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'lbfgs')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima8(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima8.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'nm')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima9(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima9.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'bfgs')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima10(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima10.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'powell')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima11(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima11.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'cg')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima12(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima12.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'mle', solver = 'ncg')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima13(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima13.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'lbfgs')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima14(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima14.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'nm')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima15(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima15.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'bfgs')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima16(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima16.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'powell')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima17(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima17.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'cg')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_non_seasonal_arima18(self):
-        ts_data = self.getData4()
-        f_name='non_seasonal_arima18.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css', solver = 'ncg')
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
+    
 
 
     #Seasonal Arima Test cases
@@ -242,18 +123,9 @@ class TestMethods(unittest.TestCase):
         ts_data = self.getData5()
         f_name='seasonal_arima1.pmml'
         model = sarimax.SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = True, 
-                                        time_varying_regression = True, 
-                                        mle_regression = False, 
-                                        simple_differencing = True, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = True, 
-                                        concentrate_scale = False)
+                                        order = (1, 1, 1),
+                                        seasonal_order = (1, 1, 1, 12),
+                                        )
         result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
@@ -262,18 +134,9 @@ class TestMethods(unittest.TestCase):
         ts_data = self.getData5()
         f_name='seasonal_arima2.pmml'
         model = sarimax.SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = True, 
-                                        time_varying_regression = True, 
-                                        mle_regression = False, 
-                                        simple_differencing = False, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = False, 
-                                        concentrate_scale = False)
+                                        order = (1, 0, 1),
+                                        seasonal_order = (1, 1, 1, 12),
+                                        )
         result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
@@ -282,18 +145,9 @@ class TestMethods(unittest.TestCase):
         ts_data = self.getData5()
         f_name='seasonal_arima3.pmml'
         model = sarimax.SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = True, 
-                                        time_varying_regression = False, 
-                                        mle_regression = True, 
-                                        simple_differencing = True, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = True, 
-                                        concentrate_scale = False)
+                                        order = (1, 1, 1),
+                                        seasonal_order = (1, 0, 1, 12),
+                                        )
         result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
@@ -302,18 +156,9 @@ class TestMethods(unittest.TestCase):
         ts_data = self.getData5()
         f_name='seasonal_arima4.pmml'
         model = sarimax.SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = True, 
-                                        time_varying_regression = False, 
-                                        mle_regression = True, 
-                                        simple_differencing = False, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = False, 
-                                        concentrate_scale = False)
+                                        order = (1, 0, 1),
+                                        seasonal_order = (1, 0, 1, 12),
+                                        )
         result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
@@ -322,81 +167,14 @@ class TestMethods(unittest.TestCase):
         ts_data = self.getData5()
         f_name='seasonal_arima5.pmml'
         model = sarimax.SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
+                                        order = (0, 0, 1),
                                         seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = False, 
-                                        time_varying_regression = True, 
-                                        mle_regression = False, 
-                                        simple_differencing = True, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = True, 
-                                        concentrate_scale = False)
+                                        trend = 'c',
+                                        )
         result = model.fit(disp=False)
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
-    def test_seasonal_arima6(self):
-        ts_data = self.getData5()
-        f_name='seasonal_arima6.pmml'
-        model = sarimax.SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = False, 
-                                        time_varying_regression = True, 
-                                        mle_regression = False, 
-                                        simple_differencing = False, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = False, 
-                                        concentrate_scale = False)
-        result = model.fit(disp=False)
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_seasonal_arima7(self):
-        ts_data = self.getData5()
-        f_name='seasonal_arima7.pmml'
-        model = sarimax.SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = False, 
-                                        time_varying_regression = False, 
-                                        mle_regression = True, 
-                                        simple_differencing = True, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = True, 
-                                        concentrate_scale = False)
-        result = model.fit(disp=False)
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
-
-    def test_seasonal_arima8(self):
-        ts_data = self.getData5()
-        f_name='seasonal_arima8.pmml'
-        model = sarimax.SARIMAX(endog = ts_data,
-                                        exog = None,
-                                        order = (3, 1, 1),
-                                        seasonal_order = (3, 1, 1, 12),
-                                        trend = 't',
-                                        measurement_error = False, 
-                                        time_varying_regression = False, 
-                                        mle_regression = True, 
-                                        simple_differencing = False, 
-                                        enforce_stationarity = False, 
-                                        enforce_invertibility = False, 
-                                        hamilton_representation = False, 
-                                        concentrate_scale = False)
-        result = model.fit(disp=False)
-        ArimaToPMML(result, f_name)
-        self.assertEqual(os.path.isfile(f_name),True)
 
 if __name__=='__main__':
     unittest.main(warnings='ignore')
