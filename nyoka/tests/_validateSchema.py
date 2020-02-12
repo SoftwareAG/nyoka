@@ -605,7 +605,7 @@ class PmmlValidation(unittest.TestCase):
     def test_varmax_without_intercept(self):
         ts_data = self.statsmodels_data_helper.get_data_for_varmax()
         f_name='varmax_without_intercept.pmml'
-        model = VARMAX(ts_data, order=(1,1), trend='nc')
+        model = VARMAX(ts_data, order=(1,1), trend=None)
         result = model.fit()
         ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
