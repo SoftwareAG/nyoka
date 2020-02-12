@@ -24,9 +24,9 @@ class ArimaToPMML:
         Instance of AR(I)MAResultsWrapper / (SARI/VAR)MAXResultsWrapper from statsmodels
     pmml_file_name: string
         Name of the PMML
-    cpi : list (optional)
-        Confidence of prediction intervel. A list of values mentioning the percentage of confidence.
-        e.g., cpi = [80,95] will create OutputField for lower bound and upper bound of confidence interval with 80% and 95%.
+    conf_int : list (optional)
+        Confidence intervel. A list of values mentioning the percentage of confidence.
+        e.g., conf_int = [80,95] will create OutputField for lower bound and upper bound of confidence interval with 80% and 95%.
     model_name : string (optional)
         Name of the model
     description : string (optional)
@@ -35,10 +35,10 @@ class ArimaToPMML:
     -------
     Generates PMML object and exports it to `pmml_file_name`
     """
-    def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml", cpi=None, model_name=None, description=None):
+    def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml", conf_int=None, model_name=None, description=None):
         self.results_obj = results_obj
         self.pmml_file_name = pmml_file_name
-        self.cpi = cpi
+        self.conf_int = conf_int
         self.model_name = model_name
         self.description = description
         self.construct_pmml()
@@ -289,30 +289,30 @@ class ArimaToPMML:
                     Extension=[Extension(extender="ADAPA",name="dataType",value="json")]
                     )
             )
-        if self.cpi is not None:
-            for percent in self.cpi:
+        if self.conf_int is not None:
+            for percent in self.conf_int:
                 for y_ in self.y:
                 ###########################
                 ### With Updated schema ###
                 ###########################
-                # out_flds.extend([
-                #     OutputField(
-                #         name=f"cpi_{percent}_lower",
-                #         optype=OPTYPE.CONTINUOUS.value,
-                #         dataType=DATATYPE.DOUBLE.value,
-                #         targetField=y_,
-                #         feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
-                #         value=percent
-                #         ),
-                #     OutputField(
-                #         name=f"cpi_{percent}_upper",
-                #         optype=OPTYPE.CONTINUOUS.value,
-                #         dataType=DATATYPE.DOUBLE.value,
-                #         targetField=y_,
-                #         feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
-                #         value=percent
-                #     )
-                # ])
+                    # out_flds.extend([
+                    #     OutputField(
+                    #         name=f"conf_int_{percent}_lower",
+                    #         optype=OPTYPE.CONTINUOUS.value,
+                    #         dataType=DATATYPE.DOUBLE.value,
+                    #         targetField=y_,
+                    #         feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
+                    #         value=percent
+                    #         ),
+                    #     OutputField(
+                    #         name=f"conf_int_{percent}_upper",
+                    #         optype=OPTYPE.CONTINUOUS.value,
+                    #         dataType=DATATYPE.DOUBLE.value,
+                    #         targetField=y_,
+                    #         feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
+                    #         value=percent
+                    #     )
+                    # ])
 
                 ######################
                 ### With extension ###
