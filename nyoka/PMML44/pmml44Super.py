@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Fri Feb  7 12:45:59 2020 by generateDS.py version 2.28a.
+# Generated Mon Feb 17 12:39:47 2020 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -7913,7 +7913,7 @@ class ResultField(GeneratedsSuper):
         # Validate type RESULT-FEATURE, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
             value = str(value)
-            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage']
+            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage', 'confidenceIntervalLower', 'confidenceIntervalUpper']
             enumeration_respectee = False
             for enum in enumerations:
                 if value == enum:
@@ -22618,7 +22618,7 @@ class OutputField(GeneratedsSuper):
         # Validate type RESULT-FEATURE, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
             value = str(value)
-            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage']
+            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage', 'confidenceIntervalLower', 'confidenceIntervalUpper']
             enumeration_respectee = False
             for enum in enumerations:
                 if value == enum:

@@ -101,7 +101,6 @@ class ArimaToPMML:
             if hasattr(self.results_obj,"fit_details"):
                 best_fit = TIMESERIES_ALGORITHM.STATE_SPACE_MODEL.value
                 state_space_model = self.generate_state_space_model()
-                state_space_model.intercept = self.results_obj.smoother_results.obs_intercept[...,-1][0]
             else:
                 best_fit = TIMESERIES_ALGORITHM.ARIMA.value
                 arima_model = self.generate_arima_model()
@@ -290,49 +289,31 @@ class ArimaToPMML:
                     )
             )
         if self.conf_int is not None:
+            lower = []
+            upper = []
             for percent in self.conf_int:
                 for y_ in self.y:
-                ###########################
-                ### With Updated schema ###
-                ###########################
-                    # out_flds.extend([
-                    #     OutputField(
-                    #         name=f"conf_int_{percent}_lower",
-                    #         optype=OPTYPE.CONTINUOUS.value,
-                    #         dataType=DATATYPE.DOUBLE.value,
-                    #         targetField=y_,
-                    #         feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
-                    #         value=percent
-                    #         ),
-                    #     OutputField(
-                    #         name=f"conf_int_{percent}_upper",
-                    #         optype=OPTYPE.CONTINUOUS.value,
-                    #         dataType=DATATYPE.DOUBLE.value,
-                    #         targetField=y_,
-                    #         feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
-                    #         value=percent
-                    #     )
-                    # ])
-
-                ######################
-                ### With extension ###
-                ######################
-                    out_flds.extend([
+                    lower.append(
                         OutputField(
-                            name=f'cpi_{percent}_lower', 
-                            optype=OPTYPE.CONTINUOUS.value, 
+                            name=f"conf_int_{percent}_lower_{y_}",
+                            optype=OPTYPE.CONTINUOUS.value,
                             dataType=DATATYPE.DOUBLE.value,
                             targetField=y_,
-                            feature=RESULT_FEATURE.STANDARD_ERROR.value,
-                            Extension=[Extension(extender='ADAPA',name='cpi', value=f'LOWER{percent}')]),
+                            feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
+                            value=percent
+                            )
+                    )
+                    upper.append(
                         OutputField(
-                            name=f'cpi_{percent}_upper', 
-                            optype=OPTYPE.CONTINUOUS.value, 
+                            name=f"conf_int_{percent}_upper_{y_}",
+                            optype=OPTYPE.CONTINUOUS.value,
                             dataType=DATATYPE.DOUBLE.value,
                             targetField=y_,
-                            feature=RESULT_FEATURE.STANDARD_ERROR.value,
-                            Extension=[Extension(extender='ADAPA',name='cpi', value=f'UPPER{percent}')])
-                    ])
+                            feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
+                            value=percent
+                        )
+                    )
+            out_flds.extend(lower + upper)
         return Output(OutputField=out_flds)
     
     def generate_mining_schema(self):
