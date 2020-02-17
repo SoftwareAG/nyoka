@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Jan 21 11:40:56 2020 by generateDS.py version 2.28a.
+# Generated Mon Feb 17 12:39:47 2020 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -6927,7 +6927,7 @@ class Segmentation(GeneratedsSuper):
         if self.missingPredictionTreatment != "continue" and 'missingPredictionTreatment' not in already_processed:
             already_processed.add('missingPredictionTreatment')
             outfile.write(' missingPredictionTreatment=%s' % (quote_attrib(self.missingPredictionTreatment), ))
-        if self.missingThreshold is not None and 'missingThreshold' not in already_processed:
+        if self.missingThreshold != 1 and 'missingThreshold' not in already_processed:
             already_processed.add('missingThreshold')
             outfile.write(' missingThreshold=%s' % (quote_attrib(self.missingThreshold), ))
     def exportChildren(self, outfile, level, namespace_='', name_='Segmentation', fromsubclass_=False, pretty_print=True):
@@ -7212,7 +7212,7 @@ class Segment(GeneratedsSuper):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
             outfile.write(' id=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.id), input_name='id')), ))
-        if self.weight is not None and 'weight' not in already_processed:
+        if self.weight != 1 and 'weight' not in already_processed:
             already_processed.add('weight')
             outfile.write(' weight=%s' % (quote_attrib(self.weight), ))
     def exportChildren(self, outfile, level, namespace_='', name_='Segment', fromsubclass_=False, pretty_print=True):
@@ -7913,7 +7913,7 @@ class ResultField(GeneratedsSuper):
         # Validate type RESULT-FEATURE, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
             value = str(value)
-            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage']
+            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage', 'confidenceIntervalLower', 'confidenceIntervalUpper']
             enumeration_respectee = False
             for enum in enumerations:
                 if value == enum:
@@ -8583,7 +8583,7 @@ class DecisionTree(GeneratedsSuper):
         if self.missingValueStrategy != "none" and 'missingValueStrategy' not in already_processed:
             already_processed.add('missingValueStrategy')
             outfile.write(' missingValueStrategy=%s' % (quote_attrib(self.missingValueStrategy), ))
-        if self.missingValuePenalty is not None and 'missingValuePenalty' not in already_processed:
+        if self.missingValuePenalty != 1.0 and 'missingValuePenalty' not in already_processed:
             already_processed.add('missingValuePenalty')
             outfile.write(' missingValuePenalty=%s' % (quote_attrib(self.missingValuePenalty), ))
         if self.noTrueChildStrategy != "returnNullPrediction" and 'noTrueChildStrategy' not in already_processed:
@@ -9009,7 +9009,7 @@ class SupportVectorMachineModel(GeneratedsSuper):
         if self.algorithmName is not None and 'algorithmName' not in already_processed:
             already_processed.add('algorithmName')
             outfile.write(' algorithmName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.algorithmName), input_name='algorithmName')), ))
-        if self.threshold is not None and 'threshold' not in already_processed:
+        if self.threshold != 0 and 'threshold' not in already_processed:
             already_processed.add('threshold')
             outfile.write(' threshold=%s' % (quote_attrib(self.threshold), ))
         if self.svmRepresentation != "SupportVectors" and 'svmRepresentation' not in already_processed:
@@ -9585,13 +9585,13 @@ class PolynomialKernelType(GeneratedsSuper):
         if self.description is not None and 'description' not in already_processed:
             already_processed.add('description')
             outfile.write(' description=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.description), input_name='description')), ))
-        if self.gamma is not None and 'gamma' not in already_processed:
+        if self.gamma != 1 and 'gamma' not in already_processed:
             already_processed.add('gamma')
             outfile.write(' gamma=%s' % (quote_attrib(self.gamma), ))
-        if self.coef0 is not None and 'coef0' not in already_processed:
+        if self.coef0 != 1 and 'coef0' not in already_processed:
             already_processed.add('coef0')
             outfile.write(' coef0=%s' % (quote_attrib(self.coef0), ))
-        if self.degree is not None and 'degree' not in already_processed:
+        if self.degree != 1 and 'degree' not in already_processed:
             already_processed.add('degree')
             outfile.write(' degree=%s' % (quote_attrib(self.degree), ))
     def exportChildren(self, outfile, level, namespace_='', name_='PolynomialKernelType', fromsubclass_=False, pretty_print=True):
@@ -9767,7 +9767,7 @@ class RadialBasisKernelType(GeneratedsSuper):
         if self.description is not None and 'description' not in already_processed:
             already_processed.add('description')
             outfile.write(' description=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.description), input_name='description')), ))
-        if self.gamma is not None and 'gamma' not in already_processed:
+        if self.gamma != 1 and 'gamma' not in already_processed:
             already_processed.add('gamma')
             outfile.write(' gamma=%s' % (quote_attrib(self.gamma), ))
     def exportChildren(self, outfile, level, namespace_='', name_='RadialBasisKernelType', fromsubclass_=False, pretty_print=True):
@@ -9918,10 +9918,10 @@ class SigmoidKernelType(GeneratedsSuper):
         if self.description is not None and 'description' not in already_processed:
             already_processed.add('description')
             outfile.write(' description=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.description), input_name='description')), ))
-        if self.gamma is not None and 'gamma' not in already_processed:
+        if self.gamma != 1 and 'gamma' not in already_processed:
             already_processed.add('gamma')
             outfile.write(' gamma=%s' % (quote_attrib(self.gamma), ))
-        if self.coef0 is not None and 'coef0' not in already_processed:
+        if self.coef0 != 1 and 'coef0' not in already_processed:
             already_processed.add('coef0')
             outfile.write(' coef0=%s' % (quote_attrib(self.coef0), ))
     def exportChildren(self, outfile, level, namespace_='', name_='SigmoidKernelType', fromsubclass_=False, pretty_print=True):
@@ -11147,7 +11147,7 @@ class Coefficients(GeneratedsSuper):
         if self.numberOfCoefficients is not None and 'numberOfCoefficients' not in already_processed:
             already_processed.add('numberOfCoefficients')
             outfile.write(' numberOfCoefficients="%s"' % self.gds_format_integer(self.numberOfCoefficients, input_name='numberOfCoefficients'))
-        if self.absoluteValue is not None and 'absoluteValue' not in already_processed:
+        if self.absoluteValue != 0 and 'absoluteValue' not in already_processed:
             already_processed.add('absoluteValue')
             outfile.write(' absoluteValue=%s' % (quote_attrib(self.absoluteValue), ))
     def exportChildren(self, outfile, level, namespace_='', name_='Coefficients', fromsubclass_=False, pretty_print=True):
@@ -11315,7 +11315,7 @@ class Coefficient(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='Coefficient'):
-        if self.value is not None and 'value' not in already_processed:
+        if self.value != 0 and 'value' not in already_processed:
             already_processed.add('value')
             outfile.write(' value=%s' % (quote_attrib(self.value), ))
     def exportChildren(self, outfile, level, namespace_='', name_='Coefficient', fromsubclass_=False, pretty_print=True):
@@ -12708,7 +12708,7 @@ class INT_SparseArray(GeneratedsSuper):
         if self.n is not None and 'n' not in already_processed:
             already_processed.add('n')
             outfile.write(' n=%s' % (quote_attrib(self.n), ))
-        if self.defaultValue is not None and 'defaultValue' not in already_processed:
+        if self.defaultValue != 0 and 'defaultValue' not in already_processed:
             already_processed.add('defaultValue')
             outfile.write(' defaultValue=%s' % (quote_attrib(self.defaultValue), ))
     def exportChildren(self, outfile, level, namespace_='', name_='INT-SparseArray', fromsubclass_=False, pretty_print=True):
@@ -12879,7 +12879,7 @@ class REAL_SparseArray(GeneratedsSuper):
         if self.n is not None and 'n' not in already_processed:
             already_processed.add('n')
             outfile.write(' n=%s' % (quote_attrib(self.n), ))
-        if self.defaultValue is not None and 'defaultValue' not in already_processed:
+        if self.defaultValue != 0 and 'defaultValue' not in already_processed:
             already_processed.add('defaultValue')
             outfile.write(' defaultValue=%s' % (quote_attrib(self.defaultValue), ))
     def exportChildren(self, outfile, level, namespace_='', name_='REAL-SparseArray', fromsubclass_=False, pretty_print=True):
@@ -14328,7 +14328,7 @@ class NumericPredictor(GeneratedsSuper):
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
             outfile.write(' name=%s' % (quote_attrib(self.name), ))
-        if self.exponent is not None and 'exponent' not in already_processed:
+        if self.exponent != 1 and 'exponent' not in already_processed:
             already_processed.add('exponent')
             outfile.write(' exponent=%s' % (quote_attrib(self.exponent), ))
         if self.coefficient is not None and 'coefficient' not in already_processed:
@@ -15684,10 +15684,10 @@ class SimpleRule(GeneratedsSuper):
         if self.nbCorrect is not None and 'nbCorrect' not in already_processed:
             already_processed.add('nbCorrect')
             outfile.write(' nbCorrect=%s' % (quote_attrib(self.nbCorrect), ))
-        if self.confidence is not None and 'confidence' not in already_processed:
+        if self.confidence != 1 and 'confidence' not in already_processed:
             already_processed.add('confidence')
             outfile.write(' confidence=%s' % (quote_attrib(self.confidence), ))
-        if self.weight is not None and 'weight' not in already_processed:
+        if self.weight != 1 and 'weight' not in already_processed:
             already_processed.add('weight')
             outfile.write(' weight=%s' % (quote_attrib(self.weight), ))
     def exportChildren(self, outfile, level, namespace_='', name_='SimpleRule', fromsubclass_=False, pretty_print=True):
@@ -22618,7 +22618,7 @@ class OutputField(GeneratedsSuper):
         # Validate type RESULT-FEATURE, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
             value = str(value)
-            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage']
+            enumerations = ['predictedValue', 'predictedDisplayValue', 'transformedValue', 'decision', 'probability', 'topCategories', 'affinity', 'residual', 'standardError', 'standardDeviation', 'clusterId', 'clusterAffinity', 'entityId', 'entityAffinity', 'warning', 'ruleValue', 'reasonCode', 'antecedent', 'consequent', 'rule', 'ruleId', 'confidence', 'support', 'lift', 'leverage', 'confidenceIntervalLower', 'confidenceIntervalUpper']
             enumeration_respectee = False
             for enum in enumerations:
                 if value == enum:
@@ -22713,7 +22713,7 @@ class OutputField(GeneratedsSuper):
         if self.algorithm != "exclusiveRecommendation" and 'algorithm' not in already_processed:
             already_processed.add('algorithm')
             outfile.write(' algorithm=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.algorithm), input_name='algorithm')), ))
-        if self.rank is not None and 'rank' not in already_processed:
+        if self.rank != 1 and 'rank' not in already_processed:
             already_processed.add('rank')
             outfile.write(' rank=%s' % (quote_attrib(self.rank), ))
         if self.rankBasis != "confidence" and 'rankBasis' not in already_processed:
@@ -23650,7 +23650,7 @@ class TreeModel(GeneratedsSuper):
         if self.missingValueStrategy != "none" and 'missingValueStrategy' not in already_processed:
             already_processed.add('missingValueStrategy')
             outfile.write(' missingValueStrategy=%s' % (quote_attrib(self.missingValueStrategy), ))
-        if self.missingValuePenalty is not None and 'missingValuePenalty' not in already_processed:
+        if self.missingValuePenalty != 1.0 and 'missingValuePenalty' not in already_processed:
             already_processed.add('missingValuePenalty')
             outfile.write(' missingValuePenalty=%s' % (quote_attrib(self.missingValuePenalty), ))
         if self.noTrueChildStrategy != "returnNullPrediction" and 'noTrueChildStrategy' not in already_processed:
@@ -25495,7 +25495,7 @@ class Scorecard(GeneratedsSuper):
         if self.algorithmName is not None and 'algorithmName' not in already_processed:
             already_processed.add('algorithmName')
             outfile.write(' algorithmName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.algorithmName), input_name='algorithmName')), ))
-        if self.initialScore is not None and 'initialScore' not in already_processed:
+        if self.initialScore != 0 and 'initialScore' not in already_processed:
             already_processed.add('initialScore')
             outfile.write(' initialScore=%s' % (quote_attrib(self.initialScore), ))
         if not self.useReasonCodes and 'useReasonCodes' not in already_processed:
@@ -28391,7 +28391,7 @@ class MultivariateStat(GeneratedsSuper):
         if self.category is not None and 'category' not in already_processed:
             already_processed.add('category')
             outfile.write(' category=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.category), input_name='category')), ))
-        if self.exponent is not None and 'exponent' not in already_processed:
+        if self.exponent != 1 and 'exponent' not in already_processed:
             already_processed.add('exponent')
             outfile.write(' exponent=%s' % (quote_attrib(self.exponent), ))
         if self.isIntercept and 'isIntercept' not in already_processed:
@@ -28424,7 +28424,7 @@ class MultivariateStat(GeneratedsSuper):
         if self.pValueFinal is not None and 'pValueFinal' not in already_processed:
             already_processed.add('pValueFinal')
             outfile.write(' pValueFinal=%s' % (quote_attrib(self.pValueFinal), ))
-        if self.confidenceLevel is not None and 'confidenceLevel' not in already_processed:
+        if self.confidenceLevel != 0.95 and 'confidenceLevel' not in already_processed:
             already_processed.add('confidenceLevel')
             outfile.write(' confidenceLevel=%s' % (quote_attrib(self.confidenceLevel), ))
         if self.confidenceLowerBound is not None and 'confidenceLowerBound' not in already_processed:
@@ -31013,46 +31013,46 @@ class Constraints(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='Constraints'):
-        if self.minimumNumberOfItems is not None and 'minimumNumberOfItems' not in already_processed:
+        if self.minimumNumberOfItems != 1 and 'minimumNumberOfItems' not in already_processed:
             already_processed.add('minimumNumberOfItems')
             outfile.write(' minimumNumberOfItems="%s"' % self.gds_format_integer(self.minimumNumberOfItems, input_name='minimumNumberOfItems'))
         if self.maximumNumberOfItems is not None and 'maximumNumberOfItems' not in already_processed:
             already_processed.add('maximumNumberOfItems')
             outfile.write(' maximumNumberOfItems="%s"' % self.gds_format_integer(self.maximumNumberOfItems, input_name='maximumNumberOfItems'))
-        if self.minimumNumberOfAntecedentItems is not None and 'minimumNumberOfAntecedentItems' not in already_processed:
+        if self.minimumNumberOfAntecedentItems != 1 and 'minimumNumberOfAntecedentItems' not in already_processed:
             already_processed.add('minimumNumberOfAntecedentItems')
             outfile.write(' minimumNumberOfAntecedentItems="%s"' % self.gds_format_integer(self.minimumNumberOfAntecedentItems, input_name='minimumNumberOfAntecedentItems'))
         if self.maximumNumberOfAntecedentItems is not None and 'maximumNumberOfAntecedentItems' not in already_processed:
             already_processed.add('maximumNumberOfAntecedentItems')
             outfile.write(' maximumNumberOfAntecedentItems="%s"' % self.gds_format_integer(self.maximumNumberOfAntecedentItems, input_name='maximumNumberOfAntecedentItems'))
-        if self.minimumNumberOfConsequentItems is not None and 'minimumNumberOfConsequentItems' not in already_processed:
+        if self.minimumNumberOfConsequentItems != 1 and 'minimumNumberOfConsequentItems' not in already_processed:
             already_processed.add('minimumNumberOfConsequentItems')
             outfile.write(' minimumNumberOfConsequentItems="%s"' % self.gds_format_integer(self.minimumNumberOfConsequentItems, input_name='minimumNumberOfConsequentItems'))
         if self.maximumNumberOfConsequentItems is not None and 'maximumNumberOfConsequentItems' not in already_processed:
             already_processed.add('maximumNumberOfConsequentItems')
             outfile.write(' maximumNumberOfConsequentItems="%s"' % self.gds_format_integer(self.maximumNumberOfConsequentItems, input_name='maximumNumberOfConsequentItems'))
-        if self.minimumSupport is not None and 'minimumSupport' not in already_processed:
+        if self.minimumSupport != 0 and 'minimumSupport' not in already_processed:
             already_processed.add('minimumSupport')
             outfile.write(' minimumSupport=%s' % (quote_attrib(self.minimumSupport), ))
-        if self.minimumConfidence is not None and 'minimumConfidence' not in already_processed:
+        if self.minimumConfidence != 0 and 'minimumConfidence' not in already_processed:
             already_processed.add('minimumConfidence')
             outfile.write(' minimumConfidence=%s' % (quote_attrib(self.minimumConfidence), ))
-        if self.minimumLift is not None and 'minimumLift' not in already_processed:
+        if self.minimumLift != 0 and 'minimumLift' not in already_processed:
             already_processed.add('minimumLift')
             outfile.write(' minimumLift=%s' % (quote_attrib(self.minimumLift), ))
-        if self.minimumTotalSequenceTime is not None and 'minimumTotalSequenceTime' not in already_processed:
+        if self.minimumTotalSequenceTime != 0 and 'minimumTotalSequenceTime' not in already_processed:
             already_processed.add('minimumTotalSequenceTime')
             outfile.write(' minimumTotalSequenceTime=%s' % (quote_attrib(self.minimumTotalSequenceTime), ))
         if self.maximumTotalSequenceTime is not None and 'maximumTotalSequenceTime' not in already_processed:
             already_processed.add('maximumTotalSequenceTime')
             outfile.write(' maximumTotalSequenceTime=%s' % (quote_attrib(self.maximumTotalSequenceTime), ))
-        if self.minimumItemsetSeparationTime is not None and 'minimumItemsetSeparationTime' not in already_processed:
+        if self.minimumItemsetSeparationTime != 0 and 'minimumItemsetSeparationTime' not in already_processed:
             already_processed.add('minimumItemsetSeparationTime')
             outfile.write(' minimumItemsetSeparationTime=%s' % (quote_attrib(self.minimumItemsetSeparationTime), ))
         if self.maximumItemsetSeparationTime is not None and 'maximumItemsetSeparationTime' not in already_processed:
             already_processed.add('maximumItemsetSeparationTime')
             outfile.write(' maximumItemsetSeparationTime=%s' % (quote_attrib(self.maximumItemsetSeparationTime), ))
-        if self.minimumAntConsSeparationTime is not None and 'minimumAntConsSeparationTime' not in already_processed:
+        if self.minimumAntConsSeparationTime != 0 and 'minimumAntConsSeparationTime' not in already_processed:
             already_processed.add('minimumAntConsSeparationTime')
             outfile.write(' minimumAntConsSeparationTime=%s' % (quote_attrib(self.minimumAntConsSeparationTime), ))
         if self.maximumAntConsSeparationTime is not None and 'maximumAntConsSeparationTime' not in already_processed:
@@ -33440,10 +33440,10 @@ class VerificationField(GeneratedsSuper):
         if self.column is not None and 'column' not in already_processed:
             already_processed.add('column')
             outfile.write(' column=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.column), input_name='column')), ))
-        if self.precision is not None and 'precision' not in already_processed:
+        if self.precision != 1E-6 and 'precision' not in already_processed:
             already_processed.add('precision')
             outfile.write(' precision="%s"' % self.gds_format_double(self.precision, input_name='precision'))
-        if self.zeroThreshold is not None and 'zeroThreshold' not in already_processed:
+        if self.zeroThreshold != 1E-16 and 'zeroThreshold' not in already_processed:
             already_processed.add('zeroThreshold')
             outfile.write(' zeroThreshold="%s"' % self.gds_format_double(self.zeroThreshold, input_name='zeroThreshold'))
     def exportChildren(self, outfile, level, namespace_='', name_='VerificationField', fromsubclass_=False, pretty_print=True):
@@ -34606,7 +34606,7 @@ class Parameter(GeneratedsSuper):
         if self.label is not None and 'label' not in already_processed:
             already_processed.add('label')
             outfile.write(' label=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.label), input_name='label')), ))
-        if self.referencePoint is not None and 'referencePoint' not in already_processed:
+        if self.referencePoint != 0 and 'referencePoint' not in already_processed:
             already_processed.add('referencePoint')
             outfile.write(' referencePoint=%s' % (quote_attrib(self.referencePoint), ))
     def exportChildren(self, outfile, level, namespace_='', name_='Parameter', fromsubclass_=False, pretty_print=True):
@@ -37348,7 +37348,7 @@ class NearestNeighborModel(GeneratedsSuper):
         if self.instanceIdVariable is not None and 'instanceIdVariable' not in already_processed:
             already_processed.add('instanceIdVariable')
             outfile.write(' instanceIdVariable=%s' % (quote_attrib(self.instanceIdVariable), ))
-        if self.threshold is not None and 'threshold' not in already_processed:
+        if self.threshold != 0.001 and 'threshold' not in already_processed:
             already_processed.add('threshold')
             outfile.write(' threshold=%s' % (quote_attrib(self.threshold), ))
         if not self.isScorable and 'isScorable' not in already_processed:
@@ -38424,7 +38424,7 @@ class KNNInput(GeneratedsSuper):
         if self.field is not None and 'field' not in already_processed:
             already_processed.add('field')
             outfile.write(' field=%s' % (quote_attrib(self.field), ))
-        if self.fieldWeight is not None and 'fieldWeight' not in already_processed:
+        if self.fieldWeight != 1 and 'fieldWeight' not in already_processed:
             already_processed.add('fieldWeight')
             outfile.write(' fieldWeight=%s' % (quote_attrib(self.fieldWeight), ))
         if self.compareFunction is not None and 'compareFunction' not in already_processed:
@@ -41061,7 +41061,7 @@ class TextIndex(GeneratedsSuper):
         if self.isCaseSensitive and 'isCaseSensitive' not in already_processed:
             already_processed.add('isCaseSensitive')
             outfile.write(' isCaseSensitive="%s"' % self.gds_format_boolean(self.isCaseSensitive, input_name='isCaseSensitive'))
-        if self.maxLevenshteinDistance is not None and 'maxLevenshteinDistance' not in already_processed:
+        if self.maxLevenshteinDistance != 0 and 'maxLevenshteinDistance' not in already_processed:
             already_processed.add('maxLevenshteinDistance')
             outfile.write(' maxLevenshteinDistance="%s"' % self.gds_format_integer(self.maxLevenshteinDistance, input_name='maxLevenshteinDistance'))
         if self.countHits != "allHits" and 'countHits' not in already_processed:
@@ -41944,7 +41944,7 @@ class Lag(GeneratedsSuper):
         if self.field is not None and 'field' not in already_processed:
             already_processed.add('field')
             outfile.write(' field=%s' % (quote_attrib(self.field), ))
-        if self.n is not None and 'n' not in already_processed:
+        if self.n != 1 and 'n' not in already_processed:
             already_processed.add('n')
             outfile.write(' n="%s"' % self.gds_format_integer(self.n, input_name='n'))
         if self.aggregate != "none" and 'aggregate' not in already_processed:
@@ -44062,7 +44062,7 @@ class Trend_ExpoSmooth(GeneratedsSuper):
         if self.gamma is not None and 'gamma' not in already_processed:
             already_processed.add('gamma')
             outfile.write(' gamma=%s' % (quote_attrib(self.gamma), ))
-        if self.phi is not None and 'phi' not in already_processed:
+        if self.phi != 1 and 'phi' not in already_processed:
             already_processed.add('phi')
             outfile.write(' phi=%s' % (quote_attrib(self.phi), ))
         if self.smoothedValue is not None and 'smoothedValue' not in already_processed:
@@ -44474,7 +44474,7 @@ class ARIMA(GeneratedsSuper):
         if self.transformation != "none" and 'transformation' not in already_processed:
             already_processed.add('transformation')
             outfile.write(' transformation=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.transformation), input_name='transformation')), ))
-        if self.constantTerm is not None and 'constantTerm' not in already_processed:
+        if self.constantTerm != 0 and 'constantTerm' not in already_processed:
             already_processed.add('constantTerm')
             outfile.write(' constantTerm=%s' % (quote_attrib(self.constantTerm), ))
         if self.predictionMethod != "conditionalLeastSquares" and 'predictionMethod' not in already_processed:
@@ -44743,13 +44743,13 @@ class NonseasonalComponent(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='NonseasonalComponent'):
-        if self.p is not None and 'p' not in already_processed:
+        if self.p != 0 and 'p' not in already_processed:
             already_processed.add('p')
             outfile.write(' p="%s"' % self.gds_format_integer(self.p, input_name='p'))
-        if self.d is not None and 'd' not in already_processed:
+        if self.d != 0 and 'd' not in already_processed:
             already_processed.add('d')
             outfile.write(' d="%s"' % self.gds_format_integer(self.d, input_name='d'))
-        if self.q is not None and 'q' not in already_processed:
+        if self.q != 0 and 'q' not in already_processed:
             already_processed.add('q')
             outfile.write(' q="%s"' % self.gds_format_integer(self.q, input_name='q'))
     def exportChildren(self, outfile, level, namespace_='', name_='NonseasonalComponent', fromsubclass_=False, pretty_print=True):
@@ -44957,13 +44957,13 @@ class SeasonalComponent(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='SeasonalComponent'):
-        if self.P is not None and 'P' not in already_processed:
+        if self.P != 0 and 'P' not in already_processed:
             already_processed.add('P')
             outfile.write(' P="%s"' % self.gds_format_integer(self.P, input_name='P'))
-        if self.D is not None and 'D' not in already_processed:
+        if self.D != 0 and 'D' not in already_processed:
             already_processed.add('D')
             outfile.write(' D="%s"' % self.gds_format_integer(self.D, input_name='D'))
-        if self.Q is not None and 'Q' not in already_processed:
+        if self.Q != 0 and 'Q' not in already_processed:
             already_processed.add('Q')
             outfile.write(' Q="%s"' % self.gds_format_integer(self.Q, input_name='Q'))
         if self.period is not None and 'period' not in already_processed:
@@ -45754,7 +45754,7 @@ class DynamicRegressor(GeneratedsSuper):
         if self.transformation != "none" and 'transformation' not in already_processed:
             already_processed.add('transformation')
             outfile.write(' transformation=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.transformation), input_name='transformation')), ))
-        if self.delay is not None and 'delay' not in already_processed:
+        if self.delay != 0 and 'delay' not in already_processed:
             already_processed.add('delay')
             outfile.write(' delay=%s' % (quote_attrib(self.delay), ))
         if self.futureValuesMethod != "constant" and 'futureValuesMethod' not in already_processed:
@@ -46291,7 +46291,7 @@ class SeasonalFactor(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='SeasonalFactor'):
-        if self.difference is not None and 'difference' not in already_processed:
+        if self.difference != 0 and 'difference' not in already_processed:
             already_processed.add('difference')
             outfile.write(' difference=%s' % (quote_attrib(self.difference), ))
         if self.maximumOrder is not None and 'maximumOrder' not in already_processed:
@@ -46463,7 +46463,7 @@ class NonseasonalFactor(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='NonseasonalFactor'):
-        if self.difference is not None and 'difference' not in already_processed:
+        if self.difference != 0 and 'difference' not in already_processed:
             already_processed.add('difference')
             outfile.write(' difference=%s' % (quote_attrib(self.difference), ))
         if self.maximumOrder is not None and 'maximumOrder' not in already_processed:
@@ -47034,7 +47034,7 @@ class MaximumLikelihoodStat(GeneratedsSuper):
         if self.method is not None and 'method' not in already_processed:
             already_processed.add('method')
             outfile.write(' method=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.method), input_name='method')), ))
-        if self.periodDeficit is not None and 'periodDeficit' not in already_processed:
+        if self.periodDeficit != 0 and 'periodDeficit' not in already_processed:
             already_processed.add('periodDeficit')
             outfile.write(' periodDeficit=%s' % (quote_attrib(self.periodDeficit), ))
     def exportChildren(self, outfile, level, namespace_='', name_='MaximumLikelihoodStat', fromsubclass_=False, pretty_print=True):
@@ -48734,7 +48734,7 @@ class ARMAPart(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='ARMAPart'):
-        if self.constant is not None and 'constant' not in already_processed:
+        if self.constant != 0 and 'constant' not in already_processed:
             already_processed.add('constant')
             outfile.write(' constant=%s' % (quote_attrib(self.constant), ))
         if self.p is not None and 'p' not in already_processed:
@@ -48950,7 +48950,7 @@ class GARCHPart(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='GARCHPart'):
-        if self.constant is not None and 'constant' not in already_processed:
+        if self.constant != 0 and 'constant' not in already_processed:
             already_processed.add('constant')
             outfile.write(' constant=%s' % (quote_attrib(self.constant), ))
         if self.gp is not None and 'gp' not in already_processed:
@@ -49523,11 +49523,12 @@ class PastVariances(GeneratedsSuper):
 class StateSpaceModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, variance=None, period='none', intercept='0', Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, InterceptVector=None, VarianceVector=None, PsiVector=None, DynamicRegressor=None):
+    def __init__(self, variance=None, period='none', intercept='0', observationVariance=None, Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, InterceptVector=None, PredictedStateCovarianceMatrix=None, SelectedStateCovarianceMatrix=None, PsiVector=None, DynamicRegressor=None):
         self.original_tagname_ = None
         self.variance = _cast(None, variance)
         self.period = _cast(None, period)
         self.intercept = _cast(None, intercept)
+        self.observationVariance = _cast(None, observationVariance)
         if Extension is None:
             self.Extension = []
         else:
@@ -49536,7 +49537,8 @@ class StateSpaceModel(GeneratedsSuper):
         self.TransitionMatrix = TransitionMatrix
         self.MeasurementMatrix = MeasurementMatrix
         self.InterceptVector = InterceptVector
-        self.VarianceVector = VarianceVector
+        self.PredictedStateCovarianceMatrix = PredictedStateCovarianceMatrix
+        self.SelectedStateCovarianceMatrix = SelectedStateCovarianceMatrix
         self.PsiVector = PsiVector
         if DynamicRegressor is None:
             self.DynamicRegressor = []
@@ -49566,8 +49568,10 @@ class StateSpaceModel(GeneratedsSuper):
     def set_MeasurementMatrix(self, MeasurementMatrix): self.MeasurementMatrix = MeasurementMatrix
     def get_InterceptVector(self): return self.InterceptVector
     def set_InterceptVector(self, InterceptVector): self.InterceptVector = InterceptVector
-    def get_VarianceVector(self): return self.VarianceVector
-    def set_VarianceVector(self, VarianceVector): self.VarianceVector = VarianceVector
+    def get_PredictedStateCovarianceMatrix(self): return self.PredictedStateCovarianceMatrix
+    def set_PredictedStateCovarianceMatrix(self, PredictedStateCovarianceMatrix): self.PredictedStateCovarianceMatrix = PredictedStateCovarianceMatrix
+    def get_SelectedStateCovarianceMatrix(self): return self.SelectedStateCovarianceMatrix
+    def set_SelectedStateCovarianceMatrix(self, SelectedStateCovarianceMatrix): self.SelectedStateCovarianceMatrix = SelectedStateCovarianceMatrix
     def get_PsiVector(self): return self.PsiVector
     def set_PsiVector(self, PsiVector): self.PsiVector = PsiVector
     def get_DynamicRegressor(self): return self.DynamicRegressor
@@ -49581,6 +49585,8 @@ class StateSpaceModel(GeneratedsSuper):
     def set_period(self, period): self.period = period
     def get_intercept(self): return self.intercept
     def set_intercept(self, intercept): self.intercept = intercept
+    def get_observationVariance(self): return self.observationVariance
+    def set_observationVariance(self, observationVariance): self.observationVariance = observationVariance
     def validate_REAL_NUMBER(self, value):
         # Validate type REAL-NUMBER, a restriction on xs:double.
         if value is not None and Validate_simpletypes_:
@@ -49592,7 +49598,8 @@ class StateSpaceModel(GeneratedsSuper):
             self.TransitionMatrix is not None or
             self.MeasurementMatrix is not None or
             self.InterceptVector is not None or
-            self.VarianceVector is not None or
+            self.PredictedStateCovarianceMatrix is not None or
+            self.SelectedStateCovarianceMatrix is not None or
             self.PsiVector is not None or
             self.DynamicRegressor
         ):
@@ -49627,9 +49634,12 @@ class StateSpaceModel(GeneratedsSuper):
         if self.period != "none" and 'period' not in already_processed:
             already_processed.add('period')
             outfile.write(' period=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.period), input_name='period')), ))
-        if self.intercept is not None and 'intercept' not in already_processed:
+        if self.intercept != 0 and 'intercept' not in already_processed:
             already_processed.add('intercept')
             outfile.write(' intercept=%s' % (quote_attrib(self.intercept), ))
+        if self.observationVariance is not None and 'observationVariance' not in already_processed:
+            already_processed.add('observationVariance')
+            outfile.write(' observationVariance=%s' % (quote_attrib(self.observationVariance), ))
     def exportChildren(self, outfile, level, namespace_='', name_='StateSpaceModel', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -49645,8 +49655,10 @@ class StateSpaceModel(GeneratedsSuper):
             self.MeasurementMatrix.export(outfile, level, namespace_, name_='MeasurementMatrix', pretty_print=pretty_print)
         if self.InterceptVector is not None:
             self.InterceptVector.export(outfile, level, namespace_, name_='InterceptVector', pretty_print=pretty_print)
-        if self.VarianceVector is not None:
-            self.VarianceVector.export(outfile, level, namespace_, name_='VarianceVector', pretty_print=pretty_print)
+        if self.PredictedStateCovarianceMatrix is not None:
+            self.PredictedStateCovarianceMatrix.export(outfile, level, namespace_, name_='PredictedStateCovarianceMatrix', pretty_print=pretty_print)
+        if self.SelectedStateCovarianceMatrix is not None:
+            self.SelectedStateCovarianceMatrix.export(outfile, level, namespace_, name_='SelectedStateCovarianceMatrix', pretty_print=pretty_print)
         if self.PsiVector is not None:
             self.PsiVector.export(outfile, level, namespace_, name_='PsiVector', pretty_print=pretty_print)
         for DynamicRegressor_ in self.DynamicRegressor:
@@ -49662,6 +49674,8 @@ class StateSpaceModel(GeneratedsSuper):
             element.set('period', self.gds_format_string(self.period))
         if self.intercept is not None:
             element.set('intercept', self.intercept)
+        if self.observationVariance is not None:
+            element.set('observationVariance', self.observationVariance)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.StateVector is not None:
@@ -49676,9 +49690,12 @@ class StateSpaceModel(GeneratedsSuper):
         if self.InterceptVector is not None:
             InterceptVector_ = self.InterceptVector
             InterceptVector_.to_etree(element, name_='InterceptVector', mapping_=mapping_)
-        if self.VarianceVector is not None:
-            VarianceVector_ = self.VarianceVector
-            VarianceVector_.to_etree(element, name_='VarianceVector', mapping_=mapping_)
+        if self.PredictedStateCovarianceMatrix is not None:
+            PredictedStateCovarianceMatrix_ = self.PredictedStateCovarianceMatrix
+            PredictedStateCovarianceMatrix_.to_etree(element, name_='PredictedStateCovarianceMatrix', mapping_=mapping_)
+        if self.SelectedStateCovarianceMatrix is not None:
+            SelectedStateCovarianceMatrix_ = self.SelectedStateCovarianceMatrix
+            SelectedStateCovarianceMatrix_.to_etree(element, name_='SelectedStateCovarianceMatrix', mapping_=mapping_)
         if self.PsiVector is not None:
             PsiVector_ = self.PsiVector
             PsiVector_.to_etree(element, name_='PsiVector', mapping_=mapping_)
@@ -49706,6 +49723,10 @@ class StateSpaceModel(GeneratedsSuper):
             already_processed.add('intercept')
             showIndent(outfile, level)
             outfile.write('intercept=%e,\n' % (self.intercept,))
+        if self.observationVariance is not None and 'observationVariance' not in already_processed:
+            already_processed.add('observationVariance')
+            showIndent(outfile, level)
+            outfile.write('observationVariance=%e,\n' % (self.observationVariance,))
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
         outfile.write('Extension=[\n')
@@ -49743,10 +49764,16 @@ class StateSpaceModel(GeneratedsSuper):
             self.InterceptVector.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.VarianceVector is not None:
+        if self.PredictedStateCovarianceMatrix is not None:
             showIndent(outfile, level)
-            outfile.write('VarianceVector=model_.VarianceVector(\n')
-            self.VarianceVector.exportLiteral(outfile, level)
+            outfile.write('PredictedStateCovarianceMatrix=model_.PredictedStateCovarianceMatrix(\n')
+            self.PredictedStateCovarianceMatrix.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.SelectedStateCovarianceMatrix is not None:
+            showIndent(outfile, level)
+            outfile.write('SelectedStateCovarianceMatrix=model_.SelectedStateCovarianceMatrix(\n')
+            self.SelectedStateCovarianceMatrix.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.PsiVector is not None:
@@ -49795,6 +49822,14 @@ class StateSpaceModel(GeneratedsSuper):
             except ValueError as exp:
                 raise ValueError('Bad float/double attribute (intercept): %s' % exp)
             self.validate_REAL_NUMBER(self.intercept)    # validate type REAL-NUMBER
+        value = find_attr_value_('observationVariance', node)
+        if value is not None and 'observationVariance' not in already_processed:
+            already_processed.add('observationVariance')
+            try:
+                self.observationVariance = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (observationVariance): %s' % exp)
+            self.validate_REAL_NUMBER(self.observationVariance)    # validate type REAL-NUMBER
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -49821,11 +49856,16 @@ class StateSpaceModel(GeneratedsSuper):
             obj_.build(child_)
             self.InterceptVector = obj_
             obj_.original_tagname_ = 'InterceptVector'
-        elif nodeName_ == 'VarianceVector':
-            obj_ = VarianceVector.factory()
+        elif nodeName_ == 'PredictedStateCovarianceMatrix':
+            obj_ = PredictedStateCovarianceMatrix.factory()
             obj_.build(child_)
-            self.VarianceVector = obj_
-            obj_.original_tagname_ = 'VarianceVector'
+            self.PredictedStateCovarianceMatrix = obj_
+            obj_.original_tagname_ = 'PredictedStateCovarianceMatrix'
+        elif nodeName_ == 'SelectedStateCovarianceMatrix':
+            obj_ = SelectedStateCovarianceMatrix.factory()
+            obj_.build(child_)
+            self.SelectedStateCovarianceMatrix = obj_
+            obj_.original_tagname_ = 'SelectedStateCovarianceMatrix'
         elif nodeName_ == 'PsiVector':
             obj_ = PsiVector.factory()
             obj_.build(child_)
@@ -50363,44 +50403,44 @@ class InterceptVector(GeneratedsSuper):
 # end class InterceptVector
 
 
-class VarianceVector(GeneratedsSuper):
+class PredictedStateCovarianceMatrix(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, Array=None):
+    def __init__(self, Extension=None, Matrix=None):
         self.original_tagname_ = None
         if Extension is None:
             self.Extension = []
         else:
             self.Extension = Extension
-        self.Array = Array
+        self.Matrix = Matrix
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, VarianceVector)
+                CurrentSubclassModule_, PredictedStateCovarianceMatrix)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if VarianceVector.subclass:
-            return VarianceVector.subclass(*args_, **kwargs_)
+        if PredictedStateCovarianceMatrix.subclass:
+            return PredictedStateCovarianceMatrix.subclass(*args_, **kwargs_)
         else:
-            return VarianceVector(*args_, **kwargs_)
+            return PredictedStateCovarianceMatrix(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_Extension(self): return self.Extension
     def set_Extension(self, Extension): self.Extension = Extension
     def add_Extension(self, value): self.Extension.append(value)
     def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
     def replace_Extension_at(self, index, value): self.Extension[index] = value
-    def get_Array(self): return self.Array
-    def set_Array(self, Array): self.Array = Array
+    def get_Matrix(self): return self.Matrix
+    def set_Matrix(self, Matrix): self.Matrix = Matrix
     def hasContent_(self):
         if (
             self.Extension or
-            self.Array is not None
+            self.Matrix is not None
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='', name_='VarianceVector', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('VarianceVector')
+    def export(self, outfile, level, namespace_='', name_='PredictedStateCovarianceMatrix', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('PredictedStateCovarianceMatrix')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
@@ -50412,39 +50452,39 @@ class VarianceVector(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='VarianceVector')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PredictedStateCovarianceMatrix')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_='', name_='VarianceVector', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespace_='', name_='PredictedStateCovarianceMatrix', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='VarianceVector'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='PredictedStateCovarianceMatrix'):
         pass
-    def exportChildren(self, outfile, level, namespace_='', name_='VarianceVector', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='', name_='PredictedStateCovarianceMatrix', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Extension_ in self.Extension:
             Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
-        if self.Array is not None:
-            self.Array.export(outfile, level, namespace_, name_='Array', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='VarianceVector', mapping_=None):
+        if self.Matrix is not None:
+            self.Matrix.export(outfile, level, namespace_, name_='Matrix', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='PredictedStateCovarianceMatrix', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
-        if self.Array is not None:
-            Array_ = self.Array
-            Array_.to_etree(element, name_='Array', mapping_=mapping_)
+        if self.Matrix is not None:
+            Matrix_ = self.Matrix
+            Matrix_.to_etree(element, name_='Matrix', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[self] = element
         return element
-    def exportLiteral(self, outfile, level, name_='VarianceVector'):
+    def exportLiteral(self, outfile, level, name_='PredictedStateCovarianceMatrix'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
@@ -50465,10 +50505,10 @@ class VarianceVector(GeneratedsSuper):
         level -= 1
         showIndent(outfile, level)
         outfile.write('],\n')
-        if self.Array is not None:
+        if self.Matrix is not None:
             showIndent(outfile, level)
-            outfile.write('Array=model_.Array(\n')
-            self.Array.exportLiteral(outfile, level)
+            outfile.write('Matrix=model_.Matrix(\n')
+            self.Matrix.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node):
@@ -50486,12 +50526,143 @@ class VarianceVector(GeneratedsSuper):
             obj_.build(child_)
             self.Extension.append(obj_)
             obj_.original_tagname_ = 'Extension'
-        elif nodeName_ == 'Array':
-            obj_ = ArrayType.factory()
+        elif nodeName_ == 'Matrix':
+            obj_ = Matrix.factory()
             obj_.build(child_)
-            self.Array = obj_
-            obj_.original_tagname_ = 'Array'
-# end class VarianceVector
+            self.Matrix = obj_
+            obj_.original_tagname_ = 'Matrix'
+# end class PredictedStateCovarianceMatrix
+
+
+class SelectedStateCovarianceMatrix(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, Extension=None, Matrix=None):
+        self.original_tagname_ = None
+        if Extension is None:
+            self.Extension = []
+        else:
+            self.Extension = Extension
+        self.Matrix = Matrix
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, SelectedStateCovarianceMatrix)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if SelectedStateCovarianceMatrix.subclass:
+            return SelectedStateCovarianceMatrix.subclass(*args_, **kwargs_)
+        else:
+            return SelectedStateCovarianceMatrix(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
+    def add_Extension(self, value): self.Extension.append(value)
+    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
+    def replace_Extension_at(self, index, value): self.Extension[index] = value
+    def get_Matrix(self): return self.Matrix
+    def set_Matrix(self, Matrix): self.Matrix = Matrix
+    def hasContent_(self):
+        if (
+            self.Extension or
+            self.Matrix is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='', name_='SelectedStateCovarianceMatrix', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('SelectedStateCovarianceMatrix')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SelectedStateCovarianceMatrix')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='SelectedStateCovarianceMatrix', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='SelectedStateCovarianceMatrix'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='', name_='SelectedStateCovarianceMatrix', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Extension_ in self.Extension:
+            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
+        if self.Matrix is not None:
+            self.Matrix.export(outfile, level, namespace_, name_='Matrix', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='SelectedStateCovarianceMatrix', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
+        for Extension_ in self.Extension:
+            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
+        if self.Matrix is not None:
+            Matrix_ = self.Matrix
+            Matrix_.to_etree(element, name_='Matrix', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='SelectedStateCovarianceMatrix'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Extension=[\n')
+        level += 1
+        for Extension_ in self.Extension:
+            showIndent(outfile, level)
+            outfile.write('model_.Extension(\n')
+            Extension_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        if self.Matrix is not None:
+            showIndent(outfile, level)
+            outfile.write('Matrix=model_.Matrix(\n')
+            self.Matrix.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            self.Extension.append(obj_)
+            obj_.original_tagname_ = 'Extension'
+        elif nodeName_ == 'Matrix':
+            obj_ = Matrix.factory()
+            obj_.build(child_)
+            self.Matrix = obj_
+            obj_.original_tagname_ = 'Matrix'
+# end class SelectedStateCovarianceMatrix
 
 
 class PsiVector(GeneratedsSuper):
@@ -50997,13 +51168,13 @@ class NeuralNetwork(GeneratedsSuper):
         if self.normalizationMethod != "none" and 'normalizationMethod' not in already_processed:
             already_processed.add('normalizationMethod')
             outfile.write(' normalizationMethod=%s' % (quote_attrib(self.normalizationMethod), ))
-        if self.threshold is not None and 'threshold' not in already_processed:
+        if self.threshold != 0 and 'threshold' not in already_processed:
             already_processed.add('threshold')
             outfile.write(' threshold=%s' % (quote_attrib(self.threshold), ))
         if self.width is not None and 'width' not in already_processed:
             already_processed.add('width')
             outfile.write(' width=%s' % (quote_attrib(self.width), ))
-        if self.altitude is not None and 'altitude' not in already_processed:
+        if self.altitude != 1.0 and 'altitude' not in already_processed:
             already_processed.add('altitude')
             outfile.write(' altitude=%s' % (quote_attrib(self.altitude), ))
         if self.numberOfLayers is not None and 'numberOfLayers' not in already_processed:
@@ -56217,10 +56388,10 @@ class TestDistributions(GeneratedsSuper):
         if self.testStatistic is not None and 'testStatistic' not in already_processed:
             already_processed.add('testStatistic')
             outfile.write(' testStatistic=%s' % (quote_attrib(self.testStatistic), ))
-        if self.resetValue is not None and 'resetValue' not in already_processed:
+        if self.resetValue != 0.0 and 'resetValue' not in already_processed:
             already_processed.add('resetValue')
             outfile.write(' resetValue=%s' % (quote_attrib(self.resetValue), ))
-        if self.windowSize is not None and 'windowSize' not in already_processed:
+        if self.windowSize != 0 and 'windowSize' not in already_processed:
             already_processed.add('windowSize')
             outfile.write(' windowSize=%s' % (quote_attrib(self.windowSize), ))
         if self.weightField is not None and 'weightField' not in already_processed:
@@ -62006,10 +62177,10 @@ class Target(GeneratedsSuper):
         if self.max is not None and 'max' not in already_processed:
             already_processed.add('max')
             outfile.write(' max="%s"' % self.gds_format_double(self.max, input_name='max'))
-        if self.rescaleConstant is not None and 'rescaleConstant' not in already_processed:
+        if self.rescaleConstant != 0 and 'rescaleConstant' not in already_processed:
             already_processed.add('rescaleConstant')
             outfile.write(' rescaleConstant="%s"' % self.gds_format_double(self.rescaleConstant, input_name='rescaleConstant'))
-        if self.rescaleFactor is not None and 'rescaleFactor' not in already_processed:
+        if self.rescaleFactor != 1 and 'rescaleFactor' not in already_processed:
             already_processed.add('rescaleFactor')
             outfile.write(' rescaleFactor="%s"' % self.gds_format_double(self.rescaleFactor, input_name='rescaleFactor'))
     def exportChildren(self, outfile, level, namespace_='', name_='Target', fromsubclass_=False, pretty_print=True):
@@ -64954,7 +65125,7 @@ class ClusteringField(GeneratedsSuper):
         if self.isCenterField != "true" and 'isCenterField' not in already_processed:
             already_processed.add('isCenterField')
             outfile.write(' isCenterField=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.isCenterField), input_name='isCenterField')), ))
-        if self.fieldWeight is not None and 'fieldWeight' not in already_processed:
+        if self.fieldWeight != 1 and 'fieldWeight' not in already_processed:
             already_processed.add('fieldWeight')
             outfile.write(' fieldWeight=%s' % (quote_attrib(self.fieldWeight), ))
         if self.similarityScale is not None and 'similarityScale' not in already_processed:
@@ -67301,13 +67472,13 @@ class RadialBasisKernel(GeneratedsSuper):
         if self.description is not None and 'description' not in already_processed:
             already_processed.add('description')
             outfile.write(' description=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.description), input_name='description')), ))
-        if self.gamma is not None and 'gamma' not in already_processed:
+        if self.gamma != 1 and 'gamma' not in already_processed:
             already_processed.add('gamma')
             outfile.write(' gamma=%s' % (quote_attrib(self.gamma), ))
-        if self.noiseVariance is not None and 'noiseVariance' not in already_processed:
+        if self.noiseVariance != 1 and 'noiseVariance' not in already_processed:
             already_processed.add('noiseVariance')
             outfile.write(' noiseVariance=%s' % (quote_attrib(self.noiseVariance), ))
-        if self.lambda_ is not None and 'lambda_' not in already_processed:
+        if self.lambda_ != 1 and 'lambda_' not in already_processed:
             already_processed.add('lambda_')
             outfile.write(' lambda=%s' % (quote_attrib(self.lambda_), ))
     def exportChildren(self, outfile, level, namespace_='', name_='RadialBasisKernel', fromsubclass_=False, pretty_print=True):
@@ -67496,10 +67667,10 @@ class ARDSquaredExponentialKernel(GeneratedsSuper):
         if self.description is not None and 'description' not in already_processed:
             already_processed.add('description')
             outfile.write(' description=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.description), input_name='description')), ))
-        if self.gamma is not None and 'gamma' not in already_processed:
+        if self.gamma != 1 and 'gamma' not in already_processed:
             already_processed.add('gamma')
             outfile.write(' gamma=%s' % (quote_attrib(self.gamma), ))
-        if self.noiseVariance is not None and 'noiseVariance' not in already_processed:
+        if self.noiseVariance != 1 and 'noiseVariance' not in already_processed:
             already_processed.add('noiseVariance')
             outfile.write(' noiseVariance=%s' % (quote_attrib(self.noiseVariance), ))
     def exportChildren(self, outfile, level, namespace_='', name_='ARDSquaredExponentialKernel', fromsubclass_=False, pretty_print=True):
@@ -67695,10 +67866,10 @@ class AbsoluteExponentialKernel(GeneratedsSuper):
         if self.description is not None and 'description' not in already_processed:
             already_processed.add('description')
             outfile.write(' description=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.description), input_name='description')), ))
-        if self.gamma is not None and 'gamma' not in already_processed:
+        if self.gamma != 1 and 'gamma' not in already_processed:
             already_processed.add('gamma')
             outfile.write(' gamma=%s' % (quote_attrib(self.gamma), ))
-        if self.noiseVariance is not None and 'noiseVariance' not in already_processed:
+        if self.noiseVariance != 1 and 'noiseVariance' not in already_processed:
             already_processed.add('noiseVariance')
             outfile.write(' noiseVariance=%s' % (quote_attrib(self.noiseVariance), ))
     def exportChildren(self, outfile, level, namespace_='', name_='AbsoluteExponentialKernel', fromsubclass_=False, pretty_print=True):
@@ -67897,13 +68068,13 @@ class GeneralizedExponentialKernel(GeneratedsSuper):
         if self.description is not None and 'description' not in already_processed:
             already_processed.add('description')
             outfile.write(' description=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.description), input_name='description')), ))
-        if self.gamma is not None and 'gamma' not in already_processed:
+        if self.gamma != 1 and 'gamma' not in already_processed:
             already_processed.add('gamma')
             outfile.write(' gamma=%s' % (quote_attrib(self.gamma), ))
-        if self.noiseVariance is not None and 'noiseVariance' not in already_processed:
+        if self.noiseVariance != 1 and 'noiseVariance' not in already_processed:
             already_processed.add('noiseVariance')
             outfile.write(' noiseVariance=%s' % (quote_attrib(self.noiseVariance), ))
-        if self.degree is not None and 'degree' not in already_processed:
+        if self.degree != 1 and 'degree' not in already_processed:
             already_processed.add('degree')
             outfile.write(' degree=%s' % (quote_attrib(self.degree), ))
     def exportChildren(self, outfile, level, namespace_='', name_='GeneralizedExponentialKernel', fromsubclass_=False, pretty_print=True):
@@ -68496,6 +68667,7 @@ __all__ = [
     "PastVariances",
     "PoissonDistribution",
     "PolynomialKernelType",
+    "PredictedStateCovarianceMatrix",
     "PredictiveModelQuality",
     "Predictor",
     "PredictorTerm",
@@ -68528,6 +68700,7 @@ __all__ = [
     "Seasonality_ExpoSmooth",
     "Segment",
     "Segmentation",
+    "SelectedStateCovarianceMatrix",
     "Sequence",
     "SequenceModel",
     "SequenceReference",
@@ -68592,7 +68765,6 @@ __all__ = [
     "VariableWeight",
     "Variance",
     "VarianceCoefficients",
-    "VarianceVector",
     "VectorDictionary",
     "VectorFields",
     "VectorInstance",

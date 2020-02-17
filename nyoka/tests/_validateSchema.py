@@ -44,6 +44,7 @@ from keras.layers import Input
 
 # statsmodels models
 from statsmodels.tsa.api import ARIMA, SARIMAX, VARMAX, ExponentialSmoothing
+from statsmodels.tsa.arima.model import ARIMA as StateSpaceARIMA
 
 import unittest
 from sklearn import datasets
@@ -555,8 +556,8 @@ class PmmlValidation(unittest.TestCase):
     def test_non_seasonal_arima2(self):
         ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima1.pmml'
-        model = ARIMA(ts_data,order=(3, 1, 2))
-        result = model.fit(trend = 'c', method = 'css')
+        model = StateSpaceARIMA(ts_data,order=(3, 1, 2),trend='c')
+        result = model.fit()
         ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
@@ -564,9 +565,17 @@ class PmmlValidation(unittest.TestCase):
     def test_non_seasonal_arima7(self):
         ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima7.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
+        model = ARIMA(ts_data,order=(5, 1, 2))
         result = model.fit(trend = 'nc', method = 'mle')
         ArimaToPMML(result, f_name)
+        self.assertEqual(self.schema.is_valid(f_name),True)
+
+    def test_non_seasonal_arima8(self):
+        ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
+        f_name='non_seasonal_arima8.pmml'
+        model = ARIMA(ts_data,order=(5, 1, 2))
+        result = model.fit(trend = 'c', method = 'mle')
+        ArimaToPMML(result, f_name,conf_int=[80,95])
         self.assertEqual(self.schema.is_valid(f_name),True)
 
 
@@ -591,7 +600,7 @@ class PmmlValidation(unittest.TestCase):
                                         order = (3, 1, 1),
                                         seasonal_order = (3, 1, 1, 12))
         result = model.fit()
-        ArimaToPMML(result, f_name)
+        ArimaToPMML(result, f_name, conf_int=[80])
         self.assertEqual(self.schema.is_valid(f_name),True)
 
     def test_varmax_with_intercept(self):
@@ -599,13 +608,13 @@ class PmmlValidation(unittest.TestCase):
         f_name='varmax_with_intercept.pmml'
         model = VARMAX(ts_data, order=(1,1))
         result = model.fit()
-        ArimaToPMML(result, f_name)
+        ArimaToPMML(result, f_name, conf_int=[80,95])
         self.assertEqual(self.schema.is_valid(f_name),True)
 
     def test_varmax_without_intercept(self):
         ts_data = self.statsmodels_data_helper.get_data_for_varmax()
         f_name='varmax_without_intercept.pmml'
-        model = VARMAX(ts_data, order=(1,1), trend='nc')
+        model = VARMAX(ts_data, order=(1,1), trend=None)
         result = model.fit()
         ArimaToPMML(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)

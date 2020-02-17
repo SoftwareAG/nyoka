@@ -64,11 +64,11 @@ sed(r"pmml44Super\b", "nyoka.PMML44Super", nyoka_pmml44Py)
 sed(r"def parse\(", "def parseSub(", nyoka_pmml44Py)
 with open(nyoka_pmml44Py, 'a') as f: f.write(wrapper44.read())
 
-subprocess.call([sys.executable,
-                 os.path.join(curdir, "PMML44", "doc.py"),
-                 "doc" if "doc" in sys.argv else "",
-                 "open" if "open" in sys.argv else ""],
-                 cwd=pmml44FolderPath)
+# subprocess.call([sys.executable,
+#                  os.path.join(curdir, "PMML44", "doc.py"),
+#                  "doc" if "doc" in sys.argv else "",
+#                  "open" if "open" in sys.argv else ""],
+#                  cwd=pmml44FolderPath)
 
-if "test" in sys.argv:
-    subprocess.call([sys.executable, os.path.join(curdir, "PMML44", "test.py")])
+# if "test" in sys.argv:
+#     subprocess.call([sys.executable, os.path.join(curdir, "PMML44", "test.py")])
