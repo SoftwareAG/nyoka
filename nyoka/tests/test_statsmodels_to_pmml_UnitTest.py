@@ -194,7 +194,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_varmax_with_intercept(self):
-        ts_data = self.statsmodels_data_helper.get_data_for_varmax()
+        ts_data = self.get_data_for_varmax()
         f_name='varmax_with_intercept.pmml'
         model = VARMAX(ts_data, order=(1,1))
         result = model.fit()
@@ -202,7 +202,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_varmax_without_intercept(self):
-        ts_data = self.statsmodels_data_helper.get_data_for_varmax()
+        ts_data = self.get_data_for_varmax()
         f_name='varmax_without_intercept.pmml'
         model = VARMAX(ts_data, order=(1,1), trend=None)
         result = model.fit()
