@@ -5,7 +5,7 @@ import os
 packages = [
     "scikit-learn==0.20.3",
     "statsmodels",
-    "xgboost",
+    "xgboost==0.82",
     "numpy==1.16.1",
     "glibc",
     "lxml",
