@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
-import numpy as np
+
 import PMML44 as pml
 from skl import pre_process as pp
 from datetime import datetime
@@ -41,6 +41,7 @@ def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_skl
     except:
         raise TypeError("Exporter expects pipeleine_instance and not an estimator_instance")
     else:
+        import numpy as np
         if isinstance(col_names, np.ndarray):
             col_names = col_names.tolist()
         ppln_sans_predictor = pipeline.steps[:-1]
@@ -515,7 +516,7 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
         Returns Nyoka's ClusteringModel object
 
     """
-
+    import numpy as np
     clustering_models = list()
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val,categoric_values)
     values, counts = np.unique(model.labels_,return_counts=True)
@@ -1327,6 +1328,7 @@ def get_inner_segments(model, derived_col_names, col_names, index):
         Nyoka's Segment object
         
     """
+    import numpy as np
     segments = list()
     for estm_idx in range(model.n_estimators):
         if np.asanyarray(model.estimators_).ndim == 1:
@@ -1502,6 +1504,7 @@ def get_supportVectorMachine(model):
         coeff = pml.Coefficients(absoluteValue=absoValue, Coefficient=coefficient)
         support_vector_machines.append(pml.SupportVectorMachine(SupportVectors=support_vectors, Coefficients=coeff))
     else:
+        import numpy as np
         support_vector_locs = np.cumsum(np.hstack([[0], model.n_support_]))
         n_class = model.dual_coef_.shape[0] + 1
         coef_abs_val_index = 0
@@ -1711,6 +1714,7 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
     """
     merge = list()
     if hasattr(model, 'intercept_'):
+        import numpy as np
         func_name = get_mining_func(model)
         inter = model.intercept_
         model_coef = model.coef_
@@ -1941,6 +1945,7 @@ def get_mining_func(model):
         Returns the function name of the model
         
     """
+    import numpy as np
     if not hasattr(model, 'classes_'):
         if hasattr(model,'n_clusters'):
             func_name = MINING_FUNCTION.CLUSTERING.value

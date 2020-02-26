@@ -2,10 +2,10 @@
 # Nyoka
 
 [![Build Status](https://travis-ci.org/nyoka-pmml/nyoka.svg?branch=master)](https://travis-ci.org/nyoka-pmml/nyoka)
-[![PyPI version](https://badge.fury.io/py/nyoka.svg)](https://badge.fury.io/py/nyoka)
+[![PyPI version](https://badge.fury.io/py/nyoka.svg)](https://pypi.org/project/nyoka/)
 [![codecov](https://codecov.io/gh/nyoka-pmml/nyoka/branch/master/graph/badge.svg)](https://codecov.io/gh/nyoka-pmml/nyoka)
 [![license](https://img.shields.io/github/license/nyoka-pmml/nyoka.svg)](https://github.com/nyoka-pmml/nyoka/blob/master/LICENSE)
-[![Python](https://img.shields.io/badge/python-3.6-blue.svg)](https://badge.fury.io/py/nyoka)
+[![Python](https://img.shields.io/badge/python-3.6%20%7C%203.7-blue)](https://pypi.org/project/nyoka/)
 
 <img src="https://raw.githubusercontent.com/nyoka-pmml/nyoka/master/docs/nyoka_logo.PNG" alt="nyoka_logo" height="200" style="float:right"/>
 
@@ -105,12 +105,13 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 #### Models -
 * ARIMA
 * SARIMAX
+* VARMAX
 * ExponentialSmoothing
 </details>
 
 ## Prerequisites
 
-* Python >= 3.6
+* Python >= 3.6, < 3.8
 
 ## Dependencies
 

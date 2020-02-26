@@ -7,7 +7,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 warnings.formatwarning = lambda msg, *args, **kwargs: str(msg)+'\n'
 
-import numpy as np
 from nyoka import PMML44 as pml
 
 from nyoka.keras import keras_model_to_pmml as kerasAPI
@@ -180,6 +179,7 @@ class RetinanetToPmml:
 
     
     def assign_shapes(self, model, input_shape, pmml_without_shape):
+        import numpy as np
         """
         Assigns the shape information to each NetworkLayer of the PMML
 

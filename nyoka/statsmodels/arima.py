@@ -11,7 +11,6 @@ from datetime import datetime
 import metadata
 import warnings
 import math
-import numpy as np
 from base.enums import * 
 
 class ArimaToPMML:
@@ -125,7 +124,7 @@ class ArimaToPMML:
 
 
     def generate_state_space_model(self):
-
+        import numpy as np
         def get_array_contents(array):
             vals=[]
             for val in array:
@@ -135,7 +134,8 @@ class ArimaToPMML:
                     vals.append("{:.12f}".format(val).rstrip("0"))
             array_content = " ".join(vals)
             return array_content
-
+        selected_state_cov_matrix = None
+        predicted_state_cov_matrix = None
         smoother_results = self.results_obj.smoother_results
         S_t0 = self.results_obj.filtered_state[...,-1]
 
@@ -186,22 +186,23 @@ class ArimaToPMML:
         intercept_vector = InterceptVector(Array=arr)
 
         #For confidence interval
-        R = smoother_results.selection[...,-1] # selection matrix
-        Q = smoother_results.state_cov[...,-1] # state_covariance matrix
-        R_Q_R_prime = np.dot(R,np.dot(Q,R.T)) # selected_state_cov
-        P_t0 = smoother_results.predicted_state_cov[...,-1] # predicted_state_cov
+        if self.conf_int is not None:
+            R = smoother_results.selection[...,-1] # selection matrix
+            Q = smoother_results.state_cov[...,-1] # state_covariance matrix
+            R_Q_R_prime = np.dot(R,np.dot(Q,R.T)) # selected_state_cov
+            P_t0 = smoother_results.predicted_state_cov[...,-1] # predicted_state_cov
 
-        RQR_mat = Matrix(nbRows=R_Q_R_prime.shape[0], nbCols=R_Q_R_prime.shape[1])
-        for row in R_Q_R_prime:
-            array_content = get_array_contents(row)
-            RQR_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
-        selected_state_cov_matrix = SelectedStateCovarianceMatrix(Matrix=RQR_mat)
+            RQR_mat = Matrix(nbRows=R_Q_R_prime.shape[0], nbCols=R_Q_R_prime.shape[1])
+            for row in R_Q_R_prime:
+                array_content = get_array_contents(row)
+                RQR_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
+            selected_state_cov_matrix = SelectedStateCovarianceMatrix(Matrix=RQR_mat)
 
-        p_mat = Matrix(nbRows=P_t0.shape[0], nbCols=P_t0.shape[1])
-        for row in P_t0:
-            array_content = get_array_contents(row)
-            p_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
-        predicted_state_cov_matrix = PredictedStateCovarianceMatrix(Matrix=p_mat)
+            p_mat = Matrix(nbRows=P_t0.shape[0], nbCols=P_t0.shape[1])
+            for row in P_t0:
+                array_content = get_array_contents(row)
+                p_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
+            predicted_state_cov_matrix = PredictedStateCovarianceMatrix(Matrix=p_mat)
 
         state_space_model = StateSpaceModel(
             StateVector=final_state_vector,
@@ -297,20 +298,22 @@ class ArimaToPMML:
                         OutputField(
                             name=f"conf_int_{percent}_lower_{y_}",
                             optype=OPTYPE.CONTINUOUS.value,
-                            dataType=DATATYPE.DOUBLE.value,
+                            dataType=DATATYPE.STRING.value,
                             targetField=y_,
                             feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
-                            value=percent
+                            value=percent,
+                            Extension=[Extension(extender="ADAPA",name="dataType",value="json")]
                             )
                     )
                     upper.append(
                         OutputField(
                             name=f"conf_int_{percent}_upper_{y_}",
                             optype=OPTYPE.CONTINUOUS.value,
-                            dataType=DATATYPE.DOUBLE.value,
+                            dataType=DATATYPE.STRING.value,
                             targetField=y_,
                             feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
-                            value=percent
+                            value=percent,
+                            Extension=[Extension(extender="ADAPA",name="dataType",value="json")]
                         )
                     )
             out_flds.extend(lower + upper)

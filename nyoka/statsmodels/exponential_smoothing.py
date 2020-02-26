@@ -6,7 +6,6 @@ sys.path.append(BASE_DIR)
 
 
 from PMML44 import *
-import numpy as np
 from datetime import datetime
 import metadata
 import warnings
@@ -107,6 +106,7 @@ class ExponentialSmoothingToPMML:
         level_smooth_val = results_obj.level[-1]  # smoothed level at last time-index
         initial_level = results_obj.params['initial_level']
         # extension_objs.append(Extension(name='initialLevel', value=initial_level))
+        import numpy as np
         if np.isnan(results_obj.params['smoothing_slope']):
             gamma = None
         else:
