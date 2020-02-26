@@ -28,7 +28,7 @@ setup(
 		"Topic :: Scientific/Engineering :: Artificial Intelligence"
 	],
 	packages = find_packages(),
-	python_requires= '>= 3.6',
+	python_requires= '>= 3.6, < 3.8',
 	install_requires = [
 		"lxml"
 	]

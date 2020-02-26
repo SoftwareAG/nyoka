@@ -11,7 +11,6 @@ from datetime import datetime
 import metadata
 import warnings
 import math
-import numpy as np
 from base.enums import * 
 
 class ArimaToPMML:
@@ -125,7 +124,7 @@ class ArimaToPMML:
 
 
     def generate_state_space_model(self):
-
+        import numpy as np
         def get_array_contents(array):
             vals=[]
             for val in array:

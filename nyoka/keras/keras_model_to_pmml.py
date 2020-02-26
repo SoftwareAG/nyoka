@@ -14,7 +14,6 @@ sys.path.append(BASE_DIR)
 
 import datetime
 import json
-import numpy as np
 
 import PMML44 as ny
 import metadata
@@ -97,6 +96,7 @@ class KerasNetworkLayer(ny.NetworkLayer):
     """ 
 
     def _get_flatten_weights(self, weights):
+        import numpy as np
 
         """
         Flattens the input
