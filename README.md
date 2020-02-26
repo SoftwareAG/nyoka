@@ -105,12 +105,13 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 #### Models -
 * ARIMA
 * SARIMAX
+* VARMAX
 * ExponentialSmoothing
 </details>
 
 ## Prerequisites
 
-* Python >= 3.6
+* Python >= 3.6, < 3.8
 
 ## Dependencies
 
