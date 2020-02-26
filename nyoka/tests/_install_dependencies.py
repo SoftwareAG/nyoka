@@ -35,7 +35,6 @@ def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
 
 if __name__ == "__main__":
-    print(sys.version)
     if sys.version_info[1] == 6:
         for pck in packages+packages_36:
             installPackage(pck)

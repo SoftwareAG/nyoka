@@ -1,4 +1,4 @@
-import unittest
+import unittest,sys
 
 class TestImport(unittest.TestCase):
 
@@ -15,4 +15,5 @@ class TestImport(unittest.TestCase):
         self.assertEqual(hasattr(nyoka,"RetinanetToPmml"),True)
 
 if __name__=='__main__':
+    print(f"Python version : {sys.version}\n")
     unittest.main(warnings='ignore')
