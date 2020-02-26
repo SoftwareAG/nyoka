@@ -6,6 +6,7 @@ packages = [
     "scikit-learn==0.20.3",
     "statsmodels",
     "xgboost==0.82",
+    "keras==2.2.4",
     "numpy==1.16.1",
     "glibc",
     "lxml",
@@ -23,12 +24,10 @@ packages = [
 ]
 
 packages_36 = [
-    "keras==2.2.4",
     "tensorflow==1.9.0"
 ]
 
 packages_37 = [
-    "keras",
     "tensorflow==1.15.0"
 ]
 
