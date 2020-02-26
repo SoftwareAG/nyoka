@@ -297,20 +297,22 @@ class ArimaToPMML:
                         OutputField(
                             name=f"conf_int_{percent}_lower_{y_}",
                             optype=OPTYPE.CONTINUOUS.value,
-                            dataType=DATATYPE.DOUBLE.value,
+                            dataType=DATATYPE.STRING.value,
                             targetField=y_,
                             feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
-                            value=percent
+                            value=percent,
+                            Extension=[Extension(extender="ADAPA",name="dataType",value="json")]
                             )
                     )
                     upper.append(
                         OutputField(
                             name=f"conf_int_{percent}_upper_{y_}",
                             optype=OPTYPE.CONTINUOUS.value,
-                            dataType=DATATYPE.DOUBLE.value,
+                            dataType=DATATYPE.STRING.value,
                             targetField=y_,
                             feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
-                            value=percent
+                            value=percent,
+                            Extension=[Extension(extender="ADAPA",name="dataType",value="json")]
                         )
                     )
             out_flds.extend(lower + upper)
