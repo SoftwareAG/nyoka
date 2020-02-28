@@ -558,7 +558,7 @@ def get_output_for_clustering(values):
                 name="affinity("+str(idx)+")",
                 optype=OPTYPE.CONTINUOUS.value,
                 dataType=DATATYPE.DOUBLE.value,
-                feature=RESULT_FEATURE.ENTITY_AFFINITY.value,
+                feature=RESULT_FEATURE.AFFINITY.value,
                 value=str(val)
             )
         )
