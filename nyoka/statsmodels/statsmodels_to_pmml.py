@@ -34,7 +34,7 @@ class StatsmodelsToPMML:
     -------
     Generates PMML object and exports it to `pmml_file_name`
     """
-    def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml", conf_int=None, model_name=None, description=None):
+    def __init__(self, results_obj=None, pmml_file_name="from_statsmodels.pmml", conf_int=None, model_name=None, description=None):
         self.results_obj = results_obj
         self.pmml_file_name = pmml_file_name
         self.conf_int = conf_int
