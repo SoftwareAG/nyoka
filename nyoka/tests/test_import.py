@@ -13,6 +13,7 @@ class TestImport(unittest.TestCase):
         self.assertEqual(hasattr(nyoka,"xgboost_to_pmml"),True)
         self.assertEqual(hasattr(nyoka,"lgb_to_pmml"),True)
         self.assertEqual(hasattr(nyoka,"RetinanetToPmml"),True)
+        self.assertEqual(hasattr(nyoka,"StatsmodelsToPmml"),True)
 
 if __name__=='__main__':
     print(f"Python version : {sys.version}\n")

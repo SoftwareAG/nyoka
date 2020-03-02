@@ -11,9 +11,9 @@ from datetime import datetime
 import metadata
 import warnings
 import math
-from base.enums import * 
+from base.enums import *
 
-class StatsmodelsToPMML:
+class StatsmodelsToPmml:
     """
     Exports time-series models from statsmodels library into PMML.
 

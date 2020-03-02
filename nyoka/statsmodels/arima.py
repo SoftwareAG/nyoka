@@ -7,11 +7,11 @@ sys.path.append(BASE_DIR)
 
 from pprint import pprint
 import warnings
-from .statsmodels_to_pmml import StatsmodelsToPMML
+from .statsmodels_to_pmml import StatsmodelsToPmml
 
 class ArimaToPMML:
     """
-    Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.
+    Exports time-series models from statsmodels library into PMML
 
     Parameters:
     -----------
@@ -31,6 +31,6 @@ class ArimaToPMML:
     Generates PMML object and exports it to `pmml_file_name`
     """
     def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml", conf_int=None, model_name=None, description=None):
-        warnings.warn("`ArimaToPMML` is deprecated and it will be removed in 4.3 release. Use `StatsmodelsToPMML` instead."\
+        warnings.warn("`ArimaToPMML` is deprecated and it will be removed in 4.3 release. Use `StatsmodelsToPmml` instead."\
             ,DeprecationWarning,stacklevel=2)
-        StatsmodelsToPMML(results_obj,pmml_file_name,conf_int,model_name,description)
+        StatsmodelsToPmml(results_obj,pmml_file_name,conf_int,model_name,description)
