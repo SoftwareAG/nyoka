@@ -45,6 +45,9 @@ class ArimaToPMML:
         self.export_pmml()
 
     def export_pmml(self):
+        """
+        Writes the generated PMML object to given `pmml_file_name`
+        """
         pmml = PMML(
             version=PMML_SCHEMA.VERSION.value,
             Header=Header(
@@ -59,6 +62,10 @@ class ArimaToPMML:
         pmml.export(open(self.pmml_file_name,'w'),0)
 
     def generate_data_dictionary(self):
+        """
+        Generates DataDictionary Object. The number of DataField is one more than the dimension of the data.\
+        The extra DataField is a supplementary to hold the value of `h`(horizon) for forecasting.
+        """
         data_fields = []
         for val in self.y:
             data_fields.append(
@@ -77,7 +84,9 @@ class ArimaToPMML:
         )
 
     def construct_pmml(self):
-
+        """
+        Constructs the actual model object. (ARIMA/ TimeSeriesModel)
+        """
         if 'int' in str(self.results_obj.model.endog.dtype):
             self.results_obj.model.endog=self.results_obj.model.endog.astype('float64')
             self.results_obj.model.data.endog=self.results_obj.model.data.endog.astype('float64')
@@ -125,6 +134,12 @@ class ArimaToPMML:
 
 
     def generate_state_space_model(self):
+        """
+        Constructs StateSpaceModel object. For the following models -\
+        - `statsmodels.tsa.statespace.sarimax.SARIMAX`
+        - `statsmodels.tsa.statespace.varmax.VARMAX`
+        - `statsmodels.tsa.statespace.tsa.arima.ARIMA`
+        """
         import numpy as np
         np.set_printoptions(precision=12)
         selected_state_cov_matrix = None
@@ -208,6 +223,9 @@ class ArimaToPMML:
 
 
     def generate_arima_model(self):
+        """
+        Constructs ARIMA object. Only for `statsmodels.tsa.arima_model.ARIMA` class.
+        """
         p = self.results_obj.k_ar
         q = self.results_obj.k_ma
         d = getattr(self.results_obj,'k_diff',0)
@@ -245,6 +263,9 @@ class ArimaToPMML:
 
     
     def generate_time_value_object(self, data):
+        """
+        Generates TimeValue object. If data has any index, then the index will be in TimeStamp object.
+        """
         time_values = []
         indices = self.data_obj.dates
         for data_idx in range(len(data)):
@@ -254,6 +275,9 @@ class ArimaToPMML:
         return time_values
 
     def generate_time_series(self):
+        """
+        Generates TimeSeries object. The number of TimeSeries object is equal to the dimeansion of the data.
+        """
         time_series_list = []
         if self.data_obj.endog.ndim == 1:
             ts = TimeSeries(usage = TIMESERIES_USAGE.ORIGINAL.value, field=self.y[0], startTime = 0,\
@@ -270,6 +294,10 @@ class ArimaToPMML:
 
 
     def generate_output(self):
+        """
+        Generates Output object. If user provides value in `conf_int` parameter, then there will be two OuputField\
+        for each value. One with `feature=confidenceIntervalLower` and another with `feature=confidenceIntervalUpper`.
+        """
         out_flds = []
         for y_ in self.y:
             out_flds.append(
@@ -312,6 +340,9 @@ class ArimaToPMML:
         return Output(OutputField=out_flds)
     
     def generate_mining_schema(self):
+        """
+        Generates MiningSchema object.
+        """
         mining_fields = []
         for y_ in self.y:
             mining_fields.append(MiningField(name = y_, usageType = FIELD_USAGE_TYPE.TARGET.value))
