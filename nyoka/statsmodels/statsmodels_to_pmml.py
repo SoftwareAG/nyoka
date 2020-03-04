@@ -169,27 +169,29 @@ class StatsmodelsToPmml:
         F_matrix = smoother_results.transition[...,-1] #transition_matrix
 
         G = smoother_results.design[...,-1] #measurement_matrix
-
-        S_t1 = np.dot(F_matrix, S_t0) + intercept #finalStateVector
+        if len(intercept) == len(S_t0):
+            S_t1 = np.dot(F_matrix, S_t0) + intercept #finalStateVector
+        else:
+            S_t1 = np.dot(F_matrix, S_t0)
 
         t_mat = Matrix(nbRows=F_matrix.shape[0], nbCols=F_matrix.shape[1])
         for row in F_matrix:
-            array_content = " ".join([str(val) for val in row])#get_array_contents(row)
+            array_content = " ".join([str(val) for val in row])
             t_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
         transition_matrix = TransitionMatrix(Matrix=t_mat)
 
         m_mat = Matrix(nbRows=G.shape[0], nbCols=G.shape[1])
         for row in G:
-            array_content = " ".join([str(val) for val in row])#get_array_contents(row)
+            array_content = " ".join([str(val) for val in row])
             m_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
         measurement_matrix = MeasurementMatrix(Matrix=m_mat)
 
-        arr_content = " ".join([str(val) for val in S_t1])#get_array_contents(S_t1)
+        arr_content = " ".join([str(val) for val in S_t1])
         arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(S_t1))
         final_state_vector = FinalStateVector(Array=arr)
 
         #InterceptVector will always be there
-        arr_content = " ".join([str(val) for val in intercept])#get_array_contents(intercept)
+        arr_content = " ".join([str(val) for val in intercept])
         arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(intercept))
         intercept_vector = InterceptVector(Array=arr)
 
@@ -202,12 +204,12 @@ class StatsmodelsToPmml:
 
             RQR_mat = Matrix(nbRows=R_Q_R_prime.shape[0], nbCols=R_Q_R_prime.shape[1])
             for row in R_Q_R_prime:
-                array_content = " ".join([str(val) for val in row])#get_array_contents(row)
+                array_content = " ".join([str(val) for val in row])
                 RQR_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
             selected_state_cov_matrix = SelectedStateCovarianceMatrix(Matrix=RQR_mat)
             p_mat = Matrix(nbRows=P_t0.shape[0], nbCols=P_t0.shape[1])
             for row in P_t0:
-                array_content = " ".join([str(val) for val in row])#get_array_contents(row)
+                array_content = " ".join([str(val) for val in row])
                 p_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
             predicted_state_cov_matrix = PredictedStateCovarianceMatrix(Matrix=p_mat)
 
