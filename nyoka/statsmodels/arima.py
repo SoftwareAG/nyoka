@@ -30,7 +30,6 @@ class ArimaToPMML:
     -------
     Generates PMML object and exports it to `pmml_file_name`
     """
-    warnings.warn("`ArimaToPMML` is deprecated and it will be removed in 4.3 release. Use `StatsmodelsToPmml` instead.",stacklevel=1)
     def __init__(self, results_obj=None, pmml_file_name="from_arima.pmml", conf_int=None, model_name=None, description=None):
         warnings.warn("`ArimaToPMML` is deprecated and it will be removed in 4.3 release. Use `StatsmodelsToPmml` instead."\
             ,DeprecationWarning,stacklevel=2)
