@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Nyoka &mdash; A python library for PMML generation</title>
+  <title>Nyoka 4.2.0 &mdash; A python library for PMML generation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'4.0',
+              VERSION:'4.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                4.0
+                4.2
               </div>
             
           
@@ -89,17 +89,16 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="retinanet.html">RetinaNet Exporter Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_process_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enums.html">Enums Module</a></li>
 </ul>
 
             
@@ -167,7 +166,7 @@
   <div class="section" id="scripts">
 <div class="section" id="welcome-to-nyoka-s-documentation">
   <h1>Welcome to Nyoka’s documentation!<a class="headerlink" href="#welcome-to-nyoka-s-documentation" title="Permalink to this headline">¶</a></h1>
-  <img src="./nyoka_logo.PNG" width="250px" aria-placeholder="Nyoka logo"/>
+  <img src="https://raw.githubusercontent.com/nyoka-pmml/nyoka/master/docs/nyoka_logo.PNG" width="250px" aria-placeholder="Nyoka logo"/>
   <p>Nyoka is a Python library for comprehensive support of the latest PMML (PMML 4.4) standard. Using Nyoka, Data Scientists can export a large number of Machine Learning and Deep Learning models from popular Python frameworks into PMML by either using any of the numerous included ready-to-use exporters or by creating their own exporter for specialized/individual model types by simply calling a sequence of constructors.</p>
   <p>Besides about 500 Python classes which each cover a PMML tag and all constructor parameters/attributes as defined in the standard, Nyoka also provides an increasing number of convenience classes and functions that make the Data Scientist’s life easier for example by reading or writing any PMML file in one line of code from within your favorite Python environment.</p>
   <p>Nyoka comes to you with the complete source code in Python, an extended HTML documentation for the classes/functions and a growing number of Jupyter Notebook tutorials that help you familiarizing yourself with the way how Nyoka supports you to use PMML as your favorite Data Science transport file format.</p>
@@ -175,17 +174,16 @@
 <div class="toctree-wrapper compound">
   <h3>The core modules of Nyoka are</h3>
 <ul>
-  <li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
   <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
   <li class="toctree-l1"><a class="reference internal" href="retinanet.html">RetinaNet Exporter Module</a></li>
   <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
   <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
   <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
   <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
   <li class="toctree-l1"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+  <li class="toctree-l1"><a class="reference internal" href="enums.html">Enums Module</a></li>
 </ul>
 </div>
 
@@ -200,7 +198,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="PMML44.html" class="btn btn-neutral float-right" title="PMML44 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="statsmodels_to_pmml.html" class="btn btn-neutral float-right" title="Statsmodels Exporter Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -210,7 +208,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, maintainer@nyoka.org
+        &copy; Copyright 2020, maintainer@nyoka.org
 
     </p>
   </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>LightGBM Exporter Module &mdash; Nyoka documentation</title>
+  <title>LightGBM Exporter &mdash; Nyoka 4.2.0 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'4.0.0',
+              VERSION:'4.2.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                4.0
+                4.2
               </div>
             
           
@@ -92,17 +92,16 @@
             
             
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../PMML44.html">PMML44 Module (core library)</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="../PMML44Super.html">PMML44Super Module (core library)</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="../arima.html">ARIMA Exporter Module</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">Keras Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../retinanet.html">RetinaNet Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../enums.html">Enums Module</a></li>
 </ul>
 
             
@@ -171,17 +170,16 @@
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
 <span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">PMML44</span> <span class="k">as</span> <span class="nn">pml</span>
 <span class="kn">import</span> <span class="nn">skl_to_pmml</span> <span class="k">as</span> <span class="nn">sklToPmml</span>
 <span class="kn">import</span> <span class="nn">xgboost_to_pmml</span> <span class="k">as</span> <span class="nn">xgboostToPmml</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">pre_process</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">enums</span> <span class="k">import</span> <span class="o">*</span>
 
 
-
-<div class="viewcode-block" id="lgb_to_pmml"><a class="viewcode-back" href="../lgb_to_pmml.html#lgb_to_pmml.lgb_to_pmml">[docs]</a><span class="k">def</span> <span class="nf">lgb_to_pmml</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">pmml_f_name</span><span class="o">=</span><span class="s1">&#39;from_lgbm.pmml&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="lgb_to_pmml"><span class="k">def</span> <span class="nf">lgb_to_pmml</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">pmml_f_name</span><span class="o">=</span><span class="s1">&#39;from_lgbm.pmml&#39;</span><span class="p">,</span><span class="n">model_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exports LGBM pipeline object into pmml</span>
 
@@ -195,6 +193,10 @@
 <span class="sd">        Name of the target column.</span>
 <span class="sd">    pmml_f_name : String</span>
 <span class="sd">        Name of the pmml file. (Default=&#39;from_lgbm.pmml&#39;)</span>
+<span class="sd">    model_name : string (optional)</span>
+<span class="sd">        Name of the model</span>
+<span class="sd">    description : string (optional)</span>
+<span class="sd">        Description of the model</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -206,7 +208,7 @@
     <span class="k">except</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Exporter expects pipeleine_instance and not an estimator_instance&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col_names</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">col_names</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;ndarray&quot;</span><span class="p">:</span>
             <span class="n">col_names</span> <span class="o">=</span> <span class="n">col_names</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">ppln_sans_predictor</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">steps</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">trfm_dict_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -225,11 +227,11 @@
                                       <span class="n">col_names</span><span class="p">,</span>
                                       <span class="n">target_name</span><span class="p">,</span>
                                       <span class="n">mining_imp_val</span><span class="p">,</span>
-                                      <span class="n">categoric_values</span><span class="p">)</span>
+                                      <span class="n">categoric_values</span><span class="p">,</span>
+                                      <span class="n">model_name</span><span class="p">)</span>
         <span class="n">pmml</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">PMML</span><span class="p">(</span>
-            <span class="n">version</span><span class="o">=</span><span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_version</span><span class="p">(),</span>
-            <span class="n">Header</span><span class="o">=</span><span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_header</span><span class="p">(),</span>
-            <span class="n">MiningBuildTask</span><span class="o">=</span><span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_mining_buildtask</span><span class="p">(</span><span class="n">pipeline</span><span class="p">),</span>
+            <span class="n">version</span><span class="o">=</span><span class="n">PMML_SCHEMA</span><span class="o">.</span><span class="n">VERSION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">Header</span><span class="o">=</span><span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_header</span><span class="p">(</span><span class="n">description</span><span class="p">),</span>
             <span class="n">DataDictionary</span><span class="o">=</span><span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_data_dictionary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">),</span>
             <span class="o">**</span><span class="n">trfm_dict_kwargs</span><span class="p">,</span>
             <span class="o">**</span><span class="n">PMML_kwargs</span>
@@ -237,7 +239,7 @@
         <span class="n">pmml</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">outfile</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">pmml_f_name</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
         
 
-<div class="viewcode-block" id="get_PMML_kwargs"><a class="viewcode-back" href="../lgb_to_pmml.html#lgb_to_pmml.get_PMML_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_PMML_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">):</span>
+<div class="viewcode-block" id="get_PMML_kwargs"><span class="k">def</span> <span class="nf">get_PMML_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">     It returns all the pmml elements.</span>
 
@@ -255,6 +257,8 @@
 <span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
 <span class="sd">    categoric_values : tuple</span>
 <span class="sd">        Contains Categorical attribute names and its values</span>
+<span class="sd">    model_name : string</span>
+<span class="sd">        Name of the model</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -266,10 +270,11 @@
                                                       <span class="n">col_names</span><span class="p">,</span>
                                                       <span class="n">target_name</span><span class="p">,</span>
                                                       <span class="n">mining_imp_val</span><span class="p">,</span>
-                                                      <span class="n">categoric_values</span><span class="p">)}</span>
+                                                      <span class="n">categoric_values</span><span class="p">,</span>
+                                                      <span class="n">model_name</span><span class="p">)}</span>
     <span class="k">return</span> <span class="n">algo_kwargs</span></div>
 
-<div class="viewcode-block" id="get_ensemble_models"><a class="viewcode-back" href="../lgb_to_pmml.html#lgb_to_pmml.get_ensemble_models">[docs]</a><span class="k">def</span> <span class="nf">get_ensemble_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">):</span>
+<div class="viewcode-block" id="get_ensemble_models"><span class="k">def</span> <span class="nf">get_ensemble_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the Mining Model element of the model</span>
 
@@ -287,6 +292,8 @@
 <span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value.</span>
 <span class="sd">    categoric_values : tuple</span>
 <span class="sd">        Contains Categorical attribute names and its values</span>
+<span class="sd">    model_name : string</span>
+<span class="sd">        Name of the model</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -295,15 +302,15 @@
     <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
     <span class="n">mining_models</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">mining_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningModel</span><span class="p">(</span>
-        <span class="n">modelName</span><span class="o">=</span><span class="s2">&quot;LightGBModel&quot;</span><span class="p">,</span>
-        <span class="n">Segmentation</span><span class="o">=</span><span class="n">get_outer_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">),</span>
+        <span class="n">modelName</span><span class="o">=</span><span class="n">model_name</span> <span class="k">if</span> <span class="n">model_name</span> <span class="k">else</span> <span class="s2">&quot;LightGBModel&quot;</span><span class="p">,</span>
+        <span class="n">Segmentation</span><span class="o">=</span><span class="n">get_outer_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">),</span>
         <span class="o">**</span><span class="n">model_kwargs</span>
     <span class="p">))</span>
     <span class="k">return</span> <span class="n">mining_models</span></div>
 
 
 
-<div class="viewcode-block" id="get_outer_segmentation"><a class="viewcode-back" href="../lgb_to_pmml.html#lgb_to_pmml.get_outer_segmentation">[docs]</a><span class="k">def</span> <span class="nf">get_outer_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">):</span>
+<div class="viewcode-block" id="get_outer_segmentation"><span class="k">def</span> <span class="nf">get_outer_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the Segmentation element of the model.</span>
 
@@ -321,6 +328,8 @@
 <span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
 <span class="sd">    categoric_values : tuple</span>
 <span class="sd">        Contains Categorical attribute names and its values</span>
+<span class="sd">    model_name : string</span>
+<span class="sd">        Name of the model</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -330,15 +339,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="s1">&#39;LGBMRegressor&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="n">segmentation</span><span class="o">=</span><span class="n">get_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
+        <span class="n">segmentation</span><span class="o">=</span><span class="n">get_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">segmentation</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segmentation</span><span class="p">(</span>
             <span class="n">multipleModelMethod</span><span class="o">=</span><span class="n">get_multiple_model_method</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
-            <span class="n">Segment</span><span class="o">=</span><span class="n">get_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
+            <span class="n">Segment</span><span class="o">=</span><span class="n">get_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">)</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">segmentation</span></div>
 
-<div class="viewcode-block" id="get_segments"><a class="viewcode-back" href="../lgb_to_pmml.html#lgb_to_pmml.get_segments">[docs]</a><span class="k">def</span> <span class="nf">get_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">):</span>
+<div class="viewcode-block" id="get_segments"><span class="k">def</span> <span class="nf">get_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the Segment element of the model.</span>
 
@@ -356,6 +365,8 @@
 <span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
 <span class="sd">    categoric_values : tuple</span>
 <span class="sd">        Contains Categorical attribute names and its values</span>
+<span class="sd">    model_name : string</span>
+<span class="sd">        Name of the model</span>
 
 <span class="sd">   Returns</span>
 <span class="sd">   -------</span>
@@ -365,12 +376,12 @@
 <span class="sd">   &quot;&quot;&quot;</span>
     <span class="n">segments</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="s1">&#39;LGBMClassifier&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="n">segments</span><span class="o">=</span><span class="n">get_segments_for_lgbc</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
+        <span class="n">segments</span><span class="o">=</span><span class="n">get_segments_for_lgbc</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">)</span>
     <span class="k">elif</span> <span class="s1">&#39;LGBMRegressor&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
         <span class="n">segments</span><span class="o">=</span><span class="n">get_segments_for_lgbr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">segments</span></div>
 
-<div class="viewcode-block" id="generate_Segments_Equal_To_Estimators"><a class="viewcode-back" href="../lgb_to_pmml.html#lgb_to_pmml.generate_Segments_Equal_To_Estimators">[docs]</a><span class="k">def</span> <span class="nf">generate_Segments_Equal_To_Estimators</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+<div class="viewcode-block" id="generate_Segments_Equal_To_Estimators"><span class="k">def</span> <span class="nf">generate_Segments_Equal_To_Estimators</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns number of Segments equal to the estimator of the model.</span>
 
@@ -397,11 +408,11 @@
             <span class="n">m_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
 
         <span class="n">segments_equal_to_estimators</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pml</span><span class="o">.</span><span class="n">Segment</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">True_</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">True_</span><span class="p">(),</span>
-                                                     <span class="n">TreeModel</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">TreeModel</span><span class="p">(</span><span class="n">functionName</span><span class="o">=</span><span class="s2">&quot;regression&quot;</span><span class="p">,</span>
+                                                     <span class="n">TreeModel</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">TreeModel</span><span class="p">(</span><span class="n">functionName</span><span class="o">=</span><span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">REGRESSION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                      <span class="n">modelName</span><span class="o">=</span><span class="s2">&quot;DecisionTreeModel&quot;</span><span class="p">,</span>
                                                                          <span class="n">missingValueStrategy</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
                                                                          <span class="n">noTrueChildStrategy</span><span class="o">=</span><span class="s2">&quot;returnLastPrediction&quot;</span><span class="p">,</span>
-                                                                         <span class="n">splitCharacteristic</span><span class="o">=</span><span class="s2">&quot;multiSplit&quot;</span><span class="p">,</span>
+                                                                         <span class="n">splitCharacteristic</span><span class="o">=</span><span class="n">TREE_SPLIT_CHARACTERISTIC</span><span class="o">.</span><span class="n">MULTI</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                                          <span class="n">Node</span><span class="o">=</span><span class="n">main_node</span><span class="p">,</span>
                                                                          <span class="n">MiningSchema</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningSchema</span><span class="p">(</span>
                                                                              <span class="n">MiningField</span><span class="o">=</span><span class="n">m_flds</span><span class="p">)))))</span>
@@ -410,7 +421,7 @@
 
 
 
-<div class="viewcode-block" id="get_segments_for_lgbr"><a class="viewcode-back" href="../lgb_to_pmml.html#lgb_to_pmml.get_segments_for_lgbr">[docs]</a><span class="k">def</span> <span class="nf">get_segments_for_lgbr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categorical_values</span><span class="p">):</span>
+<div class="viewcode-block" id="get_segments_for_lgbr"><span class="k">def</span> <span class="nf">get_segments_for_lgbr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categorical_values</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        It returns all the Segments element of the model</span>
 
@@ -441,13 +452,13 @@
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lgb_dump</span><span class="p">[</span><span class="s1">&#39;tree_info&#39;</span><span class="p">])):</span>
         <span class="n">tree</span> <span class="o">=</span> <span class="n">lgb_dump</span><span class="p">[</span><span class="s1">&#39;tree_info&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;tree_structure&#39;</span><span class="p">]</span>
         <span class="n">main_key_value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
-    <span class="n">segmentation</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segmentation</span><span class="p">(</span><span class="n">multipleModelMethod</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span>
+    <span class="n">segmentation</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segmentation</span><span class="p">(</span><span class="n">multipleModelMethod</span><span class="o">=</span><span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">SUM</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                     <span class="n">Segment</span><span class="o">=</span><span class="n">generate_Segments_Equal_To_Estimators</span><span class="p">(</span><span class="n">main_key_value</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span>
                                                                                   <span class="n">feature_names</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">segmentation</span></div>
 
 
-<div class="viewcode-block" id="create_node"><a class="viewcode-back" href="../lgb_to_pmml.html#lgb_to_pmml.create_node">[docs]</a><span class="k">def</span> <span class="nf">create_node</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">main_node</span><span class="p">,</span><span class="n">derived_col_names</span><span class="p">):</span>
+<div class="viewcode-block" id="create_node"><span class="k">def</span> <span class="nf">create_node</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">main_node</span><span class="p">,</span><span class="n">derived_col_names</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It creates nodes for the internal Decision Trees.</span>
 
@@ -465,7 +476,7 @@
         <span class="n">nd</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Node</span><span class="p">()</span>
         <span class="n">nd</span><span class="o">.</span><span class="n">set_SimplePredicate</span><span class="p">(</span>
             <span class="n">pml</span><span class="o">.</span><span class="n">SimplePredicate</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">xgboostToPmml</span><span class="o">.</span><span class="n">replace_name_with_derivedColumnNames</span><span class="p">(</span><span class="n">derived_col_names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;split_feature&#39;</span><span class="p">])],</span>\
-                 <span class="n">derived_col_names</span><span class="p">),</span> <span class="n">operator</span><span class="o">=</span><span class="s1">&#39;lessOrEqual&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;threshold&#39;</span><span class="p">])))</span>
+                 <span class="n">derived_col_names</span><span class="p">),</span> <span class="n">operator</span><span class="o">=</span><span class="n">SIMPLE_PREDICATE_OPERATOR</span><span class="o">.</span><span class="n">LESS_OR_EQUAL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;threshold&#39;</span><span class="p">])))</span>
         <span class="n">create_node</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;left_child&#39;</span><span class="p">],</span> <span class="n">nd</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nd</span>
 
@@ -473,7 +484,7 @@
         <span class="n">nd</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Node</span><span class="p">()</span>
         <span class="n">nd</span><span class="o">.</span><span class="n">set_SimplePredicate</span><span class="p">(</span>
             <span class="n">pml</span><span class="o">.</span><span class="n">SimplePredicate</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">xgboostToPmml</span><span class="o">.</span><span class="n">replace_name_with_derivedColumnNames</span><span class="p">(</span><span class="n">derived_col_names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;split_feature&#39;</span><span class="p">])],</span>\
-                 <span class="n">derived_col_names</span><span class="p">),</span> <span class="n">operator</span><span class="o">=</span><span class="s1">&#39;greaterThan&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;threshold&#39;</span><span class="p">])))</span>
+                 <span class="n">derived_col_names</span><span class="p">),</span> <span class="n">operator</span><span class="o">=</span><span class="n">SIMPLE_PREDICATE_OPERATOR</span><span class="o">.</span><span class="n">GREATER_THAN</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;threshold&#39;</span><span class="p">])))</span>
         <span class="n">create_node</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;right_child&#39;</span><span class="p">],</span> <span class="n">nd</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nd</span>
 
@@ -485,7 +496,7 @@
         <span class="n">main_node</span><span class="o">.</span><span class="n">add_Node</span><span class="p">(</span><span class="n">create_right_node</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">derived_col_names</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="get_segments_for_lgbc"><a class="viewcode-back" href="../lgb_to_pmml.html#lgb_to_pmml.get_segments_for_lgbc">[docs]</a><span class="k">def</span> <span class="nf">get_segments_for_lgbc</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">):</span>
+<div class="viewcode-block" id="get_segments_for_lgbc"><span class="k">def</span> <span class="nf">get_segments_for_lgbc</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns all the segments of the LGB classifier.</span>
 
@@ -503,6 +514,8 @@
 <span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
 <span class="sd">    categoric_values : tuple</span>
 <span class="sd">        Contains Categorical attribute names and its values</span>
+<span class="sd">    model_name : string</span>
+<span class="sd">        Name of the model</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -519,16 +532,16 @@
             <span class="n">main_key_value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
         <span class="n">mining_schema_for_1st_segment</span> <span class="o">=</span> <span class="n">xgboostToPmml</span><span class="o">.</span><span class="n">mining_Field_For_First_Segment</span><span class="p">(</span><span class="n">feature_names</span><span class="p">)</span>
         <span class="n">outputField</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="n">outputField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;lgbValue&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;continuous&quot;</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span>
-                                           <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;predictedValue&quot;</span><span class="p">,</span> <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="p">))</span>
+        <span class="n">outputField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;lgbValue&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                           <span class="n">feature</span><span class="o">=</span><span class="n">RESULT_FEATURE</span><span class="o">.</span><span class="n">PREDICTED_VALUE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="p">))</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="n">OutputField</span><span class="o">=</span><span class="n">outputField</span><span class="p">)</span>
         <span class="n">oField</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
         <span class="n">oField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;lgbValue&quot;</span><span class="p">)</span>
         <span class="n">segments_equal_to_estimators</span> <span class="o">=</span> <span class="n">generate_Segments_Equal_To_Estimators</span><span class="p">(</span><span class="n">main_key_value</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span>
                                                                              <span class="n">feature_names</span><span class="p">)</span>
         <span class="n">First_segment</span> <span class="o">=</span> <span class="n">xgboostToPmml</span><span class="o">.</span><span class="n">add_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">segments_equal_to_estimators</span><span class="p">,</span> <span class="n">mining_schema_for_1st_segment</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">reg_model</span> <span class="o">=</span> <span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_regrs_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">oField</span><span class="p">,</span> <span class="n">oField</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">reg_model</span><span class="o">.</span><span class="n">normalizationMethod</span> <span class="o">=</span> <span class="s1">&#39;logit&#39;</span>
+        <span class="n">reg_model</span> <span class="o">=</span> <span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_regrs_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">oField</span><span class="p">,</span> <span class="n">oField</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">reg_model</span><span class="o">.</span><span class="n">normalizationMethod</span> <span class="o">=</span> <span class="n">REGRESSION_NORMALIZATION_METHOD</span><span class="o">.</span><span class="n">LOGISTIC</span><span class="o">.</span><span class="n">value</span>
         <span class="n">last_segment</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segment</span><span class="p">(</span><span class="n">True_</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">True_</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                    <span class="n">RegressionModel</span><span class="o">=</span><span class="n">reg_model</span><span class="p">)</span>
         <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">First_segment</span><span class="p">)</span>
@@ -547,8 +560,8 @@
                 <span class="n">inner_segment</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">main_key_value</span><span class="p">[</span><span class="n">in_seg</span><span class="p">])</span>
             <span class="n">mining_schema_for_1st_segment</span> <span class="o">=</span> <span class="n">xgboostToPmml</span><span class="o">.</span><span class="n">mining_Field_For_First_Segment</span><span class="p">(</span><span class="n">feature_names</span><span class="p">)</span>
             <span class="n">outputField</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="n">outputField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;lgbValue(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="s2">&quot;continuous&quot;</span><span class="p">,</span>
-                                      <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;predictedValue&quot;</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">))</span>
+            <span class="n">outputField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;lgbValue(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                      <span class="n">feature</span><span class="o">=</span><span class="n">RESULT_FEATURE</span><span class="o">.</span><span class="n">PREDICTED_VALUE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">FLOAT</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">))</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="n">OutputField</span><span class="o">=</span><span class="n">outputField</span><span class="p">)</span>
 
             <span class="n">oField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;lgbValue(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
@@ -557,14 +570,14 @@
             <span class="n">segments_equal_to_class</span> <span class="o">=</span> <span class="n">xgboostToPmml</span><span class="o">.</span><span class="n">add_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">segments_equal_to_estimators</span><span class="p">,</span>
                                                        <span class="n">mining_schema_for_1st_segment</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
             <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segments_equal_to_class</span><span class="p">)</span>
-        <span class="n">reg_model</span> <span class="o">=</span> <span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_regrs_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">oField</span><span class="p">,</span><span class="n">oField</span><span class="p">,</span><span class="n">target_name</span><span class="p">,</span><span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">reg_model</span><span class="o">.</span><span class="n">normalizationMethod</span> <span class="o">=</span> <span class="s1">&#39;softmax&#39;</span>
+        <span class="n">reg_model</span> <span class="o">=</span> <span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_regrs_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">oField</span><span class="p">,</span><span class="n">oField</span><span class="p">,</span><span class="n">target_name</span><span class="p">,</span><span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">reg_model</span><span class="o">.</span><span class="n">normalizationMethod</span> <span class="o">=</span> <span class="n">REGRESSION_NORMALIZATION_METHOD</span><span class="o">.</span><span class="n">SOFTMAX</span><span class="o">.</span><span class="n">value</span>
         <span class="n">last_segment</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segment</span><span class="p">(</span><span class="n">True_</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">True_</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">n_classes_</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                    <span class="n">RegressionModel</span><span class="o">=</span><span class="n">reg_model</span><span class="p">)</span>
         <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_segment</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">segments</span></div>
 
-<div class="viewcode-block" id="get_multiple_model_method"><a class="viewcode-back" href="../lgb_to_pmml.html#lgb_to_pmml.get_multiple_model_method">[docs]</a><span class="k">def</span> <span class="nf">get_multiple_model_method</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+<div class="viewcode-block" id="get_multiple_model_method"><span class="k">def</span> <span class="nf">get_multiple_model_method</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the type of multiple model method for MiningModels.</span>
 
@@ -578,9 +591,9 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="s1">&#39;LGBMClassifier&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;modelChain&#39;</span>
+        <span class="k">return</span> <span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">MODEL_CHAIN</span><span class="o">.</span><span class="n">value</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;sum&#39;</span></div>
+        <span class="k">return</span> <span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">SUM</span><span class="o">.</span><span class="n">value</span></div>
 
 </pre></div>
 
@@ -594,7 +607,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, maintainer@nyoka.org
+        &copy; Copyright 2020, maintainer@nyoka.org
 
     </p>
   </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Keras Exporter Module &mdash; Nyoka documentation</title>
+  <title>Keras Exporter &mdash; Nyoka 4.2.0 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'4.0.0',
+              VERSION:'4.2.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                4.0
+                4.2
               </div>
             
           
@@ -92,17 +92,16 @@
             
             
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../PMML44.html">PMML44 Module (core library)</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="../PMML44Super.html">PMML44Super Module (core library)</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="../arima.html">ARIMA Exporter Module</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">Keras Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../retinanet.html">RetinaNet Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="../preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../enums.html">Enums Module</a></li>
 </ul>
 
             
@@ -170,7 +169,6 @@
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Classes used in keras_model_to_pmml.py</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -182,12 +180,12 @@
 
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">PMML44</span> <span class="k">as</span> <span class="nn">ny</span>
 <span class="kn">import</span> <span class="nn">metadata</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">base64</span>
+
 <span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
 <span class="n">KERAS_LAYER_TYPES_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;InputLayer&#39;</span><span class="p">:</span> <span class="s1">&#39;Input&#39;</span><span class="p">,</span>
@@ -214,7 +212,7 @@
                       <span class="s2">&quot;regressBoxesMean&quot;</span><span class="p">,</span> <span class="s2">&quot;regressBoxesStd&quot;</span><span class="p">,</span><span class="s2">&quot;nmsThreshold&quot;</span><span class="p">,</span><span class="s2">&quot;scoreThreshold&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="KerasHeader"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasHeader">[docs]</a><span class="k">class</span> <span class="nc">KerasHeader</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">Header</span><span class="p">):</span>
+<div class="viewcode-block" id="KerasHeader"><span class="k">class</span> <span class="nc">KerasHeader</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">Header</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates header for Keras PMML model file using Nyoka</span>
 
@@ -241,7 +239,7 @@
                            <span class="n">Application</span><span class="o">=</span><span class="n">ny</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Nyoka&quot;</span><span class="p">,</span><span class="n">version</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="KerasNetworkLayer"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasNetworkLayer">[docs]</a><span class="k">class</span> <span class="nc">KerasNetworkLayer</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">NetworkLayer</span><span class="p">):</span>
+<div class="viewcode-block" id="KerasNetworkLayer"><span class="k">class</span> <span class="nc">KerasNetworkLayer</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">NetworkLayer</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates Networklayer of PMML which has information about the layer type, weight matrix and bias matrix and their properties.</span>
 
@@ -264,6 +262,7 @@
 <span class="sd">    &quot;&quot;&quot;</span> 
 
     <span class="k">def</span> <span class="nf">_get_flatten_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Flattens the input</span>
@@ -568,7 +567,7 @@
                                  <span class="n">LayerBias</span><span class="o">=</span><span class="n">layer_biases</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="KerasDataDictionary"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasDataDictionary">[docs]</a><span class="k">class</span> <span class="nc">KerasDataDictionary</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">DataDictionary</span><span class="p">):</span>
+<div class="viewcode-block" id="KerasDataDictionary"><span class="k">class</span> <span class="nc">KerasDataDictionary</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">DataDictionary</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    KerasDataDictionary stores the class information to be predicted  in the PMML model.</span>
 <span class="sd">    The current implementation takes care of the image class label by giving dataset name as dataSet parameter.</span>
@@ -622,7 +621,7 @@
         <span class="n">ny</span><span class="o">.</span><span class="n">DataDictionary</span><span class="o">.</span><span class="n">add_DataField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_node</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="KerasMiningSchema"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasMiningSchema">[docs]</a><span class="k">class</span> <span class="nc">KerasMiningSchema</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">MiningSchema</span><span class="p">):</span>
+<div class="viewcode-block" id="KerasMiningSchema"><span class="k">class</span> <span class="nc">KerasMiningSchema</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">MiningSchema</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    KerasMiningSchema stores the attributes which are used to build the model.</span>
 <span class="sd">    </span>
@@ -649,7 +648,7 @@
             <span class="n">invalidValueTreatment</span><span class="o">=</span><span class="s2">&quot;asIs&quot;</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="KerasOutput"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasOutput">[docs]</a><span class="k">class</span> <span class="nc">KerasOutput</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">Output</span><span class="p">):</span>
+<div class="viewcode-block" id="KerasOutput"><span class="k">class</span> <span class="nc">KerasOutput</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">Output</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    KerasOutput provides the information about the output representation of the PMML. (e.g. Predicted classes, probabilities)</span>
 <span class="sd">    </span>
@@ -680,7 +679,7 @@
 
 
 
-<div class="viewcode-block" id="KerasLocalTransformations"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasLocalTransformations">[docs]</a><span class="k">class</span> <span class="nc">KerasLocalTransformations</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">LocalTransformations</span><span class="p">):</span>
+<div class="viewcode-block" id="KerasLocalTransformations"><span class="k">class</span> <span class="nc">KerasLocalTransformations</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">LocalTransformations</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    KerasLocalTransformations provides the information about the list of transformations applied to the data.</span>
 <span class="sd">    </span>
@@ -715,7 +714,7 @@
                             <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">ny</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)])))</span></div>
 
 
-<div class="viewcode-block" id="KerasTransformationDictionary"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasTransformationDictionary">[docs]</a><span class="k">class</span> <span class="nc">KerasTransformationDictionary</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">TransformationDictionary</span><span class="p">):</span>
+<div class="viewcode-block" id="KerasTransformationDictionary"><span class="k">class</span> <span class="nc">KerasTransformationDictionary</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">TransformationDictionary</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    KerasTransformationDictionary provides the information about the list of transformations functions applied to the data.</span>
 <span class="sd">    </span>
@@ -764,7 +763,7 @@
 
 
 
-<div class="viewcode-block" id="KerasNetwork"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasNetwork">[docs]</a><span class="k">class</span> <span class="nc">KerasNetwork</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">DeepNetwork</span><span class="p">):</span>
+<div class="viewcode-block" id="KerasNetwork"><span class="k">class</span> <span class="nc">KerasNetwork</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">DeepNetwork</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    KerasNetwork creates the DeepNetwork object which stores the NetworkLayer in sequence to define the architecture.</span>
 <span class="sd">    </span>
@@ -878,7 +877,7 @@
                                 <span class="n">ModelVerification</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="KerasToPmml"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasToPmml">[docs]</a><span class="k">class</span> <span class="nc">KerasToPmml</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">PMML</span><span class="p">):</span>
+<div class="viewcode-block" id="KerasToPmml"><span class="k">class</span> <span class="nc">KerasToPmml</span><span class="p">(</span><span class="n">ny</span><span class="o">.</span><span class="n">PMML</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    KerasToPmml exports the Keras model object into PMML file using nyoka.</span>
 <span class="sd">    </span>
@@ -932,7 +931,7 @@
     <span class="k">def</span> <span class="nf">encode_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;Valid values for `encode` are (True, False)&quot;</span>
     
-<div class="viewcode-block" id="KerasToPmml.validate_script_args"><a class="viewcode-back" href="../keras_model_to_pmml.html#keras_model_to_pmml.KerasToPmml.validate_script_args">[docs]</a>    <span class="k">def</span> <span class="nf">validate_script_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_args</span><span class="p">):</span>
+<div class="viewcode-block" id="KerasToPmml.validate_script_args">    <span class="k">def</span> <span class="nf">validate_script_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_args</span><span class="p">):</span>
         <span class="k">assert</span> <span class="s1">&#39;content&#39;</span> <span class="ow">in</span> <span class="n">script_args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_error</span>
         <span class="k">if</span> <span class="n">script_args</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;str&#39;</span><span class="p">:</span>
             <span class="k">assert</span> <span class="s1">&#39;def_name&#39;</span> <span class="ow">in</span> <span class="n">script_args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">def_name_error</span>
@@ -972,7 +971,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, maintainer@nyoka.org
+        &copy; Copyright 2020, maintainer@nyoka.org
 
     </p>
   </div>

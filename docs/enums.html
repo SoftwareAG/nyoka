@@ -1,0 +1,1725 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Nyoka 4.2.0 &mdash; Enums Module</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'4.2.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="exponential_smoothing module" href="exponential_smoothing.html" />
+    <link rel="prev" title="arima module" href="arima.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nyoka
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                4.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+                <li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="retinanet.html">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+                <li class="toctree-l1 current"><a class="reference internal" href="enums.html">Enums Module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nyoka</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Enums Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
+      
+    
+  </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-enums">
+<span id="enums-module"></span><h1>Enums Module<a class="headerlink" href="#module-enums" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="enums.ANOMALY_DETECTION_ALGORITHM">
+<em class="property">enum</em><code class="descname">ANOMALY_DETECTION_ALGORITHM</code><a class="reference internal" href="_modules/enums.html#ANOMALY_DETECTION_ALGORITHM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.ANOMALY_DETECTION_ALGORITHM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.ANOMALY_DETECTION_ALGORITHM.CLUSTER_MEAN_DISTANCE">
+<code class="descname">CLUSTER_MEAN_DISTANCE</code><em class="property"> = 'clusterMeanDist'</em><a class="headerlink" href="#enums.ANOMALY_DETECTION_ALGORITHM.CLUSTER_MEAN_DISTANCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.ANOMALY_DETECTION_ALGORITHM.ISOLATION_FOREST">
+<code class="descname">ISOLATION_FOREST</code><em class="property"> = 'iforest'</em><a class="headerlink" href="#enums.ANOMALY_DETECTION_ALGORITHM.ISOLATION_FOREST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.ANOMALY_DETECTION_ALGORITHM.ONE_CLASS_SVM">
+<code class="descname">ONE_CLASS_SVM</code><em class="property"> = 'ocsvm'</em><a class="headerlink" href="#enums.ANOMALY_DETECTION_ALGORITHM.ONE_CLASS_SVM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.ANOMALY_DETECTION_ALGORITHM.OTHER">
+<code class="descname">OTHER</code><em class="property"> = 'other'</em><a class="headerlink" href="#enums.ANOMALY_DETECTION_ALGORITHM.OTHER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.ARIMA_PREDICTION_METHOD">
+<em class="property">enum</em><code class="descname">ARIMA_PREDICTION_METHOD</code><a class="reference internal" href="_modules/enums.html#ARIMA_PREDICTION_METHOD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.ARIMA_PREDICTION_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.ARIMA_PREDICTION_METHOD.CSS">
+<code class="descname">CSS</code><em class="property"> = 'conditionalLeastSquares'</em><a class="headerlink" href="#enums.ARIMA_PREDICTION_METHOD.CSS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.ARIMA_PREDICTION_METHOD.MLE">
+<code class="descname">MLE</code><em class="property"> = 'exactLeastSquares'</em><a class="headerlink" href="#enums.ARIMA_PREDICTION_METHOD.MLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.ARRAY_TYPE">
+<em class="property">enum</em><code class="descname">ARRAY_TYPE</code><a class="reference internal" href="_modules/enums.html#ARRAY_TYPE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.ARRAY_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.ARRAY_TYPE.INTEGER">
+<code class="descname">INTEGER</code><em class="property"> = 'int'</em><a class="headerlink" href="#enums.ARRAY_TYPE.INTEGER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.ARRAY_TYPE.REAL">
+<code class="descname">REAL</code><em class="property"> = 'real'</em><a class="headerlink" href="#enums.ARRAY_TYPE.REAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.ARRAY_TYPE.STRING">
+<code class="descname">STRING</code><em class="property"> = 'string'</em><a class="headerlink" href="#enums.ARRAY_TYPE.STRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.CATEGORICAL_SCORING_METHOD">
+<em class="property">enum</em><code class="descname">CATEGORICAL_SCORING_METHOD</code><a class="reference internal" href="_modules/enums.html#CATEGORICAL_SCORING_METHOD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.CATEGORICAL_SCORING_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.CATEGORICAL_SCORING_METHOD.MAJORITY_VOTE">
+<code class="descname">MAJORITY_VOTE</code><em class="property"> = 'majorityVote'</em><a class="headerlink" href="#enums.CATEGORICAL_SCORING_METHOD.MAJORITY_VOTE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.CATEGORICAL_SCORING_METHOD.WEIGHTED_MAJORITY_VOTE">
+<code class="descname">WEIGHTED_MAJORITY_VOTE</code><em class="property"> = 'weightedMajorityVote'</em><a class="headerlink" href="#enums.CATEGORICAL_SCORING_METHOD.WEIGHTED_MAJORITY_VOTE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.CLUSTERING_FILED_COMPARE_FUNCTION">
+<em class="property">enum</em><code class="descname">CLUSTERING_FILED_COMPARE_FUNCTION</code><a class="reference internal" href="_modules/enums.html#CLUSTERING_FILED_COMPARE_FUNCTION"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.CLUSTERING_FILED_COMPARE_FUNCTION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.CLUSTERING_FILED_COMPARE_FUNCTION.ABSOLUTE_DIFF">
+<code class="descname">ABSOLUTE_DIFF</code><em class="property"> = 'absDiff'</em><a class="headerlink" href="#enums.CLUSTERING_FILED_COMPARE_FUNCTION.ABSOLUTE_DIFF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.CLUSTERING_FILED_COMPARE_FUNCTION.DELTA">
+<code class="descname">DELTA</code><em class="property"> = 'delta'</em><a class="headerlink" href="#enums.CLUSTERING_FILED_COMPARE_FUNCTION.DELTA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.CLUSTERING_FILED_COMPARE_FUNCTION.EQUAL">
+<code class="descname">EQUAL</code><em class="property"> = 'equal'</em><a class="headerlink" href="#enums.CLUSTERING_FILED_COMPARE_FUNCTION.EQUAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.CLUSTERING_FILED_COMPARE_FUNCTION.GAUSSIAN_SIMILARITY">
+<code class="descname">GAUSSIAN_SIMILARITY</code><em class="property"> = 'gaussSim'</em><a class="headerlink" href="#enums.CLUSTERING_FILED_COMPARE_FUNCTION.GAUSSIAN_SIMILARITY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.CLUSTERING_FILED_COMPARE_FUNCTION.TABLE">
+<code class="descname">TABLE</code><em class="property"> = 'table'</em><a class="headerlink" href="#enums.CLUSTERING_FILED_COMPARE_FUNCTION.TABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.CLUSTERING_MODEL_CLASS">
+<em class="property">enum</em><code class="descname">CLUSTERING_MODEL_CLASS</code><a class="reference internal" href="_modules/enums.html#CLUSTERING_MODEL_CLASS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.CLUSTERING_MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.CLUSTERING_MODEL_CLASS.CENTER_BASED">
+<code class="descname">CENTER_BASED</code><em class="property"> = 'centerBased'</em><a class="headerlink" href="#enums.CLUSTERING_MODEL_CLASS.CENTER_BASED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.CLUSTERING_MODEL_CLASS.DISTRIBUTION_BASED">
+<code class="descname">DISTRIBUTION_BASED</code><em class="property"> = 'distributionBased'</em><a class="headerlink" href="#enums.CLUSTERING_MODEL_CLASS.DISTRIBUTION_BASED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.COMPARISON_MEASURE_KIND">
+<em class="property">enum</em><code class="descname">COMPARISON_MEASURE_KIND</code><a class="reference internal" href="_modules/enums.html#COMPARISON_MEASURE_KIND"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.COMPARISON_MEASURE_KIND" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.COMPARISON_MEASURE_KIND.DISTANCE">
+<code class="descname">DISTANCE</code><em class="property"> = 'distance'</em><a class="headerlink" href="#enums.COMPARISON_MEASURE_KIND.DISTANCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.COMPARISON_MEASURE_KIND.SIMILARITY">
+<code class="descname">SIMILARITY</code><em class="property"> = 'similarity'</em><a class="headerlink" href="#enums.COMPARISON_MEASURE_KIND.SIMILARITY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.CONTINUOUS_SCORING_METHOD">
+<em class="property">enum</em><code class="descname">CONTINUOUS_SCORING_METHOD</code><a class="reference internal" href="_modules/enums.html#CONTINUOUS_SCORING_METHOD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.CONTINUOUS_SCORING_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.CONTINUOUS_SCORING_METHOD.AVERAGE">
+<code class="descname">AVERAGE</code><em class="property"> = 'average'</em><a class="headerlink" href="#enums.CONTINUOUS_SCORING_METHOD.AVERAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.CONTINUOUS_SCORING_METHOD.MEDIAN">
+<code class="descname">MEDIAN</code><em class="property"> = 'median'</em><a class="headerlink" href="#enums.CONTINUOUS_SCORING_METHOD.MEDIAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.CONTINUOUS_SCORING_METHOD.WEIGHTED_AVERAGE">
+<code class="descname">WEIGHTED_AVERAGE</code><em class="property"> = 'weightedAverage'</em><a class="headerlink" href="#enums.CONTINUOUS_SCORING_METHOD.WEIGHTED_AVERAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.DATATYPE">
+<em class="property">enum</em><code class="descname">DATATYPE</code><a class="reference internal" href="_modules/enums.html#DATATYPE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.DATATYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.DATATYPE.BINARY">
+<code class="descname">BINARY</code><em class="property"> = 'binary'</em><a class="headerlink" href="#enums.DATATYPE.BINARY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.BOOLEAN">
+<code class="descname">BOOLEAN</code><em class="property"> = 'boolean'</em><a class="headerlink" href="#enums.DATATYPE.BOOLEAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DATE">
+<code class="descname">DATE</code><em class="property"> = 'date'</em><a class="headerlink" href="#enums.DATATYPE.DATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DATEDAYS_SINCE_0">
+<code class="descname">DATEDAYS_SINCE_0</code><em class="property"> = 'dateDaysSince[0]'</em><a class="headerlink" href="#enums.DATATYPE.DATEDAYS_SINCE_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DATEDAYS_SINCE_1960">
+<code class="descname">DATEDAYS_SINCE_1960</code><em class="property"> = 'dateDaysSince[1960]'</em><a class="headerlink" href="#enums.DATATYPE.DATEDAYS_SINCE_1960" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DATEDAYS_SINCE_1970">
+<code class="descname">DATEDAYS_SINCE_1970</code><em class="property"> = 'dateDaysSince[1970]'</em><a class="headerlink" href="#enums.DATATYPE.DATEDAYS_SINCE_1970" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DATEDAYS_SINCE_1980">
+<code class="descname">DATEDAYS_SINCE_1980</code><em class="property"> = 'dateDaysSince[1980]'</em><a class="headerlink" href="#enums.DATATYPE.DATEDAYS_SINCE_1980" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DATETIME">
+<code class="descname">DATETIME</code><em class="property"> = 'dateTime'</em><a class="headerlink" href="#enums.DATATYPE.DATETIME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DATETIMESECONDS_SINCE_0">
+<code class="descname">DATETIMESECONDS_SINCE_0</code><em class="property"> = 'dateTimeSecondsSince[0]'</em><a class="headerlink" href="#enums.DATATYPE.DATETIMESECONDS_SINCE_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DATETIMESECONDS_SINCE_1960">
+<code class="descname">DATETIMESECONDS_SINCE_1960</code><em class="property"> = 'dateTimeSecondsSince[1960]'</em><a class="headerlink" href="#enums.DATATYPE.DATETIMESECONDS_SINCE_1960" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DATETIMESECONDS_SINCE_1970">
+<code class="descname">DATETIMESECONDS_SINCE_1970</code><em class="property"> = 'dateTimeSecondsSince[1970]'</em><a class="headerlink" href="#enums.DATATYPE.DATETIMESECONDS_SINCE_1970" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DATETIMESECONDS_SINCE_1980">
+<code class="descname">DATETIMESECONDS_SINCE_1980</code><em class="property"> = 'dateTimeSecondsSince[1980]'</em><a class="headerlink" href="#enums.DATATYPE.DATETIMESECONDS_SINCE_1980" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.DOUBLE">
+<code class="descname">DOUBLE</code><em class="property"> = 'double'</em><a class="headerlink" href="#enums.DATATYPE.DOUBLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.FLOAT">
+<code class="descname">FLOAT</code><em class="property"> = 'float'</em><a class="headerlink" href="#enums.DATATYPE.FLOAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.INTEGER">
+<code class="descname">INTEGER</code><em class="property"> = 'integer'</em><a class="headerlink" href="#enums.DATATYPE.INTEGER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.STRING">
+<code class="descname">STRING</code><em class="property"> = 'string'</em><a class="headerlink" href="#enums.DATATYPE.STRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.TIME">
+<code class="descname">TIME</code><em class="property"> = 'time'</em><a class="headerlink" href="#enums.DATATYPE.TIME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.DATATYPE.TIMESECONDS">
+<code class="descname">TIMESECONDS</code><em class="property"> = 'timeSeconds'</em><a class="headerlink" href="#enums.DATATYPE.TIMESECONDS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.EXPONENTIAL_SMOOTHING_AND_ARIMA_TRANSFORMATION">
+<em class="property">enum</em><code class="descname">EXPONENTIAL_SMOOTHING_AND_ARIMA_TRANSFORMATION</code><a class="reference internal" href="_modules/enums.html#EXPONENTIAL_SMOOTHING_AND_ARIMA_TRANSFORMATION"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_AND_ARIMA_TRANSFORMATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.EXPONENTIAL_SMOOTHING_AND_ARIMA_TRANSFORMATION.LOGARITHMIC">
+<code class="descname">LOGARITHMIC</code><em class="property"> = 'logarithmic'</em><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_AND_ARIMA_TRANSFORMATION.LOGARITHMIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.EXPONENTIAL_SMOOTHING_AND_ARIMA_TRANSFORMATION.SQUARE_ROOT">
+<code class="descname">SQUARE_ROOT</code><em class="property"> = 'squareroot'</em><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_AND_ARIMA_TRANSFORMATION.SQUARE_ROOT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.EXPONENTIAL_SMOOTHING_SEASONALITY">
+<em class="property">enum</em><code class="descname">EXPONENTIAL_SMOOTHING_SEASONALITY</code><a class="reference internal" href="_modules/enums.html#EXPONENTIAL_SMOOTHING_SEASONALITY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_SEASONALITY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.EXPONENTIAL_SMOOTHING_SEASONALITY.ADDITIVE">
+<code class="descname">ADDITIVE</code><em class="property"> = 'additive'</em><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_SEASONALITY.ADDITIVE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.EXPONENTIAL_SMOOTHING_SEASONALITY.MULTIPLICATIVE">
+<code class="descname">MULTIPLICATIVE</code><em class="property"> = 'multiplicative'</em><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_SEASONALITY.MULTIPLICATIVE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.EXPONENTIAL_SMOOTHING_TREND">
+<em class="property">enum</em><code class="descname">EXPONENTIAL_SMOOTHING_TREND</code><a class="reference internal" href="_modules/enums.html#EXPONENTIAL_SMOOTHING_TREND"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_TREND" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.EXPONENTIAL_SMOOTHING_TREND.ADDITIVE">
+<code class="descname">ADDITIVE</code><em class="property"> = 'additive'</em><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_TREND.ADDITIVE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.EXPONENTIAL_SMOOTHING_TREND.DAMPED_ADDITIVE">
+<code class="descname">DAMPED_ADDITIVE</code><em class="property"> = 'damped_additive'</em><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_TREND.DAMPED_ADDITIVE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.EXPONENTIAL_SMOOTHING_TREND.DAMPED_MULTIPLICATIVE">
+<code class="descname">DAMPED_MULTIPLICATIVE</code><em class="property"> = 'damped_multiplicative'</em><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_TREND.DAMPED_MULTIPLICATIVE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.EXPONENTIAL_SMOOTHING_TREND.MULTIPLICATIVE">
+<code class="descname">MULTIPLICATIVE</code><em class="property"> = 'multiplicative'</em><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_TREND.MULTIPLICATIVE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.EXPONENTIAL_SMOOTHING_TREND.POLYNOMIAL_EXPONENTIAL">
+<code class="descname">POLYNOMIAL_EXPONENTIAL</code><em class="property"> = 'polynomial_exponential'</em><a class="headerlink" href="#enums.EXPONENTIAL_SMOOTHING_TREND.POLYNOMIAL_EXPONENTIAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.FIELD_USAGE_TYPE">
+<em class="property">enum</em><code class="descname">FIELD_USAGE_TYPE</code><a class="reference internal" href="_modules/enums.html#FIELD_USAGE_TYPE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.FIELD_USAGE_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.FIELD_USAGE_TYPE.ACTIVE">
+<code class="descname">ACTIVE</code><em class="property"> = 'active'</em><a class="headerlink" href="#enums.FIELD_USAGE_TYPE.ACTIVE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FIELD_USAGE_TYPE.ANALYSIS_WEIGHT">
+<code class="descname">ANALYSIS_WEIGHT</code><em class="property"> = 'analysisWeight'</em><a class="headerlink" href="#enums.FIELD_USAGE_TYPE.ANALYSIS_WEIGHT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FIELD_USAGE_TYPE.FREQUENCY_WEIGHT">
+<code class="descname">FREQUENCY_WEIGHT</code><em class="property"> = 'frequencyWeight'</em><a class="headerlink" href="#enums.FIELD_USAGE_TYPE.FREQUENCY_WEIGHT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FIELD_USAGE_TYPE.GROUP">
+<code class="descname">GROUP</code><em class="property"> = 'group'</em><a class="headerlink" href="#enums.FIELD_USAGE_TYPE.GROUP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FIELD_USAGE_TYPE.ORDER">
+<code class="descname">ORDER</code><em class="property"> = 'order'</em><a class="headerlink" href="#enums.FIELD_USAGE_TYPE.ORDER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FIELD_USAGE_TYPE.PREDICTED">
+<code class="descname">PREDICTED</code><em class="property"> = 'predicted'</em><a class="headerlink" href="#enums.FIELD_USAGE_TYPE.PREDICTED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FIELD_USAGE_TYPE.SUPPLEMENTARY">
+<code class="descname">SUPPLEMENTARY</code><em class="property"> = 'supplementary'</em><a class="headerlink" href="#enums.FIELD_USAGE_TYPE.SUPPLEMENTARY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FIELD_USAGE_TYPE.TARGET">
+<code class="descname">TARGET</code><em class="property"> = 'target'</em><a class="headerlink" href="#enums.FIELD_USAGE_TYPE.TARGET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.FUNCTION">
+<em class="property">enum</em><code class="descname">FUNCTION</code><a class="reference internal" href="_modules/enums.html#FUNCTION"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.FUNCTION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.FUNCTION.ABSOLUTE">
+<code class="descname">ABSOLUTE</code><em class="property"> = 'abs'</em><a class="headerlink" href="#enums.FUNCTION.ABSOLUTE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.ACOS">
+<code class="descname">ACOS</code><em class="property"> = 'acos'</em><a class="headerlink" href="#enums.FUNCTION.ACOS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.ADDITION">
+<code class="descname">ADDITION</code><em class="property"> = '+'</em><a class="headerlink" href="#enums.FUNCTION.ADDITION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.AND">
+<code class="descname">AND</code><em class="property"> = 'and'</em><a class="headerlink" href="#enums.FUNCTION.AND" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.ASIN">
+<code class="descname">ASIN</code><em class="property"> = 'asin'</em><a class="headerlink" href="#enums.FUNCTION.ASIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.ATAN">
+<code class="descname">ATAN</code><em class="property"> = 'atan'</em><a class="headerlink" href="#enums.FUNCTION.ATAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.AVERAGE">
+<code class="descname">AVERAGE</code><em class="property"> = 'avg'</em><a class="headerlink" href="#enums.FUNCTION.AVERAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.CEILING">
+<code class="descname">CEILING</code><em class="property"> = 'ceil'</em><a class="headerlink" href="#enums.FUNCTION.CEILING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.CONCAT">
+<code class="descname">CONCAT</code><em class="property"> = 'concat'</em><a class="headerlink" href="#enums.FUNCTION.CONCAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.COS">
+<code class="descname">COS</code><em class="property"> = 'cos'</em><a class="headerlink" href="#enums.FUNCTION.COS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.COSH">
+<code class="descname">COSH</code><em class="property"> = 'cosh'</em><a class="headerlink" href="#enums.FUNCTION.COSH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.DATEDAYS_SINCE_YEAR">
+<code class="descname">DATEDAYS_SINCE_YEAR</code><em class="property"> = 'dateDaysSinceYear'</em><a class="headerlink" href="#enums.FUNCTION.DATEDAYS_SINCE_YEAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.DATESECONDS_SINCE_MIDNIGHT">
+<code class="descname">DATESECONDS_SINCE_MIDNIGHT</code><em class="property"> = 'dateSecondsSinceMidnight'</em><a class="headerlink" href="#enums.FUNCTION.DATESECONDS_SINCE_MIDNIGHT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.DATESECONDS_SINCE_YEAR">
+<code class="descname">DATESECONDS_SINCE_YEAR</code><em class="property"> = 'dateSecondsSinceYear'</em><a class="headerlink" href="#enums.FUNCTION.DATESECONDS_SINCE_YEAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.DIVISION">
+<code class="descname">DIVISION</code><em class="property"> = '/'</em><a class="headerlink" href="#enums.FUNCTION.DIVISION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.EQUAL">
+<code class="descname">EQUAL</code><em class="property"> = 'equal'</em><a class="headerlink" href="#enums.FUNCTION.EQUAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.ERF">
+<code class="descname">ERF</code><em class="property"> = 'erf'</em><a class="headerlink" href="#enums.FUNCTION.ERF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.EXPM1">
+<code class="descname">EXPM1</code><em class="property"> = 'expm1'</em><a class="headerlink" href="#enums.FUNCTION.EXPM1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.EXPONENT">
+<code class="descname">EXPONENT</code><em class="property"> = 'exp'</em><a class="headerlink" href="#enums.FUNCTION.EXPONENT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.FLOOR">
+<code class="descname">FLOOR</code><em class="property"> = 'floor'</em><a class="headerlink" href="#enums.FUNCTION.FLOOR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.FORMAT_DATETIME">
+<code class="descname">FORMAT_DATETIME</code><em class="property"> = 'formatDatetime'</em><a class="headerlink" href="#enums.FUNCTION.FORMAT_DATETIME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.FORMAT_NUMBER">
+<code class="descname">FORMAT_NUMBER</code><em class="property"> = 'formatNumber'</em><a class="headerlink" href="#enums.FUNCTION.FORMAT_NUMBER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.GREATER_OR_EQUAL">
+<code class="descname">GREATER_OR_EQUAL</code><em class="property"> = 'greaterOrEqual'</em><a class="headerlink" href="#enums.FUNCTION.GREATER_OR_EQUAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.GREATER_THAN">
+<code class="descname">GREATER_THAN</code><em class="property"> = 'greaterThan'</em><a class="headerlink" href="#enums.FUNCTION.GREATER_THAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.HYPOT">
+<code class="descname">HYPOT</code><em class="property"> = 'hypot'</em><a class="headerlink" href="#enums.FUNCTION.HYPOT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.IF">
+<code class="descname">IF</code><em class="property"> = 'if'</em><a class="headerlink" href="#enums.FUNCTION.IF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.IS_IN">
+<code class="descname">IS_IN</code><em class="property"> = 'isIn'</em><a class="headerlink" href="#enums.FUNCTION.IS_IN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.IS_MISSING">
+<code class="descname">IS_MISSING</code><em class="property"> = 'isMissing'</em><a class="headerlink" href="#enums.FUNCTION.IS_MISSING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.IS_NOT_IN">
+<code class="descname">IS_NOT_IN</code><em class="property"> = 'isNotIn'</em><a class="headerlink" href="#enums.FUNCTION.IS_NOT_IN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.IS_NOT_MISSING">
+<code class="descname">IS_NOT_MISSING</code><em class="property"> = 'isNotMissing'</em><a class="headerlink" href="#enums.FUNCTION.IS_NOT_MISSING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.IS_NOT_VALID">
+<code class="descname">IS_NOT_VALID</code><em class="property"> = 'isNotValid'</em><a class="headerlink" href="#enums.FUNCTION.IS_NOT_VALID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.IS_VALID">
+<code class="descname">IS_VALID</code><em class="property"> = 'isValid'</em><a class="headerlink" href="#enums.FUNCTION.IS_VALID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.LESS_OR_EQUAL">
+<code class="descname">LESS_OR_EQUAL</code><em class="property"> = 'lessOrEqual'</em><a class="headerlink" href="#enums.FUNCTION.LESS_OR_EQUAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.LESS_THAN">
+<code class="descname">LESS_THAN</code><em class="property"> = 'lessThan'</em><a class="headerlink" href="#enums.FUNCTION.LESS_THAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.LOG10">
+<code class="descname">LOG10</code><em class="property"> = 'log10'</em><a class="headerlink" href="#enums.FUNCTION.LOG10" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.LOGN">
+<code class="descname">LOGN</code><em class="property"> = 'ln'</em><a class="headerlink" href="#enums.FUNCTION.LOGN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.LOGN1P">
+<code class="descname">LOGN1P</code><em class="property"> = 'ln1p'</em><a class="headerlink" href="#enums.FUNCTION.LOGN1P" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.LOWERCASE">
+<code class="descname">LOWERCASE</code><em class="property"> = 'lowercase'</em><a class="headerlink" href="#enums.FUNCTION.LOWERCASE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.MATCHES">
+<code class="descname">MATCHES</code><em class="property"> = 'matches'</em><a class="headerlink" href="#enums.FUNCTION.MATCHES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.MAX">
+<code class="descname">MAX</code><em class="property"> = 'max'</em><a class="headerlink" href="#enums.FUNCTION.MAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.MEDIAN">
+<code class="descname">MEDIAN</code><em class="property"> = 'median'</em><a class="headerlink" href="#enums.FUNCTION.MEDIAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.MIN">
+<code class="descname">MIN</code><em class="property"> = 'min'</em><a class="headerlink" href="#enums.FUNCTION.MIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.MODULO">
+<code class="descname">MODULO</code><em class="property"> = 'modulo'</em><a class="headerlink" href="#enums.FUNCTION.MODULO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.MULTIPLICATION">
+<code class="descname">MULTIPLICATION</code><em class="property"> = '*'</em><a class="headerlink" href="#enums.FUNCTION.MULTIPLICATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.NORMAL_CDF">
+<code class="descname">NORMAL_CDF</code><em class="property"> = 'normalCDF'</em><a class="headerlink" href="#enums.FUNCTION.NORMAL_CDF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.NORMAL_IDF">
+<code class="descname">NORMAL_IDF</code><em class="property"> = 'normalIDF'</em><a class="headerlink" href="#enums.FUNCTION.NORMAL_IDF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.NORMAL_PDF">
+<code class="descname">NORMAL_PDF</code><em class="property"> = 'normalPDF'</em><a class="headerlink" href="#enums.FUNCTION.NORMAL_PDF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.NOT">
+<code class="descname">NOT</code><em class="property"> = 'not'</em><a class="headerlink" href="#enums.FUNCTION.NOT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.NOT_EQUAL">
+<code class="descname">NOT_EQUAL</code><em class="property"> = 'notEqual'</em><a class="headerlink" href="#enums.FUNCTION.NOT_EQUAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.OR">
+<code class="descname">OR</code><em class="property"> = 'or'</em><a class="headerlink" href="#enums.FUNCTION.OR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.POWER">
+<code class="descname">POWER</code><em class="property"> = 'pow'</em><a class="headerlink" href="#enums.FUNCTION.POWER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.PRODUCT">
+<code class="descname">PRODUCT</code><em class="property"> = 'product'</em><a class="headerlink" href="#enums.FUNCTION.PRODUCT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.REPLACE">
+<code class="descname">REPLACE</code><em class="property"> = 'replace'</em><a class="headerlink" href="#enums.FUNCTION.REPLACE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.RINT">
+<code class="descname">RINT</code><em class="property"> = 'rint'</em><a class="headerlink" href="#enums.FUNCTION.RINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.ROUND">
+<code class="descname">ROUND</code><em class="property"> = 'round'</em><a class="headerlink" href="#enums.FUNCTION.ROUND" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.SIN">
+<code class="descname">SIN</code><em class="property"> = 'sin'</em><a class="headerlink" href="#enums.FUNCTION.SIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.SINH">
+<code class="descname">SINH</code><em class="property"> = 'sinh'</em><a class="headerlink" href="#enums.FUNCTION.SINH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.SQUARE_ROOT">
+<code class="descname">SQUARE_ROOT</code><em class="property"> = 'sqrt'</em><a class="headerlink" href="#enums.FUNCTION.SQUARE_ROOT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.STANDARD_NORMAL_CDF">
+<code class="descname">STANDARD_NORMAL_CDF</code><em class="property"> = 'stdNormalCDF'</em><a class="headerlink" href="#enums.FUNCTION.STANDARD_NORMAL_CDF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.STANDARD_NORMAL_IDF">
+<code class="descname">STANDARD_NORMAL_IDF</code><em class="property"> = 'stdNormalIDF'</em><a class="headerlink" href="#enums.FUNCTION.STANDARD_NORMAL_IDF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.STANDARD_NORMAL_PDF">
+<code class="descname">STANDARD_NORMAL_PDF</code><em class="property"> = 'stdNormalPDF'</em><a class="headerlink" href="#enums.FUNCTION.STANDARD_NORMAL_PDF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.SUBSTRACTTION">
+<code class="descname">SUBSTRACTTION</code><em class="property"> = '-'</em><a class="headerlink" href="#enums.FUNCTION.SUBSTRACTTION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.SUBSTRING">
+<code class="descname">SUBSTRING</code><em class="property"> = 'substring'</em><a class="headerlink" href="#enums.FUNCTION.SUBSTRING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.SUM">
+<code class="descname">SUM</code><em class="property"> = 'sum'</em><a class="headerlink" href="#enums.FUNCTION.SUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.TAN">
+<code class="descname">TAN</code><em class="property"> = 'tan'</em><a class="headerlink" href="#enums.FUNCTION.TAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.TANH">
+<code class="descname">TANH</code><em class="property"> = 'tanh'</em><a class="headerlink" href="#enums.FUNCTION.TANH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.THRESHOLD">
+<code class="descname">THRESHOLD</code><em class="property"> = 'threshold'</em><a class="headerlink" href="#enums.FUNCTION.THRESHOLD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.TRIM_BLANKS">
+<code class="descname">TRIM_BLANKS</code><em class="property"> = 'trimBlanks'</em><a class="headerlink" href="#enums.FUNCTION.TRIM_BLANKS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.FUNCTION.UPPERCASE">
+<code class="descname">UPPERCASE</code><em class="property"> = 'uppercase'</em><a class="headerlink" href="#enums.FUNCTION.UPPERCASE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.LAG_AGGREGATION">
+<em class="property">enum</em><code class="descname">LAG_AGGREGATION</code><a class="reference internal" href="_modules/enums.html#LAG_AGGREGATION"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.LAG_AGGREGATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.LAG_AGGREGATION.AVERAGE">
+<code class="descname">AVERAGE</code><em class="property"> = 'avg'</em><a class="headerlink" href="#enums.LAG_AGGREGATION.AVERAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.LAG_AGGREGATION.MAX">
+<code class="descname">MAX</code><em class="property"> = 'max'</em><a class="headerlink" href="#enums.LAG_AGGREGATION.MAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.LAG_AGGREGATION.MEDIAN">
+<code class="descname">MEDIAN</code><em class="property"> = 'median'</em><a class="headerlink" href="#enums.LAG_AGGREGATION.MEDIAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.LAG_AGGREGATION.MIN">
+<code class="descname">MIN</code><em class="property"> = 'min'</em><a class="headerlink" href="#enums.LAG_AGGREGATION.MIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.LAG_AGGREGATION.PRODUCT">
+<code class="descname">PRODUCT</code><em class="property"> = 'product'</em><a class="headerlink" href="#enums.LAG_AGGREGATION.PRODUCT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.LAG_AGGREGATION.STANDARD_DEVIATION">
+<code class="descname">STANDARD_DEVIATION</code><em class="property"> = 'stddev'</em><a class="headerlink" href="#enums.LAG_AGGREGATION.STANDARD_DEVIATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.LAG_AGGREGATION.SUM">
+<code class="descname">SUM</code><em class="property"> = 'sum'</em><a class="headerlink" href="#enums.LAG_AGGREGATION.SUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.MAXIMUM_LIKELIHOOD_STAT_METHOD">
+<em class="property">enum</em><code class="descname">MAXIMUM_LIKELIHOOD_STAT_METHOD</code><a class="reference internal" href="_modules/enums.html#MAXIMUM_LIKELIHOOD_STAT_METHOD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.MAXIMUM_LIKELIHOOD_STAT_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.MAXIMUM_LIKELIHOOD_STAT_METHOD.KALMAN">
+<code class="descname">KALMAN</code><em class="property"> = 'kalman'</em><a class="headerlink" href="#enums.MAXIMUM_LIKELIHOOD_STAT_METHOD.KALMAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MAXIMUM_LIKELIHOOD_STAT_METHOD.THETA_RECURSION">
+<code class="descname">THETA_RECURSION</code><em class="property"> = 'thetaRecursion'</em><a class="headerlink" href="#enums.MAXIMUM_LIKELIHOOD_STAT_METHOD.THETA_RECURSION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.MINING_FUNCTION">
+<em class="property">enum</em><code class="descname">MINING_FUNCTION</code><a class="reference internal" href="_modules/enums.html#MINING_FUNCTION"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.MINING_FUNCTION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.MINING_FUNCTION.ASSOCIATION_RULES">
+<code class="descname">ASSOCIATION_RULES</code><em class="property"> = 'associationRules'</em><a class="headerlink" href="#enums.MINING_FUNCTION.ASSOCIATION_RULES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MINING_FUNCTION.CLASSIFICATION">
+<code class="descname">CLASSIFICATION</code><em class="property"> = 'classification'</em><a class="headerlink" href="#enums.MINING_FUNCTION.CLASSIFICATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MINING_FUNCTION.CLUSTERING">
+<code class="descname">CLUSTERING</code><em class="property"> = 'clustering'</em><a class="headerlink" href="#enums.MINING_FUNCTION.CLUSTERING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MINING_FUNCTION.MIXED">
+<code class="descname">MIXED</code><em class="property"> = 'mixed'</em><a class="headerlink" href="#enums.MINING_FUNCTION.MIXED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MINING_FUNCTION.REGRESSION">
+<code class="descname">REGRESSION</code><em class="property"> = 'regression'</em><a class="headerlink" href="#enums.MINING_FUNCTION.REGRESSION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MINING_FUNCTION.SEQUENCES">
+<code class="descname">SEQUENCES</code><em class="property"> = 'sequences'</em><a class="headerlink" href="#enums.MINING_FUNCTION.SEQUENCES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MINING_FUNCTION.TIMESERIES">
+<code class="descname">TIMESERIES</code><em class="property"> = 'timeSeries'</em><a class="headerlink" href="#enums.MINING_FUNCTION.TIMESERIES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.MISSING_VALUE_TREATMENT_METHOD">
+<em class="property">enum</em><code class="descname">MISSING_VALUE_TREATMENT_METHOD</code><a class="reference internal" href="_modules/enums.html#MISSING_VALUE_TREATMENT_METHOD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.MISSING_VALUE_TREATMENT_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.MISSING_VALUE_TREATMENT_METHOD.AS_IS">
+<code class="descname">AS_IS</code><em class="property"> = 'asIs'</em><a class="headerlink" href="#enums.MISSING_VALUE_TREATMENT_METHOD.AS_IS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MISSING_VALUE_TREATMENT_METHOD.AS_MEAN">
+<code class="descname">AS_MEAN</code><em class="property"> = 'asMean'</em><a class="headerlink" href="#enums.MISSING_VALUE_TREATMENT_METHOD.AS_MEAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MISSING_VALUE_TREATMENT_METHOD.AS_MEDIAN">
+<code class="descname">AS_MEDIAN</code><em class="property"> = 'asMedian'</em><a class="headerlink" href="#enums.MISSING_VALUE_TREATMENT_METHOD.AS_MEDIAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MISSING_VALUE_TREATMENT_METHOD.AS_MODE">
+<code class="descname">AS_MODE</code><em class="property"> = 'asMode'</em><a class="headerlink" href="#enums.MISSING_VALUE_TREATMENT_METHOD.AS_MODE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MISSING_VALUE_TREATMENT_METHOD.AS_VALUE">
+<code class="descname">AS_VALUE</code><em class="property"> = 'asValue'</em><a class="headerlink" href="#enums.MISSING_VALUE_TREATMENT_METHOD.AS_VALUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MISSING_VALUE_TREATMENT_METHOD.RETURN_INVALID">
+<code class="descname">RETURN_INVALID</code><em class="property"> = 'returnInvalid'</em><a class="headerlink" href="#enums.MISSING_VALUE_TREATMENT_METHOD.RETURN_INVALID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.MULTIPLE_MODEL_METHOD">
+<em class="property">enum</em><code class="descname">MULTIPLE_MODEL_METHOD</code><a class="reference internal" href="_modules/enums.html#MULTIPLE_MODEL_METHOD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.AVERAGE">
+<code class="descname">AVERAGE</code><em class="property"> = 'average'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.AVERAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.MAJORITY_VOTE">
+<code class="descname">MAJORITY_VOTE</code><em class="property"> = 'majorityVote'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.MAJORITY_VOTE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.MAX">
+<code class="descname">MAX</code><em class="property"> = 'max'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.MAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.MEDIAN">
+<code class="descname">MEDIAN</code><em class="property"> = 'median'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.MEDIAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.MODEL_CHAIN">
+<code class="descname">MODEL_CHAIN</code><em class="property"> = 'modelChain'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.MODEL_CHAIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.SELECT_ALL">
+<code class="descname">SELECT_ALL</code><em class="property"> = 'selectAll'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.SELECT_ALL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.SELECT_FIRST">
+<code class="descname">SELECT_FIRST</code><em class="property"> = 'selectFirst'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.SELECT_FIRST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.SUM">
+<code class="descname">SUM</code><em class="property"> = 'sum'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.SUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.WEIGHTED_AVERAGE">
+<code class="descname">WEIGHTED_AVERAGE</code><em class="property"> = 'weightedAverage'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.WEIGHTED_AVERAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.WEIGHTED_MAJORITY_VOTE">
+<code class="descname">WEIGHTED_MAJORITY_VOTE</code><em class="property"> = 'weightedMajorityVote'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.WEIGHTED_MAJORITY_VOTE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.WEIGHTED_MEDIAN">
+<code class="descname">WEIGHTED_MEDIAN</code><em class="property"> = 'weightedMedian'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.WEIGHTED_MEDIAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.MULTIPLE_MODEL_METHOD.WEIGHTED_SUM">
+<code class="descname">WEIGHTED_SUM</code><em class="property"> = 'weightedSum'</em><a class="headerlink" href="#enums.MULTIPLE_MODEL_METHOD.WEIGHTED_SUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.NN_ACTIVATION_FUNCTION">
+<em class="property">enum</em><code class="descname">NN_ACTIVATION_FUNCTION</code><a class="reference internal" href="_modules/enums.html#NN_ACTIVATION_FUNCTION"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.ARCTAN">
+<code class="descname">ARCTAN</code><em class="property"> = 'arctan'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.ARCTAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.COSINE">
+<code class="descname">COSINE</code><em class="property"> = 'cosine'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.COSINE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.ELLIOTT">
+<code class="descname">ELLIOTT</code><em class="property"> = 'Elliott'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.ELLIOTT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.EXPONENTIAL">
+<code class="descname">EXPONENTIAL</code><em class="property"> = 'exponential'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.EXPONENTIAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.GAUSS">
+<code class="descname">GAUSS</code><em class="property"> = 'Gauss'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.GAUSS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.IDENTITY">
+<code class="descname">IDENTITY</code><em class="property"> = 'identity'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.IDENTITY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.LOGISTIC">
+<code class="descname">LOGISTIC</code><em class="property"> = 'logistic'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.LOGISTIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.RADIALBASIS">
+<code class="descname">RADIALBASIS</code><em class="property"> = 'radialBasis'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.RADIALBASIS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.RECIPROCAL">
+<code class="descname">RECIPROCAL</code><em class="property"> = 'reciprocal'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.RECIPROCAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.RECTIFIER">
+<code class="descname">RECTIFIER</code><em class="property"> = 'rectifier'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.RECTIFIER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.SINE">
+<code class="descname">SINE</code><em class="property"> = 'sine'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.SINE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.SQUARE">
+<code class="descname">SQUARE</code><em class="property"> = 'square'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.SQUARE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.TANH">
+<code class="descname">TANH</code><em class="property"> = 'tanh'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.TANH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_ACTIVATION_FUNCTION.THRESHOLD">
+<code class="descname">THRESHOLD</code><em class="property"> = 'threshold'</em><a class="headerlink" href="#enums.NN_ACTIVATION_FUNCTION.THRESHOLD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.NN_NORMALIZATION_METHOD">
+<em class="property">enum</em><code class="descname">NN_NORMALIZATION_METHOD</code><a class="reference internal" href="_modules/enums.html#NN_NORMALIZATION_METHOD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.NN_NORMALIZATION_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.NN_NORMALIZATION_METHOD.SIMPLEMAX">
+<code class="descname">SIMPLEMAX</code><em class="property"> = 'simplemax'</em><a class="headerlink" href="#enums.NN_NORMALIZATION_METHOD.SIMPLEMAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.NN_NORMALIZATION_METHOD.SOFTMAX">
+<code class="descname">SOFTMAX</code><em class="property"> = 'softmax'</em><a class="headerlink" href="#enums.NN_NORMALIZATION_METHOD.SOFTMAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.OPTYPE">
+<em class="property">enum</em><code class="descname">OPTYPE</code><a class="reference internal" href="_modules/enums.html#OPTYPE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.OPTYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.OPTYPE.CATEGORICAL">
+<code class="descname">CATEGORICAL</code><em class="property"> = 'categorical'</em><a class="headerlink" href="#enums.OPTYPE.CATEGORICAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.OPTYPE.CONTINUOUS">
+<code class="descname">CONTINUOUS</code><em class="property"> = 'continuous'</em><a class="headerlink" href="#enums.OPTYPE.CONTINUOUS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.OPTYPE.ORDINAL">
+<code class="descname">ORDINAL</code><em class="property"> = 'ordinal'</em><a class="headerlink" href="#enums.OPTYPE.ORDINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.PMML_SCHEMA">
+<em class="property">enum</em><code class="descname">PMML_SCHEMA</code><a class="reference internal" href="_modules/enums.html#PMML_SCHEMA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.PMML_SCHEMA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.PMML_SCHEMA.VERSION">
+<code class="descname">VERSION</code><em class="property"> = '4.4'</em><a class="headerlink" href="#enums.PMML_SCHEMA.VERSION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.REGRESSION_NORMALIZATION_METHOD">
+<em class="property">enum</em><code class="descname">REGRESSION_NORMALIZATION_METHOD</code><a class="reference internal" href="_modules/enums.html#REGRESSION_NORMALIZATION_METHOD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.REGRESSION_NORMALIZATION_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.REGRESSION_NORMALIZATION_METHOD.CAUCHIT">
+<code class="descname">CAUCHIT</code><em class="property"> = 'cauchit'</em><a class="headerlink" href="#enums.REGRESSION_NORMALIZATION_METHOD.CAUCHIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.REGRESSION_NORMALIZATION_METHOD.CLOGLOG">
+<code class="descname">CLOGLOG</code><em class="property"> = 'cloglog'</em><a class="headerlink" href="#enums.REGRESSION_NORMALIZATION_METHOD.CLOGLOG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.REGRESSION_NORMALIZATION_METHOD.EXPONENTIAL">
+<code class="descname">EXPONENTIAL</code><em class="property"> = 'exp'</em><a class="headerlink" href="#enums.REGRESSION_NORMALIZATION_METHOD.EXPONENTIAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.REGRESSION_NORMALIZATION_METHOD.LOGISTIC">
+<code class="descname">LOGISTIC</code><em class="property"> = 'logit'</em><a class="headerlink" href="#enums.REGRESSION_NORMALIZATION_METHOD.LOGISTIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.REGRESSION_NORMALIZATION_METHOD.LOGLOG">
+<code class="descname">LOGLOG</code><em class="property"> = 'loglog'</em><a class="headerlink" href="#enums.REGRESSION_NORMALIZATION_METHOD.LOGLOG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.REGRESSION_NORMALIZATION_METHOD.PROBIT">
+<code class="descname">PROBIT</code><em class="property"> = 'probit'</em><a class="headerlink" href="#enums.REGRESSION_NORMALIZATION_METHOD.PROBIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX">
+<code class="descname">SIMPLEMAX</code><em class="property"> = 'simplemax'</em><a class="headerlink" href="#enums.REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.REGRESSION_NORMALIZATION_METHOD.SOFTMAX">
+<code class="descname">SOFTMAX</code><em class="property"> = 'softmax'</em><a class="headerlink" href="#enums.REGRESSION_NORMALIZATION_METHOD.SOFTMAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.RESULT_FEATURE">
+<em class="property">enum</em><code class="descname">RESULT_FEATURE</code><a class="reference internal" href="_modules/enums.html#RESULT_FEATURE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.RESULT_FEATURE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.AFFINITY">
+<code class="descname">AFFINITY</code><em class="property"> = 'affinity'</em><a class="headerlink" href="#enums.RESULT_FEATURE.AFFINITY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.ANTECEDENT">
+<code class="descname">ANTECEDENT</code><em class="property"> = 'antecedent'</em><a class="headerlink" href="#enums.RESULT_FEATURE.ANTECEDENT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.CLUSTER_AFFINITY">
+<code class="descname">CLUSTER_AFFINITY</code><em class="property"> = 'clusterAffinity'</em><a class="headerlink" href="#enums.RESULT_FEATURE.CLUSTER_AFFINITY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.CLUSTER_ID">
+<code class="descname">CLUSTER_ID</code><em class="property"> = 'clusterId'</em><a class="headerlink" href="#enums.RESULT_FEATURE.CLUSTER_ID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.CONFIDENCE">
+<code class="descname">CONFIDENCE</code><em class="property"> = 'confidence'</em><a class="headerlink" href="#enums.RESULT_FEATURE.CONFIDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER">
+<code class="descname">CONFIDENCE_INTERVAL_LOWER</code><em class="property"> = 'confidenceIntervalLower'</em><a class="headerlink" href="#enums.RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER">
+<code class="descname">CONFIDENCE_INTERVAL_UPPER</code><em class="property"> = 'confidenceIntervalUpper'</em><a class="headerlink" href="#enums.RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.CONSEQUENT">
+<code class="descname">CONSEQUENT</code><em class="property"> = 'consequent'</em><a class="headerlink" href="#enums.RESULT_FEATURE.CONSEQUENT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.DECISION">
+<code class="descname">DECISION</code><em class="property"> = 'decision'</em><a class="headerlink" href="#enums.RESULT_FEATURE.DECISION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.ENTITY_AFFINITY">
+<code class="descname">ENTITY_AFFINITY</code><em class="property"> = 'entityAffinity'</em><a class="headerlink" href="#enums.RESULT_FEATURE.ENTITY_AFFINITY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.ENTITY_ID">
+<code class="descname">ENTITY_ID</code><em class="property"> = 'entityId'</em><a class="headerlink" href="#enums.RESULT_FEATURE.ENTITY_ID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.LEVERAGE">
+<code class="descname">LEVERAGE</code><em class="property"> = 'leverage'</em><a class="headerlink" href="#enums.RESULT_FEATURE.LEVERAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.LIFT">
+<code class="descname">LIFT</code><em class="property"> = 'lift'</em><a class="headerlink" href="#enums.RESULT_FEATURE.LIFT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.PREDCITED_DISPLAY_VALUE">
+<code class="descname">PREDCITED_DISPLAY_VALUE</code><em class="property"> = 'predictedDisplayValue'</em><a class="headerlink" href="#enums.RESULT_FEATURE.PREDCITED_DISPLAY_VALUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.PREDICTED_VALUE">
+<code class="descname">PREDICTED_VALUE</code><em class="property"> = 'predictedValue'</em><a class="headerlink" href="#enums.RESULT_FEATURE.PREDICTED_VALUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.PROBABILITY">
+<code class="descname">PROBABILITY</code><em class="property"> = 'probability'</em><a class="headerlink" href="#enums.RESULT_FEATURE.PROBABILITY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.REASON_CODE">
+<code class="descname">REASON_CODE</code><em class="property"> = 'reasonCode'</em><a class="headerlink" href="#enums.RESULT_FEATURE.REASON_CODE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.RESIDUAL">
+<code class="descname">RESIDUAL</code><em class="property"> = 'residual'</em><a class="headerlink" href="#enums.RESULT_FEATURE.RESIDUAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.RULE">
+<code class="descname">RULE</code><em class="property"> = 'rule'</em><a class="headerlink" href="#enums.RESULT_FEATURE.RULE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.RULE_ID">
+<code class="descname">RULE_ID</code><em class="property"> = 'ruleId'</em><a class="headerlink" href="#enums.RESULT_FEATURE.RULE_ID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.RULE_VALUE">
+<code class="descname">RULE_VALUE</code><em class="property"> = 'ruleValue'</em><a class="headerlink" href="#enums.RESULT_FEATURE.RULE_VALUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.STANDARD_DEVIATION">
+<code class="descname">STANDARD_DEVIATION</code><em class="property"> = 'standardDeviation'</em><a class="headerlink" href="#enums.RESULT_FEATURE.STANDARD_DEVIATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.STANDARD_ERROR">
+<code class="descname">STANDARD_ERROR</code><em class="property"> = 'standardError'</em><a class="headerlink" href="#enums.RESULT_FEATURE.STANDARD_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.SUPPORT">
+<code class="descname">SUPPORT</code><em class="property"> = 'support'</em><a class="headerlink" href="#enums.RESULT_FEATURE.SUPPORT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.TOP_CATEGORIES">
+<code class="descname">TOP_CATEGORIES</code><em class="property"> = 'topCategories'</em><a class="headerlink" href="#enums.RESULT_FEATURE.TOP_CATEGORIES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.TRANSFORMED_VALUE">
+<code class="descname">TRANSFORMED_VALUE</code><em class="property"> = 'transformedValue'</em><a class="headerlink" href="#enums.RESULT_FEATURE.TRANSFORMED_VALUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.RESULT_FEATURE.WARNING">
+<code class="descname">WARNING</code><em class="property"> = 'warning'</em><a class="headerlink" href="#enums.RESULT_FEATURE.WARNING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.SIMPLE_PREDICATE_OPERATOR">
+<em class="property">enum</em><code class="descname">SIMPLE_PREDICATE_OPERATOR</code><a class="reference internal" href="_modules/enums.html#SIMPLE_PREDICATE_OPERATOR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.SIMPLE_PREDICATE_OPERATOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.SIMPLE_PREDICATE_OPERATOR.EQUAL">
+<code class="descname">EQUAL</code><em class="property"> = 'equal'</em><a class="headerlink" href="#enums.SIMPLE_PREDICATE_OPERATOR.EQUAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.SIMPLE_PREDICATE_OPERATOR.GREATER_OR_EQUAL">
+<code class="descname">GREATER_OR_EQUAL</code><em class="property"> = 'greaterOrEqual'</em><a class="headerlink" href="#enums.SIMPLE_PREDICATE_OPERATOR.GREATER_OR_EQUAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.SIMPLE_PREDICATE_OPERATOR.GREATER_THAN">
+<code class="descname">GREATER_THAN</code><em class="property"> = 'greaterThan'</em><a class="headerlink" href="#enums.SIMPLE_PREDICATE_OPERATOR.GREATER_THAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.SIMPLE_PREDICATE_OPERATOR.IS_MISSING">
+<code class="descname">IS_MISSING</code><em class="property"> = 'isMissing'</em><a class="headerlink" href="#enums.SIMPLE_PREDICATE_OPERATOR.IS_MISSING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.SIMPLE_PREDICATE_OPERATOR.IS_NOT_MISSING">
+<code class="descname">IS_NOT_MISSING</code><em class="property"> = 'isNotMissing'</em><a class="headerlink" href="#enums.SIMPLE_PREDICATE_OPERATOR.IS_NOT_MISSING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.SIMPLE_PREDICATE_OPERATOR.LESS_OR_EQUAL">
+<code class="descname">LESS_OR_EQUAL</code><em class="property"> = 'lessOrEqual'</em><a class="headerlink" href="#enums.SIMPLE_PREDICATE_OPERATOR.LESS_OR_EQUAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.SIMPLE_PREDICATE_OPERATOR.LESS_THAN">
+<code class="descname">LESS_THAN</code><em class="property"> = 'lessThan'</em><a class="headerlink" href="#enums.SIMPLE_PREDICATE_OPERATOR.LESS_THAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.SIMPLE_PREDICATE_OPERATOR.NOT_EQUAL">
+<code class="descname">NOT_EQUAL</code><em class="property"> = 'notEqual'</em><a class="headerlink" href="#enums.SIMPLE_PREDICATE_OPERATOR.NOT_EQUAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.SVM_CLASSIFICATION_METHOD">
+<em class="property">enum</em><code class="descname">SVM_CLASSIFICATION_METHOD</code><a class="reference internal" href="_modules/enums.html#SVM_CLASSIFICATION_METHOD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.SVM_CLASSIFICATION_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.SVM_CLASSIFICATION_METHOD.OVO">
+<code class="descname">OVO</code><em class="property"> = 'OneAgainstOne'</em><a class="headerlink" href="#enums.SVM_CLASSIFICATION_METHOD.OVO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.SVM_CLASSIFICATION_METHOD.OVR">
+<code class="descname">OVR</code><em class="property"> = 'OneAgainstAll'</em><a class="headerlink" href="#enums.SVM_CLASSIFICATION_METHOD.OVR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.SVM_REPRESENTATION">
+<em class="property">enum</em><code class="descname">SVM_REPRESENTATION</code><a class="reference internal" href="_modules/enums.html#SVM_REPRESENTATION"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.SVM_REPRESENTATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.SVM_REPRESENTATION.COEFFICIENTS">
+<code class="descname">COEFFICIENTS</code><em class="property"> = 'Coefficients'</em><a class="headerlink" href="#enums.SVM_REPRESENTATION.COEFFICIENTS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.SVM_REPRESENTATION.SUPPORT_VECTORS">
+<code class="descname">SUPPORT_VECTORS</code><em class="property"> = 'SupportVectors'</em><a class="headerlink" href="#enums.SVM_REPRESENTATION.SUPPORT_VECTORS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.TIMESERIES_ALGORITHM">
+<em class="property">enum</em><code class="descname">TIMESERIES_ALGORITHM</code><a class="reference internal" href="_modules/enums.html#TIMESERIES_ALGORITHM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.TIMESERIES_ALGORITHM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.TIMESERIES_ALGORITHM.ARIMA">
+<code class="descname">ARIMA</code><em class="property"> = 'ARIMA'</em><a class="headerlink" href="#enums.TIMESERIES_ALGORITHM.ARIMA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIMESERIES_ALGORITHM.EXPONENTIAL_SMOOTHING">
+<code class="descname">EXPONENTIAL_SMOOTHING</code><em class="property"> = 'ExponentialSmoothing'</em><a class="headerlink" href="#enums.TIMESERIES_ALGORITHM.EXPONENTIAL_SMOOTHING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIMESERIES_ALGORITHM.GARCH">
+<code class="descname">GARCH</code><em class="property"> = 'GARCH'</em><a class="headerlink" href="#enums.TIMESERIES_ALGORITHM.GARCH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIMESERIES_ALGORITHM.SEASONAL_TREND_DECOMPOSE">
+<code class="descname">SEASONAL_TREND_DECOMPOSE</code><em class="property"> = 'SeasonalTrendDecomposition'</em><a class="headerlink" href="#enums.TIMESERIES_ALGORITHM.SEASONAL_TREND_DECOMPOSE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIMESERIES_ALGORITHM.SPECTRAL_ANALYSIS">
+<code class="descname">SPECTRAL_ANALYSIS</code><em class="property"> = 'SpectralAnalysis'</em><a class="headerlink" href="#enums.TIMESERIES_ALGORITHM.SPECTRAL_ANALYSIS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIMESERIES_ALGORITHM.STATE_SPACE_MODEL">
+<code class="descname">STATE_SPACE_MODEL</code><em class="property"> = 'StateSpaceModel'</em><a class="headerlink" href="#enums.TIMESERIES_ALGORITHM.STATE_SPACE_MODEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.TIMESERIES_USAGE">
+<em class="property">enum</em><code class="descname">TIMESERIES_USAGE</code><a class="reference internal" href="_modules/enums.html#TIMESERIES_USAGE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.TIMESERIES_USAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.TIMESERIES_USAGE.LOGICAL">
+<code class="descname">LOGICAL</code><em class="property"> = 'logical'</em><a class="headerlink" href="#enums.TIMESERIES_USAGE.LOGICAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIMESERIES_USAGE.ORIGINAL">
+<code class="descname">ORIGINAL</code><em class="property"> = 'original'</em><a class="headerlink" href="#enums.TIMESERIES_USAGE.ORIGINAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIMESERIES_USAGE.PREDICTION">
+<code class="descname">PREDICTION</code><em class="property"> = 'prediction'</em><a class="headerlink" href="#enums.TIMESERIES_USAGE.PREDICTION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.TIME_ANCHOR">
+<em class="property">enum</em><code class="descname">TIME_ANCHOR</code><a class="reference internal" href="_modules/enums.html#TIME_ANCHOR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.TIME_ANCHOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATEDAYS_SINCE_0">
+<code class="descname">DATEDAYS_SINCE_0</code><em class="property"> = 'dateDaysSince[0]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATEDAYS_SINCE_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATEDAYS_SINCE_1960">
+<code class="descname">DATEDAYS_SINCE_1960</code><em class="property"> = 'dateDaysSince[1960]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATEDAYS_SINCE_1960" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATEDAYS_SINCE_1970">
+<code class="descname">DATEDAYS_SINCE_1970</code><em class="property"> = 'dateDaysSince[1970]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATEDAYS_SINCE_1970" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATEDAYS_SINCE_1980">
+<code class="descname">DATEDAYS_SINCE_1980</code><em class="property"> = 'dateDaysSince[1980]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATEDAYS_SINCE_1980" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATEMONTHS_SINCE_0">
+<code class="descname">DATEMONTHS_SINCE_0</code><em class="property"> = 'dateMonthsSince[0]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATEMONTHS_SINCE_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATEMONTHS_SINCE_1960">
+<code class="descname">DATEMONTHS_SINCE_1960</code><em class="property"> = 'dateMonthsSince[1960]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATEMONTHS_SINCE_1960" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATEMONTHS_SINCE_1970">
+<code class="descname">DATEMONTHS_SINCE_1970</code><em class="property"> = 'dateMonthsSince[1970]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATEMONTHS_SINCE_1970" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATEMONTHS_SINCE_1980">
+<code class="descname">DATEMONTHS_SINCE_1980</code><em class="property"> = 'dateMonthsSince[1980]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATEMONTHS_SINCE_1980" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATETIMEMILLISECONDS_SINCE_0">
+<code class="descname">DATETIMEMILLISECONDS_SINCE_0</code><em class="property"> = 'dateTimeMillisecondsSince[0]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATETIMEMILLISECONDS_SINCE_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATETIMEMILLISECONDS_SINCE_1960">
+<code class="descname">DATETIMEMILLISECONDS_SINCE_1960</code><em class="property"> = 'dateTimeMillisecondsSince[1960]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATETIMEMILLISECONDS_SINCE_1960" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATETIMEMILLISECONDS_SINCE_1970">
+<code class="descname">DATETIMEMILLISECONDS_SINCE_1970</code><em class="property"> = 'dateTimeMillisecondsSince[1970]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATETIMEMILLISECONDS_SINCE_1970" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATETIMEMILLISECONDS_SINCE_1980">
+<code class="descname">DATETIMEMILLISECONDS_SINCE_1980</code><em class="property"> = 'dateTimeMillisecondsSince[1980]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATETIMEMILLISECONDS_SINCE_1980" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATETIMESECONDS_SINCE_0">
+<code class="descname">DATETIMESECONDS_SINCE_0</code><em class="property"> = 'dateTimeSecondsSince[0]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATETIMESECONDS_SINCE_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATETIMESECONDS_SINCE_1960">
+<code class="descname">DATETIMESECONDS_SINCE_1960</code><em class="property"> = 'dateTimeSecondsSince[1960]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATETIMESECONDS_SINCE_1960" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATETIMESECONDS_SINCE_1970">
+<code class="descname">DATETIMESECONDS_SINCE_1970</code><em class="property"> = 'dateTimeSecondsSince[1970]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATETIMESECONDS_SINCE_1970" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATETIMESECONDS_SINCE_1980">
+<code class="descname">DATETIMESECONDS_SINCE_1980</code><em class="property"> = 'dateTimeSecondsSince[1980]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATETIMESECONDS_SINCE_1980" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TIME_ANCHOR.DATEYEARS_SINCE_0">
+<code class="descname">DATEYEARS_SINCE_0</code><em class="property"> = 'dateYearsSince[0]'</em><a class="headerlink" href="#enums.TIME_ANCHOR.DATEYEARS_SINCE_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="enums.TREE_SPLIT_CHARACTERISTIC">
+<em class="property">enum</em><code class="descname">TREE_SPLIT_CHARACTERISTIC</code><a class="reference internal" href="_modules/enums.html#TREE_SPLIT_CHARACTERISTIC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#enums.TREE_SPLIT_CHARACTERISTIC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="enums.TREE_SPLIT_CHARACTERISTIC.BINARY">
+<code class="descname">BINARY</code><em class="property"> = 'binarySplit'</em><a class="headerlink" href="#enums.TREE_SPLIT_CHARACTERISTIC.BINARY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="enums.TREE_SPLIT_CHARACTERISTIC.MULTI">
+<code class="descname">MULTI</code><em class="property"> = 'multiSplit'</em><a class="headerlink" href="#enums.TREE_SPLIT_CHARACTERISTIC.MULTI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+
+        <a href="preprocess_nyoka.html" class="btn btn-neutral float-left" title="Nyoka's Pre-Processing Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, maintainer@nyoka.org
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

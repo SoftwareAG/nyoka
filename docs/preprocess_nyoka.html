@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Nyoka's Pre-Process Module &mdash; Nyoka documentation</title>
+  <title>Nyoka 4.2.0 &mdash; Nyoka's Pre-Processing Module</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'4.0.2',
+              VERSION:'4.2.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                4.0
+                4.2
               </div>
             
           
@@ -94,17 +94,16 @@
             
             
               <ul class="current">
-                <li class="toctree-l1"><a class="reference internal" href="PMML44.html">PMML44 Module (core library)</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="PMML44Super.html">PMML44Super Module (core library)</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="arima.html">ARIMA Exporter Module</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="keras_model_to_pmml.html">Keras Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="retinanet.html">RetinaNet Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
                 <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
-                <li class="current toctree-l1"><a class="current reference internal" href="#">Nyoka's Pre-Processing Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1 current"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="enums.html">Enums Module</a></li>
 </ul>
 
             
@@ -150,16 +149,16 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Nyoka's Pre-Process Module</li>
+      <li>Nyoka's Pre-Processing Module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-        <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github"> Edit on GitHub</a>
-        
+        <a href="https://github.com/nyoka-pmml/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
       
-    </li>
+    
+  </li>
     
   </ul>
 
@@ -169,41 +168,68 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-            <div class="section" id="module-lag">
-              <span id="lag-module"></span><h1>Nyoka's Pre-Process Module<a class="headerlink" href="#module-lag" title="Permalink to this headline">¶</a></h1>
-              <dl class="class">
-              <dt id="lag.Lag">
-              <em class="property">class </em><code class="descclassname">lag.</code><code class="descname">Lag</code><span class="sig-paren">(</span><em>aggregation</em>, <em>value=2</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess_nyoka.html#Lag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag" title="Permalink to this definition">¶</a></dt>
-              <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
-              <p>The Lag class takes <cite>value</cite> number of previous record of the fields where it is applied and applies <cite>aggregation</cite> to those values.</p>
-              <dl class="docutils">
-              <dt>aggregation <span class="classifier-delimiter">:</span> <span class="classifier">String</span></dt>
-              <dd>aggregation type. The valid types are [“min”, “max”, “sum”, “avg”, “median”, “product”, “stddev”]</dd>
-              <dt>value <span class="classifier-delimiter">:</span> <span class="classifier">Integer (default = 2)</span></dt>
-              <dd>The number of previous record to aggregate</dd>
-              </dl>
-              <dl class="method">
-              <dt id="lag.Lag.fit">
-              <code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess_nyoka.html#Lag.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag.fit" title="Permalink to this definition">¶</a></dt>
-              <dd><p>This method does nothing. Returns <cite>self</cite></p>
-              </dd></dl>
-              
-              <dl class="method">
-              <dt id="lag.Lag.transform">
-              <code class="descname">transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess_nyoka.html#Lag.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag.transform" title="Permalink to this definition">¶</a></dt>
-              <dd><p>Trasforms the given X by taking <cite>value</cite> number of previous records and applying <cite>aggregation</cite> method</p>
-              <dl class="docutils">
-              <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">Pandas DataFrame or numpy array</span></dt>
-              <dd>The input data</dd>
-              <dt>y <span class="classifier-delimiter">:</span> <span class="classifier"></span></dt>
-              <dd>It is ignored.</dd>
-              </dl>
-              </dd></dl>
-              
-              </dd></dl>
-              
-              </div>
-              
+  <div class="section" id="module-lag">
+<span id="lag-module"></span><h1>Nyoka's Pre-Processing Module<a class="headerlink" href="#module-lag" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="lag.Lag">
+<em class="property">class </em><code class="descname">Lag</code><span class="sig-paren">(</span><em>aggregation</em>, <em>value=1</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lag.html#Lag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sklearn.base.TransformerMixin</span></code></p>
+<p>The Lag class takes <cite>value</cite> number of previous record of the fields where it is applied and applies <cite>aggregation</cite> to those values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>aggregation</strong> (<em>String</em>) – aggregation type. The valid types are [“min”, “max”, “sum”, “avg”, “median”, “product”, “stddev”]</li>
+<li><strong>value</strong> (<em>Integer</em><em> (</em><em>default = 1</em><em>)</em>) – The number of previous record to aggregate</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="lag.Lag.fit">
+<em class="property">def </em><code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lag.html#Lag.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does nothing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">The same object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="lag.Lag.transform">
+<em class="property">def </em><code class="descname">transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lag.html#Lag.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lag.Lag.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trasforms the given X by taking <cite>value</cite> number of previous records and applying <cite>aggregation</cite> method</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>Pandas DataFrame</em><em> or </em><em>numpy array</em>) – The input data</li>
+<li><strong>y</strong> – It is ignored.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Transformed X as numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 
 
            </div>
@@ -212,9 +238,11 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-           
       
-        <a href="xgboost_to_pmml.html" class="btn btn-neutral float-left" title="keras_model_to_pmml module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="enums.html" class="btn btn-neutral float-right" title="Enums Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="exponential_smoothing.html" class="btn btn-neutral float-left" title="ExponentialSmoothing Exporter Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -223,7 +251,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, maintainer@nyoka.org
+        &copy; Copyright 2020, maintainer@nyoka.org
 
     </p>
   </div>

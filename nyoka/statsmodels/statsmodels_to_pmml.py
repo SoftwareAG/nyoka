@@ -146,9 +146,13 @@ class StatsmodelsToPmml:
         predicted_state_cov_matrix = None
         smoother_results = self.results_obj.smoother_results
         S_t0 = self.results_obj.filtered_state[...,-1]
+        F_matrix = smoother_results.transition[...,-1] #transition_matrix
+        G = smoother_results.design[...,-1] #measurement_matrix
 
         if self.model.__class__.__name__ in ["ARMA","ARIMA"]:
-            intercept = smoother_results.obs_intercept[...,-1]
+            intercept_attr = smoother_results.obs_intercept[...,-1][0]
+            intercept_vector = None
+            S_t1 = np.dot(F_matrix, S_t0)
         else:
             #state_intercept might contain `nan` values. So here it is generated manually.
             intercept = np.zeros(S_t0.shape)
@@ -164,15 +168,12 @@ class StatsmodelsToPmml:
                         mu = mu.values
                     spec = self.results_obj.specification
                     k_state = spec['k_diff']+spec['seasonal_periods']*spec['k_seasonal_diff']
-                    intercept[k_state] += mu  
-
-        F_matrix = smoother_results.transition[...,-1] #transition_matrix
-
-        G = smoother_results.design[...,-1] #measurement_matrix
-        if len(intercept) == len(S_t0):
-            S_t1 = np.dot(F_matrix, S_t0) + intercept #finalStateVector
-        else:
-            S_t1 = np.dot(F_matrix, S_t0)
+                    intercept[k_state] += mu
+            S_t1 = np.dot(F_matrix, S_t0) + intercept
+            arr_content = " ".join([str(val) for val in intercept])
+            arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(intercept))
+            intercept_vector = InterceptVector(Array=arr)
+            intercept_attr = 0
 
         t_mat = Matrix(nbRows=F_matrix.shape[0], nbCols=F_matrix.shape[1])
         for row in F_matrix:
@@ -190,10 +191,6 @@ class StatsmodelsToPmml:
         arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(S_t1))
         final_state_vector = FinalStateVector(Array=arr)
 
-        #InterceptVector will always be there
-        arr_content = " ".join([str(val) for val in intercept])
-        arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(intercept))
-        intercept_vector = InterceptVector(Array=arr)
 
         #For confidence interval
         if self.conf_int is not None:
@@ -214,6 +211,7 @@ class StatsmodelsToPmml:
             predicted_state_cov_matrix = PredictedStateCovarianceMatrix(Matrix=p_mat)
 
         state_space_model = StateSpaceModel(
+            intercept=intercept_attr,
             StateVector=final_state_vector,
             TransitionMatrix=transition_matrix,
             MeasurementMatrix=measurement_matrix,
