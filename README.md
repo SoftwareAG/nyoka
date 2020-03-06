@@ -143,7 +143,7 @@ from nyoka import skl_to_pmml, lgb_to_pmml #... so on
 	* Use the specific exporter and pass the pipeline object, feature names of the training dataset, target name and expected name of the PMML to the exporter function. If target name is not given default value `target` is used. Similarly, for pmml name, default value `from_sklearn.pmml`/`from_xgboost.pmml`/`from_lighgbm.pmml` is used. 
  - For Keras, RetinaNet and Statsmodels, the fitted model needs to be passed to the exporter.
  
-### Demo can be found in [Example Jupyter Notebooks](https://github.com/nyoka-pmml/nyoka/tree/master/examples)
+### Demo can be found in [Example Jupyter Notebooks](https://github.com/nyoka-pmml/nyoka/tree/dev/examples)
 
 
 ## More in Nyoka
