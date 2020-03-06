@@ -211,6 +211,8 @@ def get_trfm_dict_kwargs(col_names,pipelineOnly,trfm_dict_kwargs,model,model_nam
 def processScript(scr):
 
     scr=scr.replace('&','&amp;')
+    scr=scr.replace('<','&lt;')
+    scr=scr.replace('>','&gt;')
     return scr
 
 def get_data_dictionary_values(data_dicts):
