@@ -18,7 +18,7 @@ Besides about 500 Python classes which each cover a PMML tag and all constructor
 Nyoka comes to you with the complete source code in Python, extended HTML documentation for the classes/functions, and a growing number of Jupyter Notebook tutorials that help you familiarize yourself with the way Nyoka supports you in using PMML as your favorite Data Science transport file format.
 
 
-Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
+Read the documentation at **[Nyoka Documentation](http://docs.nyoka.org)**.
 
 ## List of libraries and models supported by Nyoka :
 
