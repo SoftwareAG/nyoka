@@ -150,9 +150,7 @@ The main module of __Nyoka__ is `nyoka`. To use it for your model, you need to i
 from nyoka import skl_to_pmml, lgb_to_pmml #... so on
 ```
 
-#### Note -
-
-- If scikit-learn, xgboost and lightgbm model is used then the model should be used inside sklearn's Pipeline.
+#### Note - If scikit-learn, xgboost and lightgbm model is used then the model should be used inside sklearn's Pipeline.
 
 The workflow is as follows (For example, a Decision Tree Classifier with StandardScaler) -
 
@@ -183,7 +181,7 @@ The workflow is as follows (For example, a Decision Tree Classifier with Standar
 	skl_to_pmml(pipeline=pipeline_obj,col_names=features,target_name="species",pmml_f_name="decision_tree.pmml")
 	```
   
-- For Keras, RetinaNet and Statsmodels, pipeline is not required. The fitted model needs to be passed to the exporter.
+#### For Keras, RetinaNet and Statsmodels, pipeline is not required. The fitted model needs to be passed to the exporter.
 	```python
 	import pandas as pd
 	from statsmodels.tsa.arima_model import ARIMA
