@@ -1,4 +1,5 @@
 from nyoka.skl.skl_to_pmml import skl_to_pmml
+from nyoka.statsmodels.statsmodels_to_pmml import StatsmodelsToPmml
 from nyoka.statsmodels.arima import ArimaToPMML
 from nyoka.statsmodels.exponential_smoothing import ExponentialSmoothingToPMML
 from nyoka.keras.keras_model_to_pmml import KerasToPmml

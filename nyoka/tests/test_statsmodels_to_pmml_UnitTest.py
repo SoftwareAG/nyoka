@@ -7,7 +7,7 @@ from statsmodels.tsa.api import ARIMA, SARIMAX, ExponentialSmoothing, VARMAX
 from statsmodels.tsa.arima.model import ARIMA as StateSpaceARIMA
 import unittest
 
-from nyoka import ArimaToPMML, ExponentialSmoothingToPMML
+from nyoka import ArimaToPMML, ExponentialSmoothingToPMML, StatsmodelsToPmml
 
 
 class TestMethods(unittest.TestCase):
@@ -133,6 +133,14 @@ class TestMethods(unittest.TestCase):
         result = model.fit()
         ArimaToPMML(result, f_name, description="A test model")
         self.assertEqual(os.path.isfile(f_name),True)
+
+    def test_non_seasonal_arima6(self):
+        ts_data = self.getData4()
+        f_name='non_seasonal_arima6.pmml'
+        model = StateSpaceARIMA(ts_data,order=(1, 1, 1))
+        result = model.fit()
+        StatsmodelsToPmml(result, f_name, description="A test model")
+        self.assertEqual(os.path.isfile(f_name),True)
     
 
 
@@ -193,6 +201,18 @@ class TestMethods(unittest.TestCase):
         ArimaToPMML(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
+    def test_seasonal_arima6(self):
+        ts_data = self.getData5()
+        f_name='seasonal_arima6.pmml'
+        model = SARIMAX(endog = ts_data,
+                                        order = (0, 0, 1),
+                                        seasonal_order = (3, 1, 1, 12),
+                                        trend = 'c',
+                                        )
+        result = model.fit(disp=False)
+        StatsmodelsToPmml(result, f_name)
+        self.assertEqual(os.path.isfile(f_name),True)
+
     def test_varmax_with_intercept(self):
         ts_data = self.get_data_for_varmax()
         f_name='varmax_with_intercept.pmml'
@@ -207,6 +227,14 @@ class TestMethods(unittest.TestCase):
         model = VARMAX(ts_data, order=(1,1), trend=None)
         result = model.fit()
         ArimaToPMML(result, f_name)
+        self.assertEqual(os.path.isfile(f_name),True)
+
+    def test_varmax_without_intercept2(self):
+        ts_data = self.get_data_for_varmax()
+        f_name='varmax_without_intercept2.pmml'
+        model = VARMAX(ts_data, order=(1,1), trend=None)
+        result = model.fit()
+        StatsmodelsToPmml(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
 

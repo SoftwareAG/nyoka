@@ -7,6 +7,7 @@ script
    PMML44
    PMML44Super
    arima
+   enums
    exponential_smoothing
    keras_model_to_pmml
    lag
@@ -15,4 +16,5 @@ script
    pre_process
    retinanet
    skl_to_pmml
+   statsmodels_to_pmml
    xgboost_to_pmml

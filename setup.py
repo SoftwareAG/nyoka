@@ -12,7 +12,7 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 setup(
 	name = "nyoka",
 	version = __version__,
-	description = "A Python library to export Machine Learning/ Deep Learning models into PMML",
+	description = "Python library for converting a large number of ML / DL models to PMML",
 	long_description = long_description,
 	long_description_content_type="text/markdown",
 	author = "maintainer",
@@ -23,7 +23,8 @@ setup(
 		"Development Status :: 5 - Production/Stable",
 		"License :: OSI Approved :: Apache Software License",
 		"Operating System :: OS Independent",
-		"Programming Language :: Python :: 3",
+		"Programming Language :: Python :: 3.6",
+		"Programming Language :: Python :: 3.7",
 		"Intended Audience :: Developers",
 		"Topic :: Scientific/Engineering :: Artificial Intelligence"
 	],

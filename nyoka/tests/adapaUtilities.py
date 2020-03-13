@@ -37,9 +37,10 @@ class AdapaUtility:
         return res.json()['outputs'][0]
 
     def score_in_zserver(self, model_name, test_file, model_type=None):
-        mode = 'r' if test_file.endswith(".csv") else 'rb'
-        files = {'file': open(test_file,mode)}
-        res = requests.post(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password),files=files)
+        if model_type != 'TS':
+            mode = 'r' if test_file.endswith(".csv") else 'rb'
+            files = {'file': open(test_file,mode)}
+            res = requests.post(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password),files=files)
         if model_type:
             if model_type=='DN':
                 if test_file.endswith(".csv"):
@@ -64,7 +65,9 @@ class AdapaUtility:
                     boxes.append(res_[2:])
                 return boxes, scores, labels
             elif model_type=='TS':
-                result = float(res.text.split('\n')[1])
+                res = requests.post(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password),\
+                    data=json.dumps(test_file))
+                result = res.json()
                 return result
             elif model_type=='ANOMALY':
                 result = res.text.strip().split("\n")[1:]

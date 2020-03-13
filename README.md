@@ -18,12 +18,11 @@ Besides about 500 Python classes which each cover a PMML tag and all constructor
 Nyoka comes to you with the complete source code in Python, extended HTML documentation for the classes/functions, and a growing number of Jupyter Notebook tutorials that help you familiarize yourself with the way Nyoka supports you in using PMML as your favorite Data Science transport file format.
 
 
-Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
+Read the documentation at **[Nyoka Documentation](http://docs.nyoka.org)**.
 
 ## List of libraries and models supported by Nyoka :
 
 ### Scikit-Learn (version <= 0.20.3):
-<details><summary>Click to expand!</summary>
 
 #### Models -
 * LinearRegression
@@ -66,10 +65,8 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * LabelBinarizer
 * OneHotEncoder
 * CategoricalImputer
-</Details>
 
 ### Keras (version 2.2.4):
-<details><summary>Click to expand!</summary>
 
 #### Models -
 * Mobilenet
@@ -78,36 +75,28 @@ Read the documentation at [Nyoka Documentation](http://docs.nyoka.org).
 * Inception
 * ResNet
 * Xception
-</details>
+* Custom models
 
 ### Object Detection Model:
 * Keras-RetinaNet
 
 ### LightGBM:
-<details><summary>Click to expand!</summary>
 
-#### Models -
 * LGBMClassifier
 * LGBMRegressor
-</details>
+
 
 ### XGBoost:
-<details><summary>Click to expand!</summary>
 
-#### Models -
 * XGBClassifier
 * XGBRegressor
-</details>
 
 ### Statsmodels:
-<details><summary>Click to expand!</summary>
 
-#### Models -
-* ARIMA
+* ARIMA (both old and new implementation)
 * SARIMAX
 * VARMAX
 * ExponentialSmoothing
-</details>
 
 ## Prerequisites
 
@@ -138,7 +127,7 @@ Nyoka contains seperate exporters for each library, e.g., scikit-learn, keras, x
 | **xgboost** | _xgboost_to_pmml_ |
 | **lightgbm** | _lgbm_to_pmml_ |
 | **keras** | _KerasToPmml_ |
-| **statsmodels** | _ArimaToPmml & ExponentialSmoothingToPmml_ |
+| **statsmodels** | _StatsmodelsToPmml & ExponentialSmoothingToPmml_ |
 | **retinanet** | _RetinanetToPmml_ |
 
 The main module of __Nyoka__ is `nyoka`. To use it for your model, you need to import the specific exporter from nyoka as -
@@ -152,186 +141,10 @@ from nyoka import skl_to_pmml, lgb_to_pmml #... so on
 	* Create scikit-learn's `Pipeline` object and populate it with any preprocessing steps and the model object.
 	* Call `Pipeline.fit(X,y)` method to train the model.
 	* Use the specific exporter and pass the pipeline object, feature names of the training dataset, target name and expected name of the PMML to the exporter function. If target name is not given default value `target` is used. Similarly, for pmml name, default value `from_sklearn.pmml`/`from_xgboost.pmml`/`from_lighgbm.pmml` is used. 
- - For Keras and Statsmodels, the fitted model needs to be passed to the exporter.
+ - For Keras, RetinaNet and Statsmodels, the fitted model needs to be passed to the exporter.
  
- ___Demo is provided below___
-### Nyoka to export scikit-learn models:
+### Demo can be found in [Example Jupyter Notebooks](https://github.com/nyoka-pmml/nyoka/tree/dev/examples)
 
->Exporting a Support Vector Classifier pipeline object into PMML
-
-```python
-import pandas as pd
-from sklearn import datasets
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVC
-
-iris = datasets.load_iris()
-irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
-irisd['Species'] = iris.target
-features = irisd.columns.drop('Species')
-target = 'Species'
-
-pipeline_obj = Pipeline([
-    ('scaler', StandardScaler()),
-    ('svm',SVC())
-])
-pipeline_obj.fit(irisd[features],irisd[target])
-
-from nyoka import skl_to_pmml
-skl_to_pmml(pipeline_obj,features,target,"svc_pmml.pmml")
-```
-
-### Nyoka to export xgboost models:
-
->Exporting a XGBoost model into PMML
-
-```python
-from sklearn import datasets
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-import xgboost as xgb
-
-boston = datasets.load_boston()
-y = boston['target']
-X = boston['data']
-xgb_model = xgb.XGBRegressor()
-
-pipeline_obj = Pipeline([
-    ("scaling", StandardScaler()),
-    ("model", XGBRegressor())
-])
-
-pipeline_obj.fit(X, y)
-
-from nyoka import xgboost_to_pmml
-xgboost_to_pmml(pipeline_obj, boston.feature_names, 'target', "xgb_pmml.pmml")
-```
-
-### Nyoka to export lightGBM models:
-
->Exporting a LGBM model into PMML
-
-```python
-import pandas as pd
-from sklearn import datasets
-from sklearn.pipeline import Pipeline
-from lightgbm import LGBMClassifier
-
-
-iris = datasets.load_iris()
-irisd = pd.DataFrame(iris.data,columns=iris.feature_names)
-irisd['Species'] = iris.target
-features = irisd.columns.drop('Species')
-target = 'Species'
-
-pipeline_obj = Pipeline([
-    ('lgbmc',LGBMClassifier())
-])
-pipeline_obj.fit(irisd[features],irisd[target])
-
-from nyoka import lgb_to_pmml
-lgb_to_pmml(pipeline_obj,features,target,"lgbmc_pmml.pmml")
-```
-
-### Nyoka to export keras models:
-
->Exporting a Mobilenet model into PMML
-
-```python
-from keras import applications
-from keras.layers import Flatten, Dense
-from keras.models import Model
-
-model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
-activType='sigmoid'
-x = model.output
-x = Flatten()(x)
-x = Dense(1024, activation="relu")(x)
-predictions = Dense(2, activation=activType)(x)
-model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
-
-from nyoka import KerasToPmml
-cnn_pmml = KerasToPmml(model_final,dataSet='image',predictedClasses=['cats','dogs'])
-cnn_pmml.export(open('2classMBNet.pmml', "w"), 0)
-```
-
->Exporting user given python script with keras model
-
-```python
-from keras import applications
-from keras.layers import Flatten, Dense
-from keras.models import Model
-model = applications.MobileNet(weights='imagenet', include_top=False,input_shape = (224, 224,3))
-x = model.output
-x = Flatten()(x)
-x = Dense(1024, activation="relu")(x)
-predictions = Dense(2, activation='sigmoid')(x)
-model_final = Model(inputs =model.input, outputs = predictions,name='predictions')
-script_content = open("preprocess.py",'r').read()
-pmml_obj=KerasToPmml(model_final,
-            dataSet='image',
-            predictedClasses=['cat','dog'],
-            script_args = {
-                "content" : script_content,
-                "def_name" : "getBase64EncodedString",
-                "return_type" : "string",
-                "encode":True
-            }
-        )
-pmml_obj.export(open("script_with_keras_encoded.pmml",'w'),0)
-```
-
-### Nyoka to export object detection model
-
->Exporting RetinaNet to PMML
-```python
-from keras_retinanet.models import load_model
-from nyoka import RetinanetToPmml
-model = load_model('resnet50_coco_best_v2.1.0.h5', backbone_name='resnet50')
-backbone = 'resnet'
-RetinanetToPmml(
-    model,
-    input_shape=(224,224,3),
-    input_format="image",
-    backbone_name=backbone,
-    pmml_file_name="retinanet_with_coco_.pmml"
-)
-```
-
-### Nyoka to export statsmodels model
->Exporting Non Seasonal ARIMA to PMML
-```python
-import pandas as pd
-import numpy as np
-from statsmodels.tsa.arima_model import ARIMA
-from nyoka import ArimaToPMML
-
-def parser(x):
-    return pd.datetime.strptime(x,'%Y-%m')
-
-sales_data = pd.read_csv('sales-cars.csv', index_col=0, parse_dates = [0], date_parser = parser)
-model = ARIMA(sales_data, order = (9, 2, 0))
-result = model.fit()
-
-pmml_f_name = 'non_seasonal_car_sales.pmml'
-ArimaToPMML(results_obj = result,pmml_file_name = pmml_f_name)
-```
-
->Exporting Seasonal ARIMA to PMML
-```python
-import pandas as pd
-from nyoka import ArimaToPMML
-from statsmodels.tsa.statespace.sarimax import SARIMAX
-data=pd.read_csv("JohnsonJohnsonWithDate.csv")
-data['index']=pd.to_datetime(data['index'], format='%Y-%m-%d')
-data.set_index(['index'], inplace=True)
-
-mod = SARIMAX(data,order=(1,0,0),seasonal_order=(1,0,0, 4))
-result = mod.fit()
-
-ArimaToPMML(results, 'jnj_seasonal_arima.pmml')
-```
 
 ## More in Nyoka
 Nyoka contains one submodule called `preprocessing`. This module contains preprocessing classes implemented by Nyoka. Currently there is only one preprocessing class, which is `Lag`.
