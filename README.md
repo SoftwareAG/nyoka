@@ -1,4 +1,3 @@
-
 # Nyoka
 
 [![Build Status](https://travis-ci.org/nyoka-pmml/nyoka.svg?branch=master)](https://travis-ci.org/nyoka-pmml/nyoka)
@@ -6,8 +5,7 @@
 [![codecov](https://codecov.io/gh/nyoka-pmml/nyoka/branch/master/graph/badge.svg)](https://codecov.io/gh/nyoka-pmml/nyoka)
 [![license](https://img.shields.io/github/license/nyoka-pmml/nyoka.svg)](https://github.com/nyoka-pmml/nyoka/blob/master/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.6%20%7C%203.7-blue)](https://pypi.org/project/nyoka/)
-
-<img src="https://raw.githubusercontent.com/nyoka-pmml/nyoka/master/docs/nyoka_logo.PNG" alt="nyoka_logo" height="200" style="float:right"/>
+<img  src="https://raw.githubusercontent.com/nyoka-pmml/nyoka/master/docs/nyoka_logo.PNG"  alt="nyoka_logo"  height="200"  style="float:right"/>
 
 ## Overview
 
@@ -17,86 +15,101 @@ Besides about 500 Python classes which each cover a PMML tag and all constructor
 
 Nyoka comes to you with the complete source code in Python, extended HTML documentation for the classes/functions, and a growing number of Jupyter Notebook tutorials that help you familiarize yourself with the way Nyoka supports you in using PMML as your favorite Data Science transport file format.
 
-
 Read the documentation at **[Nyoka Documentation](http://docs.nyoka.org)**.
 
 ## List of libraries and models supported by Nyoka :
 
-### Scikit-Learn (version <= 0.20.3):
+### Scikit-Learn (version == 0.20.3):
 
 #### Models -
-* LinearRegression
-* LogisticRegression
-* RidgeClassifier
-* SGDClassifier
-* LinearDiscriminantAnalysis
-* LinearSVC
-* LinearSVR
-* DecisionTreeClassifier
-* DecisionTreeRegressor
-* SVC
-* SVR
-* OneClassSVM
-* GaussianNB
-* RandomForestRegressor
-* RandomForestClassifier
-* GradientBoostingRegressor
-* GradientBoostingClassifier
-* IsolationForest
-* MLPClassifier
-* MLPRegressor
-* KNNClassifier
-* KNNRegressor
-* KMeans
+
+*  [`linear_model.LinearRegression`](https://scikit-learn.org/0.20/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression)
+*  [`linear_model.LogisticRegression`](https://scikit-learn.org/0.20/modules/generated/sklearn.linear_model.LogisticRegression.html#sklearn.linear_model.LogisticRegression)
+*  [`linear_model.RidgeClassifier`](https://scikit-learn.org/0.20/modules/generated/sklearn.linear_model.RidgeClassifier.html#sklearn.linear_model.RidgeClassifier)
+*  [`linear_model.SGDClassifier`](https://scikit-learn.org/0.20/modules/generated/sklearn.linear_model.SGDClassifier.html#sklearn.linear_model.SGDClassifier)
+*  [`discriminant_analysis.LinearDiscriminantAnalysis`](https://scikit-learn.org/0.20/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html#sklearn.discriminant_analysis.LinearDiscriminantAnalysis)
+*  [`tree.DecisionTreeClassifier`](https://scikit-learn.org/0.20/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier)
+*  [`tree.DecisionTreeRegressor`](https://scikit-learn.org/0.20/modules/generated/sklearn.tree.DecisionTreeRegressor.html#sklearn.tree.DecisionTreeRegressor)
+*  [`svm.SVC`](https://scikit-learn.org/0.20/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
+*  [`svm.SVR`](https://scikit-learn.org/0.20/modules/generated/sklearn.svm.SVR.html#sklearn.svm.SVR)
+*  [`svm.LinearSVC`](https://scikit-learn.org/0.20/modules/generated/sklearn.svm.LinearSVC.html#sklearn.svm.LinearSVC)
+*  [`svm.LinearSVR`](https://scikit-learn.org/0.20/modules/generated/sklearn.svm.LinearSVR.html#sklearn.svm.LinearSVR)
+*  [`svm.OneClassSVM`](https://scikit-learn.org/0.20/modules/generated/sklearn.svm.OneClassSVM.html#sklearn.svm.OneClassSVM)
+*  [`naive_bayes.GaussianNB`](https://scikit-learn.org/0.20/modules/generated/sklearn.naive_bayes.GaussianNB.html#sklearn.naive_bayes.GaussianNB)
+*  [`ensemble.RandomForestRegressor`](https://scikit-learn.org/0.20/modules/generated/sklearn.ensemble.RandomForestRegressor.html#sklearn.ensemble.RandomForestRegressor)
+*  [`ensemble.RandomForestClassifier`](https://scikit-learn.org/0.20/modules/generated/sklearn.ensemble.RandomForestClassifier.html#sklearn.ensemble.RandomForestClassifier)
+*  [`ensemble.GradientBoostingRegressor`](https://scikit-learn.org/0.20/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor)
+*  [`ensemble.GradientBoostingClassifier`](https://scikit-learn.org/0.20/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html#sklearn.ensemble.GradientBoostingClassifier)
+*  [`ensemble.IsolationForest`](https://scikit-learn.org/0.20/modules/generated/sklearn.ensemble.IsolationForest.html#sklearn.ensemble.IsolationForest)
+*  [`neural_network.MLPClassifier`](https://scikit-learn.org/0.20/modules/generated/sklearn.neural_network.MLPClassifier.html#sklearn.neural_network.MLPClassifier)
+*  [`neural_network.MLPRegressor`](https://scikit-learn.org/0.20/modules/generated/sklearn.neural_network.MLPRegressor.html#sklearn.neural_network.MLPRegressor)
+*  [`neighbors.KNeighborsClassifier`](https://scikit-learn.org/0.20/modules/generated/sklearn.neighbors.KNeighborsClassifier.html#sklearn.neighbors.KNeighborsClassifier)
+*  [`neighbors.KNeighborsRegressor` ](https://scikit-learn.org/0.20/modules/generated/sklearn.neighbors.KNeighborsRegressor.html#sklearn.neighbors.KNeighborsRegressor)
+*  [`cluster.KMeans`](https://scikit-learn.org/0.20/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans)
+
 
 #### Pre-Processing -
 
-* StandardScaler
-* MinMaxScaler
-* RobustScaler
-* MaxAbsScaler
-* TfidfVectorizer
-* CountVectorizer
-* LabelEncoder
-* Imputer
-* Binarizer
-* PolynomialFeatures
-* PCA
-* LabelBinarizer
-* OneHotEncoder
-* CategoricalImputer
+
+*  [`preprocessing.StandardScaler`](https://scikit-learn.org/0.20/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler)
+*  [`preprocessing.MinMaxScaler`](https://scikit-learn.org/0.20/modules/generated/sklearn.preprocessing.MinMaxScaler.html#sklearn.preprocessing.MinMaxScaler)
+*  [`preprocessing.RobustScaler`](https://scikit-learn.org/0.20/modules/generated/sklearn.preprocessing.RobustScaler.html#sklearn.preprocessing.RobustScaler)
+*  [`preprocessing.MaxAbsScaler`](https://scikit-learn.org/0.20/modules/generated/sklearn.preprocessing.MaxAbsScaler.html#sklearn.preprocessing.MaxAbsScaler)
+*  [`preprocessing.LabelEncoder`](https://scikit-learn.org/0.20/modules/generated/sklearn.preprocessing.LabelEncoder.html#sklearn.preprocessing.LabelEncoder)
+*  [`preprocessing.Imputer`](https://scikit-learn.org/0.20/modules/generated/sklearn.preprocessing.Imputer.html#sklearn.preprocessing.Imputer)
+*  [`preprocessing.Binarizer`](https://scikit-learn.org/0.20/modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer)
+*  [`preprocessing.PolynomialFeatures`](https://scikit-learn.org/0.20/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures)
+*  [`preprocessing.LabelBinarizer`](https://scikit-learn.org/0.20/modules/generated/sklearn.preprocessing.LabelBinarizer.html#sklearn.preprocessing.LabelBinarizer)
+*  [`preprocessing.OneHotEncoder`](https://scikit-learn.org/0.20/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder)
+*  [`feature_extraction.text.TfidfVectorizer`](https://scikit-learn.org/0.20/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html#sklearn.feature_extraction.text.TfidfVectorizer)
+*  [`feature_extraction.text.CountVectorizer`](https://scikit-learn.org/0.20/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html#sklearn.feature_extraction.text.CountVectorizer)
+*  [`decomposition.PCA`](https://scikit-learn.org/0.20/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA)
+*  [`sklearn_pandas.CategoricalImputer`](https://github.com/scikit-learn-contrib/sklearn-pandas/blob/master/sklearn_pandas/categorical_imputer.py#L21) ( From _[sklearn_pandas](https://github.com/scikit-learn-contrib/sklearn-pandas)_ library )
+
 
 ### Keras (version 2.2.4):
 
 #### Models -
-* Mobilenet
-* VGG
-* DenseNet
-* Inception
-* ResNet
-* Xception
-* Custom models
+
+*  [`applications.MobileNet`](https://keras.io/applications/#mobilenet)
+*  [`applications.VGG16`](https://keras.io/applications/#vgg16)
+*  [`applications.VGG19`](https://keras.io/applications/#vgg19)
+*  [`applications.DenseNet`](https://keras.io/applications/#densenet)
+*  [`applications.InceptionV3`](https://keras.io/applications/#inceptionv3)
+*  [`applications.ResNet`](https://keras.io/applications/#resnet)
+*  [`applications.Xception`](https://keras.io/applications/#xception)
+*  [`models.Sequential`](https://keras.io/models/sequential/)
+
 
 ### Object Detection Model:
-* Keras-RetinaNet
+
+
+*  [`fizyr/Keras-RetinaNet`]([https://github.com/fizyr/keras-retinanet](https://github.com/fizyr/keras-retinanet))
+  
 
 ### LightGBM:
 
-* LGBMClassifier
-* LGBMRegressor
+  
+*  [`LGBMClassifier`](https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html)
+*  [`LGBMRegressor`](https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMRegressor.html)
 
 
 ### XGBoost:
 
-* XGBClassifier
-* XGBRegressor
+
+*  [`XGBClassifier`](https://xgboost.readthedocs.io/en/latest/python/python_api.html#module-xgboost.sklearn)
+*  [`XGBRegressor`](https://xgboost.readthedocs.io/en/latest/python/python_api.html#module-xgboost.sklearn)
+
 
 ### Statsmodels:
 
-* ARIMA (both old and new implementation)
-* SARIMAX
-* VARMAX
-* ExponentialSmoothing
+
+*  [`tsa.arima_model.ARIMA`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/arima_model.py#L1026)
+*  [`tsa.arima.model.ARIMA`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/arima/model.py#L26) _(In statespace form)_
+*  [`tsa.statespace.SARIMAX`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/statespace/sarimax.py#L31)
+*  [`tsa.statespace.VARMAX`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/statespace/varmax.py#L33)
+*  [`tsa.statespace.ExponentialSmoothing`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/statespace/exponential_smoothing.py#L31)
+  
 
 ## Prerequisites
 
@@ -107,19 +120,19 @@ Read the documentation at **[Nyoka Documentation](http://docs.nyoka.org)**.
 nyoka requires:
 
 * lxml
-
-
+ 
 ## Installation
 
-You can install nyoka using:
+You can install nyoka using: 
 
 ```
 pip install --upgrade nyoka
 ```
-	
 ## Usage
 
+
 Nyoka contains seperate exporters for each library, e.g., scikit-learn, keras, xgboost etc.
+
 
 | library | exporter |
 |--|--|
@@ -130,36 +143,134 @@ Nyoka contains seperate exporters for each library, e.g., scikit-learn, keras, x
 | **statsmodels** | _StatsmodelsToPmml & ExponentialSmoothingToPmml_ |
 | **retinanet** | _RetinanetToPmml_ |
 
+
 The main module of __Nyoka__ is `nyoka`. To use it for your model, you need to import the specific exporter from nyoka as -
 
 ```python
 from nyoka import skl_to_pmml, lgb_to_pmml #... so on
 ```
+
 #### Note -
- - If scikit-learn, xgboost and lightgbm model is used then the model should be used inside sklearn's Pipeline.
-	The workflow is as follows -
-	* Create scikit-learn's `Pipeline` object and populate it with any preprocessing steps and the model object.
-	* Call `Pipeline.fit(X,y)` method to train the model.
-	* Use the specific exporter and pass the pipeline object, feature names of the training dataset, target name and expected name of the PMML to the exporter function. If target name is not given default value `target` is used. Similarly, for pmml name, default value `from_sklearn.pmml`/`from_xgboost.pmml`/`from_lighgbm.pmml` is used. 
- - For Keras, RetinaNet and Statsmodels, the fitted model needs to be passed to the exporter.
- 
-### Demo can be found in [Example Jupyter Notebooks](https://github.com/nyoka-pmml/nyoka/tree/dev/examples)
 
+- If scikit-learn, xgboost and lightgbm model is used then the model should be used inside sklearn's Pipeline.
 
-## More in Nyoka
+The workflow is as follows (For example, a Decision Tree Classifier with StandardScaler) -
+
+* Create scikit-learn's `Pipeline` object and populate it with any pre-processing steps and the model object. 
+	```python
+	from sklearn.pipeline import Pipeline
+	from sklearn.tree import DecisionTreeClassifier
+	from sklearn.preprocessing import StandardScaler
+	pipeline_obj = Pipeline([
+			("scaler",StandardScaler()),
+			("model",DecisionTreeClassifier())
+	])
+	```
+
+* Call `Pipeline.fit(X,y)` method to train the model.
+	```python
+	from sklearn.dataset import load_iris
+	iris_data = load_iris()
+	X = iris_data.data
+	y = iris_data.target
+	features = iris_data.feature_names
+	pipeline_obj.fit(X,y)
+	```
+  
+* Use the specific exporter and pass the pipeline object, feature names of the training dataset, target name and expected name of the PMML to the exporter function. If target name is not given default value `target` is used. Similarly, for pmml name, default value `from_sklearn.pmml`/`from_xgboost.pmml`/`from_lighgbm.pmml` is used.
+	```python
+	from nyoka import skl_to_pmml
+	skl_to_pmml(pipeline=pipeline_obj,col_names=features,target_name="species",pmml_f_name="decision_tree.pmml")
+	```
+  
+- For Keras, RetinaNet and Statsmodels, pipeline is not required. The fitted model needs to be passed to the exporter.
+	```python
+	import pandas as pd
+	from statsmodels.tsa.arima_model import ARIMA
+	from nyoka import StatsmodelsToPmml
+	sales_data = pd.read_csv('sales-cars.csv', index_col=0, parse_dates = True)
+	model = ARIMA(sales_data, order = (4, 1, 2))
+	result = model.fit()
+	StatsmodelsToPmml(result,"Sales_cars_ARIMA.pmml")
+	```
+
+## Examples 
+
+Example jupyter notebooks can be found in [`nyoka/examples`](https://github.com/nyoka-pmml/nyoka/tree/master/examples). These files contain code to showcase how to use different exporters.
+
+* Exporting `scikit-learn` models into PMML
+	* [SVM](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/1_SVM.ipynb)
+	* [KNeighbors](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/2_K-NN_With_Scaling.ipynb)
+	* [Random Forest](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/3_RF_With_pre-processing.ipynb)
+	* [Gardient Boosting](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/4_GB_With_pre-processing.ipynb)
+	* [Decision Tree](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/5_Decision_Tree_With_Tf-Idf.ipynb)
+	* [Isolation Forest](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/6_IsolationForest_model_to_PMML.ipynb)
+	* [OneClassSVM](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/7_OneClassSVM_Model_to_PMML.ipynb)
+	* [LinearSVC](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/8_LinearSVC_with_TfidfVectorizer.ipynb)
+
+* Exporting `Keras` models into PMML
+	* [MobileNet](https://github.com/nyoka-pmml/nyoka/blob/master/examples/keras/1_PMML_generation_for_mobilenet.ipynb)
+	* [Sequential Model](https://github.com/nyoka-pmml/nyoka/blob/master/examples/keras/2_PMML_generation_for_Sequential_Model.ipynb)
+
+* Exporting `XGBoost` model into PMML
+	* [XGBoost 1](https://github.com/nyoka-pmml/nyoka/blob/master/examples/xgboost/1_xgboost.ipynb)
+	* [XGBoost 2](https://github.com/nyoka-pmml/nyoka/blob/master/examples/xgboost/2_xgboost_With_Scaling.ipynb)
+	* [XGBoost 3](https://github.com/nyoka-pmml/nyoka/blob/master/examples/xgboost/3_xgboost_With_PreProcess%20.ipynb)
+
+* Exporting `LightGBM` model into PMML
+	* [LightGBM 1](https://github.com/nyoka-pmml/nyoka/blob/master/examples/lgbm/1_lgbm.ipynb)
+	* [LightGBM 2](https://github.com/nyoka-pmml/nyoka/blob/master/examples/lgbm/2_lgbm_With_Scaling.ipynb)
+	* [LightGBM 3](https://github.com/nyoka-pmml/nyoka/blob/master/examples/lgbm/3_lgbm_With_PreProcess%20.ipynb)
+
+* Exporting `statsmodels` model into PMML
+	* [Non-Seasonal ARIMA](https://github.com/nyoka-pmml/nyoka/blob/master/examples/statsmodels/arima/Non-Seasonal%20ARIMA.ipynb)
+	* [Seasonal ARIMA](https://github.com/nyoka-pmml/nyoka/blob/master/examples/statsmodels/arima/Seasonal%20ARIMA.ipynb)
+	* [Vector ARMA (for multi-variate time series)](https://github.com/nyoka-pmml/nyoka/blob/master/examples/statsmodels/arima/VARMAX.ipynb)
+	* [Exponential Smoothing](https://github.com/nyoka-pmml/nyoka/blob/master/examples/statsmodels/exponential_smoothing/exponential_smoothing.ipynb)
+
+* Exporting `retinanet` model into PMML
+	* [RetinaNet 1](https://github.com/nyoka-pmml/nyoka/blob/master/examples/retinanet/RetinaNet%20Exporter.ipynb)
+  
+## Nyoka Submodules
+
 Nyoka contains one submodule called `preprocessing`. This module contains preprocessing classes implemented by Nyoka. Currently there is only one preprocessing class, which is `Lag`.
 
 #### What is Lag? When to use it?
->Lag is a preprocessing class implemented by Nyoka. When used inside scikit-learn's pipeline, it simply applies  an `aggregation` function for the given features of the dataset by combining `value` number of previous records. It takes two arguments- aggregation and value.
+
+
+>Lag is a preprocessing class implemented by Nyoka. When used inside scikit-learn's pipeline, it simply applies an `aggregation` function for the given features of the dataset by combining `value` number of previous records. It takes two arguments- aggregation and value.
+
 >
+
 > The valid `aggregation` functions are -
-"min",  "max",  "sum",  "avg",  "median",  "product" and "stddev".
->
+
+"min", "max", "sum", "avg", "median", "product" and "stddev".
+
+
 To use __Lag__ -
-* Import it from nyoka as `from nyoka.preprocessing import Lag`
-* Create an instance of Lag as `Lag(aggregation="sum", value=5)`
-	* This means, take 5 previous values for the given fields and perform summation.
+
+* Import it from nyoka -
+  ```python
+	from nyoka.preprocessing import Lag
+  ```
+* Create an instance of Lag - 
+  ```python
+	lag_obj = Lag(aggregation="sum", value=5)
+	'''
+	This means taking previous 5 values and perform `sum`. When used inside pipeline, this will be applied to all the columns.
+	If used inside DataFrameMapper, the it will be applied to only those columns which are inside DataFrameMapper.
+	'''
+  ```
 * Use this object inside scikit-learn's pipeline to train.
+  ```python
+	from sklearn.pipeline import Pipeline
+	from sklearn.tree import DecisionTreeClassifier
+	from nyoka.preprocessing import Lag
+	pipeline_obj = Pipeline([
+		("lag",Lag(aggregation="sum",value=5)),
+		("model",DecisionTreeClassifier())
+	])
+  ```
 
 ## Uninstallation
 
@@ -171,6 +282,5 @@ pip uninstall nyoka
 
 You can ask questions at:
 
-*	[Stack Overflow](https://stackoverflow.com) by tagging your questions with #pmml, #nyoka
-*	You can also post bug reports in [GitHub issues](https://github.com/nyoka-pmml/nyoka/issues) 
- 
+*  [Stack Overflow](https://stackoverflow.com) by tagging your questions with #pmml, #nyoka
+* You can also post bug reports in [GitHub issues](https://github.com/nyoka-pmml/nyoka/issues)
