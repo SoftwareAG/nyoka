@@ -184,13 +184,13 @@ The workflow is as follows (For example, a Decision Tree Classifier with Standar
 
 #### For Keras, RetinaNet and Statsmodels, pipeline is not required. The fitted model needs to be passed to the exporter.
 	```python
-	import pandas as pd
-	from statsmodels.tsa.arima_model import ARIMA
-	from nyoka import StatsmodelsToPmml
-	sales_data = pd.read_csv('sales-cars.csv', index_col=0, parse_dates = True)
-	model = ARIMA(sales_data, order = (4, 1, 2))
-	result = model.fit()
-	StatsmodelsToPmml(result,"Sales_cars_ARIMA.pmml")
+		import pandas as pd
+		from statsmodels.tsa.arima_model import ARIMA
+		from nyoka import StatsmodelsToPmml
+		sales_data = pd.read_csv('sales-cars.csv', index_col=0, parse_dates = True)
+		model = ARIMA(sales_data, order = (4, 1, 2))
+		result = model.fit()
+		StatsmodelsToPmml(result,"Sales_cars_ARIMA.pmml")
 	```
 
 ## Examples 
