@@ -84,7 +84,7 @@ Read the documentation at **[Nyoka Documentation](http://docs.nyoka.org)**.
 ### Object Detection Model:
 
 
-*  [`fizyr/Keras-RetinaNet`]([https://github.com/fizyr/keras-retinanet](https://github.com/fizyr/keras-retinanet))
+*  [`fizyr/Keras-RetinaNet`](https://github.com/fizyr/keras-retinanet)
   
 
 ### LightGBM:
