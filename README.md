@@ -243,8 +243,7 @@ Nyoka contains one submodule called `preprocessing`. This module contains prepro
 >
 
 > The valid `aggregation` functions are -
-
-"min", "max", "sum", "avg", "median", "product" and "stddev".
+> "min", "max", "sum", "avg", "median", "product" and "stddev".
 
 
 To use __Lag__ -
