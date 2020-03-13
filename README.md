@@ -180,8 +180,9 @@ The workflow is as follows (For example, a Decision Tree Classifier with Standar
 	from nyoka import skl_to_pmml
 	skl_to_pmml(pipeline=pipeline_obj,col_names=features,target_name="species",pmml_f_name="decision_tree.pmml")
 	```
-  
-** For Keras, RetinaNet and Statsmodels, pipeline is not required. The fitted model needs to be passed to the exporter. **
+
+
+#### For Keras, RetinaNet and Statsmodels, pipeline is not required. The fitted model needs to be passed to the exporter.
 
 	```python
 	import pandas as pd
