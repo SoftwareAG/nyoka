@@ -19,7 +19,7 @@ Read the documentation at **[Nyoka Documentation](http://docs.nyoka.org)**.
 
 ## List of libraries and models supported by Nyoka :
 
-### Scikit-Learn (version == 0.20.3):
+### Scikit-Learn (version <= 0.20.3):
 
 #### Models -
 
@@ -94,7 +94,7 @@ Read the documentation at **[Nyoka Documentation](http://docs.nyoka.org)**.
 *  [`LGBMRegressor`](https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMRegressor.html)
 
 
-### XGBoost:
+### XGBoost (version <= 0.90):
 
 
 *  [`XGBClassifier`](https://xgboost.readthedocs.io/en/latest/python/python_api.html#module-xgboost.sklearn)
