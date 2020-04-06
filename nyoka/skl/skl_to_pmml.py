@@ -57,7 +57,7 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None):
         else:
             modelPath = None
 
-        if toExportDict[model_name]['data'] is not None:
+        if 'data' in toExportDict[model_name].keys() and toExportDict[model_name]['data'] is not None:
             dataObj.append(pml.Data(for_=model_name,filePath=toExportDict[model_name]['data']))
 
         model = toExportDict[model_name]['modelObj']
@@ -242,7 +242,7 @@ def get_script_execution(toExportDict):
     # Script execution
     scrps = []
     for model_name in toExportDict.keys():
-        if toExportDict[model_name]['preProcessingScript'] is not None:
+        if 'preProcessingScript' in toExportDict[model_name].keys() and toExportDict[model_name]['preProcessingScript']:
             lstlen = len(toExportDict[model_name]['preProcessingScript']['scripts'])
             for leng in range(lstlen):
                 # print (toExportDict[model_name]['preProcessingScript'])
@@ -258,7 +258,7 @@ def get_script_execution(toExportDict):
                                         scriptOutput = toExportDict[model_name]['preProcessingScript']['scriptOutput'][leng],
                                         filePath=toExportDict[model_name]['preProcessingScript']['scriptPath'][leng]
                                         ))
-        if toExportDict[model_name]['postProcessingScript'] is not None:
+        if 'postProcessingScript' in toExportDict[model_name].keys() and toExportDict[model_name]['postProcessingScript']:
             lstlen = len(toExportDict[model_name]['postProcessingScript']['scripts'])
             for leng in range(0,lstlen):
                 try:
@@ -331,7 +331,7 @@ def get_mining_buildtask(toExportDict):
         modelobj = toExportDict[model_name]['modelObj']
         modelobj = str(modelobj)
         extension.append(pml.Extension(value=modelobj,for_=model_name,name="modelObject"))
-        if toExportDict[model_name]['hyperparameters']:
+        if 'hyperparameters' in toExportDict[model_name].keys() and toExportDict[model_name]['hyperparameters']:
             extension.append(pml.Extension(value=toExportDict[model_name]['hyperparameters'],for_=model_name,name="hyperparameters"))
     mining_bld_task = pml.MiningBuildTask(Extension = extension)
     return mining_bld_task
@@ -1275,19 +1275,19 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
     if model.__class__.__name__ == 'GradientBoostingRegressor':
         model_kwargs['Targets'] = get_targets(model, target_name)
 
-    mining_fields = model_kwargs['MiningSchema'].MiningField
-    new_mining_fields = list()
-    if model.__class__.__name__ != 'IsolationForest':
-        for idx, imp_ in enumerate(model.feature_importances_):
-            if imp_ > 0:
-                new_mining_fields.append(mining_fields[idx])
-    else:
-        for idx in range(len(col_names)):
-            new_mining_fields.append(mining_fields[idx])
-    for fld in mining_fields:
-        if fld.usageType == 'target':
-            new_mining_fields.append(fld)
-    model_kwargs['MiningSchema'].MiningField = new_mining_fields
+    # mining_fields = model_kwargs['MiningSchema'].MiningField
+    # new_mining_fields = list()
+    # if model.__class__.__name__ != 'IsolationForest':
+    #     for idx, imp_ in enumerate(model.feature_importances_):
+    #         if imp_ > 0:
+    #             new_mining_fields.append(mining_fields[idx])
+    # else:
+    #     for idx in range(len(col_names)):
+    #         new_mining_fields.append(mining_fields[idx])
+    # for fld in mining_fields:
+    #     if fld.usageType == 'target':
+    #         new_mining_fields.append(fld)
+    # model_kwargs['MiningSchema'].MiningField = new_mining_fields
 
         
     mining_models = list()
