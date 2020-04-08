@@ -164,8 +164,9 @@ def reconstruct(nyoka_pmml_obj):
     features = list()
     feature_infos = list()
     for field in mf:
-        features.append(field.get_name())
-        feature_infos.append("["+str(field.get_lowValue())+":"+str(field.get_highValue())+"]")
+        if (field.usageType!="target"):
+            features.append(field.get_name())
+            feature_infos.append("["+str(field.get_lowValue())+":"+str(field.get_highValue())+"]")
     segmentation_obj = mining_model_obj.Segmentation
     filename = "tempfile_iFVMcrUrCQesaRbHubGi.txt"
     f = open(filename, "w+")

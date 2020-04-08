@@ -13,18 +13,28 @@ import metadata as md
 def ExportToPMML(model,tasktype,target_name):
     jsondata = model.dump_model()
     feature_names = jsondata['feature_names']
-    objective = jsondata['objective']
+    # objective = jsondata['objective']
     tree_info = jsondata['tree_info']
     pandas_categorical = jsondata['pandas_categorical']
     num_class  =jsondata['num_class']
     regressionObjectiveList = ['regression', 'regression_l1', 'regression_l2', 'huber', 'fair', 'poisson', 'quantile', 'mape', 'gamma', 'tweedie']
     clasificationObjectiveList = ['binary', 'multiclass', 'multiclassova']
+    objectiveMapper = {'binary':'sigmoid','multiclass':'num_class','multiclassova':'num_class'}
     otherObjectiveList = ['xentropy', 'xentlambda', 'lambdarank']
     left_child_op = {"==":"equal", "<=":"lessOrEqual", ">=":"greaterOrEqual"}
     right_child_op = {"==":"notEqual", "<=":"greaterThan", ">=":"lessThan"}
     defaultChild = {"True":"Left", "False":"Right"}
-    objectiveSplit = objective.split()[0]
-    functionName = 'regression' if objectiveSplit in regressionObjectiveList else 'classification' if objectiveSplit in clasificationObjectiveList else 'mixed'
+    objective = model.params['objective']
+    if objective in clasificationObjectiveList:
+        functionName = 'classification'
+        objective = objective+" "+objectiveMapper[model.params['objective']]+":"+str(jsondata['num_class'])
+    elif objective in regressionObjectiveList:
+        functionName = 'regression'
+    else:
+        functionName = 'mixed'
+    # objective = model.params['objective']+" "+objectiveMapper[model.params['objective']]+":"+str(jsondata['num_class']) if model.params['objective'] in clasificationObjectiveList else model.params['objective']
+    # objectiveSplit = objective.split()[0]
+    # functionName = 'regression' if objectiveSplit in regressionObjectiveList else 'classification' if objectiveSplit in clasificationObjectiveList else 'mixed'
 
     def get_MiningModel(tree_information = None, features = None):
         #MiningSc = MiningSchema(MiningField=[MiningField(name = feature, lowValue = data[feature].min(), highValue = data[feature].max() ) for feature in features])
