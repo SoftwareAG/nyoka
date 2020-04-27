@@ -1,5 +1,5 @@
-from nyoka import PMML44 as pml
-from nyoka.base.enums import *
+import PMML44 as pml
+from base.enums import *
 import json
 
 _IS_INSIDE_BOUNDARY = "is_inside_boundary"
