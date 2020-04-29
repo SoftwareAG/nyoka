@@ -92,10 +92,10 @@ def model_to_pmml(toExportDict, PMMLFileName='from_sklearn.pmml',tyP=None):
                 with model_graph.as_default():
                     tf_session = KModelObj['tf_session']
                     with tf_session.as_default():
-                        KerasPMML = KerasToPmml(model,model_name=PMMLFileName,filePath=modelPath,targetVarName=target_name,predictedClasses=predictedClassesObj,dataSet=dataSetObj)
+                        KerasPMML = KerasToPmml(model,model_name="TrainedModel",filePath=modelPath,targetVarName=target_name,predictedClasses=predictedClassesObj,dataSet=dataSetObj)
                             
             else:
-                KerasPMML = KerasToPmml(model,model_name=PMMLFileName,filePath=modelPath,targetVarName=target_name,predictedClasses=predictedClassesObj,dataSet=dataSetObj)
+                KerasPMML = KerasToPmml(model,model_name="TrainedModel",filePath=modelPath,targetVarName=target_name,predictedClasses=predictedClassesObj,dataSet=dataSetObj)
 
             model_obj = KerasPMML.DeepNetwork[0]
             model_obj.modelName = model_name
