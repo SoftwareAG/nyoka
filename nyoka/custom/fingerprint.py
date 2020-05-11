@@ -74,7 +74,7 @@ class FingerprintToPmml:
                 if tag["minValue"] < min_value:
                     min_value = tag["minValue"]
             range_of_fp = abs(max_value - min_value)
-            self._max_distances.append(range_of_fp * 2 * len(hull["values"]))
+            self._max_distances.append(range_of_fp * len(hull["values"]))
 
     def _generate_pmml(self):
 
@@ -206,41 +206,17 @@ class FingerprintToPmml:
                                     ]
                                 ),
                                 pml.Apply(
-                                    function=FUNCTION.SUM.value,
-                                    Apply_member=[
-                                        pml.Apply(
-                                            function=FUNCTION.SUBSTRACTTION.value,
-                                            FieldRef=[
-                                                pml.FieldRef(field=_TAG_LOWER_BOUNDARY),
-                                                pml.FieldRef(field=_TAG)
-                                            ]
-                                        ),
-                                        pml.Apply(
-                                            function=FUNCTION.SUBSTRACTTION.value,
-                                            FieldRef=[
-                                                pml.FieldRef(field=_TAG_LOWER_BOUNDARY),
-                                                pml.FieldRef(field=_TAG)
-                                            ]
-                                        )
+                                    function=FUNCTION.SUBSTRACTTION.value,
+                                    FieldRef=[
+                                        pml.FieldRef(field=_TAG_LOWER_BOUNDARY),
+                                        pml.FieldRef(field=_TAG)
                                     ]
                                 ),
                                 pml.Apply(
-                                    function=FUNCTION.SUM.value,
-                                    Apply_member=[
-                                        pml.Apply(
-                                            function=FUNCTION.SUBSTRACTTION.value,
-                                            FieldRef=[
-                                                pml.FieldRef(field=_TAG),
-                                                pml.FieldRef(field=_TAG_UPPER_BOUNDARY)
-                                            ]
-                                        ),
-                                        pml.Apply(
-                                            function=FUNCTION.SUBSTRACTTION.value,
-                                            FieldRef=[
-                                                pml.FieldRef(field=_TAG),
-                                                pml.FieldRef(field=_TAG_UPPER_BOUNDARY)
-                                            ]
-                                        )
+                                    function=FUNCTION.SUBSTRACTTION.value,
+                                    FieldRef=[
+                                        pml.FieldRef(field=_TAG),
+                                        pml.FieldRef(field=_TAG_UPPER_BOUNDARY)
                                     ]
                                 )
                             ]
