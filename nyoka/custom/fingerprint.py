@@ -22,7 +22,7 @@ _APPLICATION_VERSION = "4.2.1"
 
 class FingerprintToPmml:
 
-    def __init__(self, fingerprint, use_lag=False, pmml_file_name="from_fingerprint.pmml"):
+    def __init__(self, fingerprint, model_name = None, use_lag=True, pmml_file_name="from_fingerprint.pmml"):
         """
         Converts a fingerprint into PMML
 
@@ -33,10 +33,14 @@ class FingerprintToPmml:
 
             - the fingerprint content or the path of the file
 
+        model_name : str or None
+
+            - the name of the model
+
         use_lag : boolean
 
-            - If True, there will be only one tag and the remaining are generated using Lag.
-              If Falses, all the Tags will be present.
+            - If True, there will be only one tag for each hull and the remaining are generated using Lag.
+              If False, all the tags will be present.
 
         pmml_file_name : str
 
@@ -53,18 +57,20 @@ class FingerprintToPmml:
             raise ValueError("Invalid value for `fingerprint`. Should be a json object or path to a json file.")
         self._use_lag = use_lag
         self.pmml_file_name = pmml_file_name
+        self._model_name = model_name
         self._extract_info()
         self._pmml_obj = self._generate_pmml()
         self._pmml_obj.export(open(pmml_file_name, "w"), 0)
 
     def _extract_info(self):
         self._fingerprint_name = self.content['name']
-        self._fingerprint_description = self.content['description'] if self.content[
-                                                                           'description'] != "" else "Fingerprint in PMML"
+        self._fingerprint_description = self.content['description'] if \
+            self.content['description'] != "" else "Fingerprint in PMML"
         self._hulls = self.content['data']['hulls']
         self._length_of_fingerprint = len(self._hulls[0]['values'])
         self._detection_threshold = self.content["data"]["detectionThreshold"]
         self._max_distances = []
+        self._fp_ranges = []
         for hull in self._hulls:
             max_value = hull["values"][0]["maxValue"]
             min_value = hull["values"][0]["minValue"]
@@ -74,6 +80,7 @@ class FingerprintToPmml:
                 if tag["minValue"] < min_value:
                     min_value = tag["minValue"]
             range_of_fp = abs(max_value - min_value)
+            self._fp_ranges.append(range_of_fp)
             self._max_distances.append(range_of_fp * len(hull["values"]))
 
     def _generate_pmml(self):
@@ -91,22 +98,24 @@ class FingerprintToPmml:
         def get_data_dictionary():
             data_fields = []
             if not self._use_lag:
-                for i in range(self._length_of_fingerprint):
+                for i,hull in enumerate(self._hulls):
+                    for j in range(self._length_of_fingerprint):
+                        data_fields.append(
+                            pml.DataField(
+                                name=hull["name"] + _UNDERSCORE + str(j),
+                                optype=OPTYPE.CONTINUOUS.value,
+                                dataType=DATATYPE.DOUBLE.value
+                            )
+                        )
+            else:
+                for idx, hull in enumerate(self._hulls):
                     data_fields.append(
                         pml.DataField(
-                            name=_TAG + _UNDERSCORE + str(i),
+                            name=hull["name"],
                             optype=OPTYPE.CONTINUOUS.value,
                             dataType=DATATYPE.DOUBLE.value
                         )
                     )
-            else:
-                data_fields.append(
-                    pml.DataField(
-                        name=_TAG,
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value
-                    )
-                )
             data_dict = pml.DataDictionary(
                 numberOfFields=len(data_fields),
                 DataField=data_fields
@@ -226,158 +235,177 @@ class FingerprintToPmml:
             )
             return calculate_distance
 
-        def get_lagged_fields():
-            derived_fields = []
-            for idx in range(1, self._length_of_fingerprint):
-                name = _TAG + _UNDERSCORE + str(idx - 1)
-                derived_fields.append(
-                    pml.DerivedField(
-                        name=name,
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value,
-                        Lag=pml.Lag(field=_TAG, n=self._length_of_fingerprint - idx)
-                    )
-                )
-            last_derived_name = _TAG + _UNDERSCORE + str(self._length_of_fingerprint - 1)
-            derived_fields.append(
-                pml.DerivedField(
-                    name=last_derived_name,
-                    optype=OPTYPE.CONTINUOUS.value,
-                    dataType=DATATYPE.DOUBLE.value,
-                    FieldRef=pml.FieldRef(field=_TAG)
-                )
-            )
-            return derived_fields
-
         def get_transformation_dictionary():
             trans_dict = pml.TransformationDictionary(
                 DefineFunction=[
                     get_is_inside_boundary_function(),
                     get_calculate_distance_function()
-                ],
-                DerivedField=get_lagged_fields() if self._use_lag else []
+                ]
             )
             return trans_dict
 
-        def get_mining_fields(field_names):
+        def get_mining_fields_for_regression_model(index):
             mining_fields = []
-            for field in field_names:
-                mining_fields.append(
-                    pml.MiningField(
-                        name=field
-                    )
-                )
-            return mining_fields
-
-        def get_normalization_function(index):
-            constant_100 = pml.Constant(valueOf_=100)
-            constant_100.original_tagname_ = "Constant"
-
-            constant_max_distance = pml.Constant(valueOf_=self._max_distances[index])
-            constant_max_distance.original_tagname_ = "Constant"
-
-            substraction_function = pml.Apply(
-                function=FUNCTION.MULTIPLICATION.value,
-                Apply_member=[
-                    pml.Apply(
-                        function=FUNCTION.DIVISION.value,
-                        Apply_member=[
-                            pml.Apply(
-                                function=FUNCTION.SUBSTRACTTION.value,
-                                FieldRef=[
-                                    constant_max_distance,
-                                    pml.FieldRef(field="absolute_difference_" + str(index))
-                                ]
-                            )
-                        ],
-                        Constant=[
-                            pml.Constant(valueOf_=self._max_distances[index])
-                        ]
-                    ),
-                    constant_100
-                ]
-            )
-            substraction_function.original_tagname_ = "Apply"
-
-            equal_function = pml.Apply(
-                function=FUNCTION.IF.value,
-                Apply_member=[
-                    pml.Apply(
-                        function=FUNCTION.EQUAL.value,
-                        FieldRef=[
-                            pml.FieldRef(field="absolute_difference_" + str(index))
-                        ],
-                        Constant=[
-                            pml.Constant(valueOf_=0)
-                        ]
-                    )
-                ],
-                Constant=[
-                    pml.Constant(valueOf_=100),
-                    substraction_function,
-                ]
-            )
-            equal_function.original_tagname_ = "Apply"
-
-            return pml.Apply(
-                function=FUNCTION.IF.value,
-                Apply_member=[
-                    pml.Apply(
-                        function=FUNCTION.GREATER_OR_EQUAL.value,
-                        FieldRef=[
-                            pml.FieldRef(field="absolute_difference_" + str(index))
-                        ],
-                        Constant=[
-                            pml.Constant(valueOf_=self._max_distances[index])
-                        ]
-                    )
-                ],
-                Constant=[
-                    pml.Constant(valueOf_=0),
-                    equal_function
-                ]
-            )
-
-        def get_output_for_mining_model():
-            output_fields = []
-            for idx, hull in enumerate(self._hulls):
-                output_fields.extend([
-                    pml.OutputField(
-                        name="absolute_difference_" + str(idx),
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value,
-                        feature=RESULT_FEATURE.PREDICTED_VALUE.value,
-                        segmentId=str(idx)
-                    ),
-                    pml.OutputField(
-                        name="normalized_score_" + str(idx),
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value,
-                        feature=RESULT_FEATURE.TRANSFORMED_VALUE.value,
-                        Apply=get_normalization_function(idx)
-                    ),
-                    pml.OutputField(
-                        name="is_matched_" + str(idx),
-                        optype=OPTYPE.CATEGORICAL.value,
-                        dataType=DATATYPE.BOOLEAN.value,
-                        feature=RESULT_FEATURE.TRANSFORMED_VALUE.value,
-                        Apply=pml.Apply(
-                            function=FUNCTION.GREATER_OR_EQUAL.value,
-                            FieldRef=[
-                                pml.FieldRef(field="normalized_score_" + str(idx)),
-                            ],
-                            Constant=[
-                                pml.Constant(valueOf_=self._detection_threshold)
-                            ]
+            if not self._use_lag:
+                for i in range(self._length_of_fingerprint):
+                    mining_fields.append(
+                        pml.MiningField(
+                            name=self._hulls[index]["name"] + _UNDERSCORE + str(i),
+                            usageType="active"
                         )
                     )
-                ])
+            else:
+                mining_fields.append(
+                    pml.MiningField(
+                        name=self._hulls[index]["name"],
+                        usageType="active"
+                    )
+                )
+
+            return mining_fields
+
+        def get_normalization_function():
+            if len(self._hulls) == 1:
+                constant_100 = pml.Constant(valueOf_=100)
+                constant_100.original_tagname_ = "Constant"
+
+                constant_max_distance = pml.Constant(valueOf_=self._max_distances[0])
+                constant_max_distance.original_tagname_ = "Constant"
+
+                substraction_function = pml.Apply(
+                    function=FUNCTION.MULTIPLICATION.value,
+                    Apply_member=[
+                        pml.Apply(
+                            function=FUNCTION.DIVISION.value,
+                            Apply_member=[
+                                pml.Apply(
+                                    function=FUNCTION.SUBSTRACTTION.value,
+                                    FieldRef=[
+                                        constant_max_distance,
+                                        pml.FieldRef(field="totalDistance")
+                                    ]
+                                )
+                            ],
+                            Constant=[
+                                pml.Constant(valueOf_=self._max_distances[0])
+                            ]
+                        ),
+                        constant_100
+                    ]
+                )
+                substraction_function.original_tagname_ = "Apply"
+
+                equal_function = pml.Apply(
+                    function=FUNCTION.IF.value,
+                    Apply_member=[
+                        pml.Apply(
+                            function=FUNCTION.EQUAL.value,
+                            FieldRef=[
+                                pml.FieldRef(field="totalDistance")
+                            ],
+                            Constant=[
+                                pml.Constant(valueOf_=0)
+                            ]
+                        )
+                    ],
+                    Constant=[
+                        pml.Constant(valueOf_=100),
+                        substraction_function,
+                    ]
+                )
+                equal_function.original_tagname_ = "Apply"
+
+                return pml.Apply(
+                    function=FUNCTION.IF.value,
+                    Apply_member=[
+                        pml.Apply(
+                            function=FUNCTION.GREATER_OR_EQUAL.value,
+                            FieldRef=[
+                                pml.FieldRef(field="totalDistance")
+                            ],
+                            Constant=[
+                                pml.Constant(valueOf_=self._max_distances[0])
+                            ]
+                        )
+                    ],
+                    Constant=[
+                        pml.Constant(valueOf_=0),
+                        equal_function
+                    ]
+                )
+            else:
+                calculated_d = pml.FieldRef(field="totalDistance")
+                calculated_d.original_tagname_ = "FieldRef"
+                k = self._length_of_fingerprint * len(self._hulls)
+
+                apply = pml.Apply(
+                    function="*",
+                    Apply_member = [
+                        pml.Apply(
+                            function="/",
+                            Apply_member=[
+                                pml.Apply(
+                                    function="-",
+                                    Constant=[
+                                        pml.Constant(valueOf_=k),
+                                        calculated_d
+                                    ]
+                                )
+                            ],
+                            Constant=[
+                                pml.Constant(valueOf_=k)
+                            ]
+                        )
+                    ],
+                    Constant=[
+                        pml.Constant(valueOf_=100)
+                    ]
+                )
+                return apply
+
+        def get_output_for_mining_model():
+            output_fields = [
+                pml.OutputField(
+                    name="totalDistance",
+                    optype=OPTYPE.CONTINUOUS.value,
+                    dataType=DATATYPE.DOUBLE.value,
+                    feature=RESULT_FEATURE.PREDICTED_VALUE.value,
+                ),
+                pml.OutputField(
+                    name="finalResult",
+                    optype=OPTYPE.CONTINUOUS.value,
+                    dataType=DATATYPE.DOUBLE.value,
+                    feature=RESULT_FEATURE.TRANSFORMED_VALUE.value,
+                    Apply=get_normalization_function()
+                ),
+            ]
             return pml.Output(OutputField=output_fields)
 
         def get_local_transformation(index):
+
             derived_fields = []
             derived_field_names = []
             hull = self._hulls[index]
+            if self._use_lag:
+                for i in range(1, self._length_of_fingerprint):
+                    name = hull["name"] + _UNDERSCORE + str(i - 1)
+                    derived_fields.append(
+                        pml.DerivedField(
+                            name=name,
+                            optype=OPTYPE.CONTINUOUS.value,
+                            dataType=DATATYPE.DOUBLE.value,
+                            Lag=pml.Lag(field=hull["name"], n=self._length_of_fingerprint - i)
+                        )
+                    )
+                last_derived_name = hull["name"] + _UNDERSCORE + str(self._length_of_fingerprint - 1)
+                derived_fields.append(
+                    pml.DerivedField(
+                        name=last_derived_name,
+                        optype=OPTYPE.CONTINUOUS.value,
+                        dataType=DATATYPE.DOUBLE.value,
+                        FieldRef=pml.FieldRef(field=hull["name"])
+                    )
+                )
             for idx, val in enumerate(hull["values"]):
                 name = "distance_tag_" + str(idx)
                 derived_field_names.append(name)
@@ -388,7 +416,7 @@ class FingerprintToPmml:
                         dataType=DATATYPE.DOUBLE.value,
                         Apply=pml.Apply(
                             function=_CALCULATE_DISTANCE,
-                            FieldRef=[pml.FieldRef(field=_TAG + _UNDERSCORE + str(idx))],
+                            FieldRef=[pml.FieldRef(field=hull["name"] + _UNDERSCORE + str(idx))],
                             Constant=[
                                 pml.Constant(valueOf_=val["maxValue"]),
                                 pml.Constant(valueOf_=val["minValue"])
@@ -414,10 +442,10 @@ class FingerprintToPmml:
             )
             return pml.LocalTransformations(DerivedField=derived_fields)
 
-        def get_output_for_regression_model(idx):
+        def get_output_for_regression_model(index):
             output_fields = [
                 pml.OutputField(
-                    name="predicted_result_" + str(idx),
+                    name="normalizedDistance"+_UNDERSCORE+str(index),
                     optype=OPTYPE.CONTINUOUS.value,
                     dataType=DATATYPE.DOUBLE.value
                 )
@@ -434,9 +462,7 @@ class FingerprintToPmml:
                         RegressionModel=pml.RegressionModel(
                             functionName=MINING_FUNCTION.REGRESSION.value,
                             MiningSchema=pml.MiningSchema(
-                                MiningField=[pml.MiningField(name=_TAG)] if self._use_lag else
-                                get_mining_fields(
-                                    [_TAG + _UNDERSCORE + str(i) for i in range(self._length_of_fingerprint)])
+                                MiningField=get_mining_fields_for_regression_model(idx)
                             ),
                             Output=get_output_for_regression_model(idx),
                             LocalTransformations=get_local_transformation(idx),
@@ -453,18 +479,28 @@ class FingerprintToPmml:
                 )
             return segments
 
+        def get_mining_fields_for_mining_model():
+            mining_fields = []
+            for hull in self._hulls:
+                mining_fields.append(
+                    pml.MiningField(
+                        name=hull["name"],
+                        usageType="active"
+                    )
+                )
+            return mining_fields
+
         def get_mining_model():
             output = get_output_for_mining_model()
             mining_model = pml.MiningModel(
                 functionName=MINING_FUNCTION.REGRESSION.value,
-                modelName=self._fingerprint_name,
+                modelName=self._fingerprint_name if self._model_name is None else self._model_name,
                 MiningSchema=pml.MiningSchema(
-                    MiningField=[pml.MiningField(name=_TAG)] if self._use_lag else
-                    get_mining_fields([_TAG + _UNDERSCORE + str(i) for i in range(self._length_of_fingerprint)])
+                    MiningField=get_mining_fields_for_mining_model()
                 ),
                 Output=output,
                 Segmentation=pml.Segmentation(
-                    multipleModelMethod=MULTIPLE_MODEL_METHOD.MAX.value,
+                    multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM.value,
                     Segment=get_segments()
                 )
             )
