@@ -1,5 +1,5 @@
 import PMML44 as pml
-from base.enums import *
+from ..base.enums import *
 import json
 
 _IS_INSIDE_BOUNDARY = "is_inside_boundary"
@@ -54,7 +54,7 @@ class FingerprintToPmml:
         elif fingerprint.__class__.__name__ == 'dict':
             self.content = fingerprint
         else:
-            raise ValueError("Invalid value for `fingerprint`. Should be a json object or path to a json file.")
+            raise ValueError("Invalid value for 'fingerprint'. Should be a dictionary object or path to a json file.")
         self._use_lag = use_lag
         self.pmml_file_name = pmml_file_name
         self._model_name = model_name
@@ -63,12 +63,13 @@ class FingerprintToPmml:
         self._pmml_obj.export(open(pmml_file_name, "w"), 0)
 
     def _extract_info(self):
-        self._fingerprint_name = self.content['name']
-        self._fingerprint_description = self.content['description'] if \
-            self.content['description'] != "" else "Fingerprint in PMML"
-        self._hulls = self.content['data']['hulls']
-        self._length_of_fingerprint = len(self._hulls[0]['values'])
-        self._detection_threshold = self.content["data"]["detectionThreshold"]
+        if "data" not in self.content:
+            raise AttributeError("Attribute 'data' not found in fingerprint.")
+        self._fingerprint_name = self.content.get("name","fingerprint")
+        self._fingerprint_description = self.content.get("description","Fingerprint in PMML")
+        self._hulls = self.content["data"]["hulls"]
+        self._length_of_fingerprint = len(self._hulls[0]["values"])
+        # self._detection_threshold = self.content["data"]["detectionThreshold"]
         self._max_distances = []
         self._fp_ranges = []
         for hull in self._hulls:
@@ -266,102 +267,107 @@ class FingerprintToPmml:
 
         def get_normalization_function():
             if len(self._hulls) == 1:
-                constant_100 = pml.Constant(valueOf_=100)
-                constant_100.original_tagname_ = "Constant"
-
-                constant_max_distance = pml.Constant(valueOf_=self._max_distances[0])
-                constant_max_distance.original_tagname_ = "Constant"
-
-                substraction_function = pml.Apply(
-                    function=FUNCTION.MULTIPLICATION.value,
-                    Apply_member=[
-                        pml.Apply(
-                            function=FUNCTION.DIVISION.value,
-                            Apply_member=[
-                                pml.Apply(
-                                    function=FUNCTION.SUBSTRACTTION.value,
-                                    FieldRef=[
-                                        constant_max_distance,
-                                        pml.FieldRef(field="totalDistance")
-                                    ]
-                                )
-                            ],
-                            Constant=[
-                                pml.Constant(valueOf_=self._max_distances[0])
-                            ]
-                        ),
-                        constant_100
-                    ]
-                )
-                substraction_function.original_tagname_ = "Apply"
-
-                equal_function = pml.Apply(
-                    function=FUNCTION.IF.value,
-                    Apply_member=[
-                        pml.Apply(
-                            function=FUNCTION.EQUAL.value,
-                            FieldRef=[
-                                pml.FieldRef(field="totalDistance")
-                            ],
-                            Constant=[
-                                pml.Constant(valueOf_=0)
-                            ]
-                        )
-                    ],
-                    Constant=[
-                        pml.Constant(valueOf_=100),
-                        substraction_function,
-                    ]
-                )
-                equal_function.original_tagname_ = "Apply"
-
-                return pml.Apply(
-                    function=FUNCTION.IF.value,
-                    Apply_member=[
-                        pml.Apply(
-                            function=FUNCTION.GREATER_OR_EQUAL.value,
-                            FieldRef=[
-                                pml.FieldRef(field="totalDistance")
-                            ],
-                            Constant=[
-                                pml.Constant(valueOf_=self._max_distances[0])
-                            ]
-                        )
-                    ],
-                    Constant=[
-                        pml.Constant(valueOf_=0),
-                        equal_function
-                    ]
-                )
+                max_distance = pml.Constant(valueOf_=self._max_distances[0])
             else:
-                calculated_d = pml.FieldRef(field="totalDistance")
-                calculated_d.original_tagname_ = "FieldRef"
-                k = self._length_of_fingerprint * len(self._hulls)
+                max_distance = pml.Constant(valueOf_=self._length_of_fingerprint * len(self._hulls))
+            max_distance.original_tagname_ = "Constant"
 
-                apply = pml.Apply(
-                    function="*",
-                    Apply_member = [
-                        pml.Apply(
-                            function="/",
-                            Apply_member=[
-                                pml.Apply(
-                                    function="-",
-                                    Constant=[
-                                        pml.Constant(valueOf_=k),
-                                        calculated_d
-                                    ]
-                                )
-                            ],
-                            Constant=[
-                                pml.Constant(valueOf_=k)
-                            ]
-                        )
-                    ],
-                    Constant=[
-                        pml.Constant(valueOf_=100)
-                    ]
-                )
-                return apply
+            constant_100 = pml.Constant(valueOf_=100)
+            constant_100.original_tagname_ = "Constant"
+
+            # constant_max_distance = pml.Constant(valueOf_=self._max_distances[0])
+            # constant_max_distance.original_tagname_ = "Constant"
+
+            substraction_function = pml.Apply(
+                function=FUNCTION.MULTIPLICATION.value,
+                Apply_member=[
+                    pml.Apply(
+                        function=FUNCTION.DIVISION.value,
+                        Apply_member=[
+                            pml.Apply(
+                                function=FUNCTION.SUBSTRACTTION.value,
+                                FieldRef=[
+                                    max_distance,
+                                    pml.FieldRef(field="totalDistance")
+                                ]
+                            )
+                        ],
+                        Constant=[
+                            max_distance
+                        ]
+                    ),
+                    constant_100
+                ]
+            )
+            substraction_function.original_tagname_ = "Apply"
+
+            equal_function = pml.Apply(
+                function=FUNCTION.IF.value,
+                Apply_member=[
+                    pml.Apply(
+                        function=FUNCTION.EQUAL.value,
+                        FieldRef=[
+                            pml.FieldRef(field="totalDistance")
+                        ],
+                        Constant=[
+                            pml.Constant(valueOf_=0)
+                        ]
+                    )
+                ],
+                Constant=[
+                    pml.Constant(valueOf_=100),
+                    substraction_function,
+                ]
+            )
+            equal_function.original_tagname_ = "Apply"
+
+            return pml.Apply(
+                function=FUNCTION.IF.value,
+                Apply_member=[
+                    pml.Apply(
+                        function=FUNCTION.GREATER_OR_EQUAL.value,
+                        FieldRef=[
+                            pml.FieldRef(field="totalDistance")
+                        ],
+                        Constant=[
+                            max_distance
+                        ]
+                    )
+                ],
+                Constant=[
+                    pml.Constant(valueOf_=0),
+                    equal_function
+                ]
+            )
+            # else:
+            #     calculated_d = pml.FieldRef(field="totalDistance")
+            #     calculated_d.original_tagname_ = "FieldRef"
+            #     k = self._length_of_fingerprint * len(self._hulls)
+            #
+            #     apply = pml.Apply(
+            #         function="*",
+            #         Apply_member = [
+            #             pml.Apply(
+            #                 function="/",
+            #                 Apply_member=[
+            #                     pml.Apply(
+            #                         function="-",
+            #                         Constant=[
+            #                             pml.Constant(valueOf_=k),
+            #                             calculated_d
+            #                         ]
+            #                     )
+            #                 ],
+            #                 Constant=[
+            #                     pml.Constant(valueOf_=k)
+            #                 ]
+            #             )
+            #         ],
+            #         Constant=[
+            #             pml.Constant(valueOf_=100)
+            #         ]
+            #     )
+            #     return apply
 
         def get_output_for_mining_model():
             output_fields = [
