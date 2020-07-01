@@ -180,7 +180,7 @@ class MAXIMUM_LIKELIHOOD_STAT_METHOD:
     KALMAN = "kalman"
     THETA_RECURSION = "thetaRecursion"
 
-class ARIMA_PREDICTION_METHOD(Enum):
+class ARIMA_PREDICTION_METHOD:
     CSS = "conditionalLeastSquares"
     MLE = "exactLeastSquares"
 
