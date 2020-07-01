@@ -5,11 +5,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 
 
-from pprint import pprint
 from PMML44 import *
 from datetime import datetime
 import metadata
-import warnings
 import math
 from base.enums import *
 
@@ -49,7 +47,7 @@ class StatsmodelsToPmml:
         Writes the generated PMML object to given `pmml_file_name`
         """
         pmml = PMML(
-            version=PMML_SCHEMA.VERSION.value,
+            version=PMML_SCHEMA.VERSION,
             Header=Header(
                 copyright = "Copyright (c) 2018 Software AG",
                 description = self.description,
@@ -71,12 +69,12 @@ class StatsmodelsToPmml:
             data_fields.append(
                 DataField(
                     name=val,
-                    optype=OPTYPE.CONTINUOUS.value,
-                    dataType=DATATYPE.DOUBLE.value
+                    optype=OPTYPE.CONTINUOUS,
+                    dataType=DATATYPE.DOUBLE
                 )
             )
         data_fields.append(
-            DataField(name="h", optype=OPTYPE.CONTINUOUS.value, dataType=DATATYPE.INTEGER.value)
+            DataField(name="h", optype=OPTYPE.CONTINUOUS, dataType=DATATYPE.INTEGER)
         )
         self.data_dictionary = DataDictionary(
             numberOfFields=len(data_fields),
@@ -108,13 +106,13 @@ class StatsmodelsToPmml:
             self.model_name = self.model_name if self.model_name else "ArimaModel"
             self.description = self.description if self.description else "Non-Seasonal Arima Model"
             if hasattr(self.results_obj,"fit_details"):
-                best_fit = TIMESERIES_ALGORITHM.STATE_SPACE_MODEL.value
+                best_fit = TIMESERIES_ALGORITHM.STATE_SPACE_MODEL
                 state_space_model = self.generate_state_space_model()
             else:
-                best_fit = TIMESERIES_ALGORITHM.ARIMA.value
+                best_fit = TIMESERIES_ALGORITHM.ARIMA
                 arima_model = self.generate_arima_model()
         elif self.model.__class__.__name__ in ['VARMAX','SARIMAX']:
-            best_fit = TIMESERIES_ALGORITHM.STATE_SPACE_MODEL.value
+            best_fit = TIMESERIES_ALGORITHM.STATE_SPACE_MODEL
             self.model_name = self.model_name if self.model_name else self.model.__class__.__name__
             self.description = self.description if self.description else "State Space Model"
             state_space_model = self.generate_state_space_model()
@@ -123,7 +121,7 @@ class StatsmodelsToPmml:
 
         self.ts_model = TimeSeriesModel(
             modelName=self.model_name,
-            functionName=MINING_FUNCTION.TIMESERIES.value,
+            functionName=MINING_FUNCTION.TIMESERIES,
             bestFit=best_fit,
             MiningSchema=mining_schema,
             Output=output,
@@ -160,35 +158,35 @@ class StatsmodelsToPmml:
                 if self.model.__class__.__name__ == 'VARMAX':
                     mu = self.results_obj.params[self.model._params_trend]
                     if mu.__class__.__name__ == 'Series':
-                        mu = mu.values
+                        mu = mus
                     intercept[:len(mu)] += mu
                 else:
                     mu=self.results_obj._params_trend[0]
                     if mu.__class__.__name__ == 'Series':
-                        mu = mu.values
+                        mu = mus
                     spec = self.results_obj.specification
                     k_state = spec['k_diff']+spec['seasonal_periods']*spec['k_seasonal_diff']
                     intercept[k_state] += mu
             S_t1 = np.dot(F_matrix, S_t0) + intercept
             arr_content = " ".join([str(val) for val in intercept])
-            arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(intercept))
+            arr = ArrayType(type_=ARRAY_TYPE.REAL,content=arr_content, n=len(intercept))
             intercept_vector = InterceptVector(Array=arr)
             intercept_attr = 0
 
         t_mat = Matrix(nbRows=F_matrix.shape[0], nbCols=F_matrix.shape[1])
         for row in F_matrix:
             array_content = " ".join([str(val) for val in row])
-            t_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
+            t_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL))
         transition_matrix = TransitionMatrix(Matrix=t_mat)
 
         m_mat = Matrix(nbRows=G.shape[0], nbCols=G.shape[1])
         for row in G:
             array_content = " ".join([str(val) for val in row])
-            m_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
+            m_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL))
         measurement_matrix = MeasurementMatrix(Matrix=m_mat)
 
         arr_content = " ".join([str(val) for val in S_t1])
-        arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(S_t1))
+        arr = ArrayType(type_=ARRAY_TYPE.REAL,content=arr_content, n=len(S_t1))
         final_state_vector = FinalStateVector(Array=arr)
 
 
@@ -202,12 +200,12 @@ class StatsmodelsToPmml:
             RQR_mat = Matrix(nbRows=R_Q_R_prime.shape[0], nbCols=R_Q_R_prime.shape[1])
             for row in R_Q_R_prime:
                 array_content = " ".join([str(val) for val in row])
-                RQR_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
+                RQR_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL))
             selected_state_cov_matrix = SelectedStateCovarianceMatrix(Matrix=RQR_mat)
             p_mat = Matrix(nbRows=P_t0.shape[0], nbCols=P_t0.shape[1])
             for row in P_t0:
                 array_content = " ".join([str(val) for val in row])
-                p_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
+                p_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL))
             predicted_state_cov_matrix = PredictedStateCovarianceMatrix(Matrix=p_mat)
 
         state_space_model = StateSpaceModel(
@@ -234,16 +232,16 @@ class StatsmodelsToPmml:
         ma = None
         if p > 0:
             ar_content = ' '.join([str(i) for i in self.results_obj.arparams])
-            ar_params_array = ArrayType(content = ar_content, n = p, type_ = ARRAY_TYPE.REAL.value)
+            ar_params_array = ArrayType(content = ar_content, n = p, type_ = ARRAY_TYPE.REAL)
             ar = AR(Array = ar_params_array)
         if q > 0:
             ma_content = ' '.join([str(coeff) for coeff in self.results_obj.maparams])
-            ma_coeff_array = ArrayType(content = ma_content, n = q, type_ = ARRAY_TYPE.REAL.value)
+            ma_coeff_array = ArrayType(content = ma_content, n = q, type_ = ARRAY_TYPE.REAL)
             ny_maCoef_obj = MACoefficients(Array = ma_coeff_array)
 
             residuals = self.results_obj.resid[-q:]
             resid_content = ' '.join([str(res) for res in residuals])
-            resid_array = ArrayType(content = resid_content, n = q, type_ = ARRAY_TYPE.REAL.value)
+            resid_array = ArrayType(content = resid_content, n = q, type_ = ARRAY_TYPE.REAL)
             residual_obj = Residuals(Array = resid_array)
             ma = MA(MACoefficients = ny_maCoef_obj, Residuals = residual_obj)
 
@@ -255,7 +253,7 @@ class StatsmodelsToPmml:
         rmse = math.sqrt(self.model.sigma2)
 
         arima_obj = ARIMA(constantTerm = const_term,
-                                predictionMethod = ARIMA_PREDICTION_METHOD.CSS.value,
+                                predictionMethod = ARIMA_PREDICTION_METHOD.CSS,
                                 RMSE=rmse,
                                 NonseasonalComponent = non_seasonal_comp
                                 )
@@ -280,13 +278,13 @@ class StatsmodelsToPmml:
         """
         time_series_list = []
         if self.data_obj.endog.ndim == 1:
-            ts = TimeSeries(usage = TIMESERIES_USAGE.ORIGINAL.value, field=self.y[0], startTime = 0,\
+            ts = TimeSeries(usage = TIMESERIES_USAGE.ORIGINAL, field=self.y[0], startTime = 0,\
                  endTime = len(self.data_obj.endog) - 1,\
                  TimeValue = self.generate_time_value_object(self.data_obj.endog))
             time_series_list.append(ts)
         else:
             for i in range(self.data_obj.endog.shape[-1]):
-                ts = TimeSeries(usage = TIMESERIES_USAGE.ORIGINAL.value, field=self.y[i], startTime = 0,\
+                ts = TimeSeries(usage = TIMESERIES_USAGE.ORIGINAL, field=self.y[i], startTime = 0,\
                      endTime = len(self.data_obj.endog) - 1,\
                  TimeValue = self.generate_time_value_object(self.data_obj.endog[...,i]))
                 time_series_list.append(ts)
@@ -303,9 +301,9 @@ class StatsmodelsToPmml:
             out_flds.append(
                 OutputField(
                     name="predicted_"+y_, 
-                    optype=OPTYPE.CONTINUOUS.value,
-                    dataType=DATATYPE.STRING.value, 
-                    feature=RESULT_FEATURE.PREDICTED_VALUE.value,
+                    optype=OPTYPE.CONTINUOUS,
+                    dataType=DATATYPE.STRING, 
+                    feature=RESULT_FEATURE.PREDICTED_VALUE,
                     Extension=[Extension(extender="ADAPA",name="dataType",value="json")]
                     )
             )
@@ -317,10 +315,10 @@ class StatsmodelsToPmml:
                     lower.append(
                         OutputField(
                             name=f"conf_int_{percent}_lower_{y_}",
-                            optype=OPTYPE.CONTINUOUS.value,
-                            dataType=DATATYPE.STRING.value,
+                            optype=OPTYPE.CONTINUOUS,
+                            dataType=DATATYPE.STRING,
                             targetField=y_,
-                            feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER.value,
+                            feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_LOWER,
                             value=percent,
                             Extension=[Extension(extender="ADAPA",name="dataType",value="json")]
                             )
@@ -328,10 +326,10 @@ class StatsmodelsToPmml:
                     upper.append(
                         OutputField(
                             name=f"conf_int_{percent}_upper_{y_}",
-                            optype=OPTYPE.CONTINUOUS.value,
-                            dataType=DATATYPE.STRING.value,
+                            optype=OPTYPE.CONTINUOUS,
+                            dataType=DATATYPE.STRING,
                             targetField=y_,
-                            feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER.value,
+                            feature=RESULT_FEATURE.CONFIDENCE_INTERVAL_UPPER,
                             value=percent,
                             Extension=[Extension(extender="ADAPA",name="dataType",value="json")]
                         )
@@ -345,6 +343,6 @@ class StatsmodelsToPmml:
         """
         mining_fields = []
         for y_ in self.y:
-            mining_fields.append(MiningField(name = y_, usageType = FIELD_USAGE_TYPE.TARGET.value))
-        mining_fields.append(MiningField(name = 'h', usageType = FIELD_USAGE_TYPE.SUPPLEMENTARY.value))
+            mining_fields.append(MiningField(name = y_, usageType = FIELD_USAGE_TYPE.TARGET))
+        mining_fields.append(MiningField(name = 'h', usageType = FIELD_USAGE_TYPE.SUPPLEMENTARY))
         return MiningSchema(MiningField=mining_fields)

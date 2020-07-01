@@ -104,8 +104,8 @@ class FingerprintToPmml:
                         data_fields.append(
                             pml.DataField(
                                 name=hull["name"] + _UNDERSCORE + str(j),
-                                optype=OPTYPE.CONTINUOUS.value,
-                                dataType=DATATYPE.DOUBLE.value
+                                optype=OPTYPE.CONTINUOUS,
+                                dataType=DATATYPE.DOUBLE
                             )
                         )
             else:
@@ -113,8 +113,8 @@ class FingerprintToPmml:
                     data_fields.append(
                         pml.DataField(
                             name=hull["name"],
-                            optype=OPTYPE.CONTINUOUS.value,
-                            dataType=DATATYPE.DOUBLE.value
+                            optype=OPTYPE.CONTINUOUS,
+                            dataType=DATATYPE.DOUBLE
                         )
                     )
             data_dict = pml.DataDictionary(
@@ -126,37 +126,37 @@ class FingerprintToPmml:
         def get_is_inside_boundary_function():
             is_inside_boundary = pml.DefineFunction(
                 name=_IS_INSIDE_BOUNDARY,
-                optype=OPTYPE.CATEGORICAL.value,
-                dataType=DATATYPE.BOOLEAN.value,
+                optype=OPTYPE.CATEGORICAL,
+                dataType=DATATYPE.BOOLEAN,
                 ParameterField=[
                     pml.ParameterField(
                         name=_TAG,
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value
+                        optype=OPTYPE.CONTINUOUS,
+                        dataType=DATATYPE.DOUBLE
                     ),
                     pml.ParameterField(
                         name=_TAG_UPPER_BOUNDARY,
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value
+                        optype=OPTYPE.CONTINUOUS,
+                        dataType=DATATYPE.DOUBLE
                     ),
                     pml.ParameterField(
                         name=_TAG_LOWER_BOUNDARY,
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value
+                        optype=OPTYPE.CONTINUOUS,
+                        dataType=DATATYPE.DOUBLE
                     )
                 ],
                 Apply=pml.Apply(
-                    function=FUNCTION.AND.value,
+                    function=FUNCTION.AND,
                     Apply_member=[
                         pml.Apply(
-                            function=FUNCTION.GREATER_THAN.value,
+                            function=FUNCTION.GREATER_THAN,
                             FieldRef=[
                                 pml.FieldRef(field=_TAG),
                                 pml.FieldRef(field=_TAG_LOWER_BOUNDARY)
                             ]
                         ),
                         pml.Apply(
-                            function=FUNCTION.LESS_OR_EQUAL.value,
+                            function=FUNCTION.LESS_OR_EQUAL,
                             FieldRef=[
                                 pml.FieldRef(field=_TAG),
                                 pml.FieldRef(field=_TAG_UPPER_BOUNDARY)
@@ -174,27 +174,27 @@ class FingerprintToPmml:
 
             calculate_distance = pml.DefineFunction(
                 name=_CALCULATE_DISTANCE,
-                optype=OPTYPE.CONTINUOUS.value,
-                dataType=DATATYPE.DOUBLE.value,
+                optype=OPTYPE.CONTINUOUS,
+                dataType=DATATYPE.DOUBLE,
                 ParameterField=[
                     pml.ParameterField(
                         name=_TAG,
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value
+                        optype=OPTYPE.CONTINUOUS,
+                        dataType=DATATYPE.DOUBLE
                     ),
                     pml.ParameterField(
                         name=_TAG_UPPER_BOUNDARY,
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value
+                        optype=OPTYPE.CONTINUOUS,
+                        dataType=DATATYPE.DOUBLE
                     ),
                     pml.ParameterField(
                         name=_TAG_LOWER_BOUNDARY,
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value
+                        optype=OPTYPE.CONTINUOUS,
+                        dataType=DATATYPE.DOUBLE
                     )
                 ],
                 Apply=pml.Apply(
-                    function=FUNCTION.IF.value,
+                    function=FUNCTION.IF,
                     Apply_member=[
                         pml.Apply(
                             function=_IS_INSIDE_BOUNDARY,
@@ -206,24 +206,24 @@ class FingerprintToPmml:
                         ),
                         value_for_true,
                         pml.Apply(
-                            function=FUNCTION.IF.value,
+                            function=FUNCTION.IF,
                             Apply_member=[
                                 pml.Apply(
-                                    function=FUNCTION.LESS_OR_EQUAL.value,
+                                    function=FUNCTION.LESS_OR_EQUAL,
                                     FieldRef=[
                                         pml.FieldRef(field=_TAG),
                                         pml.FieldRef(field=_TAG_LOWER_BOUNDARY)
                                     ]
                                 ),
                                 pml.Apply(
-                                    function=FUNCTION.SUBSTRACTTION.value,
+                                    function=FUNCTION.SUBSTRACTTION,
                                     FieldRef=[
                                         pml.FieldRef(field=_TAG_LOWER_BOUNDARY),
                                         pml.FieldRef(field=_TAG)
                                     ]
                                 ),
                                 pml.Apply(
-                                    function=FUNCTION.SUBSTRACTTION.value,
+                                    function=FUNCTION.SUBSTRACTTION,
                                     FieldRef=[
                                         pml.FieldRef(field=_TAG),
                                         pml.FieldRef(field=_TAG_UPPER_BOUNDARY)
@@ -279,13 +279,13 @@ class FingerprintToPmml:
             # constant_max_distance.original_tagname_ = "Constant"
 
             substraction_function = pml.Apply(
-                function=FUNCTION.MULTIPLICATION.value,
+                function=FUNCTION.MULTIPLICATION,
                 Apply_member=[
                     pml.Apply(
-                        function=FUNCTION.DIVISION.value,
+                        function=FUNCTION.DIVISION,
                         Apply_member=[
                             pml.Apply(
-                                function=FUNCTION.SUBSTRACTTION.value,
+                                function=FUNCTION.SUBSTRACTTION,
                                 FieldRef=[
                                     max_distance,
                                     pml.FieldRef(field="totalDistance")
@@ -302,10 +302,10 @@ class FingerprintToPmml:
             substraction_function.original_tagname_ = "Apply"
 
             equal_function = pml.Apply(
-                function=FUNCTION.IF.value,
+                function=FUNCTION.IF,
                 Apply_member=[
                     pml.Apply(
-                        function=FUNCTION.EQUAL.value,
+                        function=FUNCTION.EQUAL,
                         FieldRef=[
                             pml.FieldRef(field="totalDistance")
                         ],
@@ -322,10 +322,10 @@ class FingerprintToPmml:
             equal_function.original_tagname_ = "Apply"
 
             return pml.Apply(
-                function=FUNCTION.IF.value,
+                function=FUNCTION.IF,
                 Apply_member=[
                     pml.Apply(
-                        function=FUNCTION.GREATER_OR_EQUAL.value,
+                        function=FUNCTION.GREATER_OR_EQUAL,
                         FieldRef=[
                             pml.FieldRef(field="totalDistance")
                         ],
@@ -373,15 +373,15 @@ class FingerprintToPmml:
             output_fields = [
                 pml.OutputField(
                     name="totalDistance",
-                    optype=OPTYPE.CONTINUOUS.value,
-                    dataType=DATATYPE.DOUBLE.value,
-                    feature=RESULT_FEATURE.PREDICTED_VALUE.value,
+                    optype=OPTYPE.CONTINUOUS,
+                    dataType=DATATYPE.DOUBLE,
+                    feature=RESULT_FEATURE.PREDICTED_VALUE,
                 ),
                 pml.OutputField(
                     name="finalResult",
-                    optype=OPTYPE.CONTINUOUS.value,
-                    dataType=DATATYPE.DOUBLE.value,
-                    feature=RESULT_FEATURE.TRANSFORMED_VALUE.value,
+                    optype=OPTYPE.CONTINUOUS,
+                    dataType=DATATYPE.DOUBLE,
+                    feature=RESULT_FEATURE.TRANSFORMED_VALUE,
                     Apply=get_normalization_function()
                 ),
             ]
@@ -398,8 +398,8 @@ class FingerprintToPmml:
                     derived_fields.append(
                         pml.DerivedField(
                             name=name,
-                            optype=OPTYPE.CONTINUOUS.value,
-                            dataType=DATATYPE.DOUBLE.value,
+                            optype=OPTYPE.CONTINUOUS,
+                            dataType=DATATYPE.DOUBLE,
                             Lag=pml.Lag(field=hull["name"], n=self._length_of_fingerprint - i)
                         )
                     )
@@ -407,8 +407,8 @@ class FingerprintToPmml:
                 derived_fields.append(
                     pml.DerivedField(
                         name=last_derived_name,
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value,
+                        optype=OPTYPE.CONTINUOUS,
+                        dataType=DATATYPE.DOUBLE,
                         FieldRef=pml.FieldRef(field=hull["name"])
                     )
                 )
@@ -418,8 +418,8 @@ class FingerprintToPmml:
                 derived_fields.append(
                     pml.DerivedField(
                         name=name,
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value,
+                        optype=OPTYPE.CONTINUOUS,
+                        dataType=DATATYPE.DOUBLE,
                         Apply=pml.Apply(
                             function=_CALCULATE_DISTANCE,
                             FieldRef=[pml.FieldRef(field=hull["name"] + _UNDERSCORE + str(idx))],
@@ -433,10 +433,10 @@ class FingerprintToPmml:
             derived_fields.append(
                 pml.DerivedField(
                     name=_SUM_OF_DISTANCE,
-                    optype=OPTYPE.CONTINUOUS.value,
-                    dataType=DATATYPE.DOUBLE.value,
+                    optype=OPTYPE.CONTINUOUS,
+                    dataType=DATATYPE.DOUBLE,
                     Apply=pml.Apply(
-                        function=FUNCTION.SUM.value,
+                        function=FUNCTION.SUM,
                         FieldRef=[
                             pml.FieldRef(
                                 field=field
@@ -452,8 +452,8 @@ class FingerprintToPmml:
             output_fields = [
                 pml.OutputField(
                     name="normalizedDistance"+_UNDERSCORE+str(index),
-                    optype=OPTYPE.CONTINUOUS.value,
-                    dataType=DATATYPE.DOUBLE.value
+                    optype=OPTYPE.CONTINUOUS,
+                    dataType=DATATYPE.DOUBLE
                 )
             ]
             return pml.Output(OutputField=output_fields)
@@ -466,7 +466,7 @@ class FingerprintToPmml:
                         id=str(idx),
                         True_=pml.True_(),
                         RegressionModel=pml.RegressionModel(
-                            functionName=MINING_FUNCTION.REGRESSION.value,
+                            functionName=MINING_FUNCTION.REGRESSION,
                             MiningSchema=pml.MiningSchema(
                                 MiningField=get_mining_fields_for_regression_model(idx)
                             ),
@@ -499,14 +499,14 @@ class FingerprintToPmml:
         def get_mining_model():
             output = get_output_for_mining_model()
             mining_model = pml.MiningModel(
-                functionName=MINING_FUNCTION.REGRESSION.value,
+                functionName=MINING_FUNCTION.REGRESSION,
                 modelName=self._fingerprint_name if self._model_name is None else self._model_name,
                 MiningSchema=pml.MiningSchema(
                     MiningField=get_mining_fields_for_mining_model()
                 ),
                 Output=output,
                 Segmentation=pml.Segmentation(
-                    multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM.value,
+                    multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM,
                     Segment=get_segments()
                 )
             )
@@ -517,7 +517,7 @@ class FingerprintToPmml:
         trans_dict = get_transformation_dictionary()
         mining_model = get_mining_model()
         pmml = pml.PMML(
-            version=PMML_SCHEMA.VERSION.value,
+            version=PMML_SCHEMA.VERSION,
             Header=header,
             DataDictionary=data_dict,
             TransformationDictionary=trans_dict,

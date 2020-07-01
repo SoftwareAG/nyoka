@@ -4,8 +4,6 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 
-
-from pprint import pprint
 import warnings
 from .statsmodels_to_pmml import StatsmodelsToPmml
 

@@ -66,7 +66,7 @@ def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_skl
                                       model_name)
              
         pmml = pml.PMML(
-            version=PMML_SCHEMA.VERSION.value,
+            version=PMML_SCHEMA.VERSION,
             Header=get_header(description),
             DataDictionary=get_data_dictionary(model, col_names, target_name, categoric_values),
             **trfm_dict_kwargs,
@@ -297,12 +297,12 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
 
     mining_model = pml.MiningModel(modelName=model_name if model_name else model.__class__.__name__,**model_kwargs)
-    inner_mining_schema = [mfield for mfield in model_kwargs['MiningSchema'].MiningField if mfield.usageType != FIELD_USAGE_TYPE.TARGET.value]
-    segmentation = pml.Segmentation(multipleModelMethod=MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value)
+    inner_mining_schema = [mfield for mfield in model_kwargs['MiningSchema'].MiningField if mfield.usageType != FIELD_USAGE_TYPE.TARGET]
+    segmentation = pml.Segmentation(multipleModelMethod=MULTIPLE_MODEL_METHOD.MODEL_CHAIN)
     for idx in range(num_classes):
         segment = pml.Segment(id=str(idx+1),True_=pml.True_())
         segment.RegressionModel = pml.RegressionModel(
-            functionName=MINING_FUNCTION.REGRESSION.value,
+            functionName=MINING_FUNCTION.REGRESSION,
             MiningSchema=pml.MiningSchema(
                 MiningField=inner_mining_schema
                 ),
@@ -310,20 +310,20 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
                 OutputField=[
                     pml.OutputField(
                         name="probablity_"+str(idx),
-                        optype=OPTYPE.CONTINUOUS.value,
-                        dataType=DATATYPE.DOUBLE.value
+                        optype=OPTYPE.CONTINUOUS,
+                        dataType=DATATYPE.DOUBLE
                         )
                     ]
                 ),
             RegressionTable=get_reg_tab_for_reg_mining_model(model,derived_col_names,idx,categoric_values)
         )
         if model.__class__.__name__ != 'LinearSVC':
-            segment.RegressionModel.normalizationMethod = REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value
+            segment.RegressionModel.normalizationMethod = REGRESSION_NORMALIZATION_METHOD.LOGISTIC
         segmentation.add_Segment(segment)
 
     last_segment = pml.Segment(id=str(num_classes+1),True_=pml.True_())
     mining_flds_for_last = [pml.MiningField(name="probablity_"+str(idx)) for idx in range(num_classes)]
-    mining_flds_for_last.append(pml.MiningField(name=target_name,usageType=FIELD_USAGE_TYPE.TARGET.value))
+    mining_flds_for_last.append(pml.MiningField(name=target_name,usageType=FIELD_USAGE_TYPE.TARGET))
     mining_schema_for_last = pml.MiningSchema(MiningField=mining_flds_for_last)
     reg_tab_for_last = list()
     for idx in range(num_classes):
@@ -339,12 +339,12 @@ def get_reg_mining_models(model, derived_col_names, col_names, target_name, mini
         )
 
     last_segment.RegressionModel = pml.RegressionModel(
-        functionName=MINING_FUNCTION.CLASSIFICATION.value,
+        functionName=MINING_FUNCTION.CLASSIFICATION,
         MiningSchema=mining_schema_for_last,
         RegressionTable=reg_tab_for_last
     )
     if model.__class__.__name__ != 'LinearSVC':
-        last_segment.RegressionModel.normalizationMethod = REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value
+        last_segment.RegressionModel.normalizationMethod = REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX
     segmentation.add_Segment(last_segment)
     mining_model.set_Segmentation(segmentation)
     return [mining_model]
@@ -413,8 +413,8 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
         anomaly_detection_model.append(
             pml.AnomalyDetectionModel(
                 modelName=model_name if model_name else model.__class__.__name__,
-                algorithmType=ANOMALY_DETECTION_ALGORITHM.ONE_CLASS_SVM.value,
-                functionName=MINING_FUNCTION.REGRESSION.value,
+                algorithmType=ANOMALY_DETECTION_ALGORITHM.ONE_CLASS_SVM,
+                functionName=MINING_FUNCTION.REGRESSION,
                 MiningSchema=get_mining_schema(model, col_names, target_name, mining_imp_val,categoric_values),
                 Output=get_anomaly_detection_output(model),
                 SupportVectorMachineModel=svm_model
@@ -431,8 +431,8 @@ def get_anomalydetection_model(model, derived_col_names, col_names, target_name,
         anomaly_detection_model.append(
             pml.AnomalyDetectionModel(
                 modelName=model_name if model_name else "IsolationForest",
-                algorithmType=ANOMALY_DETECTION_ALGORITHM.ISOLATION_FOREST.value,
-                functionName=MINING_FUNCTION.REGRESSION.value,
+                algorithmType=ANOMALY_DETECTION_ALGORITHM.ISOLATION_FOREST,
+                functionName=MINING_FUNCTION.REGRESSION,
                 MiningSchema=mining_schema,
                 Output=get_anomaly_detection_output(model),
                 sampleDataSize=str(model.max_samples_),
@@ -458,9 +458,9 @@ def get_anomaly_detection_output(model):
     """
     output_fields = list()
     output_fields.append(pml.OutputField(name="anomalyScore", 
-                                            optype=OPTYPE.CONTINUOUS.value, 
-                                            dataType=DATATYPE.DOUBLE.value,
-                                            feature=RESULT_FEATURE.PREDICTED_VALUE.value,
+                                            optype=OPTYPE.CONTINUOUS, 
+                                            dataType=DATATYPE.DOUBLE,
+                                            feature=RESULT_FEATURE.PREDICTED_VALUE,
                                             isFinalResult="false"))
     thresh = 0
     try:
@@ -469,21 +469,21 @@ def get_anomaly_detection_output(model):
         thresh = 0
     
     offset = 0
-    operator = SIMPLE_PREDICATE_OPERATOR.LESS_THAN.value
+    operator = SIMPLE_PREDICATE_OPERATOR.LESS_THAN
     if model.__class__.__name__ == "IsolationForest":
-        operator = SIMPLE_PREDICATE_OPERATOR.GREATER_THAN.value
+        operator = SIMPLE_PREDICATE_OPERATOR.GREATER_THAN
         offset = model.offset_
     thresh = -1 * (thresh + offset)
 
     output_fields.append(
         pml.OutputField(name="outlier",
-                        optype=OPTYPE.CATEGORICAL.value,
-                        dataType=DATATYPE.BOOLEAN.value,
-                        feature=RESULT_FEATURE.DECISION.value,
+                        optype=OPTYPE.CATEGORICAL,
+                        dataType=DATATYPE.BOOLEAN,
+                        feature=RESULT_FEATURE.DECISION,
                         isFinalResult="true", 
                         Apply=pml.Apply(function=operator, 
                                         FieldRef=[pml.FieldRef(field="anomalyScore")],
-                                        Constant=[pml.Constant(dataType=DATATYPE.DOUBLE.value, 
+                                        Constant=[pml.Constant(dataType=DATATYPE.DOUBLE, 
                                         valueOf_="0" if thresh==0 else "{:.16f}".format(thresh))]))
     )
     return pml.Output(OutputField=output_fields)
@@ -523,7 +523,7 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
     model_kwargs["Output"] = get_output_for_clustering(values)
     clustering_models.append(
         pml.ClusteringModel(
-            modelClass=CLUSTERING_MODEL_CLASS.CENTER_BASED.value,
+            modelClass=CLUSTERING_MODEL_CLASS.CENTER_BASED,
             modelName=model_name if model_name else model.__class__.__name__,
             numberOfClusters=get_cluster_num(model),
             ComparisonMeasure=get_comp_measure(),
@@ -556,14 +556,14 @@ def get_output_for_clustering(values):
         output_fields.append(
             pml.OutputField(
                 name="affinity("+str(idx)+")",
-                optype=OPTYPE.CONTINUOUS.value,
-                dataType=DATATYPE.DOUBLE.value,
-                feature=RESULT_FEATURE.ENTITY_AFFINITY.value,
+                optype=OPTYPE.CONTINUOUS,
+                dataType=DATATYPE.DOUBLE,
+                feature=RESULT_FEATURE.ENTITY_AFFINITY,
                 value=str(val)
             )
         )
-    output_fields.append(pml.OutputField(name="cluster", optype=OPTYPE.CATEGORICAL.value,\
-        dataType=DATATYPE.STRING.value,feature=RESULT_FEATURE.PREDICTED_VALUE.value))
+    output_fields.append(pml.OutputField(name="cluster", optype=OPTYPE.CATEGORICAL,\
+        dataType=DATATYPE.STRING,feature=RESULT_FEATURE.PREDICTED_VALUE))
     return pml.Output(OutputField=output_fields)
         
 
@@ -587,10 +587,10 @@ def get_cluster_vals(model,counts):
     cluster_flds = []
     for centroid_idx in range(centroids.shape[0]):
         centroid_values = ""
-        centroid_flds = pml.ArrayType(type_=ARRAY_TYPE.REAL.value)
+        centroid_flds = pml.ArrayType(type_=ARRAY_TYPE.REAL)
         for centroid_cordinate_idx in range(centroids.shape[1]):
-            centroid_flds.content_[0].value = centroid_values + "{:.16f}".format(centroids[centroid_idx][centroid_cordinate_idx])
-            centroid_values = centroid_flds.content_[0].value + " "
+            centroid_flds.content_[0] = centroid_values + "{:.16f}".format(centroids[centroid_idx][centroid_cordinate_idx])
+            centroid_values = centroid_flds.content_[0] + " "
         cluster_flds.append(pml.Cluster(id=str(centroid_idx), Array=centroid_flds,size=str(counts[centroid_idx])))
     return cluster_flds
 
@@ -628,7 +628,7 @@ def get_comp_measure():
 
     """
     comp_equation = pml.euclidean()
-    return pml.ComparisonMeasure(euclidean=comp_equation, kind=COMPARISON_MEASURE_KIND.DISTANCE.value)
+    return pml.ComparisonMeasure(euclidean=comp_equation, kind=COMPARISON_MEASURE_KIND.DISTANCE)
 
 
 def get_clustering_flds(col_names):
@@ -686,7 +686,7 @@ def get_nearestNeighbour_model(model, derived_col_names, col_names, target_name,
     nearest_neighbour_model.append(
         pml.NearestNeighborModel(
             modelName=model_name if model_name else model.__class__.__name__,
-            continuousScoringMethod=CONTINUOUS_SCORING_METHOD.AVERAGE.value,
+            continuousScoringMethod=CONTINUOUS_SCORING_METHOD.AVERAGE,
             algorithmName="KNN",
             numberOfNeighbors=model.n_neighbors,
             KNNInputs=get_knn_inputs(derived_col_names),
@@ -803,21 +803,21 @@ def get_comparison_measure(model):
         
     """
     if model.effective_metric_ == 'euclidean':
-        comp_measure = pml.ComparisonMeasure(euclidean=pml.euclidean(), kind=COMPARISON_MEASURE_KIND.DISTANCE.value)
+        comp_measure = pml.ComparisonMeasure(euclidean=pml.euclidean(), kind=COMPARISON_MEASURE_KIND.DISTANCE)
     elif model.effective_metric_ == 'minkowski':
-        comp_measure = pml.ComparisonMeasure(minkowski=pml.minkowski(p_parameter=model.p), kind=COMPARISON_MEASURE_KIND.DISTANCE.value)
+        comp_measure = pml.ComparisonMeasure(minkowski=pml.minkowski(p_parameter=model.p), kind=COMPARISON_MEASURE_KIND.DISTANCE)
     elif model.effective_metric_ in ['manhattan','cityblock']:
-        comp_measure = pml.ComparisonMeasure(cityBlock=pml.cityBlock(), kind=COMPARISON_MEASURE_KIND.DISTANCE.value)
+        comp_measure = pml.ComparisonMeasure(cityBlock=pml.cityBlock(), kind=COMPARISON_MEASURE_KIND.DISTANCE)
     elif model.effective_metric_ == 'sqeuclidean':
-        comp_measure = pml.ComparisonMeasure(squaredEuclidean=pml.squaredEuclidean(), kind=COMPARISON_MEASURE_KIND.DISTANCE.value)
+        comp_measure = pml.ComparisonMeasure(squaredEuclidean=pml.squaredEuclidean(), kind=COMPARISON_MEASURE_KIND.DISTANCE)
     elif model.effective_metric_ == 'chebyshev':
-        comp_measure = pml.ComparisonMeasure(chebychev=pml.chebychev(), kind=COMPARISON_MEASURE_KIND.DISTANCE.value)
+        comp_measure = pml.ComparisonMeasure(chebychev=pml.chebychev(), kind=COMPARISON_MEASURE_KIND.DISTANCE)
     elif model.effective_metric_ == 'matching':
-        comp_measure = pml.ComparisonMeasure(simpleMatching=pml.simpleMatching(), kind=COMPARISON_MEASURE_KIND.SIMILARITY.value)
+        comp_measure = pml.ComparisonMeasure(simpleMatching=pml.simpleMatching(), kind=COMPARISON_MEASURE_KIND.SIMILARITY)
     elif model.effective_metric_ == 'jaccard':
-        comp_measure = pml.ComparisonMeasure(jaccard=pml.jaccard(), kind=COMPARISON_MEASURE_KIND.SIMILARITY.value)
+        comp_measure = pml.ComparisonMeasure(jaccard=pml.jaccard(), kind=COMPARISON_MEASURE_KIND.SIMILARITY)
     elif model.effective_metric_ == 'rogerstanimoto':
-        comp_measure = pml.ComparisonMeasure(tanimoto=pml.tanimoto(), kind=COMPARISON_MEASURE_KIND.SIMILARITY.value)
+        comp_measure = pml.ComparisonMeasure(tanimoto=pml.tanimoto(), kind=COMPARISON_MEASURE_KIND.SIMILARITY)
     else:
         raise NotImplementedError("{} metric is not implemented for KNN Model!".format(model.effective_metric_))
     return comp_measure
@@ -1099,13 +1099,13 @@ def get_multiple_model_method(model):
         
     """
     if model.__class__.__name__ == 'GradientBoostingClassifier':
-        return MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value
+        return MULTIPLE_MODEL_METHOD.MODEL_CHAIN
     elif model.__class__.__name__ == 'GradientBoostingRegressor':
-        return MULTIPLE_MODEL_METHOD.SUM.value
+        return MULTIPLE_MODEL_METHOD.SUM
     elif model.__class__.__name__ == 'RandomForestClassifier':
-        return MULTIPLE_MODEL_METHOD.MAJORITY_VOTE.value
+        return MULTIPLE_MODEL_METHOD.MAJORITY_VOTE
     elif model.__class__.__name__ in ['RandomForestRegressor','IsolationForest']:
-        return MULTIPLE_MODEL_METHOD.AVERAGE.value
+        return MULTIPLE_MODEL_METHOD.AVERAGE
 
 
 def get_outer_segmentation(model, derived_col_names, col_names, target_name, mining_imp_val, categoric_values,model_name):
@@ -1214,8 +1214,8 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
         output_fields.append(
             pml.OutputField(
                 name='decisionFunction(' + str(estm_idx) + ')',
-                feature=RESULT_FEATURE.PREDICTED_VALUE.value,
-                dataType=DATATYPE.DOUBLE.value,
+                feature=RESULT_FEATURE.PREDICTED_VALUE,
+                dataType=DATATYPE.DOUBLE,
                 isFinalResult=False
             )
         )
@@ -1223,19 +1223,19 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
             output_fields.append(
                 pml.OutputField(
                     name='transformedDecisionFunction(0)',
-                    feature=RESULT_FEATURE.TRANSFORMED_VALUE.value,
-                    dataType=DATATYPE.DOUBLE.value,
+                    feature=RESULT_FEATURE.TRANSFORMED_VALUE,
+                    dataType=DATATYPE.DOUBLE,
                     isFinalResult=True,
                     Apply=pml.Apply(
-                        function=FUNCTION.ADDITION.value,
+                        function=FUNCTION.ADDITION,
                         Constant=[pml.Constant(
-                            dataType=DATATYPE.DOUBLE.value,
+                            dataType=DATATYPE.DOUBLE,
                             valueOf_="{:.16f}".format(model.init_.prior)
                         )],
                         Apply_member=[pml.Apply(
-                            function=FUNCTION.MULTIPLICATION.value,
+                            function=FUNCTION.MULTIPLICATION,
                             Constant=[pml.Constant(
-                                dataType=DATATYPE.DOUBLE.value,
+                                dataType=DATATYPE.DOUBLE,
                                 valueOf_="{:.16f}".format(model.learning_rate)
                             )],
                             FieldRef=[pml.FieldRef(
@@ -1249,19 +1249,19 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
             output_fields.append(
                 pml.OutputField(
                     name='transformedDecisionFunction(' + str(estm_idx) + ')',
-                    feature=RESULT_FEATURE.TRANSFORMED_VALUE.value,
-                    dataType=DATATYPE.DOUBLE.value,
+                    feature=RESULT_FEATURE.TRANSFORMED_VALUE,
+                    dataType=DATATYPE.DOUBLE,
                     isFinalResult=True,
                     Apply=pml.Apply(
-                        function=FUNCTION.ADDITION.value,
+                        function=FUNCTION.ADDITION,
                         Constant=[pml.Constant(
-                            dataType=DATATYPE.DOUBLE.value,
+                            dataType=DATATYPE.DOUBLE,
                             valueOf_="{:.16f}".format(model.init_.priors[estm_idx])
                         )],
                         Apply_member=[pml.Apply(
-                            function=FUNCTION.MULTIPLICATION.value,
+                            function=FUNCTION.MULTIPLICATION,
                             Constant=[pml.Constant(
-                                dataType=DATATYPE.DOUBLE.value,
+                                dataType=DATATYPE.DOUBLE,
                                 valueOf_="{:.16f}".format(model.learning_rate)
                             )],
                             FieldRef=[pml.FieldRef(
@@ -1278,12 +1278,12 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                 True_=pml.True_(),
                 id=str(estm_idx),
                 MiningModel=pml.MiningModel(
-                    functionName=MINING_FUNCTION.REGRESSION.value,
+                    functionName=MINING_FUNCTION.REGRESSION,
                     modelName="MiningModel",
                     MiningSchema=miningschema_for_first,
                     Output=pml.Output(OutputField=output_fields),
                     Segmentation=pml.Segmentation(
-                        multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM.value,
+                        multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM,
                         Segment=get_inner_segments(model, derived_col_names,
                                                    col_names, estm_idx)
                     )
@@ -1293,9 +1293,9 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
     reg_model = get_regrs_models(model, out_field_names,out_field_names, target_name, mining_imp_val, categoric_values, model_name)[0]
     reg_model.Output = None
     if len(model.classes_) == 2:
-        reg_model.normalizationMethod=REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value
+        reg_model.normalizationMethod=REGRESSION_NORMALIZATION_METHOD.LOGISTIC
     else:
-        reg_model.normalizationMethod=REGRESSION_NORMALIZATION_METHOD.SOFTMAX.value
+        reg_model.normalizationMethod=REGRESSION_NORMALIZATION_METHOD.SOFTMAX
     segments.append(
         pml.Segment(
             id=str(len(model.estimators_[0])),
@@ -1351,7 +1351,7 @@ def get_inner_segments(model, derived_col_names, col_names, index):
                     TreeModel=pml.TreeModel(
                         modelName=estm.__class__.__name__,
                         functionName=get_mining_func(estm),
-                        splitCharacteristic=TREE_SPLIT_CHARACTERISTIC.MULTI.value,
+                        splitCharacteristic=TREE_SPLIT_CHARACTERISTIC.MULTI,
                         MiningSchema=pml.MiningSchema(MiningField = mining_fields),
                         Node=get_node(estm, derived_col_names, model)
                     )
@@ -1376,9 +1376,9 @@ def get_classificationMethod(model):
         
     """
     if model.__class__.__name__ == 'SVC':
-        return SVM_CLASSIFICATION_METHOD.OVO.value
+        return SVM_CLASSIFICATION_METHOD.OVO
     else:
-        return SVM_CLASSIFICATION_METHOD.OVR.value
+        return SVM_CLASSIFICATION_METHOD.OVR
 
 
 def get_vectorDictionary(model, derived_col_names, categoric_values):
@@ -1647,7 +1647,7 @@ def get_funct(sk_model):
     """
     a_fn = sk_model.activation
     if a_fn =='relu':
-        a_fn = NN_ACTIVATION_FUNCTION.RECTIFIER.value
+        a_fn = NN_ACTIVATION_FUNCTION.RECTIFIER
     return a_fn
 
 
@@ -1680,7 +1680,7 @@ def get_regrs_models(model, derived_col_names, col_names, target_name, mining_im
     """
     model_kwargs = get_model_kwargs(model, col_names, target_name, mining_imp_val, categoric_values)
     if model.__class__.__name__ not in ['LinearRegression','LinearSVR']: 
-        model_kwargs['normalizationMethod'] = REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value
+        model_kwargs['normalizationMethod'] = REGRESSION_NORMALIZATION_METHOD.LOGISTIC
     regrs_models = list()
     regrs_models.append(pml.RegressionModel(
         modelName=model_name if model_name else model.__class__.__name__,
@@ -1742,7 +1742,7 @@ def get_regrs_tabl(model, feature_names, target_name, categoric_values):
                 NumericPredictor=reg_preds
             )
         )
-        if func_name != MINING_FUNCTION.REGRESSION.value:
+        if func_name != MINING_FUNCTION.REGRESSION:
             merge.append(
                 pml.RegressionTable(
                     intercept="0.0",
@@ -1824,18 +1824,18 @@ def get_node(model, features_names, main_model=None):
                 thresh = round(tree.threshold[idx], min(rnd_, 16))
             except:
                 thresh = tree.threshold[idx]
-            simplePredicate = pml.SimplePredicate(field=fieldName, operator=SIMPLE_PREDICATE_OPERATOR.LESS_OR_EQUAL.value,\
+            simplePredicate = pml.SimplePredicate(field=fieldName, operator=SIMPLE_PREDICATE_OPERATOR.LESS_OR_EQUAL,\
                 value = str(thresh))
                                                 #   value="{:.16f}".format(tree.threshold[idx]))
             left_child = _getNode(tree.children_left[idx],prnt, simplePredicate)
-            simplePredicate = pml.SimplePredicate(field=fieldName, operator=SIMPLE_PREDICATE_OPERATOR.GREATER_THAN.value, \
+            simplePredicate = pml.SimplePredicate(field=fieldName, operator=SIMPLE_PREDICATE_OPERATOR.GREATER_THAN, \
                 value= str(thresh))
                                                 #   value="{:.16f}".format(tree.threshold[idx]))
             right_child = _getNode(tree.children_right[idx],prnt, simplePredicate)
             node.add_Node(left_child)
             node.add_Node(right_child)
         else:
-            nodeValue = list(tree.value[idx][0])
+            nodeValue = list(tree[idx][0])
             lSum = float(sum(nodeValue))
             if model.__class__.__name__ == 'DecisionTreeClassifier':
                 probs = [x / lSum for x in nodeValue]
@@ -1899,32 +1899,32 @@ def get_output(model, target_name):
     if not has_target(model):
         output_fields.append(pml.OutputField(
                 name='predicted',
-                feature=RESULT_FEATURE.PREDICTED_VALUE.value,
-                optype=OPTYPE.CONTINUOUS.value,
-                dataType=DATATYPE.DOUBLE.value
+                feature=RESULT_FEATURE.PREDICTED_VALUE,
+                optype=OPTYPE.CONTINUOUS,
+                dataType=DATATYPE.DOUBLE
             ))
     else:
         alt_target_name = 'predicted_' + target_name
-        if mining_func == MINING_FUNCTION.CLASSIFICATION.value:
+        if mining_func == MINING_FUNCTION.CLASSIFICATION:
             for cls in model.classes_:
                 output_fields.append(pml.OutputField(
                     name='probability_' + str(cls),
-                    feature=RESULT_FEATURE.PROBABILITY.value,
-                    optype=OPTYPE.CONTINUOUS.value,
-                    dataType=DATATYPE.DOUBLE.value,
+                    feature=RESULT_FEATURE.PROBABILITY,
+                    optype=OPTYPE.CONTINUOUS,
+                    dataType=DATATYPE.DOUBLE,
                     value=str(cls)
                 ))
             output_fields.append(pml.OutputField(
                 name=alt_target_name,
-                feature=RESULT_FEATURE.PREDICTED_VALUE.value,
-                optype=OPTYPE.CATEGORICAL.value,
+                feature=RESULT_FEATURE.PREDICTED_VALUE,
+                optype=OPTYPE.CATEGORICAL,
                 dataType=get_dtype(model.classes_[0])))
         else:
             output_fields.append(pml.OutputField(
                 name=alt_target_name,
-                feature=RESULT_FEATURE.PREDICTED_VALUE.value,
-                optype=OPTYPE.CONTINUOUS.value,
-                dataType=DATATYPE.DOUBLE.value))
+                feature=RESULT_FEATURE.PREDICTED_VALUE,
+                optype=OPTYPE.CONTINUOUS,
+                dataType=DATATYPE.DOUBLE))
     return pml.Output(OutputField=output_fields)
 
 
@@ -1948,14 +1948,14 @@ def get_mining_func(model):
     import numpy as np
     if not hasattr(model, 'classes_'):
         if hasattr(model,'n_clusters'):
-            func_name = MINING_FUNCTION.CLUSTERING.value
+            func_name = MINING_FUNCTION.CLUSTERING
         else:
-            func_name = MINING_FUNCTION.REGRESSION.value
+            func_name = MINING_FUNCTION.REGRESSION
     else:
         if isinstance(model.classes_, np.ndarray):
-            func_name = MINING_FUNCTION.CLASSIFICATION.value
+            func_name = MINING_FUNCTION.CLASSIFICATION
         else:
-            func_name = MINING_FUNCTION.REGRESSION.value
+            func_name = MINING_FUNCTION.REGRESSION
 
     return func_name
 
@@ -1989,14 +1989,14 @@ def get_mining_schema(model, feature_names, target_name, mining_imp_val, categor
         mining_strategy = mining_imp_val[1]
         mining_replacement_val = mining_imp_val[2]
     n_features = len(feature_names)
-    features_pmml_optype = [OPTYPE.CONTINUOUS.value] * n_features
-    features_pmml_utype = [FIELD_USAGE_TYPE.ACTIVE.value] * n_features
-    target_pmml_utype = FIELD_USAGE_TYPE.TARGET.value
+    features_pmml_optype = [OPTYPE.CONTINUOUS] * n_features
+    features_pmml_utype = [FIELD_USAGE_TYPE.ACTIVE] * n_features
+    target_pmml_utype = FIELD_USAGE_TYPE.TARGET
     mining_func = get_mining_func(model)
-    if mining_func == MINING_FUNCTION.CLASSIFICATION.value:
-        target_pmml_optype = OPTYPE.CATEGORICAL.value
-    elif mining_func == MINING_FUNCTION.REGRESSION.value:
-        target_pmml_optype = OPTYPE.CONTINUOUS.value
+    if mining_func == MINING_FUNCTION.CLASSIFICATION:
+        target_pmml_optype = OPTYPE.CATEGORICAL
+    elif mining_func == MINING_FUNCTION.REGRESSION:
+        target_pmml_optype = OPTYPE.CONTINUOUS
     mining_flds = list()
     mining_name_stored = list()
     # handling impute pre processing
@@ -2018,8 +2018,8 @@ def get_mining_schema(model, feature_names, target_name, mining_imp_val, categor
         for cls_attr in categoric_values[1]:
             mining_flds.append(pml.MiningField(
                 name=cls_attr,
-                usageType=FIELD_USAGE_TYPE.ACTIVE.value,
-                optype=OPTYPE.CATEGORICAL.value
+                usageType=FIELD_USAGE_TYPE.ACTIVE,
+                optype=OPTYPE.CATEGORICAL
             ))
             mining_name_stored.append(cls_attr)
     for feat_name, feat_idx in zip(feature_names, range(len(feature_names))):
@@ -2053,7 +2053,7 @@ def get_neuron_input(feature_names):
     neural_input = list()
     for features in feature_names:
         field_ref = pml.FieldRef(field = str(features))
-        derived_flds = pml.DerivedField(optype = OPTYPE.CONTINUOUS.value, dataType = DATATYPE.DOUBLE.value, FieldRef = field_ref)
+        derived_flds = pml.DerivedField(optype = OPTYPE.CONTINUOUS, dataType = DATATYPE.DOUBLE, FieldRef = field_ref)
         class_node = pml.NeuralInput(id = str(features), DerivedField = derived_flds)
         neural_input.append(class_node)
     neural_input_element = pml.NeuralInputs(NeuralInput = neural_input, numberOfInputs = str(len(neural_input)))
@@ -2104,7 +2104,7 @@ def get_neural_layer(model, feature_names, target_name):
         input_features = neuron_id
         neuron_id = list()
         neuron = list()
-    all_neuron_layer[-1].activationFunction = NN_ACTIVATION_FUNCTION.IDENTITY.value
+    all_neuron_layer[-1].activationFunction = NN_ACTIVATION_FUNCTION.IDENTITY
     if hasattr(model, "classes_"):
         if len(model.classes_) == 2:
             bias1=[1.0,0.0]
@@ -2114,14 +2114,14 @@ def get_neural_layer(model, feature_names, target_name):
             i_d = ['false', 'true']
             con.append(pml.Con(from_ = input_features[0], weight = 1.0))
             neuron.append(pml.Neuron(id = linear[0], bias = ('0.0'), Con = con))
-            all_neuron_layer.append(pml.NeuralLayer(activationFunction = NN_ACTIVATION_FUNCTION.LOGISTIC.value, Neuron = neuron))
+            all_neuron_layer.append(pml.NeuralLayer(activationFunction = NN_ACTIVATION_FUNCTION.LOGISTIC, Neuron = neuron))
             neuron = list()
             con = list()
             for num in range(2):
                 con.append(pml.Con(from_ = linear[0], weight = format(weight1[num])))
                 neuron.append(pml.Neuron(id = i_d[num], bias = format(bias1[num]), Con = con))
                 con = list()
-            all_neuron_layer.append(pml.NeuralLayer(activationFunction = NN_ACTIVATION_FUNCTION.IDENTITY.value, Neuron = neuron))
+            all_neuron_layer.append(pml.NeuralLayer(activationFunction = NN_ACTIVATION_FUNCTION.IDENTITY, Neuron = neuron))
             input_features = i_d
         else:
             all_neuron_layer[-1].normalizationMethod = model.out_activation_
@@ -2130,7 +2130,7 @@ def get_neural_layer(model, feature_names, target_name):
         neural_output = list()
         for values, count in zip(model.classes_, range(len(model.classes_))):
             norm_discrete = pml.NormDiscrete(field = target_name, value = str(values))
-            derived_flds = pml.DerivedField(optype = OPTYPE.CATEGORICAL.value, dataType = DATATYPE.DOUBLE.value,
+            derived_flds = pml.DerivedField(optype = OPTYPE.CATEGORICAL, dataType = DATATYPE.DOUBLE,
                                     NormDiscrete = norm_discrete)
             if len(input_features)==1:
                 class_node = pml.NeuralOutput(outputNeuron = input_features[0], DerivedField = derived_flds)
@@ -2142,7 +2142,7 @@ def get_neural_layer(model, feature_names, target_name):
     else:
         neural_output = list()
         fieldRef = pml.FieldRef(field = target_name)
-        derived_flds = pml.DerivedField(optype = OPTYPE.CONTINUOUS.value, dataType = DATATYPE.DOUBLE.value, FieldRef = fieldRef)
+        derived_flds = pml.DerivedField(optype = OPTYPE.CONTINUOUS, dataType = DATATYPE.DOUBLE, FieldRef = fieldRef)
         class_node = pml.NeuralOutput(outputNeuron = input_features[0], DerivedField = derived_flds)
         neural_output.append(class_node)
         neural_output_element = pml.NeuralOutputs(numberOfOutputs = None, Extension = None, NeuralOutput = neural_output)
@@ -2213,11 +2213,11 @@ def get_dtype(feat_value):
     """
     data_type=feat_value.__class__.__name__
     if 'float' in data_type:
-        return DATATYPE.DOUBLE.value
+        return DATATYPE.DOUBLE
     if 'int' in data_type:
-        return DATATYPE.INTEGER.value
+        return DATATYPE.INTEGER
     if 'str' in data_type:
-        return DATATYPE.STRING.value
+        return DATATYPE.STRING
 
 def get_data_dictionary(model, feature_names, target_name, categoric_values):
 
@@ -2247,24 +2247,24 @@ def get_data_dictionary(model, feature_names, target_name, categoric_values):
         categoric_feature_name = categoric_values[1]
     target_attr_values = []
     n_features = len(feature_names)
-    features_pmml_optype = [OPTYPE.CONTINUOUS.value] * n_features
-    features_pmml_dtype = [DATATYPE.DOUBLE.value] * n_features
+    features_pmml_optype = [OPTYPE.CONTINUOUS] * n_features
+    features_pmml_dtype = [DATATYPE.DOUBLE] * n_features
 
     mining_func = get_mining_func(model)
 
-    if mining_func == MINING_FUNCTION.CLASSIFICATION.value:
-        target_pmml_optype = OPTYPE.CATEGORICAL.value
+    if mining_func == MINING_FUNCTION.CLASSIFICATION:
+        target_pmml_optype = OPTYPE.CATEGORICAL
         target_pmml_dtype = get_dtype(model.classes_[0])
         target_attr_values = model.classes_.tolist()
-    elif mining_func == MINING_FUNCTION.REGRESSION.value:
-        target_pmml_optype = OPTYPE.CONTINUOUS.value
-        target_pmml_dtype = DATATYPE.DOUBLE.value
+    elif mining_func == MINING_FUNCTION.REGRESSION:
+        target_pmml_optype = OPTYPE.CONTINUOUS
+        target_pmml_dtype = DATATYPE.DOUBLE
 
     data_fields = list()
     if categoric_values:
         for class_list, attr_for_class in zip(categoric_labels, categoric_feature_name):
-            category_flds = pml.DataField(name=str(attr_for_class), optype=OPTYPE.CATEGORICAL.value,
-                                          dataType=get_dtype(class_list[0]) if class_list else DATATYPE.STRING.value)
+            category_flds = pml.DataField(name=str(attr_for_class), optype=OPTYPE.CATEGORICAL,
+                                          dataType=get_dtype(class_list[0]) if class_list else DATATYPE.STRING)
             if class_list:
                 for values in class_list:
                     category_flds.add_Value(pml.Value(value=str(values)))

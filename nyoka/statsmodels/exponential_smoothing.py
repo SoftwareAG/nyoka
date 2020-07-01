@@ -8,7 +8,6 @@ sys.path.append(BASE_DIR)
 from PMML44 import *
 from datetime import datetime
 import metadata
-import warnings
 from base.enums import *
 
 class ExponentialSmoothingToPMML:
@@ -51,13 +50,13 @@ class ExponentialSmoothingToPMML:
             pmml_data_type = None
             pmml_op_type = 'continuous'
             if str(series_obj.dtype) in ['datetime64[ns]', 'datetime64[ns, tz]', 'timedelta[ns]']:
-                pmml_data_type = DATATYPE.DATETIME.value
+                pmml_data_type = DATATYPE.DATETIME
             elif str(series_obj.dtype) == 'float32':
-                pmml_data_type = DATATYPE.FLOAT.value
+                pmml_data_type = DATATYPE.FLOAT
             elif str(series_obj.dtype) == 'float64':
-                pmml_data_type = DATATYPE.DOUBLE.value
+                pmml_data_type = DATATYPE.DOUBLE
             elif str(series_obj.dtype) in ['int64', 'int32']:
-                pmml_data_type = DATATYPE.INTEGER.value
+                pmml_data_type = DATATYPE.INTEGER
             
             return pmml_data_type, pmml_op_type
 
@@ -91,16 +90,16 @@ class ExponentialSmoothingToPMML:
             else:
                 ts_name = 'input'
             idx_name = results_obj.data.orig_endog.index.name
-            idx_usage_type = FIELD_USAGE_TYPE.ORDER.value
+            idx_usage_type = FIELD_USAGE_TYPE.ORDER
             mining_field_objs.append(MiningField(name=idx_name, usageType=idx_usage_type))
-            ts_usage_type = FIELD_USAGE_TYPE.TARGET.value
+            ts_usage_type = FIELD_USAGE_TYPE.TARGET
             mining_field_objs.append(MiningField(name=ts_name, usageType=ts_usage_type))
             return mining_field_objs
 
         n_samples = results_obj.model.nobs
         n_columns = 1  # because we are dealing with Series object
-        function_name = MINING_FUNCTION.TIMESERIES.value
-        best_fit = TIMESERIES_ALGORITHM.EXPONENTIAL_SMOOTHING.value
+        function_name = MINING_FUNCTION.TIMESERIES
+        best_fit = TIMESERIES_ALGORITHM.EXPONENTIAL_SMOOTHING
         extension_objs = list()
         alpha = results_obj.params['smoothing_level']  # alpha is smoothing parameter for level
         level_smooth_val = results_obj.level[-1]  # smoothed level at last time-index
@@ -124,27 +123,27 @@ class ExponentialSmoothingToPMML:
             initial_trend = results_obj.params['initial_slope']
             if results_obj.model.trend == 'add':
                 if results_obj.model.damped:
-                    trend_type = EXPONENTIAL_SMOOTHING_TREND.DAMPED_ADDITIVE.value
+                    trend_type = EXPONENTIAL_SMOOTHING_TREND.DAMPED_ADDITIVE
                 else:
-                    trend_type = EXPONENTIAL_SMOOTHING_TREND.ADDITIVE.value
+                    trend_type = EXPONENTIAL_SMOOTHING_TREND.ADDITIVE
             else:  # model_obj.trend == 'mul':
                 if results_obj.model.damped:
-                    trend_type = EXPONENTIAL_SMOOTHING_TREND.DAMPED_MULTIPLICATIVE.value
+                    trend_type = EXPONENTIAL_SMOOTHING_TREND.DAMPED_MULTIPLICATIVE
                 else:
-                    trend_type = EXPONENTIAL_SMOOTHING_TREND.MULTIPLICATIVE.value
+                    trend_type = EXPONENTIAL_SMOOTHING_TREND.MULTIPLICATIVE
             trend_obj = Trend_ExpoSmooth(trend=trend_type, gamma=gamma, phi=phi, smoothedValue=trend_smooth_val)
             # extension_objs.append(Extension(name='initialTrend', value=initial_trend))
         else:
             trend_obj = None
         if results_obj.model.seasonal:  # model_obj.seasonal can take values in {'add', 'mul', None}
             period = results_obj.model.seasonal_periods
-            initial_seasons = ArrayType(n=period, type_ = ARRAY_TYPE.REAL.value)
+            initial_seasons = ArrayType(n=period, type_ = ARRAY_TYPE.REAL)
             content_value = ' '.join([str(i) for i in results_obj.params['initial_seasons']])
-            initial_seasons.content_[0].value = content_value
+            initial_seasons.content_[0] = content_value
             if results_obj.model.seasonal == 'add':
-                seasonal_type = EXPONENTIAL_SMOOTHING_SEASONALITY.ADDITIVE.value
+                seasonal_type = EXPONENTIAL_SMOOTHING_SEASONALITY.ADDITIVE
             else:  # model_obj.seasonal == 'mul':
-                seasonal_type = EXPONENTIAL_SMOOTHING_SEASONALITY.MULTIPLICATIVE.value
+                seasonal_type = EXPONENTIAL_SMOOTHING_SEASONALITY.MULTIPLICATIVE
             season_obj = Seasonality_ExpoSmooth(type_=seasonal_type, period=period, delta=delta,
                                                 Array=initial_seasons)
         else:
@@ -162,7 +161,7 @@ class ExponentialSmoothingToPMML:
                 functionName=function_name, bestFit=best_fit, isScorable=True,
                 MiningSchema=MiningSchema(MiningField=get_mining_field_objs()),
                 TimeSeries=[TimeSeries(
-                    usage=TIMESERIES_USAGE.ORIGINAL.value, startTime=0, endTime=n_samples - 1, interpolationMethod='none',
+                    usage=TIMESERIES_USAGE.ORIGINAL, startTime=0, endTime=n_samples - 1, interpolationMethod='none',
                     TimeValue=get_time_value_objs()
                 )],
                 ExponentialSmoothing=ExponentialSmoothing(
