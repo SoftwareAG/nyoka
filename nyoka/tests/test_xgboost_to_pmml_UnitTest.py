@@ -9,7 +9,6 @@ from sklearn.preprocessing import StandardScaler, Imputer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor, XGBClassifier
-from sklearn.tree import DecisionTreeClassifier
 from nyoka import xgboost_to_pmml
 from nyoka import PMML44 as pml
 import json
@@ -27,7 +26,7 @@ class TestMethods(unittest.TestCase):
         f_name = "xgbc_pmml.pmml"
         model = XGBClassifier()
         pipeline_obj = Pipeline([
-            ('lgbmc', model)
+            ('xgbc', model)
         ])
 
         pipeline_obj.fit(irisd[features], irisd[target])
@@ -112,15 +111,12 @@ class TestMethods(unittest.TestCase):
 
     def test_xgboost_02(self):
         auto = pd.read_csv('nyoka/tests/auto-mpg.csv')
-        X = auto.drop(['mpg', 'car name'], axis=1)
-        y = auto['mpg']
-
         feature_names = [name for name in auto.columns if name not in ('mpg', 'car name')]
         target_name = 'mpg'
         f_name = "xgbr_pmml.pmml"
         model = XGBRegressor()
         pipeline_obj = Pipeline([
-            ('lgbmr', model)
+            ('xgbr', model)
         ])
 
         pipeline_obj.fit(auto[feature_names], auto[target_name])
@@ -180,7 +176,7 @@ class TestMethods(unittest.TestCase):
         model = XGBClassifier(n_estimators=5)
         pipeline_obj = Pipeline([
             ('scaling', StandardScaler()),
-            ('LGBMC_preprocess', model)
+            ('xgbc', model)
         ])
 
         pipeline_obj.fit(irisd[features], irisd[target])
@@ -278,7 +274,7 @@ class TestMethods(unittest.TestCase):
                 ('car name', CountVectorizer()),
                 (['displacement'], [StandardScaler()])
             ])),
-            ('lgbmr', model)
+            ('xgbr', model)
         ])
 
         pipeline_obj.fit(x_train, y_train)
@@ -338,7 +334,7 @@ class TestMethods(unittest.TestCase):
         f_name = "xgbc_bin_pmml.pmml"
         model = XGBClassifier(min_child_weight=6, n_estimators=10, scale_pos_weight=10, deterministic_histogram=False)
         pipeline_obj = Pipeline([
-            ('lgbmc', model)
+            ('xgbc', model)
         ])
 
         pipeline_obj.fit(irisd[features], irisd[target])
@@ -393,6 +389,8 @@ class TestMethods(unittest.TestCase):
         ##3
         self.assertEqual(os.path.isfile(f_name), True)
 
+
+
     def test_xgboost_06(self):
         iris = datasets.load_iris()
         irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
@@ -400,33 +398,14 @@ class TestMethods(unittest.TestCase):
 
         features = irisd.columns.drop('Species')
         target = 'Species'
-        f_name = "xgbc_pmml_preprocess.pmml"
-        pipeline_obj = Pipeline([
-            ('scaling', StandardScaler()),
-            ('LGBMC_preprocess', DecisionTreeClassifier())
-        ])
-
-        pipeline_obj.fit(irisd[features], irisd[target])
-        xgboost_to_pmml(pipeline_obj, features, target, f_name)
-
-        self.assertEqual(os.path.isfile(f_name), True)
-
-    def test_xgboost_07(self):
-        iris = datasets.load_iris()
-        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
-        irisd['Species'] = iris.target
-
-        features = irisd.columns.drop('Species')
-        target = 'Species'
         f_name = "xgbc_pmml.pmml"
-        pipeline_obj = Pipeline([
-            ('lgbmc', XGBClassifier())
-        ])
 
-        pipeline_obj.fit(irisd[features], irisd[target])
-        xgboost_to_pmml(XGBClassifier(), features, target,f_name , model_name="testModel")
+        model = XGBClassifier()
 
-        self.assertEqual(os.path.isfile(f_name), True)
+        model.fit(irisd[features], irisd[target])
+
+        with self.assertRaises(TypeError):
+            xgboost_to_pmml(model, features, target,f_name , model_name="testModel")
 
     def extractValues(self, node, pmml_value_list, pmml_score_list):
         for nsample in (node.Node):

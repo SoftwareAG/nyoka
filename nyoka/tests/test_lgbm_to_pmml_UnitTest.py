@@ -9,7 +9,6 @@ from sklearn.preprocessing import StandardScaler, Imputer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from lightgbm import LGBMRegressor, LGBMClassifier
-from sklearn.tree import DecisionTreeClassifier
 from nyoka import lgb_to_pmml
 from nyoka import PMML44 as pml
 import json
@@ -116,9 +115,6 @@ class TestMethods(unittest.TestCase):
     def test_lgbm_02(self):
 
         auto = pd.read_csv('nyoka/tests/auto-mpg.csv')
-        X = auto.drop(['mpg', 'car name'], axis=1)
-        y = auto['mpg']
-
         feature_names = [name for name in auto.columns if name not in ('mpg', 'car name')]
         target_name = 'mpg'
         f_name = "lgbmr_pmml.pmml"
@@ -190,7 +186,7 @@ class TestMethods(unittest.TestCase):
 
         pipeline_obj = Pipeline([
             ('scaling', StandardScaler()),
-            ('LGBMC_preprocess', model)
+            ('LGBMC', model)
         ])
 
         pipeline_obj.fit(irisd[features], irisd[target])
@@ -418,40 +414,17 @@ class TestMethods(unittest.TestCase):
     def test_lgbm_06(self):
         iris = datasets.load_iris()
         irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
-        irisd['Species'] = iris.target
-
-        features = irisd.columns.drop('Species')
-        target = 'Species'
-
-        pipeline_obj = Pipeline([
-            ('scaling', StandardScaler()),
-            ('dtc', DecisionTreeClassifier())
-        ])
-
-        pipeline_obj.fit(irisd[features], irisd[target])
-
-        lgb_to_pmml(pipeline_obj, features, target, "lgbmc_pmml_preprocess.pmml")
-
-        self.assertEqual(os.path.isfile("lgbmc_pmml_preprocess.pmml"), True)
-
-    def test_lgbm_07(self):
-
-        iris = datasets.load_iris()
-        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
         irisd['target'] = [i % 2 for i in range(iris.data.shape[0])]
 
         features = irisd.columns.drop('target')
         target = 'target'
 
-        pipeline_obj = Pipeline([
-            ('lgbmc', LGBMClassifier())
-        ])
+        model = LGBMClassifier()
 
-        pipeline_obj.fit(irisd[features], irisd[target])
+        model.fit(irisd[features], irisd[target])
 
-        lgb_to_pmml(LGBMClassifier(), features, target, "lgbc_bin_pmml.pmml")
-
-        self.assertEqual(os.path.isfile("lgbc_bin_pmml.pmml"), True)
+        with self.assertRaises(TypeError):
+            lgb_to_pmml(model, features, target, "lgbc_bin_pmml.pmml")
 
     def extractValues(self, node, pmml_value_list, pmml_score_list):
         for nsample in (node.Node):
@@ -483,3 +456,10 @@ class TestMethods(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
+
+
+
+
+
+
+
