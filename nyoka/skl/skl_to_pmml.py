@@ -1065,7 +1065,8 @@ def get_targets(model, target_name):
             Target=[
                 pml.Target(
                     field=target_name,
-                    rescaleConstant="{:.16f}".format(model.init_.mean),
+                    rescaleConstant="{:.16f}".format(model.init_.mean if hasattr(model.init_,"mean")
+                                                     else model.init_.constant_.ravel()[0]),
                     rescaleFactor="{:.16f}".format(model.learning_rate)
                 )
             ]
@@ -1341,11 +1342,8 @@ def get_inner_segments(model, derived_col_names, col_names, index):
             estm = model.estimators_[estm_idx]
         else:
             estm = model.estimators_[estm_idx][index]
-        tree_features = estm.tree_.feature
-        features_ = list()
-        for feat in tree_features:
-            if feat != -2 and feat not in features_:
-                features_.append(feat)
+        features_ = set(estm.tree_.feature)
+        features_.discard(-2)
         if len(features_) != 0:
             nodes = get_node(estm, derived_col_names, model)
         else:
