@@ -530,7 +530,6 @@ def get_clustering_model(model, derived_col_names, col_names, target_name, minin
             ClusteringField=get_clustering_flds(derived_col_names),
             Cluster=get_cluster_vals(model,counts),
             **model_kwargs
-
         )
     )
 
@@ -1202,6 +1201,7 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
         Nyoka's Segment object
 
     """
+    import numpy as np
     segments = list()
     out_field_names = list()
     for estm_idx in range(len(model.estimators_[0])):
@@ -1220,44 +1220,49 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
             )
         )
         if len(model.classes_) == 2:
+            if hasattr(model.init_,"prior"):
+                const = float(model.init_.prior)
+            else:
+                proba_pos_class = model.init_.class_prior_[1]
+                eps = np.finfo(np.float32).eps
+                proba_pos_class = np.clip(proba_pos_class, eps, 1 - eps)
+                const = np.log(proba_pos_class / (1 - proba_pos_class))
             output_fields.append(
                 pml.OutputField(
                     name='transformedDecisionFunction(0)',
                     feature=RESULT_FEATURE.TRANSFORMED_VALUE.value,
                     dataType=DATATYPE.DOUBLE.value,
                     isFinalResult=True,
-                    Apply=pml.Apply(
-                        function=FUNCTION.ADDITION.value,
-                        Constant=[pml.Constant(
-                            dataType=DATATYPE.DOUBLE.value,
-                            valueOf_="{:.16f}".format(model.init_.prior)
-                        )],
+                    Apply=pml.Apply(function="+",
                         Apply_member=[pml.Apply(
-                            function=FUNCTION.MULTIPLICATION.value,
-                            Constant=[pml.Constant(
-                                dataType=DATATYPE.DOUBLE.value,
-                                valueOf_="{:.16f}".format(model.learning_rate)
-                            )],
-                            FieldRef=[pml.FieldRef(
-                                field="decisionFunction(0)",
+                                function=FUNCTION.MULTIPLICATION.value,
+                                Constant=[pml.Constant(
+                                    dataType=DATATYPE.DOUBLE.value,
+                                    valueOf_="{:.16f}".format(model.learning_rate)
+                                )],
+                                FieldRef=[pml.FieldRef(
+                                    field="decisionFunction(0)",
                             )]
-                        )]
+                        )],
+                        Constant=[pml.Constant(valueOf_=const)]
                     )
                 )
             )
         else:
+            if hasattr(model.init_,"priors"):
+                const = model.init_.priors
+            else:
+                probas = model.init_.class_prior_
+                eps = np.finfo(np.float32).eps
+                probas = np.clip(probas, eps, 1 - eps)
+                const=np.log(probas).astype(np.float64)
             output_fields.append(
                 pml.OutputField(
                     name='transformedDecisionFunction(' + str(estm_idx) + ')',
                     feature=RESULT_FEATURE.TRANSFORMED_VALUE.value,
                     dataType=DATATYPE.DOUBLE.value,
                     isFinalResult=True,
-                    Apply=pml.Apply(
-                        function=FUNCTION.ADDITION.value,
-                        Constant=[pml.Constant(
-                            dataType=DATATYPE.DOUBLE.value,
-                            valueOf_="{:.16f}".format(model.init_.priors[estm_idx])
-                        )],
+                    Apply=pml.Apply(function="+",
                         Apply_member=[pml.Apply(
                             function=FUNCTION.MULTIPLICATION.value,
                             Constant=[pml.Constant(
@@ -1267,7 +1272,8 @@ def get_segments_for_gbc(model, derived_col_names, col_names, target_name, minin
                             FieldRef=[pml.FieldRef(
                                 field="decisionFunction(" + str(estm_idx) + ")",
                             )]
-                        )]
+                        )],
+                        Constant=[pml.Constant(valueOf_=const[estm_idx])]
                     )
                 )
             )
@@ -1341,22 +1347,30 @@ def get_inner_segments(model, derived_col_names, col_names, index):
             if feat != -2 and feat not in features_:
                 features_.append(feat)
         if len(features_) != 0:
-            mining_fields = list()
-            for feat in col_names:
-                mining_fields.append(pml.MiningField(name=feat))
-            segments.append(
-                pml.Segment(
-                    True_=pml.True_(),
-                    id=str(estm_idx),
-                    TreeModel=pml.TreeModel(
-                        modelName=estm.__class__.__name__,
-                        functionName=get_mining_func(estm),
-                        splitCharacteristic=TREE_SPLIT_CHARACTERISTIC.MULTI.value,
-                        MiningSchema=pml.MiningSchema(MiningField = mining_fields),
-                        Node=get_node(estm, derived_col_names, model)
-                    )
+            nodes = get_node(estm, derived_col_names, model)
+        else:
+            nodes = pml.Node(
+                True_=pml.True_(),
+                id="0",
+                score=estm.tree_.value.ravel()[0],
+                recordCount=estm.tree_.n_node_samples[0]
+            )
+        mining_fields = list()
+        for feat in col_names:
+            mining_fields.append(pml.MiningField(name=feat))
+        segments.append(
+            pml.Segment(
+                True_=pml.True_(),
+                id=str(estm_idx),
+                TreeModel=pml.TreeModel(
+                    modelName=estm.__class__.__name__,
+                    functionName=get_mining_func(estm),
+                    splitCharacteristic=TREE_SPLIT_CHARACTERISTIC.MULTI.value,
+                    MiningSchema=pml.MiningSchema(MiningField = mining_fields),
+                    Node=nodes
                 )
             )
+        )
     return segments
 
 
@@ -1945,17 +1959,33 @@ def get_mining_func(model):
         Returns the function name of the model
 
     """
-    import numpy as np
-    if not hasattr(model, 'classes_'):
-        if hasattr(model,'n_clusters'):
-            func_name = MINING_FUNCTION.CLUSTERING.value
-        else:
-            func_name = MINING_FUNCTION.REGRESSION.value
-    else:
-        if isinstance(model.classes_, np.ndarray):
+    if hasattr(model, 'n_classes_'):
+        if model.n_classes_ > 1:
             func_name = MINING_FUNCTION.CLASSIFICATION.value
         else:
             func_name = MINING_FUNCTION.REGRESSION.value
+    elif hasattr(model, 'classes_'):
+        if len(model.classes_) > 1:
+            func_name = MINING_FUNCTION.CLASSIFICATION.value
+        else:
+            func_name = MINING_FUNCTION.REGRESSION.value
+    else:
+        if hasattr(model, 'n_clusters'):
+            func_name = MINING_FUNCTION.CLUSTERING.value
+        else:
+            func_name = MINING_FUNCTION.REGRESSION.value
+    # import numpy as np
+    # if not hasattr(model, 'n_classes_'):
+    #     if hasattr(model,'n_clusters'):
+    #         func_name = MINING_FUNCTION.CLUSTERING.value
+    #     else:
+    #         func_name = MINING_FUNCTION.REGRESSION.value
+    # else:
+    #     # if isinstance(model.classes_, np.ndarray):
+    #     if model.n_classes_ > 1:
+    #         func_name = MINING_FUNCTION.CLASSIFICATION.value
+    #     else:
+    #         func_name = MINING_FUNCTION.REGRESSION.value
 
     return func_name
 
