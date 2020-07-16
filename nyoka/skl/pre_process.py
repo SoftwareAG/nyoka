@@ -169,7 +169,7 @@ def get_pml_derived_flds(trfm, col_names, **kwargs):
         return count_vectorizer(trfm, col_names)
     elif "LabelEncoder" == get_class_name(trfm):
         return lbl_encoder(trfm, col_names)
-    elif "Imputer" == get_class_name(trfm):
+    elif get_class_name(trfm) in ["Imputer", "SimpleImputer"]:
         return imputer(trfm, col_names, **kwargs)
     elif "Binarizer" == get_class_name(trfm):
         return binarizer(trfm, col_names)
