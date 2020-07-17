@@ -37,6 +37,18 @@ from collections import Counter
 
 class TestMethods(unittest.TestCase):
 
+    def parse_nodes(self, node, values, scores):
+        if node.SimplePredicate.operator == "lessOrEqual":
+            values.append(node.SimplePredicate.value)
+        else:
+            values.append(-2)
+        if len(node.Node) > 0:
+            scores.append(-2)
+        else:
+            scores.append(node.score)
+        for nd in node.Node:
+            self.parse_nodes(nd, values, scores)
+
     def test_sklearn_01(self):
 
         iris = datasets.load_iris()
@@ -438,49 +450,25 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        for reg_arr, seg in zip(model.estimators_.T, seg_tab):
-            for reg in reg_arr:
-                node_arr = reg.tree_.weighted_n_node_samples.tolist()
-                if len(node_arr) > 2:
-                    for record_val in node_arr:
-                        model_record_count_list.append(record_val)
-
-            for segment in seg.MiningModel.Segmentation.Segment:
-                count = segment.TreeModel.Node.recordCount
-                pmml_record_count_list.append(count)
-                node_tab = segment.TreeModel.Node.Node
-                for node in node_tab:
-                    varlen = node.get_Node().__len__()
-                    if varlen > 0:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                    else:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        pmml_score_list.append(node.score)
-
-                # 1
-                temp = []
-                for model_val, pmml_val in zip(reg.tree_.threshold, pmml_value_list):
-                    model_val_str = str(model_val)
-                    if model_val_str.startswith("-2.0"):
-                        temp_len = len(temp) - 1
-                        self.assertEqual(temp[temp_len], pmml_val)
-                        temp.pop(temp_len)
-                    else:
-                        temp.append(model_val_str)
-                        self.assertEqual(model_val_str, pmml_val)
-                pmml_value_list.clear()
-
         # 2
+        segments = pmml_obj.MiningModel[0].Segmentation.Segment[0].MiningModel.Segmentation.Segment
+        estms = model.estimators_.ravel()
+        self.assertEqual(len(segments), len(estms))
+        for segment, estm in zip(segments, estms):
+            values = []
+            scores = []
+            for nd in segment.TreeModel.Node.Node:
+                self.parse_nodes(nd, values, scores)
+            values.append(-2)
+            scores.insert(0, -2)
+            for a, b in zip(scores, estm.tree_.value.ravel()):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+            for a, b in zip(values, estm.tree_.threshold):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
 
 
         # 3
@@ -509,49 +497,25 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        for reg_arr, seg in zip(model.estimators_.T, seg_tab):
-            for reg in reg_arr:
-                node_arr = reg.tree_.weighted_n_node_samples.tolist()
-                if len(node_arr) > 2:
-                    for record_val in node_arr:
-                        model_record_count_list.append(record_val)
-
-            for segment in seg.MiningModel.Segmentation.Segment:
-                count = segment.TreeModel.Node.recordCount
-                pmml_record_count_list.append(count)
-                node_tab = segment.TreeModel.Node.Node
-                for node in node_tab:
-                    varlen = node.get_Node().__len__()
-                    if varlen > 0:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                    else:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        pmml_score_list.append(node.score)
-
-                # 1
-                temp = []
-                for model_val, pmml_val in zip(reg.tree_.threshold, pmml_value_list):
-                    model_val_str = str(model_val)
-                    if model_val_str.startswith("-2.0"):
-                        temp_len = len(temp) - 1
-                        self.assertEqual(temp[temp_len], pmml_val)
-                        temp.pop(temp_len)
-                    else:
-                        temp.append(model_val_str)
-                        self.assertEqual(model_val_str, pmml_val)
-                pmml_value_list.clear()
-
         # 2
+        segments = pmml_obj.MiningModel[0].Segmentation.Segment[0].MiningModel.Segmentation.Segment
+        estms = model.estimators_.ravel()
+        self.assertEqual(len(segments), len(estms))
+        for segment, estm in zip(segments, estms):
+            values = []
+            scores = []
+            for nd in segment.TreeModel.Node.Node:
+                self.parse_nodes(nd, values, scores)
+            values.append(-2)
+            scores.insert(0, -2)
+            for a, b in zip(scores, estm.tree_.value.ravel()):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+            for a, b in zip(values, estm.tree_.threshold):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
 
 
         # 3
@@ -1967,52 +1931,25 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        for reg_arr, seg in zip(model.estimators_.T, seg_tab):
-            for reg in reg_arr:
-                node_arr = reg.tree_.weighted_n_node_samples.tolist()
-                if len(node_arr) > 2:
-                    for record_val in node_arr:
-                        model_record_count_list.append(record_val)
-
-            if int(seg.id) < 1:
-                for segment in seg.MiningModel.Segmentation.Segment:
-                    count = segment.TreeModel.Node.recordCount
-                    pmml_record_count_list.append(count)
-                    node_tab = segment.TreeModel.Node.Node
-                    for node in node_tab:
-                        varlen = node.get_Node().__len__()
-                        if varlen > 0:
-                            pmml_record_count_list.append(node.recordCount)
-                            pmml_value_list.append(node.SimplePredicate.value)
-                            self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                        else:
-                            pmml_record_count_list.append(node.recordCount)
-                            pmml_value_list.append(node.SimplePredicate.value)
-                            pmml_score_list.append(node.score)
-
-                    # 1
-                    temp = []
-                    for model_val, pmml_val in zip(reg.tree_.threshold, pmml_value_list):
-                        model_val_str = str(model_val)
-                        if model_val_str.startswith("-2.0"):
-                            temp_len = len(temp) - 1
-                            self.assertEqual(temp[temp_len], pmml_val)
-                            temp.pop(temp_len)
-                        else:
-                            temp.append(model_val_str)
-                            self.assertEqual(model_val_str, pmml_val)
-                    pmml_value_list.clear()
-
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+        segments = pmml_obj.MiningModel[0].Segmentation.Segment[0].MiningModel.Segmentation.Segment
+        estms = model.estimators_.ravel()
+        self.assertEqual(len(segments), len(estms))
+        for segment, estm in zip(segments, estms):
+            values = []
+            scores = []
+            for nd in segment.TreeModel.Node.Node:
+                self.parse_nodes(nd, values, scores)
+            values.append(-2)
+            scores.insert(0, -2)
+            for a, b in zip(scores, estm.tree_.value.ravel()):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+            for a, b in zip(values, estm.tree_.threshold):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
 
         # 3
 
