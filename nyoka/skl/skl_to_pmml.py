@@ -1102,9 +1102,7 @@ def get_multiple_model_method(model):
         return MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value
     elif model.__class__.__name__ == 'GradientBoostingRegressor':
         return MULTIPLE_MODEL_METHOD.SUM.value
-    elif model.__class__.__name__ == 'RandomForestClassifier':
-        return MULTIPLE_MODEL_METHOD.MAJORITY_VOTE.value
-    elif model.__class__.__name__ in ['RandomForestRegressor','IsolationForest']:
+    elif model.__class__.__name__ in ['RandomForestRegressor','IsolationForest','RandomForestClassifier']:
         return MULTIPLE_MODEL_METHOD.AVERAGE.value
 
 
@@ -1830,7 +1828,6 @@ def get_node(model, features_names, main_model=None):
             prnt = None
             if model.__class__.__name__ == "ExtraTreeRegressor":
                 prnt = parent + 1
-            thresh = 0
             try:
                 rnd_ = str(tree.threshold[idx]).split(".")[1]
                 thresh = round(tree.threshold[idx], min(rnd_, 16))

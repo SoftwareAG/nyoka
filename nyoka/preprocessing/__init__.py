@@ -50,7 +50,7 @@ class Lag(TransformerMixin):
         
     def transform(self, X, y=None):
         """
-        Trasforms the given X by taking `value` number of previous records and applying `aggregation` method
+        Transforms the given X by taking `value` number of previous records and applying `aggregation` method
 
         Parameters
         ----------
@@ -64,7 +64,7 @@ class Lag(TransformerMixin):
         Transformed X as numpy array  
         """
         self._transformed_X = list()
-        X = check_array(X, copy=self.copy, warn_on_dtype=True, estimator=self)       
+        X = check_array(X, copy=self.copy, estimator=self)
         q_list = [queue.Queue() for i in range(len(X[0]))]
             
         for _ in range(self.value):

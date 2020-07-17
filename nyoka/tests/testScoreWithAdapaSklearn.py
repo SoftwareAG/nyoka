@@ -6,8 +6,12 @@ import pandas as pd
 from sklearn import datasets
 from sklearn.pipeline import Pipeline
 from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler, Imputer, LabelEncoder, LabelBinarizer,\
+from sklearn.preprocessing import StandardScaler, LabelEncoder, LabelBinarizer,\
      Binarizer, MinMaxScaler, MaxAbsScaler, RobustScaler
+try:
+    from sklearn.preprocessing import Imputer
+except:
+    from sklearn.impute import SimpleImputer as Imputer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.svm import SVC, SVR, LinearSVC, LinearSVR, OneClassSVM
@@ -21,9 +25,7 @@ from sklearn.linear_model import LinearRegression, LogisticRegression, RidgeClas
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.neural_network import MLPClassifier, MLPRegressor
 from nyoka import skl_to_pmml
-from nyoka import PMML44 as pml
 import unittest
-import ast
 import numpy
 from adapaUtilities import AdapaUtility
 from dataUtilities import DataUtility
@@ -189,7 +191,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_09_sgd_classifier(self):
         print("\ntest 09 (SGD Classifier with preprocessing) [multi-class]\n")
         X, X_test, y, features, target, test_file = self.data_utility.get_data_for_multi_class_classification()
@@ -515,7 +517,7 @@ class TestCases(unittest.TestCase):
         model_pred = pipeline_obj.predict(X_test)
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_26_random_forest_classifier(self):
         print("\ntest 26 (random forest classifier with preprocessing) [multi-class]\n")
         X, X_test, y, features, target, test_file = self.data_utility.get_data_for_multi_class_classification()
@@ -536,9 +538,9 @@ class TestCases(unittest.TestCase):
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_27_random_forest_classifier(self):
-        print("\ntest 27 (random forest classifier with preprocessing) [binary-class]\n")
+        print("\ntest 27 (random forest classifier without preprocessing) [binary-class]\n")
         X, X_test, y, features, target, test_file = self.data_utility.get_data_for_binary_classification()
 
         model = RandomForestClassifier()
@@ -558,7 +560,7 @@ class TestCases(unittest.TestCase):
 
 
     def test_28_gradient_boosting_classifier(self):
-        print("\ntest 28 (gradient boosting classifier with preprocessing) [binary-class]\n")
+        print("\ntest 28 (gradient boosting classifier without preprocessing) [binary-class]\n")
         X, X_test, y, features, target, test_file = self.data_utility.get_data_for_binary_classification()
 
         model = GradientBoostingClassifier()
@@ -576,9 +578,9 @@ class TestCases(unittest.TestCase):
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_29_gradient_boosting_classifier(self):
-        print("\ntest 29 (gradient boosting classifier with preprocessing) [multi-class]\n")
+        print("\ntest 29 (gradient boosting classifier without preprocessing) [multi-class]\n")
         X, X_test, y, features, target, test_file = self.data_utility.get_data_for_multi_class_classification()
 
         model = GradientBoostingClassifier()
@@ -596,7 +598,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_30_gradient_boosting_regressor(self):
         print("\ntest 30 (gradient boosting regressor without preprocessing)\n")
         X, X_test, y, features, target, test_file = self.data_utility.get_data_for_regression()
@@ -690,7 +692,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
         self.assertEqual(self.adapa_utility.compare_probability(probabilities, model_prob), True)
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_35_isolation_forest(self):
         print("\ntest 34 (Isolation Forest\n")
         detection_map = {
@@ -717,7 +719,7 @@ class TestCases(unittest.TestCase):
         model_pred = pipeline_obj.predict(test_data)
         model_scores = model.score_samples(test_data)
         model_name  = self.adapa_utility.upload_to_zserver(file_name)
-        z_predictions = self.adapa_utility.score_in_zserver(model_name,'nyoka/tests/test_forest.csv','ANOMALY')
+        z_predictions = self.adapa_utility.score_in_zserver(model_name,'nyoka/tests/test_iforest.csv','ANOMALY')
         cnt = 0
         for idx, value in enumerate(z_predictions):
             score, is_anomaly = value.split(",")
@@ -726,7 +728,7 @@ class TestCases(unittest.TestCase):
                 cnt += 1
         self.assertEqual(cnt,0)
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_36_one_class_svm(self):
         print("\ntest 36 (One Class SVM\n")
         detection_map = {
