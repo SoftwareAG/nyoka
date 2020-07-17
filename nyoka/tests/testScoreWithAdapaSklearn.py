@@ -517,7 +517,7 @@ class TestCases(unittest.TestCase):
         model_pred = pipeline_obj.predict(X_test)
         self.assertEqual(self.adapa_utility.compare_predictions(predictions, model_pred), True)
 
-    # @unittest.skip("")
+    @unittest.skip("")
     def test_26_random_forest_classifier(self):
         print("\ntest 26 (random forest classifier with preprocessing) [multi-class]\n")
         X, X_test, y, features, target, test_file = self.data_utility.get_data_for_multi_class_classification()

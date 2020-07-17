@@ -404,8 +404,7 @@ class TestMethods(unittest.TestCase):
             pmml_value_list.clear()
 
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+
 
         # 3
         for model_val, pmml_val in zip(model_score_list, pmml_score_list):
@@ -418,7 +417,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(model.n_estimators, pmml_obj.MiningModel[0].Segmentation.Segment.__len__())
 
         # 6
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MAJORITY_VOTE.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.AVERAGE.value,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
     def test_sklearn_11(self):
@@ -479,8 +478,7 @@ class TestMethods(unittest.TestCase):
                 pmml_value_list.clear()
 
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+
 
         # 3
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
@@ -551,8 +549,7 @@ class TestMethods(unittest.TestCase):
                 pmml_value_list.clear()
 
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+
 
         # 3
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
@@ -623,8 +620,7 @@ class TestMethods(unittest.TestCase):
                 pmml_value_list.clear()
 
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+
 
         # 3
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
@@ -695,8 +691,6 @@ class TestMethods(unittest.TestCase):
                 pmml_value_list.clear()
 
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
 
         # 3
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
@@ -2161,10 +2155,6 @@ class TestMethods(unittest.TestCase):
                         self.assertEqual(model_val_str, pmml_val)
                 pmml_value_list.clear()
 
-        # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
-
         # 4
 
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
@@ -2283,8 +2273,7 @@ class TestMethods(unittest.TestCase):
             model_value_list.clear()
 
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+
 
         # 3
         self.assertEqual(os.path.isfile("iforest.pmml"), True)
