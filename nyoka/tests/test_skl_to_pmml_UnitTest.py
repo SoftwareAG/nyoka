@@ -6,10 +6,13 @@ import numpy
 import sys
 from sklearn import datasets
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler, Imputer, LabelEncoder, LabelBinarizer, MinMaxScaler, MaxAbsScaler, \
+from sklearn.preprocessing import StandardScaler, LabelEncoder, LabelBinarizer, MinMaxScaler, MaxAbsScaler, \
     RobustScaler, \
     Binarizer, PolynomialFeatures, OneHotEncoder, KBinsDiscretizer
-from sklearn_pandas import CategoricalImputer
+try:
+    from sklearn.preprocessing import Imputer
+except:
+    from sklearn.impute import SimpleImputer as Imputer
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.svm import SVC, SVR, LinearSVC, LinearSVR, OneClassSVM
