@@ -3,7 +3,6 @@ import sys
 import os
 
 packages = [
-    "scikit-learn==0.20.3",
     "statsmodels",
     "xgboost==0.82",
     "keras==2.2.4",
@@ -35,6 +34,10 @@ def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
 
 if __name__ == "__main__":
+    if os.environ["SKLEARN"] == "0.20.x":
+        packages.insert(0,"scikit-learn==0.20.3")
+    elif os.environ["SKLEARN"] == "0.23.x":
+        packages.insert(0, "scikit-learn==0.23.1")
     if sys.version_info[1] == 6:
         for pck in packages+packages_36:
             installPackage(pck)

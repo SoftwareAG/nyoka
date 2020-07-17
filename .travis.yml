@@ -3,6 +3,9 @@ python:
 - '3.6'
 - '3.7'
 cache: pip
+env:
+  - SKLEARN=0.20.x
+  - SKLEARN=0.23.x
 services:
 - docker
 install:
