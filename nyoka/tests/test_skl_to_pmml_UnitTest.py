@@ -70,11 +70,11 @@ class TestMethods(unittest.TestCase):
         # 1
         svms = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
         for mod_val, recon_val in zip(model.intercept_, svms):
-            self.assertEqual("{:.12f}".format(mod_val), "{:.12f}".format(recon_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(mod_val), "{:.10f}".format(recon_val.Coefficients.absoluteValue))
 
         # 2
         svm = pmml_obj.SupportVectorMachineModel[0]
-        self.assertEqual("{:.12f}".format(model._gamma), "{:.12f}".format(float(svm.RadialBasisKernelType.gamma)))
+        self.assertEqual("{:.10f}".format(model._gamma), "{:.10f}".format(float(svm.RadialBasisKernelType.gamma)))
 
     def test_sklearn_02(self):
         iris = datasets.load_iris()
@@ -388,7 +388,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 4
         self.assertEqual(os.path.isfile(f_name), True)
@@ -429,11 +429,11 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(scores, estm.tree_.value.ravel()):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
 
         # 3
@@ -476,11 +476,11 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(scores, estm.tree_.value.ravel()):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
 
         # 3
@@ -524,11 +524,11 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(scores, estm.tree_.value.ravel()):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
 
         # 3
@@ -570,11 +570,11 @@ class TestMethods(unittest.TestCase):
         for a, b in zip(scores, model.tree_.value.ravel()):
             if a == -2:
                 continue
-            self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+            self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
         for a, b in zip(values, model.tree_.threshold):
             if a == -2:
                 continue
-            self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+            self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 4
         self.assertEqual(os.path.isfile(f_name), True)
@@ -603,7 +603,7 @@ class TestMethods(unittest.TestCase):
 
         # 2
         for model_val, pmml_val in zip(model.coef_, reg_tab.NumericPredictor):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
     def test_sklearn_17(self):
         iris = datasets.load_iris()
@@ -644,8 +644,8 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
@@ -653,7 +653,7 @@ class TestMethods(unittest.TestCase):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
         self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
@@ -695,7 +695,7 @@ class TestMethods(unittest.TestCase):
         # 4
         model_coef_reshape = model.coef_.reshape(2, 1)
         for model_val, pmml_val in zip(model_coef_reshape, reg_tab.NumericPredictor):
-            self.assertEqual("{:.12f}".format(model_val[0]), "{:.12f}".format(pmml_val.coefficient))
+            self.assertEqual("{:.10f}".format(model_val[0]), "{:.10f}".format(pmml_val.coefficient))
 
     def test_sklearn_19(self):
         iris = datasets.load_iris()
@@ -734,15 +734,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
         for model_coef, pmml_seg in zip(model.coef_, seg_tab):
             num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
             for model_val, pmml_val in zip(model_coef, num_predict):
-                self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -782,15 +782,15 @@ class TestMethods(unittest.TestCase):
         # 4
         sm = pmml_obj.MiningModel[0].Segmentation.Segment
         for mod_val, recon_val in zip(model.intercept_, sm):
-            self.assertEqual("{:.12f}".format(mod_val),
-                             "{:.12f}".format(recon_val.RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(mod_val),
+                             "{:.10f}".format(recon_val.RegressionModel.RegressionTable[0].intercept))
 
         # 5
         lin_tab = pmml_obj.MiningModel[0].Segmentation
         for mod_val, pmml_val in zip(model.coef_, lin_tab.Segment):
             num_pred = pmml_val.RegressionModel.RegressionTable[0].NumericPredictor
             for model_val, pmml_val in zip(mod_val, num_pred):
-                self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
     def test_sklearn_21(self):
         df = pd.read_csv('nyoka/tests/auto-mpg.csv')
@@ -814,13 +814,13 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(os.path.isfile(f_name), True)
 
         # 2
-        self.assertEqual("{:.12f}".format(model.intercept_[0]),
-                         "{:.12f}".format(pmml_obj.RegressionModel[0].RegressionTable[0].intercept))
+        self.assertEqual("{:.10f}".format(model.intercept_[0]),
+                         "{:.10f}".format(pmml_obj.RegressionModel[0].RegressionTable[0].intercept))
 
         # 3
         reg_tab = pmml_obj.RegressionModel[0].RegressionTable[0].NumericPredictor
         for model_val, pmml_val in zip(model.coef_, reg_tab):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
     def test_sklearn_22(self):
         df = pd.read_csv('nyoka/tests/auto-mpg.csv')
@@ -853,11 +853,11 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(scores, estm.tree_.value.ravel()):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 3
         self.assertEqual(os.path.isfile(f_name), True)
@@ -902,7 +902,7 @@ class TestMethods(unittest.TestCase):
         for a, b in zip(values, model.tree_.threshold):
             if a == -2:
                 continue
-            self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+            self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 5
         self.assertEqual(os.path.isfile(f_name), True)
@@ -938,11 +938,11 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(scores, estm.tree_.value.ravel()):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 3
         self.assertEqual(os.path.isfile(f_name), True)
@@ -1009,7 +1009,7 @@ class TestMethods(unittest.TestCase):
 
         # 2
         svm = pmml_obj.SupportVectorMachineModel[0]
-        self.assertEqual("{:.12f}".format(model._gamma), "{:.12f}".format(svm.RadialBasisKernelType.gamma))
+        self.assertEqual("{:.10f}".format(model._gamma), "{:.10f}".format(svm.RadialBasisKernelType.gamma))
 
         # 3
         svm_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
@@ -1026,7 +1026,7 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for model_val, pmml_val in zip(model.dual_coef_[0], svm_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_27(self):
         irisdata = datasets.load_iris()
@@ -1059,7 +1059,7 @@ class TestMethods(unittest.TestCase):
 
         # 4
         for model_val, pmml_val in zip(model.dual_coef_[0], svm_tab.SupportVectorMachine[0].Coefficients.Coefficient):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_28(self):
         iris = datasets.load_iris()
@@ -1093,8 +1093,8 @@ class TestMethods(unittest.TestCase):
         for model_the_val, model_sig_val, pmml_bay_val in zip(the_tab, sig_tab, bay_tab):
             for the_val, sig_val, tar_val in zip(model_the_val, model_sig_val,
                                                  pmml_bay_val.TargetValueStats.TargetValueStat):
-                self.assertEqual("{:.12f}".format(the_val), "{:.12f}".format(tar_val.GaussianDistribution.mean))
-                self.assertEqual("{:.12f}".format(sig_val), "{:.12f}".format(tar_val.GaussianDistribution.variance))
+                self.assertEqual("{:.10f}".format(the_val), "{:.10f}".format(tar_val.GaussianDistribution.mean))
+                self.assertEqual("{:.10f}".format(sig_val), "{:.10f}".format(tar_val.GaussianDistribution.variance))
 
     def test_sklearn_29(self):
         iris = datasets.load_iris()
@@ -1133,15 +1133,15 @@ class TestMethods(unittest.TestCase):
 
         #  5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1186,15 +1186,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1240,15 +1240,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1294,15 +1294,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1348,15 +1348,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1402,15 +1402,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1462,15 +1462,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1522,15 +1522,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1568,7 +1568,7 @@ class TestMethods(unittest.TestCase):
 
         # 3
         for model_val, pmml_val in zip(model.coef_, reg_tab.NumericPredictor):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
     def test_sklearn_38(self):
         df = pd.read_csv('nyoka/tests/auto-mpg.csv')
@@ -1610,15 +1610,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1667,15 +1667,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1721,7 +1721,7 @@ class TestMethods(unittest.TestCase):
 
         # 6
         for model_val, pmml_val in zip(model.intercepts_[0], pmml_obj.NeuralNetwork[0].NeuralLayer[0].Neuron):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.bias))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.bias))
 
     def test_sklearn_41(self):
         iris = datasets.load_iris()
@@ -1748,7 +1748,7 @@ class TestMethods(unittest.TestCase):
             cluster_val = cluster.Array.get_valueOf_()
             cluster_splits = cluster_val.split()
             for model_val, pmml_val in zip(mod_cluster, cluster_splits):
-                self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(float(pmml_val)))
+                self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(float(pmml_val)))
 
     def test_sklearn_42(self):
         titanic = pd.read_csv("nyoka/tests/titanic_train.csv")
@@ -1779,11 +1779,11 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(scores, estm.tree_.value.ravel()):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 3
 
@@ -1833,11 +1833,11 @@ class TestMethods(unittest.TestCase):
                 for a, b in zip(scores, estm.tree_.value.ravel()):
                     if a == -2:
                         continue
-                    self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                    self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
                 for a, b in zip(values, estm.tree_.threshold):
                     if a == -2:
                         continue
-                    self.assertEqual("{:.12f}".format(float(a)), "{:.12f}".format(b))
+                    self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
@@ -1889,7 +1889,7 @@ class TestMethods(unittest.TestCase):
 
         # 6
         for model_val, pmml_val in zip(model.intercepts_[0], pmml_obj.NeuralNetwork[0].NeuralLayer[0].Neuron):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.bias))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.bias))
 
     def test_sklearn_45(self):
         irisdata = datasets.load_iris()
@@ -2008,15 +2008,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]), \
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -2062,15 +2062,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.12f}".format(model.intercept_[i]),
-                             "{:.12f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]),
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -2164,7 +2164,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_52(self):
         iris = datasets.load_iris()
@@ -2193,7 +2193,7 @@ class TestMethods(unittest.TestCase):
 
         # 3
         for model_val, pmml_val in zip(model.intercept_, svm_tab):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.Coefficients.absoluteValue))
 
         # 4
         for model_vectors, pmml_vertors in zip(model.support_vectors_,
@@ -2206,7 +2206,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_53(self):
         iris = datasets.load_iris()
@@ -2237,7 +2237,7 @@ class TestMethods(unittest.TestCase):
 
         # 3
         for model_val, pmml_val in zip(model.intercept_, svm_tab):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.Coefficients.absoluteValue))
 
         # 4
         for model_vectors, pmml_vertors in zip(model.support_vectors_,
@@ -2251,7 +2251,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_54(self):
         iris = datasets.load_iris()
@@ -2281,7 +2281,7 @@ class TestMethods(unittest.TestCase):
         # 3
         svm_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
         for model_val, pmml_val in zip(model.intercept_, svm_tab):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.Coefficients.absoluteValue))
 
         # 4
         vect_tab = pmml_obj.SupportVectorMachineModel[0].VectorDictionary.VectorInstance
@@ -2295,7 +2295,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_55(self):
         iris = datasets.load_iris()
@@ -2323,7 +2323,7 @@ class TestMethods(unittest.TestCase):
         # 3
         svm_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
         for model_val, pmml_val in zip(model.intercept_, svm_tab):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.Coefficients.absoluteValue))
 
         # 4
         vect_tab = pmml_obj.SupportVectorMachineModel[0].VectorDictionary.VectorInstance
@@ -2337,7 +2337,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_56(self):
         iris = datasets.load_iris()
@@ -2365,7 +2365,7 @@ class TestMethods(unittest.TestCase):
         # 3
         svm_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
         for model_val, pmml_val in zip(model.intercept_, svm_tab):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.Coefficients.absoluteValue))
 
         # 4
         vect_tab = pmml_obj.SupportVectorMachineModel[0].VectorDictionary.VectorInstance
@@ -2379,7 +2379,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_57(self):
         df = pd.read_csv('nyoka/tests/auto-mpg.csv')
@@ -2414,7 +2414,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(300, pmml_obj.NeuralNetwork[0].NeuralInputs.numberOfInputs)
 
         for model_val, pmml_val in zip(model.intercepts_[0], pmml_obj.NeuralNetwork[0].NeuralLayer[0].Neuron):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.bias))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.bias))
 
     def test_sklearn_58(self):
         iris = datasets.load_iris()
@@ -2455,7 +2455,7 @@ class TestMethods(unittest.TestCase):
 
         # 6
         for model_val, pmml_val in zip(model.intercepts_[0], pmml_obj.NeuralNetwork[0].NeuralLayer[0].Neuron):
-            self.assertEqual("{:.12f}".format(model_val), "{:.12f}".format(pmml_val.bias))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.bias))
 
     def extractValues(self, node, pmml_record_count_list, pmml_value_list, pmml_score_list):
         for nsample in (node.Node):
