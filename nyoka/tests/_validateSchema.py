@@ -9,8 +9,12 @@ from sklearn.pipeline import Pipeline
 from sklearn_pandas import DataFrameMapper
 
 # Sklearn Preprocessing
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, MaxAbsScaler, RobustScaler, LabelEncoder, Imputer,\
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, MaxAbsScaler, RobustScaler, LabelEncoder,\
  Binarizer, PolynomialFeatures, LabelBinarizer
+try:
+    from sklearn.preprocessing import Imputer
+except:
+    from sklearn.impute import SimpleImputer as Imputer
 from sklearn.decomposition import PCA
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 

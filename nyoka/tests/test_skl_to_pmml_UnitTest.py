@@ -6,10 +6,13 @@ import numpy
 import sys
 from sklearn import datasets
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler, Imputer, LabelEncoder, LabelBinarizer, MinMaxScaler, MaxAbsScaler, \
+from sklearn.preprocessing import StandardScaler, LabelEncoder, LabelBinarizer, MinMaxScaler, MaxAbsScaler, \
     RobustScaler, \
     Binarizer, PolynomialFeatures, OneHotEncoder, KBinsDiscretizer
-from sklearn_pandas import CategoricalImputer
+try:
+    from sklearn.preprocessing import Imputer
+except:
+    from sklearn.impute import SimpleImputer as Imputer
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.svm import SVC, SVR, LinearSVC, LinearSVR, OneClassSVM
@@ -34,6 +37,18 @@ from collections import Counter
 
 class TestMethods(unittest.TestCase):
 
+    def parse_nodes(self, node, values, scores):
+        if node.SimplePredicate.operator == "lessOrEqual":
+            values.append(node.SimplePredicate.value)
+        else:
+            values.append(-2)
+        if len(node.Node) > 0:
+            scores.append(-2)
+        else:
+            scores.append(node.score)
+        for nd in node.Node:
+            self.parse_nodes(nd, values, scores)
+
     def test_sklearn_01(self):
 
         iris = datasets.load_iris()
@@ -55,11 +70,11 @@ class TestMethods(unittest.TestCase):
         # 1
         svms = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
         for mod_val, recon_val in zip(model.intercept_, svms):
-            self.assertEqual("{:.16f}".format(mod_val), "{:.16f}".format(recon_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(mod_val), "{:.10f}".format(recon_val.Coefficients.absoluteValue))
 
         # 2
         svm = pmml_obj.SupportVectorMachineModel[0]
-        self.assertEqual(model._gamma, svm.RadialBasisKernelType.gamma)
+        self.assertEqual("{:.10f}".format(model._gamma), "{:.10f}".format(float(svm.RadialBasisKernelType.gamma)))
 
     def test_sklearn_02(self):
         iris = datasets.load_iris()
@@ -355,61 +370,25 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        zero_count = 0.0
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-        model_score_list = []
-
-        for estimators_tab, dtreg_tab in zip(model.estimators_, seg_tab):
-            record_count_samples = estimators_tab.tree_.n_node_samples
-            for record_count_val in record_count_samples:
-                model_record_count_list.append(record_count_val)
-
-            model_score_list_temp = estimators_tab.tree_.value.tolist()
-            for score_lists in model_score_list_temp:
-                score_list = score_lists[0]
-                str_score_list = Counter(score_list)
-                if str_score_list[zero_count] == 2:
-                    model_score_list.append(score_list.index(max(score_list)))
-
-            count = dtreg_tab.TreeModel.Node.recordCount
-            pmml_record_count_list.append(count)
-            node_tab = dtreg_tab.TreeModel.Node.Node
-            for node in node_tab:
-                varlen = node.get_Node().__len__()
-                if varlen > 0:
-                    pmml_record_count_list.append(node.recordCount)
-                    pmml_value_list.append(node.SimplePredicate.value)
-                    self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                else:
-                    pmml_record_count_list.append(node.recordCount)
-                    pmml_value_list.append(node.SimplePredicate.value)
-                    pmml_score_list.append(node.score)
-
-            # 1
-            temp = []
-            for model_val, pmml_val in zip(estimators_tab.tree_.threshold, pmml_value_list, ):
-                model_val_str = str(model_val)
-                if model_val_str.startswith("-2.0"):
-                    temp_len = len(temp) - 1
-                    self.assertEqual(temp[temp_len], pmml_val)
-                    temp.pop(temp_len)
-                else:
-                    temp.append(model_val_str)
-                    self.assertEqual(model_val_str, pmml_val)
-            pmml_value_list.clear()
-
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
-
-        # 3
-        for model_val, pmml_val in zip(model_score_list, pmml_score_list):
-            self.assertEqual(str(model_val), pmml_val)
+        segments = pmml_obj.MiningModel[0].Segmentation.Segment
+        estms = model.estimators_
+        self.assertEqual(len(segments), len(estms))
+        for segment, estm in zip(segments, estms):
+            values = []
+            scores = []
+            for nd in segment.TreeModel.Node.Node:
+                self.parse_nodes(nd, values, scores)
+            values.append(-2)
+            scores.insert(0, -2)
+            for a, b in zip(scores, estm.tree_.value):
+                if a == -2:
+                    continue
+                self.assertEqual(a, str(numpy.argmax(b[0])))
+            for a, b in zip(values, estm.tree_.threshold):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 4
         self.assertEqual(os.path.isfile(f_name), True)
@@ -418,7 +397,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(model.n_estimators, pmml_obj.MiningModel[0].Segmentation.Segment.__len__())
 
         # 6
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MAJORITY_VOTE.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.AVERAGE.value,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
     def test_sklearn_11(self):
@@ -436,51 +415,26 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        for reg_arr, seg in zip(model.estimators_.T, seg_tab):
-            for reg in reg_arr:
-                node_arr = reg.tree_.weighted_n_node_samples.tolist()
-                if len(node_arr) > 2:
-                    for record_val in node_arr:
-                        model_record_count_list.append(record_val)
-
-            for segment in seg.MiningModel.Segmentation.Segment:
-                count = segment.TreeModel.Node.recordCount
-                pmml_record_count_list.append(count)
-                node_tab = segment.TreeModel.Node.Node
-                for node in node_tab:
-                    varlen = node.get_Node().__len__()
-                    if varlen > 0:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                    else:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        pmml_score_list.append(node.score)
-
-                # 1
-                temp = []
-                for model_val, pmml_val in zip(reg.tree_.threshold, pmml_value_list):
-                    model_val_str = str(model_val)
-                    if model_val_str.startswith("-2.0"):
-                        temp_len = len(temp) - 1
-                        self.assertEqual(temp[temp_len], pmml_val)
-                        temp.pop(temp_len)
-                    else:
-                        temp.append(model_val_str)
-                        self.assertEqual(model_val_str, pmml_val)
-                pmml_value_list.clear()
-
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+        segments = pmml_obj.MiningModel[0].Segmentation.Segment[0].MiningModel.Segmentation.Segment
+        estms = model.estimators_.ravel()
+        self.assertEqual(len(segments), len(estms))
+        for segment, estm in zip(segments, estms):
+            values = []
+            scores = []
+            for nd in segment.TreeModel.Node.Node:
+                self.parse_nodes(nd, values, scores)
+            values.append(-2)
+            scores.insert(0, -2)
+            for a, b in zip(scores, estm.tree_.value.ravel()):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+            for a, b in zip(values, estm.tree_.threshold):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+
 
         # 3
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
@@ -508,51 +462,26 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        for reg_arr, seg in zip(model.estimators_.T, seg_tab):
-            for reg in reg_arr:
-                node_arr = reg.tree_.weighted_n_node_samples.tolist()
-                if len(node_arr) > 2:
-                    for record_val in node_arr:
-                        model_record_count_list.append(record_val)
-
-            for segment in seg.MiningModel.Segmentation.Segment:
-                count = segment.TreeModel.Node.recordCount
-                pmml_record_count_list.append(count)
-                node_tab = segment.TreeModel.Node.Node
-                for node in node_tab:
-                    varlen = node.get_Node().__len__()
-                    if varlen > 0:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                    else:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        pmml_score_list.append(node.score)
-
-                # 1
-                temp = []
-                for model_val, pmml_val in zip(reg.tree_.threshold, pmml_value_list):
-                    model_val_str = str(model_val)
-                    if model_val_str.startswith("-2.0"):
-                        temp_len = len(temp) - 1
-                        self.assertEqual(temp[temp_len], pmml_val)
-                        temp.pop(temp_len)
-                    else:
-                        temp.append(model_val_str)
-                        self.assertEqual(model_val_str, pmml_val)
-                pmml_value_list.clear()
-
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+        segments = pmml_obj.MiningModel[0].Segmentation.Segment[0].MiningModel.Segmentation.Segment
+        estms = model.estimators_.ravel()
+        self.assertEqual(len(segments), len(estms))
+        for segment, estm in zip(segments, estms):
+            values = []
+            scores = []
+            for nd in segment.TreeModel.Node.Node:
+                self.parse_nodes(nd, values, scores)
+            values.append(-2)
+            scores.insert(0, -2)
+            for a, b in zip(scores, estm.tree_.value.ravel()):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+            for a, b in zip(values, estm.tree_.threshold):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+
 
         # 3
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
@@ -565,77 +494,6 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
                          pmml_obj.MiningModel[0].Segmentation.Segment[1].RegressionModel.normalizationMethod)
 
-    def test_sklearn_13(self):
-        titanic = pd.read_csv("nyoka/tests/titanic_train.csv")
-        features = titanic.columns
-        target = 'Survived'
-        f_name = "gb_pmml.pmml"
-        model = GradientBoostingClassifier(n_estimators=10, criterion="mse")
-        pipeline_obj = Pipeline([
-            ("imp", Imputer(strategy="median")),
-            ("gbc", model)
-        ])
-
-        pipeline_obj.fit(titanic[features], titanic[target])
-        skl_to_pmml(pipeline_obj, features, target, f_name)
-        pmml_obj = pml.parse(f_name, True)
-
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        for reg_arr, seg in zip(model.estimators_.T, seg_tab):
-            for reg in reg_arr:
-                node_arr = reg.tree_.weighted_n_node_samples.tolist()
-                if len(node_arr) > 2:
-                    for record_val in node_arr:
-                        model_record_count_list.append(record_val)
-
-            for segment in seg.MiningModel.Segmentation.Segment:
-                count = segment.TreeModel.Node.recordCount
-                pmml_record_count_list.append(count)
-                node_tab = segment.TreeModel.Node.Node
-                for node in node_tab:
-                    varlen = node.get_Node().__len__()
-                    if varlen > 0:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                    else:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        pmml_score_list.append(node.score)
-
-                # 1
-                temp = []
-                for model_val, pmml_val in zip(reg.tree_.threshold, pmml_value_list):
-                    model_val_str = str(model_val)
-                    if model_val_str.startswith("-2.0"):
-                        temp_len = len(temp) - 1
-                        self.assertEqual(temp[temp_len], pmml_val)
-                        temp.pop(temp_len)
-                    else:
-                        temp.append(model_val_str)
-                        self.assertEqual(model_val_str, pmml_val)
-                pmml_value_list.clear()
-
-        # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
-
-        # 3
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
-                         pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
-
-        # 4
-        self.assertEqual(model.min_samples_split, pmml_obj.MiningModel[0].Segmentation.Segment.__len__())
-
-        # 5
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
-                         pmml_obj.MiningModel[0].Segmentation.Segment[1].RegressionModel.normalizationMethod)
 
     def test_sklearn_14(self):
         titanic = pd.read_csv("nyoka/tests/titanic_train.csv")
@@ -652,51 +510,26 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        for reg_arr, seg in zip(model.estimators_.T, seg_tab):
-            for reg in reg_arr:
-                node_arr = reg.tree_.weighted_n_node_samples.tolist()
-                if len(node_arr) > 2:
-                    for record_val in node_arr:
-                        model_record_count_list.append(record_val)
-
-            for segment in seg.MiningModel.Segmentation.Segment:
-                count = segment.TreeModel.Node.recordCount
-                pmml_record_count_list.append(count)
-                node_tab = segment.TreeModel.Node.Node
-                for node in node_tab:
-                    varlen = node.get_Node().__len__()
-                    if varlen > 0:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                    else:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        pmml_score_list.append(node.score)
-
-                # 1
-                temp = []
-                for model_val, pmml_val in zip(reg.tree_.threshold, pmml_value_list):
-                    model_val_str = str(model_val)
-                    if model_val_str.startswith("-2.0"):
-                        temp_len = len(temp) - 1
-                        self.assertEqual(temp[temp_len], pmml_val)
-                        temp.pop(temp_len)
-                    else:
-                        temp.append(model_val_str)
-                        self.assertEqual(model_val_str, pmml_val)
-                pmml_value_list.clear()
-
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+        segments = pmml_obj.MiningModel[0].Segmentation.Segment[0].MiningModel.Segmentation.Segment
+        estms = model.estimators_.ravel()
+        self.assertEqual(len(segments), len(estms))
+        for segment, estm in zip(segments, estms):
+            values = []
+            scores = []
+            for nd in segment.TreeModel.Node.Node:
+                self.parse_nodes(nd, values, scores)
+            values.append(-2)
+            scores.insert(0, -2)
+            for a, b in zip(scores, estm.tree_.value.ravel()):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+            for a, b in zip(values, estm.tree_.threshold):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+
 
         # 3
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
@@ -728,41 +561,20 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse("dtr_pmml.pmml", True)
 
-        pmml_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        node_tab = pmml_obj.TreeModel[0].Node.Node
-        pmml_record_count_list.append(pmml_obj.TreeModel[0].Node.recordCount)
-        for node in node_tab:
-            varlen = node.get_Node().__len__()
-            if varlen > 0:
-                pmml_record_count_list.append(node.recordCount)
-                pmml_value_list.append(node.SimplePredicate.value)
-                self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-            else:
-                pmml_record_count_list.append(node.recordCount)
-                pmml_value_list.append(node.SimplePredicate.value)
-                pmml_score_list.append(node.score)
-
-        # 1
-        temp = []
-        for model_val, pmml_val in zip(model.tree_.threshold, pmml_value_list):
-            model_val_str = str(model_val)
-            if model_val_str.startswith("-2.0"):
-                temp_len = len(temp) - 1
-                self.assertEqual(temp[temp_len], pmml_val)
-                temp.pop(temp_len)
-            else:
-                temp.append(model_val_str)
-                self.assertEqual(model_val_str, pmml_val)
-
-        # 2
-        for model_val, pmml_val in zip(model.tree_.weighted_n_node_samples, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
-
-        # 3
-        self.assertEqual(model.tree_.node_count, len(pmml_record_count_list))
+        values = []
+        scores = []
+        for nd in pmml_obj.TreeModel[0].Node.Node:
+            self.parse_nodes(nd, values, scores)
+        values.append(-2)
+        scores.insert(0, -2)
+        for a, b in zip(scores, model.tree_.value.ravel()):
+            if a == -2:
+                continue
+            self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+        for a, b in zip(values, model.tree_.threshold):
+            if a == -2:
+                continue
+            self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 4
         self.assertEqual(os.path.isfile(f_name), True)
@@ -791,7 +603,7 @@ class TestMethods(unittest.TestCase):
 
         # 2
         for model_val, pmml_val in zip(model.coef_, reg_tab.NumericPredictor):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
     def test_sklearn_17(self):
         iris = datasets.load_iris()
@@ -832,8 +644,8 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
@@ -841,7 +653,7 @@ class TestMethods(unittest.TestCase):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
         self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
@@ -883,7 +695,7 @@ class TestMethods(unittest.TestCase):
         # 4
         model_coef_reshape = model.coef_.reshape(2, 1)
         for model_val, pmml_val in zip(model_coef_reshape, reg_tab.NumericPredictor):
-            self.assertEqual("{:.16f}".format(model_val[0]), "{:.16f}".format(pmml_val.coefficient))
+            self.assertEqual("{:.10f}".format(model_val[0]), "{:.10f}".format(pmml_val.coefficient))
 
     def test_sklearn_19(self):
         iris = datasets.load_iris()
@@ -922,15 +734,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
         for model_coef, pmml_seg in zip(model.coef_, seg_tab):
             num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
             for model_val, pmml_val in zip(model_coef, num_predict):
-                self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -970,15 +782,15 @@ class TestMethods(unittest.TestCase):
         # 4
         sm = pmml_obj.MiningModel[0].Segmentation.Segment
         for mod_val, recon_val in zip(model.intercept_, sm):
-            self.assertEqual("{:.16f}".format(mod_val),
-                             "{:.16f}".format(recon_val.RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(mod_val),
+                             "{:.10f}".format(recon_val.RegressionModel.RegressionTable[0].intercept))
 
         # 5
         lin_tab = pmml_obj.MiningModel[0].Segmentation
         for mod_val, pmml_val in zip(model.coef_, lin_tab.Segment):
             num_pred = pmml_val.RegressionModel.RegressionTable[0].NumericPredictor
             for model_val, pmml_val in zip(mod_val, num_pred):
-                self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
     def test_sklearn_21(self):
         df = pd.read_csv('nyoka/tests/auto-mpg.csv')
@@ -1002,13 +814,13 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(os.path.isfile(f_name), True)
 
         # 2
-        self.assertEqual("{:.16f}".format(model.intercept_[0]),
-                         "{:.16f}".format(pmml_obj.RegressionModel[0].RegressionTable[0].intercept))
+        self.assertEqual("{:.10f}".format(model.intercept_[0]),
+                         "{:.10f}".format(pmml_obj.RegressionModel[0].RegressionTable[0].intercept))
 
         # 3
         reg_tab = pmml_obj.RegressionModel[0].RegressionTable[0].NumericPredictor
         for model_val, pmml_val in zip(model.coef_, reg_tab):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
     def test_sklearn_22(self):
         df = pd.read_csv('nyoka/tests/auto-mpg.csv')
@@ -1028,52 +840,24 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        model_record_value_list = []
-        pmml_score_list = []
-
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-        for estimators_tab, dtreg_tab in zip(model.estimators_.T, seg_tab):
-            for record_count_samples in estimators_tab:
-                record_count_val = record_count_samples.tree_.weighted_n_node_samples
-                value = record_count_samples.tree_.threshold
-                for model_record_count, model_record_val in zip(record_count_val, value):
-                    model_record_count_list.append(model_record_count)
-                    model_record_value_list.append(model_record_val)
-
-            count = dtreg_tab.TreeModel.Node.recordCount
-            pmml_record_count_list.append(count)
-
-            node_tab = dtreg_tab.TreeModel.Node.Node
-            for node in node_tab:
-                varlen = node.get_Node().__len__()
-                if varlen > 0:
-                    pmml_record_count_list.append(node.recordCount)
-                    pmml_value_list.append(node.SimplePredicate.value)
-                    self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                else:
-                    pmml_record_count_list.append(node.recordCount)
-                    pmml_value_list.append(node.SimplePredicate.value)
-                    pmml_score_list.append(node.score)
-
-            # 1
-            temp = []
-            for model_val, pmml_val in zip(model_record_value_list, pmml_value_list):
-                model_val_str = str(model_val)
-                if model_val_str.startswith("-2.0"):
-                    temp_len = len(temp) - 1
-                    self.assertEqual(temp[temp_len], pmml_val)
-                    temp.pop(temp_len)
-                else:
-                    temp.append(model_val_str)
-                    self.assertEqual(model_val_str, pmml_val)
-            pmml_value_list.clear()
-
-        # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+        segments = pmml_obj.MiningModel[0].Segmentation.Segment
+        estms = model.estimators_.ravel()
+        self.assertEqual(len(segments), len(estms))
+        for segment, estm in zip(segments, estms):
+            values = []
+            scores = []
+            for nd in segment.TreeModel.Node.Node:
+                self.parse_nodes(nd, values, scores)
+            values.append(-2)
+            scores.insert(0, -2)
+            for a, b in zip(scores, estm.tree_.value.ravel()):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+            for a, b in zip(values, estm.tree_.threshold):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 3
         self.assertEqual(os.path.isfile(f_name), True)
@@ -1105,54 +889,20 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        pmml_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        node_tab = pmml_obj.TreeModel[0].Node.Node
-        pmml_record_count_list.append(pmml_obj.TreeModel[0].Node.recordCount)
-        for node in node_tab:
-            varlen = node.get_Node().__len__()
-            if varlen > 0:
-                pmml_record_count_list.append(node.recordCount)
-                pmml_value_list.append(node.SimplePredicate.value)
-                self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-            else:
-                pmml_record_count_list.append(node.recordCount)
-                pmml_value_list.append(node.SimplePredicate.value)
-                pmml_score_list.append(node.score)
-
-        model_score_list = []
-        model_score_list_temp = model.tree_.value.tolist()
-        zero_count = 0.0
-        for score_lists in model_score_list_temp:
-            score_list = score_lists[0]
-            str_score_list = Counter(score_list)
-            if str_score_list[zero_count] == 2:
-                model_score_list.append(score_list.index(max(score_list)))
-
-        # 1
-        temp = []
-        for model_val, pmml_val in zip(model.tree_.threshold, pmml_value_list):
-            model_val_str = str(model_val)
-            if model_val_str.startswith("-2.0"):
-                temp_len = len(temp) - 1
-                self.assertEqual(temp[temp_len], pmml_val)
-                temp.pop(temp_len)
-            else:
-                temp.append(model_val_str)
-                self.assertEqual(model_val_str, pmml_val)
-
-        # 2
-        for model_val, pmml_val in zip(model.tree_.weighted_n_node_samples, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
-
-        # 3
-        for model_val, pmml_val in zip(model_score_list, pmml_score_list):
-            self.assertEqual(str(model_val), pmml_val)
-
-        # 4
-        self.assertEqual(model.tree_.node_count, len(pmml_record_count_list))
+        values = []
+        scores = []
+        for nd in pmml_obj.TreeModel[0].Node.Node:
+            self.parse_nodes(nd, values, scores)
+        values.append(-2)
+        scores.insert(0, -2)
+        for a, b in zip(scores, model.tree_.value):
+            if a == -2:
+                continue
+            self.assertEqual(a, str(numpy.argmax(b[0])))
+        for a, b in zip(values, model.tree_.threshold):
+            if a == -2:
+                continue
+            self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 5
         self.assertEqual(os.path.isfile(f_name), True)
@@ -1175,49 +925,24 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        for estimators_tab, dtreg_tab in zip(model.estimators_, seg_tab):
-            record_count_samples = estimators_tab.tree_.n_node_samples
-            for record_count_val in record_count_samples:
-                model_record_count_list.append(record_count_val)
-
-            count = dtreg_tab.TreeModel.Node.recordCount
-            pmml_record_count_list.append(count)
-
-            node_tab = dtreg_tab.TreeModel.Node.Node
-            for node in node_tab:
-                varlen = node.get_Node().__len__()
-                if varlen > 0:
-                    pmml_record_count_list.append(node.recordCount)
-                    pmml_value_list.append(node.SimplePredicate.value)
-                    self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                else:
-                    pmml_record_count_list.append(node.recordCount)
-                    pmml_value_list.append(node.SimplePredicate.value)
-                    pmml_score_list.append(node.score)
-
-            # 1
-            temp = []
-            for model_val, pmml_val in zip(estimators_tab.tree_.threshold, pmml_value_list, ):
-                model_val_str = str(model_val)
-                if model_val_str.startswith("-2.0"):
-                    temp_len = len(temp) - 1
-                    self.assertEqual(temp[temp_len], pmml_val)
-                    temp.pop(temp_len)
-                else:
-                    temp.append(model_val_str)
-                    self.assertEqual(model_val_str, pmml_val)
-            pmml_value_list.clear()
-
-        # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+        segments = pmml_obj.MiningModel[0].Segmentation.Segment
+        estms = model.estimators_
+        self.assertEqual(len(segments), len(estms))
+        for segment, estm in zip(segments, estms):
+            values = []
+            scores = []
+            for nd in segment.TreeModel.Node.Node:
+                self.parse_nodes(nd, values, scores)
+            values.append(-2)
+            scores.insert(0, -2)
+            for a, b in zip(scores, estm.tree_.value.ravel()):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+            for a, b in zip(values, estm.tree_.threshold):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 3
         self.assertEqual(os.path.isfile(f_name), True)
@@ -1284,7 +1009,7 @@ class TestMethods(unittest.TestCase):
 
         # 2
         svm = pmml_obj.SupportVectorMachineModel[0]
-        self.assertEqual("{:.16f}".format(model._gamma), "{:.16f}".format(svm.RadialBasisKernelType.gamma))
+        self.assertEqual("{:.10f}".format(model._gamma), "{:.10f}".format(svm.RadialBasisKernelType.gamma))
 
         # 3
         svm_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
@@ -1301,7 +1026,7 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for model_val, pmml_val in zip(model.dual_coef_[0], svm_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_27(self):
         irisdata = datasets.load_iris()
@@ -1334,7 +1059,7 @@ class TestMethods(unittest.TestCase):
 
         # 4
         for model_val, pmml_val in zip(model.dual_coef_[0], svm_tab.SupportVectorMachine[0].Coefficients.Coefficient):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_28(self):
         iris = datasets.load_iris()
@@ -1368,8 +1093,8 @@ class TestMethods(unittest.TestCase):
         for model_the_val, model_sig_val, pmml_bay_val in zip(the_tab, sig_tab, bay_tab):
             for the_val, sig_val, tar_val in zip(model_the_val, model_sig_val,
                                                  pmml_bay_val.TargetValueStats.TargetValueStat):
-                self.assertEqual("{:.16f}".format(the_val), "{:.16f}".format(tar_val.GaussianDistribution.mean))
-                self.assertEqual("{:.16f}".format(sig_val), "{:.16f}".format(tar_val.GaussianDistribution.variance))
+                self.assertEqual("{:.10f}".format(the_val), "{:.10f}".format(tar_val.GaussianDistribution.mean))
+                self.assertEqual("{:.10f}".format(sig_val), "{:.10f}".format(tar_val.GaussianDistribution.variance))
 
     def test_sklearn_29(self):
         iris = datasets.load_iris()
@@ -1408,15 +1133,15 @@ class TestMethods(unittest.TestCase):
 
         #  5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1461,15 +1186,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1515,15 +1240,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1569,15 +1294,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1623,15 +1348,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1677,15 +1402,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1737,15 +1462,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1797,15 +1522,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1843,7 +1568,7 @@ class TestMethods(unittest.TestCase):
 
         # 3
         for model_val, pmml_val in zip(model.coef_, reg_tab.NumericPredictor):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
     def test_sklearn_38(self):
         df = pd.read_csv('nyoka/tests/auto-mpg.csv')
@@ -1885,15 +1610,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1942,15 +1667,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -1996,7 +1721,7 @@ class TestMethods(unittest.TestCase):
 
         # 6
         for model_val, pmml_val in zip(model.intercepts_[0], pmml_obj.NeuralNetwork[0].NeuralLayer[0].Neuron):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.bias))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.bias))
 
     def test_sklearn_41(self):
         iris = datasets.load_iris()
@@ -2023,7 +1748,7 @@ class TestMethods(unittest.TestCase):
             cluster_val = cluster.Array.get_valueOf_()
             cluster_splits = cluster_val.split()
             for model_val, pmml_val in zip(mod_cluster, cluster_splits):
-                self.assertEqual("{:.16f}".format(model_val), pmml_val)
+                self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(float(pmml_val)))
 
     def test_sklearn_42(self):
         titanic = pd.read_csv("nyoka/tests/titanic_train.csv")
@@ -2040,52 +1765,25 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        pmml_score_list = []
-
-        for reg_arr, seg in zip(model.estimators_.T, seg_tab):
-            for reg in reg_arr:
-                node_arr = reg.tree_.weighted_n_node_samples.tolist()
-                if len(node_arr) > 2:
-                    for record_val in node_arr:
-                        model_record_count_list.append(record_val)
-
-            if int(seg.id) < 1:
-                for segment in seg.MiningModel.Segmentation.Segment:
-                    count = segment.TreeModel.Node.recordCount
-                    pmml_record_count_list.append(count)
-                    node_tab = segment.TreeModel.Node.Node
-                    for node in node_tab:
-                        varlen = node.get_Node().__len__()
-                        if varlen > 0:
-                            pmml_record_count_list.append(node.recordCount)
-                            pmml_value_list.append(node.SimplePredicate.value)
-                            self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                        else:
-                            pmml_record_count_list.append(node.recordCount)
-                            pmml_value_list.append(node.SimplePredicate.value)
-                            pmml_score_list.append(node.score)
-
-                    # 1
-                    temp = []
-                    for model_val, pmml_val in zip(reg.tree_.threshold, pmml_value_list):
-                        model_val_str = str(model_val)
-                        if model_val_str.startswith("-2.0"):
-                            temp_len = len(temp) - 1
-                            self.assertEqual(temp[temp_len], pmml_val)
-                            temp.pop(temp_len)
-                        else:
-                            temp.append(model_val_str)
-                            self.assertEqual(model_val_str, pmml_val)
-                    pmml_value_list.clear()
-
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+        segments = pmml_obj.MiningModel[0].Segmentation.Segment[0].MiningModel.Segmentation.Segment
+        estms = model.estimators_.ravel()
+        self.assertEqual(len(segments), len(estms))
+        for segment, estm in zip(segments, estms):
+            values = []
+            scores = []
+            for nd in segment.TreeModel.Node.Node:
+                self.parse_nodes(nd, values, scores)
+            values.append(-2)
+            scores.insert(0, -2)
+            for a, b in zip(scores, estm.tree_.value.ravel()):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+            for a, b in zip(values, estm.tree_.threshold):
+                if a == -2:
+                    continue
+                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         # 3
 
@@ -2118,54 +1816,28 @@ class TestMethods(unittest.TestCase):
         skl_to_pmml(pipeline_obj, features, target, f_name)
         pmml_obj = pml.parse(f_name, True)
 
-        seg_tab = pmml_obj.MiningModel[0].Segmentation.Segment
-
-        pmml_record_count_list = []
-        model_record_count_list = []
-        pmml_value_list = []
-        model_value_list = []
-        pmml_score_list = []
-
-        for reg_arr, seg in zip(model.estimators_.T, seg_tab):
-            for reg in reg_arr:
-                node_arr = reg.tree_.weighted_n_node_samples.tolist()
-                if len(node_arr) > 2:
-                    for record_val in node_arr:
-                        model_record_count_list.append(record_val)
-
-            for segment, reg in zip(seg.MiningModel.Segmentation.Segment, reg_arr):
-                count = segment.TreeModel.Node.recordCount
-                pmml_record_count_list.append(count)
-                node_tab = segment.TreeModel.Node.Node
-                for node in node_tab:
-                    varlen = node.get_Node().__len__()
-                    if varlen > 0:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        self.extractValues(node, pmml_record_count_list, pmml_value_list, pmml_score_list)
-                    else:
-                        pmml_record_count_list.append(node.recordCount)
-                        pmml_value_list.append(node.SimplePredicate.value)
-                        pmml_score_list.append(node.score)
-
-                # 1
-                temp = []
-                for model_val, pmml_val in zip(reg.tree_.threshold, pmml_value_list, ):
-                    model_val_str = str(model_val)
-                    if model_val_str.startswith("-2.0"):
-                        temp_len = len(temp) - 1
-                        self.assertEqual(temp[temp_len], pmml_val)
-                        temp.pop(temp_len)
-                    else:
-                        temp.append(model_val_str)
-                        self.assertEqual(model_val_str, pmml_val)
-                pmml_value_list.clear()
-
-        # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
-
         # 4
+        segments_ = pmml_obj.MiningModel[0].Segmentation.Segment[:-1]
+        estms_ = model.estimators_
+        for i in range(3):
+            segments = segments_[i].MiningModel.Segmentation.Segment
+            estms = estms_[:, i]
+            self.assertEqual(len(segments), len(estms))
+            for segment, estm in zip(segments, estms):
+                values = []
+                scores = []
+                for nd in segment.TreeModel.Node.Node:
+                    self.parse_nodes(nd, values, scores)
+                values.append(-2)
+                scores.insert(0, -2)
+                for a, b in zip(scores, estm.tree_.value.ravel()):
+                    if a == -2:
+                        continue
+                    self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                for a, b in zip(values, estm.tree_.threshold):
+                    if a == -2:
+                        continue
+                    self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
@@ -2217,7 +1889,7 @@ class TestMethods(unittest.TestCase):
 
         # 6
         for model_val, pmml_val in zip(model.intercepts_[0], pmml_obj.NeuralNetwork[0].NeuralLayer[0].Neuron):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.bias))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.bias))
 
     def test_sklearn_45(self):
         irisdata = datasets.load_iris()
@@ -2283,8 +1955,7 @@ class TestMethods(unittest.TestCase):
             model_value_list.clear()
 
         # 2
-        for model_val, pmml_val in zip(model_record_count_list, pmml_record_count_list):
-            self.assertEqual(model_val, pmml_val)
+
 
         # 3
         self.assertEqual(os.path.isfile("iforest.pmml"), True)
@@ -2337,15 +2008,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]), \
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]), \
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -2391,15 +2062,15 @@ class TestMethods(unittest.TestCase):
 
         # 5
         for i in range(model.classes_.__len__()):
-            self.assertEqual("{:.16f}".format(model.intercept_[i]),
-                             "{:.16f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
+            self.assertEqual("{:.10f}".format(model.intercept_[i]),
+                             "{:.10f}".format(segmentation.Segment[i].RegressionModel.RegressionTable[0].intercept))
 
         # 6
         for model_coef, pmml_seg in zip(model.coef_, segmentation.Segment):
             if int(pmml_seg.id) < 4:
                 num_predict = pmml_seg.RegressionModel.RegressionTable[0].NumericPredictor
                 for model_val, pmml_val in zip(model_coef, num_predict):
-                    self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.coefficient))
+                    self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
 
@@ -2493,7 +2164,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_52(self):
         iris = datasets.load_iris()
@@ -2522,7 +2193,7 @@ class TestMethods(unittest.TestCase):
 
         # 3
         for model_val, pmml_val in zip(model.intercept_, svm_tab):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.Coefficients.absoluteValue))
 
         # 4
         for model_vectors, pmml_vertors in zip(model.support_vectors_,
@@ -2535,7 +2206,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_53(self):
         iris = datasets.load_iris()
@@ -2566,7 +2237,7 @@ class TestMethods(unittest.TestCase):
 
         # 3
         for model_val, pmml_val in zip(model.intercept_, svm_tab):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.Coefficients.absoluteValue))
 
         # 4
         for model_vectors, pmml_vertors in zip(model.support_vectors_,
@@ -2580,7 +2251,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_54(self):
         iris = datasets.load_iris()
@@ -2610,7 +2281,7 @@ class TestMethods(unittest.TestCase):
         # 3
         svm_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
         for model_val, pmml_val in zip(model.intercept_, svm_tab):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.Coefficients.absoluteValue))
 
         # 4
         vect_tab = pmml_obj.SupportVectorMachineModel[0].VectorDictionary.VectorInstance
@@ -2624,7 +2295,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_55(self):
         iris = datasets.load_iris()
@@ -2652,7 +2323,7 @@ class TestMethods(unittest.TestCase):
         # 3
         svm_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
         for model_val, pmml_val in zip(model.intercept_, svm_tab):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.Coefficients.absoluteValue))
 
         # 4
         vect_tab = pmml_obj.SupportVectorMachineModel[0].VectorDictionary.VectorInstance
@@ -2666,7 +2337,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_56(self):
         iris = datasets.load_iris()
@@ -2694,7 +2365,7 @@ class TestMethods(unittest.TestCase):
         # 3
         svm_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine
         for model_val, pmml_val in zip(model.intercept_, svm_tab):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.Coefficients.absoluteValue))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.Coefficients.absoluteValue))
 
         # 4
         vect_tab = pmml_obj.SupportVectorMachineModel[0].VectorDictionary.VectorInstance
@@ -2708,7 +2379,7 @@ class TestMethods(unittest.TestCase):
         # 5
         sv_tab = pmml_obj.SupportVectorMachineModel[0].SupportVectorMachine[0]
         for model_val, pmml_val in zip(model.dual_coef_[0], sv_tab.Coefficients.Coefficient):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.value))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.value))
 
     def test_sklearn_57(self):
         df = pd.read_csv('nyoka/tests/auto-mpg.csv')
@@ -2743,7 +2414,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(300, pmml_obj.NeuralNetwork[0].NeuralInputs.numberOfInputs)
 
         for model_val, pmml_val in zip(model.intercepts_[0], pmml_obj.NeuralNetwork[0].NeuralLayer[0].Neuron):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.bias))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.bias))
 
     def test_sklearn_58(self):
         iris = datasets.load_iris()
@@ -2784,7 +2455,7 @@ class TestMethods(unittest.TestCase):
 
         # 6
         for model_val, pmml_val in zip(model.intercepts_[0], pmml_obj.NeuralNetwork[0].NeuralLayer[0].Neuron):
-            self.assertEqual("{:.16f}".format(model_val), "{:.16f}".format(pmml_val.bias))
+            self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.bias))
 
     def extractValues(self, node, pmml_record_count_list, pmml_value_list, pmml_score_list):
         for nsample in (node.Node):

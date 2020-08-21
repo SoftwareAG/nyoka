@@ -1,11 +1,11 @@
 # Nyoka
 
-[![Build Status](https://travis-ci.org/nyoka-pmml/nyoka.svg?branch=master)](https://travis-ci.org/nyoka-pmml/nyoka)
+[![Build Status](https://travis-ci.org/softwareag/nyoka.svg?branch=master)](https://travis-ci.org/softwareag/nyoka)
 [![PyPI version](https://badge.fury.io/py/nyoka.svg)](https://pypi.org/project/nyoka/)
-[![codecov](https://codecov.io/gh/nyoka-pmml/nyoka/branch/master/graph/badge.svg)](https://codecov.io/gh/nyoka-pmml/nyoka)
-[![license](https://img.shields.io/github/license/nyoka-pmml/nyoka.svg)](https://github.com/nyoka-pmml/nyoka/blob/master/LICENSE)
+[![codecov](https://codecov.io/gh/SoftwareAG/nyoka/branch/master/graph/badge.svg)](https://codecov.io/gh/SoftwareAG/nyoka)
+[![license](https://img.shields.io/github/license/softwareag/nyoka.svg)](https://github.com/softwareag/nyoka/blob/master/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.6%20%7C%203.7-blue)](https://pypi.org/project/nyoka/)
-<img  src="https://raw.githubusercontent.com/nyoka-pmml/nyoka/master/docs/nyoka_logo.PNG"  alt="nyoka_logo"  height="200"  style="float:right"/>
+<img  src="https://raw.githubusercontent.com/softwareag/nyoka/master/docs/nyoka_logo.PNG"  alt="nyoka_logo"  height="200"  style="float:right"/>
 
 ## Overview
 
@@ -15,7 +15,7 @@ Besides about 500 Python classes which each cover a PMML tag and all constructor
 
 Nyoka comes to you with the complete source code in Python, extended HTML documentation for the classes/functions, and a growing number of Jupyter Notebook tutorials that help you familiarize yourself with the way Nyoka supports you in using PMML as your favorite Data Science transport file format.
 
-Read the documentation at **[Nyoka Documentation](http://docs.nyoka.org)**.
+Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/nyoka/)**.
 
 ## List of libraries and models supported by Nyoka :
 
@@ -196,40 +196,40 @@ StatsmodelsToPmml(result,"Sales_cars_ARIMA.pmml")
 
 ## Examples 
 
-Example jupyter notebooks can be found in [`nyoka/examples`](https://github.com/nyoka-pmml/nyoka/tree/master/examples). These files contain code to showcase how to use different exporters.
+Example jupyter notebooks can be found in [`nyoka/examples`](https://github.com/softwareag/nyoka/tree/master/examples). These files contain code to showcase how to use different exporters.
 
 * Exporting `scikit-learn` models into PMML
-	* [SVM](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/1_SVM.ipynb)
-	* [KNeighbors](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/2_K-NN_With_Scaling.ipynb)
-	* [Random Forest](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/3_RF_With_pre-processing.ipynb)
-	* [Gardient Boosting](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/4_GB_With_pre-processing.ipynb)
-	* [Decision Tree](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/5_Decision_Tree_With_Tf-Idf.ipynb)
-	* [Isolation Forest](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/6_IsolationForest_model_to_PMML.ipynb)
-	* [OneClassSVM](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/7_OneClassSVM_Model_to_PMML.ipynb)
-	* [LinearSVC](https://github.com/nyoka-pmml/nyoka/blob/master/examples/skl/8_LinearSVC_with_TfidfVectorizer.ipynb)
+	* [SVM](https://github.com/softwareag/nyoka/blob/master/examples/skl/1_SVM.ipynb)
+	* [KNeighbors](https://github.com/softwareag/nyoka/blob/master/examples/skl/2_K-NN_With_Scaling.ipynb)
+	* [Random Forest](https://github.com/softwareag/nyoka/blob/master/examples/skl/3_RF_With_pre-processing.ipynb)
+	* [Gardient Boosting](https://github.com/softwareag/nyoka/blob/master/examples/skl/4_GB_With_pre-processing.ipynb)
+	* [Decision Tree](https://github.com/softwareag/nyoka/blob/master/examples/skl/5_Decision_Tree_With_Tf-Idf.ipynb)
+	* [Isolation Forest](https://github.com/softwareag/nyoka/blob/master/examples/skl/6_IsolationForest_model_to_PMML.ipynb)
+	* [OneClassSVM](https://github.com/softwareag/nyoka/blob/master/examples/skl/7_OneClassSVM_Model_to_PMML.ipynb)
+	* [LinearSVC](https://github.com/softwareag/nyoka/blob/master/examples/skl/8_LinearSVC_with_TfidfVectorizer.ipynb)
 
 * Exporting `Keras` models into PMML
-	* [MobileNet](https://github.com/nyoka-pmml/nyoka/blob/master/examples/keras/1_PMML_generation_for_mobilenet.ipynb)
-	* [Sequential Model](https://github.com/nyoka-pmml/nyoka/blob/master/examples/keras/2_PMML_generation_for_Sequential_Model.ipynb)
+	* [MobileNet](https://github.com/softwareag/nyoka/blob/master/examples/keras/1_PMML_generation_for_mobilenet.ipynb)
+	* [Sequential Model](https://github.com/softwareag/nyoka/blob/master/examples/keras/2_PMML_generation_for_Sequential_Model.ipynb)
 
 * Exporting `XGBoost` model into PMML
-	* [XGBoost 1](https://github.com/nyoka-pmml/nyoka/blob/master/examples/xgboost/1_xgboost.ipynb)
-	* [XGBoost 2](https://github.com/nyoka-pmml/nyoka/blob/master/examples/xgboost/2_xgboost_With_Scaling.ipynb)
-	* [XGBoost 3](https://github.com/nyoka-pmml/nyoka/blob/master/examples/xgboost/3_xgboost_With_PreProcess%20.ipynb)
+	* [XGBoost 1](https://github.com/softwareag/nyoka/blob/master/examples/xgboost/1_xgboost.ipynb)
+	* [XGBoost 2](https://github.com/softwareag/nyoka/blob/master/examples/xgboost/2_xgboost_With_Scaling.ipynb)
+	* [XGBoost 3](https://github.com/softwareag/nyoka/blob/master/examples/xgboost/3_xgboost_With_PreProcess%20.ipynb)
 
 * Exporting `LightGBM` model into PMML
-	* [LightGBM 1](https://github.com/nyoka-pmml/nyoka/blob/master/examples/lgbm/1_lgbm.ipynb)
-	* [LightGBM 2](https://github.com/nyoka-pmml/nyoka/blob/master/examples/lgbm/2_lgbm_With_Scaling.ipynb)
-	* [LightGBM 3](https://github.com/nyoka-pmml/nyoka/blob/master/examples/lgbm/3_lgbm_With_PreProcess%20.ipynb)
+	* [LightGBM 1](https://github.com/softwareag/nyoka/blob/master/examples/lgbm/1_lgbm.ipynb)
+	* [LightGBM 2](https://github.com/softwareag/nyoka/blob/master/examples/lgbm/2_lgbm_With_Scaling.ipynb)
+	* [LightGBM 3](https://github.com/softwareag/nyoka/blob/master/examples/lgbm/3_lgbm_With_PreProcess%20.ipynb)
 
 * Exporting `statsmodels` model into PMML
-	* [Non-Seasonal ARIMA](https://github.com/nyoka-pmml/nyoka/blob/master/examples/statsmodels/arima/Non-Seasonal%20ARIMA.ipynb)
-	* [Seasonal ARIMA](https://github.com/nyoka-pmml/nyoka/blob/master/examples/statsmodels/arima/Seasonal%20ARIMA.ipynb)
-	* [Vector ARMA (for multi-variate time series)](https://github.com/nyoka-pmml/nyoka/blob/master/examples/statsmodels/arima/VARMAX.ipynb)
-	* [Exponential Smoothing](https://github.com/nyoka-pmml/nyoka/blob/master/examples/statsmodels/exponential_smoothing/exponential_smoothing.ipynb)
+	* [Non-Seasonal ARIMA](https://github.com/softwareag/nyoka/blob/master/examples/statsmodels/arima/Non-Seasonal%20ARIMA.ipynb)
+	* [Seasonal ARIMA](https://github.com/softwareag/nyoka/blob/master/examples/statsmodels/arima/Seasonal%20ARIMA.ipynb)
+	* [Vector ARMA (for multi-variate time series)](https://github.com/softwareag/nyoka/blob/master/examples/statsmodels/arima/VARMAX.ipynb)
+	* [Exponential Smoothing](https://github.com/softwareag/nyoka/blob/master/examples/statsmodels/exponential_smoothing/exponential_smoothing.ipynb)
 
 * Exporting `retinanet` model into PMML
-	* [RetinaNet 1](https://github.com/nyoka-pmml/nyoka/blob/master/examples/retinanet/RetinaNet%20Exporter.ipynb)
+	* [RetinaNet 1](https://github.com/softwareag/nyoka/blob/master/examples/retinanet/RetinaNet%20Exporter.ipynb)
   
 ## Nyoka Submodules
 
@@ -282,4 +282,4 @@ pip uninstall nyoka
 You can ask questions at:
 
 *  [Stack Overflow](https://stackoverflow.com) by tagging your questions with #pmml, #nyoka
-* You can also post bug reports in [GitHub issues](https://github.com/nyoka-pmml/nyoka/issues)
+* You can also post bug reports in [GitHub issues](https://github.com/softwareag/nyoka/issues)

@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn import datasets
 from sklearn.pipeline import Pipeline
 from sklearn_pandas import DataFrameMapper
-from sklearn.preprocessing import StandardScaler, Imputer
+from sklearn.preprocessing import StandardScaler
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor, XGBClassifier
