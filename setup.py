@@ -17,7 +17,7 @@ setup(
 	long_description_content_type="text/markdown",
 	author = "maintainer",
 	author_email = "maintainer@nyoka.org",
-	url = "https://github.com/nyoka-pmml/nyoka",
+	url = "https://github.com/softwareag/nyoka",
 	license = __license__,
 	classifiers = [
 		"Development Status :: 5 - Production/Stable",
@@ -25,11 +25,12 @@ setup(
 		"Operating System :: OS Independent",
 		"Programming Language :: Python :: 3.6",
 		"Programming Language :: Python :: 3.7",
+		"Programming Language :: Python :: 3.8",
 		"Intended Audience :: Developers",
 		"Topic :: Scientific/Engineering :: Artificial Intelligence"
 	],
 	packages = find_packages(),
-	python_requires= '>= 3.6, < 3.8',
+	python_requires= '>= 3.6',
 	install_requires = [
 		"lxml"
 	]

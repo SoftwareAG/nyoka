@@ -1,5 +1,4 @@
 ignore:
-  - "nyoka/reconstruct/"
   - "nyoka/skl/tests/"
   - "nyoka/tests/"
   - "nyoka/build.py"
