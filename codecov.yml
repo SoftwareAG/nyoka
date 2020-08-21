@@ -1,6 +1,6 @@
 ignore:
   - "nyoka/skl/tests/"
-  - "nyoka/custom/
+  - "nyoka/custom/trendminer.py"
   - "nyoka/tests/"
   - "nyoka/build.py"
   - "nyoka/PMML44.py"
