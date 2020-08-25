@@ -7,7 +7,7 @@ from statsmodels.tsa.api import ARIMA, SARIMAX, ExponentialSmoothing, VARMAX
 from statsmodels.tsa.arima.model import ARIMA as StateSpaceARIMA
 import unittest
 
-from nyoka import ArimaToPMML, ExponentialSmoothingToPMML, StatsmodelsToPmml
+from nyoka import ExponentialSmoothingToPMML, StatsmodelsToPmml
 
 
 class TestMethods(unittest.TestCase):
@@ -99,7 +99,7 @@ class TestMethods(unittest.TestCase):
         f_name='non_seasonal_arima1.pmml'
         model = ARIMA(ts_data,order=(9, 2, 0))
         result = model.fit(trend = 'c', method = 'css-mle')
-        ArimaToPMML(result, f_name, model_name="arima_920")
+        StatsmodelsToPmml(result, f_name, model_name="arima_920")
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_non_seasonal_arima2(self):
@@ -107,7 +107,7 @@ class TestMethods(unittest.TestCase):
         f_name='non_seasonal_arima2.pmml'
         model = ARIMA(ts_data,order=(9, 2, 3))
         result = model.fit(trend = 'nc', method = 'css-mle')
-        ArimaToPMML(result, f_name, description="A test model")
+        StatsmodelsToPmml(result, f_name, description="A test model")
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_non_seasonal_arima3(self):
@@ -115,7 +115,7 @@ class TestMethods(unittest.TestCase):
         f_name='non_seasonal_arima3.pmml'
         model = ARIMA(ts_data,order=(1, 0, 1))
         result = model.fit(trend = 'c', method = 'css-mle')
-        ArimaToPMML(result, f_name, description="A test model")
+        StatsmodelsToPmml(result, f_name, description="A test model")
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_non_seasonal_arima4(self):
@@ -123,7 +123,7 @@ class TestMethods(unittest.TestCase):
         f_name='non_seasonal_arima4.pmml'
         model = StateSpaceARIMA(ts_data,order=(1, 0, 1),trend = 'c')
         result = model.fit()
-        ArimaToPMML(result, f_name, description="A test model",conf_int=[80])
+        StatsmodelsToPmml(result, f_name, description="A test model",conf_int=[80])
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_non_seasonal_arima5(self):
@@ -131,7 +131,7 @@ class TestMethods(unittest.TestCase):
         f_name='non_seasonal_arima5.pmml'
         model = StateSpaceARIMA(ts_data,order=(1, 1, 1))
         result = model.fit()
-        ArimaToPMML(result, f_name, description="A test model")
+        StatsmodelsToPmml(result, f_name, description="A test model")
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_non_seasonal_arima6(self):
@@ -153,7 +153,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_order = (1, 1, 1, 12),
                                         )
         result = model.fit(disp=False)
-        ArimaToPMML(result, f_name)
+        StatsmodelsToPmml(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_seasonal_arima2(self):
@@ -164,7 +164,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_order = (1, 1, 1, 12),
                                         )
         result = model.fit(disp=False)
-        ArimaToPMML(result, f_name,conf_int=[95])
+        StatsmodelsToPmml(result, f_name,conf_int=[95])
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_seasonal_arima3(self):
@@ -175,7 +175,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_order = (1, 0, 1, 12),
                                         )
         result = model.fit(disp=False)
-        ArimaToPMML(result, f_name)
+        StatsmodelsToPmml(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_seasonal_arima4(self):
@@ -186,7 +186,7 @@ class TestMethods(unittest.TestCase):
                                         seasonal_order = (1, 0, 1, 12),
                                         )
         result = model.fit(disp=False)
-        ArimaToPMML(result, f_name)
+        StatsmodelsToPmml(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_seasonal_arima5(self):
@@ -198,7 +198,7 @@ class TestMethods(unittest.TestCase):
                                         trend = 'c',
                                         )
         result = model.fit(disp=False)
-        ArimaToPMML(result, f_name)
+        StatsmodelsToPmml(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_seasonal_arima6(self):
@@ -218,7 +218,7 @@ class TestMethods(unittest.TestCase):
         f_name='varmax_with_intercept.pmml'
         model = VARMAX(ts_data, order=(1,1))
         result = model.fit()
-        ArimaToPMML(result, f_name, conf_int=[80,95])
+        StatsmodelsToPmml(result, f_name, conf_int=[80,95])
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_varmax_without_intercept(self):
@@ -226,7 +226,7 @@ class TestMethods(unittest.TestCase):
         f_name='varmax_without_intercept.pmml'
         model = VARMAX(ts_data, order=(1,1), trend=None)
         result = model.fit()
-        ArimaToPMML(result, f_name)
+        StatsmodelsToPmml(result, f_name)
         self.assertEqual(os.path.isfile(f_name),True)
 
     def test_varmax_without_intercept2(self):
