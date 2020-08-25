@@ -7,7 +7,6 @@ class TestImport(unittest.TestCase):
         self.assertEqual(hasattr(nyoka,"__version__"),True)
         self.assertEqual(hasattr(nyoka,"__license__"),True)
         self.assertEqual(hasattr(nyoka,"skl_to_pmml"),True)
-        self.assertEqual(hasattr(nyoka,"ArimaToPMML"),True)
         self.assertEqual(hasattr(nyoka,"ExponentialSmoothingToPMML"),True)
         self.assertEqual(hasattr(nyoka,"KerasToPmml"),True)
         self.assertEqual(hasattr(nyoka,"xgboost_to_pmml"),True)
