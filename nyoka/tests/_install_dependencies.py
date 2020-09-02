@@ -3,8 +3,8 @@ import sys
 import os
 
 packages = [
-    "statsmodels",
-    "xgboost==0.82",
+    "statsmodels==0.11.1",
+    "xgboost==0.90",
     "keras==2.2.4",
     "numpy==1.16.1",
     "glibc",

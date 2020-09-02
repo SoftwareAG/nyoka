@@ -19,7 +19,7 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 
 ## List of libraries and models supported by Nyoka :
 
-### Scikit-Learn :
+### Scikit-Learn (version <= 0.23.1):
 
 #### Models -
 
@@ -67,7 +67,7 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 *  [`sklearn_pandas.CategoricalImputer`](https://github.com/scikit-learn-contrib/sklearn-pandas/blob/master/sklearn_pandas/categorical_imputer.py#L21) ( From _[sklearn_pandas](https://github.com/scikit-learn-contrib/sklearn-pandas)_ library )
 
 
-### Keras :
+### Keras (version <= 2.2.4):
 
 #### Models -
 
@@ -101,7 +101,7 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 *  [`XGBRegressor`](https://xgboost.readthedocs.io/en/latest/python/python_api.html#module-xgboost.sklearn)
 
 
-### Statsmodels:
+### Statsmodels (version <= 0.11.1):
 
 
 *  [`tsa.arima_model.ARIMA`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/arima_model.py#L1026)
