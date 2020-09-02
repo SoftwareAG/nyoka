@@ -6,8 +6,7 @@ cache: pip
 env:
   - SKLEARN=0.20.x
   - SKLEARN=0.23.x
-#services:
-#- docker
+
 install:
 - pip install -e .
 script:
@@ -20,12 +19,7 @@ script:
 - python nyoka/tests/test_keras_to_pmml_UnitTest.py
 - python nyoka/tests/test_statsmodels_to_pmml_UnitTest.py
 - python nyoka/tests/test_retinanet_to_pmml_UnitTest.py
-#- python nyoka/tests/setup_server.py
-#- python nyoka/tests/testScoreWithAdapaLgbm.py
-#- python nyoka/tests/testScoreWithAdapaSklearn.py
-#- python nyoka/tests/testScoreWithAdapaXgboost.py
-#- python nyoka/tests/testScoreWithAdapaRetinaNet.py
-# - python nyoka/tests/testScoreWithAdapaStatsmodels.py
+
 after_success:
 - py.test  --cov-report term --cov=nyoka/
 - codecov
@@ -35,11 +29,3 @@ notifications:
     - maintainer@nyoka.org
     on_success: never
     on_failure: always
-#before_install:
-#- openssl aes-256-cbc -K $encrypted_a6521150e702_key -iv $encrypted_a6521150e702_iv
-#  -in secrets.zip.enc -out secrets.zip -d
-#- unzip secrets.zip
-#- ls
-#- echo "$DOCKER_PW" | docker login -u "$DOCKER_UN" --password-stdin
-#- docker run -d -p 8080:8080 --memory="5g" store/softwareag/zementis-server:10.5.0.2
-#- docker ps

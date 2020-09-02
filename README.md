@@ -4,7 +4,7 @@
 [![PyPI version](https://badge.fury.io/py/nyoka.svg)](https://pypi.org/project/nyoka/)
 [![codecov](https://codecov.io/gh/SoftwareAG/nyoka/branch/master/graph/badge.svg)](https://codecov.io/gh/SoftwareAG/nyoka)
 [![license](https://img.shields.io/github/license/softwareag/nyoka.svg)](https://github.com/softwareag/nyoka/blob/master/LICENSE)
-[![Python](https://img.shields.io/badge/python-3.6%20%7C%203.7-blue)](https://pypi.org/project/nyoka/)
+[![Python](https://img.shields.io/badge/python-3.6%2B-blue)](https://pypi.org/project/nyoka/)
 <img  src="https://raw.githubusercontent.com/softwareag/nyoka/master/docs/nyoka_logo.PNG"  alt="nyoka_logo"  height="200"  style="float:right"/>
 
 ## Overview
@@ -19,7 +19,7 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 
 ## List of libraries and models supported by Nyoka :
 
-### Scikit-Learn (version <= 0.20.3):
+### Scikit-Learn :
 
 #### Models -
 
@@ -67,7 +67,7 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 *  [`sklearn_pandas.CategoricalImputer`](https://github.com/scikit-learn-contrib/sklearn-pandas/blob/master/sklearn_pandas/categorical_imputer.py#L21) ( From _[sklearn_pandas](https://github.com/scikit-learn-contrib/sklearn-pandas)_ library )
 
 
-### Keras (version 2.2.4):
+### Keras :
 
 #### Models -
 
@@ -113,7 +113,7 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 
 ## Prerequisites
 
-* Python >= 3.6, < 3.8
+* Python >= 3.6
 
 ## Dependencies
 
@@ -283,3 +283,15 @@ You can ask questions at:
 
 *  [Stack Overflow](https://stackoverflow.com) by tagging your questions with #pmml, #nyoka
 * You can also post bug reports in [GitHub issues](https://github.com/softwareag/nyoka/issues)
+
+-----
+
+Please note that this project is released with a [Contributor Code of
+Conduct](https://github.com/SoftwareAG/nyoka/blob/master/.github/CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
+
+These tools are provided as-is and without warranty or support. They do
+not constitute part of the Software AG product suite. Users are free to
+use, fork and modify them, subject to the license agreement. While
+Software AG welcomes contributions, we cannot guarantee to include every
+contribution in the master project.
