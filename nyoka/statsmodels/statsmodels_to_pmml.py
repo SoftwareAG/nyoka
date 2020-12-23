@@ -144,14 +144,15 @@ class StatsmodelsToPmml:
         np.set_printoptions(precision=12)
         selected_state_cov_matrix = None
         predicted_state_cov_matrix = None
+        observation_cov_matrix = None
         smoother_results = self.results_obj.smoother_results
         S_t0 = self.results_obj.filtered_state[...,-1]
         F_matrix = smoother_results.transition[...,-1] #transition_matrix
         G = smoother_results.design[...,-1] #measurement_matrix
 
         if self.model.__class__.__name__ in ["ARMA","ARIMA"]:
-            intercept_attr = smoother_results.obs_intercept[...,-1][0]
-            intercept_vector = None
+            intercept = [smoother_results.obs_intercept[...,-1][0]]
+            intercept_type = "observation"
             S_t1 = np.dot(F_matrix, S_t0)
         else:
             #state_intercept might contain `nan` values. So here it is generated manually.
@@ -169,11 +170,11 @@ class StatsmodelsToPmml:
                     spec = self.results_obj.specification
                     k_state = spec['k_diff']+spec['seasonal_periods']*spec['k_seasonal_diff']
                     intercept[k_state] += mu
+            intercept_type = "state"
             S_t1 = np.dot(F_matrix, S_t0) + intercept
-            arr_content = " ".join([str(val) for val in intercept])
-            arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(intercept))
-            intercept_vector = InterceptVector(Array=arr)
-            intercept_attr = 0
+        arr_content = " ".join([str(val) for val in intercept])
+        arr = ArrayType(type_=ARRAY_TYPE.REAL.value,content=arr_content, n=len(intercept))
+        intercept_vector = InterceptVector(Array=arr, type_=intercept_type)
 
         t_mat = Matrix(nbRows=F_matrix.shape[0], nbCols=F_matrix.shape[1])
         for row in F_matrix:
@@ -196,6 +197,7 @@ class StatsmodelsToPmml:
         if self.conf_int is not None:
             R = smoother_results.selection[...,-1] # selection matrix
             Q = smoother_results.state_cov[...,-1] # state_covariance matrix
+            obs_cov = smoother_results.obs_cov[..., -1] # observation covariance
             R_Q_R_prime = np.dot(R,np.dot(Q,R.T)) # selected_state_cov
             P_t0 = smoother_results.predicted_state_cov[...,-1] # predicted_state_cov
 
@@ -209,15 +211,20 @@ class StatsmodelsToPmml:
                 array_content = " ".join([str(val) for val in row])
                 p_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
             predicted_state_cov_matrix = PredictedStateCovarianceMatrix(Matrix=p_mat)
+            h_mat = Matrix(nbRows=obs_cov.shape[0], nbCols=obs_cov.shape[1])
+            for row in obs_cov:
+                array_content = " ".join([str(val) for val in row])
+                h_mat.add_Array(ArrayType(content=array_content, type_=ARRAY_TYPE.REAL.value))
+            observation_cov_matrix = ObservationVarianceMatrix(Matrix=h_mat)
 
         state_space_model = StateSpaceModel(
-            intercept=intercept_attr,
             StateVector=final_state_vector,
             TransitionMatrix=transition_matrix,
             MeasurementMatrix=measurement_matrix,
             InterceptVector=intercept_vector,
             SelectedStateCovarianceMatrix=selected_state_cov_matrix,
-            PredictedStateCovarianceMatrix=predicted_state_cov_matrix
+            PredictedStateCovarianceMatrix=predicted_state_cov_matrix,
+            ObservationVarianceMatrix=observation_cov_matrix
         )
         return state_space_model
 

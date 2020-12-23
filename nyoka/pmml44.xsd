@@ -1190,6 +1190,14 @@
     <xs:attribute name="AIC" type="NUMBER" use="optional"/>
     <xs:attribute name="BIC" type="NUMBER" use="optional"/>
     <xs:attribute name="AICc" type="NUMBER" use="optional"/>
+    <xs:attribute name="accuracy" type="NUMBER" use="optional"/>
+    <xs:attribute name="AUC" type="NUMBER" use="optional"/>
+    <xs:attribute name="precision" type="NUMBER" use="optional"/>
+    <xs:attribute name="recall" type="NUMBER" use="optional"/>
+    <xs:attribute name="specificity" type="NUMBER" use="optional"/>
+    <xs:attribute name="F1" type="NUMBER" use="optional"/>
+    <xs:attribute name="F2" type="NUMBER" use="optional"/>
+    <xs:attribute name="Fhalf" type="NUMBER" use="optional"/>
   </xs:complexType>
 </xs:element>
 <xs:element name="ClusteringModelQuality">
@@ -1661,8 +1669,8 @@
     <xs:enumeration value="support"/>
     <xs:enumeration value="lift"/>
     <xs:enumeration value="leverage"/>
-            <xs:enumeration value="confidenceIntervalLower"/>
-            <xs:enumeration value="confidenceIntervalUpper"/>
+    <xs:enumeration value="confidenceIntervalLower"/>
+    <xs:enumeration value="confidenceIntervalUpper"/>
   </xs:restriction>
 </xs:simpleType>
 
@@ -3437,8 +3445,6 @@
       <xs:element ref="FinalOmega"/>
       <xs:element ref="FinalStateVector"/>
       <xs:element ref="HVector" minOccurs="0" maxOccurs="1"/>
-                <xs:element ref="TransitionMatrix"/>
-                <xs:element ref="MeasurementMatrix"/>
     </xs:sequence>
   </xs:complexType>
 </xs:element>
@@ -3596,16 +3602,16 @@
       <xs:element ref="StateVector" minOccurs="0"/>
       <xs:element ref="TransitionMatrix" minOccurs="0"/>
       <xs:element ref="MeasurementMatrix" minOccurs="0"/>
-                <xs:element ref="InterceptVector" minOccurs="0"/>
-                <xs:element ref="PredictedStateCovarianceMatrix" minOccurs="0"/>
-                <xs:element ref="SelectedStateCovarianceMatrix" minOccurs="0"/>
+      <xs:element ref="InterceptVector" minOccurs="0"/>
+      <xs:element ref="PredictedStateCovarianceMatrix" minOccurs="0"/>
+      <xs:element ref="SelectedStateCovarianceMatrix" minOccurs="0"/>
+      <xs:element ref="ObservationVarianceMatrix" minOccurs="0"/>
       <xs:element ref="PsiVector" minOccurs="0"/>
       <xs:element ref="DynamicRegressor" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="variance" type="REAL-NUMBER"/>
     <xs:attribute name="period" default="none"/>
     <xs:attribute name="intercept" type="REAL-NUMBER" default="0"/>
-            <xs:attribute name="observationVariance" type="REAL-NUMBER"/>
   </xs:complexType>
 </xs:element>
 <xs:element name="StateVector">
@@ -3632,30 +3638,46 @@
     </xs:sequence>
   </xs:complexType>
 </xs:element>
-    <xs:element name="InterceptVector">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:group ref="REAL-ARRAY"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="PredictedStateCovarianceMatrix">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="Matrix"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="SelectedStateCovarianceMatrix">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="Matrix"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+<xs:element name="InterceptVector">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:group ref="REAL-ARRAY"/>
+        </xs:sequence>
+        <xs:attribute name="type" default="state">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="state"/>
+              <xs:enumeration value="observation"/>
+            </xs:restriction>
+         </xs:simpleType>
+    </xs:attribute>
+    </xs:complexType>
+</xs:element>
+<xs:element name="PredictedStateCovarianceMatrix">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="Matrix"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+<xs:element name="SelectedStateCovarianceMatrix">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="Matrix"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+<xs:element name="ObservationVarianceMatrix">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="Matrix"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
 <xs:element name="PsiVector">
   <xs:complexType>
     <xs:sequence>
@@ -3667,9 +3689,19 @@
   </xs:complexType>
 </xs:element>
 <xs:element name="SpectralAnalysis">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
 </xs:element>
 
 <xs:element name="SeasonalTrendDecomposition">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
 </xs:element>
 <xs:element name="NeuralNetwork">
   <xs:complexType>
@@ -4602,7 +4634,7 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="numberOfClusters" type="INT-NUMBER" use="required"/>
+    <xs:attribute name="numberOfClusters" type="xs:nonNegativeInteger" use="required"/>
     <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
   </xs:complexType>
 </xs:element>
