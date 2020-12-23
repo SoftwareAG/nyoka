@@ -11,14 +11,14 @@ packages = [
     "lxml",
     "sklearn-pandas",
     "lightgbm",
-    "h5py",
+    "h5py==2.10.0",
     "pandas",
     "numpy",
     "pytest-cov",
     "pytest",
     "codecov",
     "pillow",
-    "keras-retinanet",
+    "keras-retinanet==0.5.1",
     "xmlschema"
 ]
 
