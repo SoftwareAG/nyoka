@@ -1,51 +1,43 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Nyoka 4.3.0 &mdash; Statsmodels Exporter Module</title>
+  <title>Nyoka 4.4.0 &mdash; Statsmodels Exporter Module</title>
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'4.3.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="xgboost_to_pmml module" href="xgboost_to_pmml.html" />
-    <link rel="prev" title="skl_to_pmml module" href="skl_to_pmml.html" /> 
+    <link rel="prev" title="skl_to_pmml module" href="skl_to_pmml.html" />  
 </head>
 
 <body class="wy-body-for-nav">
@@ -59,18 +51,17 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Nyoka
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Nyoka
           
 
           
           </a>
+		  <div class="version">
+                4.4
+              </div>
 
           
             
-            
-              <div class="version">
-                4.3
-              </div>
             
           
 
@@ -86,6 +77,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -109,6 +101,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -155,10 +148,10 @@
       <li class="wy-breadcrumbs-aside">
         
             
-        <a href="https://github.com/SoftwareAG/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
-      
-    
-  </li>
+            <a href="https://github.com/SoftwareAG/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
+          
+        
+      </li>
     
   </ul>
 
@@ -170,73 +163,80 @@
             
   <div class="section" id="module-statsmodels_to_pmml">
 <span id="statsmodels-to-pmml-module"></span><h1>Statsmodels Exporter Module<a class="headerlink" href="#module-statsmodels_to_pmml" title="Permalink to this headline">¶</a></h1>
+<p>Copyright (c) 2004-2016 Zementis, Inc.
+Copyright (c) 2016-2020 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its</p>
+<p>SPDX-License-Identifier: Apache-2.0</p>
+<blockquote>
+<div><p>Licensed under the Apache License, Version 2.0 (the “License”);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+<blockquote>
+<div><p><a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+</div></blockquote>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an “AS IS” BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+</div></blockquote>
 <dl class="class">
 <dt id="statsmodels_to_pmml.StatsmodelsToPmml">
-<em class="property">class </em><code class="descname">StatsmodelsToPmml</code><span class="sig-paren">(</span><em>results_obj=None</em>, <em>pmml_file_name='from_statsmodels.pmml'</em>, <em>conf_int=None</em>, <em>model_name=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="sig-prename descclassname">statsmodels_to_pmml.</code><code class="sig-name descname">StatsmodelsToPmml</code><span class="sig-paren">(</span><em class="sig-param">results_obj=None</em>, <em class="sig-param">pmml_file_name='from_statsmodels.pmml'</em>, <em class="sig-param">conf_int=None</em>, <em class="sig-param">model_name=None</em>, <em class="sig-param">description=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Exports time-series models from statsmodels library into PMML.</p>
-<dl class="docutils">
-<dt>results_obj:</dt>
-<dd>Instance of AR(I)MAResultsWrapper / (SARI/VAR)MAXResultsWrapper from statsmodels</dd>
-<dt>pmml_file_name: string</dt>
-<dd>Name of the PMML</dd>
-<dt>conf_int <span class="classifier-delimiter">:</span> <span class="classifier">list (optional)</span></dt>
-<dd>Confidence intervel. A list of values mentioning the percentage of confidence.
-e.g., conf_int = [80,95] will create OutputField for lower bound and upper bound of confidence interval with 80% and 95%.</dd>
-<dt>model_name <span class="classifier-delimiter">:</span> <span class="classifier">string (optional)</span></dt>
-<dd>Name of the model</dd>
-<dt>description <span class="classifier-delimiter">:</span> <span class="classifier">string (optional)</span></dt>
-<dd>Description of the model</dd>
+<dl class="simple">
+<dt>results_obj: </dt><dd><p>Instance of AR(I)MAResultsWrapper / (SARI/VAR)MAXResultsWrapper from statsmodels</p>
+</dd>
+<dt>pmml_file_name: string</dt><dd><p>Name of the PMML</p>
+</dd>
+<dt>conf_int<span class="classifier">list (optional)</span></dt><dd><p>Confidence intervel. A list of values mentioning the percentage of confidence.
+e.g., conf_int = [80,95] will create OutputField for lower bound and upper bound of confidence interval with 80% and 95%.</p>
+</dd>
+<dt>model_name<span class="classifier">string (optional)</span></dt><dd><p>Name of the model</p>
+</dd>
+<dt>description<span class="classifier">string (optional)</span></dt><dd><p>Description of the model</p>
+</dd>
 </dl>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">Generates PMML object and exports it to <cite>pmml_file_name</cite></td>
-</tr>
-</tbody>
-</table>
+<p>Generates PMML object and exports it to <cite>pmml_file_name</cite></p>
 <dl class="method">
 <dt id="statsmodels_to_pmml.StatsmodelsToPmml.construct_pmml">
-<em class="property">def </em><code class="descname">construct_pmml</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.construct_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.construct_pmml" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">construct_pmml</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.construct_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.construct_pmml" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs the actual model object. (ARIMA/ TimeSeriesModel)</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="statsmodels_to_pmml.StatsmodelsToPmml.export_pmml">
-<em class="property">def </em><code class="descname">export_pmml</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.export_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.export_pmml" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">export_pmml</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.export_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.export_pmml" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the generated PMML object to given <cite>pmml_file_name</cite></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="statsmodels_to_pmml.StatsmodelsToPmml.generate_arima_model">
-<em class="property">def </em><code class="descname">generate_arima_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_arima_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_arima_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate_arima_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_arima_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_arima_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs ARIMA object. Only for <cite>statsmodels.tsa.arima_model.ARIMA</cite> class.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="statsmodels_to_pmml.StatsmodelsToPmml.generate_data_dictionary">
-<em class="property">def </em><code class="descname">generate_data_dictionary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_data_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_data_dictionary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate_data_dictionary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_data_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_data_dictionary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates DataDictionary Object. The number of DataField is one more than the dimension of the data.        The extra DataField is a supplementary to hold the value of <a href="#id1"><span class="problematic" id="id2">`</span></a>h`(horizon) for forecasting.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="statsmodels_to_pmml.StatsmodelsToPmml.generate_mining_schema">
-<em class="property">def </em><code class="descname">generate_mining_schema</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_mining_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_mining_schema" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate_mining_schema</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_mining_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_mining_schema" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates MiningSchema object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="statsmodels_to_pmml.StatsmodelsToPmml.generate_output">
-<em class="property">def </em><code class="descname">generate_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_output" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates Output object. If user provides value in <cite>conf_int</cite> parameter, then there will be two OuputField        for each value. One with <cite>feature=confidenceIntervalLower</cite> and another with <cite>feature=confidenceIntervalUpper</cite>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="statsmodels_to_pmml.StatsmodelsToPmml.generate_state_space_model">
-<em class="property">def </em><code class="descname">generate_state_space_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_state_space_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_state_space_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate_state_space_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_state_space_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_state_space_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs StateSpaceModel object. For the following models -        - <cite>statsmodels.tsa.statespace.sarimax.SARIMAX</cite>
 - <cite>statsmodels.tsa.statespace.varmax.VARMAX</cite>
 - <cite>statsmodels.tsa.statespace.tsa.arima.ARIMA</cite></p>
@@ -244,13 +244,13 @@ e.g., conf_int = [80,95] will create OutputField for lower bound and upper bound
 
 <dl class="method">
 <dt id="statsmodels_to_pmml.StatsmodelsToPmml.generate_time_series">
-<em class="property">def </em><code class="descname">generate_time_series</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_time_series"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_time_series" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate_time_series</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_time_series"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_time_series" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates TimeSeries object. The number of TimeSeries object is equal to the dimeansion of the data.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="statsmodels_to_pmml.StatsmodelsToPmml.generate_time_value_object">
-<em class="property">def </em><code class="descname">generate_time_value_object</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_time_value_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_time_value_object" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate_time_value_object</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statsmodels_to_pmml.html#StatsmodelsToPmml.generate_time_value_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#statsmodels_to_pmml.StatsmodelsToPmml.generate_time_value_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates TimeValue object. If data has any index, then the index will be in TimeStamp object.</p>
 </dd></dl>
 
@@ -266,6 +266,7 @@ e.g., conf_int = [80,95] will create OutputField for lower bound and upper bound
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+      
         <a href="keras_model_to_pmml.html" class="btn btn-neutral float-right" title="Keras Exporter Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
@@ -278,11 +279,19 @@ e.g., conf_int = [80,95] will create OutputField for lower bound and upper bound
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, maintainer@nyoka.org
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -293,7 +302,6 @@ e.g., conf_int = [80,95] will create OutputField for lower bound and upper bound
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
