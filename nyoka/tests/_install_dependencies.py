@@ -3,7 +3,7 @@ import sys
 import os
 
 packages = [
-    "statsmodels",
+    "statsmodels==0.11.1",
     "xgboost==0.82",
     "keras==2.2.4",
     "numpy==1.16.1",
@@ -18,7 +18,7 @@ packages = [
     "pytest",
     "codecov",
     "pillow",
-    "keras-retinanet",
+    "keras-retinanet==0.5.1",
     "xmlschema"
 ]
 
