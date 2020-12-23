@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Generated Mon Feb 17 12:39:49 2020 by generateDS.py version 2.28a.
+# Generated Thu Dec 10 12:37:35 2020 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -17,7 +17,7 @@
 #   ..\pmml44.xsd
 #
 # Command line:
-#   C:\Projects\Nyoka\nyoka_github\nyoka\PMML44\gds_local.py --no-warnings --export="write literal etree" --super="pmml44Super" --subclass-suffix -o "pmml44Super.py" -s "pmml44.py" -b "behaviorsDir.xml" -f ..\pmml44.xsd
+#   C:\Users\NIBO\OneDrive - Software AG\Documents\projects\nyoka\nyoka\PMML44\gds_local.py --no-warnings --export="write literal etree" --super="pmml44Super" --subclass-suffix -o "pmml44Super.py" -s "pmml44.py" -b "behaviorsDir.xml" -f ..\pmml44.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML44
@@ -1033,8 +1033,8 @@ supermod.ModelExplanation.subclass = ModelExplanation
 
 
 class PredictiveModelQuality(supermod.PredictiveModelQuality):
-    def __init__(self, targetField=None, dataName=None, dataUsage='training', meanError=None, meanAbsoluteError=None, meanSquaredError=None, rootMeanSquaredError=None, r_squared=None, adj_r_squared=None, sumSquaredError=None, sumSquaredRegression=None, numOfRecords=None, numOfRecordsWeighted=None, numOfPredictors=None, degreesOfFreedom=None, fStatistic=None, AIC=None, BIC=None, AICc=None, Extension=None, ConfusionMatrix=None, LiftData=None, ROC=None):
-        super(PredictiveModelQuality, self).__init__(targetField, dataName, dataUsage, meanError, meanAbsoluteError, meanSquaredError, rootMeanSquaredError, r_squared, adj_r_squared, sumSquaredError, sumSquaredRegression, numOfRecords, numOfRecordsWeighted, numOfPredictors, degreesOfFreedom, fStatistic, AIC, BIC, AICc, Extension, ConfusionMatrix, LiftData, ROC, )
+    def __init__(self, targetField=None, dataName=None, dataUsage='training', meanError=None, meanAbsoluteError=None, meanSquaredError=None, rootMeanSquaredError=None, r_squared=None, adj_r_squared=None, sumSquaredError=None, sumSquaredRegression=None, numOfRecords=None, numOfRecordsWeighted=None, numOfPredictors=None, degreesOfFreedom=None, fStatistic=None, AIC=None, BIC=None, AICc=None, accuracy=None, AUC=None, precision=None, recall=None, specificity=None, F1=None, F2=None, Fhalf=None, Extension=None, ConfusionMatrix=None, LiftData=None, ROC=None):
+        super(PredictiveModelQuality, self).__init__(targetField, dataName, dataUsage, meanError, meanAbsoluteError, meanSquaredError, rootMeanSquaredError, r_squared, adj_r_squared, sumSquaredError, sumSquaredRegression, numOfRecords, numOfRecordsWeighted, numOfPredictors, degreesOfFreedom, fStatistic, AIC, BIC, AICc, accuracy, AUC, precision, recall, specificity, F1, F2, Fhalf, Extension, ConfusionMatrix, LiftData, ROC, )
 
     #
     # XMLBehaviors
@@ -2818,8 +2818,8 @@ supermod.MaximumLikelihoodStat.subclass = MaximumLikelihoodStat
 
 
 class KalmanState(supermod.KalmanState):
-    def __init__(self, FinalOmega=None, FinalStateVector=None, HVector=None, TransitionMatrix=None, MeasurementMatrix=None):
-        super(KalmanState, self).__init__(FinalOmega, FinalStateVector, HVector, TransitionMatrix, MeasurementMatrix, )
+    def __init__(self, FinalOmega=None, FinalStateVector=None, HVector=None):
+        super(KalmanState, self).__init__(FinalOmega, FinalStateVector, HVector, )
 
     #
     # XMLBehaviors
@@ -3005,8 +3005,8 @@ supermod.PastVariances.subclass = PastVariances
 
 
 class StateSpaceModel(supermod.StateSpaceModel):
-    def __init__(self, variance=None, period='none', intercept='0', observationVariance=None, Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, InterceptVector=None, PredictedStateCovarianceMatrix=None, SelectedStateCovarianceMatrix=None, PsiVector=None, DynamicRegressor=None):
-        super(StateSpaceModel, self).__init__(variance, period, intercept, observationVariance, Extension, StateVector, TransitionMatrix, MeasurementMatrix, InterceptVector, PredictedStateCovarianceMatrix, SelectedStateCovarianceMatrix, PsiVector, DynamicRegressor, )
+    def __init__(self, variance=None, period='none', intercept='0', Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, InterceptVector=None, PredictedStateCovarianceMatrix=None, SelectedStateCovarianceMatrix=None, ObservationVarianceMatrix=None, PsiVector=None, DynamicRegressor=None):
+        super(StateSpaceModel, self).__init__(variance, period, intercept, Extension, StateVector, TransitionMatrix, MeasurementMatrix, InterceptVector, PredictedStateCovarianceMatrix, SelectedStateCovarianceMatrix, ObservationVarianceMatrix, PsiVector, DynamicRegressor, )
 
     #
     # XMLBehaviors
@@ -3049,8 +3049,8 @@ supermod.MeasurementMatrix.subclass = MeasurementMatrix
 
 
 class InterceptVector(supermod.InterceptVector):
-    def __init__(self, Extension=None, Array=None):
-        super(InterceptVector, self).__init__(Extension, Array, )
+    def __init__(self, type_='state', Extension=None, Array=None):
+        super(InterceptVector, self).__init__(type_, Extension, Array, )
 
     #
     # XMLBehaviors
@@ -3081,6 +3081,17 @@ supermod.SelectedStateCovarianceMatrix.subclass = SelectedStateCovarianceMatrix
 # end class SelectedStateCovarianceMatrix
 
 
+class ObservationVarianceMatrix(supermod.ObservationVarianceMatrix):
+    def __init__(self, Extension=None, Matrix=None):
+        super(ObservationVarianceMatrix, self).__init__(Extension, Matrix, )
+
+    #
+    # XMLBehaviors
+    #
+supermod.ObservationVarianceMatrix.subclass = ObservationVarianceMatrix
+# end class ObservationVarianceMatrix
+
+
 class PsiVector(supermod.PsiVector):
     def __init__(self, targetField=None, variance=None, Extension=None, Array=None):
         super(PsiVector, self).__init__(targetField, variance, Extension, Array, )
@@ -3093,8 +3104,8 @@ supermod.PsiVector.subclass = PsiVector
 
 
 class SpectralAnalysis(supermod.SpectralAnalysis):
-    def __init__(self):
-        super(SpectralAnalysis, self).__init__()
+    def __init__(self, Extension=None):
+        super(SpectralAnalysis, self).__init__(Extension, )
 
     #
     # XMLBehaviors
@@ -3104,8 +3115,8 @@ supermod.SpectralAnalysis.subclass = SpectralAnalysis
 
 
 class SeasonalTrendDecomposition(supermod.SeasonalTrendDecomposition):
-    def __init__(self):
-        super(SeasonalTrendDecomposition, self).__init__()
+    def __init__(self, Extension=None):
+        super(SeasonalTrendDecomposition, self).__init__(Extension, )
 
     #
     # XMLBehaviors

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Feb 17 12:39:47 2020 by generateDS.py version 2.28a.
+# Generated Thu Dec 10 12:37:34 2020 by generateDS.py version 2.28a.
 #
 # Command line options:
 #   ('--no-warnings', '')
@@ -18,7 +18,7 @@
 #   ..\pmml44.xsd
 #
 # Command line:
-#   C:\Projects\Nyoka\nyoka_github\nyoka\PMML44\gds_local.py --no-warnings --export="write literal etree" --super="pmml44Super" --subclass-suffix -o "pmml44Super.py" -s "pmml44.py" -b "behaviorsDir.xml" -f ..\pmml44.xsd
+#   C:\Users\NIBO\OneDrive - Software AG\Documents\projects\nyoka\nyoka\PMML44\gds_local.py --no-warnings --export="write literal etree" --super="pmml44Super" --subclass-suffix -o "pmml44Super.py" -s "pmml44.py" -b "behaviorsDir.xml" -f ..\pmml44.xsd
 #
 # Current working directory (os.getcwd()):
 #   PMML44
@@ -16390,7 +16390,7 @@ class ModelExplanation(GeneratedsSuper):
 class PredictiveModelQuality(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, targetField=None, dataName=None, dataUsage='training', meanError=None, meanAbsoluteError=None, meanSquaredError=None, rootMeanSquaredError=None, r_squared=None, adj_r_squared=None, sumSquaredError=None, sumSquaredRegression=None, numOfRecords=None, numOfRecordsWeighted=None, numOfPredictors=None, degreesOfFreedom=None, fStatistic=None, AIC=None, BIC=None, AICc=None, Extension=None, ConfusionMatrix=None, LiftData=None, ROC=None):
+    def __init__(self, targetField=None, dataName=None, dataUsage='training', meanError=None, meanAbsoluteError=None, meanSquaredError=None, rootMeanSquaredError=None, r_squared=None, adj_r_squared=None, sumSquaredError=None, sumSquaredRegression=None, numOfRecords=None, numOfRecordsWeighted=None, numOfPredictors=None, degreesOfFreedom=None, fStatistic=None, AIC=None, BIC=None, AICc=None, accuracy=None, AUC=None, precision=None, recall=None, specificity=None, F1=None, F2=None, Fhalf=None, Extension=None, ConfusionMatrix=None, LiftData=None, ROC=None):
         self.original_tagname_ = None
         self.targetField = _cast(None, targetField)
         self.dataName = _cast(None, dataName)
@@ -16411,6 +16411,14 @@ class PredictiveModelQuality(GeneratedsSuper):
         self.AIC = _cast(None, AIC)
         self.BIC = _cast(None, BIC)
         self.AICc = _cast(None, AICc)
+        self.accuracy = _cast(None, accuracy)
+        self.AUC = _cast(None, AUC)
+        self.precision = _cast(None, precision)
+        self.recall = _cast(None, recall)
+        self.specificity = _cast(None, specificity)
+        self.F1 = _cast(None, F1)
+        self.F2 = _cast(None, F2)
+        self.Fhalf = _cast(None, Fhalf)
         if Extension is None:
             self.Extension = []
         else:
@@ -16484,6 +16492,22 @@ class PredictiveModelQuality(GeneratedsSuper):
     def set_BIC(self, BIC): self.BIC = BIC
     def get_AICc(self): return self.AICc
     def set_AICc(self, AICc): self.AICc = AICc
+    def get_accuracy(self): return self.accuracy
+    def set_accuracy(self, accuracy): self.accuracy = accuracy
+    def get_AUC(self): return self.AUC
+    def set_AUC(self, AUC): self.AUC = AUC
+    def get_precision(self): return self.precision
+    def set_precision(self, precision): self.precision = precision
+    def get_recall(self): return self.recall
+    def set_recall(self, recall): self.recall = recall
+    def get_specificity(self): return self.specificity
+    def set_specificity(self, specificity): self.specificity = specificity
+    def get_F1(self): return self.F1
+    def set_F1(self, F1): self.F1 = F1
+    def get_F2(self): return self.F2
+    def set_F2(self, F2): self.F2 = F2
+    def get_Fhalf(self): return self.Fhalf
+    def set_Fhalf(self, Fhalf): self.Fhalf = Fhalf
     def validate_FIELD_NAME(self, value):
         # Validate type FIELD-NAME, a restriction on xs:string.
         if value is not None and Validate_simpletypes_:
@@ -16581,6 +16605,30 @@ class PredictiveModelQuality(GeneratedsSuper):
         if self.AICc is not None and 'AICc' not in already_processed:
             already_processed.add('AICc')
             outfile.write(' AICc=%s' % (quote_attrib(self.AICc), ))
+        if self.accuracy is not None and 'accuracy' not in already_processed:
+            already_processed.add('accuracy')
+            outfile.write(' accuracy=%s' % (quote_attrib(self.accuracy), ))
+        if self.AUC is not None and 'AUC' not in already_processed:
+            already_processed.add('AUC')
+            outfile.write(' AUC=%s' % (quote_attrib(self.AUC), ))
+        if self.precision is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
+        if self.recall is not None and 'recall' not in already_processed:
+            already_processed.add('recall')
+            outfile.write(' recall=%s' % (quote_attrib(self.recall), ))
+        if self.specificity is not None and 'specificity' not in already_processed:
+            already_processed.add('specificity')
+            outfile.write(' specificity=%s' % (quote_attrib(self.specificity), ))
+        if self.F1 is not None and 'F1' not in already_processed:
+            already_processed.add('F1')
+            outfile.write(' F1=%s' % (quote_attrib(self.F1), ))
+        if self.F2 is not None and 'F2' not in already_processed:
+            already_processed.add('F2')
+            outfile.write(' F2=%s' % (quote_attrib(self.F2), ))
+        if self.Fhalf is not None and 'Fhalf' not in already_processed:
+            already_processed.add('Fhalf')
+            outfile.write(' Fhalf=%s' % (quote_attrib(self.Fhalf), ))
     def exportChildren(self, outfile, level, namespace_='', name_='PredictiveModelQuality', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -16637,6 +16685,22 @@ class PredictiveModelQuality(GeneratedsSuper):
             element.set('BIC', self.BIC)
         if self.AICc is not None:
             element.set('AICc', self.AICc)
+        if self.accuracy is not None:
+            element.set('accuracy', self.accuracy)
+        if self.AUC is not None:
+            element.set('AUC', self.AUC)
+        if self.precision is not None:
+            element.set('precision', self.precision)
+        if self.recall is not None:
+            element.set('recall', self.recall)
+        if self.specificity is not None:
+            element.set('specificity', self.specificity)
+        if self.F1 is not None:
+            element.set('F1', self.F1)
+        if self.F2 is not None:
+            element.set('F2', self.F2)
+        if self.Fhalf is not None:
+            element.set('Fhalf', self.Fhalf)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.ConfusionMatrix is not None:
@@ -16733,6 +16797,38 @@ class PredictiveModelQuality(GeneratedsSuper):
             already_processed.add('AICc')
             showIndent(outfile, level)
             outfile.write('AICc=%e,\n' % (self.AICc,))
+        if self.accuracy is not None and 'accuracy' not in already_processed:
+            already_processed.add('accuracy')
+            showIndent(outfile, level)
+            outfile.write('accuracy=%e,\n' % (self.accuracy,))
+        if self.AUC is not None and 'AUC' not in already_processed:
+            already_processed.add('AUC')
+            showIndent(outfile, level)
+            outfile.write('AUC=%e,\n' % (self.AUC,))
+        if self.precision is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            showIndent(outfile, level)
+            outfile.write('precision=%e,\n' % (self.precision,))
+        if self.recall is not None and 'recall' not in already_processed:
+            already_processed.add('recall')
+            showIndent(outfile, level)
+            outfile.write('recall=%e,\n' % (self.recall,))
+        if self.specificity is not None and 'specificity' not in already_processed:
+            already_processed.add('specificity')
+            showIndent(outfile, level)
+            outfile.write('specificity=%e,\n' % (self.specificity,))
+        if self.F1 is not None and 'F1' not in already_processed:
+            already_processed.add('F1')
+            showIndent(outfile, level)
+            outfile.write('F1=%e,\n' % (self.F1,))
+        if self.F2 is not None and 'F2' not in already_processed:
+            already_processed.add('F2')
+            showIndent(outfile, level)
+            outfile.write('F2=%e,\n' % (self.F2,))
+        if self.Fhalf is not None and 'Fhalf' not in already_processed:
+            already_processed.add('Fhalf')
+            showIndent(outfile, level)
+            outfile.write('Fhalf=%e,\n' % (self.Fhalf,))
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
         outfile.write('Extension=[\n')
@@ -16919,6 +17015,70 @@ class PredictiveModelQuality(GeneratedsSuper):
             except ValueError as exp:
                 raise ValueError('Bad float/double attribute (AICc): %s' % exp)
             self.validate_NUMBER(self.AICc)    # validate type NUMBER
+        value = find_attr_value_('accuracy', node)
+        if value is not None and 'accuracy' not in already_processed:
+            already_processed.add('accuracy')
+            try:
+                self.accuracy = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (accuracy): %s' % exp)
+            self.validate_NUMBER(self.accuracy)    # validate type NUMBER
+        value = find_attr_value_('AUC', node)
+        if value is not None and 'AUC' not in already_processed:
+            already_processed.add('AUC')
+            try:
+                self.AUC = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (AUC): %s' % exp)
+            self.validate_NUMBER(self.AUC)    # validate type NUMBER
+        value = find_attr_value_('precision', node)
+        if value is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            try:
+                self.precision = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (precision): %s' % exp)
+            self.validate_NUMBER(self.precision)    # validate type NUMBER
+        value = find_attr_value_('recall', node)
+        if value is not None and 'recall' not in already_processed:
+            already_processed.add('recall')
+            try:
+                self.recall = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (recall): %s' % exp)
+            self.validate_NUMBER(self.recall)    # validate type NUMBER
+        value = find_attr_value_('specificity', node)
+        if value is not None and 'specificity' not in already_processed:
+            already_processed.add('specificity')
+            try:
+                self.specificity = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (specificity): %s' % exp)
+            self.validate_NUMBER(self.specificity)    # validate type NUMBER
+        value = find_attr_value_('F1', node)
+        if value is not None and 'F1' not in already_processed:
+            already_processed.add('F1')
+            try:
+                self.F1 = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (F1): %s' % exp)
+            self.validate_NUMBER(self.F1)    # validate type NUMBER
+        value = find_attr_value_('F2', node)
+        if value is not None and 'F2' not in already_processed:
+            already_processed.add('F2')
+            try:
+                self.F2 = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (F2): %s' % exp)
+            self.validate_NUMBER(self.F2)    # validate type NUMBER
+        value = find_attr_value_('Fhalf', node)
+        if value is not None and 'Fhalf' not in already_processed:
+            already_processed.add('Fhalf')
+            try:
+                self.Fhalf = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (Fhalf): %s' % exp)
+            self.validate_NUMBER(self.Fhalf)    # validate type NUMBER
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -47129,13 +47289,11 @@ class MaximumLikelihoodStat(GeneratedsSuper):
 class KalmanState(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, FinalOmega=None, FinalStateVector=None, HVector=None, TransitionMatrix=None, MeasurementMatrix=None):
+    def __init__(self, FinalOmega=None, FinalStateVector=None, HVector=None):
         self.original_tagname_ = None
         self.FinalOmega = FinalOmega
         self.FinalStateVector = FinalStateVector
         self.HVector = HVector
-        self.TransitionMatrix = TransitionMatrix
-        self.MeasurementMatrix = MeasurementMatrix
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -47153,17 +47311,11 @@ class KalmanState(GeneratedsSuper):
     def set_FinalStateVector(self, FinalStateVector): self.FinalStateVector = FinalStateVector
     def get_HVector(self): return self.HVector
     def set_HVector(self, HVector): self.HVector = HVector
-    def get_TransitionMatrix(self): return self.TransitionMatrix
-    def set_TransitionMatrix(self, TransitionMatrix): self.TransitionMatrix = TransitionMatrix
-    def get_MeasurementMatrix(self): return self.MeasurementMatrix
-    def set_MeasurementMatrix(self, MeasurementMatrix): self.MeasurementMatrix = MeasurementMatrix
     def hasContent_(self):
         if (
             self.FinalOmega is not None or
             self.FinalStateVector is not None or
-            self.HVector is not None or
-            self.TransitionMatrix is not None or
-            self.MeasurementMatrix is not None
+            self.HVector is not None
         ):
             return True
         else:
@@ -47202,10 +47354,6 @@ class KalmanState(GeneratedsSuper):
             self.FinalStateVector.export(outfile, level, namespace_, name_='FinalStateVector', pretty_print=pretty_print)
         if self.HVector is not None:
             self.HVector.export(outfile, level, namespace_, name_='HVector', pretty_print=pretty_print)
-        if self.TransitionMatrix is not None:
-            self.TransitionMatrix.export(outfile, level, namespace_, name_='TransitionMatrix', pretty_print=pretty_print)
-        if self.MeasurementMatrix is not None:
-            self.MeasurementMatrix.export(outfile, level, namespace_, name_='MeasurementMatrix', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='KalmanState', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
@@ -47220,12 +47368,6 @@ class KalmanState(GeneratedsSuper):
         if self.HVector is not None:
             HVector_ = self.HVector
             HVector_.to_etree(element, name_='HVector', mapping_=mapping_)
-        if self.TransitionMatrix is not None:
-            TransitionMatrix_ = self.TransitionMatrix
-            TransitionMatrix_.to_etree(element, name_='TransitionMatrix', mapping_=mapping_)
-        if self.MeasurementMatrix is not None:
-            MeasurementMatrix_ = self.MeasurementMatrix
-            MeasurementMatrix_.to_etree(element, name_='MeasurementMatrix', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[self] = element
         return element
@@ -47256,18 +47398,6 @@ class KalmanState(GeneratedsSuper):
             self.HVector.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.TransitionMatrix is not None:
-            showIndent(outfile, level)
-            outfile.write('TransitionMatrix=model_.TransitionMatrix(\n')
-            self.TransitionMatrix.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.MeasurementMatrix is not None:
-            showIndent(outfile, level)
-            outfile.write('MeasurementMatrix=model_.MeasurementMatrix(\n')
-            self.MeasurementMatrix.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -47293,16 +47423,6 @@ class KalmanState(GeneratedsSuper):
             obj_.build(child_)
             self.HVector = obj_
             obj_.original_tagname_ = 'HVector'
-        elif nodeName_ == 'TransitionMatrix':
-            obj_ = TransitionMatrix.factory()
-            obj_.build(child_)
-            self.TransitionMatrix = obj_
-            obj_.original_tagname_ = 'TransitionMatrix'
-        elif nodeName_ == 'MeasurementMatrix':
-            obj_ = MeasurementMatrix.factory()
-            obj_.build(child_)
-            self.MeasurementMatrix = obj_
-            obj_.original_tagname_ = 'MeasurementMatrix'
 # end class KalmanState
 
 
@@ -49523,12 +49643,11 @@ class PastVariances(GeneratedsSuper):
 class StateSpaceModel(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, variance=None, period='none', intercept='0', observationVariance=None, Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, InterceptVector=None, PredictedStateCovarianceMatrix=None, SelectedStateCovarianceMatrix=None, PsiVector=None, DynamicRegressor=None):
+    def __init__(self, variance=None, period='none', intercept='0', Extension=None, StateVector=None, TransitionMatrix=None, MeasurementMatrix=None, InterceptVector=None, PredictedStateCovarianceMatrix=None, SelectedStateCovarianceMatrix=None, ObservationVarianceMatrix=None, PsiVector=None, DynamicRegressor=None):
         self.original_tagname_ = None
         self.variance = _cast(None, variance)
         self.period = _cast(None, period)
         self.intercept = _cast(None, intercept)
-        self.observationVariance = _cast(None, observationVariance)
         if Extension is None:
             self.Extension = []
         else:
@@ -49539,6 +49658,7 @@ class StateSpaceModel(GeneratedsSuper):
         self.InterceptVector = InterceptVector
         self.PredictedStateCovarianceMatrix = PredictedStateCovarianceMatrix
         self.SelectedStateCovarianceMatrix = SelectedStateCovarianceMatrix
+        self.ObservationVarianceMatrix = ObservationVarianceMatrix
         self.PsiVector = PsiVector
         if DynamicRegressor is None:
             self.DynamicRegressor = []
@@ -49572,6 +49692,8 @@ class StateSpaceModel(GeneratedsSuper):
     def set_PredictedStateCovarianceMatrix(self, PredictedStateCovarianceMatrix): self.PredictedStateCovarianceMatrix = PredictedStateCovarianceMatrix
     def get_SelectedStateCovarianceMatrix(self): return self.SelectedStateCovarianceMatrix
     def set_SelectedStateCovarianceMatrix(self, SelectedStateCovarianceMatrix): self.SelectedStateCovarianceMatrix = SelectedStateCovarianceMatrix
+    def get_ObservationVarianceMatrix(self): return self.ObservationVarianceMatrix
+    def set_ObservationVarianceMatrix(self, ObservationVarianceMatrix): self.ObservationVarianceMatrix = ObservationVarianceMatrix
     def get_PsiVector(self): return self.PsiVector
     def set_PsiVector(self, PsiVector): self.PsiVector = PsiVector
     def get_DynamicRegressor(self): return self.DynamicRegressor
@@ -49585,8 +49707,6 @@ class StateSpaceModel(GeneratedsSuper):
     def set_period(self, period): self.period = period
     def get_intercept(self): return self.intercept
     def set_intercept(self, intercept): self.intercept = intercept
-    def get_observationVariance(self): return self.observationVariance
-    def set_observationVariance(self, observationVariance): self.observationVariance = observationVariance
     def validate_REAL_NUMBER(self, value):
         # Validate type REAL-NUMBER, a restriction on xs:double.
         if value is not None and Validate_simpletypes_:
@@ -49600,6 +49720,7 @@ class StateSpaceModel(GeneratedsSuper):
             self.InterceptVector is not None or
             self.PredictedStateCovarianceMatrix is not None or
             self.SelectedStateCovarianceMatrix is not None or
+            self.ObservationVarianceMatrix is not None or
             self.PsiVector is not None or
             self.DynamicRegressor
         ):
@@ -49637,9 +49758,6 @@ class StateSpaceModel(GeneratedsSuper):
         if self.intercept != 0 and 'intercept' not in already_processed:
             already_processed.add('intercept')
             outfile.write(' intercept=%s' % (quote_attrib(self.intercept), ))
-        if self.observationVariance is not None and 'observationVariance' not in already_processed:
-            already_processed.add('observationVariance')
-            outfile.write(' observationVariance=%s' % (quote_attrib(self.observationVariance), ))
     def exportChildren(self, outfile, level, namespace_='', name_='StateSpaceModel', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -49659,6 +49777,8 @@ class StateSpaceModel(GeneratedsSuper):
             self.PredictedStateCovarianceMatrix.export(outfile, level, namespace_, name_='PredictedStateCovarianceMatrix', pretty_print=pretty_print)
         if self.SelectedStateCovarianceMatrix is not None:
             self.SelectedStateCovarianceMatrix.export(outfile, level, namespace_, name_='SelectedStateCovarianceMatrix', pretty_print=pretty_print)
+        if self.ObservationVarianceMatrix is not None:
+            self.ObservationVarianceMatrix.export(outfile, level, namespace_, name_='ObservationVarianceMatrix', pretty_print=pretty_print)
         if self.PsiVector is not None:
             self.PsiVector.export(outfile, level, namespace_, name_='PsiVector', pretty_print=pretty_print)
         for DynamicRegressor_ in self.DynamicRegressor:
@@ -49674,8 +49794,6 @@ class StateSpaceModel(GeneratedsSuper):
             element.set('period', self.gds_format_string(self.period))
         if self.intercept is not None:
             element.set('intercept', self.intercept)
-        if self.observationVariance is not None:
-            element.set('observationVariance', self.observationVariance)
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.StateVector is not None:
@@ -49696,6 +49814,9 @@ class StateSpaceModel(GeneratedsSuper):
         if self.SelectedStateCovarianceMatrix is not None:
             SelectedStateCovarianceMatrix_ = self.SelectedStateCovarianceMatrix
             SelectedStateCovarianceMatrix_.to_etree(element, name_='SelectedStateCovarianceMatrix', mapping_=mapping_)
+        if self.ObservationVarianceMatrix is not None:
+            ObservationVarianceMatrix_ = self.ObservationVarianceMatrix
+            ObservationVarianceMatrix_.to_etree(element, name_='ObservationVarianceMatrix', mapping_=mapping_)
         if self.PsiVector is not None:
             PsiVector_ = self.PsiVector
             PsiVector_.to_etree(element, name_='PsiVector', mapping_=mapping_)
@@ -49723,10 +49844,6 @@ class StateSpaceModel(GeneratedsSuper):
             already_processed.add('intercept')
             showIndent(outfile, level)
             outfile.write('intercept=%e,\n' % (self.intercept,))
-        if self.observationVariance is not None and 'observationVariance' not in already_processed:
-            already_processed.add('observationVariance')
-            showIndent(outfile, level)
-            outfile.write('observationVariance=%e,\n' % (self.observationVariance,))
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
         outfile.write('Extension=[\n')
@@ -49776,6 +49893,12 @@ class StateSpaceModel(GeneratedsSuper):
             self.SelectedStateCovarianceMatrix.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
+        if self.ObservationVarianceMatrix is not None:
+            showIndent(outfile, level)
+            outfile.write('ObservationVarianceMatrix=model_.ObservationVarianceMatrix(\n')
+            self.ObservationVarianceMatrix.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
         if self.PsiVector is not None:
             showIndent(outfile, level)
             outfile.write('PsiVector=model_.PsiVector(\n')
@@ -49822,14 +49945,6 @@ class StateSpaceModel(GeneratedsSuper):
             except ValueError as exp:
                 raise ValueError('Bad float/double attribute (intercept): %s' % exp)
             self.validate_REAL_NUMBER(self.intercept)    # validate type REAL-NUMBER
-        value = find_attr_value_('observationVariance', node)
-        if value is not None and 'observationVariance' not in already_processed:
-            already_processed.add('observationVariance')
-            try:
-                self.observationVariance = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (observationVariance): %s' % exp)
-            self.validate_REAL_NUMBER(self.observationVariance)    # validate type REAL-NUMBER
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -49866,6 +49981,11 @@ class StateSpaceModel(GeneratedsSuper):
             obj_.build(child_)
             self.SelectedStateCovarianceMatrix = obj_
             obj_.original_tagname_ = 'SelectedStateCovarianceMatrix'
+        elif nodeName_ == 'ObservationVarianceMatrix':
+            obj_ = ObservationVarianceMatrix.factory()
+            obj_.build(child_)
+            self.ObservationVarianceMatrix = obj_
+            obj_.original_tagname_ = 'ObservationVarianceMatrix'
         elif nodeName_ == 'PsiVector':
             obj_ = PsiVector.factory()
             obj_.build(child_)
@@ -50275,8 +50395,9 @@ class MeasurementMatrix(GeneratedsSuper):
 class InterceptVector(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Extension=None, Array=None):
+    def __init__(self, type_='state', Extension=None, Array=None):
         self.original_tagname_ = None
+        self.type_ = _cast(None, type_)
         if Extension is None:
             self.Extension = []
         else:
@@ -50300,6 +50421,8 @@ class InterceptVector(GeneratedsSuper):
     def replace_Extension_at(self, index, value): self.Extension[index] = value
     def get_Array(self): return self.Array
     def set_Array(self, Array): self.Array = Array
+    def get_type(self): return self.type_
+    def set_type(self, type_): self.type_ = type_
     def hasContent_(self):
         if (
             self.Extension or
@@ -50330,7 +50453,9 @@ class InterceptVector(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='InterceptVector'):
-        pass
+        if self.type_ != "state" and 'type_' not in already_processed:
+            already_processed.add('type_')
+            outfile.write(' type=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.type_), input_name='type')), ))
     def exportChildren(self, outfile, level, namespace_='', name_='InterceptVector', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -50345,6 +50470,8 @@ class InterceptVector(GeneratedsSuper):
             element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
+        if self.type_ is not None:
+            element.set('type', self.gds_format_string(self.type_))
         for Extension_ in self.Extension:
             Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if self.Array is not None:
@@ -50360,7 +50487,10 @@ class InterceptVector(GeneratedsSuper):
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
+        if self.type_ is not None and 'type_' not in already_processed:
+            already_processed.add('type_')
+            showIndent(outfile, level)
+            outfile.write('type_="%s",\n' % (self.type_,))
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
         outfile.write('Extension=[\n')
@@ -50388,7 +50518,10 @@ class InterceptVector(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        pass
+        value = find_attr_value_('type', node)
+        if value is not None and 'type' not in already_processed:
+            already_processed.add('type')
+            self.type_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Extension':
             obj_ = Extension.factory()
@@ -50665,6 +50798,137 @@ class SelectedStateCovarianceMatrix(GeneratedsSuper):
 # end class SelectedStateCovarianceMatrix
 
 
+class ObservationVarianceMatrix(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, Extension=None, Matrix=None):
+        self.original_tagname_ = None
+        if Extension is None:
+            self.Extension = []
+        else:
+            self.Extension = Extension
+        self.Matrix = Matrix
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, ObservationVarianceMatrix)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if ObservationVarianceMatrix.subclass:
+            return ObservationVarianceMatrix.subclass(*args_, **kwargs_)
+        else:
+            return ObservationVarianceMatrix(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
+    def add_Extension(self, value): self.Extension.append(value)
+    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
+    def replace_Extension_at(self, index, value): self.Extension[index] = value
+    def get_Matrix(self): return self.Matrix
+    def set_Matrix(self, Matrix): self.Matrix = Matrix
+    def hasContent_(self):
+        if (
+            self.Extension or
+            self.Matrix is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='', name_='ObservationVarianceMatrix', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('ObservationVarianceMatrix')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ObservationVarianceMatrix')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_='', name_='ObservationVarianceMatrix', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='ObservationVarianceMatrix'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='', name_='ObservationVarianceMatrix', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Extension_ in self.Extension:
+            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
+        if self.Matrix is not None:
+            self.Matrix.export(outfile, level, namespace_, name_='Matrix', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='ObservationVarianceMatrix', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
+        for Extension_ in self.Extension:
+            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
+        if self.Matrix is not None:
+            Matrix_ = self.Matrix
+            Matrix_.to_etree(element, name_='Matrix', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='ObservationVarianceMatrix'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Extension=[\n')
+        level += 1
+        for Extension_ in self.Extension:
+            showIndent(outfile, level)
+            outfile.write('model_.Extension(\n')
+            Extension_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        if self.Matrix is not None:
+            showIndent(outfile, level)
+            outfile.write('Matrix=model_.Matrix(\n')
+            self.Matrix.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            self.Extension.append(obj_)
+            obj_.original_tagname_ = 'Extension'
+        elif nodeName_ == 'Matrix':
+            obj_ = Matrix.factory()
+            obj_.build(child_)
+            self.Matrix = obj_
+            obj_.original_tagname_ = 'Matrix'
+# end class ObservationVarianceMatrix
+
+
 class PsiVector(GeneratedsSuper):
     subclass = None
     superclass = None
@@ -50828,8 +51092,12 @@ class PsiVector(GeneratedsSuper):
 class SpectralAnalysis(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self):
+    def __init__(self, Extension=None):
         self.original_tagname_ = None
+        if Extension is None:
+            self.Extension = []
+        else:
+            self.Extension = Extension
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -50841,9 +51109,14 @@ class SpectralAnalysis(GeneratedsSuper):
         else:
             return SpectralAnalysis(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
+    def add_Extension(self, value): self.Extension.append(value)
+    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
+    def replace_Extension_at(self, index, value): self.Extension[index] = value
     def hasContent_(self):
         if (
-
+            self.Extension
         ):
             return True
         else:
@@ -50865,18 +51138,26 @@ class SpectralAnalysis(GeneratedsSuper):
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_='', name_='SpectralAnalysis', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='SpectralAnalysis'):
         pass
     def exportChildren(self, outfile, level, namespace_='', name_='SpectralAnalysis', fromsubclass_=False, pretty_print=True):
-        pass
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Extension_ in self.Extension:
+            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='SpectralAnalysis', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
+        for Extension_ in self.Extension:
+            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[self] = element
         return element
@@ -50889,7 +51170,18 @@ class SpectralAnalysis(GeneratedsSuper):
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
         pass
     def exportLiteralChildren(self, outfile, level, name_):
-        pass
+        showIndent(outfile, level)
+        outfile.write('Extension=[\n')
+        level += 1
+        for Extension_ in self.Extension:
+            showIndent(outfile, level)
+            outfile.write('model_.Extension(\n')
+            Extension_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -50900,15 +51192,23 @@ class SpectralAnalysis(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
+        if nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            self.Extension.append(obj_)
+            obj_.original_tagname_ = 'Extension'
 # end class SpectralAnalysis
 
 
 class SeasonalTrendDecomposition(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self):
+    def __init__(self, Extension=None):
         self.original_tagname_ = None
+        if Extension is None:
+            self.Extension = []
+        else:
+            self.Extension = Extension
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -50920,9 +51220,14 @@ class SeasonalTrendDecomposition(GeneratedsSuper):
         else:
             return SeasonalTrendDecomposition(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_Extension(self): return self.Extension
+    def set_Extension(self, Extension): self.Extension = Extension
+    def add_Extension(self, value): self.Extension.append(value)
+    def insert_Extension_at(self, index, value): self.Extension.insert(index, value)
+    def replace_Extension_at(self, index, value): self.Extension[index] = value
     def hasContent_(self):
         if (
-
+            self.Extension
         ):
             return True
         else:
@@ -50944,18 +51249,26 @@ class SeasonalTrendDecomposition(GeneratedsSuper):
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_='', name_='SeasonalTrendDecomposition', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='SeasonalTrendDecomposition'):
         pass
     def exportChildren(self, outfile, level, namespace_='', name_='SeasonalTrendDecomposition', fromsubclass_=False, pretty_print=True):
-        pass
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Extension_ in self.Extension:
+            Extension_.export(outfile, level, namespace_, name_='Extension', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='SeasonalTrendDecomposition', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{http://www.dmg.org/PMML-4_4}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{http://www.dmg.org/PMML-4_4}' + name_)
+        for Extension_ in self.Extension:
+            Extension_.to_etree(element, name_='Extension', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[self] = element
         return element
@@ -50968,7 +51281,18 @@ class SeasonalTrendDecomposition(GeneratedsSuper):
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
         pass
     def exportLiteralChildren(self, outfile, level, name_):
-        pass
+        showIndent(outfile, level)
+        outfile.write('Extension=[\n')
+        level += 1
+        for Extension_ in self.Extension:
+            showIndent(outfile, level)
+            outfile.write('model_.Extension(\n')
+            Extension_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -50979,7 +51303,11 @@ class SeasonalTrendDecomposition(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
+        if nodeName_ == 'Extension':
+            obj_ = Extension.factory()
+            obj_.build(child_)
+            self.Extension.append(obj_)
+            obj_.original_tagname_ = 'Extension'
 # end class SeasonalTrendDecomposition
 
 
@@ -63915,7 +64243,7 @@ class ClusteringModel(GeneratedsSuper):
         self.functionName = _cast(None, functionName)
         self.algorithmName = _cast(None, algorithmName)
         self.modelClass = _cast(None, modelClass)
-        self.numberOfClusters = _cast(None, numberOfClusters)
+        self.numberOfClusters = _cast(int, numberOfClusters)
         self.isScorable = _cast(bool, isScorable)
         self.MiningSchema = MiningSchema
         self.Output = Output
@@ -64003,10 +64331,6 @@ class ClusteringModel(GeneratedsSuper):
                     break
             if not enumeration_respectee:
                 warnings_.warn('Value "%(value)s" does not match xsd enumeration restriction on MINING-FUNCTION' % {"value" : value.encode("utf-8")} )
-    def validate_INT_NUMBER(self, value):
-        # Validate type INT-NUMBER, a restriction on xs:integer.
-        if value is not None and Validate_simpletypes_:
-            pass
     def hasContent_(self):
         if (
             self.MiningSchema is not None or
@@ -64060,7 +64384,7 @@ class ClusteringModel(GeneratedsSuper):
             outfile.write(' modelClass=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.modelClass), input_name='modelClass')), ))
         if self.numberOfClusters is not None and 'numberOfClusters' not in already_processed:
             already_processed.add('numberOfClusters')
-            outfile.write(' numberOfClusters=%s' % (quote_attrib(self.numberOfClusters), ))
+            outfile.write(' numberOfClusters="%s"' % self.gds_format_integer(self.numberOfClusters, input_name='numberOfClusters'))
         if not self.isScorable and 'isScorable' not in already_processed:
             already_processed.add('isScorable')
             outfile.write(' isScorable="%s"' % self.gds_format_boolean(self.isScorable, input_name='isScorable'))
@@ -64105,7 +64429,7 @@ class ClusteringModel(GeneratedsSuper):
         if self.modelClass is not None:
             element.set('modelClass', self.gds_format_string(self.modelClass))
         if self.numberOfClusters is not None:
-            element.set('numberOfClusters', self.numberOfClusters)
+            element.set('numberOfClusters', self.gds_format_integer(self.numberOfClusters))
         if self.isScorable is not None:
             element.set('isScorable', self.gds_format_boolean(self.isScorable))
         if self.MiningSchema is not None:
@@ -64289,7 +64613,8 @@ class ClusteringModel(GeneratedsSuper):
                 self.numberOfClusters = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-            self.validate_INT_NUMBER(self.numberOfClusters)    # validate type INT-NUMBER
+            if self.numberOfClusters < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
         value = find_attr_value_('isScorable', node)
         if value is not None and 'isScorable' not in already_processed:
             already_processed.add('isScorable')
@@ -68645,6 +68970,7 @@ __all__ = [
     "Numerator",
     "NumericInfo",
     "NumericPredictor",
+    "ObservationVarianceMatrix",
     "Optimizers",
     "OptimumLiftGraph",
     "OutlierEffect",

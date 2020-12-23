@@ -27,7 +27,7 @@ class MISSING_VALUE_TREATMENT_METHOD(Enum):
     RETURN_INVALID = "returnInvalid"
 
 class PMML_SCHEMA(Enum):
-    VERSION = "4.4"
+    VERSION = "4.4.1"
 
 class TREE_SPLIT_CHARACTERISTIC(Enum):
     BINARY = "binarySplit"
