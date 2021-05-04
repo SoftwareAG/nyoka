@@ -6,49 +6,6 @@ def parse(inFileName, silence=False):
     return result
 
 def new_init():
-    def LayerWeights_init(self, weightsShape=None, weightsFlattenAxis=None, content=None, floatType="float32", floatsPerLine=12, src=None, Extension=None, mixedclass_=None):
-        self.original_tagname_ = None
-        self.weightsShape = supermod._cast(None, weightsShape)
-        self.weightsFlattenAxis = supermod._cast(None, weightsFlattenAxis)
-        self.src = supermod._cast(None, src)
-        if Extension is None:
-            self.Extension = []
-        else:
-            self.Extension = Extension
-        if mixedclass_ is None:
-            self.mixedclass_ = supermod.MixedContainer
-        else:
-            self.mixedclass_ = mixedclass_
-        validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
-        if floatType not in validFloatTypes:
-            floatType = "float32"
-        from nyoka.Base64 import FloatBase64
-        base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
-        base64string = base64string.replace("\n", "\n\t\t\t\t")
-        self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]
-        self.valueOf_ = base64string
-
-    def LayerBias_init(self, biasShape=None, biasFlattenAxis=None, content=None, floatType="float32", floatsPerLine=12, src=None, Extension=None, mixedclass_=None):
-        self.original_tagname_ = None
-        self.biasShape = supermod._cast(None, biasShape)
-        self.biasFlattenAxis = supermod._cast(None, biasFlattenAxis)
-        self.src = supermod._cast(None, src)
-        if Extension is None:
-            self.Extension = []
-        else:
-            self.Extension = Extension
-        if mixedclass_ is None:
-            self.mixedclass_ = supermod.MixedContainer
-        else:
-            self.mixedclass_ = mixedclass_
-        validFloatTypes = ["float6", "float7", "float8", "float16", "float32", "float64"]
-        if floatType not in validFloatTypes:
-            floatType = "float32"
-        from nyoka.Base64 import FloatBase64
-        base64string = "\t\t\t\t" + "data:" + floatType + ";base64," + FloatBase64.from_floatArray(content, floatsPerLine)
-        base64string = base64string.replace("\n", "\n\t\t\t\t")
-        self.content_ = [supermod.MixedContainer(1, 2, "", base64string)]
-        self.valueOf_ = base64string
 
     def ArrayType_init(self, content=None, n=None, type_=None, mixedclass_=None):
         self.original_tagname_ = None
@@ -87,7 +44,7 @@ def new_init():
         self.content_ = [supermod.MixedContainer(1, 2, "", str(content))]
         self.valueOf_ = str(content)
 
-    def PMML_init(self, version='4.4', Header=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version='4.4', Header=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -114,10 +71,6 @@ def new_init():
             self.ClusteringModel = []
         else:
             self.ClusteringModel = ClusteringModel
-        if DeepNetwork is None:
-            self.DeepNetwork = []
-        else:
-            self.DeepNetwork = DeepNetwork
         if GaussianProcessModel is None:
             self.GaussianProcessModel = []
         else:
@@ -179,53 +132,12 @@ def new_init():
         else:
             self.Extension = Extension
 
-    LayerWeights.__init__ = LayerWeights_init
-    LayerBias.__init__ = LayerBias_init
     ArrayType.__init__ = ArrayType_init
     Annotation.__init__ = Annotation_init
     Timestamp.__init__ = Timestamp_init
     PMML.__init__ = PMML_init
 
 def orig_init():
-    def LayerWeights_init(self, weightsShape=None, weightsFlattenAxis=None, src=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
-        self.original_tagname_ = None
-        self.weightsShape = supermod._cast(None, weightsShape)
-        self.weightsFlattenAxis = supermod._cast(None, weightsFlattenAxis)
-        self.src = supermod._cast(None, src)
-        if Extension is None:
-            self.Extension = []
-        else:
-            self.Extension = Extension
-        self.valueOf_ = valueOf_
-        if mixedclass_ is None:
-            self.mixedclass_ = supermod.MixedContainer
-        else:
-            self.mixedclass_ = mixedclass_
-        if content_ is None:
-            self.content_ = []
-        else:
-            self.content_ = content_
-        self.valueOf_ = valueOf_
-
-    def LayerBias_init(self, biasShape=None, biasFlattenAxis=None, src=None, Extension=None, valueOf_=None, mixedclass_=None, content_=None):
-        self.original_tagname_ = None
-        self.biasShape = supermod._cast(None, biasShape)
-        self.biasFlattenAxis = supermod._cast(None, biasFlattenAxis)
-        self.src = supermod._cast(None, src)
-        if Extension is None:
-            self.Extension = []
-        else:
-            self.Extension = Extension
-        self.valueOf_ = valueOf_
-        if mixedclass_ is None:
-            self.mixedclass_ = supermod.MixedContainer
-        else:
-            self.mixedclass_ = mixedclass_
-        if content_ is None:
-            self.content_ = []
-        else:
-            self.content_ = content_
-        self.valueOf_ = valueOf_
 
     def ArrayType_init(self, n=None, type_=None, valueOf_=None, mixedclass_=None, content_=None):
         self.original_tagname_ = None
@@ -276,7 +188,7 @@ def orig_init():
             self.content_ = content_
         self.valueOf_ = valueOf_
 
-    def PMML_init(self, version=None, Header=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, DeepNetwork=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
+    def PMML_init(self, version=None, Header=None, MiningBuildTask=None, DataDictionary=None, TransformationDictionary=None, AssociationModel=None, AnomalyDetectionModel=None, BayesianNetworkModel=None, BaselineModel=None, ClusteringModel=None, GaussianProcessModel=None, GeneralRegressionModel=None, MiningModel=None, NaiveBayesModel=None, NearestNeighborModel=None, NeuralNetwork=None, RegressionModel=None, RuleSetModel=None, SequenceModel=None, Scorecard=None, SupportVectorMachineModel=None, TextModel=None, TimeSeriesModel=None, TreeModel=None, Extension=None):
         self.original_tagname_ = None
         self.version = supermod._cast(None, version)
         self.Header = Header
@@ -303,10 +215,6 @@ def orig_init():
             self.ClusteringModel = []
         else:
             self.ClusteringModel = ClusteringModel
-        if DeepNetwork is None:
-            self.DeepNetwork = []
-        else:
-            self.DeepNetwork = DeepNetwork
         if GaussianProcessModel is None:
             self.GaussianProcessModel = []
         else:
@@ -368,8 +276,6 @@ def orig_init():
         else:
             self.Extension = Extension
 
-    LayerWeights.__init__ = LayerWeights_init
-    LayerBias.__init__ = LayerBias_init
     ArrayType.__init__ = ArrayType_init
     Annotation.__init__ = Annotation_init
     Timestamp.__init__ = Timestamp_init

@@ -2,7 +2,7 @@
 <xb:xml-behavior
     xmlns:xb="http://example.com"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xb:base-impl-url>file:///Users/NIBO/OneDrive - Software AG/Documents/projects/nyoka/nyoka/PMML44/behaviors/</xb:base-impl-url>
+    <xb:base-impl-url>file:///Users/NIBO/Projects/nyoka/nyoka/PMML44/behaviors/</xb:base-impl-url>
     <xb:behaviors>
         <xb:behavior>
             <xb:class>PMML</xb:class>
@@ -28,31 +28,6 @@
                 </xb:arg>
             </xb:args>
             <xb:impl-url>PMML_export.py</xb:impl-url>
-        </xb:behavior>
-        <xb:behavior>
-            <xb:class>script</xb:class>
-            <xb:name>export</xb:name>
-            <xb:args>
-                <xb:arg>
-                    <xb:name>outfile</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>level</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>namespace_=''</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>name_='script'</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>namespacedef_=''</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>pretty_print=True</xb:name>
-                </xb:arg>
-            </xb:args>
-            <xb:impl-url>script_export.py</xb:impl-url>
         </xb:behavior>
         <xb:behavior>
             <xb:class>ArrayType</xb:class>
@@ -127,56 +102,6 @@
             <xb:impl-url>Timestamp_export.py</xb:impl-url>
         </xb:behavior>
         <xb:behavior>
-            <xb:class>LayerWeights</xb:class>
-            <xb:name>export</xb:name>
-            <xb:args>
-                <xb:arg>
-                    <xb:name>outfile</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>level</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>namespace_=''</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>name_='LayerWeights'</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>namespacedef_=''</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>pretty_print=True</xb:name>
-                </xb:arg>
-            </xb:args>
-            <xb:impl-url>LayerWeights_export.py</xb:impl-url>
-        </xb:behavior>
-        <xb:behavior>
-            <xb:class>LayerBias</xb:class>
-            <xb:name>export</xb:name>
-            <xb:args>
-                <xb:arg>
-                    <xb:name>outfile</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>level</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>namespace_=''</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>name_='LayerBias'</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>namespacedef_=''</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>pretty_print=True</xb:name>
-                </xb:arg>
-            </xb:args>
-            <xb:impl-url>LayerBias_export.py</xb:impl-url>
-        </xb:behavior>
-        <xb:behavior>
             <xb:class>MiningField</xb:class>
             <xb:name>exportAttributes</xb:name>
             <xb:args>
@@ -220,104 +145,6 @@
             </xb:args>
             <xb:impl-url>OutputField_exportAttributes.py</xb:impl-url>
         </xb:behavior>
-        <xb:behavior>
-            <xb:class>LayerWeights</xb:class>
-            <xb:name>__init__</xb:name>
-            <xb:args>
-                <xb:arg>
-                    <xb:name>src=None</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>embedded=False</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>Extension=None</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>valueOf_=None</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>mixedclass_=None</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>content_=None</xb:name>
-                </xb:arg>
-            </xb:args>
-            <xb:impl-url>layerinit.py</xb:impl-url>
-        </xb:behavior>
-        <xb:behavior>
-            <xb:class>LayerWeights</xb:class>
-            <xb:name>weights</xb:name>
-            <xb:args/>
-            <xb:impl-url>weights.py</xb:impl-url>
-        </xb:behavior>
-        <xb:behavior>
-            <xb:class>LayerBias</xb:class>
-            <xb:name>weights</xb:name>
-            <xb:args/>
-            <xb:impl-url>weights.py</xb:impl-url>
-        </xb:behavior>
-        <xb:behavior>
-            <xb:class>LayerBias</xb:class>
-            <xb:name>__init__</xb:name>
-            <xb:args>
-                <xb:arg>
-                    <xb:name>src=None</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>embedded=False</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>Extension=None</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>valueOf_=None</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>mixedclass_=None</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>content_=None</xb:name>
-                </xb:arg>
-            </xb:args>
-            <xb:impl-url>layerinit.py</xb:impl-url>
-        </xb:behavior>
-        <xb:behavior>
-            <xb:class>DeepNetwork</xb:class>
-            <xb:name>set_NetworkLayer</xb:name>
-            <xb:args>
-                <xb:arg>
-                    <xb:name>NetworkLayer</xb:name>
-                </xb:arg>
-            </xb:args>
-            <xb:impl-url>setNet.py</xb:impl-url>
-        </xb:behavior>
-        <xb:behavior>
-            <xb:class>DeepNetwork</xb:class>
-            <xb:name>add_NetworkLayer</xb:name>
-            <xb:args>
-                <xb:arg>
-                    <xb:name>value</xb:name>
-                </xb:arg>
-            </xb:args>
-            <xb:impl-url>addNet.py</xb:impl-url>
-        </xb:behavior>
-        <xb:behavior>
-            <xb:class>DeepNetwork</xb:class>
-            <xb:name>insert_NetworkLayer_at</xb:name>
-            <xb:args>
-                <xb:arg>
-                    <xb:name>index</xb:name>
-                </xb:arg>
-                <xb:arg>
-                    <xb:name>value</xb:name>
-                </xb:arg>
-            </xb:args>
-            <xb:impl-url>insNet.py</xb:impl-url>
-        </xb:behavior>
-
-
-
         <xb:behavior>
             <xb:class>AssociationModel</xb:class>
             <xb:name>set_Item</xb:name>

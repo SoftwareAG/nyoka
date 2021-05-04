@@ -43,6 +43,3 @@
         if not self.isFinalResult and 'isFinalResult' not in already_processed:
             already_processed.add('isFinalResult')
             outfile.write(' isFinalResult="%s"' % self.gds_format_boolean(self.isFinalResult, input_name='isFinalResult'))
-        if self.numTopCategories is not None and 'numTopCategories' not in already_processed:
-            already_processed.add('numTopCategories')
-            outfile.write(' numTopCategories=%s' % (supermod.quote_attrib(self.numTopCategories), ))

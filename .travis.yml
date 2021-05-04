@@ -16,9 +16,7 @@ script:
 - python nyoka/tests/test_skl_to_pmml_UnitTest.py
 - python nyoka/tests/test_xgboost_to_pmml_UnitTest.py
 - python nyoka/tests/test_lgbm_to_pmml_UnitTest.py
-- python nyoka/tests/test_keras_to_pmml_UnitTest.py
 - python nyoka/tests/test_statsmodels_to_pmml_UnitTest.py
-- python nyoka/tests/test_retinanet_to_pmml_UnitTest.py
 
 after_success:
 - py.test  --cov-report term --cov=nyoka/
