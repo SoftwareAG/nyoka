@@ -4,4 +4,3 @@ ignore:
   - "nyoka/build.py"
   - "nyoka/PMML44.py"
   - "nyoka/PMML44Super.py"
-  - "nyoka/Base64.py"

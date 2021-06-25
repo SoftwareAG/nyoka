@@ -8,7 +8,7 @@ import json
 import nyoka.skl.skl_to_pmml as sklToPmml
 from skl import pre_process as pp
 from datetime import datetime
-from base.enums import *
+from base.constants import *
 
 
 def xgboost_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_xgboost.pmml',model_name=None,description=None):
@@ -62,7 +62,7 @@ def xgboost_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_xgboost.
                                       categoric_values,
                                       model_name)
         pmml = pml.PMML(
-            version=PMML_SCHEMA.VERSION.value,
+            version=PMML_SCHEMA.VERSION,
             Header=sklToPmml.get_header(description),
             DataDictionary=sklToPmml.get_data_dictionary(model, col_names, target_name, categoric_values),
             **trfm_dict_kwargs,
@@ -244,7 +244,7 @@ def get_segments_for_xgbr(model, derived_col_names, feature_names, target_name, 
     get_nodes_in_json_format = []
     for i in range(model.n_estimators):
         get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
-    segmentation = pml.Segmentation(multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM.value,
+    segmentation = pml.Segmentation(multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM,
                                     Segment=generate_Segments_Equal_To_Estimators(get_nodes_in_json_format, derived_col_names,
                                                                                   feature_names))
     return segmentation
@@ -311,7 +311,7 @@ def create_node(obj, main_node,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(
             pml.SimplePredicate(field=replace_name_with_derivedColumnNames(obj['split'], derived_col_names),\
-                 operator=SIMPLE_PREDICATE_OPERATOR.LESS_THAN.value, value="{:.16f}".format(obj['split_condition'])))
+                 operator=SIMPLE_PREDICATE_OPERATOR.LESS_THAN, value="{:.16f}".format(obj['split_condition'])))
         create_node(obj['children'][0], nd, derived_col_names)
         return nd
 
@@ -319,7 +319,7 @@ def create_node(obj, main_node,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(
             pml.SimplePredicate(field=replace_name_with_derivedColumnNames(obj['split'], derived_col_names),\
-                 operator=SIMPLE_PREDICATE_OPERATOR.GREATER_OR_EQUAL.value, value="{:.16f}".format(obj['split_condition'])))
+                 operator=SIMPLE_PREDICATE_OPERATOR.GREATER_OR_EQUAL, value="{:.16f}".format(obj['split_condition'])))
         create_node(obj['children'][1], nd, derived_col_names)
         return nd
 
@@ -360,11 +360,11 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
             m_flds.append(pml.MiningField(name=name))
 
         segments_equal_to_estimators.append((pml.Segment(id=i + 1, True_=pml.True_(),
-                                                         TreeModel=pml.TreeModel(functionName=MINING_FUNCTION.REGRESSION.value,
+                                                         TreeModel=pml.TreeModel(functionName=MINING_FUNCTION.REGRESSION,
                                                          modelName="DecisionTreeModel",
                                                                                  missingValueStrategy="none",
                                                                                  noTrueChildStrategy="returnLastPrediction",
-                                                                                 splitCharacteristic=TREE_SPLIT_CHARACTERISTIC.MULTI.value,
+                                                                                 splitCharacteristic=TREE_SPLIT_CHARACTERISTIC.MULTI,
                                                                                  Node=main_node,
                                                                                  MiningSchema=pml.MiningSchema(
                                                                                      MiningField=m_flds)))))
@@ -394,8 +394,8 @@ def add_segmentation(model,segments_equal_to_estimators,mining_schema_for_1st_se
          Returns Nyoka's Segment object
     """
 
-    segmentation = pml.Segmentation(multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM.value, Segment=segments_equal_to_estimators)
-    mining_model = pml.MiningModel(functionName=MINING_FUNCTION.REGRESSION.value, modelName="MiningModel", MiningSchema=mining_schema_for_1st_segment,
+    segmentation = pml.Segmentation(multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM, Segment=segments_equal_to_estimators)
+    mining_model = pml.MiningModel(functionName=MINING_FUNCTION.REGRESSION, modelName="MiningModel", MiningSchema=mining_schema_for_1st_segment,
                                          Output=out, Segmentation=segmentation)
     if model.n_classes_==2:
         First_segment = pml.Segment(True_=pml.True_(), id=id, MiningModel=mining_model)
@@ -441,8 +441,8 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
             get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
         mining_schema_for_1st_segment = mining_Field_For_First_Segment(feature_names)
         outputField = list()
-        outputField.append(pml.OutputField(name="xgbValue", optype=OPTYPE.CONTINUOUS.value, dataType=DATATYPE.FLOAT.value,
-                                           feature=RESULT_FEATURE.PREDICTED_VALUE.value, isFinalResult="true"))
+        outputField.append(pml.OutputField(name="xgbValue", optype=OPTYPE.CONTINUOUS, dataType=DATATYPE.FLOAT,
+                                           feature=RESULT_FEATURE.PREDICTED_VALUE, isFinalResult="true"))
         out = pml.Output(OutputField=outputField)
         oField=list()
         oField.append('xgbValue')
@@ -450,7 +450,7 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
                                                                              feature_names)
         First_segment = add_segmentation(model,segments_equal_to_estimators, mining_schema_for_1st_segment, out, 1)
         reg_model=sklToPmml.get_regrs_models(model, oField, oField, target_name,mining_imp_val,categoric_values,model_name)[0]
-        reg_model.normalizationMethod=REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value
+        reg_model.normalizationMethod=REGRESSION_NORMALIZATION_METHOD.LOGISTIC
         last_segment = pml.Segment(True_=pml.True_(), id=2,
                                    RegressionModel=reg_model)
         segments.append(First_segment)
@@ -468,8 +468,8 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
                 inner_segment.append(get_nodes_in_json_format[in_seg])
             mining_schema_for_1st_segment = mining_Field_For_First_Segment(feature_names)
             outputField = list()
-            outputField.append(pml.OutputField(name='xgbValue(' + str(index) + ')', optype=OPTYPE.CONTINUOUS.value,
-                                      feature=RESULT_FEATURE.PREDICTED_VALUE.value, dataType=DATATYPE.FLOAT.value, isFinalResult="true"))
+            outputField.append(pml.OutputField(name='xgbValue(' + str(index) + ')', optype=OPTYPE.CONTINUOUS,
+                                      feature=RESULT_FEATURE.PREDICTED_VALUE, dataType=DATATYPE.FLOAT, isFinalResult="true"))
             out = pml.Output(OutputField=outputField)
 
             oField.append('xgbValue(' + str(index) + ')')
@@ -479,7 +479,7 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
                                                        mining_schema_for_1st_segment, out, index)
             segments.append(segments_equal_to_class)
         reg_model=sklToPmml.get_regrs_models(model,oField,oField,target_name,mining_imp_val,categoric_values,model_name)[0]
-        reg_model.normalizationMethod=REGRESSION_NORMALIZATION_METHOD.SOFTMAX.value
+        reg_model.normalizationMethod=REGRESSION_NORMALIZATION_METHOD.SOFTMAX
         last_segment = pml.Segment(True_=pml.True_(), id=model.n_classes_ + 1,
                                    RegressionModel=reg_model)
         segments.append(last_segment)
@@ -499,7 +499,7 @@ def get_multiple_model_method(model):
 
     """
     if 'XGBClassifier' in str(model.__class__):
-        return MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value
+        return MULTIPLE_MODEL_METHOD.MODEL_CHAIN
     else:
-        return MULTIPLE_MODEL_METHOD.SUM.value
+        return MULTIPLE_MODEL_METHOD.SUM
 
