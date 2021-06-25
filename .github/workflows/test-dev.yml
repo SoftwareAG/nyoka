@@ -30,3 +30,7 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+    - name: Generate test coverage
+      run: |
+        py.test  --cov-report term --cov=nyoka/
+        codecov
