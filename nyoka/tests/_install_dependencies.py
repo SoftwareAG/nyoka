@@ -17,6 +17,7 @@ packages = [
     "codecov",
     "xmlschema"
 ]
+#comment
 
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
