@@ -1,13 +1,13 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Test Dev Branch
+name: Test Master Branch
 
 on:
   push:
     branches:
       - master
-  pull-request:
+  pull_request:
     branches:
       - master
 
