@@ -18,7 +18,6 @@ packages = [
     "xmlschema",
     "scikit-learn==0.23.1"
 ]
-#comment
 
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
