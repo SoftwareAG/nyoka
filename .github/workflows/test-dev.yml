@@ -1,0 +1,30 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Test Dev Branch
+
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  build:
+
+    runs-on: [ubuntu-latest, windows-latest]
+    strategy:
+      matrix:
+        python-version: [ '3.6', '3.7', '3.8' ]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip==20.2.2
+        python -m pip install -e .
+        python nyoka/tests/_installDependecies.py
+    - name: Test with pytest
+      run: |
+        pytest
