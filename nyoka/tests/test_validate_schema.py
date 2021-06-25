@@ -536,7 +536,7 @@ class PmmlValidation(unittest.TestCase):
         f_name='seasonal_arima1.pmml'
         model = SARIMAX(endog = ts_data,
                                         exog = None,
-                                        order = (3, 1, 1),
+                                        order = (0, 0, 1),
                                         seasonal_order = (3, 1, 1, 12),
                                         trend = 'c')
         result = model.fit()
@@ -548,7 +548,7 @@ class PmmlValidation(unittest.TestCase):
         f_name='seasonal_arima2.pmml'
         model = SARIMAX(endog = ts_data,
                                         exog = None,
-                                        order = (0, 0, 1),
+                                        order = (3, 1, 1),
                                         seasonal_order = (3, 1, 1, 12))
         result = model.fit()
         StatsmodelsToPmml(result, f_name, conf_int=[80])
