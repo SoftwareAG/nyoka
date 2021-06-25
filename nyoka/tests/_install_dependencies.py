@@ -15,7 +15,8 @@ packages = [
     "pytest-cov",
     "pytest",
     "codecov",
-    "xmlschema"
+    "xmlschema",
+    "scikit-learn==0.23.1"
 ]
 #comment
 
@@ -23,9 +24,5 @@ def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
 
 if __name__ == "__main__":
-    if os.environ["SKLEARN"] == "0.20.x":
-        packages.insert(0,"scikit-learn==0.20.3")
-    elif os.environ["SKLEARN"] == "0.23.x":
-        packages.insert(0, "scikit-learn==0.23.1")
     for pck in packages:
         installPackage(pck)
