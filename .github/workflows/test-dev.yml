@@ -35,14 +35,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
+        with:
+          python-version: 3.6
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip==20.2.2
           python -m pip install -e .
           python nyoka/tests/_install_dependencies.py
-      - name: Generate test coverage
+      - name: Generate test coverage report
         run: |
           py.test  --cov-report term --cov=nyoka/
           codecov
