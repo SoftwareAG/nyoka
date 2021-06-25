@@ -33,423 +33,6 @@
     <xs:attribute name="invalidValueTreatment" type="INVALID-VALUE-TREATMENT-METHOD" default="returnInvalid"/>
   </xs:complexType>
 </xs:element>
-    <xs:element name="DeepNetwork">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="MiningSchema" minOccurs="0"/>
-                <xs:element ref="Output" minOccurs="0"/>
-                <xs:element ref="ModelStats" minOccurs="0"/>
-                <xs:element ref="ModelExplanation" minOccurs="0"/>
-                <xs:element ref="Targets" minOccurs="0"/>
-                <xs:element ref="LocalTransformations" minOccurs="0"/>
-                <xs:element ref="TrainingParameters" minOccurs="0"/>
-                <xs:element maxOccurs="unbounded" ref="NetworkLayer"/>
-                <xs:element minOccurs="0" ref="NeuralOutputs"/>
-                <xs:element ref="ModelVerification" minOccurs="0"/>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="modelName" type="xs:string"/>
-            <xs:attribute name="functionName" type="MINING-FUNCTION" use="required"/>
-            <xs:attribute name="algorithmName" type="xs:string"/>
-            <xs:attribute name="normalizationMethod" type="NN-NORMALIZATION-METHOD" default="none"/>
-            <xs:attribute name="numberOfLayers" type="xs:nonNegativeInteger"/>
-            <xs:attribute name="isScorable" type="xs:boolean" default="true"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="NetworkLayer">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="LayerParameters"/>
-                <xs:element ref="LayerWeights" minOccurs="0"/>
-                <xs:element ref="LayerBias" minOccurs="0"/>
-            </xs:sequence>
-            <xs:attribute name="normalizationMethod" type="NN-NORMALIZATION-METHOD" default="none"/>
-            <xs:attribute name="layerType" type="LAYER-TYPE" use="required"/>
-            <xs:attribute name="layerId" type="xs:string"/>
-            <xs:attribute name="connectionLayerId" type="xs:string" use="required"/>
-            <xs:attribute name="inputFieldName" type="FIELD-NAME"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:simpleType name="LAYER-TYPE">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="Input"/>
-            <xs:enumeration value="Dense"/>
-            <xs:enumeration value="Activation"/>
-            <xs:enumeration value="Dropout"/>
-            <xs:enumeration value="Flatten"/>
-            <xs:enumeration value="Reshape"/>
-            <xs:enumeration value="Permute"/>
-            <xs:enumeration value="RepeatVector"/>
-            <xs:enumeration value="ActivityRegularization"/>
-            <xs:enumeration value="Masking"/>
-            <xs:enumeration value="Conv1D"/>
-            <xs:enumeration value="Conv2D"/>
-            <xs:enumeration value="SeparableConv2D"/>
-            <xs:enumeration value="Conv2DTranspose"/>
-            <xs:enumeration value="Conv3D"/>
-            <xs:enumeration value="DepthwiseConv2D"/>
-            <xs:enumeration value="Cropping1D"/>
-            <xs:enumeration value="Cropping2D"/>
-            <xs:enumeration value="Cropping3D"/>
-            <xs:enumeration value="UpSampling1D"/>
-            <xs:enumeration value="UpSampling2D"/>
-            <xs:enumeration value="UpSampling3D"/>
-            <xs:enumeration value="ZeroPadding1D"/>
-            <xs:enumeration value="ZeroPadding2D"/>
-            <xs:enumeration value="ZeroPadding3D"/>
-            <xs:enumeration value="MaxPooling1D"/>
-            <xs:enumeration value="MaxPooling2D"/>
-            <xs:enumeration value="MaxPooling3D"/>
-            <xs:enumeration value="AveragePooling1D"/>
-            <xs:enumeration value="AveragePooling2D"/>
-            <xs:enumeration value="AveragePooling3D"/>
-            <xs:enumeration value="GlobalMaxPooling1D"/>
-            <xs:enumeration value="GlobalMaxPooling2D"/>
-            <xs:enumeration value="GlobalAveragePooling1D"/>
-            <xs:enumeration value="GlobalAveragePooling2D"/>
-            <xs:enumeration value="SpatialPyramidPooling"/>
-            <xs:enumeration value="LocallyConnected1D"/>
-            <xs:enumeration value="LocallyConnected2D"/>
-            <xs:enumeration value="Embedding"/>
-            <xs:enumeration value="MergeLayer"/>
-            <xs:enumeration value="Slicing"/>
-            <xs:enumeration value="BatchNormalization"/>
-            <xs:enumeration value="LocalResponseNormalization"/>
-            <xs:enumeration value="UpsampleLike"/>
-            <xs:enumeration value="Anchors"/>
-            <xs:enumeration value="RegressBoxes"/>
-            <xs:enumeration value="ClipBoxes"/>
-            <xs:enumeration value="FilterDetections"/>
-            <xs:enumeration value="GaussianNoise"/>
-            <xs:enumeration value="GaussianDropout"/>
-            <xs:enumeration value="AlphaDropout"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="LAYEROP-TYPE">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="add"/>
-            <xs:enumeration value="subtract"/>
-            <xs:enumeration value="multiply"/>
-            <xs:enumeration value="average"/>
-            <xs:enumeration value="abs"/>
-            <xs:enumeration value="acos"/>
-            <xs:enumeration value="asin"/>
-            <xs:enumeration value="asinch"/>
-            <xs:enumeration value="atan"/>
-            <xs:enumeration value="atanch"/>
-            <xs:enumeration value="ceil"/>
-            <xs:enumeration value="cos"/>
-            <xs:enumeration value="cosh"/>
-            <xs:enumeration value="concatenate"/>
-            <xs:enumeration value="cumproduct"/>
-            <xs:enumeration value="cumsum"/>
-            <xs:enumeration value="divide"/>
-            <xs:enumeration value="erf"/>
-            <xs:enumeration value="erfc"/>
-            <xs:enumeration value="exp"/>
-            <xs:enumeration value="floor"/>
-            <xs:enumeration value="log"/>
-            <xs:enumeration value="log1p"/>
-            <xs:enumeration value="reciprocal"/>
-            <xs:enumeration value="rsqrt"/>
-            <xs:enumeration value="sigmoid"/>
-            <xs:enumeration value="sin"/>
-            <xs:enumeration value="sinh"/>
-            <xs:enumeration value="sqrt"/>
-            <xs:enumeration value="square"/>
-            <xs:enumeration value="tan"/>
-            <xs:enumeration value="tanch"/>
-            <xs:enumeration value="truediv"/>
-            <xs:enumeration value="truncatediv"/>
-            <xs:enumeration value="stack"/>
-            <xs:enumeration value="minimum"/>
-            <xs:enumeration value="maximum"/>
-            <xs:enumeration value="dot"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:element name="TrainingParameters">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="Losses" minOccurs="0"/>
-                <xs:element ref="Metrics" minOccurs="0"/>
-                <xs:element ref="Optimizers" minOccurs="0"/>
-            </xs:sequence>
-            <xs:attribute name="architectureName" type="xs:string"/>
-            <xs:attribute name="dataset" type="xs:string"/>
-            <xs:attribute name="framework" type="xs:string"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="Metrics">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="top_k_categories_for_accuracy" type="INT-NUMBER"/>
-            <xs:attribute name="metric" type="METRIC-TYPE"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:simpleType name="METRIC-TYPE">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="binary_accuracy"/>
-            <xs:enumeration value="categorical_accuracy"/>
-            <xs:enumeration value="sparse_categorical_accuracy"/>
-            <xs:enumeration value="top_k_categorical_accuracy"/>
-            <xs:enumeration value="sparse_top_k_categorical_accuracy"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:element name="Optimizers">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="SGD" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="RMSprop" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="Adagrad" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="Adadelta" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="Adam" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="Adamax" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="Nadam" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="clipnorm" type="REAL-NUMBER"/>
-            <xs:attribute name="clipvalue" type="REAL-NUMBER"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="Losses">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="loss" type="LOSS-TYPE"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:simpleType name="LOSS-TYPE">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="mean_squared_error"/>
-            <xs:enumeration value="mean_absolute_error"/>
-            <xs:enumeration value="mean_absolute_percentage_error"/>
-            <xs:enumeration value="mean_squared_logarithmic_error"/>
-            <xs:enumeration value="multinomialLogistic"/>
-            <xs:enumeration value="softmax"/>
-            <xs:enumeration value="squared_hinge"/>
-            <xs:enumeration value="hinge"/>
-            <xs:enumeration value="categorical_hinge"/>
-            <xs:enumeration value="logcosh"/>
-            <xs:enumeration value="categorical_crossentropy"/>
-            <xs:enumeration value="sparse_categorical_crossentropy"/>
-            <xs:enumeration value="binary_crossentropy"/>
-            <xs:enumeration value="kullback_leibler_divergence"/>
-            <xs:enumeration value="poisson"/>
-            <xs:enumeration value="cosine_proximity"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:element name="SGD">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="learningRate" type="REAL-NUMBER"/>
-            <xs:attribute name="momentum" type="REAL-NUMBER"/>
-            <xs:attribute name="decayRate" type="REAL-NUMBER"/>
-            <xs:attribute name="nesterov" type="xs:boolean"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="RMSprop">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="learningRate" type="REAL-NUMBER"/>
-            <xs:attribute name="rho" type="REAL-NUMBER"/>
-            <xs:attribute name="decayRate" type="REAL-NUMBER"/>
-            <xs:attribute name="epsilon" type="REAL-NUMBER"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="Adagrad">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="learningRate" type="REAL-NUMBER"/>
-            <xs:attribute name="decayRate" type="REAL-NUMBER"/>
-            <xs:attribute name="epsilon" type="REAL-NUMBER"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="Adadelta">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="learningRate" type="REAL-NUMBER"/>
-            <xs:attribute name="rho" type="REAL-NUMBER"/>
-            <xs:attribute name="decayRate" type="REAL-NUMBER"/>
-            <xs:attribute name="epsilon" type="REAL-NUMBER"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="Adam">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="learningRate" type="REAL-NUMBER"/>
-            <xs:attribute name="beta_1" type="REAL-NUMBER"/>
-            <xs:attribute name="beta_2" type="REAL-NUMBER"/>
-            <xs:attribute name="decayRate" type="REAL-NUMBER"/>
-            <xs:attribute name="epsilon" type="REAL-NUMBER"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="Adamax">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="learningRate" type="REAL-NUMBER"/>
-            <xs:attribute name="beta_1" type="REAL-NUMBER"/>
-            <xs:attribute name="beta_2" type="REAL-NUMBER"/>
-            <xs:attribute name="decayRate" type="REAL-NUMBER"/>
-            <xs:attribute name="epsilon" type="REAL-NUMBER"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="Nadam">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="learningRate" type="REAL-NUMBER"/>
-            <xs:attribute name="beta_1" type="REAL-NUMBER"/>
-            <xs:attribute name="beta_2" type="REAL-NUMBER"/>
-            <xs:attribute name="schedule_decay" type="REAL-NUMBER"/>
-            <xs:attribute name="epsilon" type="REAL-NUMBER"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="LayerWeights">
-        <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="weightsShape" type="xs:string"/>
-            <xs:attribute name="weightsFlattenAxis" type="xs:string"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="LayerBias">
-        <xs:complexType mixed="true">
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="biasShape" type="xs:string"/>
-            <xs:attribute name="biasFlattenAxis" type="xs:string"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="LayerParameters">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-            <xs:attribute name="activationFunction" type="DNN-ACTIVATION-FUNCTION"/>
-            <xs:attribute name="inputDimension" type="xs:string"/>
-            <xs:attribute name="outputDimension" type="xs:string"/>
-            <xs:attribute name="featureMaps" type="INT-NUMBER"/>
-            <xs:attribute name="kernel" type="xs:string"/>
-            <xs:attribute name="pad" type="xs:string"/>
-            <xs:attribute name="stride" type="xs:string"/>
-            <xs:attribute name="dilationRate" type="xs:string"/>
-            <xs:attribute name="poolSize" type="xs:string"/>
-            <xs:attribute name="depthMultiplier" type="INT-NUMBER"/>
-            <xs:attribute name="paddingDims" type="xs:string"/>
-            <xs:attribute name="croppingDims" type="xs:string"/>
-            <xs:attribute name="upsamplingSize" type="xs:string"/>
-            <xs:attribute name="batchNormalizationEpsilon" type="REAL-NUMBER"/>
-            <xs:attribute name="flattenAxis" type="xs:string"/>
-            <xs:attribute name="batchNormalizationAxis" type="INT-NUMBER"/>
-            <xs:attribute name="batchNormalizationMomentum" type="REAL-NUMBER"/>
-            <xs:attribute name="batchNormalizationCenter" type="xs:boolean"/>
-            <xs:attribute name="batchNormalizationScale" type="xs:boolean"/>
-            <xs:attribute name="gaussianNoiseStdev" type="REAL-NUMBER"/>
-            <xs:attribute name="gaussianDropoutRate" type="REAL-NUMBER"/>
-            <xs:attribute name="alphaDropoutRate" type="REAL-NUMBER"/>
-            <xs:attribute name="alphaDropoutSeed" type="INT-NUMBER"/>
-            <xs:attribute name="betaInitializer" type="xs:string"/>
-            <xs:attribute name="gammaInitializer" type="xs:string"/>
-            <xs:attribute name="movingMeanInitializer" type="xs:string"/>
-            <xs:attribute name="movingVarianceInitializer" type="xs:string"/>
-            <xs:attribute name="betaRegularizer" type="xs:string"/>
-            <xs:attribute name="gammaRegularizer" type="xs:string"/>
-            <xs:attribute name="betaConstraint" type="xs:string"/>
-            <xs:attribute name="gammaConstraint" type="xs:string"/>
-            <xs:attribute name="kernelInitializer" type="xs:string"/>
-            <xs:attribute name="biasInitializer" type="xs:string"/>
-            <xs:attribute name="kernelRegularizer" type="xs:string"/>
-            <xs:attribute name="biasRegularizer" type="xs:string"/>
-            <xs:attribute name="kernelConstraint" type="xs:string"/>
-            <xs:attribute name="biasConstraint" type="xs:string"/>
-            <xs:attribute name="depthwiseConstraint" type="xs:string"/>
-            <xs:attribute name="pointwiseConstraint" type="xs:string"/>
-            <xs:attribute name="batchSize" type="INT-NUMBER"/>
-            <xs:attribute name="dropoutRate" type="REAL-NUMBER"/>
-            <xs:attribute name="dropoutNoiseShape" type="xs:string"/>
-            <xs:attribute name="dropoutSeed" type="INT-NUMBER"/>
-            <xs:attribute name="generalLUAlpha" type="REAL-NUMBER"/>
-            <xs:attribute name="reshapeTarget" type="xs:string"/>
-            <xs:attribute name="permuteDims" type="xs:string"/>
-            <xs:attribute name="repeatVectorTimes" type="INT-NUMBER"/>
-            <xs:attribute name="activityRegularizerL1" type="REAL-NUMBER"/>
-            <xs:attribute name="activityRegularizerL2" type="REAL-NUMBER"/>
-            <xs:attribute name="maskValue" type="REAL-NUMBER"/>
-            <xs:attribute name="mergeLayerOp" type="LAYEROP-TYPE"/>
-            <xs:attribute name="mergeLayerDotOperationAxis" type="REAL-NUMBER"/>
-            <xs:attribute name="mergeLayerDotNormalize" type="xs:boolean"/>
-            <xs:attribute name="mergeLayerConcatOperationAxes" type="xs:string"/>
-            <xs:attribute name="slicingAxis" type="INT-NUMBER"/>
-            <xs:attribute name="anchorSize" type="xs:positiveInteger"/>
-            <xs:attribute name="anchorStride" type="INT-NUMBER"/>
-            <xs:attribute name="anchorScales" type="xs:string"/>
-            <xs:attribute name="anchorRatios" type="xs:string"/>
-            <xs:attribute name="regressBoxesMean" type="xs:string"/>
-            <xs:attribute name="regressBoxesStd" type="xs:string"/>
-            <xs:attribute name="scoreThreshold" type="REAL-NUMBER" use="optional"/>
-            <xs:attribute name="nms" type="xs:boolean" use="optional"/>
-            <xs:attribute name="nmsThreshold" type="REAL-NUMBER" use="optional"/>
-            <xs:attribute name="classSpecificFilter" type="xs:boolean" use="optional"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:simpleType name="DNN-ACTIVATION-FUNCTION">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="elu"/>
-            <xs:enumeration value="selu"/>
-            <xs:enumeration value="softplus"/>
-            <xs:enumeration value="softsign"/>
-            <xs:enumeration value="rectifier"/>
-            <xs:enumeration value="hinge"/>
-            <xs:enumeration value="tanch"/>
-            <xs:enumeration value="sigmoid"/>
-            <xs:enumeration value="hardSigmoid"/>
-            <xs:enumeration value="linear"/>
-            <xs:enumeration value="softmax"/>
-            <xs:enumeration value="leakyReLU"/>
-            <xs:enumeration value="prReLU"/>
-            <xs:enumeration value="thresholdReLU"/>
-            <xs:enumeration value="reLU6"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="BACKEND">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="tensorflowChannelFirst"/>
-            <xs:enumeration value="tensorflowChannelLast"/>
-            <xs:enumeration value="caffeChannelFirst"/>
-            <xs:enumeration value="caffeChannelLast"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="ARCHITECTURENAME">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="mobilenet"/>
-            <xs:enumeration value="xception"/>
-            <xs:enumeration value="resnet"/>
-            <xs:enumeration value="inception"/>
-            <xs:enumeration value="vgg"/>
-            <xs:enumeration value="retinanet"/>
-        </xs:restriction>
-    </xs:simpleType>
 <xs:element name="MiningModel">
   <xs:complexType>
     <xs:sequence>
@@ -794,7 +377,6 @@
     <xs:element ref="BayesianNetworkModel"/>
     <xs:element ref="BaselineModel"/>
     <xs:element ref="ClusteringModel"/>
-            <xs:element ref="DeepNetwork"/>
     <xs:element ref="GaussianProcessModel"/>
     <xs:element ref="GeneralRegressionModel"/>
     <xs:element ref="MiningModel"/>
@@ -1605,7 +1187,6 @@
     <xs:attribute name="targetField" type="FIELD-NAME"/>
     <xs:attribute name="feature" type="RESULT-FEATURE" default="predictedValue"/>
     <xs:attribute name="value" type="xs:string"/>
-            <xs:attribute name="numTopCategories" type="INT-NUMBER"/>
     <xs:attribute name="ruleFeature" type="RULE-FEATURE" default="consequent"/>
     <xs:attribute name="algorithm" default="exclusiveRecommendation">
       <xs:simpleType>
@@ -1649,7 +1230,6 @@
     <xs:enumeration value="transformedValue"/> 
     <xs:enumeration value="decision"/>
     <xs:enumeration value="probability"/>
-            <xs:enumeration value="topCategories"/>
     <xs:enumeration value="affinity"/>
     <xs:enumeration value="residual"/>
     <xs:enumeration value="standardError"/>
@@ -2808,9 +2388,6 @@
     <xs:attribute name="displayName" type="xs:string"/>
     <xs:attribute name="optype" type="OPTYPE" use="required"/>
     <xs:attribute name="dataType" type="DATATYPE" use="required"/>
-            <xs:attribute name="datasetName" type="xs:string"/>
-            <xs:attribute name="trainingBackend" type="BACKEND"/>
-            <xs:attribute name="architectureName" type="ARCHITECTURENAME"/>
   </xs:complexType>
 </xs:element>
 <xs:element name="Constant">
@@ -3864,7 +3441,6 @@
     <xs:attribute name="displayName" type="xs:string"/>
     <xs:attribute name="optype" type="OPTYPE" use="required"/>
     <xs:attribute name="dataType" type="DATATYPE" use="required"/>
-            <xs:attribute name="mimeType" type="xs:string"/>
     <xs:attribute name="taxonomy" type="xs:string"/>
     <xs:attribute name="isCyclic" default="0">
       <xs:simpleType>
@@ -3889,7 +3465,6 @@
   <xs:restriction base="xs:string">
     <xs:enumeration value="string"/>
     <xs:enumeration value="integer"/>
-            <xs:enumeration value="binary"/>
     <xs:enumeration value="float"/>
     <xs:enumeration value="double"/>
     <xs:enumeration value="boolean"/>

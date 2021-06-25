@@ -42,29 +42,7 @@ class AdapaUtility:
             files = {'file': open(test_file,mode)}
             res = requests.post(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password),files=files)
         if model_type:
-            if model_type=='DN':
-                if test_file.endswith(".csv"):
-                    info=res.text.split("\n")[1]
-                    info = info.replace('"','')
-                    predictions = info.split(",")[0]
-                    probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in info.split(",")[2:]}
-                else:
-                    resp=json.loads(res.text)
-                    outs = resp["outputs"][0]
-                    predictions = outs["predicted_label"]
-                    probabilities = {out.split(":")[0]:float(out.split(":")[1]) for out in outs["top5_prob"].split(",")}
-            elif model_type=='RN':
-                results = res.json()['outputs'][0]['predicted_LabelBoxScore']
-                results = json.loads(results)
-                boxes = []
-                scores = []
-                labels = []
-                for res_ in results:
-                    labels.append(res_[0])
-                    scores.append(res_[1])
-                    boxes.append(res_[2:])
-                return boxes, scores, labels
-            elif model_type=='TS':
+            if model_type=='TS':
                 res = requests.post(self.endpoint+"apply/"+model_name, auth = HTTPBasicAuth(self.username, self.password),\
                     data=json.dumps(test_file))
                 result = res.json()

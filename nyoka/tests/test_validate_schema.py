@@ -1,5 +1,5 @@
 # Exporters
-from nyoka import skl_to_pmml, KerasToPmml, StatsmodelsToPmml, ExponentialSmoothingToPMML
+from nyoka import skl_to_pmml, StatsmodelsToPmml, ExponentialSmoothingToPMML
 
 # Nyoka preprocessings
 from nyoka.preprocessing import Lag
@@ -41,10 +41,6 @@ from sklearn.naive_bayes import GaussianNB
 
 #Neighbors
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
-
-# keras models
-from keras.applications import MobileNet, ResNet50, VGG16, Xception, InceptionV3, DenseNet121
-from keras.layers import Input
 
 # statsmodels models
 from statsmodels.tsa.api import ARIMA, SARIMAX, VARMAX, ExponentialSmoothing
@@ -483,55 +479,6 @@ class PmmlValidation(unittest.TestCase):
         skl_to_pmml(pipeline, features , 'species',pmml_f_name= file_name)
         self.assertEqual(self.schema.is_valid(file_name), True)
 
-    #keras
-    def test_validate_keras_mobilenet(self):
-        input_tensor = Input(shape=(224, 224, 3))
-        model = MobileNet(weights="imagenet", input_tensor=input_tensor)
-        file_name = "keras"+model.name+".pmml"
-        pmml_obj = KerasToPmml(model,dataSet="image",predictedClasses=[str(i) for i in range(1000)])
-        pmml_obj.export(open(file_name,'w'),0)
-        self.assertEqual(self.schema.is_valid(file_name), True)
-
-    def test_validate_keras_resnet(self):
-        input_tensor = Input(shape=(224, 224, 3))
-        model = ResNet50(weights="imagenet", input_tensor=input_tensor)
-        file_name = "keras"+model.name+".pmml"
-        pmml_obj = KerasToPmml(model,dataSet="image",predictedClasses=[str(i) for i in range(1000)])
-        pmml_obj.export(open(file_name,'w'),0)
-        self.assertEqual(self.schema.is_valid(file_name), True)
-
-    def test_validate_keras_vgg(self):
-        input_tensor = Input(shape=(224, 224, 3))
-        model = VGG16(weights="imagenet", input_tensor=input_tensor)
-        file_name = "keras"+model.name+".pmml"
-        pmml_obj = KerasToPmml(model,dataSet="image",predictedClasses=[str(i) for i in range(1000)])
-        pmml_obj.export(open(file_name,'w'),0)
-        self.assertEqual(self.schema.is_valid(file_name), True)
-
-    def test_validate_keras_inception(self):
-        input_tensor = Input(shape=(224, 224, 3))
-        model = InceptionV3(weights="imagenet", input_tensor=input_tensor)
-        file_name = "keras"+model.name+".pmml"
-        pmml_obj = KerasToPmml(model,dataSet="image",predictedClasses=[str(i) for i in range(1000)])
-        pmml_obj.export(open(file_name,'w'),0)
-        self.assertEqual(self.schema.is_valid(file_name), True)
-
-    def test_validate_keras_xception(self):
-        input_tensor = Input(shape=(224, 224, 3))
-        model = Xception(weights="imagenet", input_tensor=input_tensor)
-        file_name = "keras"+model.name+".pmml"
-        pmml_obj = KerasToPmml(model,dataSet="image",predictedClasses=[str(i) for i in range(1000)])
-        pmml_obj.export(open(file_name,'w'),0)
-        self.assertEqual(self.schema.is_valid(file_name), True)
-
-    def test_validate_keras_densenet(self):
-        input_tensor = Input(shape=(224, 224, 3))
-        model = DenseNet121(weights="imagenet", input_tensor=input_tensor)
-        file_name = "keras"+model.name+".pmml"
-        pmml_obj = KerasToPmml(model,dataSet="image",predictedClasses=[str(i) for i in range(1000)])
-        pmml_obj.export(open(file_name,'w'),0)
-        self.assertEqual(self.schema.is_valid(file_name), True)
-
     
     #Exponential Smoothing Test cases
     def test_exponentialSmoothing_01(self):
@@ -589,7 +536,7 @@ class PmmlValidation(unittest.TestCase):
         f_name='seasonal_arima1.pmml'
         model = SARIMAX(endog = ts_data,
                                         exog = None,
-                                        order = (3, 1, 1),
+                                        order = (0, 0, 1),
                                         seasonal_order = (3, 1, 1, 12),
                                         trend = 'c')
         result = model.fit()

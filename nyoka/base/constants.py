@@ -16,9 +16,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  """
-from enum import Enum
 
-class MISSING_VALUE_TREATMENT_METHOD(Enum):
+class MISSING_VALUE_TREATMENT_METHOD:
     AS_IS = "asIs"
     AS_MEAN = "asMean"
     AS_MODE = "asMode"
@@ -26,14 +25,14 @@ class MISSING_VALUE_TREATMENT_METHOD(Enum):
     AS_VALUE = "asValue"
     RETURN_INVALID = "returnInvalid"
 
-class PMML_SCHEMA(Enum):
+class PMML_SCHEMA:
     VERSION = "4.4.1"
 
-class TREE_SPLIT_CHARACTERISTIC(Enum):
+class TREE_SPLIT_CHARACTERISTIC:
     BINARY = "binarySplit"
     MULTI = "multiSplit"
 
-class FUNCTION(Enum):
+class FUNCTION:
     ADDITION = "+"
     SUBSTRACTTION = "-"
     MULTIPLICATION = "*"
@@ -105,16 +104,16 @@ class FUNCTION(Enum):
     TANH = "tanh"
 
 
-class CATEGORICAL_SCORING_METHOD(Enum):
+class CATEGORICAL_SCORING_METHOD:
     MAJORITY_VOTE = "majorityVote"
     WEIGHTED_MAJORITY_VOTE = "weightedMajorityVote"
 
-class CONTINUOUS_SCORING_METHOD(Enum):
+class CONTINUOUS_SCORING_METHOD:
     MEDIAN = "median"
     AVERAGE = "average"
     WEIGHTED_AVERAGE = "weightedAverage"
 
-class REGRESSION_NORMALIZATION_METHOD(Enum):
+class REGRESSION_NORMALIZATION_METHOD:
     SIMPLEMAX = "simplemax"
     SOFTMAX = "softmax"
     LOGISTIC = "logit"
@@ -124,12 +123,12 @@ class REGRESSION_NORMALIZATION_METHOD(Enum):
     LOGLOG = "loglog"
     CAUCHIT = "cauchit"
 
-class ARRAY_TYPE(Enum):
+class ARRAY_TYPE:
     INTEGER = "int"
     REAL = "real"
     STRING = "string"
 
-class MINING_FUNCTION(Enum):
+class MINING_FUNCTION:
     ASSOCIATION_RULES = "associationRules"
     SEQUENCES = "sequences"
     CLASSIFICATION = "classification"
@@ -138,15 +137,15 @@ class MINING_FUNCTION(Enum):
     TIMESERIES = "timeSeries"
     MIXED = "mixed"
 
-class SVM_REPRESENTATION(Enum):
+class SVM_REPRESENTATION:
     SUPPORT_VECTORS = "SupportVectors"
     COEFFICIENTS = "Coefficients"
 
-class SVM_CLASSIFICATION_METHOD(Enum):
+class SVM_CLASSIFICATION_METHOD:
     OVR = "OneAgainstAll"
     OVO = "OneAgainstOne"
 
-class MULTIPLE_MODEL_METHOD(Enum):
+class MULTIPLE_MODEL_METHOD:
     MAJORITY_VOTE = "majorityVote"
     WEIGHTED_MAJORITY_VOTE = "weightedMajorityVote"
     AVERAGE = "average"
@@ -160,26 +159,26 @@ class MULTIPLE_MODEL_METHOD(Enum):
     SELECT_ALL = "selectAll"
     MODEL_CHAIN = "modelChain"
 
-class COMPARISON_MEASURE_KIND(Enum):
+class COMPARISON_MEASURE_KIND:
     DISTANCE = "distance"
     SIMILARITY = "similarity"
 
-class CLUSTERING_FILED_COMPARE_FUNCTION(Enum):
+class CLUSTERING_FILED_COMPARE_FUNCTION:
     ABSOLUTE_DIFF = "absDiff"
     GAUSSIAN_SIMILARITY = "gaussSim"
     DELTA = "delta"
     EQUAL = "equal"
     TABLE = "table"
 
-class CLUSTERING_MODEL_CLASS(Enum):
+class CLUSTERING_MODEL_CLASS:
     CENTER_BASED = "centerBased"
     DISTRIBUTION_BASED = "distributionBased"
 
-class NN_NORMALIZATION_METHOD(Enum):
+class NN_NORMALIZATION_METHOD:
     SIMPLEMAX = "simplemax"
     SOFTMAX = "softmax"
 
-class NN_ACTIVATION_FUNCTION(Enum):
+class NN_ACTIVATION_FUNCTION:
     THRESHOLD = "threshold"
     LOGISTIC = "logistic"
     TANH = "tanh"
@@ -195,30 +194,30 @@ class NN_ACTIVATION_FUNCTION(Enum):
     RECTIFIER = "rectifier"
     RADIALBASIS = "radialBasis"
 
-class MAXIMUM_LIKELIHOOD_STAT_METHOD(Enum):
+class MAXIMUM_LIKELIHOOD_STAT_METHOD:
     KALMAN = "kalman"
     THETA_RECURSION = "thetaRecursion"
 
-class ARIMA_PREDICTION_METHOD(Enum):
+class ARIMA_PREDICTION_METHOD:
     CSS = "conditionalLeastSquares"
     MLE = "exactLeastSquares"
 
-class EXPONENTIAL_SMOOTHING_SEASONALITY(Enum):
+class EXPONENTIAL_SMOOTHING_SEASONALITY:
     ADDITIVE = "additive"
     MULTIPLICATIVE = "multiplicative"
 
-class EXPONENTIAL_SMOOTHING_TREND(Enum):
+class EXPONENTIAL_SMOOTHING_TREND:
     ADDITIVE = "additive"
     DAMPED_ADDITIVE = "damped_additive"
     MULTIPLICATIVE = "multiplicative"
     DAMPED_MULTIPLICATIVE = "damped_multiplicative"
     POLYNOMIAL_EXPONENTIAL = "polynomial_exponential"
 
-class EXPONENTIAL_SMOOTHING_AND_ARIMA_TRANSFORMATION(Enum):
+class EXPONENTIAL_SMOOTHING_AND_ARIMA_TRANSFORMATION:
     LOGARITHMIC = "logarithmic"
     SQUARE_ROOT = "squareroot"
 
-class TIME_ANCHOR(Enum):
+class TIME_ANCHOR:
     DATETIMEMILLISECONDS_SINCE_0 = "dateTimeMillisecondsSince[0]"
     DATETIMEMILLISECONDS_SINCE_1960 = "dateTimeMillisecondsSince[1960]"
     DATETIMEMILLISECONDS_SINCE_1970 = "dateTimeMillisecondsSince[1970]"
@@ -237,12 +236,12 @@ class TIME_ANCHOR(Enum):
     DATEMONTHS_SINCE_1980 = "dateMonthsSince[1980]"
     DATEYEARS_SINCE_0 = "dateYearsSince[0]"
 
-class TIMESERIES_USAGE(Enum):
+class TIMESERIES_USAGE:
     ORIGINAL = "original"
     LOGICAL = "logical"
     PREDICTION = "prediction"
 
-class TIMESERIES_ALGORITHM(Enum):
+class TIMESERIES_ALGORITHM:
     ARIMA = "ARIMA"
     EXPONENTIAL_SMOOTHING = "ExponentialSmoothing"
     SEASONAL_TREND_DECOMPOSE = "SeasonalTrendDecomposition"
@@ -250,7 +249,7 @@ class TIMESERIES_ALGORITHM(Enum):
     STATE_SPACE_MODEL = "StateSpaceModel"
     GARCH = "GARCH"
 
-class LAG_AGGREGATION(Enum):
+class LAG_AGGREGATION:
     AVERAGE = "avg"
     MIN = "min"
     MAX = "max"
@@ -259,13 +258,13 @@ class LAG_AGGREGATION(Enum):
     SUM = "sum"
     STANDARD_DEVIATION = "stddev"
 
-class ANOMALY_DETECTION_ALGORITHM(Enum):
+class ANOMALY_DETECTION_ALGORITHM:
     ISOLATION_FOREST = "iforest"
     ONE_CLASS_SVM = "ocsvm"
     CLUSTER_MEAN_DISTANCE = "clusterMeanDist"
     OTHER = "other"
 
-class SIMPLE_PREDICATE_OPERATOR(Enum):
+class SIMPLE_PREDICATE_OPERATOR:
     EQUAL = "equal"
     NOT_EQUAL = "notEqual"
     LESS_THAN = "lessThan"
@@ -275,7 +274,7 @@ class SIMPLE_PREDICATE_OPERATOR(Enum):
     IS_MISSING = "isMissing"
     IS_NOT_MISSING = "isNotMissing"
 
-class FIELD_USAGE_TYPE(Enum):
+class FIELD_USAGE_TYPE:
     ACTIVE = "active"
     PREDICTED = "predicted"
     TARGET = "target"
@@ -285,7 +284,7 @@ class FIELD_USAGE_TYPE(Enum):
     FREQUENCY_WEIGHT = "frequencyWeight"
     ANALYSIS_WEIGHT = "analysisWeight"
 
-class RESULT_FEATURE(Enum):
+class RESULT_FEATURE:
     PREDICTED_VALUE = "predictedValue"
     PREDCITED_DISPLAY_VALUE = "predictedDisplayValue"
     TRANSFORMED_VALUE = "transformedValue"
@@ -314,12 +313,12 @@ class RESULT_FEATURE(Enum):
     CONFIDENCE_INTERVAL_UPPER = "confidenceIntervalUpper"
     CONFIDENCE_INTERVAL_LOWER = "confidenceIntervalLower"
 
-class OPTYPE(Enum):
+class OPTYPE:
     CATEGORICAL = "categorical"
     ORDINAL = "ordinal"
     CONTINUOUS = "continuous"
 
-class DATATYPE(Enum):
+class DATATYPE:
     STRING = "string"
     INTEGER = "integer"
     BINARY = "binary"

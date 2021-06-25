@@ -22,7 +22,7 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 import PMML44 as pml
-from base.enums import *
+from base.constants import *
 exception_cols = list()
 
 def get_preprocess_val(ppln_sans_predictor, initial_colnames, model):
@@ -285,11 +285,11 @@ def imputer(trfm, col_names, **kwargs):
 
     mining_strategy = trfm.strategy
     if "mean" in mining_strategy:
-        mining_strategy = MISSING_VALUE_TREATMENT_METHOD.AS_MEAN.value
+        mining_strategy = MISSING_VALUE_TREATMENT_METHOD.AS_MEAN
     elif "median" in mining_strategy:
-        mining_strategy = MISSING_VALUE_TREATMENT_METHOD.AS_MEDIAN.value
+        mining_strategy = MISSING_VALUE_TREATMENT_METHOD.AS_MEDIAN
     elif "most_frequent" in mining_strategy:
-        mining_strategy = MISSING_VALUE_TREATMENT_METHOD.AS_MODE.value
+        mining_strategy = MISSING_VALUE_TREATMENT_METHOD.AS_MODE
     mining_replacement_val = trfm.statistics_
 
     if not any_in(original_col_names, col_names):
@@ -298,9 +298,9 @@ def imputer(trfm, col_names, **kwargs):
             if (col_names[col_name_idx] not in exception_cols):
                 const_list = list()
                 apply_inner = list()
-                apply_inner.append(pml.Apply(function=FUNCTION.IS_MISSING.value, FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]))
+                apply_inner.append(pml.Apply(function=FUNCTION.IS_MISSING, FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]))
                 const_obj = pml.Constant(
-                    dataType=DATATYPE.DOUBLE.value,
+                    dataType=DATATYPE.DOUBLE,
                     valueOf_=mining_replacement_val[col_name_idx]
                 ),
                 fieldref_obj = pml.FieldRef(field=col_names[col_name_idx])
@@ -309,15 +309,15 @@ def imputer(trfm, col_names, **kwargs):
                 const_list.append(fieldref_obj)
                 apply_outer = pml.Apply(
                     Apply_member=apply_inner,
-                    function=FUNCTION.IF.value,
+                    function=FUNCTION.IF,
                     Constant=const_list
                 )
 
                 derived_flds.append(pml.DerivedField(
                     Apply=apply_outer,
                     name=derived_colnames[col_name_idx],
-                    optype=OPTYPE.CONTINUOUS.value,
-                    dataType=DATATYPE.DOUBLE.value
+                    optype=OPTYPE.CONTINUOUS,
+                    dataType=DATATYPE.DOUBLE
                 ))
     else:
         pp_dict['mining_strategy'] = mining_strategy
@@ -351,7 +351,7 @@ def cat_imputer(trfm, col_names):
     pp_dict = dict()
     derived_flds = list()
 
-    mining_strategy = MISSING_VALUE_TREATMENT_METHOD.AS_MODE.value
+    mining_strategy = MISSING_VALUE_TREATMENT_METHOD.AS_MODE
     mining_replacement_val = trfm.fill_
 
     pp_dict['mining_strategy'] = mining_strategy
@@ -390,22 +390,22 @@ def pca(trfm, col_names):
     for preprocess_idx in range(trfm.n_components_):
         add = list()
         for pca_idx in range(trfm.n_features_):
-            apply_inner = pml.Apply(function=FUNCTION.SUBSTRACTTION.value,
-                                    Constant=[pml.Constant(dataType=DATATYPE.DOUBLE.value,
+            apply_inner = pml.Apply(function=FUNCTION.SUBSTRACTTION,
+                                    Constant=[pml.Constant(dataType=DATATYPE.DOUBLE,
                                                            valueOf_="{:.16f}".format(val[pca_idx]))],
                                     FieldRef=[pml.FieldRef(field=col_names[pca_idx])])
-            apply_outer = pml.Apply(function=FUNCTION.MULTIPLICATION.value,
+            apply_outer = pml.Apply(function=FUNCTION.MULTIPLICATION,
                                     Apply_member=[apply_inner],
-                                    Constant=[pml.Constant(dataType=DATATYPE.DOUBLE.value,
+                                    Constant=[pml.Constant(dataType=DATATYPE.DOUBLE,
                                                            valueOf_=zero if trfm.components_[preprocess_idx][
                                                                                 pca_idx] == 0.0 else
                                                            "{:.16f}".format(trfm.components_[preprocess_idx][pca_idx]))])
             add.append(apply_outer)
-        app0 = pml.Apply(function=FUNCTION.SUM.value, Apply_member=add)
+        app0 = pml.Apply(function=FUNCTION.SUM, Apply_member=add)
 
         derived_flds.append(pml.DerivedField(Apply=app0,
-                                             dataType=DATATYPE.DOUBLE.value,
-                                             optype=OPTYPE.CONTINUOUS.value,
+                                             dataType=DATATYPE.DOUBLE,
+                                             optype=OPTYPE.CONTINUOUS,
                                              name="PCA" + str(pca.counter) + "-" + str(preprocess_idx)))
         name = derived_flds[preprocess_idx].get_name()
         derived_colnames.append(name)
@@ -441,15 +441,15 @@ def tfidf_vectorizer(trfm, col_names):
     if trfm.lowercase:
         derived_flds.append(
             pml.DerivedField(name='lowercase(' + col_names[0] + ')',
-                            optype=OPTYPE.CATEGORICAL.value, dataType=DATATYPE.STRING.value,
-                            Apply=pml.Apply(function=FUNCTION.LOWERCASE.value,
+                            optype=OPTYPE.CATEGORICAL, dataType=DATATYPE.STRING,
+                            Apply=pml.Apply(function=FUNCTION.LOWERCASE,
                                             FieldRef=[pml.FieldRef(field=col_names[0])])))
     for feat_idx, idf in zip(range(len(features)), idfs):
         derived_flds.append(pml.DerivedField(
             name = derived_colnames[feat_idx],
-            optype=OPTYPE.CONTINUOUS.value,
-            dataType=DATATYPE.DOUBLE.value,
-            Apply=pml.Apply(function=FUNCTION.MULTIPLICATION.value,
+            optype=OPTYPE.CONTINUOUS,
+            dataType=DATATYPE.DOUBLE,
+            Apply=pml.Apply(function=FUNCTION.MULTIPLICATION,
                             TextIndex=[pml.TextIndex(textField='lowercase(' + col_names[0] + ')',
                                                      wordSeparatorCharacterRE='\\s+',
                                                      tokenize='true',
@@ -489,20 +489,20 @@ def count_vectorizer(trfm, col_names):
     derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
     if trfm.lowercase:
         derived_flds.append(pml.DerivedField(name='lowercase(' + col_names[0] + ')',
-                                            optype=OPTYPE.CATEGORICAL.value,
-                                            dataType=DATATYPE.STRING.value,
-                                            Apply=pml.Apply(function=FUNCTION.LOWERCASE.value,
+                                            optype=OPTYPE.CATEGORICAL,
+                                            dataType=DATATYPE.STRING,
+                                            Apply=pml.Apply(function=FUNCTION.LOWERCASE,
                                                             FieldRef=[pml.FieldRef(field=col_names[0])])))
     for imp_features, index in zip(features, range(len(features))):
         df_name = derived_colnames[index]
         derived_flds.append(pml.DerivedField(name=df_name,
-                                            optype=OPTYPE.CONTINUOUS.value,
-                                            dataType=DATATYPE.DOUBLE.value,
+                                            optype=OPTYPE.CONTINUOUS,
+                                            dataType=DATATYPE.DOUBLE,
                                             TextIndex=pml.TextIndex(textField='lowercase(' + col_names[0] + ')' if trfm.lowercase \
                                                 else col_names[0],
                                                                     wordSeparatorCharacterRE='\\s+',
                                                                     tokenize='true',
-                                                                    Constant=pml.Constant(dataType=DATATYPE.STRING.value,
+                                                                    Constant=pml.Constant(dataType=DATATYPE.STRING,
                                                                                         valueOf_=imp_features),
                                                                     Extension=[pml.Extension(value=extra_features[index])]
                                                                     )))
@@ -536,8 +536,8 @@ def lag(trfm, col_names):
     derived_colnames = get_derived_colnames(trfm.aggregation, col_names)
     for idx, name in enumerate(col_names):
         lag = pml.Lag(field=name, n=trfm.value, aggregate=trfm.aggregation)
-        derived_fld = pml.DerivedField(name=derived_colnames[idx], Lag=lag, optype=OPTYPE.CONTINUOUS.value,\
-             dataType=DATATYPE.DOUBLE.value)
+        derived_fld = pml.DerivedField(name=derived_colnames[idx], Lag=lag, optype=OPTYPE.CONTINUOUS,\
+             dataType=DATATYPE.DOUBLE)
         derived_flds.append(derived_fld)
 
     pp_dict['der_fld'] = derived_flds
@@ -571,26 +571,26 @@ def std_scaler(trfm, col_names, **kwargs):
     for col_name_idx in range(len(col_names)):
         apply_inner = list()
         apply_inner.append(pml.Apply(
-            function=FUNCTION.SUBSTRACTTION.value,
+            function=FUNCTION.SUBSTRACTTION,
             Constant=[pml.Constant(
-                dataType=DATATYPE.DOUBLE.value,
+                dataType=DATATYPE.DOUBLE,
                 valueOf_="{:.16f}".format(trfm.mean_[col_name_idx])
             )],
             FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
         ))
         apply_outer = pml.Apply(
             Apply_member=apply_inner,
-            function=FUNCTION.DIVISION.value,
+            function=FUNCTION.DIVISION,
             Constant=[pml.Constant(
-                dataType=DATATYPE.DOUBLE.value,
+                dataType=DATATYPE.DOUBLE,
                 valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
             )]
         )
         derived_flds.append(pml.DerivedField(
             Apply=apply_outer,
             name=derived_colnames[col_name_idx],
-            optype=OPTYPE.CONTINUOUS.value,
-            dataType=DATATYPE.DOUBLE.value
+            optype=OPTYPE.CONTINUOUS,
+            dataType=DATATYPE.DOUBLE
         ))
 
 
@@ -624,26 +624,26 @@ def min_max_scaler(trfm, col_names):
         if(col_names[col_name_idx] not in exception_cols):
             apply_inner = list()
             apply_inner.append(pml.Apply(
-                function=FUNCTION.MULTIPLICATION.value,
+                function=FUNCTION.MULTIPLICATION,
                 Constant=[pml.Constant(
-                    dataType=DATATYPE.DOUBLE.value,
+                    dataType=DATATYPE.DOUBLE,
                     valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
             ))
             apply_outer = pml.Apply(
                 Apply_member=apply_inner,
-                function=FUNCTION.ADDITION.value,
+                function=FUNCTION.ADDITION,
                 Constant=[pml.Constant(
-                    dataType=DATATYPE.DOUBLE.value,
+                    dataType=DATATYPE.DOUBLE,
                     valueOf_="{:.16f}".format(trfm.min_[col_name_idx])
                 )]
             )
             derived_flds.append(pml.DerivedField(
                 Apply=apply_outer,
                 name=derived_colnames[col_name_idx],
-                optype=OPTYPE.CONTINUOUS.value,
-                dataType=DATATYPE.DOUBLE.value
+                optype=OPTYPE.CONTINUOUS,
+                dataType=DATATYPE.DOUBLE
             ))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -675,26 +675,26 @@ def rbst_scaler(trfm, col_names):
         if (col_names[col_name_idx] not in exception_cols):
             apply_inner = list()
             apply_inner.append(pml.Apply(
-                function=FUNCTION.SUBSTRACTTION.value,
+                function=FUNCTION.SUBSTRACTTION,
                 Constant=[pml.Constant(
-                    dataType=DATATYPE.DOUBLE.value,
+                    dataType=DATATYPE.DOUBLE,
                     valueOf_="{:.16f}".format(trfm.center_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
             ))
             apply_outer = pml.Apply(
                 Apply_member=apply_inner,
-                function=FUNCTION.DIVISION.value,
+                function=FUNCTION.DIVISION,
                 Constant=[pml.Constant(
-                    dataType=DATATYPE.DOUBLE.value,
+                    dataType=DATATYPE.DOUBLE,
                     valueOf_="{:.16f}".format(trfm.scale_[col_name_idx])
                 )]
             )
             derived_flds.append(pml.DerivedField(
                 Apply=apply_outer,
                 name=derived_colnames[col_name_idx],
-                optype=OPTYPE.CONTINUOUS.value,
-                dataType=DATATYPE.DOUBLE.value
+                optype=OPTYPE.CONTINUOUS,
+                dataType=DATATYPE.DOUBLE
             ))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -725,9 +725,9 @@ def max_abs_scaler(trfm, col_names):
     for col_name_idx in range(len(col_names)):
         if (col_names[col_name_idx] not in exception_cols):
             apply_outer = pml.Apply(
-                function=FUNCTION.DIVISION.value,
+                function=FUNCTION.DIVISION,
                 Constant=[pml.Constant(
-                    dataType=DATATYPE.DOUBLE.value,
+                    dataType=DATATYPE.DOUBLE,
                     valueOf_="{:.16f}".format(trfm.max_abs_[col_name_idx])
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])]
@@ -736,8 +736,8 @@ def max_abs_scaler(trfm, col_names):
             derived_flds.append(pml.DerivedField(
                 Apply=apply_outer,
                 name=derived_colnames[col_name_idx],
-                optype=OPTYPE.CONTINUOUS.value,
-                dataType=DATATYPE.DOUBLE.value
+                optype=OPTYPE.CONTINUOUS,
+                dataType=DATATYPE.DOUBLE
             ))
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -779,8 +779,8 @@ def lbl_encoder(trfm, col_names):
     inline_table = pml.InlineTable(row=rows)
     map_values = pml.MapValues(outputColumn="output", FieldColumnPair=field_column_pair, InlineTable=inline_table)
     derived_flds.append(
-        pml.DerivedField(MapValues=map_values, name=derived_colnames[0], optype=OPTYPE.CONTINUOUS.value,\
-             dataType=DATATYPE.DOUBLE.value))
+        pml.DerivedField(MapValues=map_values, name=derived_colnames[0], optype=OPTYPE.CONTINUOUS,\
+             dataType=DATATYPE.DOUBLE))
 
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -813,9 +813,9 @@ def binarizer(trfm, col_names):
     derived_colnames = get_derived_colnames("binarizer", col_names)
     for col_name_idx in range(len(col_names)):
         apply_outer = pml.Apply(
-            function=FUNCTION.THRESHOLD.value,
+            function=FUNCTION.THRESHOLD,
             Constant=[pml.Constant(
-                dataType=DATATYPE.DOUBLE.value,
+                dataType=DATATYPE.DOUBLE,
                 valueOf_=trfm.threshold
             )],
             FieldRef=[pml.FieldRef(field=col_names[col_name_idx])])
@@ -823,8 +823,8 @@ def binarizer(trfm, col_names):
         derived_flds.append(pml.DerivedField(
             Apply=apply_outer,
             name=derived_colnames[col_name_idx],
-            optype=OPTYPE.CONTINUOUS.value,
-            dataType=DATATYPE.DOUBLE.value
+            optype=OPTYPE.CONTINUOUS,
+            dataType=DATATYPE.DOUBLE
         ))
 
     pp_dict['der_fld'] = derived_flds
@@ -860,20 +860,20 @@ def polynomial_features(trfm, col_names):
         for col_name_idx in range(len(col_names)):
             val = int(trfm.powers_[polyfeat_idx][col_name_idx])
             apply_inner = pml.Apply(
-                function=FUNCTION.POWER.value,
+                function=FUNCTION.POWER,
                 Constant=[pml.Constant(
-                    dataType=DATATYPE.INTEGER.value,
+                    dataType=DATATYPE.INTEGER,
                     valueOf_=val
                 )],
                 FieldRef=[pml.FieldRef(field=col_names[col_name_idx])])
             apply_inner_container.append(apply_inner)
-        apply_outer = pml.Apply(function=FUNCTION.PRODUCT.value,
+        apply_outer = pml.Apply(function=FUNCTION.PRODUCT,
                                 Apply_member=apply_inner_container
                                 )
         derived_flds.append(pml.DerivedField(
             Apply=apply_outer,
-            dataType=DATATYPE.DOUBLE.value,
-            optype=OPTYPE.CONTINUOUS.value,
+            dataType=DATATYPE.DOUBLE,
+            optype=OPTYPE.CONTINUOUS,
             name="poly" + str(polynomial_features.poly_ctr) + '-' + "x" + str(polyfeat_idx)
         ))
         name = derived_flds[polyfeat_idx].get_name()
@@ -913,8 +913,8 @@ def lbl_binarizer(trfm, col_names, **kwargs):
             norm_descr = pml.NormDiscrete(field=str(col_names[-1]), value=str(categoric_lbls[-1]))
             derived_flds.append(pml.DerivedField(NormDiscrete=norm_descr,
                                                  name=derived_colnames[-1],
-                                                 optype=OPTYPE.CATEGORICAL.value,
-                                                 dataType=DATATYPE.DOUBLE.value))
+                                                 optype=OPTYPE.CATEGORICAL,
+                                                 dataType=DATATYPE.DOUBLE))
         else:
             derived_colnames = get_derived_colnames("labelBinarizer(" + str(col_names[col_name_idx]),
                                                     categoric_lbls, ")")
@@ -924,8 +924,8 @@ def lbl_binarizer(trfm, col_names, **kwargs):
                     derived_flds.append(
                         pml.DerivedField(NormDiscrete=norm_descr,
                                          name=derived_colnames[class_idx],
-                                         optype=OPTYPE.CATEGORICAL.value,
-                                         dataType=DATATYPE.DOUBLE.value))
+                                         optype=OPTYPE.CATEGORICAL,
+                                         dataType=DATATYPE.DOUBLE))
 
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames
@@ -966,8 +966,8 @@ def one_hot_encoder(trfm, col_names, **kwargs):
                 derived_flds.append(
                     pml.DerivedField(NormDiscrete=norm_descr,
                                      name=derived_colnames[class_idx],
-                                     optype=OPTYPE.CATEGORICAL.value,
-                                     dataType=DATATYPE.DOUBLE.value))
+                                     optype=OPTYPE.CATEGORICAL,
+                                     dataType=DATATYPE.DOUBLE))
 
     pp_dict['der_fld'] = derived_flds
     pp_dict['der_col_names'] = derived_colnames

@@ -27,7 +27,7 @@ import nyoka.xgboost.xgboost_to_pmml as xgboostToPmml
 import json
 from skl import pre_process as pp
 from datetime import datetime
-from base.enums import *
+from base.constants import *
 
 
 def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml',model_name=None, description=None):
@@ -81,7 +81,7 @@ def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml',m
                                       categoric_values,
                                       model_name)
         pmml = pml.PMML(
-            version=PMML_SCHEMA.VERSION.value,
+            version=PMML_SCHEMA.VERSION,
             Header=sklToPmml.get_header(description),
             DataDictionary=sklToPmml.get_data_dictionary(model, col_names, target_name, categoric_values),
             **trfm_dict_kwargs,
@@ -259,11 +259,11 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
             m_flds.append(pml.MiningField(name=name))
 
         segments_equal_to_estimators.append((pml.Segment(id=i + 1, True_=pml.True_(),
-                                                     TreeModel=pml.TreeModel(functionName=MINING_FUNCTION.REGRESSION.value,
+                                                     TreeModel=pml.TreeModel(functionName=MINING_FUNCTION.REGRESSION,
                                                      modelName="DecisionTreeModel",
                                                                          missingValueStrategy="none",
                                                                          noTrueChildStrategy="returnLastPrediction",
-                                                                         splitCharacteristic=TREE_SPLIT_CHARACTERISTIC.MULTI.value,
+                                                                         splitCharacteristic=TREE_SPLIT_CHARACTERISTIC.MULTI,
                                                                          Node=main_node,
                                                                          MiningSchema=pml.MiningSchema(
                                                                              MiningField=m_flds)))))
@@ -303,7 +303,7 @@ def get_segments_for_lgbr(model, derived_col_names, feature_names, target_name, 
     for i in range(len(lgb_dump['tree_info'])):
         tree = lgb_dump['tree_info'][i]['tree_structure']
         main_key_value.append(tree)
-    segmentation = pml.Segmentation(multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM.value,
+    segmentation = pml.Segmentation(multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM,
                                     Segment=generate_Segments_Equal_To_Estimators(main_key_value, derived_col_names,
                                                                                   feature_names))
     return segmentation
@@ -327,7 +327,7 @@ def create_node(obj, main_node,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(
             pml.SimplePredicate(field=xgboostToPmml.replace_name_with_derivedColumnNames(derived_col_names[int(obj['split_feature'])],\
-                 derived_col_names), operator=SIMPLE_PREDICATE_OPERATOR.LESS_OR_EQUAL.value, value="{:.16f}".format(obj['threshold'])))
+                 derived_col_names), operator=SIMPLE_PREDICATE_OPERATOR.LESS_OR_EQUAL, value="{:.16f}".format(obj['threshold'])))
         create_node(obj['left_child'], nd, derived_col_names)
         return nd
 
@@ -335,7 +335,7 @@ def create_node(obj, main_node,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(
             pml.SimplePredicate(field=xgboostToPmml.replace_name_with_derivedColumnNames(derived_col_names[int(obj['split_feature'])],\
-                 derived_col_names), operator=SIMPLE_PREDICATE_OPERATOR.GREATER_THAN.value, value="{:.16f}".format(obj['threshold'])))
+                 derived_col_names), operator=SIMPLE_PREDICATE_OPERATOR.GREATER_THAN, value="{:.16f}".format(obj['threshold'])))
         create_node(obj['right_child'], nd, derived_col_names)
         return nd
 
@@ -383,8 +383,8 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
             main_key_value.append(tree)
         mining_schema_for_1st_segment = xgboostToPmml.mining_Field_For_First_Segment(feature_names)
         outputField = list()
-        outputField.append(pml.OutputField(name="lgbValue", optype=OPTYPE.CONTINUOUS.value, dataType=DATATYPE.DOUBLE.value,
-                                           feature=RESULT_FEATURE.PREDICTED_VALUE.value, isFinalResult="false"))
+        outputField.append(pml.OutputField(name="lgbValue", optype=OPTYPE.CONTINUOUS, dataType=DATATYPE.DOUBLE,
+                                           feature=RESULT_FEATURE.PREDICTED_VALUE, isFinalResult="false"))
         out = pml.Output(OutputField=outputField)
         oField=list()
         oField.append("lgbValue")
@@ -392,7 +392,7 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
                                                                              feature_names)
         First_segment = xgboostToPmml.add_segmentation(model,segments_equal_to_estimators, mining_schema_for_1st_segment, out, 1)
         reg_model = sklToPmml.get_regrs_models(model, oField, oField, target_name, mining_imp_val, categoric_values,model_name)[0]
-        reg_model.normalizationMethod = REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value
+        reg_model.normalizationMethod = REGRESSION_NORMALIZATION_METHOD.LOGISTIC
         last_segment = pml.Segment(True_=pml.True_(), id=2,
                                    RegressionModel=reg_model)
         segments.append(First_segment)
@@ -411,8 +411,8 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
                 inner_segment.append(main_key_value[in_seg])
             mining_schema_for_1st_segment = xgboostToPmml.mining_Field_For_First_Segment(feature_names)
             outputField = list()
-            outputField.append(pml.OutputField(name='lgbValue(' + str(index) + ')', optype=OPTYPE.CONTINUOUS.value,
-                                      feature=RESULT_FEATURE.PREDICTED_VALUE.value, dataType=DATATYPE.FLOAT.value, isFinalResult="true"))
+            outputField.append(pml.OutputField(name='lgbValue(' + str(index) + ')', optype=OPTYPE.CONTINUOUS,
+                                      feature=RESULT_FEATURE.PREDICTED_VALUE, dataType=DATATYPE.FLOAT, isFinalResult="true"))
             out = pml.Output(OutputField=outputField)
 
             oField.append('lgbValue(' + str(index) + ')')
@@ -422,7 +422,7 @@ def get_segments_for_lgbc(model, derived_col_names, feature_names, target_name, 
                                                        mining_schema_for_1st_segment, out, index)
             segments.append(segments_equal_to_class)
         reg_model = sklToPmml.get_regrs_models(model,oField,oField,target_name,mining_imp_val,categoric_values,model_name)[0]
-        reg_model.normalizationMethod = REGRESSION_NORMALIZATION_METHOD.SOFTMAX.value
+        reg_model.normalizationMethod = REGRESSION_NORMALIZATION_METHOD.SOFTMAX
         last_segment = pml.Segment(True_=pml.True_(), id=model.n_classes_ + 1,
                                    RegressionModel=reg_model)
         segments.append(last_segment)
@@ -442,7 +442,7 @@ def get_multiple_model_method(model):
 
     """
     if 'LGBMClassifier' in str(model.__class__):
-        return MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value
+        return MULTIPLE_MODEL_METHOD.MODEL_CHAIN
     else:
-        return MULTIPLE_MODEL_METHOD.SUM.value
+        return MULTIPLE_MODEL_METHOD.SUM
 

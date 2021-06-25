@@ -31,7 +31,7 @@ from nyoka.preprocessing import Lag
 
 from nyoka import skl_to_pmml
 from nyoka import PMML44 as pml
-from base.enums import *
+from base.constants import *
 from collections import Counter
 
 
@@ -397,7 +397,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(model.n_estimators, pmml_obj.MiningModel[0].Segmentation.Segment.__len__())
 
         # 6
-        self.assertEqual(MULTIPLE_MODEL_METHOD.AVERAGE.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.AVERAGE,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
     def test_sklearn_11(self):
@@ -437,14 +437,14 @@ class TestMethods(unittest.TestCase):
 
 
         # 3
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
         # 4
         self.assertEqual(model.min_samples_split, pmml_obj.MiningModel[0].Segmentation.Segment.__len__())
 
         # 5
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[1].RegressionModel.normalizationMethod)
 
     def test_sklearn_12(self):
@@ -484,14 +484,14 @@ class TestMethods(unittest.TestCase):
 
 
         # 3
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
         # 4
         self.assertEqual(model.min_samples_split, pmml_obj.MiningModel[0].Segmentation.Segment.__len__())
 
         # 5
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[1].RegressionModel.normalizationMethod)
 
 
@@ -532,14 +532,14 @@ class TestMethods(unittest.TestCase):
 
 
         # 3
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
         # 4
         self.assertEqual(model.min_samples_split, pmml_obj.MiningModel[0].Segmentation.Segment.__len__())
 
         # 5
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[1].RegressionModel.normalizationMethod)
 
     def test_sklearn_15(self):
@@ -636,10 +636,10 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(model.classes_.__len__() + 1, segmentation.Segment.__len__())
 
         # 3
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -656,7 +656,7 @@ class TestMethods(unittest.TestCase):
                     self.assertEqual("{:.10f}".format(model_val), "{:.10f}".format(pmml_val.coefficient))
 
         # 7
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -686,7 +686,7 @@ class TestMethods(unittest.TestCase):
 
         # 2
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.RegressionModel[0].normalizationMethod)
 
         # 3
@@ -721,7 +721,7 @@ class TestMethods(unittest.TestCase):
 
         # 2
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
         # 3
@@ -729,7 +729,7 @@ class TestMethods(unittest.TestCase):
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -746,7 +746,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -773,7 +773,7 @@ class TestMethods(unittest.TestCase):
 
         # 2
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
         # 3
@@ -868,7 +868,7 @@ class TestMethods(unittest.TestCase):
 
         # 5
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.SUM.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.SUM,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
     def test_sklearn_23(self):
@@ -952,7 +952,7 @@ class TestMethods(unittest.TestCase):
 
         # 5
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.AVERAGE.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.AVERAGE,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
     def test_sklearn_25(self):
@@ -1124,11 +1124,11 @@ class TestMethods(unittest.TestCase):
 
         #  3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         #  4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         #  5
@@ -1145,7 +1145,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -1177,11 +1177,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -1198,7 +1198,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -1231,11 +1231,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -1252,7 +1252,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -1285,11 +1285,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -1306,7 +1306,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -1339,11 +1339,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -1360,7 +1360,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -1393,11 +1393,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -1414,7 +1414,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -1453,11 +1453,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -1474,7 +1474,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -1513,11 +1513,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -1534,7 +1534,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -1601,11 +1601,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -1622,7 +1622,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -1658,11 +1658,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -1679,7 +1679,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -1708,12 +1708,12 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SOFTMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SOFTMAX,
                          pmml_obj.NeuralNetwork[0].NeuralLayer[1].normalizationMethod)
 
         # 4
 
-        a_fn = NN_ACTIVATION_FUNCTION.RECTIFIER.value
+        a_fn = NN_ACTIVATION_FUNCTION.RECTIFIER
         self.assertEqual(a_fn, pmml_obj.NeuralNetwork[0].activationFunction)
 
         # 5
@@ -1787,7 +1787,7 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
         # 4
@@ -1795,7 +1795,7 @@ class TestMethods(unittest.TestCase):
 
         # 5
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[1].RegressionModel.normalizationMethod)
 
     def test_sklearn_43(self):
@@ -1839,7 +1839,7 @@ class TestMethods(unittest.TestCase):
                         continue
                     self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value,
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
 
         # 5
@@ -1847,7 +1847,7 @@ class TestMethods(unittest.TestCase):
 
         # 6
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SOFTMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SOFTMAX,
                          pmml_obj.MiningModel[0].Segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
     def test_sklearn_44(self):
@@ -1876,12 +1876,12 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(NN_ACTIVATION_FUNCTION.IDENTITY.value,
+        self.assertEqual(NN_ACTIVATION_FUNCTION.IDENTITY,
                          pmml_obj.NeuralNetwork[0].NeuralLayer[1].activationFunction)
 
         # 4
 
-        a_fn = NN_ACTIVATION_FUNCTION.RECTIFIER.value
+        a_fn = NN_ACTIVATION_FUNCTION.RECTIFIER
         self.assertEqual(a_fn, pmml_obj.NeuralNetwork[0].activationFunction)
 
         # 5
@@ -1999,11 +1999,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -2020,7 +2020,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -2053,11 +2053,11 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN.value, segmentation.multipleModelMethod)
+        self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN, segmentation.multipleModelMethod)
 
         # 4
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SIMPLEMAX,
                          segmentation.Segment[-1].RegressionModel.normalizationMethod)
 
         # 5
@@ -2074,7 +2074,7 @@ class TestMethods(unittest.TestCase):
 
         # 7
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.LOGISTIC,
                          pmml_obj.MiningModel[0].Segmentation.Segment[
                              1].RegressionModel.normalizationMethod)
 
@@ -2145,7 +2145,7 @@ class TestMethods(unittest.TestCase):
 
         # 2
 
-        self.assertEqual(SVM_CLASSIFICATION_METHOD.OVO.value,
+        self.assertEqual(SVM_CLASSIFICATION_METHOD.OVO,
                          pmml_obj.SupportVectorMachineModel[0].classificationMethod)
 
         # 3
@@ -2232,7 +2232,7 @@ class TestMethods(unittest.TestCase):
 
         # 2
 
-        self.assertEqual(SVM_CLASSIFICATION_METHOD.OVO.value,
+        self.assertEqual(SVM_CLASSIFICATION_METHOD.OVO,
                          pmml_obj.SupportVectorMachineModel[0].classificationMethod)
 
         # 3
@@ -2275,7 +2275,7 @@ class TestMethods(unittest.TestCase):
 
         # 2
 
-        self.assertEqual(SVM_CLASSIFICATION_METHOD.OVO.value,
+        self.assertEqual(SVM_CLASSIFICATION_METHOD.OVO,
                          pmml_obj.SupportVectorMachineModel[0].classificationMethod)
 
         # 3
@@ -2408,7 +2408,7 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(NN_ACTIVATION_FUNCTION.RECTIFIER.value, pmml_obj.NeuralNetwork[0].activationFunction)
+        self.assertEqual(NN_ACTIVATION_FUNCTION.RECTIFIER, pmml_obj.NeuralNetwork[0].activationFunction)
 
         # 4
         self.assertEqual(300, pmml_obj.NeuralNetwork[0].NeuralInputs.numberOfInputs)
@@ -2442,12 +2442,12 @@ class TestMethods(unittest.TestCase):
 
         # 3
 
-        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SOFTMAX.value,
+        self.assertEqual(REGRESSION_NORMALIZATION_METHOD.SOFTMAX,
                          pmml_obj.NeuralNetwork[0].NeuralLayer[1].normalizationMethod)
 
         # 4
 
-        a_fn = NN_ACTIVATION_FUNCTION.RECTIFIER.value
+        a_fn = NN_ACTIVATION_FUNCTION.RECTIFIER
         self.assertEqual(a_fn, pmml_obj.NeuralNetwork[0].activationFunction)
 
         # 5

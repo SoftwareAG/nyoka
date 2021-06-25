@@ -9,7 +9,7 @@
 
 ## Overview
 
-Nyoka is a Python library for comprehensive support of the latest PMML (PMML 4.4) standard. Using Nyoka, Data Scientists can export a large number of Machine Learning and Deep Learning models from popular Python frameworks into PMML by either using any of the numerous included ready-to-use exporters or by creating their own exporter for specialized/individual model types by simply calling a sequence of constructors.
+Nyoka is a Python library for comprehensive support of the latest PMML (PMML 4.4) standard. Using Nyoka, Data Scientists can export a large number of Machine Learning models from popular Python frameworks into PMML by either using any of the numerous included ready-to-use exporters or by creating their own exporter for specialized/individual model types by simply calling a sequence of constructors.
 
 Besides about 500 Python classes which each cover a PMML tag and all constructor parameters/attributes as defined in the standard, Nyoka also provides an increasing number of convenience classes and functions that make the Data Scientist’s life easier for example by reading or writing any PMML file in one line of code from within your favorite Python environment.
 
@@ -65,26 +65,6 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 *  [`feature_extraction.text.CountVectorizer`](https://scikit-learn.org/0.20/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html#sklearn.feature_extraction.text.CountVectorizer)
 *  [`decomposition.PCA`](https://scikit-learn.org/0.20/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA)
 *  [`sklearn_pandas.CategoricalImputer`](https://github.com/scikit-learn-contrib/sklearn-pandas/blob/master/sklearn_pandas/categorical_imputer.py#L21) ( From _[sklearn_pandas](https://github.com/scikit-learn-contrib/sklearn-pandas)_ library )
-
-
-### Keras (version <= 2.2.4):
-
-#### Models -
-
-*  [`applications.MobileNet`](https://keras.io/applications/#mobilenet)
-*  [`applications.VGG16`](https://keras.io/applications/#vgg16)
-*  [`applications.VGG19`](https://keras.io/applications/#vgg19)
-*  [`applications.DenseNet`](https://keras.io/applications/#densenet)
-*  [`applications.InceptionV3`](https://keras.io/applications/#inceptionv3)
-*  [`applications.ResNet`](https://keras.io/applications/#resnet)
-*  [`applications.Xception`](https://keras.io/applications/#xception)
-*  [`models.Sequential`](https://keras.io/models/sequential/)
-
-
-### Object Detection Model:
-
-
-*  [`fizyr/Keras-RetinaNet`](https://github.com/fizyr/keras-retinanet)
   
 
 ### LightGBM:
@@ -139,9 +119,7 @@ Nyoka contains seperate exporters for each library, e.g., scikit-learn, keras, x
 | **scikit-learn** | _skl_to_pmml_ |
 | **xgboost** | _xgboost_to_pmml_ |
 | **lightgbm** | _lgbm_to_pmml_ |
-| **keras** | _KerasToPmml_ |
 | **statsmodels** | _StatsmodelsToPmml & ExponentialSmoothingToPmml_ |
-| **retinanet** | _RetinanetToPmml_ |
 
 
 The main module of __Nyoka__ is `nyoka`. To use it for your model, you need to import the specific exporter from nyoka as -
@@ -182,7 +160,7 @@ The workflow is as follows (For example, a Decision Tree Classifier with Standar
 	```
 
 
-#### For Keras, RetinaNet and Statsmodels, pipeline is not required. The fitted model needs to be passed to the exporter.
+#### For Statsmodels, pipeline is not required. The fitted model needs to be passed to the exporter.
 
 ```python
 import pandas as pd
@@ -208,10 +186,6 @@ Example jupyter notebooks can be found in [`nyoka/examples`](https://github.com/
 	* [OneClassSVM](https://github.com/softwareag/nyoka/blob/master/examples/skl/7_OneClassSVM_Model_to_PMML.ipynb)
 	* [LinearSVC](https://github.com/softwareag/nyoka/blob/master/examples/skl/8_LinearSVC_with_TfidfVectorizer.ipynb)
 
-* Exporting `Keras` models into PMML
-	* [MobileNet](https://github.com/softwareag/nyoka/blob/master/examples/keras/1_PMML_generation_for_mobilenet.ipynb)
-	* [Sequential Model](https://github.com/softwareag/nyoka/blob/master/examples/keras/2_PMML_generation_for_Sequential_Model.ipynb)
-
 * Exporting `XGBoost` model into PMML
 	* [XGBoost 1](https://github.com/softwareag/nyoka/blob/master/examples/xgboost/1_xgboost.ipynb)
 	* [XGBoost 2](https://github.com/softwareag/nyoka/blob/master/examples/xgboost/2_xgboost_With_Scaling.ipynb)
@@ -227,9 +201,6 @@ Example jupyter notebooks can be found in [`nyoka/examples`](https://github.com/
 	* [Seasonal ARIMA](https://github.com/softwareag/nyoka/blob/master/examples/statsmodels/arima/Seasonal%20ARIMA.ipynb)
 	* [Vector ARMA (for multi-variate time series)](https://github.com/softwareag/nyoka/blob/master/examples/statsmodels/arima/VARMAX.ipynb)
 	* [Exponential Smoothing](https://github.com/softwareag/nyoka/blob/master/examples/statsmodels/exponential_smoothing/exponential_smoothing.ipynb)
-
-* Exporting `retinanet` model into PMML
-	* [RetinaNet 1](https://github.com/softwareag/nyoka/blob/master/examples/retinanet/RetinaNet%20Exporter.ipynb)
   
 ## Nyoka Submodules
 
