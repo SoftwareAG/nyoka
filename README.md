@@ -1,6 +1,6 @@
 # Nyoka
 
-[![Build Status](https://travis-ci.org/softwareag/nyoka.svg?branch=master)](https://travis-ci.org/softwareag/nyoka)
+[![Test Master Branch](https://github.com/SoftwareAG/nyoka/actions/workflows/test-master.yml/badge.svg?branch=master&event=push)](https://github.com/SoftwareAG/nyoka/actions/workflows/test-master.yml)
 [![PyPI version](https://badge.fury.io/py/nyoka.svg)](https://pypi.org/project/nyoka/)
 [![codecov](https://codecov.io/gh/SoftwareAG/nyoka/branch/master/graph/badge.svg)](https://codecov.io/gh/SoftwareAG/nyoka)
 [![license](https://img.shields.io/github/license/softwareag/nyoka.svg)](https://github.com/softwareag/nyoka/blob/master/LICENSE)
