@@ -1,7 +1,0 @@
-retinanet module
-================
-
-.. automodule:: retinanet
-    :members:
-    :undoc-members:
-    :show-inheritance:

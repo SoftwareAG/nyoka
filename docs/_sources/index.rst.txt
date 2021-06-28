@@ -7,14 +7,12 @@ script
    PMML44
    PMML44Super
    arima
-   enums
+   constants
    exponential_smoothing
-   keras_model_to_pmml
    lag
    lgb_to_pmml
    metadata
    pre_process
-   retinanet
    skl_to_pmml
    statsmodels_to_pmml
    xgboost_to_pmml

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
  Copyright (c) 2004-2016 Zementis, Inc.
- Copyright (c) 2016-2020 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its
+ Copyright (c) 2016-2021 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its
 
  SPDX-License-Identifier: Apache-2.0
 
