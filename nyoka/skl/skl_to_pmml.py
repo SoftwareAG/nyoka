@@ -26,7 +26,6 @@ import PMML44 as pml
 from skl import pre_process as pp
 from datetime import datetime
 import math
-import metadata
 from base.constants import *
 
 def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_sklearn.pmml', model_name=None, description=None):
@@ -2218,9 +2217,6 @@ def get_super_cls_names(model_inst):
     super_cls_names(cls)
     return parents
 
-
-from nyoka import metadata
-
 def get_header(description):
 
     """
@@ -2232,10 +2228,10 @@ def get_header(description):
          Returns Nyoka's Header object.
 
      """
-    copyryt = "Copyright (c) 2018 Software AG"
-    description = description if description else "Default Description"
+    copyryt = HEADER_INFO.COPYRIGHT
+    description = description if description else HEADER_INFO.DEFAULT_DESCRIPTION
     timestamp = pml.Timestamp(datetime.now())
-    application=pml.Application(name="Nyoka",version=metadata.__version__)
+    application=pml.Application(name=HEADER_INFO.APPLICATION_NAME,version=HEADER_INFO.APPLICATION_VERSION)
     header = pml.Header(copyright=copyryt, description=description, Timestamp=timestamp, Application=application)
     return header
 

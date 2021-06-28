@@ -34,8 +34,6 @@ _CONSTANT = "Constant"
 _JSON = ".json"
 _MAX_VALUE = "maxValue"
 _MIN_VALUE = "minValue"
-_APPLICATION_NAME = "Nyoka"
-_APPLICATION_VERSION = "4.2.1"
 
 
 class FingerprintToPmml:
@@ -107,8 +105,8 @@ class FingerprintToPmml:
         def get_header():
             header = pml.Header(
                 Application=pml.Application(
-                    name=_APPLICATION_NAME,
-                    version=_APPLICATION_VERSION
+                    name=HEADER_INFO.APPLICATION_NAME,
+                    version=HEADER_INFO.APPLICATION_VERSION
                 ),
                 description=self._fingerprint_description
             )

@@ -26,7 +26,6 @@ sys.path.append(BASE_DIR)
 from pprint import pprint
 from PMML44 import *
 from datetime import datetime
-import metadata
 import warnings
 import math
 from base.constants import *
@@ -69,10 +68,10 @@ class StatsmodelsToPmml:
         pmml = PMML(
             version=PMML_SCHEMA.VERSION,
             Header=Header(
-                copyright = "Copyright (c) 2018 Software AG",
-                description = self.description,
+                copyright = HEADER_INFO.COPYRIGHT,
+                description = self.description if self.description else HEADER_INFO.DEFAULT_DESCRIPTION,
                 Timestamp = Timestamp(datetime.now()),
-                Application=Application(name="Nyoka",version=metadata.__version__)
+                Application=Application(name=HEADER_INFO.APPLICATION_NAME,version=HEADER_INFO.APPLICATION_VERSION)
             ),
             DataDictionary=self.data_dictionary,
             TimeSeriesModel=[self.ts_model]

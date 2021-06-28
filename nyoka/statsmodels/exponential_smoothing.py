@@ -168,11 +168,12 @@ class ExponentialSmoothingToPMML:
         else:
             season_obj = None
         pmml = PMML(
-            version='4.4',
+            version=PMML_SCHEMA.VERSION,
             Header=Header(
-                copyright="Copyright (c) 2018 Software AG", description=description if description else "Exponential Smoothing Model",
+                copyright=HEADER_INFO.COPYRIGHT,
+                description=description if description else HEADER_INFO.DEFAULT_DESCRIPTION,
                 Timestamp=Timestamp(datetime.now()),
-                Application=Application(name="Nyoka",version=metadata.__version__)
+                Application=Application(name=HEADER_INFO.APPLICATION_NAME,version=HEADER_INFO.APPLICATION_VERSION)
             ),
             DataDictionary=DataDictionary(numberOfFields=n_columns, DataField=get_data_field_objs()),
             TimeSeriesModel=[TimeSeriesModel(
