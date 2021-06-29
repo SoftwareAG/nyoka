@@ -16,8 +16,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  """
-import PMML44 as pml
-from base.constants import *
+import nyoka.PMML44 as pml
+from nyoka.base.constants import *
 import json
 
 _IS_INSIDE_BOUNDARY = "is_inside_boundary"
