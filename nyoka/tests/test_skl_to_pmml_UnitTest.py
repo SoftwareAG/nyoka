@@ -388,7 +388,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         # 4
         self.assertEqual(os.path.isfile(f_name), True)
@@ -433,7 +433,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
 
         # 3
@@ -480,7 +480,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
 
         # 3
@@ -574,7 +574,7 @@ class TestMethods(unittest.TestCase):
         for a, b in zip(values, model.tree_.threshold):
             if a == -2:
                 continue
-            self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+            self.assertEqual("{:.4f}".format(float(a)), "{:.4f}".format(b))
 
         # 4
         self.assertEqual(os.path.isfile(f_name), True)
@@ -857,7 +857,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         # 3
         self.assertEqual(os.path.isfile(f_name), True)
@@ -902,7 +902,7 @@ class TestMethods(unittest.TestCase):
         for a, b in zip(values, model.tree_.threshold):
             if a == -2:
                 continue
-            self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+            self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         # 5
         self.assertEqual(os.path.isfile(f_name), True)
@@ -942,7 +942,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         # 3
         self.assertEqual(os.path.isfile(f_name), True)
@@ -1783,7 +1783,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         # 3
 
@@ -1837,7 +1837,7 @@ class TestMethods(unittest.TestCase):
                 for a, b in zip(values, estm.tree_.threshold):
                     if a == -2:
                         continue
-                    self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                    self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
@@ -1946,11 +1946,13 @@ class TestMethods(unittest.TestCase):
                 model_val_str = str(model_val)
                 if model_val_str == "-2.0":
                     temp_len = len(temp) - 1
-                    self.assertEqual(temp[temp_len], pmml_val)
+                    #self.assertEqual(temp[temp_len], pmml_val)
+                    self.assertEqual("{:.1f}".format(float(temp[temp_len])), "{:.1f}".format(float(pmml_val)))
                     temp.pop(temp_len)
                 else:
                     temp.append(model_val_str)
-                    self.assertEqual(model_val_str, pmml_val)
+                    #self.assertEqual(model_val_str, pmml_val)
+                    self.assertEqual("{:.1f}".format(float(model_val_str)), "{:.1f}".format(float(pmml_val)))
             pmml_value_list.clear()
             model_value_list.clear()
 
