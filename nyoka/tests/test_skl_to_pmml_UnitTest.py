@@ -1920,7 +1920,7 @@ class TestMethods(unittest.TestCase):
 
         for estimators_tab, dtreg_tab in zip(model.estimators_, seg_tab):
             record_count_val = estimators_tab.tree_.n_node_samples
-            value = estimators_tab.tree_.threshold
+            value = estimators_tab.tree_.threshold.astype("float32")
             for model_record_count, model_record_val in zip(record_count_val, value):
                 model_record_count_list.append(model_record_count)
                 model_value_list.append(model_record_val)
@@ -1946,13 +1946,11 @@ class TestMethods(unittest.TestCase):
                 model_val_str = str(model_val)
                 if model_val_str == "-2.0":
                     temp_len = len(temp) - 1
-                    #self.assertEqual(temp[temp_len], pmml_val)
-                    self.assertEqual("{:.1f}".format(float(temp[temp_len])), "{:.1f}".format(float(pmml_val)))
+                    self.assertEqual(temp[temp_len], pmml_val)
                     temp.pop(temp_len)
                 else:
                     temp.append(model_val_str)
-                    #self.assertEqual(model_val_str, pmml_val)
-                    self.assertEqual("{:.1f}".format(float(model_val_str)), "{:.1f}".format(float(pmml_val)))
+                    self.assertEqual(model_val_str, pmml_val)
             pmml_value_list.clear()
             model_value_list.clear()
 
