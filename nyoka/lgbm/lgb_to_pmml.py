@@ -21,13 +21,13 @@ from __future__ import absolute_import
 import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
-import PMML44 as pml
+import nyoka.PMML44 as pml
 import nyoka.skl.skl_to_pmml as sklToPmml
 import nyoka.xgboost.xgboost_to_pmml as xgboostToPmml
 import json
-from skl import pre_process as pp
+from nyoka.skl import pre_process as pp
 from datetime import datetime
-from base.constants import *
+from nyoka.base.constants import *
 
 
 def lgb_to_pmml(pipeline, col_names, target_name, pmml_f_name='from_lgbm.pmml',model_name=None, description=None):
@@ -326,16 +326,16 @@ def create_node(obj, main_node,derived_col_names):
     def create_left_node(obj,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(
-            pml.SimplePredicate(field=xgboostToPmml.replace_name_with_derivedColumnNames(derived_col_names[int(obj['split_feature'])],\
-                 derived_col_names), operator=SIMPLE_PREDICATE_OPERATOR.LESS_OR_EQUAL, value="{:.16f}".format(obj['threshold'])))
+            pml.SimplePredicate(field=derived_col_names[int(obj['split_feature'])],
+                                operator=SIMPLE_PREDICATE_OPERATOR.LESS_OR_EQUAL, value="{:.16f}".format(obj['threshold'])))
         create_node(obj['left_child'], nd, derived_col_names)
         return nd
 
     def create_right_node(obj,derived_col_names):
         nd = pml.Node()
         nd.set_SimplePredicate(
-            pml.SimplePredicate(field=xgboostToPmml.replace_name_with_derivedColumnNames(derived_col_names[int(obj['split_feature'])],\
-                 derived_col_names), operator=SIMPLE_PREDICATE_OPERATOR.GREATER_THAN, value="{:.16f}".format(obj['threshold'])))
+            pml.SimplePredicate(field=derived_col_names[int(obj['split_feature'])]
+                                , operator=SIMPLE_PREDICATE_OPERATOR.GREATER_THAN, value="{:.16f}".format(obj['threshold'])))
         create_node(obj['right_child'], nd, derived_col_names)
         return nd
 
