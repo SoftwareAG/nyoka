@@ -426,6 +426,22 @@ class TestMethods(unittest.TestCase):
         with self.assertRaises(TypeError):
             lgb_to_pmml(model, features, target, "lgbc_bin_pmml.pmml")
 
+    def test_lgbm_07(self):
+        iris = datasets.load_iris()
+        abc = ['f1', 'f2', 'f3', 'f4']
+        irisd = pd.DataFrame(iris.data, columns=abc)
+        irisd['Species'] = iris.target
+
+        features = irisd.columns.drop('Species')
+        target = 'Species'
+        f_name = "lgbmc_pmml_with_f_column_names.pmml"
+        pipeline_obj = Pipeline([
+            ('scaler', StandardScaler()),
+            ('lgbmc', LGBMClassifier())
+        ])
+        pipeline_obj.fit(irisd[features].values, irisd[target].values)
+        lgb_to_pmml(pipeline_obj, abc, target, f_name, model_name="MyLGBM")
+
     def extractValues(self, node, pmml_value_list, pmml_score_list):
         for nsample in (node.Node):
             varlen = nsample.get_Node().__len__()
