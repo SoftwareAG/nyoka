@@ -22,11 +22,11 @@ import sys, os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 
-import PMML44 as pml
-from skl import pre_process as pp
+import nyoka.PMML44 as pml
+from nyoka.skl import pre_process as pp
 from datetime import datetime
 import math
-from base.constants import *
+from nyoka.base.constants import *
 
 def skl_to_pmml(pipeline, col_names, target_name='target', pmml_f_name='from_sklearn.pmml', model_name=None, description=None):
 
@@ -1845,11 +1845,7 @@ def get_node(model, features_names, main_model=None):
             prnt = None
             if model.__class__.__name__ == "ExtraTreeRegressor":
                 prnt = parent + 1
-            try:
-                rnd_ = str(tree.threshold[idx]).split(".")[1]
-                thresh = round(tree.threshold[idx], min(rnd_, 16))
-            except:
-                thresh = tree.threshold[idx]
+            thresh = tree.threshold[idx].astype("float32")
             simplePredicate = pml.SimplePredicate(field=fieldName, operator=SIMPLE_PREDICATE_OPERATOR.LESS_OR_EQUAL,\
                 value = str(thresh))
                                                 #   value="{:.16f}".format(tree.threshold[idx]))

@@ -388,7 +388,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         # 4
         self.assertEqual(os.path.isfile(f_name), True)
@@ -433,7 +433,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
 
         # 3
@@ -480,7 +480,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
 
         # 3
@@ -574,7 +574,7 @@ class TestMethods(unittest.TestCase):
         for a, b in zip(values, model.tree_.threshold):
             if a == -2:
                 continue
-            self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+            self.assertEqual("{:.4f}".format(float(a)), "{:.4f}".format(b))
 
         # 4
         self.assertEqual(os.path.isfile(f_name), True)
@@ -857,7 +857,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         # 3
         self.assertEqual(os.path.isfile(f_name), True)
@@ -902,7 +902,7 @@ class TestMethods(unittest.TestCase):
         for a, b in zip(values, model.tree_.threshold):
             if a == -2:
                 continue
-            self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+            self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         # 5
         self.assertEqual(os.path.isfile(f_name), True)
@@ -942,7 +942,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         # 3
         self.assertEqual(os.path.isfile(f_name), True)
@@ -1783,7 +1783,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         # 3
 
@@ -1837,7 +1837,7 @@ class TestMethods(unittest.TestCase):
                 for a, b in zip(values, estm.tree_.threshold):
                     if a == -2:
                         continue
-                    self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                    self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
         self.assertEqual(MULTIPLE_MODEL_METHOD.MODEL_CHAIN,
                          pmml_obj.MiningModel[0].Segmentation.multipleModelMethod)
@@ -1920,7 +1920,7 @@ class TestMethods(unittest.TestCase):
 
         for estimators_tab, dtreg_tab in zip(model.estimators_, seg_tab):
             record_count_val = estimators_tab.tree_.n_node_samples
-            value = estimators_tab.tree_.threshold
+            value = estimators_tab.tree_.threshold.astype("float32")
             for model_record_count, model_record_val in zip(record_count_val, value):
                 model_record_count_list.append(model_record_count)
                 model_value_list.append(model_record_val)
