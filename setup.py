@@ -12,7 +12,7 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 setup(
 	name = "nyoka",
 	version = __version__,
-	description = "Python library for converting a large number of ML / DL models to PMML",
+	description = "Python library for converting a large number of ML models to PMML",
 	long_description = long_description,
 	long_description_content_type="text/markdown",
 	author = "maintainer",
