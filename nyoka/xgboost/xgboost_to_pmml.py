@@ -259,10 +259,7 @@ def get_segments_for_xgbr(model, derived_col_names, feature_names, target_name, 
         Nyoka's Segment object
 
     """
-    segments = list()
-    get_nodes_in_json_format = []
-    for i in range(model.n_estimators):
-        get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
+    get_nodes_in_json_format = model._Booster.get_dump(dump_format='json')
     segmentation = pml.Segmentation(multipleModelMethod=MULTIPLE_MODEL_METHOD.SUM,
                                     Segment=generate_Segments_Equal_To_Estimators(get_nodes_in_json_format, derived_col_names,
                                                                                   feature_names))
@@ -373,7 +370,7 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
         main_node = pml.Node(True_=pml.True_())
         m_flds = []
         mining_field_for_innner_segments = col_names
-        create_node(val[i], main_node, derived_col_names)
+        create_node(json.loads(val[i]), main_node, derived_col_names)
 
         for name in mining_field_for_innner_segments:
             m_flds.append(pml.MiningField(name=name))
@@ -455,9 +452,7 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
     segments = list()
 
     if model.n_classes_ == 2:
-        get_nodes_in_json_format=[]
-        for i in range(model.n_estimators):
-            get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
+        get_nodes_in_json_format=model._Booster.get_dump(dump_format='json')
         mining_schema_for_1st_segment = mining_Field_For_First_Segment(feature_names)
         outputField = list()
         outputField.append(pml.OutputField(name="xgbValue", optype=OPTYPE.CONTINUOUS, dataType=DATATYPE.FLOAT,
@@ -476,10 +471,7 @@ def get_segments_for_xgbc(model, derived_col_names, feature_names, target_name, 
 
         segments.append(last_segment)
     else:
-
-        get_nodes_in_json_format = []
-        for i in range(model.n_estimators * model.n_classes_):
-            get_nodes_in_json_format.append(json.loads(model._Booster.get_dump(dump_format='json')[i]))
+        get_nodes_in_json_format = model._Booster.get_dump(dump_format='json')
         oField = list()
         for index in range(0, model.n_classes_):
             inner_segment = []
