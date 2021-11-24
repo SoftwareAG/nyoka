@@ -85,7 +85,7 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 
 
 *  [`tsa.arima_model.ARIMA`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/arima_model.py#L1026)
-*  [`tsa.arima.model.ARIMA`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/arima/model.py#L26) _(In statespace form)_
+*  [`tsa.arima.model.ARIMA`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/arima/model.py#L26) _(Extension of SARIMAX)_
 *  [`tsa.statespace.SARIMAX`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/statespace/sarimax.py#L31)
 *  [`tsa.statespace.VARMAX`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/statespace/varmax.py#L33)
 *  [`tsa.statespace.ExponentialSmoothing`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/statespace/exponential_smoothing.py#L31)
