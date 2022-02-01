@@ -20,7 +20,7 @@
 class HEADER_INFO:
     COPYRIGHT = "Copyright (c) 2021 Software AG"
     APPLICATION_NAME = "Nyoka"
-    APPLICATION_VERSION = "5.1.0"
+    APPLICATION_VERSION = "5.2.0"
     DEFAULT_DESCRIPTION = "Default description"
 
 class MISSING_VALUE_TREATMENT_METHOD:
