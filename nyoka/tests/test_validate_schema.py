@@ -512,7 +512,7 @@ class PmmlValidation(unittest.TestCase):
         StatsmodelsToPmml(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
-
+    @unittest.skip("")
     def test_non_seasonal_arima7(self):
         ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima7.pmml'
@@ -521,6 +521,7 @@ class PmmlValidation(unittest.TestCase):
         StatsmodelsToPmml(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
+    @unittest.skip("")
     def test_non_seasonal_arima8(self):
         ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima8.pmml'
