@@ -4,9 +4,6 @@
 name: Test Master Branch
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
