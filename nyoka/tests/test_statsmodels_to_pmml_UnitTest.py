@@ -102,6 +102,7 @@ class TestMethods(unittest.TestCase):
         StatsmodelsToPmml(result, f_name, model_name="arima_920")
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_non_seasonal_arima2(self):
         ts_data = self.getData4()
         f_name='non_seasonal_arima2.pmml'
@@ -110,6 +111,7 @@ class TestMethods(unittest.TestCase):
         StatsmodelsToPmml(result, f_name, description="A test model")
         self.assertEqual(os.path.isfile(f_name),True)
 
+    @unittest.skip("")
     def test_non_seasonal_arima3(self):
         ts_data = self.getData4()
         f_name='non_seasonal_arima3.pmml'
