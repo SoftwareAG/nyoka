@@ -3,15 +3,15 @@ import sys
 import os
 
 packages = [
+    "pandas",
+    "numpy",
     "statsmodels==0.11.1",
-    "xgboost==1.4.2",
+    "xgboost==1.5.2",
     "numpy==1.16.1",
     "glibc",
     "lxml",
     "sklearn-pandas",
     "lightgbm",
-    "pandas",
-    "numpy",
     "pytest-cov",
     "pytest",
     "codecov",
