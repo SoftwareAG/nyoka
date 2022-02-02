@@ -4,7 +4,7 @@ import os
 
 packages = [
     "statsmodels==0.11.1",
-    "xgboost==0.90",
+    "xgboost==1.4.2",
     "numpy==1.16.1",
     "glibc",
     "lxml",
