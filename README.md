@@ -74,11 +74,11 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 *  [`LGBMRegressor`](https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMRegressor.html)
 
 
-### XGBoost (version <= 0.90):
+### XGBoost (version <= 1.5.2):
 
 
-*  [`XGBClassifier`](https://xgboost.readthedocs.io/en/latest/python/python_api.html#module-xgboost.sklearn)
-*  [`XGBRegressor`](https://xgboost.readthedocs.io/en/latest/python/python_api.html#module-xgboost.sklearn)
+*  [`XGBClassifier`](https://xgboost.readthedocs.io/en/release_1.5.0/python/python_api.html#module-xgboost.sklearn)
+*  [`XGBRegressor`](https://xgboost.readthedocs.io/en/release_1.5.0/python/python_api.html#module-xgboost.sklearn)
 
 
 ### Statsmodels (version <= 0.11.1):
