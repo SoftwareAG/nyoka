@@ -1052,6 +1052,7 @@ def get_ensemble_models(model, derived_col_names, col_names, target_name, mining
 
     mining_models = list()
     mining_models.append(pml.MiningModel(
+        algorithmName='randomForest' if model.__class__.__name__ in ['RandomForestClassifier','RandomForestRegressor'] else None,
         modelName=model_name if model_name else model.__class__.__name__,
         Segmentation=get_outer_segmentation(model, derived_col_names, col_names, target_name,
                                             mining_imp_val, categoric_values, model_name),
