@@ -5,6 +5,7 @@ import os
 packages = [
     "pandas",
     "numpy",
+    "scipy==1.7.3",
     "statsmodels==0.11.1",
     "xgboost==1.5.2",
     "numpy==1.16.1",
