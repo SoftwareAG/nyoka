@@ -1370,6 +1370,8 @@ def get_inner_segments(model, derived_col_names, col_names, index):
                 recordCount=estm.tree_.n_node_samples[0]
             )
         mining_fields = list()
+        if model.__class__.__name__ in ['RandomForestClassifier','RandomForestRegressor']:
+            col_names = derived_col_names
         for feat in col_names:
             mining_fields.append(pml.MiningField(name=feat))
         segments.append(
