@@ -21,4 +21,5 @@ from nyoka.statsmodels.statsmodels_to_pmml import StatsmodelsToPmml
 from nyoka.statsmodels.exponential_smoothing import ExponentialSmoothingToPMML
 from nyoka.xgboost.xgboost_to_pmml import xgboost_to_pmml
 from nyoka.lgbm.lgb_to_pmml import lgb_to_pmml
+from nyoka.pipeline.pipeline_to_pmml import pipeline_to_pmml
 from metadata import __version__, __license__
