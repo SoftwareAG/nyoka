@@ -739,7 +739,7 @@ def get_output(model, target_name):
         if mining_func == MINING_FUNCTION.CLASSIFICATION:
             for cls in model.classes_:
                 output_fields.append(pml.OutputField(
-                    name='probability_' + str(cls),
+                    f'{target_name}_probability_{str(cls)}',
                     feature=RESULT_FEATURE.PROBABILITY,
                     optype=OPTYPE.CONTINUOUS,
                     dataType=DATATYPE.DOUBLE,
