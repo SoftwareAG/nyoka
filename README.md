@@ -121,7 +121,6 @@ Nyoka contains seperate exporters for each library, e.g., scikit-learn, keras, x
 | **lightgbm** | _lgbm_to_pmml_ |
 | **statsmodels** | _StatsmodelsToPmml & ExponentialSmoothingToPmml_ |
 
-#### Note - The support of keras is until 4.4.0 release of Nyoka.
 
 The main module of __Nyoka__ is `nyoka`. To use it for your model, you need to import the specific exporter from nyoka as -
 
