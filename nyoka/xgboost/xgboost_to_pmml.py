@@ -374,7 +374,7 @@ def create_node(obj, main_node,derived_col_names):
         main_node.set_score(obj['leaf'])
     else:
 
-        main_node.add_Node(create_left_node(obj,derived_col_names))
+#         main_node.add_Node(create_left_node(obj,derived_col_names))
         main_node.add_Node(create_right_node(obj,derived_col_names))
 
 
