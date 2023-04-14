@@ -400,7 +400,7 @@ def create_node_new(root, derived_col_names, isroot = False):
             for item in r:
                 temp.insert_Node_at(0,item)
 
-        if ((l and r) or (not l and not r)) and isroot:
+        if isroot:
             new_temp = pml.Node(score=stack.pop())
             new_temp.set_True(pml.True_())
             for item in l:
