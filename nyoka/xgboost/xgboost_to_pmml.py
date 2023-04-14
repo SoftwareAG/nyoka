@@ -377,6 +377,49 @@ def create_node(obj, main_node,derived_col_names):
 #         main_node.add_Node(create_left_node(obj,derived_col_names))
         main_node.add_Node(create_right_node(obj,derived_col_names))
 
+stack = []
+
+def create_node_new(root, derived_col_names, isroot = False):
+    global stack
+    if root == None:
+        return []
+    childs = root.get("children", None)
+
+    if childs:
+        l = create_node_new(childs[0], derived_col_names)
+        r = create_node_new(childs[1], derived_col_names)
+        # print(root["split_condition"])
+        # print(stack)
+
+        temp = pml.Node(score=stack.pop())
+        temp.SimplePredicate = pml.SimplePredicate(field=replace_name_with_derivedColumnNames(root['split'], derived_col_names), 
+                                                operator=SIMPLE_PREDICATE_OPERATOR.GREATER_OR_EQUAL, 
+                                                value="{:.16f}".format(root['split_condition']))
+
+        if r:
+            for item in r:
+                temp.insert_Node_at(0,item)
+
+        if l and r and isroot:
+            new_temp = pml.Node(score=stack.pop())
+            new_temp.set_True(pml.True_())
+            for item in l:
+                new_temp.insert_Node_at(0, item)
+            new_temp.insert_Node_at(0, temp)
+            temp = new_temp
+
+        elif l:
+            l.append(temp)
+            return l
+
+        # print(stack)
+
+        return [temp]
+
+    else:
+        stack.append(root["leaf"])
+        return []
+
 
 def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
     """
@@ -398,10 +441,11 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
     """
     segments_equal_to_estimators = []
     for i in range(len(val)):
-        main_node = pml.Node(True_=pml.True_())
+        # main_node = pml.Node(True_=pml.True_())
         m_flds = []
         mining_field_for_innner_segments = col_names
-        create_node(json.loads(val[i]), main_node, derived_col_names)
+        # create_node(json.loads(val[i]), main_node, derived_col_names)
+        main_node = create_node_new(json.loads(val[i]), derived_col_names, True)[0]
 
         for name in mining_field_for_innner_segments:
             m_flds.append(pml.MiningField(name=name))
