@@ -445,12 +445,13 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
         m_flds = []
         mining_field_for_innner_segments = col_names
         # create_node(json.loads(val[i]), main_node, derived_col_names)
-        main_node = create_node_new(json.loads(val[i]), derived_col_names, True)[0]
+        main_node = create_node_new(json.loads(val[i]), derived_col_names, True)
+        if main_node:
+            main_node = main_node[0]
+            for name in mining_field_for_innner_segments:
+                m_flds.append(pml.MiningField(name=name))
 
-        for name in mining_field_for_innner_segments:
-            m_flds.append(pml.MiningField(name=name))
-
-        segments_equal_to_estimators.append((pml.Segment(id=i + 1, True_=pml.True_(),
+            segments_equal_to_estimators.append((pml.Segment(id=i + 1, True_=pml.True_(),
                                                          TreeModel=pml.TreeModel(functionName=MINING_FUNCTION.REGRESSION,
                                                          modelName="DecisionTreeModel",
                                                                                  missingValueStrategy="none",
