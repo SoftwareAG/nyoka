@@ -297,6 +297,20 @@ def get_segments_for_xgbr(model, derived_col_names, feature_names, target_name, 
     return segmentation
 
 
+# def get_feature_names_used_in_a_tree(node):
+#     """
+#     Recursively extract all the splits from a node and its children.
+#     """
+#     splits = []
+#     if 'split' in node:
+#         split = node['split']
+#         splits.append(split)
+#     if 'children' in node:
+#         for child in node['children']:
+#             splits.extend(get_feature_names_used_in_a_tree(child))
+#     return list(set(splits))
+
+
 def mining_Field_For_First_Segment(feature_names):
     """
     It returns the Mining Schema of the First Segment.
@@ -379,15 +393,15 @@ def create_node(obj, main_node,derived_col_names):
 
 stack = []
 
-def create_node_new(root, derived_col_names, isroot = False):
+def create_node_new(root, derived_col_names, mining_fields, isroot = False):
     global stack
     if root == None:
         return []
     childs = root.get("children", None)
 
     if childs:
-        l = create_node_new(childs[0], derived_col_names)
-        r = create_node_new(childs[1], derived_col_names)
+        l = create_node_new(childs[0], derived_col_names, mining_fields)
+        r = create_node_new(childs[1], derived_col_names, mining_fields)
         # print(root["split_condition"])
         # print(stack)
 
@@ -395,6 +409,8 @@ def create_node_new(root, derived_col_names, isroot = False):
         temp.SimplePredicate = pml.SimplePredicate(field=replace_name_with_derivedColumnNames(root['split'], derived_col_names), 
                                                 operator=SIMPLE_PREDICATE_OPERATOR.GREATER_OR_EQUAL, 
                                                 value="{:.16f}".format(root['split_condition']))
+
+        mining_fields.add(replace_name_with_derivedColumnNames(root['split'], derived_col_names))
 
         if r:
             for item in r:
@@ -443,12 +459,12 @@ def generate_Segments_Equal_To_Estimators(val, derived_col_names, col_names):
     for i in range(len(val)):
         # main_node = pml.Node(True_=pml.True_())
         m_flds = []
-        mining_field_for_innner_segments = col_names
+        mining_fields = set()
         # create_node(json.loads(val[i]), main_node, derived_col_names)
-        main_node = create_node_new(json.loads(val[i]), derived_col_names, True)
+        main_node = create_node_new(json.loads(val[i]), derived_col_names, mining_fields, True)
         if main_node:
             main_node = main_node[0]
-            for name in mining_field_for_innner_segments:
+            for name in mining_fields:
                 m_flds.append(pml.MiningField(name=name))
 
             segments_equal_to_estimators.append((pml.Segment(id=i + 1, True_=pml.True_(),
@@ -911,4 +927,3 @@ def get_multiple_model_method(model):
         return MULTIPLE_MODEL_METHOD.MODEL_CHAIN
     else:
         return MULTIPLE_MODEL_METHOD.SUM
-
