@@ -402,8 +402,6 @@ def create_node_new(root, derived_col_names, mining_fields, isroot = False):
     if childs:
         l = create_node_new(childs[0], derived_col_names, mining_fields)
         r = create_node_new(childs[1], derived_col_names, mining_fields)
-        # print(root["split_condition"])
-        # print(stack)
 
         temp = pml.Node(score=stack.pop())
         temp.SimplePredicate = pml.SimplePredicate(field=replace_name_with_derivedColumnNames(root['split'], derived_col_names), 
@@ -427,8 +425,6 @@ def create_node_new(root, derived_col_names, mining_fields, isroot = False):
         elif l:
             l.append(temp)
             return l
-
-        # print(stack)
 
         return [temp]
 
