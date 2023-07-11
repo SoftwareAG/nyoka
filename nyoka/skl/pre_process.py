@@ -433,7 +433,7 @@ def tfidf_vectorizer(trfm, col_names):
 
     """
     pp_dict = dict()
-    features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names_out()]
     idfs = trfm.idf_
     extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
@@ -483,7 +483,7 @@ def count_vectorizer(trfm, col_names):
 
     """
     pp_dict = dict()
-    features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names_out()]
     extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)
