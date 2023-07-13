@@ -452,7 +452,7 @@ class TestMethods(unittest.TestCase):
         features = titanic.columns
         target = 'Survived'
         f_name = "gb_pmml.pmml"
-        model = GradientBoostingClassifier(n_estimators=10, criterion="mse")
+        model = GradientBoostingClassifier(n_estimators=10, criterion="squared_error")
         pipeline_obj = Pipeline([
             ("imp", Imputer(strategy="most_frequent")),
             ("gbc", model)
@@ -500,7 +500,7 @@ class TestMethods(unittest.TestCase):
         features = titanic.columns
         target = 'Survived'
         f_name = "gb_pmml.pmml"
-        model = GradientBoostingClassifier(n_estimators=10, criterion="mae")
+        model = GradientBoostingClassifier(n_estimators=10, criterion="friedman_mse")
         pipeline_obj = Pipeline([
             ("imp", Imputer(strategy="median")),
             ("gbc", model)
@@ -1088,7 +1088,7 @@ class TestMethods(unittest.TestCase):
 
         # 3
         the_tab = model.theta_.transpose()
-        sig_tab = model.sigma_.transpose()
+        sig_tab = getattr(model, 'sigma_', getattr(model, 'var_', None)).transpose()
         bay_tab = pmml_obj.NaiveBayesModel[0].BayesInputs.BayesInput
         for model_the_val, model_sig_val, pmml_bay_val in zip(the_tab, sig_tab, bay_tab):
             for the_val, sig_val, tar_val in zip(model_the_val, model_sig_val,

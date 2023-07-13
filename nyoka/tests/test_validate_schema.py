@@ -105,7 +105,7 @@ class PmmlValidation(unittest.TestCase):
         cls.y = data.target
         cls.y_bin = [i%2 for i in range(cls.X.shape[0])]
         cls.features = data.feature_names
-        data = datasets.load_boston()
+        data = datasets.fetch_california_housing()
         cls.X_reg = data.data
         cls.y_reg = data.target
         cls.features_reg =  data.feature_names
