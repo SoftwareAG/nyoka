@@ -84,7 +84,7 @@ class TestMethods(unittest.TestCase):
         f_name='exponential_smoothing1.pmml'
         model_obj = ExponentialSmoothing(ts_data, 
                                         trend='add', 
-                                        damped=True, 
+                                        damped_trend=True, 
                                         seasonal='add', 
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
@@ -97,8 +97,8 @@ class TestMethods(unittest.TestCase):
     def test_non_seasonal_arima1(self):
         ts_data = self.getData4()
         f_name='non_seasonal_arima1.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle')
+        model = ARIMA(ts_data,order=(9, 0, 0),trend = 'c')
+        result = model.fit()
         StatsmodelsToPmml(result, f_name, model_name="arima_920")
         self.assertEqual(os.path.isfile(f_name),True)
 

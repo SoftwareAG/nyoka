@@ -16,7 +16,7 @@ packages = [
     "pytest",
     "codecov",
     "xmlschema",
-    "scikit-learn==1.3.0",
+    "scikit-learn"
 ]
 
 
