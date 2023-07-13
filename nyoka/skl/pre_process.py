@@ -389,7 +389,8 @@ def pca(trfm, col_names):
     zero = 0.0
     for preprocess_idx in range(trfm.n_components_):
         add = list()
-        for pca_idx in range(trfm.n_features_):
+        features_in = getattr(trfm, 'n_features_', getattr(trfm, 'n_features_in_', None))
+        for pca_idx in range(features_in):
             apply_inner = pml.Apply(function=FUNCTION.SUBSTRACTTION,
                                     Constant=[pml.Constant(dataType=DATATYPE.DOUBLE,
                                                            valueOf_="{:.16f}".format(val[pca_idx]))],
@@ -433,7 +434,11 @@ def tfidf_vectorizer(trfm, col_names):
 
     """
     pp_dict = dict()
-    features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    get_feature_names_func = getattr(trfm, 'get_feature_names', None) or getattr(trfm, 'get_feature_names_out', None)
+    if get_feature_names_func is None:
+        raise AttributeError("The transformer does not have 'get_feature_names' or 'get_feature_names_out' method.")
+
+    features = [str(feat.encode("utf8"))[2:-1] for feat in get_feature_names_func()]
     idfs = trfm.idf_
     extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
@@ -483,7 +488,10 @@ def count_vectorizer(trfm, col_names):
 
     """
     pp_dict = dict()
-    features = [str(feat.encode("utf8"))[2:-1] for feat in trfm.get_feature_names()]
+    get_feature_names_func = getattr(trfm, 'get_feature_names', None) or getattr(trfm, 'get_feature_names_out', None)
+    if get_feature_names_func is None:
+        raise AttributeError("The transformer does not have 'get_feature_names' or 'get_feature_names_out' method.")
+    features = [str(feat.encode("utf8"))[2:-1] for feat in get_feature_names_func()]
     extra_features = list(trfm.vocabulary_.keys())
     derived_flds = list()
     derived_colnames = get_derived_colnames('count_vec@[' + col_names[0] + ']', features)

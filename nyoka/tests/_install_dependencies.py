@@ -16,11 +16,13 @@ packages = [
     "pytest",
     "codecov",
     "xmlschema",
-    "scikit-learn==1.3.0"
+    "scikit-learn"
 ]
+
 
 def installPackage(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
+
 
 if __name__ == "__main__":
     for pck in packages:
