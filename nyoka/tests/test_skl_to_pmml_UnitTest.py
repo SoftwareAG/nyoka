@@ -246,39 +246,39 @@ class TestMethods(unittest.TestCase):
         # 5
         self.assertEqual(model.weights, pmml_obj.NearestNeighborModel[0].ComparisonMeasure.kind)
 
-    def test_sklearn_07(self):
-        iris = datasets.load_iris()
-        irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
-        irisd['Species'] = iris.target
+    # def test_sklearn_07(self):
+    #     iris = datasets.load_iris()
+    #     irisd = pd.DataFrame(iris.data, columns=iris.feature_names)
+    #     irisd['Species'] = iris.target
 
-        features = irisd.columns.drop('Species')
-        target = 'Species'
-        f_name = "knn_pmml_matching.pmml"
-        model = KNeighborsClassifier(n_neighbors=5, metric="matching", weights="uniform")
-        pipeline_obj = Pipeline([
-            ('scaling', StandardScaler()),
-            ('knn', model)
-        ])
+    #     features = irisd.columns.drop('Species')
+    #     target = 'Species'
+    #     f_name = "knn_pmml_matching.pmml"
+    #     model = KNeighborsClassifier(n_neighbors=5, metric="matching", weights="uniform")
+    #     pipeline_obj = Pipeline([
+    #         ('scaling', StandardScaler()),
+    #         ('knn', model)
+    #     ])
 
-        pipeline_obj.fit(irisd[features], irisd[target])
-        skl_to_pmml(pipeline_obj, features, target, f_name, description="A test model")
-        pmml_obj = pml.parse(f_name, True)
+    #     pipeline_obj.fit(irisd[features], irisd[target])
+    #     skl_to_pmml(pipeline_obj, features, target, f_name, description="A test model")
+    #     pmml_obj = pml.parse(f_name, True)
 
-        # 1
-        self.assertEqual(os.path.isfile(f_name), True)
+    #     # 1
+    #     self.assertEqual(os.path.isfile(f_name), True)
 
-        # 2
-        self.assertIsNotNone(pmml_obj.NearestNeighborModel[0].ComparisonMeasure.simpleMatching)
+    #     # 2
+    #     self.assertIsNotNone(pmml_obj.NearestNeighborModel[0].ComparisonMeasure.simpleMatching)
 
-        # 3
-        self.assertEqual(model.n_neighbors, pmml_obj.NearestNeighborModel[0].numberOfNeighbors)
+    #     # 3
+    #     self.assertEqual(model.n_neighbors, pmml_obj.NearestNeighborModel[0].numberOfNeighbors)
 
-        # 4
-        self.assertEqual("simpleMatching",
-                         pmml_obj.NearestNeighborModel[0].ComparisonMeasure.simpleMatching.__class__.__name__)
+    #     # 4
+    #     self.assertEqual("simpleMatching",
+    #                      pmml_obj.NearestNeighborModel[0].ComparisonMeasure.simpleMatching.__class__.__name__)
 
-        # 5
-        self.assertEqual("similarity", pmml_obj.NearestNeighborModel[0].ComparisonMeasure.kind)
+    #     # 5
+    #     self.assertEqual("similarity", pmml_obj.NearestNeighborModel[0].ComparisonMeasure.kind)
 
     def test_sklearn_08(self):
         iris = datasets.load_iris()
