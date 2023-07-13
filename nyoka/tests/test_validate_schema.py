@@ -499,7 +499,7 @@ class PmmlValidation(unittest.TestCase):
     def test_non_seasonal_arima1(self):
         ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima1.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0),trend = 'c')
+        model = ARIMA(ts_data,order=(9, 0, 0),trend = 'c')
         result = model.fit()
         StatsmodelsToPmml(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
@@ -507,7 +507,7 @@ class PmmlValidation(unittest.TestCase):
     def test_non_seasonal_arima2(self):
         ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima1.pmml'
-        model = StateSpaceARIMA(ts_data,order=(3, 1, 2),trend='c')
+        model = StateSpaceARIMA(ts_data,order=(3, 0, 2),trend='c')
         result = model.fit()
         StatsmodelsToPmml(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
