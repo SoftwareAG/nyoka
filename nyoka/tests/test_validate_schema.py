@@ -105,7 +105,7 @@ class PmmlValidation(unittest.TestCase):
         cls.y = data.target
         cls.y_bin = [i%2 for i in range(cls.X.shape[0])]
         cls.features = data.feature_names
-        data = datasets.load_boston()
+        data = datasets.fetch_california_housing()
         cls.X_reg = data.data
         cls.y_reg = data.target
         cls.features_reg =  data.feature_names
@@ -499,8 +499,8 @@ class PmmlValidation(unittest.TestCase):
     def test_non_seasonal_arima1(self):
         ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima1.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle')
+        model = ARIMA(ts_data,order=(9, 2, 0),trend = 'c')
+        result = model.fit()
         StatsmodelsToPmml(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
