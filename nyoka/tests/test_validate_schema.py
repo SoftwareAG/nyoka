@@ -486,7 +486,7 @@ class PmmlValidation(unittest.TestCase):
         f_name='exponential_smoothing1.pmml'
         model_obj = ExponentialSmoothing(ts_data, 
                                         trend='add', 
-                                        damped=True, 
+                                        damped_trend=True, 
                                         seasonal='add', 
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
