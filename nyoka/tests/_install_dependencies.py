@@ -7,7 +7,7 @@ packages = [
     "numpy",
     "scipy",
     "statsmodels",
-    "xgboost==1.5.2",
+    "xgboost",
     "glibc",
     "lxml",
     "sklearn-pandas",

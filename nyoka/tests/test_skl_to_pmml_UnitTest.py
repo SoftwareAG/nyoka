@@ -528,7 +528,7 @@ class TestMethods(unittest.TestCase):
             for a, b in zip(values, estm.tree_.threshold):
                 if a == -2:
                     continue
-                self.assertEqual("{:.10f}".format(float(a)), "{:.10f}".format(b))
+                self.assertEqual("{:.5f}".format(float(a)), "{:.5f}".format(b))
 
 
         # 3

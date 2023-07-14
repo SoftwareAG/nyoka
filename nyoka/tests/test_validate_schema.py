@@ -406,7 +406,7 @@ class PmmlValidation(unittest.TestCase):
         Y = data.target[:4]
         features = ['input']
         target = 'output'
-        model = SGDClassifier(loss="log")
+        model = SGDClassifier(loss="log_loss")
         file_name = model.__class__.__name__ + '_TfIdfVec_.pmml'
         pipeline = Pipeline([
             ('vect', TfidfVectorizer()),
@@ -423,7 +423,7 @@ class PmmlValidation(unittest.TestCase):
         Y = data.target[:4]
         features = ['input']
         target = 'output'
-        model = SGDClassifier(loss="log")
+        model = SGDClassifier(loss="log_loss")
         file_name = model.__class__.__name__ + '_CountVec_.pmml'
         pipeline = Pipeline([
             ('vect', CountVectorizer()),
