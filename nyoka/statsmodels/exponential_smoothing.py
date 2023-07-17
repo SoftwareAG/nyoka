@@ -125,31 +125,33 @@ class ExponentialSmoothingToPMML:
         initial_level = results_obj.params['initial_level']
         # extension_objs.append(Extension(name='initialLevel', value=initial_level))
         import numpy as np
-        if np.isnan(results_obj.params.get('smoothing_slope',results_obj.params.get('smoothing_trend'))):
+        gamma=results_obj.params.get('smoothing_slope',results_obj.params.get('smoothing_trend', None))  # gamma is smoothing parameter for trend
+        if np.isnan(gamma):
             gamma = None
         else:
-            gamma = results_obj.params.get('smoothing_slope',results_obj.params.get('smoothing_trend'))  # gamma is smoothing parameter for trend
+            gamma = gamma
         if np.isnan(results_obj.params['smoothing_seasonal']):
             delta = None
         else:
             delta = results_obj.params['smoothing_seasonal']  # delta is smoothing parameter for seasonality
-        if np.isnan(results_obj.params.get('damping_slope',results_obj.params.get('damping_trend'))):
+        phi=results_obj.params.get('damping_slope',results_obj.params.get('damping_trend', None))  # damping parameter; which is applied on trend/slope
+        if np.isnan(phi):
             phi = 1
         else:
-            phi = results_obj.params.get('damping_slope',results_obj.params.get('damping_trend'))  # damping parameter; which is applied on trend/slope     
+            phi = phi   
         if results_obj.model.trend:  # model_obj.trend can take values in {'add', 'mul', None}
             if hasattr(results_obj, 'slope'):
                 trend_smooth_val = results_obj.slope[-1]
             else:
                 trend_smooth_val = results_obj.trend[-1]
-            initial_trend = results_obj.params.get('initial_slope',results_obj.params.get('initial_trend'))
+            initial_trend = results_obj.params.get('initial_slope',results_obj.params.get('initial_trend', None))
             if results_obj.model.trend == 'add':
-                if hasattr(results_obj.model, 'damped') or hasattr(results_obj.model, 'damped_trend'):
+                if getattr(results_obj.model, 'damped', getattr(results_obj.model, 'damped_trend', None)):
                     trend_type = EXPONENTIAL_SMOOTHING_TREND.DAMPED_ADDITIVE
                 else:
                     trend_type = EXPONENTIAL_SMOOTHING_TREND.ADDITIVE
             else:  # model_obj.trend == 'mul':
-                if hasattr(results_obj.model, 'damped') or hasattr(results_obj.model, 'damped_trend'):
+                if getattr(results_obj.model, 'damped', getattr(results_obj.model, 'damped_trend', None)):
                     trend_type = EXPONENTIAL_SMOOTHING_TREND.DAMPED_MULTIPLICATIVE
                 else:
                     trend_type = EXPONENTIAL_SMOOTHING_TREND.MULTIPLICATIVE
