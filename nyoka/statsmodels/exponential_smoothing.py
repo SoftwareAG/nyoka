@@ -128,17 +128,13 @@ class ExponentialSmoothingToPMML:
         gamma=results_obj.params.get('smoothing_slope',results_obj.params.get('smoothing_trend', None))  # gamma is smoothing parameter for trend
         if np.isnan(gamma):
             gamma = None
-        else:
-            gamma = gamma
+        phi=results_obj.params.get('damping_slope',results_obj.params.get('damping_trend', None))  # damping parameter; which is applied on trend/slope
+        if np.isnan(phi):
+            phi = 1
         if np.isnan(results_obj.params['smoothing_seasonal']):
             delta = None
         else:
             delta = results_obj.params['smoothing_seasonal']  # delta is smoothing parameter for seasonality
-        phi=results_obj.params.get('damping_slope',results_obj.params.get('damping_trend', None))  # damping parameter; which is applied on trend/slope
-        if np.isnan(phi):
-            phi = 1
-        else:
-            phi = phi   
         if results_obj.model.trend:  # model_obj.trend can take values in {'add', 'mul', None}
             if hasattr(results_obj, 'slope'):
                 trend_smooth_val = results_obj.slope[-1]
