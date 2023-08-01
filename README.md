@@ -19,7 +19,7 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 
 ## List of libraries and models supported by Nyoka :
 
-### Scikit-Learn (version <= 0.23.1):
+### Scikit-Learn:
 
 #### Models -
 
@@ -74,14 +74,14 @@ Read the documentation at **[Nyoka Documentation](https://softwareag.github.io/n
 *  [`LGBMRegressor`](https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMRegressor.html)
 
 
-### XGBoost (version <= 1.5.2):
+### XGBoost:
 
 
 *  [`XGBClassifier`](https://xgboost.readthedocs.io/en/release_1.5.0/python/python_api.html#module-xgboost.sklearn)
 *  [`XGBRegressor`](https://xgboost.readthedocs.io/en/release_1.5.0/python/python_api.html#module-xgboost.sklearn)
 
 
-### Statsmodels (version <= 0.11.1):
+### Statsmodels:
 
 
 *  [`tsa.arima_model.ARIMA`](https://github.com/statsmodels/statsmodels/blob/master/statsmodels/tsa/arima_model.py#L1026)

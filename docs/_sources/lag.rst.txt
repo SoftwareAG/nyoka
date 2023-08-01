@@ -1,7 +1,0 @@
-lag module
-==========
-
-.. automodule:: lag
-    :members:
-    :undoc-members:
-    :show-inheritance:

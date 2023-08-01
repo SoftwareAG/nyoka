@@ -1,234 +1,251 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Nyoka 5.0.0 &mdash; A python library for PMML generation</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scripts &mdash; Nyoka 5.5.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'5.0.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PMML44 module" href="PMML44.html" /> 
+    <link rel="next" title="exponential_smoothing module" href="exponential_smoothing.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-        <a href="#" class="icon icon-home"> Nyoka</a>
-
           
-            
-            
-              <div class="version">
-                5.0
-              </div>
-            
-          
-
-          
+          <a href="#" class="icon icon-home">
+            Nyoka
+          </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre_process_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_process.html">pre_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">statsmodels_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">xgboost_to_pmml module</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="#">Nyoka</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="#">Docs</a> &raquo;</li>
-        
-      <li>Nyoka</li>
-    
-    
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">scripts</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="https://github.com/SoftwareAG/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="scripts">
-<div class="section" id="welcome-to-nyoka-s-documentation">
-  <h1>Welcome to Nyoka’s documentation!<a class="headerlink" href="#welcome-to-nyoka-s-documentation" title="Permalink to this headline">¶</a></h1>
-  <img src="https://raw.githubusercontent.com/SoftwareAG/nyoka/master/docs/nyoka_logo.PNG" width="250px" aria-placeholder="Nyoka logo"/>
-  <p>Nyoka is a Python library for comprehensive support of the latest PMML (PMML 4.4.1) standard. Using Nyoka, Data Scientists can export a large number of Machine Learning models from popular Python frameworks into PMML by either using any of the numerous included ready-to-use exporters or by creating their own exporter for specialized/individual model types by simply calling a sequence of constructors.</p>
-  <p>Besides about 500 Python classes which each cover a PMML tag and all constructor parameters/attributes as defined in the standard, Nyoka also provides an increasing number of convenience classes and functions that make the Data Scientist’s life easier for example by reading or writing any PMML file in one line of code from within your favorite Python environment.</p>
-  <p>Nyoka comes to you with the complete source code in Python, an extended HTML documentation for the classes/functions and a growing number of Jupyter Notebook tutorials that help you familiarizing yourself with the way how Nyoka supports you to use PMML as your favorite Data Science transport file format.</p>
-  
+             
+  <section id="scripts">
+<h1>scripts<a class="headerlink" href="#scripts" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
-  <h3>The core modules of Nyoka are</h3>
 <ul>
-  <li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
-  <li class="toctree-l1"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exponential_smoothing.html#exponential_smoothing.ExponentialSmoothingToPMML"><code class="docutils literal notranslate"><span class="pre">ExponentialSmoothingToPMML</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lgb_to_pmml.html#lgb_to_pmml.create_node"><code class="docutils literal notranslate"><span class="pre">create_node()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lgb_to_pmml.html#lgb_to_pmml.generate_Segments_Equal_To_Estimators"><code class="docutils literal notranslate"><span class="pre">generate_Segments_Equal_To_Estimators()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lgb_to_pmml.html#lgb_to_pmml.get_PMML_kwargs"><code class="docutils literal notranslate"><span class="pre">get_PMML_kwargs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lgb_to_pmml.html#lgb_to_pmml.get_ensemble_models"><code class="docutils literal notranslate"><span class="pre">get_ensemble_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lgb_to_pmml.html#lgb_to_pmml.get_multiple_model_method"><code class="docutils literal notranslate"><span class="pre">get_multiple_model_method()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lgb_to_pmml.html#lgb_to_pmml.get_outer_segmentation"><code class="docutils literal notranslate"><span class="pre">get_outer_segmentation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lgb_to_pmml.html#lgb_to_pmml.get_segments"><code class="docutils literal notranslate"><span class="pre">get_segments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lgb_to_pmml.html#lgb_to_pmml.get_segments_for_lgbc"><code class="docutils literal notranslate"><span class="pre">get_segments_for_lgbc()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lgb_to_pmml.html#lgb_to_pmml.get_segments_for_lgbr"><code class="docutils literal notranslate"><span class="pre">get_segments_for_lgbr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lgb_to_pmml.html#lgb_to_pmml.lgb_to_pmml"><code class="docutils literal notranslate"><span class="pre">lgb_to_pmml()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pre_process.html">pre_process module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.any_in"><code class="docutils literal notranslate"><span class="pre">any_in()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.binarizer"><code class="docutils literal notranslate"><span class="pre">binarizer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.cat_imputer"><code class="docutils literal notranslate"><span class="pre">cat_imputer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.count_vectorizer"><code class="docutils literal notranslate"><span class="pre">count_vectorizer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.get_class_name"><code class="docutils literal notranslate"><span class="pre">get_class_name()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.get_derived_colnames"><code class="docutils literal notranslate"><span class="pre">get_derived_colnames()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.get_pml_derived_flds"><code class="docutils literal notranslate"><span class="pre">get_pml_derived_flds()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.get_preprocess_val"><code class="docutils literal notranslate"><span class="pre">get_preprocess_val()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.imputer"><code class="docutils literal notranslate"><span class="pre">imputer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.lag"><code class="docutils literal notranslate"><span class="pre">lag()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.lbl_binarizer"><code class="docutils literal notranslate"><span class="pre">lbl_binarizer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.lbl_encoder"><code class="docutils literal notranslate"><span class="pre">lbl_encoder()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.max_abs_scaler"><code class="docutils literal notranslate"><span class="pre">max_abs_scaler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.min_max_scaler"><code class="docutils literal notranslate"><span class="pre">min_max_scaler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">one_hot_encoder()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.pca"><code class="docutils literal notranslate"><span class="pre">pca()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.polynomial_features"><code class="docutils literal notranslate"><span class="pre">polynomial_features()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.rbst_scaler"><code class="docutils literal notranslate"><span class="pre">rbst_scaler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.std_scaler"><code class="docutils literal notranslate"><span class="pre">std_scaler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_process.html#pre_process.tfidf_vectorizer"><code class="docutils literal notranslate"><span class="pre">tfidf_vectorizer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.any_in"><code class="docutils literal notranslate"><span class="pre">any_in()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.avgPathLength"><code class="docutils literal notranslate"><span class="pre">avgPathLength()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_PMML_kwargs"><code class="docutils literal notranslate"><span class="pre">get_PMML_kwargs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_anomaly_detection_output"><code class="docutils literal notranslate"><span class="pre">get_anomaly_detection_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_anomalydetection_model"><code class="docutils literal notranslate"><span class="pre">get_anomalydetection_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_bayes_inputs"><code class="docutils literal notranslate"><span class="pre">get_bayes_inputs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_bayes_output"><code class="docutils literal notranslate"><span class="pre">get_bayes_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_classificationMethod"><code class="docutils literal notranslate"><span class="pre">get_classificationMethod()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_cluster_num"><code class="docutils literal notranslate"><span class="pre">get_cluster_num()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_cluster_vals"><code class="docutils literal notranslate"><span class="pre">get_cluster_vals()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_clustering_flds"><code class="docutils literal notranslate"><span class="pre">get_clustering_flds()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_clustering_model"><code class="docutils literal notranslate"><span class="pre">get_clustering_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_comp_measure"><code class="docutils literal notranslate"><span class="pre">get_comp_measure()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_comparison_measure"><code class="docutils literal notranslate"><span class="pre">get_comparison_measure()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_data_dictionary"><code class="docutils literal notranslate"><span class="pre">get_data_dictionary()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_dtype"><code class="docutils literal notranslate"><span class="pre">get_dtype()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_ensemble_models"><code class="docutils literal notranslate"><span class="pre">get_ensemble_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_funct"><code class="docutils literal notranslate"><span class="pre">get_funct()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_header"><code class="docutils literal notranslate"><span class="pre">get_header()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_inline_table"><code class="docutils literal notranslate"><span class="pre">get_inline_table()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_inner_segments"><code class="docutils literal notranslate"><span class="pre">get_inner_segments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_instance_fields"><code class="docutils literal notranslate"><span class="pre">get_instance_fields()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_kernel_type"><code class="docutils literal notranslate"><span class="pre">get_kernel_type()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_knn_inputs"><code class="docutils literal notranslate"><span class="pre">get_knn_inputs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_mining_func"><code class="docutils literal notranslate"><span class="pre">get_mining_func()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_mining_schema"><code class="docutils literal notranslate"><span class="pre">get_mining_schema()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_model_kwargs"><code class="docutils literal notranslate"><span class="pre">get_model_kwargs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_multiple_model_method"><code class="docutils literal notranslate"><span class="pre">get_multiple_model_method()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_naiveBayesModel"><code class="docutils literal notranslate"><span class="pre">get_naiveBayesModel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_nearestNeighbour_model"><code class="docutils literal notranslate"><span class="pre">get_nearestNeighbour_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_neural_layer"><code class="docutils literal notranslate"><span class="pre">get_neural_layer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_neural_models"><code class="docutils literal notranslate"><span class="pre">get_neural_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_neuron_input"><code class="docutils literal notranslate"><span class="pre">get_neuron_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_node"><code class="docutils literal notranslate"><span class="pre">get_node()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_outer_segmentation"><code class="docutils literal notranslate"><span class="pre">get_outer_segmentation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_output"><code class="docutils literal notranslate"><span class="pre">get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_output_for_clustering"><code class="docutils literal notranslate"><span class="pre">get_output_for_clustering()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_reg_mining_models"><code class="docutils literal notranslate"><span class="pre">get_reg_mining_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_reg_tab_for_reg_mining_model"><code class="docutils literal notranslate"><span class="pre">get_reg_tab_for_reg_mining_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_regrs_models"><code class="docutils literal notranslate"><span class="pre">get_regrs_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_regrs_tabl"><code class="docutils literal notranslate"><span class="pre">get_regrs_tabl()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_segments"><code class="docutils literal notranslate"><span class="pre">get_segments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_segments_for_gbc"><code class="docutils literal notranslate"><span class="pre">get_segments_for_gbc()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_super_cls_names"><code class="docutils literal notranslate"><span class="pre">get_super_cls_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_supportVectorMachine"><code class="docutils literal notranslate"><span class="pre">get_supportVectorMachine()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_supportVectorMachine_models"><code class="docutils literal notranslate"><span class="pre">get_supportVectorMachine_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_targets"><code class="docutils literal notranslate"><span class="pre">get_targets()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_threshold"><code class="docutils literal notranslate"><span class="pre">get_threshold()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_training_instances"><code class="docutils literal notranslate"><span class="pre">get_training_instances()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_tree_models"><code class="docutils literal notranslate"><span class="pre">get_tree_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.get_vectorDictionary"><code class="docutils literal notranslate"><span class="pre">get_vectorDictionary()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.has_target"><code class="docutils literal notranslate"><span class="pre">has_target()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="skl_to_pmml.html#skl_to_pmml.skl_to_pmml"><code class="docutils literal notranslate"><span class="pre">skl_to_pmml()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">statsmodels_to_pmml module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="statsmodels_to_pmml.html#statsmodels_to_pmml.StatsmodelsToPmml"><code class="docutils literal notranslate"><span class="pre">StatsmodelsToPmml</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="statsmodels_to_pmml.html#statsmodels_to_pmml.StatsmodelsToPmml.construct_pmml"><code class="docutils literal notranslate"><span class="pre">StatsmodelsToPmml.construct_pmml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="statsmodels_to_pmml.html#statsmodels_to_pmml.StatsmodelsToPmml.export_pmml"><code class="docutils literal notranslate"><span class="pre">StatsmodelsToPmml.export_pmml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="statsmodels_to_pmml.html#statsmodels_to_pmml.StatsmodelsToPmml.generate_arima_model"><code class="docutils literal notranslate"><span class="pre">StatsmodelsToPmml.generate_arima_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="statsmodels_to_pmml.html#statsmodels_to_pmml.StatsmodelsToPmml.generate_data_dictionary"><code class="docutils literal notranslate"><span class="pre">StatsmodelsToPmml.generate_data_dictionary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="statsmodels_to_pmml.html#statsmodels_to_pmml.StatsmodelsToPmml.generate_mining_schema"><code class="docutils literal notranslate"><span class="pre">StatsmodelsToPmml.generate_mining_schema()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="statsmodels_to_pmml.html#statsmodels_to_pmml.StatsmodelsToPmml.generate_output"><code class="docutils literal notranslate"><span class="pre">StatsmodelsToPmml.generate_output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="statsmodels_to_pmml.html#statsmodels_to_pmml.StatsmodelsToPmml.generate_state_space_model"><code class="docutils literal notranslate"><span class="pre">StatsmodelsToPmml.generate_state_space_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="statsmodels_to_pmml.html#statsmodels_to_pmml.StatsmodelsToPmml.generate_time_series"><code class="docutils literal notranslate"><span class="pre">StatsmodelsToPmml.generate_time_series()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="statsmodels_to_pmml.html#statsmodels_to_pmml.StatsmodelsToPmml.generate_time_value_object"><code class="docutils literal notranslate"><span class="pre">StatsmodelsToPmml.generate_time_value_object()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">xgboost_to_pmml module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.add_segmentation"><code class="docutils literal notranslate"><span class="pre">add_segmentation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.create_node"><code class="docutils literal notranslate"><span class="pre">create_node()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.generate_Segments_Equal_To_Estimators"><code class="docutils literal notranslate"><span class="pre">generate_Segments_Equal_To_Estimators()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_PMML_kwargs"><code class="docutils literal notranslate"><span class="pre">get_PMML_kwargs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_dtype"><code class="docutils literal notranslate"><span class="pre">get_dtype()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_ensemble_models"><code class="docutils literal notranslate"><span class="pre">get_ensemble_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_mining_func"><code class="docutils literal notranslate"><span class="pre">get_mining_func()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_mining_schema"><code class="docutils literal notranslate"><span class="pre">get_mining_schema()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_model_kwargs"><code class="docutils literal notranslate"><span class="pre">get_model_kwargs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_multiple_model_method"><code class="docutils literal notranslate"><span class="pre">get_multiple_model_method()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_outer_segmentation"><code class="docutils literal notranslate"><span class="pre">get_outer_segmentation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_output"><code class="docutils literal notranslate"><span class="pre">get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_regrs_models"><code class="docutils literal notranslate"><span class="pre">get_regrs_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_regrs_tabl"><code class="docutils literal notranslate"><span class="pre">get_regrs_tabl()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_segments"><code class="docutils literal notranslate"><span class="pre">get_segments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_segments_for_xgbc"><code class="docutils literal notranslate"><span class="pre">get_segments_for_xgbc()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_segments_for_xgbr"><code class="docutils literal notranslate"><span class="pre">get_segments_for_xgbr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.get_targets"><code class="docutils literal notranslate"><span class="pre">get_targets()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.has_target"><code class="docutils literal notranslate"><span class="pre">has_target()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.mining_Field_For_First_Segment"><code class="docutils literal notranslate"><span class="pre">mining_Field_For_First_Segment()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.replace_name_with_derivedColumnNames"><code class="docutils literal notranslate"><span class="pre">replace_name_with_derivedColumnNames()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xgboost_to_pmml.html#xgboost_to_pmml.xgboost_to_pmml"><code class="docutils literal notranslate"><span class="pre">xgboost_to_pmml()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
-
-
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="statsmodels_to_pmml.html" class="btn btn-neutral float-right" title="Statsmodels Exporter Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="exponential_smoothing.html" class="btn btn-neutral float-right" title="exponential_smoothing module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2021, maintainer@nyoka.org
-
-    </p>
+    <p>&#169; Copyright 2023, maintainer@nyoka.org.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -1,552 +1,694 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Nyoka 5.0 &mdash; XGBoost Exporter Module</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xgboost_to_pmml module &mdash; Nyoka 5.5.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'5.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="statsmodels_to_pmml module" href="statsmodels_to_pmml.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> Nyoka
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            Nyoka
           </a>
-
-          
-            
-            
-              <div class="version">
-                5.0
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-                <li class="toctree-l1 current"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_process.html">pre_process module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">statsmodels_to_pmml module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">xgboost_to_pmml module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.add_segmentation"><code class="docutils literal notranslate"><span class="pre">add_segmentation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.create_node"><code class="docutils literal notranslate"><span class="pre">create_node()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.generate_Segments_Equal_To_Estimators"><code class="docutils literal notranslate"><span class="pre">generate_Segments_Equal_To_Estimators()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_PMML_kwargs"><code class="docutils literal notranslate"><span class="pre">get_PMML_kwargs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_dtype"><code class="docutils literal notranslate"><span class="pre">get_dtype()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_ensemble_models"><code class="docutils literal notranslate"><span class="pre">get_ensemble_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_mining_func"><code class="docutils literal notranslate"><span class="pre">get_mining_func()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_mining_schema"><code class="docutils literal notranslate"><span class="pre">get_mining_schema()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_model_kwargs"><code class="docutils literal notranslate"><span class="pre">get_model_kwargs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_multiple_model_method"><code class="docutils literal notranslate"><span class="pre">get_multiple_model_method()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_outer_segmentation"><code class="docutils literal notranslate"><span class="pre">get_outer_segmentation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_output"><code class="docutils literal notranslate"><span class="pre">get_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_regrs_models"><code class="docutils literal notranslate"><span class="pre">get_regrs_models()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_regrs_tabl"><code class="docutils literal notranslate"><span class="pre">get_regrs_tabl()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_segments"><code class="docutils literal notranslate"><span class="pre">get_segments()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_segments_for_xgbc"><code class="docutils literal notranslate"><span class="pre">get_segments_for_xgbc()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_segments_for_xgbr"><code class="docutils literal notranslate"><span class="pre">get_segments_for_xgbr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.get_targets"><code class="docutils literal notranslate"><span class="pre">get_targets()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.has_target"><code class="docutils literal notranslate"><span class="pre">has_target()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.mining_Field_For_First_Segment"><code class="docutils literal notranslate"><span class="pre">mining_Field_For_First_Segment()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.replace_name_with_derivedColumnNames"><code class="docutils literal notranslate"><span class="pre">replace_name_with_derivedColumnNames()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xgboost_to_pmml.xgboost_to_pmml"><code class="docutils literal notranslate"><span class="pre">xgboost_to_pmml()</span></code></a></li>
+</ul>
+</li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Nyoka</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>XGBoost Exporter Module</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">xgboost_to_pmml module</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
-        <a href="https://github.com/SoftwareAG/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
-      
-    
-  </li>
-    
+            <a href="https://github.com/SoftwareAG/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
+      </li>
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="module-xgboost_to_pmml">
-<span id="xgboost-to-pmml-module"></span><h1>XGBoost Exporter Module<a class="headerlink" href="#module-xgboost_to_pmml" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="xgboost_to_pmml.add_segmentation">
-<em class="property">def </em><code class="descname">add_segmentation</code><span class="sig-paren">(</span><em>model</em>, <em>segments_equal_to_estimators</em>, <em>mining_schema_for_1st_segment</em>, <em>out</em>, <em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#add_segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.add_segmentation" title="Permalink to this definition">¶</a></dt>
+             
+  <section id="module-xgboost_to_pmml">
+<span id="xgboost-to-pmml-module"></span><h1>xgboost_to_pmml module<a class="headerlink" href="#module-xgboost_to_pmml" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.add_segmentation">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">add_segmentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments_equal_to_estimators</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mining_schema_for_1st_segment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#add_segmentation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.add_segmentation" title="Permalink to this definition"></a></dt>
 <dd><p>It returns segmentation for a mining model</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model</strong> – Contains Xgboost model object.</li>
-<li><strong>segments_equal_to_estimators</strong> (<em>List</em>) – Contains List Segements equals to the number of the estimators of the model.</li>
-<li><strong>mining_schema_for_1st_segment</strong> – Contains Mining Schema for the First Segment</li>
-<li><strong>out</strong> – Contains the Output element</li>
-<li><strong>id</strong> (<em>Integer</em>) – Index of the Segements</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Returns Nyoka’s Segment object</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">segments_equal_to_estimators</p>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>Contains Xgboost model object.</p>
+</dd>
+<dt>segments_equal_to_estimators<span class="classifier">List</span></dt><dd><p>Contains List Segements equals to the number of the estimators of the model.</p>
+</dd>
+<dt>mining_schema_for_1st_segment :</dt><dd><p>Contains Mining Schema for the First Segment</p>
+</dd>
+<dt>out :</dt><dd><p>Contains the Output element</p>
+</dd>
+<dt>id<span class="classifier">Integer</span></dt><dd><p>Index of the Segements</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>segments_equal_to_estimators:</dt><dd><p>Returns Nyoka’s Segment object</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.create_node">
-<em class="property">def </em><code class="descname">create_node</code><span class="sig-paren">(</span><em>obj</em>, <em>main_node</em>, <em>derived_col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#create_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.create_node" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.create_node">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">create_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">main_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#create_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.create_node" title="Permalink to this definition"></a></dt>
 <dd><p>It creates nodes.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>obj</strong> (<em>Json</em>) – Contains nodes in json format.</li>
-<li><strong>main_node</strong> – Contains node build with Nyoka class.</li>
-<li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>obj<span class="classifier">Json</span></dt><dd><p>Contains nodes in json format.</p>
+</dd>
+<dt>main_node :</dt><dd><p>Contains node build with Nyoka class.</p>
+</dd>
+<dt>derived_col_names<span class="classifier">List</span></dt><dd><p>Contains column names after preprocessing.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.generate_Segments_Equal_To_Estimators">
-<em class="property">def </em><code class="descname">generate_Segments_Equal_To_Estimators</code><span class="sig-paren">(</span><em>val</em>, <em>derived_col_names</em>, <em>col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#generate_Segments_Equal_To_Estimators"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.generate_Segments_Equal_To_Estimators" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.generate_Segments_Equal_To_Estimators">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">generate_Segments_Equal_To_Estimators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#generate_Segments_Equal_To_Estimators"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.generate_Segments_Equal_To_Estimators" title="Permalink to this definition"></a></dt>
 <dd><p>It returns number of Segments equal to the estimator of the model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>val</strong> (<em>List</em>) – Contains a list of well structured node for binary classification/inner segments for multi-class classification</li>
-<li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
-<li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Nyoka’s Segment object</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">segments_equal_to_estimators</p>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="id2">
+<h2>Parameters<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>val<span class="classifier">List</span></dt><dd><p>Contains a list of well structured node for binary classification/inner segments for multi-class classification</p>
+</dd>
+<dt>derived_col_names<span class="classifier">List</span></dt><dd><p>Contains column names after preprocessing.</p>
+</dd>
+<dt>col_names<span class="classifier">List</span></dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h2>Returns<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>segments_equal_to_estimators:</dt><dd><p>Nyoka’s Segment object</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.get_PMML_kwargs">
-<em class="property">def </em><code class="descname">get_PMML_kwargs</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em>, <em>model_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_PMML_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.get_PMML_kwargs" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_PMML_kwargs">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_PMML_kwargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mining_imp_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoric_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_PMML_kwargs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_PMML_kwargs" title="Permalink to this definition"></a></dt>
 <dd><p>It returns all the pmml elements.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model</strong> – Contains XGBoost model object.</li>
-<li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing</li>
-<li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
-<li><strong>target_name</strong> (<em>String</em>) – Name of the target column .</li>
-<li><strong>mining_imp_val</strong> (<em>tuple</em>) – Contains the mining_attributes,mining_strategy, mining_impute_value</li>
-<li><strong>categoric_values</strong> (<em>tuple</em>) – Contains Categorical attribute names and its values</li>
-<li><strong>model_name</strong> (<em>string</em>) – Name of the model</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>algo_kwargs</strong> – Get the PMML model argument based on XGBoost model object</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">{ dictionary element}</p>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="id4">
+<h2>Parameters<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>Contains XGBoost model object.</p>
+</dd>
+<dt>derived_col_names<span class="classifier">List</span></dt><dd><p>Contains column names after preprocessing</p>
+</dd>
+<dt>col_names<span class="classifier">List</span></dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the target column .</p>
+</dd>
+<dt>mining_imp_val<span class="classifier">tuple</span></dt><dd><p>Contains the mining_attributes,mining_strategy, mining_impute_value</p>
+</dd>
+<dt>categoric_values<span class="classifier">tuple</span></dt><dd><p>Contains Categorical attribute names and its values</p>
+</dd>
+<dt>model_name<span class="classifier">string</span></dt><dd><p>Name of the model</p>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h2>Returns<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>algo_kwargs<span class="classifier">{ dictionary element}</span></dt><dd><p>Get the PMML model argument based on XGBoost model object</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.get_ensemble_models">
-<em class="property">def </em><code class="descname">get_ensemble_models</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em>, <em>model_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_ensemble_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.get_ensemble_models" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_dtype">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feat_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_dtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_dtype" title="Permalink to this definition"></a></dt>
+<dd><p>It return the data type of the value.</p>
+<section id="id6">
+<h2>Parameters<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>feat_value :</dt><dd><p>Contains a value for finding the its data type.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h2>Returns<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h2>
+<blockquote>
+<div><p>Returns the respective data type of that value.</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_ensemble_models">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_ensemble_models</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mining_imp_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoric_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_ensemble_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_ensemble_models" title="Permalink to this definition"></a></dt>
 <dd><p>It returns the Mining Model element of the model</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model</strong> – Contains Xgboost model object.</li>
-<li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
-<li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
-<li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
-<li><strong>mining_imp_val</strong> (<em>tuple</em>) – Contains the mining_attributes,mining_strategy, mining_impute_value.</li>
-<li><strong>categoric_values</strong> (<em>tuple</em>) – Contains Categorical attribute names and its values</li>
-<li><strong>model_name</strong> (<em>string</em>) – Name of the model</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Returns Nyoka’s MiningModel object</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">mining_models</p>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="id8">
+<h2>Parameters<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>Contains XGBoost model object.</p>
+</dd>
+<dt>derived_col_names<span class="classifier">List</span></dt><dd><p>Contains column names after preprocessing.</p>
+</dd>
+<dt>col_names<span class="classifier">List</span></dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+<dt>mining_imp_val<span class="classifier">tuple</span></dt><dd><p>Contains the mining_attributes,mining_strategy, mining_impute_value.</p>
+</dd>
+<dt>categoric_values<span class="classifier">tuple</span></dt><dd><p>Contains Categorical attribute names and its values</p>
+</dd>
+<dt>model_name<span class="classifier">string</span></dt><dd><p>Name of the model</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h2>Returns<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>mining_models :</dt><dd><p>Returns Nyoka’s MiningModel object</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.get_multiple_model_method">
-<em class="property">def </em><code class="descname">get_multiple_model_method</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_multiple_model_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.get_multiple_model_method" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_mining_func">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_mining_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_mining_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_mining_func" title="Permalink to this definition"></a></dt>
+<dd><p>It returns the name of the mining function of the model.</p>
+<section id="id10">
+<h2>Parameters<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>An Xgboost model instance.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h2>Returns<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>func_name<span class="classifier">String</span></dt><dd><p>Returns the function name of the model</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_mining_schema">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_mining_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mining_imp_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoric_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_mining_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_mining_schema" title="Permalink to this definition"></a></dt>
+<dd><p>It returns the Mining Schema of the model.</p>
+<section id="id12">
+<h2>Parameters<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>An Xgboost model instance.</p>
+</dd>
+<dt>feature_names<span class="classifier">List</span></dt><dd><p>Contains the list of feature/column name.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+<dt>mining_imp_val<span class="classifier">tuple</span></dt><dd><p>Contains the mining_attributes,mining_strategy, mining_impute_value.</p>
+</dd>
+<dt>categoric_values<span class="classifier">tuple</span></dt><dd><p>Contains Categorical attribute names and its values</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h2>Returns<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>MiningSchema :</dt><dd><p>Nyoka’s MiningSchema object</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_model_kwargs">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_model_kwargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mining_imp_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoric_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_model_kwargs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_model_kwargs" title="Permalink to this definition"></a></dt>
+<dd><p>It returns all the model element for a specific model.</p>
+<section id="id14">
+<h2>Parameters<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>An instance of an Xgboost model.</p>
+</dd>
+<dt>col_names<span class="classifier">List</span></dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+<dt>mining_imp_val<span class="classifier">tuple</span></dt><dd><p>Contains the mining_attributes,mining_strategy, mining_impute_value</p>
+</dd>
+<dt>categoric_values<span class="classifier">tuple</span></dt><dd><p>Contains Categorical attribute names and its values</p>
+</dd>
+</dl>
+</section>
+<section id="id15">
+<h2>Returns<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model_kwargs<span class="classifier">Dictionary</span></dt><dd><p>Returns  function name, MiningSchema and Output of the sk_model object</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_multiple_model_method">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_multiple_model_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_multiple_model_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_multiple_model_method" title="Permalink to this definition"></a></dt>
 <dd><p>It returns the type of multiple model method for MiningModels.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model</strong> – Contains Xgboost model object</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">The multiple model method for a MiningModel.</td>
-</tr>
-</tbody>
-</table>
+<section id="id16">
+<h2>Parameters<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>Contains Xgboost model object</p>
+</dd>
+</dl>
+</section>
+<section id="id17">
+<h2>Returns<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h2>
+<p>The multiple model method for a MiningModel.</p>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.get_outer_segmentation">
-<em class="property">def </em><code class="descname">get_outer_segmentation</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em>, <em>model_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_outer_segmentation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.get_outer_segmentation" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_outer_segmentation">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_outer_segmentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mining_imp_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoric_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_outer_segmentation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_outer_segmentation" title="Permalink to this definition"></a></dt>
 <dd><p>It returns the Segmentation element of the model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model</strong> – Contains Xgboost model object.</li>
-<li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
-<li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
-<li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
-<li><strong>mining_imp_val</strong> (<em>tuple</em>) – Contains the mining_attributes,mining_strategy, mining_impute_value</li>
-<li><strong>categoric_values</strong> (<em>tuple</em>) – Contains Categorical attribute names and its values</li>
-<li><strong>model_name</strong> (<em>string</em>) – Name of the model</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Returns Nyoka’s Segmentation object</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">segmentation</p>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="id18">
+<h2>Parameters<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>Contains Xgboost model object.</p>
+</dd>
+<dt>derived_col_names<span class="classifier">List</span></dt><dd><p>Contains column names after preprocessing.</p>
+</dd>
+<dt>col_names<span class="classifier">List</span></dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+<dt>mining_imp_val<span class="classifier">tuple</span></dt><dd><p>Contains the mining_attributes,mining_strategy, mining_impute_value</p>
+</dd>
+<dt>categoric_values<span class="classifier">tuple</span></dt><dd><p>Contains Categorical attribute names and its values</p>
+</dd>
+<dt>model_name<span class="classifier">string</span></dt><dd><p>Name of the model</p>
+</dd>
+</dl>
+</section>
+<section id="id19">
+<h2>Returns<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>segmentation :</dt><dd><p>Returns Nyoka’s Segmentation object</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.get_segments">
-<em class="property">def </em><code class="descname">get_segments</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>col_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em>, <em>model_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.get_segments" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_output">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_output" title="Permalink to this definition"></a></dt>
+<dd><p>It returns the output element of the model.</p>
+<section id="id20">
+<h2>Parameters<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>An Xboost model instance.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+</dl>
+</section>
+<section id="id21">
+<h2>Returns<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>Output :</dt><dd><p>Nyoka’s Output object</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_regrs_models">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_regrs_models</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mining_imp_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoric_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_regrs_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_regrs_models" title="Permalink to this definition"></a></dt>
+<dd><p>Generates PMML elements for linear models</p>
+<section id="id22">
+<h2>Parameters<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>An Xgboost model instance.</p>
+</dd>
+<dt>derived_col_names<span class="classifier">List</span></dt><dd><p>Contains column names after preprocessing.</p>
+</dd>
+<dt>col_names<span class="classifier">List</span></dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+<dt>mining_imp_val<span class="classifier">tuple</span></dt><dd><p>Contains the mining_attributes,mining_strategy, mining_impute_value</p>
+</dd>
+<dt>categoric_values<span class="classifier">tuple</span></dt><dd><p>Contains Categorical attribute names and its values</p>
+</dd>
+<dt>model_name<span class="classifier">string</span></dt><dd><p>Name of the model</p>
+</dd>
+</dl>
+</section>
+<section id="id23">
+<h2>Returns<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>regrs_models<span class="classifier">List</span></dt><dd><p>Nyoka’s RegressionModel object</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_regrs_tabl">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_regrs_tabl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoric_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_regrs_tabl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_regrs_tabl" title="Permalink to this definition"></a></dt>
+<dd><p>It returns the Regression Table element of the model.</p>
+<section id="id24">
+<h2>Parameters<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>An Xgboost model instance.</p>
+</dd>
+<dt>derived_col_names<span class="classifier">List</span></dt><dd><p>Contains column names after preprocessing.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+<dt>categoric_values<span class="classifier">tuple</span></dt><dd><p>Contains Categorical attribute names and its values</p>
+</dd>
+</dl>
+</section>
+<section id="id25">
+<h2>Returns<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>merge<span class="classifier">List</span></dt><dd><p>Nyoka’s RegressionTable object</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_segments">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_segments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mining_imp_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoric_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_segments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_segments" title="Permalink to this definition"></a></dt>
 <dd><p>It returns the Segment element of the model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model</strong> – Contains Xgboost model object.</li>
-<li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
-<li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
-<li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
-<li><strong>mining_imp_val</strong> (<em>tuple</em>) – Contains the mining_attributes,mining_strategy, mining_impute_value</li>
-<li><strong>categoric_values</strong> (<em>tuple</em>) – Contains Categorical attribute names and its values</li>
-<li><strong>model_name</strong> (<em>string</em>) – Name of the model</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Nyoka’s Segment object</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">segment</p>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="id26">
+<h2>Parameters<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>Contains Xgboost model object.</p>
+</dd>
+<dt>derived_col_names<span class="classifier">List</span></dt><dd><p>Contains column names after preprocessing.</p>
+</dd>
+<dt>col_names<span class="classifier">List</span></dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+<dt>mining_imp_val<span class="classifier">tuple</span></dt><dd><p>Contains the mining_attributes,mining_strategy, mining_impute_value</p>
+</dd>
+<dt>categoric_values<span class="classifier">tuple</span></dt><dd><p>Contains Categorical attribute names and its values</p>
+</dd>
+<dt>model_name<span class="classifier">string</span></dt><dd><p>Name of the model</p>
+</dd>
+</dl>
+</section>
+<section id="id27">
+<h2>Returns<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>segment :</dt><dd><p>Nyoka’s Segment object</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.get_segments_for_xgbc">
-<em class="property">def </em><code class="descname">get_segments_for_xgbc</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categoric_values</em>, <em>model_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_segments_for_xgbc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.get_segments_for_xgbc" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_segments_for_xgbc">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_segments_for_xgbc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mining_imp_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoric_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_segments_for_xgbc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_segments_for_xgbc" title="Permalink to this definition"></a></dt>
 <dd><p>It returns all the segments of the Xgboost classifier.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model</strong> – Contains Xgboost model object.</li>
-<li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
-<li><strong>feature_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
-<li><strong>target_name</strong> (<em>String</em>) – Name of the Target column.</li>
-<li><strong>mining_imp_val</strong> (<em>tuple</em>) – Contains the mining_attributes,mining_strategy, mining_impute_value</li>
-<li><strong>categoric_values</strong> (<em>tuple</em>) – Contains Categorical attribute names and its values</li>
-<li><strong>model_name</strong> (<em>string</em>) – Name of the model</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Returns Nyoka’s Segment object</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">regrs_models</p>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="id28">
+<h2>Parameters<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>Contains Xgboost model object.</p>
+</dd>
+<dt>derived_col_names<span class="classifier">List</span></dt><dd><p>Contains column names after preprocessing.</p>
+</dd>
+<dt>feature_names: List</dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+<dt>mining_imp_val<span class="classifier">tuple</span></dt><dd><p>Contains the mining_attributes,mining_strategy, mining_impute_value</p>
+</dd>
+<dt>categoric_values<span class="classifier">tuple</span></dt><dd><p>Contains Categorical attribute names and its values</p>
+</dd>
+<dt>model_name<span class="classifier">string</span></dt><dd><p>Name of the model</p>
+</dd>
+</dl>
+</section>
+<section id="id29">
+<h2>Returns<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>regrs_models :</dt><dd><p>Returns Nyoka’s Segment object</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.get_segments_for_xgbr">
-<em class="property">def </em><code class="descname">get_segments_for_xgbr</code><span class="sig-paren">(</span><em>model</em>, <em>derived_col_names</em>, <em>feature_names</em>, <em>target_name</em>, <em>mining_imp_val</em>, <em>categorical_values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_segments_for_xgbr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.get_segments_for_xgbr" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_segments_for_xgbr">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_segments_for_xgbr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mining_imp_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categorical_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_segments_for_xgbr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_segments_for_xgbr" title="Permalink to this definition"></a></dt>
 <dd><p>It returns all the Segments element of the model</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model</strong> – Contains Xgboost model object.</li>
-<li><strong>derived_col_names</strong> (<em>List</em>) – Contains column names after preprocessing.</li>
-<li><strong>feature_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
-<li><strong>target_name</strong> (<em>List</em>) – Name of the Target column.</li>
-<li><strong>mining_imp_val</strong> (<em>tuple</em>) – Contains the mining_attributes,mining_strategy, mining_impute_value</li>
-<li><strong>categoric_values</strong> (<em>tuple</em>) – Contains Categorical attribute names and its values</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Nyoka’s Segment object</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">segment</p>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="id30">
+<h2>Parameters<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>Contains Xgboost model object.</p>
+</dd>
+<dt>derived_col_names<span class="classifier">List</span></dt><dd><p>Contains column names after preprocessing.</p>
+</dd>
+<dt>feature_names<span class="classifier">List</span></dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+<dt>target_name<span class="classifier">List</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+<dt>mining_imp_val<span class="classifier">tuple</span></dt><dd><p>Contains the mining_attributes,mining_strategy, mining_impute_value</p>
+</dd>
+<dt>categoric_values<span class="classifier">tuple</span></dt><dd><p>Contains Categorical attribute names and its values</p>
+</dd>
+</dl>
+</section>
+<section id="id31">
+<h2>Returns<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>segment :</dt><dd><p>Nyoka’s Segment object</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.mining_Field_For_First_Segment">
-<em class="property">def </em><code class="descname">mining_Field_For_First_Segment</code><span class="sig-paren">(</span><em>feature_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#mining_Field_For_First_Segment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.mining_Field_For_First_Segment" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.get_targets">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">get_targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#get_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.get_targets" title="Permalink to this definition"></a></dt>
+<dd><p>It returns the Target element of the model.</p>
+<section id="id32">
+<h2>Parameters<a class="headerlink" href="#id32" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>An Xgboost model instance.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the Target column.</p>
+</dd>
+</dl>
+</section>
+<section id="id33">
+<h2>Returns<a class="headerlink" href="#id33" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>targets :</dt><dd><p>Returns Nyoka’s Target object</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.has_target">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">has_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#has_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.has_target" title="Permalink to this definition"></a></dt>
+<dd><p>Checks whether a given model has target or not</p>
+<section id="id34">
+<h2>Parameters<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>model :</dt><dd><p>Scikit-learn’s model object</p>
+</dd>
+</dl>
+</section>
+<section id="id35">
+<h2>Returns<a class="headerlink" href="#id35" title="Permalink to this heading"></a></h2>
+<p>Boolean value</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.mining_Field_For_First_Segment">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">mining_Field_For_First_Segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#mining_Field_For_First_Segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.mining_Field_For_First_Segment" title="Permalink to this definition"></a></dt>
 <dd><p>It returns the Mining Schema of the First Segment.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feature_names</strong> (<em>List</em>) – Contains list of feature/column names.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Nyoka’s MiningSchema object</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">mining_schema_for_1st_segment</td>
-</tr>
-</tbody>
-</table>
+<section id="id36">
+<h2>Parameters<a class="headerlink" href="#id36" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>feature_names<span class="classifier">List</span></dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+</dl>
+</section>
+<section id="id37">
+<h2>Returns<a class="headerlink" href="#id37" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>mining_schema_for_1st_segment :</dt><dd><p>Nyoka’s MiningSchema object</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.replace_name_with_derivedColumnNames">
-<em class="property">def </em><code class="descname">replace_name_with_derivedColumnNames</code><span class="sig-paren">(</span><em>original_name</em>, <em>derived_col_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#replace_name_with_derivedColumnNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.replace_name_with_derivedColumnNames" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.replace_name_with_derivedColumnNames">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">replace_name_with_derivedColumnNames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#replace_name_with_derivedColumnNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.replace_name_with_derivedColumnNames" title="Permalink to this definition"></a></dt>
 <dd><p>It replace the default names with the names of the attributes.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>original_name</strong> (<em>List</em>) – The name of the node retrieve from model</li>
-<li><strong>derived_col_names</strong> (<em>List</em>) – </li>
-<li><strong>name of the derived attributes.</strong> (<em>The</em>) – </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Returns the derived column name/original column name.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">col_name</p>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="id38">
+<h2>Parameters<a class="headerlink" href="#id38" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>original_name<span class="classifier">List</span></dt><dd><p>The name of the node retrieve from model</p>
+</dd>
+</dl>
+<p>derived_col_names : List
+The name of the derived attributes.</p>
+</section>
+<section id="id39">
+<h2>Returns<a class="headerlink" href="#id39" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>col_name :</dt><dd><p>Returns the derived column name/original column name.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
-<dl class="function">
-<dt id="xgboost_to_pmml.xgboost_to_pmml">
-<em class="property">def </em><code class="descname">xgboost_to_pmml</code><span class="sig-paren">(</span><em>pipeline</em>, <em>col_names</em>, <em>target_name</em>, <em>pmml_f_name='from_xgboost.pmml'</em>, <em>model_name=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#xgboost_to_pmml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xgboost_to_pmml.xgboost_to_pmml" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="xgboost_to_pmml.xgboost_to_pmml">
+<span class="sig-prename descclassname"><span class="pre">xgboost_to_pmml.</span></span><span class="sig-name descname"><span class="pre">xgboost_to_pmml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmml_f_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'from_xgboost.pmml'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xgboost_to_pmml.html#xgboost_to_pmml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xgboost_to_pmml.xgboost_to_pmml" title="Permalink to this definition"></a></dt>
 <dd><p>Exports xgboost model object into pmml</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>pipeline</strong> – Contains an instance of Pipeline with preprocessing and final estimator</li>
-<li><strong>col_names</strong> (<em>List</em>) – Contains list of feature/column names.</li>
-<li><strong>target_name</strong> (<em>String</em>) – Name of the target column.</li>
-<li><strong>pmml_f_name</strong> (<em>String</em>) – Name of the pmml file. (Default=’from_xgboost.pmml’)</li>
-<li><strong>model_name</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Name of the model</li>
-<li><strong>description</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – Description for the model</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Generates the PMML object and exports it to <cite>pmml_f_name</cite></p>
-</td>
-</tr>
-</tbody>
-</table>
+<section id="id40">
+<h2>Parameters<a class="headerlink" href="#id40" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>pipeline :</dt><dd><p>Contains an instance of Pipeline with preprocessing and final estimator</p>
+</dd>
+<dt>col_names<span class="classifier">List</span></dt><dd><p>Contains list of feature/column names.</p>
+</dd>
+<dt>target_name<span class="classifier">String</span></dt><dd><p>Name of the target column.</p>
+</dd>
+<dt>pmml_f_name<span class="classifier">String</span></dt><dd><p>Name of the pmml file. (Default=’from_xgboost.pmml’)</p>
+</dd>
+<dt>model_name<span class="classifier">string (optional)</span></dt><dd><p>Name of the model</p>
+</dd>
+<dt>description<span class="classifier">string (optional)</span></dt><dd><p>Description for the model</p>
+</dd>
+</dl>
+</section>
+<section id="id41">
+<h2>Returns<a class="headerlink" href="#id41" title="Permalink to this heading"></a></h2>
+<p>Generates the PMML object and exports it to <cite>pmml_f_name</cite></p>
+</section>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      <a href="exponential_smoothing.html" class="btn btn-neutral float-right" title="ExponentialSmoothing Exporter Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-
-        <a href="skl_to_pmml.html" class="btn btn-neutral float-left" title="Scikit-Learn Exporter Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="statsmodels_to_pmml.html" class="btn btn-neutral float-left" title="statsmodels_to_pmml module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2021, maintainer@nyoka.org
-
-    </p>
+    <p>&#169; Copyright 2023, maintainer@nyoka.org.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
