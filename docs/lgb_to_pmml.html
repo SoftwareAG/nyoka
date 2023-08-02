@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>lgb_to_pmml module &mdash; Nyoka 5.5.0 documentation</title>
+  <title>LightGBM Exporter Module &mdash; Nyoka 5.5.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pre_process module" href="pre_process.html" />
-    <link rel="prev" title="exponential_smoothing module" href="exponential_smoothing.html" /> 
+    <link rel="next" title="Pre-Processing Exporter Module" href="pre_process.html" />
+    <link rel="prev" title="ExponentialSmoothing Exporter Module" href="exponential_smoothing.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,8 +43,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">lgb_to_pmml module</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LightGBM Exporter Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#lgb_to_pmml.create_node"><code class="docutils literal notranslate"><span class="pre">create_node()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lgb_to_pmml.generate_Segments_Equal_To_Estimators"><code class="docutils literal notranslate"><span class="pre">generate_Segments_Equal_To_Estimators()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lgb_to_pmml.get_PMML_kwargs"><code class="docutils literal notranslate"><span class="pre">get_PMML_kwargs()</span></code></a></li>
@@ -57,10 +57,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#lgb_to_pmml.lgb_to_pmml"><code class="docutils literal notranslate"><span class="pre">lgb_to_pmml()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pre_process.html">pre_process module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">statsmodels_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">xgboost_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
 </ul>
 
         </div>
@@ -77,7 +77,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">lgb_to_pmml module</li>
+      <li class="breadcrumb-item active">LightGBM Exporter Module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="https://github.com/SoftwareAG/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
       </li>
@@ -88,7 +88,7 @@
            <div itemprop="articleBody">
              
   <section id="module-lgb_to_pmml">
-<span id="lgb-to-pmml-module"></span><h1>lgb_to_pmml module<a class="headerlink" href="#module-lgb_to_pmml" title="Permalink to this heading"></a></h1>
+<span id="lgb-to-pmml-module"></span><h1>LightGBM Exporter Module<a class="headerlink" href="#module-lgb_to_pmml" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="lgb_to_pmml.create_node">
 <span class="sig-prename descclassname"><span class="pre">lgb_to_pmml.</span></span><span class="sig-name descname"><span class="pre">create_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">main_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derived_col_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lgb_to_pmml.html#create_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lgb_to_pmml.create_node" title="Permalink to this definition"></a></dt>
@@ -381,8 +381,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="exponential_smoothing.html" class="btn btn-neutral float-left" title="exponential_smoothing module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pre_process.html" class="btn btn-neutral float-right" title="pre_process module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="exponential_smoothing.html" class="btn btn-neutral float-left" title="ExponentialSmoothing Exporter Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pre_process.html" class="btn btn-neutral float-right" title="Pre-Processing Exporter Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

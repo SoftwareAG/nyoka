@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pre_process module &mdash; Nyoka 5.5.0 documentation</title>
+  <title>Pre-Processing Exporter Module &mdash; Nyoka 5.5.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="skl_to_pmml module" href="skl_to_pmml.html" />
-    <link rel="prev" title="lgb_to_pmml module" href="lgb_to_pmml.html" /> 
+    <link rel="next" title="Scikit-Learn Exporter Module" href="skl_to_pmml.html" />
+    <link rel="prev" title="LightGBM Exporter Module" href="lgb_to_pmml.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,9 +43,9 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pre_process module</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-Processing Exporter Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pre_process.any_in"><code class="docutils literal notranslate"><span class="pre">any_in()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pre_process.binarizer"><code class="docutils literal notranslate"><span class="pre">binarizer()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pre_process.cat_imputer"><code class="docutils literal notranslate"><span class="pre">cat_imputer()</span></code></a></li>
@@ -68,9 +68,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#pre_process.tfidf_vectorizer"><code class="docutils literal notranslate"><span class="pre">tfidf_vectorizer()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">skl_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">statsmodels_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">xgboost_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
 </ul>
 
         </div>
@@ -87,7 +87,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">pre_process module</li>
+      <li class="breadcrumb-item active">Pre-Processing Exporter Module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="https://github.com/SoftwareAG/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
       </li>
@@ -98,7 +98,7 @@
            <div itemprop="articleBody">
              
   <section id="module-pre_process">
-<span id="pre-process-module"></span><h1>pre_process module<a class="headerlink" href="#module-pre_process" title="Permalink to this heading"></a></h1>
+<span id="pre-process-module"></span><h1>Pre-Processing Exporter Module<a class="headerlink" href="#module-pre_process" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pre_process.any_in">
 <span class="sig-prename descclassname"><span class="pre">pre_process.</span></span><span class="sig-name descname"><span class="pre">any_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seq_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pre_process.html#any_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pre_process.any_in" title="Permalink to this definition"></a></dt>
@@ -558,8 +558,8 @@ The column names may represent the names of preprocessed attributes.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="lgb_to_pmml.html" class="btn btn-neutral float-left" title="lgb_to_pmml module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="skl_to_pmml.html" class="btn btn-neutral float-right" title="skl_to_pmml module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="lgb_to_pmml.html" class="btn btn-neutral float-left" title="LightGBM Exporter Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="skl_to_pmml.html" class="btn btn-neutral float-right" title="Scikit-Learn Exporter Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>skl_to_pmml module &mdash; Nyoka 5.5.0 documentation</title>
+  <title>Scikit-Learn Exporter Module &mdash; Nyoka 5.5.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="statsmodels_to_pmml module" href="statsmodels_to_pmml.html" />
-    <link rel="prev" title="pre_process module" href="pre_process.html" /> 
+    <link rel="next" title="Statsmodels Exporter Module" href="statsmodels_to_pmml.html" />
+    <link rel="prev" title="Pre-Processing Exporter Module" href="pre_process.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,10 +43,10 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">exponential_smoothing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">lgb_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre_process.html">pre_process module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">skl_to_pmml module</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scikit-Learn Exporter Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#skl_to_pmml.any_in"><code class="docutils literal notranslate"><span class="pre">any_in()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#skl_to_pmml.avgPathLength"><code class="docutils literal notranslate"><span class="pre">avgPathLength()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#skl_to_pmml.get_PMML_kwargs"><code class="docutils literal notranslate"><span class="pre">get_PMML_kwargs()</span></code></a></li>
@@ -102,8 +102,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#skl_to_pmml.skl_to_pmml"><code class="docutils literal notranslate"><span class="pre">skl_to_pmml()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">statsmodels_to_pmml module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">xgboost_to_pmml module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
 </ul>
 
         </div>
@@ -120,7 +120,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">skl_to_pmml module</li>
+      <li class="breadcrumb-item active">Scikit-Learn Exporter Module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="https://github.com/SoftwareAG/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
       </li>
@@ -131,7 +131,7 @@
            <div itemprop="articleBody">
              
   <section id="module-skl_to_pmml">
-<span id="skl-to-pmml-module"></span><h1>skl_to_pmml module<a class="headerlink" href="#module-skl_to_pmml" title="Permalink to this heading"></a></h1>
+<span id="skl-to-pmml-module"></span><h1>Scikit-Learn Exporter Module<a class="headerlink" href="#module-skl_to_pmml" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="skl_to_pmml.any_in">
 <span class="sig-prename descclassname"><span class="pre">skl_to_pmml.</span></span><span class="sig-name descname"><span class="pre">any_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seq_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seq_b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skl_to_pmml.html#any_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skl_to_pmml.any_in" title="Permalink to this definition"></a></dt>
@@ -1391,8 +1391,8 @@ categoric_values : tuple</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pre_process.html" class="btn btn-neutral float-left" title="pre_process module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="statsmodels_to_pmml.html" class="btn btn-neutral float-right" title="statsmodels_to_pmml module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pre_process.html" class="btn btn-neutral float-left" title="Pre-Processing Exporter Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="statsmodels_to_pmml.html" class="btn btn-neutral float-right" title="Statsmodels Exporter Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
