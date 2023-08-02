@@ -105,7 +105,7 @@ class PmmlValidation(unittest.TestCase):
         cls.y = data.target
         cls.y_bin = [i%2 for i in range(cls.X.shape[0])]
         cls.features = data.feature_names
-        data = datasets.load_boston()
+        data = datasets.fetch_california_housing()
         cls.X_reg = data.data
         cls.y_reg = data.target
         cls.features_reg =  data.feature_names
@@ -406,7 +406,7 @@ class PmmlValidation(unittest.TestCase):
         Y = data.target[:4]
         features = ['input']
         target = 'output'
-        model = SGDClassifier(loss="log")
+        model = SGDClassifier(loss="log_loss")
         file_name = model.__class__.__name__ + '_TfIdfVec_.pmml'
         pipeline = Pipeline([
             ('vect', TfidfVectorizer()),
@@ -423,7 +423,7 @@ class PmmlValidation(unittest.TestCase):
         Y = data.target[:4]
         features = ['input']
         target = 'output'
-        model = SGDClassifier(loss="log")
+        model = SGDClassifier(loss="log_loss")
         file_name = model.__class__.__name__ + '_CountVec_.pmml'
         pipeline = Pipeline([
             ('vect', CountVectorizer()),
@@ -486,7 +486,7 @@ class PmmlValidation(unittest.TestCase):
         f_name='exponential_smoothing1.pmml'
         model_obj = ExponentialSmoothing(ts_data, 
                                         trend='add', 
-                                        damped=True, 
+                                        damped_trend=True, 
                                         seasonal='add', 
                                         seasonal_periods=2)
         results_obj = model_obj.fit(optimized=True)
@@ -499,15 +499,15 @@ class PmmlValidation(unittest.TestCase):
     def test_non_seasonal_arima1(self):
         ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima1.pmml'
-        model = ARIMA(ts_data,order=(9, 2, 0))
-        result = model.fit(trend = 'c', method = 'css-mle')
+        model = ARIMA(ts_data,order=(9, 0, 0),trend = 'c')
+        result = model.fit()
         StatsmodelsToPmml(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)
 
     def test_non_seasonal_arima2(self):
         ts_data = self.statsmodels_data_helper.get_non_seasonal_data()
         f_name='non_seasonal_arima1.pmml'
-        model = StateSpaceARIMA(ts_data,order=(3, 1, 2),trend='c')
+        model = StateSpaceARIMA(ts_data,order=(3, 0, 2),trend='c')
         result = model.fit()
         StatsmodelsToPmml(result, f_name)
         self.assertEqual(self.schema.is_valid(f_name),True)

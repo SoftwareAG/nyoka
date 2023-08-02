@@ -1,15 +1,12 @@
-script
-======
+scripts
+=======
 
 .. toctree::
    :maxdepth: 4
 
    PMML44
    PMML44Super
-   arima
-   constants
    exponential_smoothing
-   lag
    lgb_to_pmml
    metadata
    pre_process

@@ -962,7 +962,8 @@ def get_bayes_inputs(model, derived_col_names):
     bayes_inputs = pml.BayesInputs()
     for indx, name in enumerate(derived_col_names):
         means = model.theta_[:, indx]
-        variances = model.sigma_[:, indx]
+        sigma = getattr(model, 'sigma_', getattr(model, 'var_', None))
+        variances = sigma[:, indx]
         target_val_stats = pml.TargetValueStats()
         for idx, val in enumerate(model.classes_):
             target_val = pml.TargetValueStat(

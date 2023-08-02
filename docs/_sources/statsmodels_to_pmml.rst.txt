@@ -2,6 +2,6 @@ statsmodels\_to\_pmml module
 ============================
 
 .. automodule:: statsmodels_to_pmml
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
