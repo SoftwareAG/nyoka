@@ -1,89 +1,181 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pre_process &mdash; Nyoka 5.5.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <meta charset="utf-8">
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/js/theme.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pre-Processing Exporter &mdash; Nyoka 4.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'4.2.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
 
           
+            <a href="../index.html" class="icon icon-home"> Nyoka
           
-          <a href="../index.html" class="icon icon-home">
-            Nyoka
+
+          
           </a>
+
+          
+            
+            
+              <div class="version">
+                4.2
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../retinanet.html">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../enums.html">Enums Module</a></li>
 </ul>
 
+            
+          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Nyoka</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
-      <li class="breadcrumb-item active">pre_process</li>
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>Pre-Processing Exporter</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
-  <h1>Source code for pre_process</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+            
+  <h1>Source code for Pre-Processing Exporter</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
 
 <span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">PMML44</span> <span class="k">as</span> <span class="nn">pml</span>
-<span class="kn">from</span> <span class="nn">base.constants</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">enums</span> <span class="k">import</span> <span class="o">*</span>
 <span class="n">exception_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
-<div class="viewcode-block" id="get_preprocess_val"><a class="viewcode-back" href="../pre_process.html#pre_process.get_preprocess_val">[docs]</a><span class="k">def</span> <span class="nf">get_preprocess_val</span><span class="p">(</span><span class="n">ppln_sans_predictor</span><span class="p">,</span> <span class="n">initial_colnames</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_preprocess_val"><span class="k">def</span> <span class="nf">get_preprocess_val</span><span class="p">(</span><span class="n">ppln_sans_predictor</span><span class="p">,</span> <span class="n">initial_colnames</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates elements related to pre-processing</span>
 
 <span class="sd">    Parameters</span>
@@ -194,8 +286,8 @@
     <span class="k">return</span> <span class="n">pml_pp</span></div>
 
 
-<div class="viewcode-block" id="get_class_name"><a class="viewcode-back" href="../pre_process.html#pre_process.get_class_name">[docs]</a><span class="k">def</span> <span class="nf">get_class_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_class_name"><span class="k">def</span> <span class="nf">get_class_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides the class name for the given instance</span>
 
 <span class="sd">    Parameters</span>
@@ -211,8 +303,8 @@
     <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div>
 
 
-<div class="viewcode-block" id="get_pml_derived_flds"><a class="viewcode-back" href="../pre_process.html#pre_process.get_pml_derived_flds">[docs]</a><span class="k">def</span> <span class="nf">get_pml_derived_flds</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_pml_derived_flds"><span class="k">def</span> <span class="nf">get_pml_derived_flds</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates elements related to pre-processing for a given transformer object</span>
 
 <span class="sd">    Parameters</span>
@@ -244,7 +336,7 @@
         <span class="k">return</span> <span class="n">count_vectorizer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">)</span>
     <span class="k">elif</span> <span class="s2">&quot;LabelEncoder&quot;</span> <span class="o">==</span> <span class="n">get_class_name</span><span class="p">(</span><span class="n">trfm</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">lbl_encoder</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">get_class_name</span><span class="p">(</span><span class="n">trfm</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Imputer&quot;</span><span class="p">,</span> <span class="s2">&quot;SimpleImputer&quot;</span><span class="p">]:</span>
+    <span class="k">elif</span> <span class="s2">&quot;Imputer&quot;</span> <span class="o">==</span> <span class="n">get_class_name</span><span class="p">(</span><span class="n">trfm</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">imputer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">elif</span> <span class="s2">&quot;Binarizer&quot;</span> <span class="o">==</span> <span class="n">get_class_name</span><span class="p">(</span><span class="n">trfm</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">binarizer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">)</span>
@@ -264,8 +356,8 @@
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;This PreProcessing Task is not Supported&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_derived_colnames"><a class="viewcode-back" href="../pre_process.html#pre_process.get_derived_colnames">[docs]</a><span class="k">def</span> <span class="nf">get_derived_colnames</span><span class="p">(</span><span class="n">trfm_name</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_derived_colnames"><span class="k">def</span> <span class="nf">get_derived_colnames</span><span class="p">(</span><span class="n">trfm_name</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates derived column names for a given transformer</span>
 
 <span class="sd">    Parameters</span>
@@ -292,8 +384,8 @@
     <span class="k">return</span> <span class="n">derived_colnames</span></div>
 
 
-<div class="viewcode-block" id="any_in"><a class="viewcode-back" href="../pre_process.html#pre_process.any_in">[docs]</a><span class="k">def</span> <span class="nf">any_in</span><span class="p">(</span><span class="n">seq_a</span><span class="p">,</span> <span class="n">seq_b</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="any_in"><span class="k">def</span> <span class="nf">any_in</span><span class="p">(</span><span class="n">seq_a</span><span class="p">,</span> <span class="n">seq_b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Checks for common elements in two given sequence elements</span>
 
 <span class="sd">    Parameters</span>
@@ -315,8 +407,8 @@
 <span class="c1"># Methods for Preprocessings</span>
 
 
-<div class="viewcode-block" id="imputer"><a class="viewcode-back" href="../pre_process.html#pre_process.imputer">[docs]</a><span class="k">def</span> <span class="nf">imputer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="imputer"><span class="k">def</span> <span class="nf">imputer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s Imputer</span>
 
 <span class="sd">    Parameters</span>
@@ -342,11 +434,11 @@
 
     <span class="n">mining_strategy</span> <span class="o">=</span> <span class="n">trfm</span><span class="o">.</span><span class="n">strategy</span>
     <span class="k">if</span> <span class="s2">&quot;mean&quot;</span> <span class="ow">in</span> <span class="n">mining_strategy</span><span class="p">:</span>
-        <span class="n">mining_strategy</span> <span class="o">=</span> <span class="n">MISSING_VALUE_TREATMENT_METHOD</span><span class="o">.</span><span class="n">AS_MEAN</span>
+        <span class="n">mining_strategy</span> <span class="o">=</span> <span class="n">MISSING_VALUE_TREATMENT_METHOD</span><span class="o">.</span><span class="n">AS_MEAN</span><span class="o">.</span><span class="n">value</span>
     <span class="k">elif</span> <span class="s2">&quot;median&quot;</span> <span class="ow">in</span> <span class="n">mining_strategy</span><span class="p">:</span>
-        <span class="n">mining_strategy</span> <span class="o">=</span> <span class="n">MISSING_VALUE_TREATMENT_METHOD</span><span class="o">.</span><span class="n">AS_MEDIAN</span>
+        <span class="n">mining_strategy</span> <span class="o">=</span> <span class="n">MISSING_VALUE_TREATMENT_METHOD</span><span class="o">.</span><span class="n">AS_MEDIAN</span><span class="o">.</span><span class="n">value</span>
     <span class="k">elif</span> <span class="s2">&quot;most_frequent&quot;</span> <span class="ow">in</span> <span class="n">mining_strategy</span><span class="p">:</span>
-        <span class="n">mining_strategy</span> <span class="o">=</span> <span class="n">MISSING_VALUE_TREATMENT_METHOD</span><span class="o">.</span><span class="n">AS_MODE</span>
+        <span class="n">mining_strategy</span> <span class="o">=</span> <span class="n">MISSING_VALUE_TREATMENT_METHOD</span><span class="o">.</span><span class="n">AS_MODE</span><span class="o">.</span><span class="n">value</span>
     <span class="n">mining_replacement_val</span> <span class="o">=</span> <span class="n">trfm</span><span class="o">.</span><span class="n">statistics_</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">any_in</span><span class="p">(</span><span class="n">original_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
@@ -355,9 +447,9 @@
             <span class="k">if</span> <span class="p">(</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exception_cols</span><span class="p">):</span>
                 <span class="n">const_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
                 <span class="n">apply_inner</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-                <span class="n">apply_inner</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">IS_MISSING</span><span class="p">,</span> <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])]))</span>
+                <span class="n">apply_inner</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">IS_MISSING</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])]))</span>
                 <span class="n">const_obj</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span>
-                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                     <span class="n">valueOf_</span><span class="o">=</span><span class="n">mining_replacement_val</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">]</span>
                 <span class="p">),</span>
                 <span class="n">fieldref_obj</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])</span>
@@ -366,15 +458,15 @@
                 <span class="n">const_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fieldref_obj</span><span class="p">)</span>
                 <span class="n">apply_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
                     <span class="n">Apply_member</span><span class="o">=</span><span class="n">apply_inner</span><span class="p">,</span>
-                    <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">IF</span><span class="p">,</span>
+                    <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">IF</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                     <span class="n">Constant</span><span class="o">=</span><span class="n">const_list</span>
                 <span class="p">)</span>
 
                 <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span>
                     <span class="n">Apply</span><span class="o">=</span><span class="n">apply_outer</span><span class="p">,</span>
                     <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">],</span>
-                    <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span>
+                    <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span>
                 <span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;mining_strategy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mining_strategy</span>
@@ -386,8 +478,8 @@
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="cat_imputer"><a class="viewcode-back" href="../pre_process.html#pre_process.cat_imputer">[docs]</a><span class="k">def</span> <span class="nf">cat_imputer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="cat_imputer"><span class="k">def</span> <span class="nf">cat_imputer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for sklearn-pandas&#39; CategoricalImputer</span>
 
 <span class="sd">    Parameters</span>
@@ -408,7 +500,7 @@
     <span class="n">pp_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">derived_flds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
-    <span class="n">mining_strategy</span> <span class="o">=</span> <span class="n">MISSING_VALUE_TREATMENT_METHOD</span><span class="o">.</span><span class="n">AS_MODE</span>
+    <span class="n">mining_strategy</span> <span class="o">=</span> <span class="n">MISSING_VALUE_TREATMENT_METHOD</span><span class="o">.</span><span class="n">AS_MODE</span><span class="o">.</span><span class="n">value</span>
     <span class="n">mining_replacement_val</span> <span class="o">=</span> <span class="n">trfm</span><span class="o">.</span><span class="n">fill_</span>
 
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;mining_strategy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mining_strategy</span>
@@ -420,8 +512,8 @@
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="pca"><a class="viewcode-back" href="../pre_process.html#pre_process.pca">[docs]</a><span class="k">def</span> <span class="nf">pca</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="pca"><span class="k">def</span> <span class="nf">pca</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s PCA</span>
 
 <span class="sd">    Parameters</span>
@@ -446,24 +538,23 @@
     <span class="n">zero</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">for</span> <span class="n">preprocess_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">n_components_</span><span class="p">):</span>
         <span class="n">add</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="n">features_in</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="s1">&#39;n_features_&#39;</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="s1">&#39;n_features_in_&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">pca_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">features_in</span><span class="p">):</span>
-            <span class="n">apply_inner</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">SUBSTRACTTION</span><span class="p">,</span>
-                                    <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+        <span class="k">for</span> <span class="n">pca_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">n_features_</span><span class="p">):</span>
+            <span class="n">apply_inner</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">SUBSTRACTTION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                    <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                            <span class="n">valueOf_</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">pca_idx</span><span class="p">]))],</span>
                                     <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">pca_idx</span><span class="p">])])</span>
-            <span class="n">apply_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">MULTIPLICATION</span><span class="p">,</span>
+            <span class="n">apply_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">MULTIPLICATION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                     <span class="n">Apply_member</span><span class="o">=</span><span class="p">[</span><span class="n">apply_inner</span><span class="p">],</span>
-                                    <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                                    <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                            <span class="n">valueOf_</span><span class="o">=</span><span class="n">zero</span> <span class="k">if</span> <span class="n">trfm</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="n">preprocess_idx</span><span class="p">][</span>
                                                                                 <span class="n">pca_idx</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="k">else</span>
                                                            <span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="n">preprocess_idx</span><span class="p">][</span><span class="n">pca_idx</span><span class="p">]))])</span>
             <span class="n">add</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">apply_outer</span><span class="p">)</span>
-        <span class="n">app0</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">SUM</span><span class="p">,</span> <span class="n">Apply_member</span><span class="o">=</span><span class="n">add</span><span class="p">)</span>
+        <span class="n">app0</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">SUM</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">Apply_member</span><span class="o">=</span><span class="n">add</span><span class="p">)</span>
 
         <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">Apply</span><span class="o">=</span><span class="n">app0</span><span class="p">,</span>
-                                             <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
-                                             <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
+                                             <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                             <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                              <span class="n">name</span><span class="o">=</span><span class="s2">&quot;PCA&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">preprocess_idx</span><span class="p">)))</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">derived_flds</span><span class="p">[</span><span class="n">preprocess_idx</span><span class="p">]</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
         <span class="n">derived_colnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -472,8 +563,8 @@
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="tfidf_vectorizer"><a class="viewcode-back" href="../pre_process.html#pre_process.tfidf_vectorizer">[docs]</a><span class="k">def</span> <span class="nf">tfidf_vectorizer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="tfidf_vectorizer"><span class="k">def</span> <span class="nf">tfidf_vectorizer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s TfIdfVectorizer</span>
 
 <span class="sd">    Parameters</span>
@@ -491,11 +582,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pp_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">get_feature_names_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="s1">&#39;get_feature_names&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="s1">&#39;get_feature_names_out&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">get_feature_names_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;The transformer does not have &#39;get_feature_names&#39; or &#39;get_feature_names_out&#39; method.&quot;</span><span class="p">)</span>
-
-    <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">get_feature_names_func</span><span class="p">()]</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">trfm</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()]</span>
     <span class="n">idfs</span> <span class="o">=</span> <span class="n">trfm</span><span class="o">.</span><span class="n">idf_</span>
     <span class="n">extra_features</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">vocabulary_</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="n">derived_flds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -503,15 +590,15 @@
     <span class="k">if</span> <span class="n">trfm</span><span class="o">.</span><span class="n">lowercase</span><span class="p">:</span>
         <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;lowercase(&#39;</span> <span class="o">+</span> <span class="n">col_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span>
-                            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
-                            <span class="n">Apply</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">LOWERCASE</span><span class="p">,</span>
+                            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">STRING</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                            <span class="n">Apply</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">LOWERCASE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                             <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])])))</span>
     <span class="k">for</span> <span class="n">feat_idx</span><span class="p">,</span> <span class="n">idf</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)),</span> <span class="n">idfs</span><span class="p">):</span>
         <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">derived_colnames</span><span class="p">[</span><span class="n">feat_idx</span><span class="p">],</span>
-            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
-            <span class="n">Apply</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">MULTIPLICATION</span><span class="p">,</span>
+            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">Apply</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">MULTIPLICATION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                             <span class="n">TextIndex</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">TextIndex</span><span class="p">(</span><span class="n">textField</span><span class="o">=</span><span class="s1">&#39;lowercase(&#39;</span> <span class="o">+</span> <span class="n">col_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span>
                                                      <span class="n">wordSeparatorCharacterRE</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">s+&#39;</span><span class="p">,</span>
                                                      <span class="n">tokenize</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span>
@@ -526,8 +613,8 @@
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="count_vectorizer"><a class="viewcode-back" href="../pre_process.html#pre_process.count_vectorizer">[docs]</a><span class="k">def</span> <span class="nf">count_vectorizer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="count_vectorizer"><span class="k">def</span> <span class="nf">count_vectorizer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s CountVectorizer</span>
 
 <span class="sd">    Parameters</span>
@@ -545,29 +632,26 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pp_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">get_feature_names_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="s1">&#39;get_feature_names&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="s1">&#39;get_feature_names_out&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">get_feature_names_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;The transformer does not have &#39;get_feature_names&#39; or &#39;get_feature_names_out&#39; method.&quot;</span><span class="p">)</span>
-    <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">get_feature_names_func</span><span class="p">()]</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">trfm</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">()]</span>
     <span class="n">extra_features</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">vocabulary_</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="n">derived_flds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">derived_colnames</span> <span class="o">=</span> <span class="n">get_derived_colnames</span><span class="p">(</span><span class="s1">&#39;count_vec@[&#39;</span> <span class="o">+</span> <span class="n">col_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="n">features</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">trfm</span><span class="o">.</span><span class="n">lowercase</span><span class="p">:</span>
         <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;lowercase(&#39;</span> <span class="o">+</span> <span class="n">col_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span>
-                                            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="p">,</span>
-                                            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
-                                            <span class="n">Apply</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">LOWERCASE</span><span class="p">,</span>
+                                            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">STRING</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                            <span class="n">Apply</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">LOWERCASE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                             <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])])))</span>
     <span class="k">for</span> <span class="n">imp_features</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">))):</span>
         <span class="n">df_name</span> <span class="o">=</span> <span class="n">derived_colnames</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
         <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">df_name</span><span class="p">,</span>
-                                            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-                                            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                                            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                             <span class="n">TextIndex</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">TextIndex</span><span class="p">(</span><span class="n">textField</span><span class="o">=</span><span class="s1">&#39;lowercase(&#39;</span> <span class="o">+</span> <span class="n">col_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span> <span class="k">if</span> <span class="n">trfm</span><span class="o">.</span><span class="n">lowercase</span> \
                                                 <span class="k">else</span> <span class="n">col_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                                                                     <span class="n">wordSeparatorCharacterRE</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">s+&#39;</span><span class="p">,</span>
                                                                     <span class="n">tokenize</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span>
-                                                                    <span class="n">Constant</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
+                                                                    <span class="n">Constant</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">STRING</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                                                         <span class="n">valueOf_</span><span class="o">=</span><span class="n">imp_features</span><span class="p">),</span>
                                                                     <span class="n">Extension</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Extension</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">extra_features</span><span class="p">[</span><span class="n">index</span><span class="p">])]</span>
                                                                     <span class="p">)))</span>
@@ -578,8 +662,8 @@
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="lag"><a class="viewcode-back" href="../pre_process.html#pre_process.lag">[docs]</a><span class="k">def</span> <span class="nf">lag</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="lag"><span class="k">def</span> <span class="nf">lag</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Nyoka&#39;s Lag</span>
 
 <span class="sd">    Parameters</span>
@@ -601,18 +685,18 @@
     <span class="n">derived_colnames</span> <span class="o">=</span> <span class="n">get_derived_colnames</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">aggregation</span><span class="p">,</span> <span class="n">col_names</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col_names</span><span class="p">):</span>
         <span class="n">lag</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Lag</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">trfm</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="n">trfm</span><span class="o">.</span><span class="n">aggregation</span><span class="p">)</span>
-        <span class="n">derived_fld</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">Lag</span><span class="o">=</span><span class="n">lag</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>\
-             <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">)</span>
+        <span class="n">derived_fld</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">Lag</span><span class="o">=</span><span class="n">lag</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>\
+             <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">derived_fld</span><span class="p">)</span>
-
+    
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_fld&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_flds</span>
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_col_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_colnames</span>
-    <span class="k">return</span> <span class="n">pp_dict</span></div>
+    <span class="k">return</span> <span class="n">pp_dict</span>   </div>
 
 
 
-<div class="viewcode-block" id="std_scaler"><a class="viewcode-back" href="../pre_process.html#pre_process.std_scaler">[docs]</a><span class="k">def</span> <span class="nf">std_scaler</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="std_scaler"><span class="k">def</span> <span class="nf">std_scaler</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s StandardScaler</span>
 
 <span class="sd">    Parameters</span>
@@ -636,26 +720,26 @@
     <span class="k">for</span> <span class="n">col_name_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col_names</span><span class="p">)):</span>
         <span class="n">apply_inner</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">apply_inner</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
-            <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">SUBSTRACTTION</span><span class="p">,</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">SUBSTRACTTION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
             <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span>
-                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>  
                 <span class="n">valueOf_</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">mean_</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])</span>
             <span class="p">)],</span>
             <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])]</span>
         <span class="p">))</span>
         <span class="n">apply_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
             <span class="n">Apply_member</span><span class="o">=</span><span class="n">apply_inner</span><span class="p">,</span>
-            <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">DIVISION</span><span class="p">,</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">DIVISION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
             <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span>
-                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">valueOf_</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">scale_</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])</span>
             <span class="p">)]</span>
         <span class="p">)</span>
         <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span>
             <span class="n">Apply</span><span class="o">=</span><span class="n">apply_outer</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">],</span>
-            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span>
+            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span>
         <span class="p">))</span>
 
 
@@ -664,8 +748,8 @@
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="min_max_scaler"><a class="viewcode-back" href="../pre_process.html#pre_process.min_max_scaler">[docs]</a><span class="k">def</span> <span class="nf">min_max_scaler</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="min_max_scaler"><span class="k">def</span> <span class="nf">min_max_scaler</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s MinMaxScaler</span>
 
 <span class="sd">    Parameters</span>
@@ -689,34 +773,34 @@
         <span class="k">if</span><span class="p">(</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exception_cols</span><span class="p">):</span>
             <span class="n">apply_inner</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="n">apply_inner</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
-                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">MULTIPLICATION</span><span class="p">,</span>
+                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">MULTIPLICATION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span>
-                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                     <span class="n">valueOf_</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">scale_</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])</span>
                 <span class="p">)],</span>
                 <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])]</span>
             <span class="p">))</span>
             <span class="n">apply_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
                 <span class="n">Apply_member</span><span class="o">=</span><span class="n">apply_inner</span><span class="p">,</span>
-                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">ADDITION</span><span class="p">,</span>
+                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">ADDITION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span>
-                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                     <span class="n">valueOf_</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">min_</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])</span>
                 <span class="p">)]</span>
             <span class="p">)</span>
             <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span>
                 <span class="n">Apply</span><span class="o">=</span><span class="n">apply_outer</span><span class="p">,</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">],</span>
-                <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span>
+                <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span>
             <span class="p">))</span>
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_fld&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_flds</span>
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_col_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_colnames</span>
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="rbst_scaler"><a class="viewcode-back" href="../pre_process.html#pre_process.rbst_scaler">[docs]</a><span class="k">def</span> <span class="nf">rbst_scaler</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="rbst_scaler"><span class="k">def</span> <span class="nf">rbst_scaler</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s RobustScaler</span>
 
 <span class="sd">    Parameters</span>
@@ -740,34 +824,34 @@
         <span class="k">if</span> <span class="p">(</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exception_cols</span><span class="p">):</span>
             <span class="n">apply_inner</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="n">apply_inner</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
-                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">SUBSTRACTTION</span><span class="p">,</span>
+                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">SUBSTRACTTION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span>
-                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> 
                     <span class="n">valueOf_</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">center_</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])</span>
                 <span class="p">)],</span>
                 <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])]</span>
             <span class="p">))</span>
             <span class="n">apply_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
                 <span class="n">Apply_member</span><span class="o">=</span><span class="n">apply_inner</span><span class="p">,</span>
-                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">DIVISION</span><span class="p">,</span>
+                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">DIVISION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span>
-                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> 
                     <span class="n">valueOf_</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">scale_</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])</span>
                 <span class="p">)]</span>
             <span class="p">)</span>
             <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span>
                 <span class="n">Apply</span><span class="o">=</span><span class="n">apply_outer</span><span class="p">,</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">],</span>
-                <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span>
+                <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span>
             <span class="p">))</span>
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_fld&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_flds</span>
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_col_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_colnames</span>
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="max_abs_scaler"><a class="viewcode-back" href="../pre_process.html#pre_process.max_abs_scaler">[docs]</a><span class="k">def</span> <span class="nf">max_abs_scaler</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="max_abs_scaler"><span class="k">def</span> <span class="nf">max_abs_scaler</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s MaxAbsScaler</span>
 
 <span class="sd">    Parameters</span>
@@ -790,9 +874,9 @@
     <span class="k">for</span> <span class="n">col_name_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col_names</span><span class="p">)):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exception_cols</span><span class="p">):</span>
             <span class="n">apply_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
-                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">DIVISION</span><span class="p">,</span>
+                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">DIVISION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span>
-                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> 
                     <span class="n">valueOf_</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">max_abs_</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])</span>
                 <span class="p">)],</span>
                 <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])]</span>
@@ -801,16 +885,16 @@
             <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span>
                 <span class="n">Apply</span><span class="o">=</span><span class="n">apply_outer</span><span class="p">,</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">],</span>
-                <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span>
+                <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span>
             <span class="p">))</span>
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_fld&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_flds</span>
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_col_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_colnames</span>
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="lbl_encoder"><a class="viewcode-back" href="../pre_process.html#pre_process.lbl_encoder">[docs]</a><span class="k">def</span> <span class="nf">lbl_encoder</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="lbl_encoder"><span class="k">def</span> <span class="nf">lbl_encoder</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s LabelEncoder</span>
 
 <span class="sd">    Parameters</span>
@@ -844,8 +928,8 @@
     <span class="n">inline_table</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">InlineTable</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="n">rows</span><span class="p">)</span>
     <span class="n">map_values</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">MapValues</span><span class="p">(</span><span class="n">outputColumn</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">FieldColumnPair</span><span class="o">=</span><span class="n">field_column_pair</span><span class="p">,</span> <span class="n">InlineTable</span><span class="o">=</span><span class="n">inline_table</span><span class="p">)</span>
     <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-        <span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">MapValues</span><span class="o">=</span><span class="n">map_values</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>\
-             <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">))</span>
+        <span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">MapValues</span><span class="o">=</span><span class="n">map_values</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>\
+             <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_fld&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_flds</span>
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_col_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_colnames</span>
@@ -855,8 +939,8 @@
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="binarizer"><a class="viewcode-back" href="../pre_process.html#pre_process.binarizer">[docs]</a><span class="k">def</span> <span class="nf">binarizer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="binarizer"><span class="k">def</span> <span class="nf">binarizer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s Binarizer</span>
 
 <span class="sd">    Parameters</span>
@@ -878,9 +962,9 @@
     <span class="n">derived_colnames</span> <span class="o">=</span> <span class="n">get_derived_colnames</span><span class="p">(</span><span class="s2">&quot;binarizer&quot;</span><span class="p">,</span> <span class="n">col_names</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">col_name_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col_names</span><span class="p">)):</span>
         <span class="n">apply_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
-            <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">THRESHOLD</span><span class="p">,</span>
+            <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">THRESHOLD</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
             <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span>
-                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">valueOf_</span><span class="o">=</span><span class="n">trfm</span><span class="o">.</span><span class="n">threshold</span>
             <span class="p">)],</span>
             <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])])</span>
@@ -888,8 +972,8 @@
         <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span>
             <span class="n">Apply</span><span class="o">=</span><span class="n">apply_outer</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">],</span>
-            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span>
+            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span>
         <span class="p">))</span>
 
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_fld&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_flds</span>
@@ -897,8 +981,8 @@
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="polynomial_features"><a class="viewcode-back" href="../pre_process.html#pre_process.polynomial_features">[docs]</a><span class="k">def</span> <span class="nf">polynomial_features</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="polynomial_features"><span class="k">def</span> <span class="nf">polynomial_features</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s PolynomialFeatures</span>
 
 <span class="sd">    Parameters</span>
@@ -925,20 +1009,20 @@
         <span class="k">for</span> <span class="n">col_name_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col_names</span><span class="p">)):</span>
             <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">trfm</span><span class="o">.</span><span class="n">powers_</span><span class="p">[</span><span class="n">polyfeat_idx</span><span class="p">][</span><span class="n">col_name_idx</span><span class="p">])</span>
             <span class="n">apply_inner</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span>
-                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">POWER</span><span class="p">,</span>
+                <span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">POWER</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">Constant</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span>
-                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">INTEGER</span><span class="p">,</span>
+                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">INTEGER</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                     <span class="n">valueOf_</span><span class="o">=</span><span class="n">val</span>
                 <span class="p">)],</span>
                 <span class="n">FieldRef</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">FieldRef</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">])])</span>
             <span class="n">apply_inner_container</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">apply_inner</span><span class="p">)</span>
-        <span class="n">apply_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">PRODUCT</span><span class="p">,</span>
+        <span class="n">apply_outer</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">FUNCTION</span><span class="o">.</span><span class="n">PRODUCT</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                 <span class="n">Apply_member</span><span class="o">=</span><span class="n">apply_inner_container</span>
                                 <span class="p">)</span>
         <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span>
             <span class="n">Apply</span><span class="o">=</span><span class="n">apply_outer</span><span class="p">,</span>
-            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
-            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
+            <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;poly&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">polynomial_features</span><span class="o">.</span><span class="n">poly_ctr</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="s2">&quot;x&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">polyfeat_idx</span><span class="p">)</span>
         <span class="p">))</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">derived_flds</span><span class="p">[</span><span class="n">polyfeat_idx</span><span class="p">]</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
@@ -948,8 +1032,8 @@
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="lbl_binarizer"><a class="viewcode-back" href="../pre_process.html#pre_process.lbl_binarizer">[docs]</a><span class="k">def</span> <span class="nf">lbl_binarizer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="lbl_binarizer"><span class="k">def</span> <span class="nf">lbl_binarizer</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s LabelBinarizer</span>
 
 <span class="sd">    Parameters</span>
@@ -978,8 +1062,8 @@
             <span class="n">norm_descr</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">NormDiscrete</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">col_names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">categoric_lbls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
             <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">NormDiscrete</span><span class="o">=</span><span class="n">norm_descr</span><span class="p">,</span>
                                                  <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                                                 <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="p">,</span>
-                                                 <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">))</span>
+                                                 <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                                 <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">derived_colnames</span> <span class="o">=</span> <span class="n">get_derived_colnames</span><span class="p">(</span><span class="s2">&quot;labelBinarizer(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">col_names</span><span class="p">[</span><span class="n">col_name_idx</span><span class="p">]),</span>
                                                     <span class="n">categoric_lbls</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
@@ -989,8 +1073,8 @@
                     <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                         <span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">NormDiscrete</span><span class="o">=</span><span class="n">norm_descr</span><span class="p">,</span>
                                          <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="n">class_idx</span><span class="p">],</span>
-                                         <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="p">,</span>
-                                         <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">))</span>
+                                         <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                         <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_fld&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_flds</span>
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_col_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_colnames</span>
@@ -1000,8 +1084,8 @@
     <span class="k">return</span> <span class="n">pp_dict</span></div>
 
 
-<div class="viewcode-block" id="one_hot_encoder"><a class="viewcode-back" href="../pre_process.html#pre_process.one_hot_encoder">[docs]</a><span class="k">def</span> <span class="nf">one_hot_encoder</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="one_hot_encoder"><span class="k">def</span> <span class="nf">one_hot_encoder</span><span class="p">(</span><span class="n">trfm</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates pre-processing elements for Scikit-Learn&#39;s OneHotEncoder</span>
 
 <span class="sd">    Parameters</span>
@@ -1031,8 +1115,8 @@
                 <span class="n">derived_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="n">pml</span><span class="o">.</span><span class="n">DerivedField</span><span class="p">(</span><span class="n">NormDiscrete</span><span class="o">=</span><span class="n">norm_descr</span><span class="p">,</span>
                                      <span class="n">name</span><span class="o">=</span><span class="n">derived_colnames</span><span class="p">[</span><span class="n">class_idx</span><span class="p">],</span>
-                                     <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="p">,</span>
-                                     <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">))</span>
+                                     <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                     <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_fld&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_flds</span>
     <span class="n">pp_dict</span><span class="p">[</span><span class="s1">&#39;der_col_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_colnames</span>
@@ -1043,30 +1127,42 @@
 </pre></div>
 
            </div>
+           
           </div>
           <footer>
+  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, maintainer@nyoka.org.</p>
-  </div>
+    <p>
+        &copy; Copyright 2020, maintainer@nyoka.org
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

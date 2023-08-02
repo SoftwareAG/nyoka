@@ -1,136 +1,238 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ExponentialSmoothing Exporter Module &mdash; Nyoka 5.5.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/js/theme.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Nyoka 5.0 &mdash; ExponentialSmoothing Exporter Module</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'5.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="LightGBM Exporter Module" href="lgb_to_pmml.html" />
-    <link rel="prev" title="scripts" href="index.html" /> 
+    <link rel="next" title="keras_model_to_pmml module" href="keras_model_to_pmml.html" />
+    <link rel="prev" title="enums module" href="enums.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
 
           
+            <a href="index.html" class="icon icon-home"> Nyoka
           
-          <a href="index.html" class="icon icon-home">
-            Nyoka
+
+          
           </a>
+
+          
+            
+            
+              <div class="version">
+                5.0
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">ExponentialSmoothing Exporter Module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#exponential_smoothing.ExponentialSmoothingToPMML"><code class="docutils literal notranslate"><span class="pre">ExponentialSmoothingToPMML</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1 current"><a class="reference internal" href="exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
 </ul>
 
+            
+          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Nyoka</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">ExponentialSmoothing Exporter Module</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>ExponentialSmoothing Exporter Module</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
-            <a href="https://github.com/SoftwareAG/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
-      </li>
+        
+            
+        <a href="https://github.com/SoftwareAG/nyoka" rel="nofollow" class="fa fa-github" aria-hidden="true"> Edit on GitHub</a>
+      
+    
+  </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
-  <section id="module-exponential_smoothing">
-<span id="exponential-smoothing-module"></span><h1>ExponentialSmoothing Exporter Module<a class="headerlink" href="#module-exponential_smoothing" title="Permalink to this heading"></a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="exponential_smoothing.ExponentialSmoothingToPMML">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">exponential_smoothing.</span></span><span class="sig-name descname"><span class="pre">ExponentialSmoothingToPMML</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmml_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'from_ExponentialSmoothing.pmml'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exponential_smoothing.html#ExponentialSmoothingToPMML"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#exponential_smoothing.ExponentialSmoothingToPMML" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+            
+  <div class="section" id="module-exponential_smoothing">
+<span id="exponential-smoothing-module"></span><h1>ExponentialSmoothing Exporter Module<a class="headerlink" href="#module-exponential_smoothing" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="exponential_smoothing.ExponentialSmoothingToPMML">
+<em class="property">class </em><code class="descname">ExponentialSmoothingToPMML</code><span class="sig-paren">(</span><em>results_obj=None</em>, <em>pmml_file_name='from_ExponentialSmoothing.pmml'</em>, <em>model_name=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exponential_smoothing.html#ExponentialSmoothingToPMML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#exponential_smoothing.ExponentialSmoothingToPMML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Write a PMML file using model-object, model-parameters and time series data. Models are built using Statsmodels.</p>
-<section id="parameters">
-<h2>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
-<dl class="simple">
-<dt>results_obj: </dt><dd><p>Instance of HoltWintersResults from statsmodels</p>
-</dd>
-<dt>pmml_file_name: string</dt><dd><p>Name of the PMML</p>
-</dd>
-<dt>model_name<span class="classifier">string (optional)</span></dt><dd><p>Name of the model</p>
-</dd>
-<dt>description<span class="classifier">string (optional)</span></dt><dd><p>Description of the model</p>
-</dd>
+<dl class="docutils">
+<dt>results_obj:</dt>
+<dd>Instance of HoltWintersResults from statsmodels</dd>
+<dt>pmml_file_name: string</dt>
+<dd>Name of the PMML</dd>
+<dt>model_name <span class="classifier-delimiter">:</span> <span class="classifier">string (optional)</span></dt>
+<dd>Name of the model</dd>
+<dt>description <span class="classifier-delimiter">:</span> <span class="classifier">string (optional)</span></dt>
+<dd>Description of the model</dd>
 </dl>
-</section>
 </dd></dl>
 
-</section>
+</div>
 
 
            </div>
+           
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="scripts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="lgb_to_pmml.html" class="btn btn-neutral float-right" title="LightGBM Exporter Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="preprocess_nyoka.html" class="btn btn-neutral float-right" title="Nyoka's Pre-Processing Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="xgboost_to_pmml.html" class="btn btn-neutral float-left" title="XGBoost Exporter Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, maintainer@nyoka.org.</p>
-  </div>
+    <p>
+        &copy; Copyright 2021, maintainer@nyoka.org
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
