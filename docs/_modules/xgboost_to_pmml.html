@@ -1,93 +1,185 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>xgboost_to_pmml &mdash; Nyoka 5.5.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <meta charset="utf-8">
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/js/theme.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>XGBoost Exporter &mdash; Nyoka 4.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'4.2.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
 
           
+            <a href="../index.html" class="icon icon-home"> Nyoka
           
-          <a href="../index.html" class="icon icon-home">
-            Nyoka
+
+          
           </a>
+
+          
+            
+            
+              <div class="version">
+                4.2
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../statsmodels_to_pmml.html">Statsmodels Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../keras_model_to_pmml.html">Keras Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../retinanet.html">RetinaNet Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../lgb_to_pmml.html">LightGBM Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../pre_process.html">Pre-Processing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../skl_to_pmml.html">Scikit-Learn Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../xgboost_to_pmml.html">XGBoost Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../exponential_smoothing.html">ExponentialSmoothing Exporter Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../preprocess_nyoka.html">Nyoka's Pre-Processing Module</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="../enums.html">Enums Module</a></li>
 </ul>
 
+            
+          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Nyoka</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
-      <li class="breadcrumb-item active">xgboost_to_pmml</li>
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>XGBoost Exporter</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
-  <h1>Source code for xgboost_to_pmml</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+            
+  <h1>Source code for XGBoost Exporter</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
 
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
 <span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">PMML44</span> <span class="k">as</span> <span class="nn">pml</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">nyoka.skl.skl_to_pmml</span> <span class="k">as</span> <span class="nn">sklToPmml</span>
-<span class="kn">from</span> <span class="nn">skl</span> <span class="kn">import</span> <span class="n">pre_process</span> <span class="k">as</span> <span class="n">pp</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">base.constants</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">skl_to_pmml</span> <span class="k">as</span> <span class="nn">sklToPmml</span>
+<span class="kn">import</span> <span class="nn">pre_process</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">enums</span> <span class="k">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="xgboost_to_pmml"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.xgboost_to_pmml">[docs]</a><span class="k">def</span> <span class="nf">xgboost_to_pmml</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">pmml_f_name</span><span class="o">=</span><span class="s1">&#39;from_xgboost.pmml&#39;</span><span class="p">,</span><span class="n">model_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="xgboost_to_pmml"><span class="k">def</span> <span class="nf">xgboost_to_pmml</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">pmml_f_name</span><span class="o">=</span><span class="s1">&#39;from_xgboost.pmml&#39;</span><span class="p">,</span><span class="n">model_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exports xgboost model object into pmml</span>
 
 <span class="sd">    Parameters</span>
@@ -137,7 +229,7 @@
                                       <span class="n">categoric_values</span><span class="p">,</span>
                                       <span class="n">model_name</span><span class="p">)</span>
         <span class="n">pmml</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">PMML</span><span class="p">(</span>
-            <span class="n">version</span><span class="o">=</span><span class="n">PMML_SCHEMA</span><span class="o">.</span><span class="n">VERSION</span><span class="p">,</span>
+            <span class="n">version</span><span class="o">=</span><span class="n">PMML_SCHEMA</span><span class="o">.</span><span class="n">VERSION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
             <span class="n">Header</span><span class="o">=</span><span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_header</span><span class="p">(</span><span class="n">description</span><span class="p">),</span>
             <span class="n">DataDictionary</span><span class="o">=</span><span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_data_dictionary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">),</span>
             <span class="o">**</span><span class="n">trfm_dict_kwargs</span><span class="p">,</span>
@@ -145,8 +237,8 @@
         <span class="p">)</span>
         <span class="n">pmml</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">outfile</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">pmml_f_name</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="get_PMML_kwargs"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_PMML_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_PMML_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_PMML_kwargs"><span class="k">def</span> <span class="nf">get_PMML_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns all the pmml elements.</span>
 
 <span class="sd">    Parameters</span>
@@ -180,14 +272,14 @@
                                                       <span class="n">model_name</span><span class="p">)}</span>
     <span class="k">return</span> <span class="n">algo_kwargs</span></div>
 
-<div class="viewcode-block" id="get_ensemble_models"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_ensemble_models">[docs]</a><span class="k">def</span> <span class="nf">get_ensemble_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_ensemble_models"><span class="k">def</span> <span class="nf">get_ensemble_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the Mining Model element of the model</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    model :</span>
-<span class="sd">        Contains XGBoost model object.</span>
+<span class="sd">        Contains Xgboost model object.</span>
 <span class="sd">    derived_col_names : List</span>
 <span class="sd">        Contains column names after preprocessing.</span>
 <span class="sd">    col_names : List</span>
@@ -206,9 +298,9 @@
 <span class="sd">    mining_models :</span>
 <span class="sd">        Returns Nyoka&#39;s MiningModel object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">model_kwargs</span> <span class="o">=</span><span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)</span>
+    <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)</span>
     <span class="k">if</span> <span class="s1">&#39;XGBRegressor&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;Targets&#39;</span><span class="p">]</span> <span class="o">=</span><span class="n">get_targets</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span>
+        <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;Targets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_targets</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span>
     <span class="n">mining_models</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">mining_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningModel</span><span class="p">(</span>
         <span class="n">modelName</span><span class="o">=</span><span class="n">model_name</span> <span class="k">if</span> <span class="n">model_name</span> <span class="k">else</span> <span class="s2">&quot;XGBoostModel&quot;</span><span class="p">,</span>
@@ -218,39 +310,9 @@
     <span class="k">return</span> <span class="n">mining_models</span></div>
 
 
-<div class="viewcode-block" id="get_targets"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_targets">[docs]</a><span class="k">def</span> <span class="nf">get_targets</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">target_name</span><span class="p">):</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Target element of the model.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model :</span>
-<span class="sd">        An Xgboost model instance.</span>
-<span class="sd">    target_name : String</span>
-<span class="sd">        Name of the Target column.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    targets :</span>
-<span class="sd">        Returns Nyoka&#39;s Target object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;XGBRegressor&#39;</span><span class="p">:</span>
-        <span class="n">targets</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Targets</span><span class="p">(</span>
-            <span class="n">Target</span><span class="o">=</span><span class="p">[</span>
-                <span class="n">pml</span><span class="o">.</span><span class="n">Target</span><span class="p">(</span>
-                    <span class="n">field</span><span class="o">=</span><span class="n">target_name</span><span class="p">,</span>
-                    <span class="n">rescaleConstant</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">base_score</span> <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">base_score</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                                                     <span class="k">else</span> <span class="mf">0.5</span><span class="p">)</span>
-                <span class="p">)</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
-    <span class="k">return</span> <span class="n">targets</span></div>
-
-
-
-<div class="viewcode-block" id="get_outer_segmentation"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_outer_segmentation">[docs]</a><span class="k">def</span> <span class="nf">get_outer_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_outer_segmentation"><span class="k">def</span> <span class="nf">get_outer_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the Segmentation element of the model.</span>
 
 <span class="sd">    Parameters</span>
@@ -286,8 +348,8 @@
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">segmentation</span></div>
 
-<div class="viewcode-block" id="get_segments"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_segments">[docs]</a><span class="k">def</span> <span class="nf">get_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_segments"><span class="k">def</span> <span class="nf">get_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the Segment element of the model.</span>
 
 <span class="sd">    Parameters</span>
@@ -320,9 +382,8 @@
         <span class="n">segments</span><span class="o">=</span><span class="n">get_segments_for_xgbr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">segments</span></div>
 
-
-<div class="viewcode-block" id="get_segments_for_xgbr"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_segments_for_xgbr">[docs]</a><span class="k">def</span> <span class="nf">get_segments_for_xgbr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categorical_values</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_segments_for_xgbr"><span class="k">def</span> <span class="nf">get_segments_for_xgbr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categorical_values</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns all the Segments element of the model</span>
 
 <span class="sd">    Parameters</span>
@@ -346,22 +407,25 @@
 <span class="sd">        Nyoka&#39;s Segment object</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">get_nodes_in_json_format</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">_Booster</span><span class="o">.</span><span class="n">get_dump</span><span class="p">(</span><span class="n">dump_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)</span>
-    <span class="n">segmentation</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segmentation</span><span class="p">(</span><span class="n">multipleModelMethod</span><span class="o">=</span><span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">SUM</span><span class="p">,</span>
+    <span class="n">segments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">get_nodes_in_json_format</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n_estimators</span><span class="p">):</span>
+        <span class="n">get_nodes_in_json_format</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">_Booster</span><span class="o">.</span><span class="n">get_dump</span><span class="p">(</span><span class="n">dump_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="n">segmentation</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segmentation</span><span class="p">(</span><span class="n">multipleModelMethod</span><span class="o">=</span><span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">SUM</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                     <span class="n">Segment</span><span class="o">=</span><span class="n">generate_Segments_Equal_To_Estimators</span><span class="p">(</span><span class="n">get_nodes_in_json_format</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span>
                                                                                   <span class="n">feature_names</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">segmentation</span></div>
 
 
-<div class="viewcode-block" id="mining_Field_For_First_Segment"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.mining_Field_For_First_Segment">[docs]</a><span class="k">def</span> <span class="nf">mining_Field_For_First_Segment</span><span class="p">(</span><span class="n">feature_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="mining_Field_For_First_Segment"><span class="k">def</span> <span class="nf">mining_Field_For_First_Segment</span><span class="p">(</span><span class="n">feature_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the Mining Schema of the First Segment.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    feature_names : List</span>
 <span class="sd">        Contains list of feature/column names.</span>
-
+<span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    mining_schema_for_1st_segment :</span>
@@ -373,8 +437,8 @@
     <span class="n">mining_schema_for_1st_segment</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">MiningSchema</span><span class="p">(</span><span class="n">MiningField</span><span class="o">=</span><span class="n">mining_fields_1st_segment</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mining_schema_for_1st_segment</span></div>
 
-<div class="viewcode-block" id="replace_name_with_derivedColumnNames"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.replace_name_with_derivedColumnNames">[docs]</a><span class="k">def</span> <span class="nf">replace_name_with_derivedColumnNames</span><span class="p">(</span><span class="n">original_name</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="replace_name_with_derivedColumnNames"><span class="k">def</span> <span class="nf">replace_name_with_derivedColumnNames</span><span class="p">(</span><span class="n">original_name</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It replace the default names with the names of the attributes.</span>
 
 <span class="sd">    Parameters</span>
@@ -383,7 +447,7 @@
 <span class="sd">        The name of the node retrieve from model</span>
 <span class="sd">    derived_col_names : List</span>
 <span class="sd">    The name of the derived attributes.</span>
-
+<span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    col_name :</span>
@@ -397,8 +461,8 @@
     <span class="k">return</span> <span class="n">col_name</span></div>
 
 
-<div class="viewcode-block" id="create_node"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.create_node">[docs]</a><span class="k">def</span> <span class="nf">create_node</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">main_node</span><span class="p">,</span><span class="n">derived_col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="create_node"><span class="k">def</span> <span class="nf">create_node</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">main_node</span><span class="p">,</span><span class="n">derived_col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It creates nodes.</span>
 
 <span class="sd">    Parameters</span>
@@ -414,7 +478,7 @@
         <span class="n">nd</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Node</span><span class="p">()</span>
         <span class="n">nd</span><span class="o">.</span><span class="n">set_SimplePredicate</span><span class="p">(</span>
             <span class="n">pml</span><span class="o">.</span><span class="n">SimplePredicate</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">replace_name_with_derivedColumnNames</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;split&#39;</span><span class="p">],</span> <span class="n">derived_col_names</span><span class="p">),</span>\
-                 <span class="n">operator</span><span class="o">=</span><span class="n">SIMPLE_PREDICATE_OPERATOR</span><span class="o">.</span><span class="n">LESS_THAN</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;split_condition&#39;</span><span class="p">])))</span>
+                 <span class="n">operator</span><span class="o">=</span><span class="n">SIMPLE_PREDICATE_OPERATOR</span><span class="o">.</span><span class="n">LESS_THAN</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;split_condition&#39;</span><span class="p">])))</span>
         <span class="n">create_node</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;children&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">nd</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nd</span>
 
@@ -422,7 +486,7 @@
         <span class="n">nd</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Node</span><span class="p">()</span>
         <span class="n">nd</span><span class="o">.</span><span class="n">set_SimplePredicate</span><span class="p">(</span>
             <span class="n">pml</span><span class="o">.</span><span class="n">SimplePredicate</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">replace_name_with_derivedColumnNames</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;split&#39;</span><span class="p">],</span> <span class="n">derived_col_names</span><span class="p">),</span>\
-                 <span class="n">operator</span><span class="o">=</span><span class="n">SIMPLE_PREDICATE_OPERATOR</span><span class="o">.</span><span class="n">GREATER_OR_EQUAL</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;split_condition&#39;</span><span class="p">])))</span>
+                 <span class="n">operator</span><span class="o">=</span><span class="n">SIMPLE_PREDICATE_OPERATOR</span><span class="o">.</span><span class="n">GREATER_OR_EQUAL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.16f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;split_condition&#39;</span><span class="p">])))</span>
         <span class="n">create_node</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;children&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">nd</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nd</span>
 
@@ -434,8 +498,8 @@
         <span class="n">main_node</span><span class="o">.</span><span class="n">add_Node</span><span class="p">(</span><span class="n">create_right_node</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">derived_col_names</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="generate_Segments_Equal_To_Estimators"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.generate_Segments_Equal_To_Estimators">[docs]</a><span class="k">def</span> <span class="nf">generate_Segments_Equal_To_Estimators</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="generate_Segments_Equal_To_Estimators"><span class="k">def</span> <span class="nf">generate_Segments_Equal_To_Estimators</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns number of Segments equal to the estimator of the model.</span>
 
 <span class="sd">    Parameters</span>
@@ -446,7 +510,7 @@
 <span class="sd">        Contains column names after preprocessing.</span>
 <span class="sd">    col_names : List</span>
 <span class="sd">        Contains list of feature/column names.</span>
-
+<span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    segments_equal_to_estimators:</span>
@@ -457,25 +521,25 @@
         <span class="n">main_node</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">True_</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">True_</span><span class="p">())</span>
         <span class="n">m_flds</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">mining_field_for_innner_segments</span> <span class="o">=</span> <span class="n">col_names</span>
-        <span class="n">create_node</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">main_node</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">)</span>
+        <span class="n">create_node</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">main_node</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">mining_field_for_innner_segments</span><span class="p">:</span>
             <span class="n">m_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
 
         <span class="n">segments_equal_to_estimators</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pml</span><span class="o">.</span><span class="n">Segment</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">True_</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">True_</span><span class="p">(),</span>
-                                                         <span class="n">TreeModel</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">TreeModel</span><span class="p">(</span><span class="n">functionName</span><span class="o">=</span><span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">REGRESSION</span><span class="p">,</span>
+                                                         <span class="n">TreeModel</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">TreeModel</span><span class="p">(</span><span class="n">functionName</span><span class="o">=</span><span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">REGRESSION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                          <span class="n">modelName</span><span class="o">=</span><span class="s2">&quot;DecisionTreeModel&quot;</span><span class="p">,</span>
                                                                                  <span class="n">missingValueStrategy</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
                                                                                  <span class="n">noTrueChildStrategy</span><span class="o">=</span><span class="s2">&quot;returnLastPrediction&quot;</span><span class="p">,</span>
-                                                                                 <span class="n">splitCharacteristic</span><span class="o">=</span><span class="n">TREE_SPLIT_CHARACTERISTIC</span><span class="o">.</span><span class="n">MULTI</span><span class="p">,</span>
+                                                                                 <span class="n">splitCharacteristic</span><span class="o">=</span><span class="n">TREE_SPLIT_CHARACTERISTIC</span><span class="o">.</span><span class="n">MULTI</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                                                  <span class="n">Node</span><span class="o">=</span><span class="n">main_node</span><span class="p">,</span>
                                                                                  <span class="n">MiningSchema</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningSchema</span><span class="p">(</span>
                                                                                      <span class="n">MiningField</span><span class="o">=</span><span class="n">m_flds</span><span class="p">)))))</span>
 
     <span class="k">return</span> <span class="n">segments_equal_to_estimators</span></div>
 
-<div class="viewcode-block" id="add_segmentation"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.add_segmentation">[docs]</a><span class="k">def</span> <span class="nf">add_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">segments_equal_to_estimators</span><span class="p">,</span><span class="n">mining_schema_for_1st_segment</span><span class="p">,</span><span class="n">out</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="add_segmentation"><span class="k">def</span> <span class="nf">add_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">segments_equal_to_estimators</span><span class="p">,</span><span class="n">mining_schema_for_1st_segment</span><span class="p">,</span><span class="n">out</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns segmentation for a mining model</span>
 
 <span class="sd">    Parameters</span>
@@ -497,8 +561,8 @@
 <span class="sd">         Returns Nyoka&#39;s Segment object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">segmentation</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segmentation</span><span class="p">(</span><span class="n">multipleModelMethod</span><span class="o">=</span><span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">SUM</span><span class="p">,</span> <span class="n">Segment</span><span class="o">=</span><span class="n">segments_equal_to_estimators</span><span class="p">)</span>
-    <span class="n">mining_model</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">MiningModel</span><span class="p">(</span><span class="n">functionName</span><span class="o">=</span><span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">REGRESSION</span><span class="p">,</span> <span class="n">modelName</span><span class="o">=</span><span class="s2">&quot;MiningModel&quot;</span><span class="p">,</span> <span class="n">MiningSchema</span><span class="o">=</span><span class="n">mining_schema_for_1st_segment</span><span class="p">,</span>
+    <span class="n">segmentation</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segmentation</span><span class="p">(</span><span class="n">multipleModelMethod</span><span class="o">=</span><span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">SUM</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">Segment</span><span class="o">=</span><span class="n">segments_equal_to_estimators</span><span class="p">)</span>
+    <span class="n">mining_model</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">MiningModel</span><span class="p">(</span><span class="n">functionName</span><span class="o">=</span><span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">REGRESSION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">modelName</span><span class="o">=</span><span class="s2">&quot;MiningModel&quot;</span><span class="p">,</span> <span class="n">MiningSchema</span><span class="o">=</span><span class="n">mining_schema_for_1st_segment</span><span class="p">,</span>
                                          <span class="n">Output</span><span class="o">=</span><span class="n">out</span><span class="p">,</span> <span class="n">Segmentation</span><span class="o">=</span><span class="n">segmentation</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">n_classes_</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
         <span class="n">First_segment</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segment</span><span class="p">(</span><span class="n">True_</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">True_</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">MiningModel</span><span class="o">=</span><span class="n">mining_model</span><span class="p">)</span>
@@ -510,8 +574,8 @@
 
 
 
-<div class="viewcode-block" id="get_segments_for_xgbc"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_segments_for_xgbc">[docs]</a><span class="k">def</span> <span class="nf">get_segments_for_xgbc</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_segments_for_xgbc"><span class="k">def</span> <span class="nf">get_segments_for_xgbc</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns all the segments of the Xgboost classifier.</span>
 
 <span class="sd">    Parameters</span>
@@ -539,26 +603,31 @@
     <span class="n">segments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">n_classes_</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">get_nodes_in_json_format</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">_Booster</span><span class="o">.</span><span class="n">get_dump</span><span class="p">(</span><span class="n">dump_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)</span>
+        <span class="n">get_nodes_in_json_format</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n_estimators</span><span class="p">):</span>
+            <span class="n">get_nodes_in_json_format</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">_Booster</span><span class="o">.</span><span class="n">get_dump</span><span class="p">(</span><span class="n">dump_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)[</span><span class="n">i</span><span class="p">]))</span>
         <span class="n">mining_schema_for_1st_segment</span> <span class="o">=</span> <span class="n">mining_Field_For_First_Segment</span><span class="p">(</span><span class="n">feature_names</span><span class="p">)</span>
         <span class="n">outputField</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="n">outputField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;xgbValue&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span>
-                                           <span class="n">feature</span><span class="o">=</span><span class="n">RESULT_FEATURE</span><span class="o">.</span><span class="n">PREDICTED_VALUE</span><span class="p">,</span> <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">))</span>
+        <span class="n">outputField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;xgbValue&quot;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">FLOAT</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                           <span class="n">feature</span><span class="o">=</span><span class="n">RESULT_FEATURE</span><span class="o">.</span><span class="n">PREDICTED_VALUE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">))</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="n">OutputField</span><span class="o">=</span><span class="n">outputField</span><span class="p">)</span>
         <span class="n">oField</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
         <span class="n">oField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;xgbValue&#39;</span><span class="p">)</span>
         <span class="n">segments_equal_to_estimators</span> <span class="o">=</span> <span class="n">generate_Segments_Equal_To_Estimators</span><span class="p">(</span><span class="n">get_nodes_in_json_format</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span>
                                                                              <span class="n">feature_names</span><span class="p">)</span>
         <span class="n">First_segment</span> <span class="o">=</span> <span class="n">add_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">segments_equal_to_estimators</span><span class="p">,</span> <span class="n">mining_schema_for_1st_segment</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">reg_model</span><span class="o">=</span><span class="n">get_regrs_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">oField</span><span class="p">,</span> <span class="n">oField</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span><span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">reg_model</span><span class="o">.</span><span class="n">normalizationMethod</span><span class="o">=</span><span class="n">REGRESSION_NORMALIZATION_METHOD</span><span class="o">.</span><span class="n">LOGISTIC</span>
+        <span class="n">reg_model</span><span class="o">=</span><span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_regrs_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">oField</span><span class="p">,</span> <span class="n">oField</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span><span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">reg_model</span><span class="o">.</span><span class="n">normalizationMethod</span><span class="o">=</span><span class="n">REGRESSION_NORMALIZATION_METHOD</span><span class="o">.</span><span class="n">LOGISTIC</span><span class="o">.</span><span class="n">value</span>
         <span class="n">last_segment</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segment</span><span class="p">(</span><span class="n">True_</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">True_</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                    <span class="n">RegressionModel</span><span class="o">=</span><span class="n">reg_model</span><span class="p">)</span>
         <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">First_segment</span><span class="p">)</span>
 
         <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_segment</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">get_nodes_in_json_format</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">_Booster</span><span class="o">.</span><span class="n">get_dump</span><span class="p">(</span><span class="n">dump_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)</span>
+
+        <span class="n">get_nodes_in_json_format</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">n_estimators</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">n_classes_</span><span class="p">):</span>
+            <span class="n">get_nodes_in_json_format</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">_Booster</span><span class="o">.</span><span class="n">get_dump</span><span class="p">(</span><span class="n">dump_format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">)[</span><span class="n">i</span><span class="p">]))</span>
         <span class="n">oField</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">n_classes_</span><span class="p">):</span>
             <span class="n">inner_segment</span> <span class="o">=</span> <span class="p">[]</span>
@@ -566,8 +635,8 @@
                 <span class="n">inner_segment</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_nodes_in_json_format</span><span class="p">[</span><span class="n">in_seg</span><span class="p">])</span>
             <span class="n">mining_schema_for_1st_segment</span> <span class="o">=</span> <span class="n">mining_Field_For_First_Segment</span><span class="p">(</span><span class="n">feature_names</span><span class="p">)</span>
             <span class="n">outputField</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="n">outputField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;xgbValue(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-                                      <span class="n">feature</span><span class="o">=</span><span class="n">RESULT_FEATURE</span><span class="o">.</span><span class="n">PREDICTED_VALUE</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">))</span>
+            <span class="n">outputField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;xgbValue(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                      <span class="n">feature</span><span class="o">=</span><span class="n">RESULT_FEATURE</span><span class="o">.</span><span class="n">PREDICTED_VALUE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">FLOAT</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">isFinalResult</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">))</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="n">OutputField</span><span class="o">=</span><span class="n">outputField</span><span class="p">)</span>
 
             <span class="n">oField</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;xgbValue(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
@@ -576,337 +645,15 @@
             <span class="n">segments_equal_to_class</span> <span class="o">=</span> <span class="n">add_segmentation</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">segments_equal_to_estimators</span><span class="p">,</span>
                                                        <span class="n">mining_schema_for_1st_segment</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
             <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segments_equal_to_class</span><span class="p">)</span>
-        <span class="n">reg_model</span><span class="o">=</span><span class="n">get_regrs_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">oField</span><span class="p">,</span><span class="n">oField</span><span class="p">,</span><span class="n">target_name</span><span class="p">,</span><span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">reg_model</span><span class="o">.</span><span class="n">normalizationMethod</span><span class="o">=</span><span class="n">REGRESSION_NORMALIZATION_METHOD</span><span class="o">.</span><span class="n">SOFTMAX</span>
+        <span class="n">reg_model</span><span class="o">=</span><span class="n">sklToPmml</span><span class="o">.</span><span class="n">get_regrs_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">oField</span><span class="p">,</span><span class="n">oField</span><span class="p">,</span><span class="n">target_name</span><span class="p">,</span><span class="n">mining_imp_val</span><span class="p">,</span><span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">reg_model</span><span class="o">.</span><span class="n">normalizationMethod</span><span class="o">=</span><span class="n">REGRESSION_NORMALIZATION_METHOD</span><span class="o">.</span><span class="n">SOFTMAX</span><span class="o">.</span><span class="n">value</span>
         <span class="n">last_segment</span> <span class="o">=</span> <span class="n">pml</span><span class="o">.</span><span class="n">Segment</span><span class="p">(</span><span class="n">True_</span><span class="o">=</span><span class="n">pml</span><span class="o">.</span><span class="n">True_</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">n_classes_</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                                    <span class="n">RegressionModel</span><span class="o">=</span><span class="n">reg_model</span><span class="p">)</span>
         <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_segment</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">segments</span></div>
 
-
-<div class="viewcode-block" id="get_regrs_models"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_regrs_models">[docs]</a><span class="k">def</span> <span class="nf">get_regrs_models</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">,</span><span class="n">model_name</span><span class="p">):</span>
-
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generates PMML elements for linear models</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model :</span>
-<span class="sd">        An Xgboost model instance.</span>
-<span class="sd">    derived_col_names : List</span>
-<span class="sd">        Contains column names after preprocessing.</span>
-<span class="sd">    col_names : List</span>
-<span class="sd">        Contains list of feature/column names.</span>
-<span class="sd">    target_name : String</span>
-<span class="sd">        Name of the Target column.</span>
-<span class="sd">    mining_imp_val : tuple</span>
-<span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
-<span class="sd">    categoric_values : tuple</span>
-<span class="sd">        Contains Categorical attribute names and its values</span>
-<span class="sd">    model_name : string</span>
-<span class="sd">        Name of the model</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    regrs_models : List</span>
-<span class="sd">        Nyoka&#39;s RegressionModel object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;LinearRegression&#39;</span><span class="p">,</span><span class="s1">&#39;LinearSVR&#39;</span><span class="p">]:</span>
-        <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;normalizationMethod&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">REGRESSION_NORMALIZATION_METHOD</span><span class="o">.</span><span class="n">LOGISTIC</span>
-    <span class="n">regrs_models</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="n">regrs_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">RegressionModel</span><span class="p">(</span>
-        <span class="n">modelName</span><span class="o">=</span><span class="n">model_name</span> <span class="k">if</span> <span class="n">model_name</span> <span class="k">else</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-        <span class="n">RegressionTable</span><span class="o">=</span><span class="n">get_regrs_tabl</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">derived_col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">),</span>
-        <span class="o">**</span><span class="n">model_kwargs</span>
-    <span class="p">))</span>
-    <span class="k">return</span> <span class="n">regrs_models</span></div>
-
-
-<div class="viewcode-block" id="get_model_kwargs"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_model_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_model_kwargs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
-
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns all the model element for a specific model.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model :</span>
-<span class="sd">        An instance of an Xgboost model.</span>
-<span class="sd">    col_names : List</span>
-<span class="sd">        Contains list of feature/column names.</span>
-<span class="sd">    target_name : String</span>
-<span class="sd">        Name of the Target column.</span>
-<span class="sd">    mining_imp_val : tuple</span>
-<span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value</span>
-<span class="sd">    categoric_values : tuple</span>
-<span class="sd">        Contains Categorical attribute names and its values</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    model_kwargs : Dictionary</span>
-<span class="sd">        Returns  function name, MiningSchema and Output of the sk_model object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">model_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;functionName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_mining_func</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-    <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;MiningSchema&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_mining_schema</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">col_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">)</span>
-    <span class="n">model_kwargs</span><span class="p">[</span><span class="s1">&#39;Output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">model_kwargs</span></div>
-
-
-
-<div class="viewcode-block" id="get_mining_func"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_mining_func">[docs]</a><span class="k">def</span> <span class="nf">get_mining_func</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the name of the mining function of the model.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model :</span>
-<span class="sd">        An Xgboost model instance.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    func_name : String</span>
-<span class="sd">        Returns the function name of the model</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;n_classes_&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">n_classes_</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">func_name</span> <span class="o">=</span> <span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">CLASSIFICATION</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">func_name</span> <span class="o">=</span> <span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">REGRESSION</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;classes_&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">func_name</span> <span class="o">=</span> <span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">CLASSIFICATION</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">func_name</span> <span class="o">=</span> <span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">REGRESSION</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;n_clusters&#39;</span><span class="p">):</span>
-            <span class="n">func_name</span> <span class="o">=</span> <span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">CLUSTERING</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">func_name</span> <span class="o">=</span> <span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">REGRESSION</span>
-
-    <span class="k">return</span> <span class="n">func_name</span></div>
-
-
-<div class="viewcode-block" id="get_mining_schema"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_mining_schema">[docs]</a><span class="k">def</span> <span class="nf">get_mining_schema</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mining_imp_val</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
-
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Mining Schema of the model.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model :</span>
-<span class="sd">        An Xgboost model instance.</span>
-<span class="sd">    feature_names : List</span>
-<span class="sd">        Contains the list of feature/column name.</span>
-<span class="sd">    target_name : String</span>
-<span class="sd">        Name of the Target column.</span>
-<span class="sd">    mining_imp_val : tuple</span>
-<span class="sd">        Contains the mining_attributes,mining_strategy, mining_impute_value.</span>
-<span class="sd">    categoric_values : tuple</span>
-<span class="sd">        Contains Categorical attribute names and its values</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    MiningSchema :</span>
-<span class="sd">        Nyoka&#39;s MiningSchema object</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">mining_imp_val</span><span class="p">:</span>
-        <span class="n">mining_attributes</span> <span class="o">=</span> <span class="n">mining_imp_val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">mining_strategy</span> <span class="o">=</span> <span class="n">mining_imp_val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">mining_replacement_val</span> <span class="o">=</span> <span class="n">mining_imp_val</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">n_features</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">)</span>
-    <span class="n">features_pmml_optype</span> <span class="o">=</span> <span class="p">[</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_features</span>
-    <span class="n">features_pmml_utype</span> <span class="o">=</span> <span class="p">[</span><span class="n">FIELD_USAGE_TYPE</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_features</span>
-    <span class="n">target_pmml_utype</span> <span class="o">=</span> <span class="n">FIELD_USAGE_TYPE</span><span class="o">.</span><span class="n">TARGET</span>
-    <span class="n">mining_func</span> <span class="o">=</span> <span class="n">get_mining_func</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">mining_func</span> <span class="o">==</span> <span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">CLASSIFICATION</span><span class="p">:</span>
-        <span class="n">target_pmml_optype</span> <span class="o">=</span> <span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span>
-    <span class="k">elif</span> <span class="n">mining_func</span> <span class="o">==</span> <span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">REGRESSION</span><span class="p">:</span>
-        <span class="n">target_pmml_optype</span> <span class="o">=</span> <span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span>
-    <span class="n">mining_flds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="n">mining_name_stored</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="c1"># handling impute pre processing</span>
-    <span class="k">if</span> <span class="n">mining_imp_val</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">mining_item</span><span class="p">,</span> <span class="n">mining_idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mining_attributes</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mining_attributes</span><span class="p">))):</span>
-            <span class="k">for</span> <span class="n">feat_name</span><span class="p">,</span><span class="n">feat_idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">feature_names</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">))):</span>
-                <span class="k">if</span> <span class="n">feat_name</span> <span class="ow">in</span> <span class="n">mining_item</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">feat_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mining_name_stored</span><span class="p">:</span>
-                        <span class="n">impute_index</span> <span class="o">=</span> <span class="n">mining_item</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">feat_name</span><span class="p">)</span>
-
-                        <span class="n">mining_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">feat_name</span><span class="p">),</span>
-                                                           <span class="n">optype</span><span class="o">=</span><span class="n">features_pmml_optype</span><span class="p">[</span><span class="n">feat_idx</span><span class="p">],</span>
-                                                           <span class="n">missingValueReplacement</span><span class="o">=</span><span class="n">mining_replacement_val</span><span class="p">[</span><span class="n">mining_idx</span><span class="p">][</span>
-                                                              <span class="n">impute_index</span><span class="p">],</span>
-                                                           <span class="n">missingValueTreatment</span><span class="o">=</span><span class="n">mining_strategy</span><span class="p">[</span><span class="n">mining_idx</span><span class="p">],</span>
-                                                           <span class="n">usageType</span><span class="o">=</span><span class="n">features_pmml_utype</span><span class="p">[</span><span class="n">feat_idx</span><span class="p">]))</span>
-                        <span class="n">mining_name_stored</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feat_name</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">categoric_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">cls_attr</span> <span class="ow">in</span> <span class="n">categoric_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">mining_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="n">cls_attr</span><span class="p">,</span>
-                <span class="n">usageType</span><span class="o">=</span><span class="n">FIELD_USAGE_TYPE</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">,</span>
-                <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span>
-            <span class="p">))</span>
-            <span class="n">mining_name_stored</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cls_attr</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">feat_name</span><span class="p">,</span> <span class="n">feat_idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">feature_names</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">))):</span>
-        <span class="k">if</span> <span class="n">feat_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mining_name_stored</span><span class="p">:</span>
-            <span class="n">mining_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">feat_name</span><span class="p">),</span>
-                                               <span class="n">optype</span><span class="o">=</span><span class="n">features_pmml_optype</span><span class="p">[</span><span class="n">feat_idx</span><span class="p">],</span>
-                                               <span class="n">usageType</span><span class="o">=</span><span class="n">features_pmml_utype</span><span class="p">[</span><span class="n">feat_idx</span><span class="p">]))</span>
-    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;KMeans&#39;</span><span class="p">,</span> <span class="s1">&#39;IsolationForest&#39;</span><span class="p">,</span> <span class="s1">&#39;OneClassSVM&#39;</span><span class="p">]:</span>
-        <span class="n">mining_flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">MiningField</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">target_name</span><span class="p">,</span>
-                                        <span class="n">optype</span><span class="o">=</span><span class="n">target_pmml_optype</span><span class="p">,</span>
-                                            <span class="n">usageType</span><span class="o">=</span><span class="n">target_pmml_utype</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">pml</span><span class="o">.</span><span class="n">MiningSchema</span><span class="p">(</span><span class="n">MiningField</span><span class="o">=</span><span class="n">mining_flds</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="get_output"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_output">[docs]</a><span class="k">def</span> <span class="nf">get_output</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">target_name</span><span class="p">):</span>
-
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the output element of the model.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model :</span>
-<span class="sd">        An Xboost model instance.</span>
-<span class="sd">    target_name : String</span>
-<span class="sd">        Name of the Target column.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    Output :</span>
-<span class="sd">        Nyoka&#39;s Output object</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">mining_func</span> <span class="o">=</span> <span class="n">get_mining_func</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-    <span class="n">output_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">has_target</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
-        <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;predicted&#39;</span><span class="p">,</span>
-                <span class="n">feature</span><span class="o">=</span><span class="n">RESULT_FEATURE</span><span class="o">.</span><span class="n">PREDICTED_VALUE</span><span class="p">,</span>
-                <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span>
-            <span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">alt_target_name</span> <span class="o">=</span> <span class="s1">&#39;predicted_&#39;</span> <span class="o">+</span> <span class="n">target_name</span>
-        <span class="k">if</span> <span class="n">mining_func</span> <span class="o">==</span> <span class="n">MINING_FUNCTION</span><span class="o">.</span><span class="n">CLASSIFICATION</span><span class="p">:</span>
-            <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">:</span>
-                <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target_name</span><span class="si">}</span><span class="s1">_probability_</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-                    <span class="n">feature</span><span class="o">=</span><span class="n">RESULT_FEATURE</span><span class="o">.</span><span class="n">PROBABILITY</span><span class="p">,</span>
-                    <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-                    <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
-                <span class="p">))</span>
-            <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="n">alt_target_name</span><span class="p">,</span>
-                <span class="n">feature</span><span class="o">=</span><span class="n">RESULT_FEATURE</span><span class="o">.</span><span class="n">PREDICTED_VALUE</span><span class="p">,</span>
-                <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CATEGORICAL</span><span class="p">,</span>
-                <span class="n">dataType</span><span class="o">=</span><span class="n">get_dtype</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">output_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pml</span><span class="o">.</span><span class="n">OutputField</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="n">alt_target_name</span><span class="p">,</span>
-                <span class="n">feature</span><span class="o">=</span><span class="n">RESULT_FEATURE</span><span class="o">.</span><span class="n">PREDICTED_VALUE</span><span class="p">,</span>
-                <span class="n">optype</span><span class="o">=</span><span class="n">OPTYPE</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span>
-                <span class="n">dataType</span><span class="o">=</span><span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">pml</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="n">OutputField</span><span class="o">=</span><span class="n">output_fields</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="get_regrs_tabl"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_regrs_tabl">[docs]</a><span class="k">def</span> <span class="nf">get_regrs_tabl</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">categoric_values</span><span class="p">):</span>
-
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It returns the Regression Table element of the model.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model :</span>
-<span class="sd">        An Xgboost model instance.</span>
-<span class="sd">    derived_col_names : List</span>
-<span class="sd">        Contains column names after preprocessing.</span>
-<span class="sd">    target_name : String</span>
-<span class="sd">        Name of the Target column.</span>
-<span class="sd">    categoric_values : tuple</span>
-<span class="sd">        Contains Categorical attribute names and its values</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    merge : List</span>
-<span class="sd">        Nyoka&#39;s RegressionTable object</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">merge</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">if</span> <span class="s1">&#39;XGBClassifier&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">merge</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">pml</span><span class="o">.</span><span class="n">RegressionTable</span><span class="p">(</span>
-                    <span class="n">NumericPredictor</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">NumericPredictor</span><span class="p">(</span><span class="n">coefficient</span><span class="o">=</span><span class="s1">&#39;1.0&#39;</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span>
-                    <span class="n">intercept</span><span class="o">=</span><span class="s1">&#39;0.0&#39;</span><span class="p">,</span>
-                    <span class="n">targetCategory</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
-            <span class="n">merge</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">pml</span><span class="o">.</span><span class="n">RegressionTable</span><span class="p">(</span><span class="n">intercept</span><span class="o">=</span><span class="s1">&#39;0.0&#39;</span><span class="p">,</span> <span class="n">targetCategory</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">feat_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">)):</span>
-                <span class="n">merge</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="n">pml</span><span class="o">.</span><span class="n">RegressionTable</span><span class="p">(</span>
-                        <span class="n">NumericPredictor</span><span class="o">=</span><span class="p">[</span><span class="n">pml</span><span class="o">.</span><span class="n">NumericPredictor</span><span class="p">(</span><span class="n">coefficient</span><span class="o">=</span><span class="s1">&#39;1.0&#39;</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="n">feature_names</span><span class="p">[</span><span class="n">feat_idx</span><span class="p">])],</span>
-                        <span class="n">intercept</span><span class="o">=</span><span class="s1">&#39;0.0&#39;</span><span class="p">,</span>
-                        <span class="n">targetCategory</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="n">feat_idx</span><span class="p">])</span>
-                    <span class="p">)</span>
-                <span class="p">)</span>
-    <span class="k">return</span> <span class="n">merge</span></div>
-
-
-<div class="viewcode-block" id="get_dtype"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_dtype">[docs]</a><span class="k">def</span> <span class="nf">get_dtype</span><span class="p">(</span><span class="n">feat_value</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    It return the data type of the value.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    feat_value :</span>
-<span class="sd">        Contains a value for finding the its data type.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">        Returns the respective data type of that value.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">data_type</span><span class="o">=</span><span class="n">feat_value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-    <span class="k">if</span> <span class="s1">&#39;float&#39;</span> <span class="ow">in</span> <span class="n">data_type</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">DATATYPE</span><span class="o">.</span><span class="n">DOUBLE</span>
-    <span class="k">if</span> <span class="s1">&#39;int&#39;</span> <span class="ow">in</span> <span class="n">data_type</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">DATATYPE</span><span class="o">.</span><span class="n">INTEGER</span>
-    <span class="k">if</span> <span class="s1">&#39;str&#39;</span> <span class="ow">in</span> <span class="n">data_type</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">DATATYPE</span><span class="o">.</span><span class="n">STRING</span></div>
-
-
-<div class="viewcode-block" id="has_target"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.has_target">[docs]</a><span class="k">def</span> <span class="nf">has_target</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Checks whether a given model has target or not</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    model :</span>
-<span class="sd">        Scikit-learn&#39;s model object</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    Boolean value</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">target_less_models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;OneClassSVM&#39;</span><span class="p">,</span><span class="s1">&#39;IsolationForest&#39;</span><span class="p">,</span> <span class="p">]</span>
-    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>  <span class="ow">in</span> <span class="n">target_less_models</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">True</span></div>
-
-
-<div class="viewcode-block" id="get_multiple_model_method"><a class="viewcode-back" href="../xgboost_to_pmml.html#xgboost_to_pmml.get_multiple_model_method">[docs]</a><span class="k">def</span> <span class="nf">get_multiple_model_method</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_multiple_model_method"><span class="k">def</span> <span class="nf">get_multiple_model_method</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It returns the type of multiple model method for MiningModels.</span>
 
 <span class="sd">    Parameters</span>
@@ -919,37 +666,49 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="s1">&#39;XGBClassifier&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">MODEL_CHAIN</span>
+        <span class="k">return</span> <span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">MODEL_CHAIN</span><span class="o">.</span><span class="n">value</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">SUM</span></div>
+        <span class="k">return</span> <span class="n">MULTIPLE_MODEL_METHOD</span><span class="o">.</span><span class="n">SUM</span><span class="o">.</span><span class="n">value</span></div>
 
 </pre></div>
 
            </div>
+           
           </div>
           <footer>
+  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, maintainer@nyoka.org.</p>
-  </div>
+    <p>
+        &copy; Copyright 2020, maintainer@nyoka.org
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
