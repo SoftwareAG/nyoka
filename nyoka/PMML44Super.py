@@ -36461,7 +36461,7 @@ class TextIndex(GeneratedsSuper):
         if self.countHits != "allHits" and 'countHits' not in already_processed:
             already_processed.add('countHits')
             outfile.write(' countHits=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.countHits), input_name='countHits')), ))
-        if self.wordSeparatorCharacterRE != "\s+" and 'wordSeparatorCharacterRE' not in already_processed:
+        if self.wordSeparatorCharacterRE != "\\s+" and 'wordSeparatorCharacterRE' not in already_processed:
             already_processed.add('wordSeparatorCharacterRE')
             outfile.write(' wordSeparatorCharacterRE=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.wordSeparatorCharacterRE), input_name='wordSeparatorCharacterRE')), ))
         if not self.tokenize and 'tokenize' not in already_processed:
